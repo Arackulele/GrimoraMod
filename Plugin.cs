@@ -11,19 +11,27 @@ using HarmonyLib;
 using UnityEngine;
 using APIPlugin;
 
+
 namespace GrimoraMod
 {
 	[BepInPlugin(PluginGuid, PluginName, PluginVersion)]
 	[BepInDependency("cyantist.inscryption.api", BepInDependency.DependencyFlags.HardDependency)]
+	[HarmonyPatch]
 	public class Plugin : BaseUnityPlugin
+
 	{
 		private const string PluginGuid = "arackulele.inscryption.grimoramod";
 		private const string PluginName = "GrimoraMod";
 		private const string PluginVersion = "0.1";
 
+
 		private void Awake()
 		{
 			Logger.LogInfo($"Loaded {PluginName}!");
+
+			Harmony harmony = new Harmony(PluginGuid);
+			harmony.PatchAll();
+
 
 			AddBoneDigger();
 			AddBonelord();
@@ -58,7 +66,32 @@ namespace GrimoraMod
 			ChangeSquirrel();
 			ChangeGoat();
 			ChangePackRat();
+
 		}
+
+
+		[HarmonyPatch(typeof(TextDisplayer), "Start")]
+		public class BoardManager3D_Initialize
+		{
+			public static void Prefix()
+			{
+				if (!GameObject.Find("TextDisplayer_Grimora(Clone)"))
+				{
+					Instantiate(Resources.Load("prefabs/ui/TextDisplayer_Grimora"));
+					GameObject.Find("TextDisplayer").GetComponent<TextDisplayer>().voiceSoundIdPrefix = GameObject.Find("TextDisplayer_Grimora(Clone)").GetComponent<TextDisplayer>().voiceSoundIdPrefix;
+					GameObject.Find("TextDisplayer").GetComponent<TextDisplayer>().continuePressed = GameObject.Find("TextDisplayer_Grimora(Clone)").GetComponent<TextDisplayer>().continuePressed;
+					GameObject.Find("TextDisplayer").GetComponent<TextDisplayer>().defaultStyle = GameObject.Find("TextDisplayer_Grimora(Clone)").GetComponent<TextDisplayer>().defaultStyle;
+					GameObject.Find("TextDisplayer").GetComponent<TextDisplayer>().textAnimation = GameObject.Find("TextDisplayer_Grimora(Clone)").GetComponent<TextDisplayer>().textAnimation;
+					GameObject.Find("TextDisplayer").GetComponent<TextDisplayer>().textMesh = GameObject.Find("TextDisplayer_Grimora(Clone)").GetComponent<TextDisplayer>().textMesh;
+					GameObject.Find("TextDisplayer").GetComponent<TextDisplayer>().textShadow = GameObject.Find("TextDisplayer_Grimora(Clone)").GetComponent<TextDisplayer>().textShadow;
+					GameObject.Find("TextDisplayer").GetComponent<TextDisplayer>().triangleImage = GameObject.Find("TextDisplayer_Grimora(Clone)").GetComponent<TextDisplayer>().triangleImage;
+					GameObject.Find("TextDisplayer").GetComponent<TextDisplayer>().alternateSpeakerStyles = GameObject.Find("TextDisplayer_Grimora(Clone)").GetComponent<TextDisplayer>().alternateSpeakerStyles;
+				}
+
+			}
+		}
+
+
 
 		private void AddBoneDigger()
 		{
@@ -72,7 +105,7 @@ namespace GrimoraMod
 			byte[] imgBytes = System.IO.File.ReadAllBytes(Path.Combine(this.Info.Location.Replace("GrimoraMod.dll",""),"Artwork/Goat.png"));
 			Texture2D tex = new Texture2D(2,2);
 			tex.LoadImage(imgBytes);
-			NewCard.Add("BoneDigger", "Gravedigger", 0, 3, metaCategories, CardComplexity.Simple, CardTemple.Nature, description:"He spends his time alone digging for Bones in hopes of finding a Tresure.", bonesCost:1, abilities:abilities, defaultTex:tex);
+			NewCard.Add("ara_BoneDigger", "Gravedigger", 0, 3, metaCategories, CardComplexity.Simple, CardTemple.Nature, description:"He spends his time alone digging for Bones in hopes of finding a Tresure.", bonesCost:1, abilities:abilities, defaultTex:tex);
 		}
 
 		private void AddBonelord()
@@ -97,7 +130,7 @@ namespace GrimoraMod
 			List<Texture> decals = new();
 			decals.Add(tex1);
 
-			NewCard.Add("Bonelord", "The Bone Lord", 5, 10, metaCategories, CardComplexity.Simple, CardTemple.Nature, description: "Lord of Bones, Lord of Bones answer our call.", bonesCost: 6, energyCost: 6, appearanceBehaviour: appearanceBehaviour, abilities: abilities, defaultTex: tex, decals: decals);
+			NewCard.Add("ara_Bonelord", "The Bone Lord", 5, 10, metaCategories, CardComplexity.Simple, CardTemple.Nature, description: "Lord of Bones, Lord of Bones answer our call.", bonesCost: 6, energyCost: 6, appearanceBehaviour: appearanceBehaviour, abilities: abilities, defaultTex: tex, decals: decals);
 		}
 
 		private void AddBonePile()
@@ -112,7 +145,7 @@ namespace GrimoraMod
 			byte[] imgBytes = System.IO.File.ReadAllBytes(Path.Combine(this.Info.Location.Replace("GrimoraMod.dll",""),"Artwork/BonePile.png"));
 			Texture2D tex = new Texture2D(2,2);
 			tex.LoadImage(imgBytes);
-			NewCard.Add("BonePile", "Bone Heap", 0, 2, metaCategories, CardComplexity.Vanilla, CardTemple.Nature, description:"An uninspiring Pile of Bones, you can have it.", bonesCost:1, abilities:abilities, defaultTex:tex);
+			NewCard.Add("ara_BonePile", "Bone Heap", 0, 2, metaCategories, CardComplexity.Vanilla, CardTemple.Nature, description:"An uninspiring Pile of Bones, you can have it.", bonesCost:1, abilities:abilities, defaultTex:tex);
 		}
 
 		private void AddBonePrince()
@@ -123,7 +156,7 @@ namespace GrimoraMod
 			byte[] imgBytes = System.IO.File.ReadAllBytes(Path.Combine(this.Info.Location.Replace("GrimoraMod.dll",""),"Artwork/BonePrince.png"));
 			Texture2D tex = new Texture2D(2,2);
 			tex.LoadImage(imgBytes);
-			NewCard.Add("BonePrince", "Bone Prince", 2, 1, metaCategories, CardComplexity.Simple, CardTemple.Nature, bonesCost:1, defaultTex:tex);
+			NewCard.Add("ara_BonePrince", "Bone Prince", 2, 1, metaCategories, CardComplexity.Simple, CardTemple.Nature, bonesCost:1, defaultTex:tex);
 		}
 
 		private void AddCrazedMantis()
@@ -138,7 +171,7 @@ namespace GrimoraMod
 			byte[] imgBytes = System.IO.File.ReadAllBytes(Path.Combine(this.Info.Location.Replace("GrimoraMod.dll",""),"Artwork/Mantis.png"));
 			Texture2D tex = new Texture2D(2,2);
 			tex.LoadImage(imgBytes);
-			NewCard.Add("CrazedMantis", "Crazed Mantis", 1, 1, metaCategories, CardComplexity.Vanilla, CardTemple.Nature, description:"The poor mantis has gone Insane, a gruesome fate.", bonesCost:4, abilities:abilities, defaultTex:tex);
+			NewCard.Add("ara_CrazedMantis", "Crazed Mantis", 1, 1, metaCategories, CardComplexity.Vanilla, CardTemple.Nature, description:"The poor mantis has gone Insane, a gruesome fate.", bonesCost:4, abilities:abilities, defaultTex:tex);
 		}
 
 		private void AddDeadHand()
@@ -153,7 +186,7 @@ namespace GrimoraMod
 			byte[] imgBytes = System.IO.File.ReadAllBytes(Path.Combine(this.Info.Location.Replace("GrimoraMod.dll",""),"Artwork/DeadHand.png"));
 			Texture2D tex = new Texture2D(2,2);
 			tex.LoadImage(imgBytes);
-			NewCard.Add("DeadHand", "Dead Hand", 1, 1, metaCategories, CardComplexity.Intermediate, CardTemple.Nature, description:"Cut off from an ancient God, the Dead Hand took on its own Life.", bonesCost:5, abilities:abilities, defaultTex:tex);
+			NewCard.Add("ara_DeadHand", "Dead Hand", 1, 1, metaCategories, CardComplexity.Intermediate, CardTemple.Nature, description:"Cut off from an ancient God, the Dead Hand took on its own Life.", bonesCost:5, abilities:abilities, defaultTex:tex);
 		}
 
 		private void AddDraugr()
@@ -168,7 +201,7 @@ namespace GrimoraMod
 			byte[] imgBytes = System.IO.File.ReadAllBytes(Path.Combine(this.Info.Location.Replace("GrimoraMod.dll",""),"Artwork/Skelarmor.png"));
 			Texture2D tex = new Texture2D(2,2);
 			tex.LoadImage(imgBytes);
-			NewCard.Add("Draugr", "Draugr", 0, 1, metaCategories, CardComplexity.Simple, CardTemple.Nature, description:"Hiding in a Suit of Armor, this Skeleton wont last forever.", bonesCost:1, abilities:abilities, defaultTex:tex, iceCubeId: new IceCubeIdentifier("Squirrel"));
+			NewCard.Add("ara_Draugr", "Draugr", 0, 1, metaCategories, CardComplexity.Simple, CardTemple.Nature, description:"Hiding in a Suit of Armor, this Skeleton wont last forever.", bonesCost:1, abilities:abilities, defaultTex:tex, iceCubeId: new IceCubeIdentifier("Squirrel"));
 		}
 
 		private void AddDrownedSoul()
@@ -184,7 +217,7 @@ namespace GrimoraMod
 			byte[] imgBytes = System.IO.File.ReadAllBytes(Path.Combine(this.Info.Location.Replace("GrimoraMod.dll",""),"Artwork/DrownedSoul.png"));
 			Texture2D tex = new Texture2D(2,2);
 			tex.LoadImage(imgBytes);
-			NewCard.Add("DrownedSoul", "Drowned Soul", 1, 1, metaCategories, CardComplexity.Simple, CardTemple.Nature, description:"Going into that Well wasnt the best idea.", bonesCost:4, abilities:abilities, defaultTex:tex);
+			NewCard.Add("ara_DrownedSoul", "Drowned Soul", 1, 1, metaCategories, CardComplexity.Simple, CardTemple.Nature, description:"Going into that Well wasnt the best idea.", bonesCost:4, abilities:abilities, defaultTex:tex);
 		}
 
 		private void AddFranknstein()
@@ -196,7 +229,7 @@ namespace GrimoraMod
 			byte[] imgBytes = System.IO.File.ReadAllBytes(Path.Combine(this.Info.Location.Replace("GrimoraMod.dll",""),"Artwork/Franknstein.png"));
 			Texture2D tex = new Texture2D(2,2);
 			tex.LoadImage(imgBytes);
-			NewCard.Add("Franknstein", "Frank & Stein", 2, 2, metaCategories, CardComplexity.Vanilla, CardTemple.Nature, description:"Frank and Stein, best Friends brothers and Fighters.", bonesCost:5, defaultTex:tex);
+			NewCard.Add("ara_Franknstein", "Frank & Stein", 2, 2, metaCategories, CardComplexity.Vanilla, CardTemple.Nature, description:"Frank and Stein, best Friends brothers and Fighters.", bonesCost:5, defaultTex:tex);
 		}
 
 		private void AddGraveRobber()
@@ -211,7 +244,7 @@ namespace GrimoraMod
 			byte[] imgBytes = System.IO.File.ReadAllBytes(Path.Combine(this.Info.Location.Replace("GrimoraMod.dll",""),"Artwork/GraveRobber.png"));
 			Texture2D tex = new Texture2D(2,2);
 			tex.LoadImage(imgBytes);
-			NewCard.Add("GraveRobber", "Tomb Robber", 0, 1, metaCategories, CardComplexity.Intermediate, CardTemple.Nature, description:"Nothing, nothing again, no treasure is left anymore.", bonesCost:0, abilities:abilities, defaultTex:tex);
+			NewCard.Add("ara_GraveRobber", "Tomb Robber", 0, 1, metaCategories, CardComplexity.Intermediate, CardTemple.Nature, description:"Nothing, nothing again, no treasure is left anymore.", bonesCost:0, abilities:abilities, defaultTex:tex);
 		}
 
 		private void AddHeadlessHorseman()
@@ -227,7 +260,7 @@ namespace GrimoraMod
 			byte[] imgBytes = System.IO.File.ReadAllBytes(Path.Combine(this.Info.Location.Replace("GrimoraMod.dll",""),"Artwork/HeadlessHorseman.png"));
 			Texture2D tex = new Texture2D(2,2);
 			tex.LoadImage(imgBytes);
-			NewCard.Add("HeadlessHorseman", "Headless Horseman", 4, 3, metaCategories, CardComplexity.Vanilla, CardTemple.Nature, description:"The apocalypse is soon, get ready.", bonesCost:9, abilities:abilities, defaultTex:tex);
+			NewCard.Add("ara_HeadlessHorseman", "Headless Horseman", 4, 3, metaCategories, CardComplexity.Vanilla, CardTemple.Nature, description:"The apocalypse is soon, get ready.", bonesCost:9, abilities:abilities, defaultTex:tex);
 		}
 
 		private void AddBonelordsHorn()
@@ -254,7 +287,7 @@ namespace GrimoraMod
 			decals.Add(tex1);
 
 
-			NewCard.Add("BonelordsHorn", "Bone Lords Horn", 0, 1, metaCategories, CardComplexity.Simple, CardTemple.Nature, description:"The Horn of the Bonelord, you do not want to find out whats inside.", energyCost:4, appearanceBehaviour:appearanceBehaviour, abilities:abilities, defaultTex:tex, decals:decals, iceCubeId: new IceCubeIdentifier("BonePrince"));
+			NewCard.Add("ara_BonelordsHorn", "Bone Lords Horn", 0, 1, metaCategories, CardComplexity.Simple, CardTemple.Nature, description:"The Horn of the Bonelord, you do not want to find out whats inside.", energyCost:4, appearanceBehaviour:appearanceBehaviour, abilities:abilities, defaultTex:tex, decals:decals, iceCubeId: new IceCubeIdentifier("ara_BonePrince"));
 		}
 
 		private void AddRingWorm()
@@ -269,7 +302,7 @@ namespace GrimoraMod
 			byte[] imgBytes = System.IO.File.ReadAllBytes(Path.Combine(this.Info.Location.Replace("GrimoraMod.dll",""),"Artwork/RingWorm.png"));
 			Texture2D tex = new Texture2D(2,2);
 			tex.LoadImage(imgBytes);
-			NewCard.Add("RingWorm", "Mudworm", 2, 1, metaCategories, CardComplexity.Simple, CardTemple.Nature, description:"The Mudworm digs through the Earth day in day out.", bonesCost:5, abilities:abilities, defaultTex:tex);
+			NewCard.Add("ara_RingWorm", "Mudworm", 2, 1, metaCategories, CardComplexity.Simple, CardTemple.Nature, description:"The Mudworm digs through the Earth day in day out.", bonesCost:5, abilities:abilities, defaultTex:tex);
 		}
 
 		private void Addmummylord()
@@ -280,7 +313,7 @@ namespace GrimoraMod
 			byte[] imgBytes = System.IO.File.ReadAllBytes(Path.Combine(this.Info.Location.Replace("GrimoraMod.dll",""),"Artwork/Mummy.png"));
 			Texture2D tex = new Texture2D(2,2);
 			tex.LoadImage(imgBytes);
-			NewCard.Add("mummylord", "Mummy Lord", 3, 3, metaCategories, CardComplexity.Advanced, CardTemple.Nature,  description:"The Cycle of the Mummy Lord, never ending.", bonesCost:2, defaultTex:tex);
+			NewCard.Add("ara_mummylord", "Mummy Lord", 3, 3, metaCategories, CardComplexity.Advanced, CardTemple.Nature,  description:"The Cycle of the Mummy Lord, never ending.", bonesCost:2, defaultTex:tex);
 		}
 
 		private void AddNecromancer()
@@ -295,7 +328,7 @@ namespace GrimoraMod
 			byte[] imgBytes = System.IO.File.ReadAllBytes(Path.Combine(this.Info.Location.Replace("GrimoraMod.dll",""),"Artwork/Necromancer.png"));
 			Texture2D tex = new Texture2D(2,2);
 			tex.LoadImage(imgBytes);
-			NewCard.Add("Necromancer", "Necromancer", 2, 1, metaCategories, CardComplexity.Vanilla, CardTemple.Nature, description:"The vicious Necromancer, nothing dies once.", bonesCost:3, abilities:abilities, defaultTex:tex);
+			NewCard.Add("ara_Necromancer", "Necromancer", 2, 1, metaCategories, CardComplexity.Vanilla, CardTemple.Nature, description:"The vicious Necromancer, nothing dies once.", bonesCost:3, abilities:abilities, defaultTex:tex);
 		}
 
 		private void Addobol()
@@ -316,7 +349,7 @@ namespace GrimoraMod
 			byte[] imgBytes = System.IO.File.ReadAllBytes(Path.Combine(this.Info.Location.Replace("GrimoraMod.dll",""),"Artwork/Obol.png"));
 			Texture2D tex = new Texture2D(2,2);
 			tex.LoadImage(imgBytes);
-			NewCard.Add("obol", "Ancient Obol", 0, 6, metaCategories, CardComplexity.Simple, CardTemple.Nature, description:"The Ancient Obol, the Bone Lord likes this one.", energyCost:3, abilities:abilities, defaultTex:tex, decals:decals );
+			NewCard.Add("ara_obol", "Ancient Obol", 0, 6, metaCategories, CardComplexity.Simple, CardTemple.Nature, description:"The Ancient Obol, the Bone Lord likes this one.", energyCost:3, abilities:abilities, defaultTex:tex, decals:decals );
 		}
 
 		private void AddPets()
@@ -334,7 +367,7 @@ namespace GrimoraMod
 			byte[] imgBytes = System.IO.File.ReadAllBytes(Path.Combine(this.Info.Location.Replace("GrimoraMod.dll",""),"Artwork/Pets.png"));
 			Texture2D tex = new Texture2D(2,2);
 			tex.LoadImage(imgBytes);
-			NewCard.Add("Pets", "Pharaohs Pets", 3, 1, metaCategories, CardComplexity.Vanilla, CardTemple.Nature, description:"The Undying Pets of the Pharao, enchanting.", bonesCost:5, appearanceBehaviour:appearanceBehaviour, abilities:abilities, defaultTex:tex);
+			NewCard.Add("ara_Pets", "Pharaohs Pets", 3, 1, metaCategories, CardComplexity.Vanilla, CardTemple.Nature, description:"The Undying Pets of the Pharao, enchanting.", bonesCost:5, appearanceBehaviour:appearanceBehaviour, abilities:abilities, defaultTex:tex);
 		}
 
 		private void AddPirateship()
@@ -350,7 +383,7 @@ namespace GrimoraMod
 			byte[] imgBytes = System.IO.File.ReadAllBytes(Path.Combine(this.Info.Location.Replace("GrimoraMod.dll",""),"Artwork/Pirateship.png"));
 			Texture2D tex = new Texture2D(2,2);
 			tex.LoadImage(imgBytes);
-			NewCard.Add("Pirateship", "Ghost Ship", 0, 1, metaCategories, CardComplexity.Simple, CardTemple.Nature, description:"The Skeleton Army never rests.", bonesCost:4, abilities:abilities, defaultTex:tex);
+			NewCard.Add("ara_Pirateship", "Ghost Ship", 0, 1, metaCategories, CardComplexity.Simple, CardTemple.Nature, description:"The Skeleton Army never rests.", bonesCost:4, abilities:abilities, defaultTex:tex);
 		}
 
 		private void AddRevenant()
@@ -365,7 +398,7 @@ namespace GrimoraMod
 			byte[] imgBytes = System.IO.File.ReadAllBytes(Path.Combine(this.Info.Location.Replace("GrimoraMod.dll",""),"Artwork/Revenant.png"));
 			Texture2D tex = new Texture2D(2,2);
 			tex.LoadImage(imgBytes);
-			NewCard.Add("Revenant", "Revenant", 3, 1, metaCategories, CardComplexity.Intermediate, CardTemple.Nature, description:"The Revenant, bringing the Scythe of death.", bonesCost:3, abilities:abilities, defaultTex:tex);
+			NewCard.Add("ara_Revenant", "Revenant", 3, 1, metaCategories, CardComplexity.Intermediate, CardTemple.Nature, description:"The Revenant, bringing the Scythe of death.", bonesCost:3, abilities:abilities, defaultTex:tex);
 		}
 
 		private void Addsarcophagus()
@@ -380,7 +413,7 @@ namespace GrimoraMod
 			byte[] imgBytes = System.IO.File.ReadAllBytes(Path.Combine(this.Info.Location.Replace("GrimoraMod.dll",""),"Artwork/Sarcopagus.png"));
 			Texture2D tex = new Texture2D(2,2);
 			tex.LoadImage(imgBytes);
-			NewCard.Add("sarcophagus", "Sarcophagus", 0, 2, metaCategories, CardComplexity.Advanced, CardTemple.Nature, description:"The Cycle of the Mummy Lord, never ending.", bonesCost:4, abilities:abilities, defaultTex:tex, evolveId:new EvolveIdentifier("mummylord",1));
+			NewCard.Add("ara_sarcophagus", "Sarcophagus", 0, 2, metaCategories, CardComplexity.Advanced, CardTemple.Nature, description:"The Cycle of the Mummy Lord, never ending.", bonesCost:4, abilities:abilities, defaultTex:tex, evolveId:new EvolveIdentifier("ara_mummylord",1));
 		}
 
 		private void AddSerpent()
@@ -395,7 +428,7 @@ namespace GrimoraMod
 			byte[] imgBytes = System.IO.File.ReadAllBytes(Path.Combine(this.Info.Location.Replace("GrimoraMod.dll",""),"Artwork/Adder.png"));
 			Texture2D tex = new Texture2D(2,2);
 			tex.LoadImage(imgBytes);
-			NewCard.Add("Serpent", "Bone Serpent", 1, 1, metaCategories, CardComplexity.Vanilla, CardTemple.Nature, description:"Serpent of Bones, its poison can melt even Bones.", bonesCost:4, abilities:abilities, defaultTex:tex);
+			NewCard.Add("ara_Serpent", "Bone Serpent", 1, 1, metaCategories, CardComplexity.Vanilla, CardTemple.Nature, description:"Serpent of Bones, its poison can melt even Bones.", bonesCost:4, abilities:abilities, defaultTex:tex);
 		}
 
 		private void AddSkelemancer()
@@ -416,7 +449,7 @@ namespace GrimoraMod
 			decals.Add(tex1);
 
 
-			NewCard.Add("Skelemancer", "Skelemancer", 1, 1, metaCategories, CardComplexity.Simple, CardTemple.Nature, description:"The humble Skelemancer, he likes a good fight.", energyCost:2, defaultTex:tex, decals:decals );
+			NewCard.Add("ara_Skelemancer", "Skelemancer", 1, 1, metaCategories, CardComplexity.Simple, CardTemple.Nature, description:"The humble Skelemancer, he likes a good fight.", energyCost:2, defaultTex:tex, decals:decals );
 		}
 
 		private void AddSkeletonMage()
@@ -516,7 +549,7 @@ namespace GrimoraMod
 
 		private void RemoveAll()
 		{
-			List<string> cards = new List<string> { "Adder", "Alpha", "Amalgam", "Ant", "AntQueen", "Bee", "Beaver", "Beehive", "Bloodhound", "Bullfrog", "Cat", "Cockroach", "Daus", "Elk", "ElkCub", "FieldMouse", "Geck", "Grizzly", "JerseyDevil",
+			List<string> cards = new List<string> {"placeholder", "Adder", "Alpha", "Amalgam", "Ant", "AntQueen", "Bee", "Beaver", "Beehive", "Bloodhound", "Bullfrog", "Cat", "Cockroach", "Daus", "Elk", "ElkCub", "FieldMouse", "Geck", "Grizzly", "JerseyDevil",
 			"Kingfisher", "Magpie", "Mantis", "MantisGod", "Mole", "MoleMan", "Moose", "Mothman_Stage1", "Opossum", "Otter", "Ouroboros", "Porcupine", "Pronghorn", "RatKing", "Raven", "RavenEgg", "Shark", "Skink", "Skunk", "Snapper",
 			"Sparrow", "SquidCards", "SquidBell", "SquidMirror", "Urayuli", "Warren", "Wolf", "WolfCub", "PeltHare", "PeltWolf", "PeltGolden", "RingWorm", "Stinkbug_Talking", "Stoat_Talking", "Wolf_Talking"};
 			
@@ -606,5 +639,6 @@ namespace GrimoraMod
 			};
 
 		}
+
 	}
 }
