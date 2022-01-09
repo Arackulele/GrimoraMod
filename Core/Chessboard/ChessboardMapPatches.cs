@@ -1,28 +1,15 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using BepInEx;
-using BepInEx.Logging;
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
 
-namespace GrimoraMod
+namespace GrimoraMod.Chessboard
 {
-	[BepInPlugin(PluginGuid, PluginName, PluginVersion)]
-	public class PluginKopie : BaseUnityPlugin
+	[HarmonyPatch(typeof(ChessboardMap))]
+	public class ChessboardMapPatches
 	{
-		private const string PluginGuid = "kopie.inscryption.act3tests";
-		private const string PluginName = "act3tests";
-		private const string PluginVersion = "1.0.0";
-		public static AssetBundle bundle;
-		public static Object[] allAssets;
-		internal static ManualLogSource Log;
-		public static string staticpath;
-
-		[HarmonyPatch(typeof(ChessboardMap), "UnrollingSequence")]
-		public class zez
-		{
 			public const string PrefabPath = "Prefabs/Map/ChessboardMap";
 
 			public static List<ChessboardBlockerPiece> PrefabTombstones = new()
@@ -32,13 +19,13 @@ namespace GrimoraMod
 				ResourceBank.Get<ChessboardBlockerPiece>($"{PrefabPath}/Chessboard_Tombstone_3")
 			};
 
-			public static ChessboardEnemyPiece PrefabEnemyPiece =
+			public static ChessboardEnemyPiece PrefabEnemyPiece =>
 				ResourceBank.Get<ChessboardEnemyPiece>($"{PrefabPath}/ChessboardEnemyPiece");
 
-			public static ChessboardEnemyPiece PrefabBossPiece =
+			public static ChessboardEnemyPiece PrefabBossPiece =>
 				ResourceBank.Get<ChessboardEnemyPiece>($"{PrefabPath}/BossFigurine");
 
-			public static ChessboardChestPiece PrefabChestPiece =
+			public static ChessboardChestPiece PrefabChestPiece =>
 				ResourceBank.Get<ChessboardChestPiece>($"{PrefabPath}/ChessboardChestPiece");
 
 			public static bool FirstRun = true;
@@ -61,7 +48,7 @@ namespace GrimoraMod
 				if (StoryEventsData.EventCompleted(StoryEvent.Part3PurchasedHoloBrush))
 				{
 					//tptohereforzone4
-					GrimoraPlugin.Log.LogDebug($"Royal defeated, checking if needing to reset chessboard");
+					GrimoraPlugin.Log.LogDebug($"Royal defeated");
 					// ResetChessboard(__instance);
 
 					CreateBossPiece(__instance, "GrimoraBoss", 6, 2);
@@ -101,7 +88,7 @@ namespace GrimoraMod
 				}
 				else if (StoryEventsData.EventCompleted(StoryEvent.FactoryCuckooClockAppeared))
 				{
-					GrimoraPlugin.Log.LogDebug($"Doggy defeated, checking if needing to reset chessboard");
+					GrimoraPlugin.Log.LogDebug($"Doggy defeated");
 
 					CreateBossPiece(__instance, "RoyalBoss", 6, 2);
 
@@ -142,15 +129,11 @@ namespace GrimoraMod
 					CreateEnemyPiece(__instance, 7, 2);
 
 					#endregion
-
-					StoryEventsData.EraseEvent(StoryEvent.PlayerDeletedArchivistFile);
-					StoryEventsData.EraseEvent(StoryEvent.FactoryConveyorBeltMoved);
-					StoryEventsData.EraseEvent(StoryEvent.Part3PurchasedHoloBrush);
 				}
 				else if (StoryEventsData.EventCompleted(StoryEvent.FactoryConveyorBeltMoved))
 				{
 					//tptohereforzone2
-					GrimoraPlugin.Log.LogDebug($"Kaycee defeated, checking if needing to reset chessboard");
+					GrimoraPlugin.Log.LogDebug($"Kaycee defeated");
 
 					// ResetChessboard(__instance);
 
@@ -218,7 +201,7 @@ namespace GrimoraMod
 					// 	.OccupyingPiece = null;
 
 					GrimoraPlugin.Log.LogDebug(
-						$"--> Destroying piece x[{existingChessPiece.gridXPos}] y[{existingChessPiece.gridYPos}]");
+						$"--> UnityEngine.Object.Destroying piece x[{existingChessPiece.gridXPos}] y[{existingChessPiece.gridYPos}]");
 					UnityEngine.Object.Destroy(existingChessPiece);
 				}
 
@@ -232,7 +215,7 @@ namespace GrimoraMod
 				}
 			}
 
-			[HarmonyPostfix]
+			[HarmonyPostfix, HarmonyPatch(typeof(ChessboardMap), "UnrollingSequence")]
 			public static IEnumerator Postfix(IEnumerator enumerator, ChessboardMap __instance, float unrollSpeed)
 			{
 				if (!SaveManager.SaveFile.IsGrimora)
@@ -243,7 +226,7 @@ namespace GrimoraMod
 
 				if (FirstRun)
 				{
-					Log.LogInfo(
+					GrimoraPlugin.Log.LogDebug(
 						"POSTFIX HAS RUN DONT IGNORE THIS THIS IS NOT AN ERROR IT IS A GOOD THING IF YOU ARE READING THIS HAVE A NICE DAY");
 
 					var nonEnemyPieces = __instance.pieces.FindAll(_ => true);
@@ -253,9 +236,10 @@ namespace GrimoraMod
 					GrimoraPlugin.Log.LogDebug($"-> Initial pieces are there, resetting initial chessboard");
 					foreach (var existingPiece in nonEnemyPieces)
 					{
-						GrimoraPlugin.Log.LogDebug($"--> Destroying [{existingPiece.gameObject}]");
-						Destroy(existingPiece.gameObject);
-						__instance.pieces.Remove(existingPiece);
+						GrimoraPlugin.Log.LogDebug($"--> UnityEngine.Object.Destroying [{existingPiece.gameObject}]");
+						UnityEngine.Object.Destroy(existingPiece.gameObject);
+						GrimoraSaveData.Data.removedPieces.Add(existingPiece.saveId);
+						// __instance.pieces.Remove(existingPiece);
 					}
 				}
 
@@ -326,7 +310,7 @@ namespace GrimoraMod
 				MapNodeManager.Instance.ActiveNode = __instance
 					.navGrid
 					.zones[GrimoraSaveData.Data.gridX, GrimoraSaveData.Data.gridY].GetComponent<MapNode>();
-				GrimoraPlugin.Log.LogDebug($"MapNodeManager ActiveNode is [{MapNodeManager.Instance.ActiveNode}]");
+				GrimoraPlugin.Log.LogDebug($"MapNodeManager ActiveNode is [{MapNodeManager.Instance.ActiveNode.name}]");
 				
 				Singleton<TableVisualEffectsManager>.Instance.SetFogPlaneShown(shown: true);
 				Singleton<CameraEffects>.Instance.SetFogEnabled(fogEnabled: true);
@@ -376,8 +360,7 @@ namespace GrimoraMod
 				// 	// });
 				// }
 			}
-
-
+			
 			private static bool IsSpaceNotOccupied(int x, int y)
 			{
 				var occupyingPiece = ChessboardNavGrid.instance.zones[x, y].GetComponent<ChessboardMapNode>().OccupyingPiece;
@@ -397,7 +380,7 @@ namespace GrimoraMod
 					bossPiece.gridYPos = y;
 					bossPiece.blueprint = GetBlueprint(id);
 					bossPiece.saveId = bossPiece.gridXPos * 10 + bossPiece.gridYPos * 1000;
-					Log.LogDebug($"bossPiece [{bossPiece.name}] save ID [{bossPiece.saveId}]");
+					GrimoraPlugin.Log.LogDebug($"bossPiece [{bossPiece.name}] save ID [{bossPiece.saveId}]");
 					__instance.pieces.Add(bossPiece);
 					ChessboardNavGrid.instance.zones[x, y].GetComponent<ChessboardMapNode>().OccupyingPiece = bossPiece;
 				}
@@ -406,24 +389,28 @@ namespace GrimoraMod
 			private static void CreateChestPiece(ChessboardMap __instance, int x, int y)
 			{
 				// GrimoraPlugin.Log.LogDebug($"Attempting to create chest piece at x [{x}] y [{y}]");
-				ChessboardChestPiece chest = Instantiate(PrefabChestPiece, __instance.dynamicElementsParent);
-				chest.gridYPos = x;
-				chest.gridXPos = y;
-				var randomValue = Random.Range(0, 4);
-				if (randomValue != 2)
+				if (IsSpaceNotOccupied(x, y))
 				{
-					chest.NodeData = new CardChoicesNodeData();
-				}
-				else
-				{
-					chest.NodeData = new ChooseRareCardNodeData();
-				}
+					ChessboardChestPiece chest = UnityEngine.Object.Instantiate(PrefabChestPiece, __instance.dynamicElementsParent)
+						.GetComponent<ChessboardChestPiece>();
+					chest.gridXPos = x;
+					chest.gridYPos = y;
+					var randomValue = Random.Range(0, 4);
+					if (randomValue != 2)
+					{
+						chest.NodeData = new CardChoicesNodeData();
+					}
+					else
+					{
+						chest.NodeData = new ChooseRareCardNodeData();
+					}
 
-				chest.saveId = chest.gridXPos * 10 + chest.gridYPos * 1000;
-				chest.name = $"Chest_x{x}_y{y}";
-				Log.LogDebug($"[CreateChestPiece] Chest [{chest.name}] save ID [{chest.saveId}]");
-				__instance.pieces.Add(chest);
-				ChessboardNavGrid.instance.zones[x, y].GetComponent<ChessboardMapNode>().OccupyingPiece = chest;
+					chest.saveId = chest.gridXPos * 10 + chest.gridYPos * 1000;
+					chest.name = $"Chest_x{x}_y{y}";
+					GrimoraPlugin.Log.LogDebug($"[CreateChestPiece] Chest [{chest.name}] save ID [{chest.saveId}]");
+					__instance.pieces.Add(chest);
+					ChessboardNavGrid.instance.zones[x, y].GetComponent<ChessboardMapNode>().OccupyingPiece = chest;
+				}
 			}
 
 			private static void CreateEnemyPiece(ChessboardMap __instance, int x, int y)
@@ -431,7 +418,7 @@ namespace GrimoraMod
 				if (IsSpaceNotOccupied(x, y))
 				{
 					// GrimoraPlugin.Log.LogDebug($"Space is not occupied, attempting to create enemy piece at x [{x}] y [{y}]");
-					ChessboardEnemyPiece enemyPiece = Instantiate(PrefabEnemyPiece, __instance.dynamicElementsParent);
+					ChessboardEnemyPiece enemyPiece = UnityEngine.Object.Instantiate(PrefabEnemyPiece, __instance.dynamicElementsParent);
 					enemyPiece.gridXPos = x;
 					enemyPiece.gridYPos = y;
 					enemyPiece.GoalPosX = x;
@@ -439,7 +426,7 @@ namespace GrimoraMod
 					enemyPiece.saveId = enemyPiece.gridXPos * 10 + enemyPiece.gridYPos * 1000;
 					enemyPiece.name = $"Enemy_x{x}_y{y}";
 					enemyPiece.blueprint = GetBlueprint();
-					Log.LogDebug($"[CreateEnemyPiece] EnemyPiece [{enemyPiece.name}] save ID [{enemyPiece.saveId}]");
+					GrimoraPlugin.Log.LogDebug($"[CreateEnemyPiece] EnemyPiece [{enemyPiece.name}] save ID [{enemyPiece.saveId}]");
 					__instance.pieces.Add(enemyPiece);
 					ChessboardNavGrid.instance.zones[x, y].GetComponent<ChessboardMapNode>().OccupyingPiece = enemyPiece;
 				}
@@ -459,27 +446,27 @@ namespace GrimoraMod
 
 			private static ChessboardBlockerPiece GetRandomBlockerPiece()
 			{
-				return PrefabTombstones[Random.RandomRangeInt(0, PrefabTombstones.Count)];
+				return ResourceBank.Get<ChessboardBlockerPiece>($"{PrefabPath}/Chessboard_Tombstone_3");
 			}
 
 			private static void CreateBlockerPiece(ChessboardMap __instance, int x, int y)
 			{
 				// GrimoraPlugin.Log.LogDebug($"Attempting to create blocker piece at x [{x}] y [{y}]");
 
-				ChessboardBlockerPiece blocker = Instantiate(GetRandomBlockerPiece(), __instance.dynamicElementsParent);
+				ChessboardBlockerPiece blocker = UnityEngine.Object.Instantiate(GetRandomBlockerPiece(), __instance.dynamicElementsParent);
 
 				foreach (MeshFilter meshFilter in blocker.GetComponentsInChildren<MeshFilter>())
 				{
 					if (meshFilter.gameObject.name != "Base")
 					{
-						Destroy(meshFilter.gameObject);
+						UnityEngine.Object.Destroy(meshFilter.gameObject);
 					}
 					else
 					{
-						meshFilter.mesh = allAssets[2] as Mesh;
+						meshFilter.mesh = GrimoraPlugin.AllAssets[2] as Mesh;
 						GameObject meshFilterGameObject = meshFilter.gameObject;
-						meshFilterGameObject.GetComponent<MeshRenderer>().material.mainTexture = allAssets[3] as Texture2D;
-						meshFilterGameObject.GetComponent<MeshRenderer>().sharedMaterial.mainTexture = allAssets[3] as Texture2D;
+						meshFilterGameObject.GetComponent<MeshRenderer>().material.mainTexture = GrimoraPlugin.AllAssets[3] as Texture2D;
+						meshFilterGameObject.GetComponent<MeshRenderer>().sharedMaterial.mainTexture = GrimoraPlugin.AllAssets[3] as Texture2D;
 						meshFilterGameObject.transform.localScale = new Vector3(0.08f, 0.08f, 0.08f);
 						meshFilterGameObject.transform.localPosition = new Vector3(0, -0.0209f, 0);
 					}
@@ -489,27 +476,9 @@ namespace GrimoraMod
 				blocker.gridYPos = y;
 				blocker.name = $"Blocker_x{x}_y{y}";
 				blocker.saveId = blocker.gridXPos * 10 + blocker.gridYPos * 1000;
-				Log.LogDebug($"[CreateBlockerPiece] Blocker [{blocker.name}] save ID [{blocker.saveId}]");
+				GrimoraPlugin.Log.LogDebug($"[CreateBlockerPiece] Blocker [{blocker.name}] save ID [{blocker.saveId}]");
 				__instance.pieces.Add(blocker);
 				ChessboardNavGrid.instance.zones[x, y].GetComponent<ChessboardMapNode>().OccupyingPiece = blocker;
 			}
 		}
-
-		private static Harmony _harmonyKopie;
-
-		private void Awake()
-		{
-			staticpath = Info.Location.Replace("GrimoraMod.dll", "");
-			bundle = AssetBundle.LoadFromFile(staticpath + "Artwork/grimora");
-			allAssets = bundle.LoadAllAssets();
-			Log = base.Logger;
-			_harmonyKopie = new Harmony(PluginGuid);
-			_harmonyKopie.PatchAll();
-		}
-
-		private void OnDestroy()
-		{
-			_harmonyKopie?.UnpatchSelf();
-		}
 	}
-}
