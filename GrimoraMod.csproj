@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+    <TargetFramework>net472</TargetFramework>
+    <AssemblyName>GrimoraMod</AssemblyName>
+    <RootNamespace>GrimoraMod</RootNamespace>
+  </PropertyGroup>
+
+  <!-- BepInEx dependencies -->
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Analyzers" Version="1.0.7" PrivateAssets="all" />
+    <PackageReference Include="BepInEx.Core" Version="5.4.16" />
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="1.1.0" />
+    <PackageReference Include="Inscryption.GameLibs" Version="1.2.0-r.1" />
+    <PackageReference Include="UnityEngine.Modules" Version="2019.4.24" IncludeAssets="compile" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="API">
+      <HintPath>lib\API.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <Target Name="CopyDLLs" AfterTargets="Build">
+    <Message Text="Executing CopyDLLs task" Importance="High" />
+
+    <Copy SourceFiles="$(TargetDir)$(ProjectName).dll" DestinationFolder="C:\inscryption-mods\Inscryption\profiles\Default\BepInEx\plugins\" />
+
+<!--    <Copy Condition="Exists('C:\DEVELOPER\InscryptionMods\lib\')" SourceFiles="$(TargetDir)$(ProjectName).dll" DestinationFolder="C:\DEVELOPER\InscryptionMods\lib\" />-->
+
+    <Message Text="Copied build files" Importance="High" />
+  </Target>
+
+  <!--<Target Name="ZipFiles" AfterTargets="Build">
+    <Exec Command="7z a -tzip SigilADay-JulianPerge.zip .\README.md .\manifest.json .\icon.png $(TargetDir)$(ProjectName).dll" />
+  </Target> -->
+
+</Project>

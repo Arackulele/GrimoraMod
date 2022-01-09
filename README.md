@@ -33,6 +33,10 @@ Black Square Sigils
 
 -Fix: Install https://inscryption.thunderstore.io/package/MADH95Mods/SigilArtPatch/
 
+### Combat bell does not show
+
+- Finish the first battle tutorial.
+
 # Update Notes:
 
 -Balance overhaul

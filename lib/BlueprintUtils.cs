@@ -180,7 +180,7 @@ namespace GrimoraMod
 		public static Dictionary<Opponent.Type, List<EncounterBlueprintData>> RegionWithBlueprints = new()
 		{
 			{
-				Opponent.Type.AnglerBoss, 
+				BaseBossExt.KayceeOpponent, 
 				new List<EncounterBlueprintData>()
 				{
 					BuildKayceeRegionBlueprintOne(),
@@ -191,7 +191,7 @@ namespace GrimoraMod
 				}
 			},
 			{
-				Opponent.Type.AnglerBoss,
+				BaseBossExt.DoggyOpponent,
 				new List<EncounterBlueprintData>()
 				{
 					BuildDoggyBossRegionBlueprintOne(),
@@ -200,7 +200,7 @@ namespace GrimoraMod
 				}
 			},
 			{
-				Opponent.Type.AnglerBoss,
+				BaseBossExt.RoyalOpponent,
 				new List<EncounterBlueprintData>()
 				{
 					BuildRoyalBossRegionBlueprintOne(),
@@ -210,7 +210,7 @@ namespace GrimoraMod
 				}
 			},
 			{
-				Opponent.Type.AnglerBoss,
+				BaseBossExt.GrimoraOpponent,
 				new List<EncounterBlueprintData>()
 				{
 					BuildGrimoraBossRegionBlueprintOne(),
