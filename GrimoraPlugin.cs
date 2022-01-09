@@ -1,10 +1,11 @@
-using System;
 using System.Collections.Generic;
 using APIPlugin;
 using BepInEx;
 using BepInEx.Logging;
 using DiskCardGame;
 using HarmonyLib;
+using UnityEngine;
+using Object = System.Object;
 
 namespace GrimoraMod
 {
@@ -17,7 +18,11 @@ namespace GrimoraMod
         private const string PluginGuid = "arackulele.inscryption.grimoramod";
         private const string PluginName = "GrimoraMod";
         private const string PluginVersion = "1.0.1";
-
+        
+        public static AssetBundle CustomAssetBundle;
+        public static Object[] AllAssets;
+        public static string Staticpath;
+        
         internal static ManualLogSource Log;
 
         private static Harmony _harmony;
@@ -27,7 +32,11 @@ namespace GrimoraMod
             Log = base.Logger;
 
             Logger.LogInfo($"Loaded {PluginName}!");
-
+            
+            Staticpath = Info.Location.Replace("GrimoraMod.dll", "");
+            CustomAssetBundle = AssetBundle.LoadFromFile(Staticpath + "Artwork/grimora");
+            AllAssets = CustomAssetBundle.LoadAllAssets();
+            
             _harmony = new Harmony(PluginGuid);
             _harmony.PatchAll();
 
@@ -90,8 +99,7 @@ namespace GrimoraMod
             _harmony?.UnpatchSelf();
         }
 
-        /// Card Edits
-        private void DisableAllActOneCardsFromAppearing()
+        private static void DisableAllActOneCardsFromAppearing()
         {
             List<string> cards = new List<string>
             {
@@ -101,7 +109,7 @@ namespace GrimoraMod
                 "Daus", 
                 "Elk", "ElkCub", 
                 "FieldMouse", 
-                "Geck", "Grizzly", 
+                "Geck", "Goat", "Grizzly", 
                 "JerseyDevil",
                 "Kingfisher", 
                 "Magpie", "Mantis", "MantisGod", "Mole", "MoleMan", "Moose", "Mothman_Stage1", 

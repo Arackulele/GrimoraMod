@@ -323,16 +323,6 @@ namespace GrimoraMod.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] GrimoraAssetBundle {
-            get {
-                object obj = ResourceManager.GetObject("GrimoraAssetBundle", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
         public static byte[] HeadlessHorseman {
             get {
                 object obj = ResourceManager.GetObject("HeadlessHorseman", resourceCulture);
