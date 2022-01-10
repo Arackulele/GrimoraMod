@@ -21,14 +21,16 @@ namespace GrimoraMod
 			//StoryEventsData.EraseEvent(StoryEvent.FactoryCuckooClockAppeared);			// Doggy defeated
 			//StoryEventsData.EraseEvent(StoryEvent.Part3PurchasedHoloBrush);					// Royal defeated
 			
-			ChessUtils.StaticCurrentList = GrimoraPlugin.ConfigCurrentRemovedPieces.Value.Split(',').ToList();
-			
 			if (isTransitioningFromBoss)
 			{
 				GrimoraPlugin.Log.LogDebug($"Transitioning from boss, resetting board");
 				isTransitioningFromBoss = false;
+				// GrimoraPlugin.ConfigCurrentRemovedPieces.Value = "";
+				ResetChessboard(map);
 				GrimoraPlugin.ConfigCurrentRemovedPieces.Value = "";
 			}
+			
+			ChessUtils.StaticCurrentList = GrimoraPlugin.ConfigCurrentRemovedPieces.Value.Split(',').ToList();
 
 			ChessUtils.PrintCurrentList();
 			
@@ -182,9 +184,13 @@ namespace GrimoraMod
 
 				#region CreatingEnemyPieces
 
+				for (int i = 0; i < 8; i++)
+				{
+					ChessUtils.CreateEnemyPiece(map, 5, i);
+					
 				// CreateEnemyPiece(__instance, 0, 2);
 				// CreateEnemyPiece(__instance, 2, 7);
-				ChessUtils.CreateEnemyPiece(map, 3, 4);
+				}
 
 				#endregion
 
@@ -248,7 +254,7 @@ namespace GrimoraMod
 
 			GrimoraPlugin.Log.LogDebug($"[ChessboardMap.UnrollingSequence] Setting up game pieces");
 			SetupGamePieces(__instance);
-			yield return new WaitForSeconds(1f);
+			// yield return new WaitForSeconds(1f);
 			GrimoraPlugin.Log.LogDebug(
 				$"[ChessboardMap.UnrollingSequence] -> Finished setting up game pieces");
 
@@ -309,7 +315,7 @@ namespace GrimoraMod
 				x.Hide(immediate: true);
 			});
 			GrimoraPlugin.Log.LogDebug("[ChessboardMap.UnrollingSequence] Finished UpdatingSaveStates of pieces");
-			yield return new WaitForSeconds(0.1f);
+			yield return new WaitForSeconds(0.05f);
 			
 			foreach (var piece in __instance.pieces.Where(piece => piece.gameObject.activeInHierarchy))
 			{
@@ -338,7 +344,7 @@ namespace GrimoraMod
 			foreach (var existingChessPiece in __instance.pieces.FindAll(_ => true))
 			{
 				GrimoraPlugin.Log.LogDebug($"-> Adding piece to removed pieces [{existingChessPiece.saveId}]");
-				// GrimoraSaveData.Data.removedPieces.Add(existingChessPiece.saveId);
+				// ChessUtils.AddPieceToRemovedPiecesConfig(existingChessPiece.name);
 				__instance.pieces.Remove(existingChessPiece);
 				// GrimoraPlugin.Log.LogDebug($"--> Setting Nav Grid x,y occupying piece to null");
 				// ChessboardNavGrid.instance
