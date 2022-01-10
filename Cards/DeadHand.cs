@@ -10,10 +10,9 @@ namespace GrimoraMod
 		private void AddAra_DeadHand()
 		{
 			ApiUtils.Add(
-				NameDeadHand, "Dead Hand", 1, 1,
+				NameDeadHand, "Dead Hand",
 				"Cut off from an ancient God, the Dead Hand took on its own Life.",
-				5, Resources.DeadHand, Ability.DrawNewHand, complexity: CardComplexity.Advanced
-			);
+				1, 1, 5, Resources.DeadHand, Ability.DrawNewHand, complexity: CardComplexity.Advanced);
 		}
 	}
 }

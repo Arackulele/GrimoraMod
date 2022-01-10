@@ -17,10 +17,9 @@ namespace GrimoraMod
 				Ability.Submerge
 			};
 
-			ApiUtils.Add(NameDrownedSoul, "Drowned Soul", 1, 1,
-				"Going into that well wasn't the best idea...", 4,
-				Resources.DrownedSoul, abilities, complexity: CardComplexity.Advanced
-			);
+			ApiUtils.Add(NameDrownedSoul, "Drowned Soul",
+				"Going into that well wasn't the best idea...", 1,
+				1, 4, Resources.DrownedSoul, abilities, complexity: CardComplexity.Advanced);
 		}
 	}
 }

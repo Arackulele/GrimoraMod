@@ -10,10 +10,9 @@ namespace GrimoraMod
 		
 		private void AddAra_Family()
 		{
-			ApiUtils.Add(NameFamily, "The Walkers", 1, 2,
-				"The family wishes to rest in piece.", 4, Resources.Walkers,
-				Ability.QuadrupleBones
-			);
+			ApiUtils.Add(NameFamily, "The Walkers",
+				"The family wishes to rest in piece.", 1, 2,
+				4, Resources.Walkers, Ability.QuadrupleBones);
 		}
 	}
 }

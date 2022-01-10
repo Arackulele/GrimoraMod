@@ -11,10 +11,9 @@ namespace GrimoraMod
 		
 		private void AddAra_Snapper()
 		{
-			ApiUtils.Add(NameBoneSnapper, "Bone Snapper", 1, 6,
-				"Snap snap your Bones are gone.", 5, Resources.Snapper,
-				new List<Ability>()
-			);
+			ApiUtils.Add(NameBoneSnapper, "Bone Snapper",
+				"Snap snap your Bones are gone.", 1, 6,
+				5, Resources.Snapper, new List<Ability>());
 		}
 	}
 }

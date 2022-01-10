@@ -7,23 +7,19 @@ namespace GrimoraMod
 {
 	public partial class GrimoraPlugin
 	{
-
 		public const string NameGraveDigger = "ara_Gravedigger";
 		public const string NameSporeDigger = "ara_Sporedigger";
-		
+
 		private void AddAra_GraveDigger()
 		{
 			ApiUtils.Add(
-				NameGraveDigger, "Gravedigger", 0, 3,
-				"He spends his time alone digging for Bones in hopes of finding a treasure.", 
-				1, Resources.GraveDigger, Ability.BoneDigger
-			);
+				NameGraveDigger, "Gravedigger",
+				"He spends his time alone digging for Bones in hopes of finding a treasure.",
+				0, 3, 1, Resources.GraveDigger, Ability.BoneDigger);
 		}
-		
+
 		private void AddAra_SporeDigger()
 		{
-			List<CardMetaCategory> metaCategories = new List<CardMetaCategory> { CardMetaCategory.Rare };
-
 			List<Ability> abilities = new List<Ability>
 			{
 				Ability.BoneDigger,
@@ -35,12 +31,11 @@ namespace GrimoraMod
 				Trait.Fused
 			};
 
-			NewCard.Add(NameSporeDigger, "Sporedigger", 
-				0, 3, metaCategories, CardComplexity.Simple, CardTemple.Nature,
-				"The SporeDigger, an excellent digger.", bonesCost: 1, 
-				appearanceBehaviour: CardUtils.getRareAppearance, traits: traits, 
-				abilities: abilities, defaultTex: ImageUtils.LoadTextureFromResource(Resources.SporeDigger)
-			);
+			ApiUtils.Add(NameSporeDigger, "Sporedigger", "The SporeDigger, an excellent digger.", 0,
+				3, 1,
+				Resources.SporeDigger,
+				abilities,
+				metaCategory: CardMetaCategory.Rare, appearanceBehaviour: CardUtils.getRareAppearance, traits: traits);
 		}
 	}
 }

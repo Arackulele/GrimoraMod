@@ -13,22 +13,17 @@ namespace GrimoraMod
 		
 		private void AddAra_Hydra()
 		{
-			List<CardMetaCategory> metaCategories = new List<CardMetaCategory> { CardMetaCategory.Rare };
-
 			List<Ability> abilities = new List<Ability>
 			{
 				Ability.DrawCopyOnDeath,
 				Ability.TriStrike
 			};
 
-			Texture2D tex = ImageUtils.LoadTextureFromResource(Resources.Hydra);
-
-			NewCard.Add(NameHydra, "Hydra", 1, 1,
-				metaCategories, CardComplexity.Advanced, CardTemple.Nature,
-				"Described by some as the truest nightmare", bonesCost: 4,
-				abilities: abilities, defaultTex: tex,
-				appearanceBehaviour: CardUtils.getRareAppearance
-			);
+			ApiUtils.Add(NameHydra, "Hydra",
+				"Described by some as the truest nightmare", 1, 
+				1, 4,
+				Resources.Hydra, abilities,
+				CardMetaCategory.Rare, CardComplexity.Advanced, appearanceBehaviour: CardUtils.getRareAppearance);
 		}
 	}
 }

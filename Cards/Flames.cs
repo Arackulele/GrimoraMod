@@ -19,9 +19,8 @@ namespace GrimoraMod
 			};
 
 			ApiUtils.Add(
-				NameFlames, "Flames", 0, 1,
-				"", 2, Properties.Resources.Flames, abilities
-			);
+				NameFlames, "Flames",
+				"", 0, 1, 2, Properties.Resources.Flames, abilities);
 		}
 	}
 }

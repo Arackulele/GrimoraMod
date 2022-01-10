@@ -10,8 +10,6 @@ namespace GrimoraMod
 	{
 		private void AddAra_Wendigo()
 		{
-			List<CardMetaCategory> metaCategories = new List<CardMetaCategory> { CardMetaCategory.Rare };
-
 			List<Ability> abilities = new List<Ability>
 			{
 				Ability.Strafe,
@@ -20,11 +18,10 @@ namespace GrimoraMod
 
 			Texture2D defaultTex = ImageUtils.LoadTextureFromResource(Resources.Wendigo);
 
-			NewCard.Add("ara_Wendigo", "Wendigo", 2, 2, 
-				metaCategories, CardComplexity.Vanilla, CardTemple.Nature,
-				"Described by some as the truest nightmare", bonesCost: 5, 
-				abilities: abilities, defaultTex: defaultTex, appearanceBehaviour: CardUtils.getRareAppearance
-			);
+			ApiUtils.Add("ara_Wendigo", "Wendigo",
+				"Described by some as the truest nightmare", 2,
+				2, 5,
+				Resources.Wendigo, abilities, CardMetaCategory.Rare, appearanceBehaviour: CardUtils.getRareAppearance);
 		}
 	}
 }

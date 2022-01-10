@@ -11,10 +11,9 @@ namespace GrimoraMod
 		private void AddAra_TombRobber()
 		{
 			ApiUtils.Add(
-				NameTombRobber, "Tomb Robber", 0, 1,
+				NameTombRobber, "Tomb Robber",
 				"Nothing... Nothing again... No treasure is left anymore.", 0,
-				Resources.TombRobber, Ability.ActivatedDrawSkeleton,  complexity: CardComplexity.Advanced
-			);
+				1, 0,  Resources.TombRobber, Ability.ActivatedDrawSkeleton, complexity: CardComplexity.Advanced);
 		}
 	}
 }

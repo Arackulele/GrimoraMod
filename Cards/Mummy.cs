@@ -12,10 +12,9 @@ namespace GrimoraMod
 		private void AddAra_Mummy()
 		{
 			ApiUtils.Add(
-				NameMummy, "Mummy Lord", 3, 3,
-				"The cycle of the Mummy Lord is never ending.", 2, Resources.Mummy,
-				new List<Ability>(), CardMetaCategory.GBCPlayable
-			);
+				NameMummy, "Mummy Lord",
+				"The cycle of the Mummy Lord is never ending.", 3, 3,
+				2, Resources.Mummy, new List<Ability>(), CardMetaCategory.GBCPlayable);
 		}
 	}
 }

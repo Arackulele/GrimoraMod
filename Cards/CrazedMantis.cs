@@ -9,10 +9,9 @@ namespace GrimoraMod
 		private void AddAra_CrazedMantis()
 		{
 			ApiUtils.Add(
-				NameCrazedMantis, "Crazed Mantis", 1, 1,
-				"The poor mantis has gone insane.", 4,
-				Resources.Mantis, Ability.SplitStrike
-			);
+				NameCrazedMantis, "Crazed Mantis",
+				"The poor mantis has gone insane.", 1,
+				1, 4, Resources.Mantis, Ability.SplitStrike);
 		}
 	}
 }

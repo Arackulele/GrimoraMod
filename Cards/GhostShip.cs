@@ -17,10 +17,9 @@ namespace GrimoraMod
 				Ability.Submerge
 			};
 			
-			ApiUtils.Add(NameGhostShip, "Ghost Ship", 0, 1,
+			ApiUtils.Add(NameGhostShip, "Ghost Ship",
 				"The skeleton army never rests.", 
-				4, Resources.GhostShip, abilities, complexity: CardComplexity.Advanced
-			);
+				0, 1, 4, Resources.GhostShip, abilities, complexity: CardComplexity.Advanced);
 		}
 	}
 }

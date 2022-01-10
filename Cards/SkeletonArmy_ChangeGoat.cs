@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using APIPlugin;
 using DiskCardGame;
 using UnityEngine;
 using Resources = GrimoraMod.Properties.Resources;
@@ -12,22 +11,15 @@ namespace GrimoraMod
 		
 		private void AddAra_SkeletonArmy()
 		{
-			List<CardMetaCategory> metaCategories = new List<CardMetaCategory>();
-
-			List<Ability> abilities = new List<Ability> { Ability.SkeletonStrafe };
-
-			Texture2D defaultTex = ImageUtils.LoadTextureFromResource(Resources.SkeletonArmy);
-
 			Texture2D decalTex = ImageUtils.LoadTextureFromResource(Resources.Energy2);
 
 			List<Texture> decals = new() { decalTex };
 			
-			NewCard.Add(
-				NameSkeletonArmy, "Skeleton Army", 2, 4,
-				metaCategories, CardComplexity.Vanilla, CardTemple.Nature, 
-				"The skeleton army, boons of the Bone Lord.", energyCost: 2, bloodCost: 0,
-				abilities: abilities, decals: decals, defaultTex: defaultTex
-			);
+			ApiUtils.Add(
+				NameSkeletonArmy, "Skeleton Army",
+				"The skeleton army, boons of the Bone Lord.", 2, 
+				4,
+				2, Resources.SkeletonArmy, Ability.SkeletonStrafe, decals: decals);
 
 			// new CustomCard("Goat")
 			// {

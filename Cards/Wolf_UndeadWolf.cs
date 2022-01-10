@@ -11,10 +11,9 @@ namespace GrimoraMod
 		
 		private void AddAra_Wolf()
 		{
-			ApiUtils.Add(NameUndeadWolf, "Undead Wolf", 3, 2,
-				"A diseased wolf. The pack has left him for death.", 7, Resources.Wolf,
-				new List<Ability>()
-			);
+			ApiUtils.Add(NameUndeadWolf, "Undead Wolf",
+				"A diseased wolf. The pack has left him for death.", 3, 2,
+				7, Resources.Wolf, new List<Ability>());
 		}
 	}
 }

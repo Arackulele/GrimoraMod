@@ -353,6 +353,16 @@ namespace GrimoraMod.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] map_gen {
+            get {
+                object obj = ResourceManager.GetObject("map_gen", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] menucard_grimora {
             get {
                 object obj = ResourceManager.GetObject("menucard_grimora", resourceCulture);

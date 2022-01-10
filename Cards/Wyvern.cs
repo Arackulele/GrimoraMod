@@ -7,9 +7,8 @@ namespace GrimoraMod
 	{
 		private void AddAra_Wyvern()
 		{
-			ApiUtils.Add("ara_Wyvern", "Wyvern", 1, 1,
-				"The Wyvern army approaches.", 1, Resources.Wyvern, Ability.DrawCopy
-			);
+			ApiUtils.Add("ara_Wyvern", "Wyvern",
+				"The Wyvern army approaches.", 1, 1, 1, Resources.Wyvern, Ability.DrawCopy);
 		}
 	}
 }

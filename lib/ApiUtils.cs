@@ -11,32 +11,46 @@ namespace GrimoraMod
 	{
 		#region CardUtils
 
-		public static void Add(
-			string name, string displayName,
+		public static void Add(string name, string displayName,
+			string description,
 			int baseAttack, int baseHealth,
-			string description, int bonesCost,
+			int bonesCost,
 			byte[] defaultTexture,
-			Ability ability = Ability.NUM_ABILITIES, 
+			Ability ability = Ability.NUM_ABILITIES,
 			CardMetaCategory metaCategory = CardMetaCategory.NUM_CATEGORIES,
-			CardComplexity complexity = CardComplexity.Simple
-		)
+			CardComplexity complexity = CardComplexity.Simple,
+			List<Texture> decals = null,
+			List<CardAppearanceBehaviour.Appearance> appearanceBehaviour = null,
+			IceCubeIdentifier iceCubeId = null,
+			EvolveIdentifier evolveId = null,
+			List<Trait> traits = null)
 		{
+			var abilities = new List<Ability>();
+			if (ability != Ability.NUM_ABILITIES)
+			{
+				abilities.Add(ability);
+			}
+			
 			Add(
-				name, displayName, baseAttack, baseHealth, description,
-				bonesCost, defaultTexture,
-				new List<Ability>() { ability }, metaCategory, complexity
-			);
+				name, displayName, description,
+				baseAttack, baseHealth,
+				bonesCost, defaultTexture, abilities,
+				metaCategory, complexity, decals, appearanceBehaviour, iceCubeId, evolveId, traits);
 		}
 
-		public static void Add(
-			string name, string displayName,
+		public static void Add(string name, string displayName,
+			string description,
 			int baseAttack, int baseHealth,
-			string description, int bonesCost,
+			int bonesCost,
 			byte[] defaultTexture,
-			List<Ability> abilities, 
+			List<Ability> abilities,
 			CardMetaCategory metaCategory = CardMetaCategory.NUM_CATEGORIES,
-			CardComplexity complexity = CardComplexity.Simple
-		)
+			CardComplexity complexity = CardComplexity.Simple,
+			List<Texture> decals = null,
+			List<CardAppearanceBehaviour.Appearance> appearanceBehaviour = null,
+			IceCubeIdentifier iceCubeId = null,
+			EvolveIdentifier evolveId = null,
+			List<Trait> traits = null)
 		{
 			var metaCategories = new List<CardMetaCategory>();
 			
@@ -50,11 +64,33 @@ namespace GrimoraMod
 					metaCategories = CardUtils.getNormalCardMetadata;
 					break;
 			}
+			decals ??= new List<Texture>();
+			traits ??= new List<Trait>();
+			appearanceBehaviour ??= new List<CardAppearanceBehaviour.Appearance>();
+			abilities ??= new List<Ability>();
 
-			NewCard.Add(name, displayName, baseAttack, baseHealth, metaCategories,
-				complexity, CardTemple.Nature, description, bonesCost: bonesCost,
-				abilities: abilities, defaultTex: ImageUtils.LoadTextureFromResource(defaultTexture)
+			CardInfo cardInfo = ScriptableObject.CreateInstance<CardInfo>();
+
+			cardInfo.name = name;
+			cardInfo.displayedName = displayName;
+			cardInfo.baseAttack = baseAttack;
+			cardInfo.baseHealth = baseHealth;
+			cardInfo.metaCategories = metaCategories;
+			cardInfo.cardComplexity = complexity;
+			cardInfo.temple = CardTemple.Nature;
+			cardInfo.description = description;
+			cardInfo.bonesCost = bonesCost;
+			cardInfo.abilities = abilities;
+			cardInfo.decals = decals;
+			cardInfo.appearanceBehaviour = appearanceBehaviour;
+			cardInfo.traits = traits;
+
+			var texture = ImageUtils.LoadTextureFromResource(defaultTexture);
+			cardInfo.portraitTex = Sprite.Create(
+				texture, CardUtils.DefaultCardArtRect, new Vector2(0.5f, 0.65f), 125f
 			);
+
+			NewCard.Add(cardInfo, iceCubeId: iceCubeId, evolveId: evolveId);
 		}
 
 		#endregion

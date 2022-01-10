@@ -14,10 +14,9 @@ namespace GrimoraMod
 
 		private void AddAra_Skelemaniac()
 		{
-			ApiUtils.Add(DisplayNameSkelemaniac, DisplayNameSkelemaniac, 1, 3,
+			ApiUtils.Add("ara_" + DisplayNameSkelemaniac, DisplayNameSkelemaniac,
 				"A skeleton gone mad. At least it follows your command.", 
-				4, Resources.Skelemaniac, Ability.GuardDog
-			);
+				1, 3, 4, Resources.Skelemaniac, Ability.GuardDog);
 		}
 		
 		private void ChangePackRat()

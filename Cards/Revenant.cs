@@ -10,10 +10,9 @@ namespace GrimoraMod
 		
 		private void AddAra_Revenant()
 		{
-			ApiUtils.Add(NameRevenant, "Revenant", 3, 1,
+			ApiUtils.Add(NameRevenant, "Revenant",
 				"The Revenant, bringing the scythe of death.", 3,
-				Resources.Revenant, Ability.Brittle,  complexity: CardComplexity.Intermediate
-			);
+				1, 3,  Resources.Revenant, Ability.Brittle, complexity: CardComplexity.Intermediate);
 		}
 	}
 }

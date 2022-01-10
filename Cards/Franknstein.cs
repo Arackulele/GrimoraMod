@@ -9,10 +9,9 @@ namespace GrimoraMod
 
 		private void AddAra_Franknstein()
 		{
-			ApiUtils.Add(NameFranknstein, "Frank & Stein", 2, 2,
-				"Best friends, brothers, and fighters.", 5,
-				Resources.Franknstein
-			);
+			ApiUtils.Add(NameFranknstein, "Frank & Stein",
+				"Best friends, brothers, and fighters.", 2,
+				2, 5, Resources.Franknstein);
 		}
 	}
 }

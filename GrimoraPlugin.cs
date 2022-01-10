@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using APIPlugin;
 using BepInEx;
 using BepInEx.Configuration;
@@ -6,7 +7,6 @@ using BepInEx.Logging;
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
-using Object = System.Object;
 
 namespace GrimoraMod
 {
@@ -19,7 +19,7 @@ namespace GrimoraMod
 		private const string PluginVersion = "1.0.1";
 
 		public static AssetBundle CustomAssetBundle;
-		public static UnityEngine.Object[] AllAssets;
+		public static Object[] AllAssets;
 		public static string StaticPath;
 
 		internal static ManualLogSource Log;
@@ -27,7 +27,7 @@ namespace GrimoraMod
 		private static Harmony _harmony;
 
 		public static readonly ConfigFile GrimoraConfigFile = new(
-			System.IO.Path.Combine(Paths.ConfigPath, "grimora_mod_config.cfg"),
+			Path.Combine(Paths.ConfigPath, "grimora_mod_config.cfg"),
 			true
 		);
 
@@ -61,7 +61,7 @@ namespace GrimoraMod
 
 			ConfigGrimoraBossDead
 				= GrimoraConfigFile.Bind(PluginName, "Grimora defeated?", false);
-			
+
 			ConfigFirstTimeBoardInteraction
 				= GrimoraConfigFile.Bind(PluginName, "Player interacted with board first time?", false);
 
@@ -79,12 +79,14 @@ namespace GrimoraMod
 		{
 			Log = base.Logger;
 
+			// ChessUtils.Test();
+
 			BindConfig();
 
 			GrimoraConfigFile.SaveOnConfigSet = true;
 			if (!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable))
 			{
-				GrimoraPlugin.Log.LogWarning($"Grimora has not reached the table yet, resetting values to false again.");
+				Log.LogWarning($"Grimora has not reached the table yet, resetting values to false again.");
 				ConfigKayceeFirstBossDead.Value = false;
 				ConfigDoggySecondBossDead.Value = false;
 				ConfigRoyalThirdBossDead.Value = false;
@@ -128,9 +130,9 @@ namespace GrimoraMod
 			AddAra_Ember_spirit();
 			AddAra_Family();
 			AddAra_Flames();
-			AddAra_Franknstein();
+			// AddAra_Franknstein();
 			AddAra_GhostShip();
-			AddAra_GraveDigger();
+			// AddAra_GraveDigger();
 			AddAra_HeadlessHorseman();
 			AddAra_Hydra();
 			AddAra_Mummy();
@@ -193,7 +195,7 @@ namespace GrimoraMod
 			foreach (var card in cards)
 			{
 				List<CardMetaCategory> metaCategories = new List<CardMetaCategory>();
-				new CustomCard(card) { metaCategories = metaCategories };
+				new CustomCard(card) { metaCategories = metaCategories, temple = CardTemple.NUM_TEMPLES };
 			}
 		}
 	}

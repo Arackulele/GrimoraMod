@@ -11,10 +11,9 @@ namespace GrimoraMod
 		private void AddAra_Necromancer()
 		{
 			ApiUtils.Add(
-				NameNecromancer, "Necromancer", 1, 2,
+				NameNecromancer, "Necromancer",
 				"The vicious Necromancer, nothing dies once.",
-				3, Resources.Necromancer, Ability.DoubleDeath, CardMetaCategory.Rare, CardComplexity.Advanced
-			);
+				1, 2, 3, Resources.Necromancer, Ability.DoubleDeath, CardMetaCategory.Rare, CardComplexity.Advanced);
 		}
 	}
 }

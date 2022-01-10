@@ -10,10 +10,9 @@ namespace GrimoraMod
 		
 		private void AddAra_RingWorm()
 		{
-			ApiUtils.Add(NameMudWorm, "Mud Worm", 2, 1,
-				"Like an true worm, loves to dig in the dirt.", 5,
-				Resources.RingWorm, Ability.BoneDigger
-			);
+			ApiUtils.Add(NameMudWorm, "Mud Worm",
+				"Like an true worm, loves to dig in the dirt.", 2,
+				1, 5, Resources.RingWorm, Ability.BoneDigger);
 		}
 	}
 }

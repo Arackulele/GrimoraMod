@@ -19,9 +19,8 @@ namespace GrimoraMod
 			};
 
 			ApiUtils.Add(
-				NameHeadlessHorseman, "Headless Horseman", 4, 3,
-				"The apocalypse is soon.", 9, Resources.HeadlessHorseman, abilities
-			);
+				NameHeadlessHorseman, "Headless Horseman",
+				"The apocalypse is soon.", 4, 3, 9, Resources.HeadlessHorseman, abilities);
 		}
 	}
 }

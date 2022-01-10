@@ -8,6 +8,7 @@ namespace GrimoraMod
 		{
 			var texture = new Texture2D(2, 2);
 			texture.LoadImage(resourceFile);
+			texture.filterMode = FilterMode.Point;
 			return texture;
 		}
 	}
