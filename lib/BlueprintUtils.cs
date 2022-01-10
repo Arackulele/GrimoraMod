@@ -79,20 +79,20 @@ namespace GrimoraMod
 			card = CardLoader.GetCardByName(GrimoraPlugin.NameFlames)
 		};
 		
-		public static readonly EncounterBlueprintData.CardBlueprint bp_FrankAndStein = new()
-		{
-			card = CardLoader.GetCardByName(GrimoraPlugin.NameFranknstein)
-		};
+		// public static readonly EncounterBlueprintData.CardBlueprint bp_FrankAndStein = new()
+		// {
+		// 	card = CardLoader.GetCardByName(GrimoraPlugin.NameFranknstein)
+		// };
 
 		public static readonly EncounterBlueprintData.CardBlueprint bp_GhostShip = new()
 		{
 			card = CardLoader.GetCardByName(GrimoraPlugin.NameGhostShip)
 		};
 
-		public static readonly EncounterBlueprintData.CardBlueprint bp_Gravedigger = new()
-		{
-			card = CardLoader.GetCardByName(GrimoraPlugin.NameGraveDigger)
-		};
+		// public static readonly EncounterBlueprintData.CardBlueprint bp_Gravedigger = new()
+		// {
+		// 	card = CardLoader.GetCardByName(GrimoraPlugin.NameGraveDigger)
+		// };
 		
 		public static readonly EncounterBlueprintData.CardBlueprint bp_HeadlessHorseman = new()
 		{
@@ -277,13 +277,13 @@ namespace GrimoraMod
 			var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 			blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 			{
-				new() { bp_Gravedigger },
-				new() { bp_Gravedigger, bp_Gravedigger },
+				new() { bp_HeadlessHorseman },
+				new() { bp_HeadlessHorseman, bp_HeadlessHorseman },
 				new() { bp_Sporedigger },
 				new() { bp_HeadlessHorseman },
-				new() { bp_Sporedigger, bp_Gravedigger },
+				new() { bp_Sporedigger, bp_HeadlessHorseman },
 				new() { bp_HeadlessHorseman },
-				new() { bp_HeadlessHorseman, bp_Gravedigger }
+				new() { bp_HeadlessHorseman, bp_HeadlessHorseman }
 			};
 
 			return blueprint;
@@ -365,13 +365,13 @@ namespace GrimoraMod
 			var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 			blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 			{
-				new() { bp_Gravedigger },
-				new() { bp_Gravedigger, bp_Gravedigger },
+				new() { bp_HeadlessHorseman },
+				new() { bp_HeadlessHorseman, bp_HeadlessHorseman },
 				new() { bp_Sporedigger },
 				new() { bp_HeadlessHorseman },
-				new() { bp_Sporedigger, bp_Gravedigger },
+				new() { bp_Sporedigger, bp_HeadlessHorseman },
 				new() { bp_HeadlessHorseman },
-				new() { bp_HeadlessHorseman, bp_Gravedigger }
+				new() { bp_HeadlessHorseman, bp_HeadlessHorseman }
 			};
 
 			return blueprint;
@@ -404,14 +404,14 @@ namespace GrimoraMod
 			blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 			{
 				new() { bp_Bonepile },
-				new() { bp_Bonepile, bp_FrankAndStein },
-				new() { bp_FrankAndStein, bp_FrankAndStein, bp_FrankAndStein },
+				new() { bp_Bonepile, bp_Zombie },
+				new() { bp_Zombie, bp_Zombie, bp_Zombie },
 				new() { bp_Revenant },
 				new() { bp_Skeleton },
 				new() { bp_Skeleton, bp_Skeleton, bp_Skeleton, bp_Skeleton },
-				new() { bp_FrankAndStein },
-				new() { bp_FrankAndStein, bp_FrankAndStein },
-				new() { bp_FrankAndStein }
+				new() { bp_Zombie },
+				new() { bp_Zombie, bp_Zombie },
+				new() { bp_Zombie }
 			};
 
 			return blueprint;
@@ -443,14 +443,14 @@ namespace GrimoraMod
 				// bp_Zombie.difficultyReplace = false;
 				new() { bp_Zombie },
 				new(),
-				new() { bp_Zombie },
-				new() { bp_Zombie },
-				new(),
-				new() { bp_FrankAndStein },
+				new() { bp_Revenant },
 				new() { bp_Zombie },
 				new(),
-				new() { bp_Zombie, bp_FrankAndStein },
-				new() { bp_Zombie, bp_Zombie }
+				new() { bp_Revenant },
+				new() { bp_Zombie },
+				new(),
+				new() { bp_Zombie, bp_Revenant },
+				new() { bp_Zombie, bp_Revenant }
 			};
 
 			return blueprint;
@@ -478,13 +478,13 @@ namespace GrimoraMod
 			var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 			blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 			{
-				new() { bp_Gravedigger },
+				new() { bp_HeadlessHorseman },
 				new() { bp_Draugr, bp_BoneSnapper },
 				new() { bp_Draugr },
-				new() { bp_Gravedigger },
+				new() { bp_HeadlessHorseman },
 				new() { bp_BoneSnapper },
 				new() { bp_Draugr, bp_Draugr },
-				new() { bp_Gravedigger, bp_Gravedigger, bp_BoneSnapper }
+				new() { bp_HeadlessHorseman, bp_HeadlessHorseman, bp_BoneSnapper }
 			};
 
 			return blueprint;
@@ -495,14 +495,14 @@ namespace GrimoraMod
 			var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 			blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 			{
-				new() { bp_Gravedigger },
+				new() { bp_HeadlessHorseman },
 				new() { bp_Revenant },
-				new() { bp_Gravedigger },
+				new() { bp_HeadlessHorseman },
 				new() { bp_BoneSerpent },
-				new() { bp_BoneSerpent, bp_Gravedigger },
+				new() { bp_BoneSerpent, bp_HeadlessHorseman },
 				new() { bp_Revenant },
 				new() { bp_BoneSerpent },
-				new() { bp_Gravedigger }
+				new() { bp_HeadlessHorseman }
 			};
 
 			return blueprint;
