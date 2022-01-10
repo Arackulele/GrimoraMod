@@ -51,9 +51,15 @@ namespace GrimoraMod
 		{
 			yield return new WaitUntil(() => Singleton<StartScreenController>.Instance.menu.gameObject.activeSelf);
 			yield return new WaitForSeconds(1.8f);
+			
+			GameObject cardRow = GameObject.Find("CardRow");
 
 			// GrimoraPlugin.Log.LogDebug("Finding MenuCard_Continue gameObject");
-			GameObject menuCardContinue = GameObject.Find("MenuCard_Continue");
+			GameObject menuCardContinue = UnityEngine.Object.Instantiate(
+				GameObject.Find("MenuCard_Quit"), cardRow.transform 
+			);
+
+			menuCardContinue.name = "MenuCard_Grimora";
 
 			Texture2D tex3 = ImageUtils.LoadTextureFromResource(Resources.menucard_grimora);
 			menuCardContinue.GetComponent<SpriteRenderer>().sprite = Sprite.Create(
@@ -62,8 +68,12 @@ namespace GrimoraMod
 				new Vector2(0.5f, 0.5f)
 			);
 
-			var menuCardComponent = menuCardContinue.GetComponent<MenuCard>();
-			menuCardComponent.titleText = "Start Grimora Mod";
+			MenuCard menuCardComp = menuCardContinue.GetComponent<MenuCard>();
+			menuCardComp.StartPosition = new Vector2(1.378f, 0f);
+			menuCardComp.targetPosition = new Vector2(1.378f, 0f);
+			menuCardComp.rotationCenter = new Vector2(1.378f, 0f);
+			menuCardComp.menuAction = MenuAction.Continue;
+			menuCardComp.titleText = "Start Grimora Mod";
 		}
 	}
 }
