@@ -10,6 +10,9 @@ namespace GrimoraMod
 	[HarmonyPatch(typeof(ChessboardEnemyBattleSequencer))]
 	public class EnemyBattleSequencerPatches
 	{
+
+		public static ChessboardEnemyPiece activeEnemyPiece;
+		
 		[HarmonyPrefix, HarmonyPatch(nameof(ChessboardEnemyBattleSequencer.PreCleanUp))]
 		public static void Prefix(ref ChessboardEnemyBattleSequencer __instance,
 			out ChessboardEnemyBattleSequencer __state)
@@ -20,6 +23,9 @@ namespace GrimoraMod
 		[HarmonyPostfix, HarmonyPatch(nameof(ChessboardEnemyBattleSequencer.PreCleanUp))]
 		public static IEnumerator Postfix(IEnumerator enumeratorz, ChessboardEnemyBattleSequencer __state)
 		{
+			
+			GrimoraPlugin.Log.LogDebug($"[ChessboardEnemyBattleSequencer.PreCleanUp] PreCleanup postfix called");
+
 			if (!TurnManager.Instance.PlayerWon)
 			{
 				GrimoraPlugin.Log.LogDebug($"[ChessboardEnemyBattleSequencer.PreCleanUp][Postfix] Player did not win...");
@@ -71,6 +77,10 @@ namespace GrimoraMod
 
 				SceneLoader.Load("Start");
 			}
+			
+			GrimoraPlugin.Log.LogDebug($"[ChessboardEnemyBattleSequencer.PreCleanUp] " +
+			                           $"Adding enemy [{activeEnemyPiece.name}] to config removed pieces");
+			ChessUtils.AddPieceToRemovedPiecesConfig(activeEnemyPiece.name);
 			
 			// else if (!DialogueEventsData.EventIsPlayed("FinaleGrimoraBattleWon"))
 			// {
