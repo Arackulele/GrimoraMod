@@ -31,15 +31,6 @@ namespace GrimoraMod
 		{
 			if (card.titleText == "Start Grimora Mod")
 			{
-				
-				if (!TutorialsToFinish.Any(StoryEventsData.EventCompleted) || !ProgressionData.LearnedMechanic(MechanicsConcept.Bones))
-				{
-					GrimoraPlugin.Log.LogDebug($"Bone mechanics have not been learned, " +
-					                           $"unlocking all learned mechanic, abilities, and cards [{string.Join(", ", TutorialsToFinish)}]");
-					ProgressionData.UnlockAll();
-					SaveManager.SaveToFile();
-				}
-				
 				// GrimoraPlugin.Log.LogDebug($"[MenuController.OnCardReachedSlot] Card.titleText is 'Start Grimora Mod'");
 				__instance.DoingCardTransition = false;
 				card.transform.parent = __instance.menuSlot.transform;

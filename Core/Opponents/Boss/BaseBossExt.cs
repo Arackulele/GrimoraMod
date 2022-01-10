@@ -21,19 +21,14 @@ namespace GrimoraMod
 			{ "RoyalBoss", RoyalOpponent }
 		};
 
-		public static readonly List<Opponent.Type> DefeatedBosses = new List<Opponent.Type>();
-
-		public static int DefeatedBossCount => DefeatedBosses.Count;
-
 		public abstract StoryEvent EventForDefeat { get; }
+		
 		public abstract Opponent.Type Opponent { get; }
 
-		private bool hasBeenDefeated = false;
+		private bool HasBeenDefeated => StoryEventsData.EventCompleted(EventForDefeat);
 
 		public void SetDefeated()
 		{
-			DefeatedBosses.Add(this.Opponent);
-			hasBeenDefeated = true;
 			StoryEventsData.SetEventCompleted(EventForDefeat, true);
 		}
 

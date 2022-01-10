@@ -18,7 +18,7 @@ namespace GrimoraMod
 
 		public override EncounterBlueprintData BuildInitialBlueprint()
 		{
-			throw new NotImplementedException();
+			return BlueprintUtils.BuildGrimoraBossRegionBlueprintTwo();
 		}
 
 		public override IEnumerator StartNewPhaseSequence()

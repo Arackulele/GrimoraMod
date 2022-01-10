@@ -1,98 +1,145 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using DiskCardGame;
+﻿using DiskCardGame;
 using HarmonyLib;
-using Pixelplacement;
 using UnityEngine;
 
 namespace GrimoraMod
 {
-	[HarmonyPatch(typeof(GrimoraGameFlowManager), "SceneSpecificInitialization")]
+	[HarmonyPatch(typeof(GrimoraGameFlowManager))]
 	public class GrimoraGameFlowManagerPatches
 	{
-		[HarmonyPrefix]
+		[HarmonyPrefix, HarmonyPatch(nameof(GrimoraGameFlowManager.SceneSpecificInitialization))]
 		public static bool Prefix(GrimoraGameFlowManager __instance)
 		{
 			if (SaveManager.SaveFile.IsGrimora)
 			{
 				bool skipIntro = false;
 				bool skipTombstone = true;
+
 				if (FinaleDeletionWindowManager.instance != null)
 				{
-					Object.Destroy(Object.FindObjectOfType<FinaleDeletionWindowManager>().gameObject);
+					GrimoraPlugin.Log.LogDebug(
+						$"[SceneSpecificInitialization] Destroying FinaleDeletionWindowManager as it exists");
+					Object.Destroy(FinaleDeletionWindowManager.instance.gameObject);
 				}
-				Singleton<ViewManager>.Instance.SwitchToView(View.Default, immediate: true);
-				
+
+				ViewManager.Instance.SwitchToView(View.Default, immediate: true);
+
 				if (!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable))
 				{
-					
-					StoryEventsData.SetEventCompleted(StoryEvent.PlayerDeletedArchivistFile, true);
-					StoryEventsData.EraseEvent(StoryEvent.FactoryConveyorBeltMoved);
-					StoryEventsData.EraseEvent(StoryEvent.Part3PurchasedHoloBrush);
-					StoryEventsData.EraseEvent(StoryEvent.FactoryCuckooClockAppeared);
-					SaveManager.SaveToFile();
-					
-					if (Singleton<GameMap>.Instance != null)
+					GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] GrimoraReachedTable is false");
+
+					if (GameMap.Instance != null)
 					{
-						Singleton<GameMap>.Instance.HideMapImmediate();
+						GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Calling GameMap.HideMapImmediate as it exists");
+						GameMap.Instance.HideMapImmediate();
 					}
+
+					GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Setting __instance.CurrentGameState to GameState.FirstPerson3D");
 					__instance.CurrentGameState = GameState.FirstPerson3D;
+
+					GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Transitioning to FirstPerson3D");
 					__instance.StartCoroutine(__instance.TransitionTo(GameState.FirstPerson3D, null, immediate: true));
-					Singleton<ExplorableAreaManager>.Instance.HangingLight.gameObject.SetActive(skipTombstone);
-					Singleton<ExplorableAreaManager>.Instance.HandLight.gameObject.SetActive(skipTombstone);
+
+					ExplorableAreaManager.Instance.HangingLight.gameObject.SetActive(skipTombstone);
+					ExplorableAreaManager.Instance.HandLight.gameObject.SetActive(skipTombstone);
+
 					__instance.gameTableCandlesParent.SetActive(skipTombstone);
 					__instance.gravestoneNavZone.SetActive(skipTombstone);
+
 					if (!skipIntro)
 					{
+						GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Intro is not being skipped");
 						__instance.StartCoroutine(__instance.StartSceneSequence());
 					}
 				}
 				else
 				{
+					GrimoraPlugin.Log.LogDebug(
+						$"[SceneSpecificInitialization] GrimoraReachedTable is true, playing finalegrimora_ambience");
 					AudioController.Instance.SetLoopAndPlay("finalegrimora_ambience");
-					if (Singleton<GameMap>.Instance != null)
+					if (GameMap.Instance != null)
 					{
+						GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Setting CurrentGameState to GameState.Map");
 						__instance.CurrentGameState = GameState.Map;
+						GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Transitioning to GameState.Map");
 						__instance.StartCoroutine(__instance.TransitionTo(GameState.Map, null, immediate: true));
 					}
 				}
 				
-				// SaveManager.saveFile.grimoraData.removedPieces = new List<int>();
-				
-				// SaveManager.SaveToFile();
+				// todo: just to make a fucking select slot for old custom nodes
+				// CardRemoveSequencer removeSequencer = UnityEngine.Object.Instantiate(
+	   //      ResourceBank.Get<CardRemoveSequencer>("Prefabs/SpecialNodeSequences/CardRemoveSequencer")
+	   //    );
+    //     removeSequencer.transform.position = Vector3.negativeInfinity;
+    //     
+				// SpecialNodeHandler handler = Object.FindObjectOfType<SpecialNodeHandler>();
+    //
+    //     var rarechoicesgenerator = UnityEngine.Object.Instantiate(
+	   //      Object.FindObjectOfType<GrimoraCardChoiceGenerator>().gameObject,
+	   //      handler.transform
+	   //    );
+    //     rarechoicesgenerator.name = "RareChoices";
+    //     
+    //     // remove vanilla sequencer
+    //     UnityEngine.Object.Destroy(rarechoicesgenerator.GetComponent<CardSingleChoicesSequencer>());
+    //     
+    //     GameObject rareboxObj = UnityEngine.Object.Instantiate(
+	   //      ResourceBank.Get<GameObject>("Prefabs/SpecialNodeSequences/RareCardBox"),
+	   //      rarechoicesgenerator.transform
+	   //    );
+    //     rareboxObj.transform.localPosition = new Vector3(-0.1f, rareboxObj.gameObject.transform.position.y, 99);
+    //     
+    //     Part1RareChoiceGenerator choiceGenerator = rarechoicesgenerator.AddComponent<Part1RareChoiceGenerator>();
+    //     RareCardChoicesSequencer rareSequencer = rarechoicesgenerator.AddComponent<RareCardChoicesSequencer>();
+    //     
+    //     // setting everything
+    //     handler.rareCardChoiceSequencer = rareSequencer;
+    //     rareSequencer.box = rareboxObj.transform;
+    //     rareSequencer.choiceGenerator = choiceGenerator;
+    //     rareSequencer.deckPile = rarechoicesgenerator.GetComponentInChildren<CardPile>();
+    //     rareSequencer.gamepadGrid = rarechoicesgenerator.GetComponent<GamepadGridControl>();
+    //     rareSequencer.selectableCardPrefab = ResourceBank.Get<GameObject>("Prefabs/Cards/SelectableCard_Grimora");
 
-				#region CardRemover
-				
-				//just to make a fucking select slot for old custom nodes
-				var cardremover =
-					(GameObject)Object.Instantiate(Resources.Load("prefabs\\specialnodesequences\\CardRemoveSequencer"));
-				cardremover.gameObject.transform.position = Vector3.negativeInfinity;
-				
-				var rarechoicesgenerator =
-					Object.Instantiate(Object.FindObjectOfType<GrimoraCardChoiceGenerator>().gameObject);
-				rarechoicesgenerator.name = "RareChoices";
-				Object.Destroy(rarechoicesgenerator.GetComponent<CardSingleChoicesSequencer>());
-				rarechoicesgenerator.AddComponent<RareCardChoicesSequencer>();
-				rarechoicesgenerator.transform.parent =
-					Object.FindObjectOfType<SpecialNodeHandler>().gameObject.transform;
-				Object.FindObjectOfType<SpecialNodeHandler>().rareCardChoiceSequencer =
-					rarechoicesgenerator.GetComponent<RareCardChoicesSequencer>();
-				rarechoicesgenerator.GetComponent<RareCardChoicesSequencer>().deckPile =
-					rarechoicesgenerator.GetComponentInChildren<CardPile>();
-				var rarebox = (GameObject)Object.Instantiate(Resources.Load("prefabs\\specialnodesequences\\RareCardBox"));
-				rarebox.transform.parent = rarechoicesgenerator.transform;
-				rarebox.gameObject.transform.localPosition = new Vector3(-0.1f, rarebox.gameObject.transform.position.y, 99);
-				rarechoicesgenerator.GetComponent<RareCardChoicesSequencer>().box = rarebox.transform;
-				rarechoicesgenerator.AddComponent<Part1RareChoiceGenerator>();
-				rarechoicesgenerator.GetComponent<RareCardChoicesSequencer>().choiceGenerator =
-					rarechoicesgenerator.GetComponent<Part1RareChoiceGenerator>();
-				rarechoicesgenerator.GetComponent<RareCardChoicesSequencer>().selectableCardPrefab =
-					(GameObject)Resources.Load("prefabs\\cards\\SelectableCard_Grimora");
-				rarechoicesgenerator.GetComponent<RareCardChoicesSequencer>().gamepadGrid =
-					rarechoicesgenerator.GetComponent<GamepadGridControl>();
+				/*#region CardRemover
 
-				#endregion
+				// Node Handler
+				// -> Card Choice Sequencer = CardChoiceSelector (CardSingleChoicesSequencer)
+				// -> Rare Card Choice Sequencer = RareCardChoiceSelector (RareCardChoiceSelector)
+
+				// Node Handler
+				// -> CardChoiceSequencer_Grimora (CardSingleChoicesSequencer)
+				// -> 
+
+				SpecialNodeHandler specialNodeHandler = Object.FindObjectOfType<SpecialNodeHandler>();
+
+				GrimoraPlugin.Log.LogDebug($"Creating RareCardChoiceSelector");
+				GameObject rareCardChoicesSelector = Object.Instantiate(
+					ResourceBank.Get<GameObject>("Prefabs/SpecialNodeSequences/RareCardChoiceSelector"),
+					specialNodeHandler.transform
+				);
+				// rareCardChoicesSelector.transform.position = Vector3.negativeInfinity;
+
+
+				// GrimoraCardChoiceGenerator cardChoiceGenerator = Object.Instantiate(
+				// 	ResourceBank.Get<GrimoraCardChoiceGenerator>("Prefabs/SpecialNodeSequences/CardChoiceSequencer_Grimora"),
+				// 	specialNodeHandler.transform,
+				// 	true
+				// );
+				// cardChoiceGenerator.name = "RareChoices";
+
+				RareCardChoicesSequencer sequencer = rareCardChoicesSelector.GetComponent<RareCardChoicesSequencer>();
 				
+				GrimoraPlugin.Log.LogDebug($"-> Setting RareCardChoicesSequencer choice generator to Part1RareChoiceGenerator");
+				sequencer.choiceGenerator = rareCardChoicesSelector.AddComponent<Part1RareChoiceGenerator>();
+				
+				GrimoraPlugin.Log.LogDebug($"-> Setting RareCardChoicesSequencer selectableCardPrefab to SelectableCard_Grimora");
+				sequencer.selectableCardPrefab = ResourceBank.Get<GameObject>("Prefabs/Cards/SelectableCard_Grimora");
+
+				GrimoraPlugin.Log.LogDebug($"-> Setting SpecialNodeHandler rareCardChoiceSequencer to sequencer");
+				specialNodeHandler.rareCardChoiceSequencer = sequencer;
+
+				#endregion*/
+
 				return false;
 			}
 

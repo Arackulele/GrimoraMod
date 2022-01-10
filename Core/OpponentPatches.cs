@@ -40,7 +40,7 @@ namespace GrimoraMod
 					opponent = gameObject.AddComponent<FinaleGrimoraOpponent>();
 				}
 
-				GrimoraMod.GrimoraPlugin.Log.LogDebug($"[Opponent.SpawnOpponent] Spawning opponent [{opponent}]");
+				GrimoraPlugin.Log.LogDebug($"[Opponent.SpawnOpponent] Spawning opponent [{opponent}]");
 
 				Opponent.Type opponentType = ProgressionData.LearnedMechanic(MechanicsConcept.OpponentQueue)
 					? encounterData.opponentType
@@ -61,7 +61,7 @@ namespace GrimoraMod
 				opponent.ExtraTurnsToSurrender = SeededRandom.Range(3, 4, SaveManager.SaveFile.GetCurrentRandomSeed());
 				__result = opponent;
 
-				GrimoraPlugin.Log.LogDebug($"EncounterData is [{encounterData}] Opponent result [{__result}]");
+				GrimoraPlugin.Log.LogDebug($"[Opponent.SpawnOpponent] Opponent result [{__result}]");
 				return false;
 			}
 
@@ -94,31 +94,56 @@ namespace GrimoraMod
 		public static IEnumerator Postfix(IEnumerator enumerator, Part1BossOpponent __state)
 		{
 			if (SaveManager.saveFile.IsGrimora)
-			{
+			{				
+				GrimoraPlugin.Log.LogDebug($"> SaveFile is Grimora");
 				if (__state is BaseBossExt bossExt)
 				{
+					switch (__state)
+					{
+						case KayceeBossExt:
+							GrimoraPlugin.ConfigKayceeFirstBossDead.Value = true;
+							break;
+						case DoggyBossExt:
+							GrimoraPlugin.ConfigDoggySecondBossDead.Value = true;
+							break;
+						case RoyalBossExt:
+							GrimoraPlugin.ConfigRoyalThirdBossDead.Value = true;
+							break;
+						case GrimoraBossExt:
+							GrimoraPlugin.ConfigGrimoraBossDead.Value = true;
+							break;
+					}
+
+					ChessboardMapPatches.isTransitioningFromBoss = true;
 					bossExt.SetDefeated();
-					GrimoraMod.GrimoraPlugin.Log.LogDebug($"[{__state.GetType()}] [PostFix] Boss defeated");
+					GrimoraPlugin.Log.LogDebug($"[Part1BossOpponent.BossDefeatedSequence][PostFix] Boss {__state.GetType()} defeated");
 				}
 
-				GrimoraMod.GrimoraPlugin.Log.LogDebug($"--> SaveFile is Grimora");
+				
 				GlitchOutAssetEffect.GlitchModel(
 					GameObject.Find("Grimora_RightWrist").GetComponentsInChildren<Transform>().ToList()
 						.Find(transform1 => transform1.gameObject.name.Contains("Mask")).gameObject.transform,
 					true
 				);
+				
 				AudioController.Instance.PlaySound2D("glitch_error", MixerGroup.TableObjectsSFX);
+				
 				GrimoraAnimationController.Instance.SetHeadTrigger("hide_skull");
+				
 				__state.DestroyScenery();
 				__state.SetSceneEffectsShown(false);
 				AudioController.Instance.StopAllLoops();
 				yield return new WaitForSeconds(0.75f);
+				
 				__state.CleanUpBossBehaviours();
-				//CustomCoroutine.WaitThenExecute(1f, new Action(LeshyAnimationController.Instance.HideArms), false);
+				
 				ViewManager.Instance.SwitchToView(View.Default, false, true);
-				yield return new WaitForSeconds(0.8f);
-				yield return new WaitForSeconds(0.25f);
-				TurnManager.Instance.PostBattleSpecialNode = new ChooseRareCardNodeData();
+				
+				yield return new WaitForSeconds(1.5f);
+
+				RunState.Run.playerLives = 2;
+
+				yield return new WaitForSeconds(2f);
 				yield break;
 			}
 			else

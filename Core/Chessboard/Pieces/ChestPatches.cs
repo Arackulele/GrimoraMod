@@ -3,7 +3,7 @@ using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
 
-namespace GrimoraMod.Chessboard.Pieces
+namespace GrimoraMod
 {
 	[HarmonyPatch(typeof(ChessboardChestPiece))]
 	public class ChestPatches
@@ -13,24 +13,33 @@ namespace GrimoraMod.Chessboard.Pieces
 			public static void StartPrefix(ref ChessboardChestPiece __instance)
 			{
 				
-				GrimoraPlugin.Log.LogDebug($"[ChessboardChestPiece.Start] Setting piece [{__instance.name}] to nav grid position x[{__instance.gridXPos}] y[{__instance.gridYPos}]");
+				// GrimoraPlugin.Log.LogDebug($"[ChessboardChestPiece.Start][Prefix ] Piece [{__instance.name}] " +
+				//                            $"to Nav Grid x[{__instance.gridXPos}] y[{__instance.gridYPos}]");
 				
 				// this position code exists only in ChessboardEnemyPiece, which is why we need a patch for it
-					__instance.gameObject.transform.position = ChessboardNavGrid.instance
-						.zones[__instance.gridXPos, __instance.gridYPos].transform.position;
+					__instance.gameObject.transform.position 
+						= ChessboardNavGrid
+						.instance
+						.zones[__instance.gridXPos, __instance.gridYPos]
+						.transform
+						.position;
 			}
 			
 			[HarmonyPostfix, HarmonyPatch(nameof(ChessboardChestPiece.Start))]
 			public static void StartPostfix(ref ChessboardChestPiece __instance)
 			{
-				GrimoraPlugin.Log.LogDebug($"[ChessboardChestPiece.Start][Postfix] Piece [{__instance.name}] " +
-				                           $"node data [{__instance.NodeData.GetType()}] " +
-				                           $"Occupying piece [{ChessboardNavGrid.instance.zones[__instance.gridXPos, __instance.gridYPos].GetComponent<ChessboardMapNode>().OccupyingPiece.name}]"
-				                          );
+				// var randomValue = Random.Range(0, 4);
+				// if (randomValue == 2)
+				// {
+				// 	__instance.NodeData = new ChooseRareCardNodeData();
+				// }
+				// GrimoraPlugin.Log.LogDebug($"[ChessboardChestPiece.Start][Postfix] Piece [{__instance.name}] " +
+				//                            $"Node data [{__instance.NodeData.GetType()}] "
+				// );
 			}
 
 			[HarmonyPostfix, HarmonyPatch(nameof(ChessboardChestPiece.OpenSequence))]
-			public static IEnumerator OpenSequencePrefix(IEnumerator enumerator, ChessboardChestPiece __instance)
+			public static IEnumerator OpenSequencePostfix(IEnumerator enumerator, ChessboardChestPiece __instance)
 			{
 				if (!SaveManager.SaveFile.IsGrimora)
 				{
@@ -38,11 +47,11 @@ namespace GrimoraMod.Chessboard.Pieces
 					yield break;
 				}
 
-				// Log.LogInfo(__instance.MapNode.OccupyingPiece);
-				GrimoraSaveData.Data.removedPieces.Add(__instance.saveId);
+				GrimoraPlugin.Log.LogDebug($"[ChessboardChestPiece.OpenSequence] Piece [{__instance.name}]");
+				ChessUtils.AddPieceToRemovedPiecesConfig(__instance.name);
 				
-				Singleton<MapNodeManager>.Instance.SetAllNodesInteractable(false);
-				Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Locked;
+				MapNodeManager.Instance.SetAllNodesInteractable(false);
+				ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
 				
 				PlayerMarker.Instance.Anim.Play("knock against", 0, 0f);
 				yield return new WaitForSeconds(0.05f);
@@ -50,19 +59,19 @@ namespace GrimoraMod.Chessboard.Pieces
 				__instance.anim.Play("open", 0, 0f);
 				yield return new WaitForSeconds(0.25f);
 				
-				Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Unlocked;
+				ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 				
-				Singleton<GameFlowManager>.Instance.TransitionToGameState(GameState.SpecialCardSequence, __instance.NodeData);
+				// ChessboardNavGrid.instance
+				// 	.zones[__instance.gridXPos, __instance.gridYPos]
+				// 	.GetComponent<ChessboardMapNode>()
+				// 	.OccupyingPiece = null;
+				//
+				// __instance.MapNode.OccupyingPiece = null;
 				
-				ChessboardNavGrid.instance
-					.zones[__instance.gridXPos, __instance.gridYPos]
-					.GetComponent<ChessboardMapNode>()
-					.OccupyingPiece = null;
-				
-				__instance.MapNode.OccupyingPiece = null;
+				GameFlowManager.Instance.TransitionToGameState(GameState.SpecialCardSequence, __instance.NodeData);
 				
 				// Log.LogInfo(__instance.MapNode.OccupyingPiece);
-				__instance.MapNode.nodeId = __instance.saveId;
+				// __instance.MapNode.nodeId = __instance.saveId;
 			}
 		
 	}

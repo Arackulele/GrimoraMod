@@ -1,12 +1,14 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using DiskCardGame;
 using HarmonyLib;
 
-namespace GrimoraMod.Chessboard
+namespace GrimoraMod
 {
-	[HarmonyPatch(typeof(DiskCardGame.ChessboardPiece))]
+	[HarmonyPatch(typeof(ChessboardPiece))]
 	public class ChessboardPiecePatches
 	{
+		
 		[HarmonyPrefix, HarmonyPatch(nameof(ChessboardPiece.UpdateSaveState))]
 		public static bool UpdatePrefix(ChessboardPiece __instance)
 		{
@@ -15,15 +17,19 @@ namespace GrimoraMod.Chessboard
 			// 	GrimoraPlugin.Log.LogDebug($"-> Current removed pieces [{string.Join(", ", GrimoraSaveData.Data.removedPieces)}]");
 			// }
 			
-			if (GrimoraSaveData.Data.removedPieces.Contains(__instance.saveId))
+			// GrimoraPlugin.Log.LogDebug($"[ChessboardPiece.UpdateSaveState]" +
+			//                            $"for piece [{__instance.name}] saveId [{__instance.saveId}]");
+			
+			if (GrimoraPlugin.ConfigCurrentRemovedPieces.Value.Split(',').Contains(__instance.name))
 			{
-				GrimoraPlugin.Log.LogDebug($"--> Setting piece [{__instance.name}] to inactive");
-				__instance.gameObject.SetActive(value: false);
+				GrimoraPlugin.Log.LogDebug($"[ChessboardPiece.UpdateSaveState] Setting piece [{__instance.name}] to destroy");
 				__instance.MapNode.OccupyingPiece = null;
+				__instance.gameObject.SetActive(value: false);
+				// UnityEngine.Object.Destroy(__instance.gameObject);
 			}
 			else
 			{
-				GrimoraPlugin.Log.LogDebug($"--> Setting piece [{__instance.name}] to active");
+				GrimoraPlugin.Log.LogDebug($"[ChessboardPiece.UpdateSaveState] Setting piece [{__instance.name}] to active");
 				__instance.gameObject.SetActive(value: true);
 			}
 

@@ -45,8 +45,6 @@ namespace GrimoraMod
 			// GrimoraPlugin.Log.LogDebug(findPlayerDeletedArchivistFile);
 
 			__instance.StartCoroutine(CreateButton());
-			
-			
 		}
 
 		public static IEnumerator CreateButton()
