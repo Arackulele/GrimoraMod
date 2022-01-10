@@ -40,7 +40,7 @@ namespace GrimoraMod
 				GrimoraPlugin.Log.LogDebug($"Royal defeated");
 				// ResetChessboard(__instance);
 
-				ChessUtils.CreateBossPiece(map, "GrimoraBoss", 6, 2);
+				ChessUtils.CreateBossPiece(map, "GrimoraBoss", 6, 3);
 
 				#region Blockers
 
