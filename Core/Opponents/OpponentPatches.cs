@@ -96,29 +96,11 @@ namespace GrimoraMod
 			if (SaveManager.saveFile.IsGrimora)
 			{				
 				GrimoraPlugin.Log.LogDebug($"> SaveFile is Grimora");
+				
 				if (__state is BaseBossExt bossExt)
 				{
-					switch (__state)
-					{
-						case KayceeBossExt:
-							GrimoraPlugin.ConfigKayceeFirstBossDead.Value = true;
-							break;
-						case DoggyBossExt:
-							GrimoraPlugin.ConfigDoggySecondBossDead.Value = true;
-							break;
-						case RoyalBossExt:
-							GrimoraPlugin.ConfigRoyalThirdBossDead.Value = true;
-							break;
-						case GrimoraBossExt:
-							GrimoraPlugin.ConfigGrimoraBossDead.Value = true;
-							break;
-					}
-
-					ChessboardMapPatches.isTransitioningFromBoss = true;
-					bossExt.SetDefeated();
-					GrimoraPlugin.Log.LogDebug($"[Part1BossOpponent.BossDefeatedSequence][PostFix] Boss {__state.GetType()} defeated");
+					HandleBossExtensions(__state, bossExt);
 				}
-
 				
 				GlitchOutAssetEffect.GlitchModel(
 					GameObject.Find("Grimora_RightWrist").GetComponentsInChildren<Transform>().ToList()
@@ -150,6 +132,28 @@ namespace GrimoraMod
 			{
 				yield return enumerator;
 			}
+		}
+
+		private static void HandleBossExtensions(Part1BossOpponent __state, BaseBossExt bossExt)
+		{
+			switch (__state)
+			{
+				case KayceeBossExt:
+					GrimoraPlugin.ConfigKayceeFirstBossDead.Value = true;
+					break;
+				case DoggyBossExt:
+					GrimoraPlugin.ConfigDoggySecondBossDead.Value = true;
+					break;
+				case RoyalBossExt:
+					GrimoraPlugin.ConfigRoyalThirdBossDead.Value = true;
+					break;
+				case GrimoraBossExt:
+					GrimoraPlugin.ConfigGrimoraBossDead.Value = true;
+					break;
+			}
+
+			ChessboardMapPatches.isTransitioningFromBoss = true;
+			GrimoraPlugin.Log.LogDebug($"[Part1BossOpponent.BossDefeatedSequence][PostFix] Boss {__state.GetType()} defeated");
 		}
 	}
 }

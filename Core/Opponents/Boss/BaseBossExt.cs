@@ -25,13 +25,6 @@ namespace GrimoraMod
 		
 		public abstract Opponent.Type Opponent { get; }
 
-		private bool HasBeenDefeated => StoryEventsData.EventCompleted(EventForDefeat);
-
-		public void SetDefeated()
-		{
-			StoryEventsData.SetEventCompleted(EventForDefeat, true);
-		}
-
 		public GameObject Mask { get; set; }
 
 		public override IEnumerator IntroSequence(EncounterData encounter)
