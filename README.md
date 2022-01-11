@@ -1,61 +1,42 @@
 # Grimora Mod
 
-The most important : THIS IS A BETA AND IS NOT BUG FREE!!!
+- A giant Mod made by Kopie, Arackulele, xXxStoner420BongMasterxXx that builds upon the finale with Grimora's chessboard.
 
-A giant Mod made by Kopie and Arackulele that adds an entire new
+- **IMPORTANT**: Disable energy drone (but not energy refresh) in the API config!!!
+- **BEWARE**: THIS WILL UNLOCK CERTAIN STORY EVENTS IN ORDER FOR THE MOD TO WORK, WHICH ALSO MEANS UNLOCKING CERTAIN ACHIEVEMENTS!
+- In the event you are starting from a brand new save, this mod will unlock all learned abilities, mechanics, and cards and some Story Events like the first tutorial battle in order for this mod to work.
+- If you are not starting from a new save, this mod will check for certain story events and determine if it needs to unlock those.
+- I suggest restarting your game at least once if you haven't actually gotten to the finale.
+- The most important : THIS IS A BETA AND IS NOT BUG FREE!!!
 
-IMPORTANT : Disable energy drone (but not energy refresh) in the API config!!!
-
---This mod is not tested with KC mod and we cannot guarantee it will work on that version of the game.--
+- This mod is not tested with KC mod and we cannot guarantee it will work on that version of the game
 
 
-# Special thanks to :
+## Special thanks to :
 
-LavaErrorDoggo for making a lot of the Artwork
+- LavaErrorDoggo for making a lot of the Artwork
 
-YisusWhy for the epic Bone Lord Artwork
+- YisusWhy for the epic Bone Lord Artwork
 
-# Known Issues:
+## Known Issues:
 
-Grimoras dialogue is unfinished and still the one from the finale and part 1 dialogue in some cases
+### Grimora's dialogue is unfinished and still the one from the finale and part 1 dialogue in some cases
 
--This is a temporary problem and will be fixed soon
+- This is a temporary problem and will be fixed soon.
 
-In some circumstances, the game does not save the board correctly
+### Energy Cards dont work
 
--There is currently no fix for this
+- Try enabling energy refresh in API config, that option may be unstable with this mod but should fix the issue until we implement a more proper solution.
 
-Energy Cards dont work
+### Black Square Sigils
 
--Try enabling energy refresh in api config, that option may be unstable with this mod but should fix the issue until we implement a more proper solution
+- Install [SigilArtPatch](https://inscryption.thunderstore.io/package/MADH95Mods/SigilArtPatch/)
 
-Black Square Sigils
+## Update Notes:
 
--Fix: Install https://inscryption.thunderstore.io/package/MADH95Mods/SigilArtPatch/
+- Balance overhaul
 
-### Combat bell does not show
+- Fixed Blueprints
 
-- Finish the first battle tutorial.
-
-# Update Notes:
-
--Balance overhaul
-
--Fixed Blueprints
-
--Added 30 more Blueprints
-
-# How to add to the Game
-
-Step 1:
-Install API, it is a dependency
-
-Step 2:
-Put the Artwork folder and .dll files into the plugins folder
-
-Step 3:
-You are done
-
-...Or  just use the Mod Manager
-
+- Added 30 more Blueprints
 
