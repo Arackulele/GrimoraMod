@@ -42,10 +42,6 @@ namespace GrimoraMod
 
 				GrimoraPlugin.Log.LogDebug($"[Opponent.SpawnOpponent] Spawning opponent [{opponent}]");
 
-				Opponent.Type opponentType = ProgressionData.LearnedMechanic(MechanicsConcept.OpponentQueue)
-					? encounterData.opponentType
-					: Opponent.Type.NoPlayQueue;
-
 				string text = encounterData.aiId;
 				if (string.IsNullOrEmpty(text))
 				{
@@ -54,7 +50,7 @@ namespace GrimoraMod
 
 				opponent.AI = (Activator.CreateInstance(CustomType.GetType("DiskCardGame", text)) as AI);
 				opponent.NumLives = opponent.StartingLives;
-				opponent.OpponentType = opponentType;
+				opponent.OpponentType = encounterData.opponentType;
 				opponent.TurnPlan = opponent.ModifyTurnPlan(encounterData.opponentTurnPlan);
 				opponent.Blueprint = encounterData.Blueprint;
 				opponent.Difficulty = encounterData.Difficulty;
@@ -124,8 +120,10 @@ namespace GrimoraMod
 				yield return new WaitForSeconds(1.5f);
 
 				RunState.Run.playerLives = 2;
-
-				yield return new WaitForSeconds(2f);
+				
+				yield return new WaitForSeconds(0.25f);
+				GrimoraPlugin.Log.LogDebug($"Setting post battle special node to a rare code node data");
+				TurnManager.Instance.PostBattleSpecialNode = new ChooseRareCardNodeData();
 				yield break;
 			}
 			else
