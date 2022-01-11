@@ -65,42 +65,8 @@ namespace GrimoraMod
 						__instance.StartCoroutine(__instance.TransitionTo(GameState.Map, null, immediate: true));
 					}
 				}
-				
-				// todo: just to make a fucking select slot for old custom nodes
-				// CardRemoveSequencer removeSequencer = UnityEngine.Object.Instantiate(
-	   //      ResourceBank.Get<CardRemoveSequencer>("Prefabs/SpecialNodeSequences/CardRemoveSequencer")
-	   //    );
-    //     removeSequencer.transform.position = Vector3.negativeInfinity;
-    //     
-				// SpecialNodeHandler handler = Object.FindObjectOfType<SpecialNodeHandler>();
-    //
-    //     var rarechoicesgenerator = UnityEngine.Object.Instantiate(
-	   //      Object.FindObjectOfType<GrimoraCardChoiceGenerator>().gameObject,
-	   //      handler.transform
-	   //    );
-    //     rarechoicesgenerator.name = "RareChoices";
-    //     
-    //     // remove vanilla sequencer
-    //     UnityEngine.Object.Destroy(rarechoicesgenerator.GetComponent<CardSingleChoicesSequencer>());
-    //     
-    //     GameObject rareboxObj = UnityEngine.Object.Instantiate(
-	   //      ResourceBank.Get<GameObject>("Prefabs/SpecialNodeSequences/RareCardBox"),
-	   //      rarechoicesgenerator.transform
-	   //    );
-    //     rareboxObj.transform.localPosition = new Vector3(-0.1f, rareboxObj.gameObject.transform.position.y, 99);
-    //     
-    //     Part1RareChoiceGenerator choiceGenerator = rarechoicesgenerator.AddComponent<Part1RareChoiceGenerator>();
-    //     RareCardChoicesSequencer rareSequencer = rarechoicesgenerator.AddComponent<RareCardChoicesSequencer>();
-    //     
-    //     // setting everything
-    //     handler.rareCardChoiceSequencer = rareSequencer;
-    //     rareSequencer.box = rareboxObj.transform;
-    //     rareSequencer.choiceGenerator = choiceGenerator;
-    //     rareSequencer.deckPile = rarechoicesgenerator.GetComponentInChildren<CardPile>();
-    //     rareSequencer.gamepadGrid = rarechoicesgenerator.GetComponent<GamepadGridControl>();
-    //     rareSequencer.selectableCardPrefab = ResourceBank.Get<GameObject>("Prefabs/Cards/SelectableCard_Grimora");
 
-				/*#region CardRemover
+				#region CardRemover
 
 				// Node Handler
 				// -> Card Choice Sequencer = CardChoiceSelector (CardSingleChoicesSequencer)
@@ -119,14 +85,6 @@ namespace GrimoraMod
 				);
 				// rareCardChoicesSelector.transform.position = Vector3.negativeInfinity;
 
-
-				// GrimoraCardChoiceGenerator cardChoiceGenerator = Object.Instantiate(
-				// 	ResourceBank.Get<GrimoraCardChoiceGenerator>("Prefabs/SpecialNodeSequences/CardChoiceSequencer_Grimora"),
-				// 	specialNodeHandler.transform,
-				// 	true
-				// );
-				// cardChoiceGenerator.name = "RareChoices";
-
 				RareCardChoicesSequencer sequencer = rareCardChoicesSelector.GetComponent<RareCardChoicesSequencer>();
 				
 				GrimoraPlugin.Log.LogDebug($"-> Setting RareCardChoicesSequencer choice generator to Part1RareChoiceGenerator");
@@ -138,7 +96,7 @@ namespace GrimoraMod
 				GrimoraPlugin.Log.LogDebug($"-> Setting SpecialNodeHandler rareCardChoiceSequencer to sequencer");
 				specialNodeHandler.rareCardChoiceSequencer = sequencer;
 
-				#endregion*/
+				#endregion
 
 				return false;
 			}
