@@ -90,38 +90,35 @@ namespace GrimoraMod
 		public static IEnumerator Postfix(IEnumerator enumerator, Part1BossOpponent __state)
 		{
 			if (SaveManager.saveFile.IsGrimora)
-			{				
+			{
 				GrimoraPlugin.Log.LogDebug($"> SaveFile is Grimora");
-				
+
 				if (__state is BaseBossExt bossExt)
 				{
 					HandleBossExtensions(__state, bossExt);
 				}
-				
+
 				GlitchOutAssetEffect.GlitchModel(
 					GameObject.Find("Grimora_RightWrist").GetComponentsInChildren<Transform>().ToList()
 						.Find(transform1 => transform1.gameObject.name.Contains("Mask")).gameObject.transform,
 					true
 				);
-				
+
 				AudioController.Instance.PlaySound2D("glitch_error", MixerGroup.TableObjectsSFX);
-				
+
 				GrimoraAnimationController.Instance.SetHeadTrigger("hide_skull");
-				
+
 				__state.DestroyScenery();
 				__state.SetSceneEffectsShown(false);
 				AudioController.Instance.StopAllLoops();
 				yield return new WaitForSeconds(0.75f);
-				
+
 				__state.CleanUpBossBehaviours();
-				
+
 				ViewManager.Instance.SwitchToView(View.Default, false, true);
-				
-				yield return new WaitForSeconds(1.5f);
 
 				RunState.Run.playerLives = 2;
-				
-				yield return new WaitForSeconds(0.25f);
+
 				GrimoraPlugin.Log.LogDebug($"Setting post battle special node to a rare code node data");
 				TurnManager.Instance.PostBattleSpecialNode = new ChooseRareCardNodeData();
 				yield break;
@@ -134,7 +131,7 @@ namespace GrimoraMod
 
 		private static void HandleBossExtensions(Part1BossOpponent __state, BaseBossExt bossExt)
 		{
-			switch (__state)
+			switch (bossExt)
 			{
 				case KayceeBossExt:
 					GrimoraPlugin.ConfigKayceeFirstBossDead.Value = true;
@@ -150,8 +147,14 @@ namespace GrimoraMod
 					break;
 			}
 
-			ChessboardMapPatches.isTransitioningFromBoss = true;
-			GrimoraPlugin.Log.LogDebug($"[Part1BossOpponent.BossDefeatedSequence][PostFix] Boss {__state.GetType()} defeated");
+			var bossPiece = ChessboardMapExt.Instance.BossPiece;
+			var nodeId = bossPiece.NodeData.id + RunState.Run.regionTier + 1;
+			ChessboardMapExt.Instance.AddPieceToRemovedPiecesConfig(bossPiece.name);
+
+			RunState.Run.currentNodeId = nodeId;
+			GrimoraPlugin.Log.LogDebug($"[Part1BossOpponent.BossDefeatedSequence][PostFix]" +
+			                           $" Boss {__state.GetType()} defeated. " +
+			                           $" NodeID [{nodeId}]");
 		}
 	}
 }

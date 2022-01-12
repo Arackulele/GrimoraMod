@@ -196,6 +196,9 @@
   <data name="GraveDigger" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Artwork\GraveDigger.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="GrimoraChessboards" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>GrimoraChessboards.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="HeadlessHorseman" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Artwork\HeadlessHorseman.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -204,9 +207,6 @@
   </data>
   <data name="Mantis" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Artwork\Mantis.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="map_gen" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>map_gen.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="menucard_grimora" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Artwork\menucard_grimora.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

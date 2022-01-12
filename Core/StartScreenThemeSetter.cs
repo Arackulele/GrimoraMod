@@ -50,30 +50,29 @@ namespace GrimoraMod
 		public static IEnumerator CreateButton()
 		{
 			yield return new WaitUntil(() => Singleton<StartScreenController>.Instance.menu.gameObject.activeSelf);
-			yield return new WaitForSeconds(1.8f);
-			
+
 			GameObject cardRow = GameObject.Find("CardRow");
 
 			// GrimoraPlugin.Log.LogDebug("Finding MenuCard_Continue gameObject");
-			GameObject menuCardContinue = UnityEngine.Object.Instantiate(
-				GameObject.Find("MenuCard_Quit"), cardRow.transform 
+			MenuCard menuCardGrimora = UnityEngine.Object.Instantiate(
+				ResourceBank.Get<MenuCard>("Prefabs/StartScreen/StartScreenMenuCard"), 
+				cardRow.transform 
 			);
 
-			menuCardContinue.name = "MenuCard_Grimora";
+			menuCardGrimora.name = "MenuCard_Grimora";
 
 			Texture2D tex3 = ImageUtils.LoadTextureFromResource(Resources.menucard_grimora);
-			menuCardContinue.GetComponent<SpriteRenderer>().sprite = Sprite.Create(
+			menuCardGrimora.GetComponent<SpriteRenderer>().sprite = Sprite.Create(
 				tex3,
 				new Rect(0.0f, 0.0f, tex3.width, tex3.height),
 				new Vector2(0.5f, 0.5f)
 			);
 
-			MenuCard menuCardComp = menuCardContinue.GetComponent<MenuCard>();
-			menuCardComp.StartPosition = new Vector2(1.378f, 0f);
-			menuCardComp.targetPosition = new Vector2(1.378f, 0f);
-			menuCardComp.rotationCenter = new Vector2(1.378f, 0f);
-			menuCardComp.menuAction = MenuAction.Continue;
-			menuCardComp.titleText = "Start Grimora Mod";
+			menuCardGrimora.StartPosition = new Vector2(1.378f, 0f);
+			menuCardGrimora.targetPosition = new Vector2(1.378f, 0f);
+			menuCardGrimora.rotationCenter = new Vector2(1.378f, 0f);
+			menuCardGrimora.menuAction = MenuAction.Continue;
+			menuCardGrimora.titleText = "Start Grimora Mod";
 		}
 	}
 }

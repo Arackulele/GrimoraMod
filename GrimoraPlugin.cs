@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using APIPlugin;
 using BepInEx;
 using BepInEx.Configuration;
@@ -31,6 +32,16 @@ namespace GrimoraMod
 			true
 		);
 
+		public static string StaticDefaultRemovedPiecesList =
+			"BossFigurine," +
+			"ChessboardChestPiece," +
+			"EnemyPiece_Skelemagus,EnemyPiece_Gravedigger," +
+			"Tombstone_North1," +
+			"Tombstone_Wall1,Tombstone_Wall2,Tombstone_Wall3,Tombstone_Wall4,Tombstone_Wall5," +
+			"Tombstone_South1,Tombstone_South2,Tombstone_South3,";
+
+		public static ConfigEntry<int> ConfigCurrentChessboardIndex;
+
 		public static ConfigEntry<bool> ConfigKayceeFirstBossDead;
 
 		public static ConfigEntry<bool> ConfigDoggySecondBossDead;
@@ -43,13 +54,13 @@ namespace GrimoraMod
 
 		public static ConfigEntry<string> ConfigCurrentRemovedPieces;
 
-		public static List<int> InitialBoardPiecesToRemove = new()
-		{
-			221, 222, 223, 224, 225, 226, 227, 228, 229, 123, 661, 662, 666
-		};
+		public static ConfigEntry<string> ConfigCurrentActivePieces;
 
 		private static void BindConfig()
 		{
+			ConfigCurrentChessboardIndex
+				= GrimoraConfigFile.Bind(PluginName, "Current chessboard layout index", -1);
+
 			ConfigKayceeFirstBossDead
 				= GrimoraConfigFile.Bind(PluginName, "Kaycee defeated?", false);
 
@@ -66,21 +77,64 @@ namespace GrimoraMod
 				= GrimoraConfigFile.Bind(PluginName, "Player interacted with board first time?", false);
 
 			ConfigCurrentRemovedPieces = GrimoraConfigFile.Bind(
-				PluginName, "Current Removed Pieces",
-				"BossFigurine," +
-				"EnemyPiece_Skelemagus,EnemyPiece_Gravedigger," +
-				"Tombstone_North1," +
-				"Tombstone_Wall1,Tombstone_Wall2,Tombstone_Wall3,Tombstone_Wall4,Tombstone_Wall5," +
-				"Tombstone_South1,Tombstone_South2,Tombstone_South3,"
+				PluginName, "Current Removed Pieces", StaticDefaultRemovedPiecesList);
+
+			ConfigCurrentActivePieces = GrimoraConfigFile.Bind(PluginName, "Current Active Pieces", "");
+
+			var list = ConfigCurrentRemovedPieces.Value.Split(',').ToList();
+			if (list.Contains("ChessboardGameMap"))
+			{
+				list.RemoveAll(piece => piece.Equals("ChessboardGameMap"));
+			}
+
+			ConfigCurrentRemovedPieces.Value = string.Join(",", list.Distinct());
+		}
+		
+		private bool toggleEncounterMenu = false;
+
+		private string[] buttonNames = new[]
+		{
+			"Win Round", "Deck View"
+		};
+
+		private void OnGUI()
+		{
+			toggleEncounterMenu = GUI.Toggle(
+				new Rect(20, 100, 200, 20),
+				toggleEncounterMenu,
+				"Debug Tools"
 			);
+
+			if (!toggleEncounterMenu) return;
+
+			int selectedButton = GUI.SelectionGrid(
+				new Rect(25, 150, 300, 300),
+				-1,
+				buttonNames,
+				2
+			);
+
+			if (selectedButton >= 0)
+			{
+				Log.LogDebug($"Calling button [{selectedButton}]");
+				switch (buttonNames[selectedButton])
+				{
+					case "Win Round":
+						LifeManager.Instance.StartCoroutine(
+							LifeManager.Instance.ShowDamageSequence(10, 1, false)
+						);
+						break;
+					case "Deck View":
+						ViewManager.Instance.SwitchToView(View.MapDeckReview);
+						break;
+				}
+			}
 		}
 
 		private void Awake()
 		{
 			Log = base.Logger;
-
-			// ChessUtils.Test();
-
+			
 			BindConfig();
 
 			GrimoraConfigFile.SaveOnConfigSet = true;
@@ -92,13 +146,42 @@ namespace GrimoraMod
 				ConfigRoyalThirdBossDead.Value = false;
 				ConfigGrimoraBossDead.Value = false;
 				ConfigFirstTimeBoardInteraction.Value = false;
+				ConfigCurrentRemovedPieces.Value = StaticDefaultRemovedPiecesList;
+				ConfigCurrentChessboardIndex.Value = -1;
 			}
 
-			// if (!ConfigCurrentRemovedPieces().Value.Contains(221))
-			// {
-			// 	GrimoraPlugin.Log.LogWarning($"Adding initial chess pieces to removedPieces save data.");
-			// 	InitialBoardPiecesToRemove.ForEach(GrimoraSaveData.Data.removedPieces.Add);
-			// }
+			if (!StoryEventsData.EventCompleted(StoryEvent.BasicTutorialCompleted))
+			{
+				Log.LogWarning($"You haven't completed the basic tutorial... THIS WILL UNLOCK A LOT THINGS");
+				ProgressionData.UnlockAll();
+				StoryEventsData.SetEventCompleted(StoryEvent.BasicTutorialCompleted);
+				StoryEventsData.SetEventCompleted(StoryEvent.TutorialRunCompleted);
+				StoryEventsData.SetEventCompleted(StoryEvent.StoatIntroduction);
+				StoryEventsData.SetEventCompleted(StoryEvent.StoatIntroduction2);
+				StoryEventsData.SetEventCompleted(StoryEvent.StoatIntroduction3);
+				StoryEventsData.SetEventCompleted(StoryEvent.BonesTutorialCompleted);
+				StoryEventsData.SetEventCompleted(StoryEvent.TutorialRun2Completed);
+				StoryEventsData.SetEventCompleted(StoryEvent.FigurineFetched);
+				StoryEventsData.SetEventCompleted(StoryEvent.LeshyLostCamera);
+				StoryEventsData.SetEventCompleted(StoryEvent.TutorialRun3Completed);
+				StoryEventsData.SetEventCompleted(StoryEvent.SafeOpened);
+				StoryEventsData.SetEventCompleted(StoryEvent.StinkbugCardDiscovered);
+				StoryEventsData.SetEventCompleted(StoryEvent.StinkbugStoatReunited);
+				StoryEventsData.SetEventCompleted(StoryEvent.StinkbugIntroduction2);
+				StoryEventsData.SetEventCompleted(StoryEvent.WoodcarverMet);
+				StoryEventsData.SetEventCompleted(StoryEvent.StartScreenNewGameUnlocked);
+				StoryEventsData.SetEventCompleted(StoryEvent.StartScreenNewGameUsed);
+				StoryEventsData.SetEventCompleted(StoryEvent.Part2Completed);
+				StoryEventsData.SetEventCompleted(StoryEvent.GBCIntroCompleted);
+				StoryEventsData.SetEventCompleted(StoryEvent.GBCProspectorPhoto);
+				StoryEventsData.SetEventCompleted(StoryEvent.GBCAnglerPhoto);
+				StoryEventsData.SetEventCompleted(StoryEvent.GBCTrapperPhoto);
+				StoryEventsData.SetEventCompleted(StoryEvent.GBCGrimoraDefeated);
+				StoryEventsData.SetEventCompleted(StoryEvent.GBCLeshyDefeated);
+				StoryEventsData.SetEventCompleted(StoryEvent.GBCPoeDefeated);
+				StoryEventsData.SetEventCompleted(StoryEvent.GBCMagnificusDefeated);
+			}
+
 
 			Logger.LogInfo($"Loaded {PluginName}!");
 

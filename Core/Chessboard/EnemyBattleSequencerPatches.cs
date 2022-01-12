@@ -80,7 +80,7 @@ namespace GrimoraMod
 			
 			GrimoraPlugin.Log.LogDebug($"[ChessboardEnemyBattleSequencer.PreCleanUp] " +
 			                           $"Adding enemy [{activeEnemyPiece.name}] to config removed pieces");
-			ChessUtils.AddPieceToRemovedPiecesConfig(activeEnemyPiece.name);
+			ChessboardMapExt.Instance.AddPieceToRemovedPiecesConfig(activeEnemyPiece.name);
 			
 			// else if (!DialogueEventsData.EventIsPlayed("FinaleGrimoraBattleWon"))
 			// {

@@ -323,6 +323,16 @@ namespace GrimoraMod.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] GrimoraChessboards {
+            get {
+                object obj = ResourceManager.GetObject("GrimoraChessboards", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] HeadlessHorseman {
             get {
                 object obj = ResourceManager.GetObject("HeadlessHorseman", resourceCulture);
@@ -346,16 +356,6 @@ namespace GrimoraMod.Properties {
         public static byte[] Mantis {
             get {
                 object obj = ResourceManager.GetObject("Mantis", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] map_gen {
-            get {
-                object obj = ResourceManager.GetObject("map_gen", resourceCulture);
                 return ((byte[])(obj));
             }
         }
