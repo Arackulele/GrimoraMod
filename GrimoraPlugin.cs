@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,6 +9,7 @@ using BepInEx.Logging;
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace GrimoraMod
 {
@@ -108,7 +110,7 @@ namespace GrimoraMod
 			if (!toggleEncounterMenu) return;
 
 			int selectedButton = GUI.SelectionGrid(
-				new Rect(25, 150, 300, 300),
+				new Rect(25, 150, 300, 100),
 				-1,
 				buttonNames,
 				2
@@ -125,7 +127,17 @@ namespace GrimoraMod
 						);
 						break;
 					case "Deck View":
-						ViewManager.Instance.SwitchToView(View.MapDeckReview);
+						ViewManager instance = ViewManager.Instance;
+						Log.LogDebug($"-> is deck view [{selectedButton}]");
+						switch (instance.CurrentView)
+						{
+							case View.MapDeckReview:
+								instance.SwitchToView(View.MapDefault);
+								break;
+							case View.MapDefault:
+								instance.SwitchToView(View.MapDeckReview);
+								break;
+						}
 						break;
 				}
 			}
