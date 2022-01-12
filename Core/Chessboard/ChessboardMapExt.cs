@@ -116,24 +116,28 @@ namespace GrimoraMod
 			AudioController.Instance.SetLoopVolumeImmediate(0f);
 			AudioController.Instance.FadeInLoop(1f, 1f);
 
-			GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Current removed pieces before adding " +
-			                           $"{GrimoraPlugin.ConfigCurrentRemovedPieces.Value}");
-			GrimoraPlugin.ConfigCurrentRemovedPieces.Value += ChessboardMapExt.Instance.PiecesDelimited;
-			GrimoraPlugin.ConfigCurrentRemovedPieces.Value =
-				string.Join(",", GrimoraPlugin.ConfigCurrentRemovedPieces.Value.Split(',').Distinct());
-			
-			GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Current removed pieces after adding " +
-			                           $"{GrimoraPlugin.ConfigCurrentRemovedPieces.Value}");
-			
-			GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] HandleChessboardSetup called");
-			// ChessboardMapExt.Instance.HandleChessboardSetup();
-			
-			MapNodeManager.Instance.FindAndSetActiveNodeInteractable();
+			// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] HandleChessboardSetup called");
+			Instance.HandleChessboardSetup();
+			// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Clearing and destroying pieces");
+			Instance.pieces.RemoveAll(delegate(ChessboardPiece piece)
+			{
+				// piece.gameObject.SetActive(false);
+				piece.MapNode.OccupyingPiece = null;
+				Destroy(piece.gameObject);
+
+				return true;
+			});
+			// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Clearing activePieces list");
+			Instance.activePieces.Clear();
+			// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Clearing removedPiecesConfig");
+			GrimoraPlugin.ConfigCurrentRemovedPieces.Value = "";
+
+			// MapNodeManager.Instance.FindAndSetActiveNodeInteractable();
 
 			ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 
 			GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] No longer ChangingRegion");
-			
+
 			SetAllNodesActive();
 			ChangingRegion = false;
 		}
