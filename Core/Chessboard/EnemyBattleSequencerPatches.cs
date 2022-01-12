@@ -10,9 +10,8 @@ namespace GrimoraMod
 	[HarmonyPatch(typeof(ChessboardEnemyBattleSequencer))]
 	public class EnemyBattleSequencerPatches
 	{
-
 		public static ChessboardEnemyPiece activeEnemyPiece;
-		
+
 		[HarmonyPrefix, HarmonyPatch(nameof(ChessboardEnemyBattleSequencer.PreCleanUp))]
 		public static void Prefix(ref ChessboardEnemyBattleSequencer __instance,
 			out ChessboardEnemyBattleSequencer __state)
@@ -23,8 +22,7 @@ namespace GrimoraMod
 		[HarmonyPostfix, HarmonyPatch(nameof(ChessboardEnemyBattleSequencer.PreCleanUp))]
 		public static IEnumerator Postfix(IEnumerator enumeratorz, ChessboardEnemyBattleSequencer __state)
 		{
-			
-			GrimoraPlugin.Log.LogDebug($"[ChessboardEnemyBattleSequencer.PreCleanUp] PreCleanup postfix called");
+			// GrimoraPlugin.Log.LogDebug($"[ChessboardEnemyBattleSequencer.PreCleanUp] PreCleanup postfix called");
 
 			if (!TurnManager.Instance.PlayerWon)
 			{
@@ -70,29 +68,29 @@ namespace GrimoraMod
 
 				InteractionCursor.Instance.InteractionDisabled = false;
 
-				///SaveManager.saveFile.ResetRun();
-
 				SaveManager.saveFile.grimoraData.Initialize();
+
 				SaveManager.SaveToFile();
 
 				SceneLoader.Load("Start");
 			}
-			
+
+
+			else if (!DialogueEventsData.EventIsPlayed("FinaleGrimoraBattleWon"))
+			{
+				GrimoraPlugin.Log.LogDebug($"[ChessboardEnemyBattleSequencer.PreCleanUp][Postfix]" +
+				                           $" FinaleGrimoraBattleWon has not played yet, playing now.");
+
+				ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+				yield return new WaitForSeconds(0.5f);
+				yield return TextDisplayer.Instance.PlayDialogueEvent(
+					"FinaleGrimoraBattleWon", TextDisplayer.MessageAdvanceMode.Input
+				);
+			}
+
 			GrimoraPlugin.Log.LogDebug($"[ChessboardEnemyBattleSequencer.PreCleanUp] " +
 			                           $"Adding enemy [{activeEnemyPiece.name}] to config removed pieces");
 			ChessboardMapExt.Instance.AddPieceToRemovedPiecesConfig(activeEnemyPiece.name);
-			
-			// else if (!DialogueEventsData.EventIsPlayed("FinaleGrimoraBattleWon"))
-			// {
-			// 	GrimoraPlugin.Log.LogDebug($"[ChessboardEnemyBattleSequencer.PreCleanUp][Postfix]" +
-			// 	                           $" FinaleGrimoraBattleWon has not played yet, playing now.");
-			// 	
-			// 	ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
-			// 	yield return new WaitForSeconds(0.5f);
-			// 	yield return TextDisplayer.Instance.PlayDialogueEvent(
-			// 		"FinaleGrimoraBattleWon", TextDisplayer.MessageAdvanceMode.Input
-			// 	);
-			// }
 
 			yield break;
 		}

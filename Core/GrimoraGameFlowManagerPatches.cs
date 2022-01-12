@@ -23,7 +23,7 @@ namespace GrimoraMod
 				AddDeckReviewSequencerToScene();
 				
 				bool skipIntro = false;
-				bool skipTombstone = true;
+				bool skipTombstone = false;
 
 				if (FinaleDeletionWindowManager.instance != null)
 				{

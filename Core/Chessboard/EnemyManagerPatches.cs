@@ -7,13 +7,13 @@ namespace GrimoraMod
 	public class EnemyManagerPatches
 	{
 		[HarmonyPrefix, HarmonyPatch(nameof(ChessboardEnemyManager.MoveOpponentPieces))]
-		public static bool DisableMovingOpponentPiecesPrefix()
+		public static bool PrefixDisableMovingOpponentPieces()
 		{
 			return false;
 		}
 		
 		[HarmonyPrefix, HarmonyPatch(nameof(ChessboardEnemyManager.StartCombatWithEnemy))]
-		public static bool ModifyPieceToBeAddedToConfigListPrefix(
+		public static bool PrefixModifyPieceToBeAddedToConfigList(
 			ChessboardEnemyManager __instance, ChessboardEnemyPiece enemy, bool playerStarted)
 		{
 			
@@ -23,7 +23,7 @@ namespace GrimoraMod
 
 			// __instance.enemyPieces.Remove(enemy);
 			// enemy.MapNode.OccupyingPiece = null;
-			Singleton<MapNodeManager>.Instance.SetAllNodesInteractable(nodesInteractable: false);
+			MapNodeManager.Instance.SetAllNodesInteractable(nodesInteractable: false);
 			__instance.StartCoroutine(__instance.StartCombatSequence(enemy, playerStarted));
 			
 			return false;

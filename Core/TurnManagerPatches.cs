@@ -16,32 +16,32 @@ namespace GrimoraMod
 			{ "RoyalBoss", typeof(RoyalBossSequencer) }
 		};
 
-		[HarmonyPrefix, HarmonyPatch(nameof(TurnManager.StartGame), typeof(CardBattleNodeData))]
-		public static void StartGameCardBattleNodeDataPrefix(CardBattleNodeData nodeData)
-		{
-			GrimoraPlugin.Log.LogDebug($"[TurnManager.StartGame, CardBattleNodeData][Prefix] " +
-			                           $"SpecialBattle Id [{nodeData?.specialBattleId}]");
-		}
-		
-		[HarmonyPrefix, HarmonyPatch(nameof(TurnManager.StartGame), typeof(EncounterData))]
-		public static void StartGamePrefix(EncounterData encounterData)
-		{
-			GrimoraPlugin.Log.LogDebug($"[TurnManager.StartGame, EncounterData][Prefix] " +
-			                           $"Opponent [{encounterData.opponentType}]");
-		}
-		
-		[HarmonyPrefix, HarmonyPatch(nameof(TurnManager.StartGame), typeof(EncounterData), typeof(string))]
-		public static void StartGameSpecialBattleIdPrefix(EncounterData encounterData)
-		{
-			GrimoraPlugin.Log.LogDebug($"[TurnManager.StartGame, EncounterData, specialBattleId][Prefix]" +
-			                           $" Opponent [{encounterData.opponentType}]");
-		}
-		
-		[HarmonyPrefix, HarmonyPatch(nameof(TurnManager.CreateOpponent), typeof(EncounterData))]
-		public static void CreateOpponentPrefix(EncounterData encounterData)
-		{
-			GrimoraPlugin.Log.LogDebug($"[TurnManager.CreateOpponent][Prefix] Opponent [{encounterData.opponentType}]");
-		}
+		// [HarmonyPrefix, HarmonyPatch(nameof(TurnManager.StartGame), typeof(CardBattleNodeData))]
+		// public static void StartGameCardBattleNodeDataPrefix(CardBattleNodeData nodeData)
+		// {
+		// 	GrimoraPlugin.Log.LogDebug($"[TurnManager.StartGame, CardBattleNodeData][Prefix] " +
+		// 	                           $"SpecialBattle Id [{nodeData?.specialBattleId}]");
+		// }
+		//
+		// [HarmonyPrefix, HarmonyPatch(nameof(TurnManager.StartGame), typeof(EncounterData))]
+		// public static void StartGamePrefix(EncounterData encounterData)
+		// {
+		// 	GrimoraPlugin.Log.LogDebug($"[TurnManager.StartGame, EncounterData][Prefix] " +
+		// 	                           $"Opponent [{encounterData.opponentType}]");
+		// }
+		//
+		// [HarmonyPrefix, HarmonyPatch(nameof(TurnManager.StartGame), typeof(EncounterData), typeof(string))]
+		// public static void StartGameSpecialBattleIdPrefix(EncounterData encounterData)
+		// {
+		// 	GrimoraPlugin.Log.LogDebug($"[TurnManager.StartGame, EncounterData, specialBattleId][Prefix]" +
+		// 	                           $" Opponent [{encounterData.opponentType}]");
+		// }
+		//
+		// [HarmonyPrefix, HarmonyPatch(nameof(TurnManager.CreateOpponent), typeof(EncounterData))]
+		// public static void CreateOpponentPrefix(EncounterData encounterData)
+		// {
+		// 	GrimoraPlugin.Log.LogDebug($"[TurnManager.CreateOpponent][Prefix] Opponent [{encounterData.opponentType}]");
+		// }
 
 		[HarmonyPrefix, HarmonyPatch(nameof(TurnManager.UpdateSpecialSequencer))]
 		public static bool Prefix(ref TurnManager __instance, string specialBattleId)

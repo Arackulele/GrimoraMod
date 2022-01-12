@@ -69,11 +69,6 @@ namespace GrimoraMod
 	[HarmonyPatch(typeof(Part1BossOpponent))]
 	public class Part1BossOpponentPatches
 	{
-		//StoryEventsData.EraseEvent(StoryEvent.PlayerDeletedArchivistFile);			// Begin game
-		//StoryEventsData.SetEventCompleted(StoryEvent.FactoryConveyorBeltMoved); // Kaycee defeated
-		//StoryEventsData.EraseEvent(StoryEvent.FactoryCuckooClockAppeared);			// Doggy defeated
-		//StoryEventsData.EraseEvent(StoryEvent.Part3PurchasedHoloBrush);					// Grimora defeated
-
 		[HarmonyPrefix, HarmonyPatch(nameof(Part1BossOpponent.ReducePlayerLivesSequence))]
 		public static void SetPlayerLivesToOne(Part1BossOpponent __instance)
 		{
