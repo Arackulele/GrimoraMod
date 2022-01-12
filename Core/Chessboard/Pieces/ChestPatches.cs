@@ -33,7 +33,7 @@ namespace GrimoraMod
 			ChessboardMapExt.Instance.AddPieceToRemovedPiecesConfig(__instance.name);
 
 			MapNodeManager.Instance.SetAllNodesInteractable(false);
-			
+
 			ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
 
 			PlayerMarker.Instance.Anim.Play("knock against", 0, 0f);
@@ -44,17 +44,7 @@ namespace GrimoraMod
 
 			ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 
-			// ChessboardNavGrid.instance
-			// 	.zones[__instance.gridXPos, __instance.gridYPos]
-			// 	.GetComponent<ChessboardMapNode>()
-			// 	.OccupyingPiece = null;
-			//
-			// __instance.MapNode.OccupyingPiece = null;
-
 			GameFlowManager.Instance.TransitionToGameState(GameState.SpecialCardSequence, __instance.NodeData);
-
-			// Log.LogInfo(__instance.MapNode.OccupyingPiece);
-			// __instance.MapNode.nodeId = __instance.saveId;
 		}
 	}
 }
