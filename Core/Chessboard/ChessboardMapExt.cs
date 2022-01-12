@@ -400,33 +400,35 @@ namespace GrimoraMod
 			PlayerMarker.Instance.transform.position = MapNodeManager.Instance.ActiveNode.transform.position;
 		}
 
+		public ChessboardMapNode GetMapNodeFromXY(int x, int y)
+		{
+			return ChessboardNavGrid.instance.zones[x, y].GetComponent<ChessboardMapNode>();
+		}
+
 		private IEnumerator HandleActivatingChessPieces()
 		{
-			// var activeList = ChessPieceUtils.CurrentActivePieces;
-			var removedList = RemovedPieces;
-			GrimoraPlugin.Log.LogDebug($"[HandleActivatingChessPieces] Pieces after removal " +
-			                           $"[{string.Join(",", removedList)}]");
+			// GrimoraPlugin.Log.LogDebug($"[HandleActivatingChessPieces] active pieces before setting if active " +
+			//                            $"[{string.Join(",", activePieces.Select(_ => _.name))}]");
 
 			pieces.ForEach(delegate(ChessboardPiece piece)
 			{
-				if (removedList.Contains(piece.name))
-				{
-					GrimoraPlugin.Log.LogDebug(
-						$"[HandleSaveStatesForPieces] Setting inactive [{piece.gameObject}]] Node is active? [{piece.MapNode.isActiveAndEnabled}]]");
-					piece.gameObject.SetActive(false);
-					piece.MapNode.OccupyingPiece = null;
-					// GrimoraPlugin.Log.LogDebug($"[HandleSaveStatesForPieces] -> is node active and enabled? [{piece.MapNode.isActiveAndEnabled}]]");
-				}
-				else
+				if (activePieces.Contains(piece))
 				{
 					// GrimoraPlugin.Log.LogDebug($"[HandleSaveStatesForPieces] Setting active [{piece.name}]");
 					piece.gameObject.SetActive(true);
+				}
+				else
+				{
+					// GrimoraPlugin.Log.LogDebug($"[HandleSaveStatesForPieces] Setting inactive [{piece.gameObject}]] Node is active? [{piece.MapNode.isActiveAndEnabled}]]");
+					piece.gameObject.SetActive(false);
+					piece.MapNode.OccupyingPiece = null;
+					// GrimoraPlugin.Log.LogDebug($"[HandleSaveStatesForPieces] -> is node active and enabled? [{piece.MapNode.isActiveAndEnabled}]]");
 				}
 
 				piece.Hide(true);
 			});
 
-			GrimoraPlugin.Log.LogDebug("[HandleSaveStatesForPieces] Finished UpdatingSaveStates of pieces");
+			// GrimoraPlugin.Log.LogDebug("[HandleSaveStatesForPieces] Finished UpdatingSaveStates of pieces");
 
 			yield return new WaitForSeconds(0.05f);
 
