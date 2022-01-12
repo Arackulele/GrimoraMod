@@ -115,22 +115,16 @@ namespace GrimoraMod
 				                           $" {string.Join(", ", allPieces.Select(_ => _.name))}");
 				foreach (var piece in allPieces)
 				{
+					ext.pieces.Remove(piece);
 					piece.MapNode.OccupyingPiece = null;
 					piece.gameObject.SetActive(false);
-					// Destroy(piece.gameObject);
+					UnityEngine.Object.Destroy(piece.gameObject);
 				}
 			}
 		}
 
 		private static void AddDeckReviewSequencerToScene()
 		{
-			if (ViewManager.Instance.Controller is not null
-			    && !ViewManager.Instance.Controller.allowedViews.Contains(View.MapDeckReview))
-			{
-				GrimoraPlugin.Log.LogDebug($"Adding MapDeckReview to allowedViews");
-				ViewManager.Instance.Controller.allowedViews.Add(View.MapDeckReview);
-			}
-
 			DeckReviewSequencer deckReviewSequencer = UnityEngine.Object.FindObjectOfType<DeckReviewSequencer>();
 
 			if (deckReviewSequencer is not null)
