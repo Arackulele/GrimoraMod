@@ -161,6 +161,8 @@ namespace GrimoraMod
 			ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 
 			GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] No longer ChangingRegion");
+			
+			SetAllNodesActive();
 			ChangingRegion = false;
 		}
 
@@ -343,7 +345,8 @@ namespace GrimoraMod
 			GrimoraPlugin.Log.LogDebug($"[SetAllNodesActive] setting all chess nodes active");
 			foreach (var zone in ChessboardNavGrid.instance.zones)
 			{
-				zone.GetComponent<ChessboardMapNode>().SetActive(true);
+				zone.gameObject.SetActive(true);
+				// UnityExplorer.ExplorerCore.Log(zone.GetComponent<ChessboardMapNode>().isActiveAndEnabled);
 			}
 		}
 
