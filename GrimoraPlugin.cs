@@ -15,14 +15,10 @@ namespace GrimoraMod
 	[BepInPlugin(PluginGuid, PluginName, PluginVersion)]
 	public partial class GrimoraPlugin : BaseUnityPlugin
 	{
-		private const string PluginGuid = "arackulele.inscryption.grimoramod";
-		private const string PluginName = "GrimoraMod";
-		private const string PluginVersion = "1.0.1";
-
-		public static AssetBundle CustomAssetBundle;
-		public static Object[] AllAssets;
-		public static string StaticPath;
-
+		public const string PluginGuid = "arackulele.inscryption.grimoramod";
+		public const string PluginName = "GrimoraMod";
+		private const string PluginVersion = "2.1.0";
+		
 		internal static ManualLogSource Log;
 
 		private static Harmony _harmony;
