@@ -256,14 +256,13 @@ namespace GrimoraMod
 			//                            $" Current active list before {PiecesDelimited}");
 
 			var removedList = RemovedPieces;
-			if (pieces.Count == removedList.Count)
-			{
-				// means it did not correctly create the new map
-				GrimoraPlugin.ConfigCurrentRemovedPieces.Value = "";
-				ChangingRegion = true;
-				SetupGamePieces();
-				ChangingRegion = false;
-			}
+
+			// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] " +
+			//                            $" Current removed list before {GrimoraPlugin.ConfigCurrentRemovedPieces.Value}");
+
+			activePieces = base.pieces
+				.Where(p => !removedList.Contains(p.name))
+				.ToList();
 		}
 
 		private void HandleChessboardSetup()
