@@ -35,6 +35,20 @@ namespace GrimoraMod
 			}
 		}
 
+		[HarmonyPatch(typeof(ViewController))]
+		public class ViewControllerPatches
+		{
+			[HarmonyPostfix, HarmonyPatch(nameof(ViewController.SwitchToControlMode))]
+			public static void Postfix(ref ViewController.ControlMode mode, bool immediate = false)
+			{
+				if (mode == ViewController.ControlMode.Map && SaveManager.SaveFile.IsGrimora)
+				{
+					GrimoraPlugin.Log.LogDebug($"-> Adding mapdeckreview to allowed views");
+					ViewManager.Instance.controller.allowedViews.Add(View.MapDeckReview);
+				}
+			}
+		}
+
 		[HarmonyPatch(typeof(GameFlowManager))]
 		public class GameFlowManagerPatches
 		{
