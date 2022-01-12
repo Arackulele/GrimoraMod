@@ -17,11 +17,15 @@ namespace GrimoraMod
 				{
 					__instance.FullyUnrolled = false;
 					yield return __instance.UnrollingSequence(unrollSpeed);
-					GrimoraPlugin.Log.LogDebug($"[GameMap.ShowMapSequence] Finished unrolling sequence");
+					// GrimoraPlugin.Log.LogDebug($"[GameMap.ShowMapSequence] Finished unrolling sequence");
 					// yield return new WaitForSeconds(1.5f);
 
-					GrimoraPlugin.Log.LogDebug($"[GameMap.ShowMapSequence] Showing PlayerMarker");
 					// yield return new WaitForSeconds(1.5f);
+					// GrimoraPlugin.Log.LogDebug($"[GameMap.ShowMapSequence] Setting position of player marker again");
+					// todo: have to set this again because for some reason it doesn't take it during transitions?
+					PlayerMarker.Instance.transform.position = MapNodeManager.Instance.ActiveNode.transform.position;
+
+					// GrimoraPlugin.Log.LogDebug($"[GameMap.ShowMapSequence] Showing PlayerMarker");
 					PlayerMarker.Instance.Show();
 
 					__instance.FullyUnrolled = true;
