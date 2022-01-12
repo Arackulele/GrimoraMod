@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,7 +8,6 @@ using BepInEx.Logging;
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace GrimoraMod
 {
@@ -150,56 +148,9 @@ namespace GrimoraMod
 			BindConfig();
 
 			GrimoraConfigFile.SaveOnConfigSet = true;
-			if (!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable))
-			{
-				Log.LogWarning($"Grimora has not reached the table yet, resetting values to false again.");
-				ConfigKayceeFirstBossDead.Value = false;
-				ConfigDoggySecondBossDead.Value = false;
-				ConfigRoyalThirdBossDead.Value = false;
-				ConfigGrimoraBossDead.Value = false;
-				ConfigFirstTimeBoardInteraction.Value = false;
-				ConfigCurrentRemovedPieces.Value = StaticDefaultRemovedPiecesList;
-				ConfigCurrentChessboardIndex.Value = -1;
-			}
+			ResetConfigDataIfGrimoraHasNotReachedTable();
 
-			if (!StoryEventsData.EventCompleted(StoryEvent.BasicTutorialCompleted))
-			{
-				Log.LogWarning($"You haven't completed the basic tutorial... THIS WILL UNLOCK A LOT THINGS");
-				ProgressionData.UnlockAll();
-				StoryEventsData.SetEventCompleted(StoryEvent.BasicTutorialCompleted);
-				StoryEventsData.SetEventCompleted(StoryEvent.TutorialRunCompleted);
-				StoryEventsData.SetEventCompleted(StoryEvent.StoatIntroduction);
-				StoryEventsData.SetEventCompleted(StoryEvent.StoatIntroduction2);
-				StoryEventsData.SetEventCompleted(StoryEvent.StoatIntroduction3);
-				StoryEventsData.SetEventCompleted(StoryEvent.BonesTutorialCompleted);
-				StoryEventsData.SetEventCompleted(StoryEvent.TutorialRun2Completed);
-				StoryEventsData.SetEventCompleted(StoryEvent.FigurineFetched);
-				StoryEventsData.SetEventCompleted(StoryEvent.LeshyLostCamera);
-				StoryEventsData.SetEventCompleted(StoryEvent.TutorialRun3Completed);
-				StoryEventsData.SetEventCompleted(StoryEvent.SafeOpened);
-				StoryEventsData.SetEventCompleted(StoryEvent.StinkbugCardDiscovered);
-				StoryEventsData.SetEventCompleted(StoryEvent.StinkbugStoatReunited);
-				StoryEventsData.SetEventCompleted(StoryEvent.StinkbugIntroduction2);
-				StoryEventsData.SetEventCompleted(StoryEvent.WoodcarverMet);
-				StoryEventsData.SetEventCompleted(StoryEvent.StartScreenNewGameUnlocked);
-				StoryEventsData.SetEventCompleted(StoryEvent.StartScreenNewGameUsed);
-				StoryEventsData.SetEventCompleted(StoryEvent.Part2Completed);
-				StoryEventsData.SetEventCompleted(StoryEvent.GBCIntroCompleted);
-				StoryEventsData.SetEventCompleted(StoryEvent.GBCProspectorPhoto);
-				StoryEventsData.SetEventCompleted(StoryEvent.GBCAnglerPhoto);
-				StoryEventsData.SetEventCompleted(StoryEvent.GBCTrapperPhoto);
-				StoryEventsData.SetEventCompleted(StoryEvent.GBCGrimoraDefeated);
-				StoryEventsData.SetEventCompleted(StoryEvent.GBCLeshyDefeated);
-				StoryEventsData.SetEventCompleted(StoryEvent.GBCPoeDefeated);
-				StoryEventsData.SetEventCompleted(StoryEvent.GBCMagnificusDefeated);
-			}
-
-
-			Logger.LogInfo($"Loaded {PluginName}!");
-
-			StaticPath = Info.Location.Replace("GrimoraMod.dll", "");
-			CustomAssetBundle = AssetBundle.LoadFromFile(StaticPath + "Artwork/grimora");
-			AllAssets = CustomAssetBundle.LoadAllAssets();
+			UnlockAllNecessaryEventsToPlay();
 
 			_harmony = new Harmony(PluginGuid);
 			_harmony.PatchAll();
@@ -256,6 +207,56 @@ namespace GrimoraMod
 			DisableAllActOneCardsFromAppearing();
 			// ChangePackRat();
 			// ChangeSquirrel();
+		}
+
+		private static void UnlockAllNecessaryEventsToPlay()
+		{
+			if (!StoryEventsData.EventCompleted(StoryEvent.BasicTutorialCompleted))
+			{
+				Log.LogWarning($"You haven't completed the basic tutorial... THIS WILL UNLOCK A LOT THINGS");
+				ProgressionData.UnlockAll();
+				StoryEventsData.SetEventCompleted(StoryEvent.BasicTutorialCompleted);
+				StoryEventsData.SetEventCompleted(StoryEvent.TutorialRunCompleted);
+				StoryEventsData.SetEventCompleted(StoryEvent.StoatIntroduction);
+				StoryEventsData.SetEventCompleted(StoryEvent.StoatIntroduction2);
+				StoryEventsData.SetEventCompleted(StoryEvent.StoatIntroduction3);
+				StoryEventsData.SetEventCompleted(StoryEvent.BonesTutorialCompleted);
+				StoryEventsData.SetEventCompleted(StoryEvent.TutorialRun2Completed);
+				StoryEventsData.SetEventCompleted(StoryEvent.FigurineFetched);
+				StoryEventsData.SetEventCompleted(StoryEvent.LeshyLostCamera);
+				StoryEventsData.SetEventCompleted(StoryEvent.TutorialRun3Completed);
+				StoryEventsData.SetEventCompleted(StoryEvent.SafeOpened);
+				StoryEventsData.SetEventCompleted(StoryEvent.StinkbugCardDiscovered);
+				StoryEventsData.SetEventCompleted(StoryEvent.StinkbugStoatReunited);
+				StoryEventsData.SetEventCompleted(StoryEvent.StinkbugIntroduction2);
+				StoryEventsData.SetEventCompleted(StoryEvent.WoodcarverMet);
+				StoryEventsData.SetEventCompleted(StoryEvent.StartScreenNewGameUnlocked);
+				StoryEventsData.SetEventCompleted(StoryEvent.StartScreenNewGameUsed);
+				StoryEventsData.SetEventCompleted(StoryEvent.Part2Completed);
+				StoryEventsData.SetEventCompleted(StoryEvent.GBCIntroCompleted);
+				StoryEventsData.SetEventCompleted(StoryEvent.GBCProspectorPhoto);
+				StoryEventsData.SetEventCompleted(StoryEvent.GBCAnglerPhoto);
+				StoryEventsData.SetEventCompleted(StoryEvent.GBCTrapperPhoto);
+				StoryEventsData.SetEventCompleted(StoryEvent.GBCGrimoraDefeated);
+				StoryEventsData.SetEventCompleted(StoryEvent.GBCLeshyDefeated);
+				StoryEventsData.SetEventCompleted(StoryEvent.GBCPoeDefeated);
+				StoryEventsData.SetEventCompleted(StoryEvent.GBCMagnificusDefeated);
+			}
+		}
+
+		private static void ResetConfigDataIfGrimoraHasNotReachedTable()
+		{
+			if (!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable))
+			{
+				Log.LogWarning($"Grimora has not reached the table yet, resetting values to false again.");
+				ConfigKayceeFirstBossDead.Value = false;
+				ConfigDoggySecondBossDead.Value = false;
+				ConfigRoyalThirdBossDead.Value = false;
+				ConfigGrimoraBossDead.Value = false;
+				ConfigFirstTimeBoardInteraction.Value = false;
+				ConfigCurrentRemovedPieces.Value = StaticDefaultRemovedPiecesList;
+				ConfigCurrentChessboardIndex.Value = -1;
+			}
 		}
 
 		private void OnDestroy()
