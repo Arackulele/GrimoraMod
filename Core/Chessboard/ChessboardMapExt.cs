@@ -69,17 +69,6 @@ namespace GrimoraMod
 			}
 		}
 
-		private MapData MapData => RunState.Run.map;
-
-		private void TryInitializeMapData()
-		{
-			// if (RunState.Run.map == null)
-			// {
-			// 	// RunState.Run.map = MapGenerator.GenerateMap(RunState.CurrentMapRegion, 3, 13, PredefinedNodes, PredefinedScenery);
-			// 	RunState.Run.currentNodeId = RunState.Run.map.RootNode.id;
-			// }
-		}
-
 		public List<GrimoraChessboard> ParseJson(List<List<List<int>>> chessboards)
 		{
 			return chessboards.Select(board => new GrimoraChessboard(board)).ToList();
@@ -87,25 +76,10 @@ namespace GrimoraMod
 
 		private void Start()
 		{
-			if (ViewManager.Instance.Controller is not null
-			    && !ViewManager.Instance.Controller.allowedViews.Contains(View.MapDeckReview))
-			{
-				GrimoraPlugin.Log.LogDebug($"[MapExt] Adding MapDeckReview to allowed views");
-				ViewManager.Instance.Controller.allowedViews.Add(View.MapDeckReview);
-			}
-
-			GrimoraPlugin.Log.LogDebug($"[MapExt] Setting on view changed");
+			// GrimoraPlugin.Log.LogDebug($"[MapExt] Setting on view changed");
 			ViewManager instance = ViewManager.Instance;
 			instance.ViewChanged = (Action<View, View>)Delegate
 				.Combine(instance.ViewChanged, new Action<View, View>(OnViewChanged));
-
-			// if (MapNodeManager.Instance != null)
-			// {
-			// 	GrimoraPlugin.Log.LogDebug($"[MapExt] MapNodeManager Instance is not null, setting up pieces");
-			//
-			// 	GrimoraPlugin.Log.LogDebug($"[MapExt] MapNodeManager Setting nodes to active");
-			// 	MapNodeManager.Instance.FindAndSetActiveNodeInteractable();
-			// }
 		}
 
 		public IEnumerator CompleteRegionSequence()
@@ -115,10 +89,8 @@ namespace GrimoraMod
 
 			ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
 
-			// GrimoraPlugin.Log.LogDebug($"Calling NextRegion");
 
-			// todo: replace with own method
-			// RunState.Run.NextRegion();
+			// todo: replace with own method ?
 			RunState.Run.regionTier++;
 			RunState.Run.regionIndex = RegionProgression.GetRandomRegionIndexForTier(RunState.Run.regionTier);
 
@@ -139,7 +111,7 @@ namespace GrimoraMod
 
 			// yield return TextDisplayer.Instance.PlayDialogueEvent("Region" + RunState.CurrentMapRegion.name, TextDisplayer.MessageAdvanceMode.Input);
 
-			GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Looping audio");
+			// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Looping audio");
 			AudioController.Instance.SetLoopAndPlay("finalegrimora_ambience");
 			AudioController.Instance.SetLoopVolumeImmediate(0f);
 			AudioController.Instance.FadeInLoop(1f, 1f);
@@ -208,7 +180,7 @@ namespace GrimoraMod
 			}
 
 			MapNodeManager.Instance.FindAndSetActiveNodeInteractable();
-			
+
 			SaveManager.SaveToFile();
 		}
 
@@ -275,9 +247,10 @@ namespace GrimoraMod
 				ChessPieceUtils.CreateChestPiece(this, openPathNodes.Last().GridX, openPathNodes.Last().GridY);
 			}
 
-			GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Finished setting up game pieces." +
-			                           $" Current active list {PiecesDelimited}");
-			
+
+			// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Finished setting up game pieces." +
+			//                            $" Current active list before {PiecesDelimited}");
+
 			var removedList = RemovedPieces;
 			if (pieces.Count == removedList.Count)
 			{
@@ -322,8 +295,9 @@ namespace GrimoraMod
 		private void ResetChessboard()
 		{
 			var allPieces = new List<ChessboardPiece>(pieces);
-			GrimoraPlugin.Log.LogDebug($"[ResetChessboard]" +
-			                           $" Resetting board for all pieces [{string.Join(",", allPieces.Select(p => p.name))}]");
+			// GrimoraPlugin.Log.LogDebug($"[ResetChessboard]" +
+			//                            $" Resetting board for all pieces [{string.Join(",", allPieces.Select(p => p.name))}]");
+
 			foreach (var piece in allPieces)
 			{
 				pieces.Remove(piece);
@@ -399,7 +373,7 @@ namespace GrimoraMod
 
 			// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] SetPlayerAdjacentNodesActive");
 			ChessboardNavGrid.instance.SetPlayerAdjacentNodesActive();
-			
+
 			// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Setting player position to active node");
 			PlayerMarker.Instance.transform.position = MapNodeManager.Instance.ActiveNode.transform.position;
 		}
@@ -448,12 +422,12 @@ namespace GrimoraMod
 				yield return new WaitForSeconds(0.020f);
 			}
 
-			GrimoraPlugin.Log.LogDebug("[HandleSaveStatesForPieces] Finished showing all active pieces");
+			// GrimoraPlugin.Log.LogDebug("[HandleSaveStatesForPieces] Finished showing all active pieces");
 		}
 
 		private void UpdateVisuals()
 		{
-			GrimoraPlugin.Log.LogDebug($"[{this.GetType()}] Updating visuals");
+			// GrimoraPlugin.Log.LogDebug($"[{this.GetType()}] Updating visuals");
 			TableVisualEffectsManager.Instance.SetFogPlaneShown(true);
 			CameraEffects.Instance.SetFogEnabled(true);
 			CameraEffects.Instance.SetFogAlpha(0f);
