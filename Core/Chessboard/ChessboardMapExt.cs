@@ -397,6 +397,10 @@ namespace GrimoraMod
 			MapNodeManager.Instance.ActiveNode = this.navGrid.zones[x, y].GetComponent<MapNode>();
 			GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] MapNodeManager ActiveNode is x[{x}]y[{y}]");
 
+			// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] SetPlayerAdjacentNodesActive");
+			ChessboardNavGrid.instance.SetPlayerAdjacentNodesActive();
+			
+			// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Setting player position to active node");
 			PlayerMarker.Instance.transform.position = MapNodeManager.Instance.ActiveNode.transform.position;
 		}
 
