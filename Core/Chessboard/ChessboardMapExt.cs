@@ -16,14 +16,15 @@ namespace GrimoraMod
 	{
 		public new static ChessboardMapExt Instance => GameMap.Instance as ChessboardMapExt;
 
-		public string PiecesDelimited => string.Join(",", this.pieces.Select(p => p.name));
+		public string PiecesDelimited => string.Join(",", this.pieces.Select(p => p.name).Distinct());
 
 		private GrimoraChessboard activeChessboard;
 		private int currentChessboardIndex = -1;
 		private List<GrimoraChessboard> chessboards;
 		private List<string> removedPieces;
+		private List<ChessboardPiece> activePieces;
 
-		public List<string> RemovedPieces => GrimoraPlugin.ConfigCurrentRemovedPieces.Value.Split(',').ToList();
+		public List<string> RemovedPieces => GrimoraPlugin.ConfigCurrentRemovedPieces.Value.Split(',').Distinct().ToList();
 
 		private ChessboardEnemyPiece bossPiece;
 
@@ -290,9 +291,6 @@ namespace GrimoraMod
 				GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] -> Index is not negative one, setting active chessboard");
 				activeChessboard = Chessboards[currentChessboardIndex];
 			}
-
-			// DestroyDefaultChessboardPieces();
-			ResetChessboard();
 		}
 
 		private void ResetChessboard()
