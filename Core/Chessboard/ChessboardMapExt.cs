@@ -70,9 +70,9 @@ namespace GrimoraMod
 			}
 		}
 
-		public List<GrimoraChessboard> ParseJson(List<List<List<int>>> chessboards)
+		public List<GrimoraChessboard> ParseJson(List<List<List<int>>> chessboardsFromJson)
 		{
-			return chessboards.Select(board => new GrimoraChessboard(board)).ToList();
+			return chessboardsFromJson.Select(board => new GrimoraChessboard(board)).ToList();
 		}
 
 		private void Start()
@@ -85,7 +85,7 @@ namespace GrimoraMod
 
 		public IEnumerator CompleteRegionSequence()
 		{
-			GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Starting CompleteRegionSequence");
+			// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Starting CompleteRegionSequence");
 			ChangingRegion = true;
 
 			ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
@@ -137,7 +137,7 @@ namespace GrimoraMod
 
 			ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 
-			GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] No longer ChangingRegion");
+			// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] No longer ChangingRegion");
 
 			SetAllNodesActive();
 			ChangingRegion = false;
@@ -155,7 +155,7 @@ namespace GrimoraMod
 
 			UpdateVisuals();
 
-			GrimoraPlugin.Log.LogDebug($"[ChessboardMap.UnrollingSequence] Playing map anim enter");
+			// GrimoraPlugin.Log.LogDebug($"[ChessboardMap.UnrollingSequence] Playing map anim enter");
 			// base.mapAnim.speed = 1f;
 			base.mapAnim.Play("enter", 0, 0f);
 			yield return new WaitForSeconds(0.25f);
@@ -269,18 +269,18 @@ namespace GrimoraMod
 		private void HandleChessboardSetup()
 		{
 			currentChessboardIndex = GrimoraPlugin.ConfigCurrentChessboardIndex.Value;
-			GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Current chess board idx [{currentChessboardIndex}]");
+			// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Current chess board idx [{currentChessboardIndex}]");
 
 			if (currentChessboardIndex == -1 || ChangingRegion)
 			{
 				currentChessboardIndex = Random.RandomRangeInt(0, Chessboards.Count);
 				GrimoraPlugin.ConfigCurrentChessboardIndex.Value = currentChessboardIndex;
-				GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] -> Setting new chessboard idx [{currentChessboardIndex}]");
+				// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] -> Setting new chessboard idx [{currentChessboardIndex}]");
 
 				if (ChangingRegion)
 				{
-					GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Transitioning from boss," +
-					                           $" setting active board to null");
+					// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Transitioning from boss," +
+					//                            $" setting active board to null");
 					activeChessboard = null;
 					// GrimoraPlugin.ConfigCurrentRemovedPieces.Value = "";
 				}
@@ -288,26 +288,9 @@ namespace GrimoraMod
 
 			if (activeChessboard is null)
 			{
-				GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] -> Index is not negative one, setting active chessboard");
+				// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] -> Index is not negative one, setting active chessboard");
 				activeChessboard = Chessboards[currentChessboardIndex];
 			}
-		}
-
-		private void ResetChessboard()
-		{
-			var allPieces = new List<ChessboardPiece>(pieces);
-			// GrimoraPlugin.Log.LogDebug($"[ResetChessboard]" +
-			//                            $" Resetting board for all pieces [{string.Join(",", allPieces.Select(p => p.name))}]");
-
-			foreach (var piece in allPieces)
-			{
-				pieces.Remove(piece);
-				piece.gameObject.SetActive(false);
-				piece.MapNode.OccupyingPiece = null;
-				Destroy(piece.gameObject);
-			}
-
-			SetAllNodesActive();
 		}
 
 		public void AddPieceToRemovedPiecesConfig(string pieceName)
@@ -317,31 +300,12 @@ namespace GrimoraMod
 
 		private void SetAllNodesActive()
 		{
-			GrimoraPlugin.Log.LogDebug($"[SetAllNodesActive] setting all chess nodes active");
+			// GrimoraPlugin.Log.LogDebug($"[SetAllNodesActive] setting all chess nodes active");
 			foreach (var zone in ChessboardNavGrid.instance.zones)
 			{
 				zone.gameObject.SetActive(true);
 				// UnityExplorer.ExplorerCore.Log(zone.GetComponent<ChessboardMapNode>().isActiveAndEnabled);
 			}
-		}
-
-		private void DestroyDefaultChessboardPieces()
-		{
-			GrimoraPlugin.Log.LogDebug($"Current active pieces " +
-			                           $"[{string.Join(",", pieces.Select(p => p.name))}]");
-			GrimoraPlugin.Log.LogDebug($"Current removed pieces " +
-			                           $"[{string.Join(",", RemovedPieces)}]");
-
-			foreach (var piece in FindObjectsOfType<ChessboardPiece>())
-			{
-				// pieces.Remove(piece);
-				piece.MapNode.OccupyingPiece = null;
-				piece.gameObject.SetActive(false);
-				Destroy(piece.gameObject);
-			}
-
-			GrimoraPlugin.Log.LogDebug($"Pieces after removal " +
-			                           $"[{string.Join(",", pieces.Select(p => p.name))}]");
 		}
 
 		private void HandlePlayerMarkerPosition()
@@ -481,7 +445,7 @@ namespace GrimoraMod
 				StringComparison.InvariantCultureIgnoreCase)
 			)
 			{
-				GrimoraPlugin.Log.LogDebug($"ChessboardMap.UnrollingSequence] Renaming all map nodes");
+				// GrimoraPlugin.Log.LogDebug($"ChessboardMap.UnrollingSequence] Renaming all map nodes");
 
 				var zones = ChessboardNavGrid.instance.zones;
 				for (var i = 0; i < zones.GetLength(0); i++)
