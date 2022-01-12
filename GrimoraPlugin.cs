@@ -78,6 +78,8 @@ namespace GrimoraMod
 			ConfigCurrentActivePieces = GrimoraConfigFile.Bind(PluginName, "Current Active Pieces", "");
 
 			var list = ConfigCurrentRemovedPieces.Value.Split(',').ToList();
+			// this is so that for whatever reason the game map gets added to the removal list,
+			//	this will automatically remove those entries
 			if (list.Contains("ChessboardGameMap"))
 			{
 				list.RemoveAll(piece => piece.Equals("ChessboardGameMap"));
@@ -185,7 +187,7 @@ namespace GrimoraMod
 			AddAra_RingWorm();
 			AddAra_Sarcophagus();
 			AddAra_Skelemancer();
-			AddAra_Skelemaniac();
+			// AddAra_Skelemaniac();
 			AddAra_SkeletonArmy();
 			AddAra_SkeletonMage();
 			AddAra_Snapper();
@@ -198,10 +200,9 @@ namespace GrimoraMod
 			AddAra_Zombie();
 
 			#endregion
-
-			///Card Changes
+			
 			DisableAllActOneCardsFromAppearing();
-			// ChangePackRat();
+			ChangePackRat();
 			// ChangeSquirrel();
 		}
 
