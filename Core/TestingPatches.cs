@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace GrimoraMod
 {
+	[HarmonyPatch]
 	public class TestingPatches
 	{
 		[HarmonyPatch(typeof(GameMap))]
@@ -13,19 +14,15 @@ namespace GrimoraMod
 			[HarmonyPostfix, HarmonyPatch(nameof(GameMap.ShowMapSequence))]
 			public static IEnumerator AddLogging(IEnumerator enumerator, GameMap __instance, float unrollSpeed = 1f)
 			{
-				if (true)
+				if (SaveManager.SaveFile.IsGrimora)
 				{
 					__instance.FullyUnrolled = false;
 					yield return __instance.UnrollingSequence(unrollSpeed);
-					// GrimoraPlugin.Log.LogDebug($"[GameMap.ShowMapSequence] Finished unrolling sequence");
-					// yield return new WaitForSeconds(1.5f);
 
-					// yield return new WaitForSeconds(1.5f);
-					// GrimoraPlugin.Log.LogDebug($"[GameMap.ShowMapSequence] Setting position of player marker again");
 					// todo: have to set this again because for some reason it doesn't take it during transitions?
 					PlayerMarker.Instance.transform.position = MapNodeManager.Instance.ActiveNode.transform.position;
 
-					// GrimoraPlugin.Log.LogDebug($"[GameMap.ShowMapSequence] Showing PlayerMarker");
+
 					PlayerMarker.Instance.Show();
 
 					__instance.FullyUnrolled = true;
@@ -47,7 +44,7 @@ namespace GrimoraMod
 			{
 				if (mode == ViewController.ControlMode.Map && SaveManager.SaveFile.IsGrimora)
 				{
-					GrimoraPlugin.Log.LogDebug($"-> Adding mapdeckreview to allowed views");
+					GrimoraPlugin.Log.LogDebug($"-> Adding MapDeckReview to allowed views");
 					ViewManager.Instance.controller.allowedViews.Add(View.MapDeckReview);
 				}
 			}
@@ -110,6 +107,16 @@ namespace GrimoraMod
 
 				yield return enumerator;
 				yield break;
+			}
+		}
+
+		[HarmonyPatch(typeof(ViewManager))]
+		public class ViewManagerPatches
+		{
+			[HarmonyPostfix, HarmonyPatch(nameof(ViewManager.SwitchToView))]
+			public static void Postfix(View view, bool immediate = false, bool lockAfter = false)
+			{
+				GrimoraPlugin.Log.LogDebug($"[ViewManager.SwitchToView] Called with view [{view}]");
 			}
 		}
 	}
