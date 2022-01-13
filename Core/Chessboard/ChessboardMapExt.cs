@@ -243,24 +243,16 @@ namespace GrimoraMod
 
 			if (ChangingRegion)
 			{
-				currentChessboardIndex = Random.RandomRangeInt(0, Chessboards.Count);
-				GrimoraPlugin.ConfigCurrentChessboardIndex.Value = currentChessboardIndex;
+				GrimoraPlugin.ConfigCurrentChessboardIndex.Value = ++currentChessboardIndex;
 				// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] -> Setting new chessboard idx [{currentChessboardIndex}]");
-
-				if (ChangingRegion)
-				{
-					// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Transitioning from boss," +
-					//                            $" setting active board to null");
-					activeChessboard = null;
-					// GrimoraPlugin.ConfigCurrentRemovedPieces.Value = "";
-				}
-			}
-
-			if (activeChessboard is null)
-			{
-				// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] -> Index is not negative one, setting active chessboard");
 				activeChessboard = Chessboards[currentChessboardIndex];
+
+				// set the updated position to spawn the player in
+				GrimoraSaveData.Data.gridX = activeChessboard.GetPlayerNode().GridX;
+				GrimoraSaveData.Data.gridY = activeChessboard.GetPlayerNode().GridY;
 			}
+
+			activeChessboard ??= Chessboards[currentChessboardIndex];
 		}
 
 		public void AddPieceToRemovedPiecesConfig(string pieceName)
