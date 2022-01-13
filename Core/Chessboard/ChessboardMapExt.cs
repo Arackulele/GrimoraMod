@@ -241,7 +241,7 @@ namespace GrimoraMod
 			currentChessboardIndex = GrimoraPlugin.ConfigCurrentChessboardIndex.Value;
 			// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Current chess board idx [{currentChessboardIndex}]");
 
-			if (currentChessboardIndex == -1 || ChangingRegion)
+			if (ChangingRegion)
 			{
 				currentChessboardIndex = Random.RandomRangeInt(0, Chessboards.Count);
 				GrimoraPlugin.ConfigCurrentChessboardIndex.Value = currentChessboardIndex;
