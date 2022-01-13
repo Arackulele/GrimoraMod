@@ -6,9 +6,9 @@ using System.Text;
 using DiskCardGame;
 using Unity.Cloud.UserReporting.Plugin.SimpleJson;
 using UnityEngine;
-using Random = UnityEngine.Random;
 using Resources = GrimoraMod.Properties.Resources;
 
+// This class is literally just meant to be able to view the deck review sequencer
 namespace GrimoraMod
 {
 	public class ChessboardMapExt : ChessboardMap
@@ -45,10 +45,9 @@ namespace GrimoraMod
 			}
 		}
 
-		public bool ChangingRegion { get; private set; }
-		public bool BossDefeated { get; protected internal set; }
+		private bool ChangingRegion { get; set; }
 
-		public List<GrimoraChessboard> Chessboards
+		private List<GrimoraChessboard> Chessboards
 		{
 			get
 			{
@@ -70,7 +69,7 @@ namespace GrimoraMod
 			}
 		}
 
-		public List<GrimoraChessboard> ParseJson(List<List<List<int>>> chessboardsFromJson)
+		private static List<GrimoraChessboard> ParseJson(List<List<List<int>>> chessboardsFromJson)
 		{
 			return chessboardsFromJson.Select(board => new GrimoraChessboard(board)).ToList();
 		}
@@ -269,7 +268,7 @@ namespace GrimoraMod
 			GrimoraPlugin.ConfigCurrentRemovedPieces.Value += "," + pieceName + ",";
 		}
 
-		private void SetAllNodesActive()
+		private static void SetAllNodesActive()
 		{
 			// GrimoraPlugin.Log.LogDebug($"[SetAllNodesActive] setting all chess nodes active");
 			foreach (var zone in ChessboardNavGrid.instance.zones)
@@ -322,7 +321,7 @@ namespace GrimoraMod
 			PlayerMarker.Instance.transform.position = MapNodeManager.Instance.ActiveNode.transform.position;
 		}
 
-		public ChessboardMapNode GetMapNodeFromXY(int x, int y)
+		private static ChessboardMapNode GetMapNodeFromXY(int x, int y)
 		{
 			return ChessboardNavGrid.instance.zones[x, y].GetComponent<ChessboardMapNode>();
 		}
@@ -369,7 +368,7 @@ namespace GrimoraMod
 			// GrimoraPlugin.Log.LogDebug("[HandleSaveStatesForPieces] Finished showing all active pieces");
 		}
 
-		private void UpdateVisuals()
+		private static void UpdateVisuals()
 		{
 			// GrimoraPlugin.Log.LogDebug($"[{this.GetType()}] Updating visuals");
 			TableVisualEffectsManager.Instance.SetFogPlaneShown(true);
@@ -379,8 +378,7 @@ namespace GrimoraMod
 
 			TableVisualEffectsManager.Instance.SetDustParticlesActive(!RunState.CurrentMapRegion.dustParticlesDisabled);
 		}
-
-
+		
 		private void OnViewChanged(View newView, View oldView)
 		{
 			switch (oldView)
