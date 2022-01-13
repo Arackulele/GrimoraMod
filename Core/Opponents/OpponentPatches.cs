@@ -143,13 +143,10 @@ namespace GrimoraMod
 			}
 
 			var bossPiece = ChessboardMapExt.Instance.BossPiece;
-			var nodeId = bossPiece.NodeData.id + RunState.Run.regionTier + 1;
+			ChessboardMapExt.Instance.BossDefeated = true;
 			ChessboardMapExt.Instance.AddPieceToRemovedPiecesConfig(bossPiece.name);
-
-			RunState.Run.currentNodeId = nodeId;
 			GrimoraPlugin.Log.LogDebug($"[Part1BossOpponent.BossDefeatedSequence][PostFix]" +
-			                           $" Boss {__state.GetType()} defeated. " +
-			                           $" NodeID [{nodeId}]");
+			                           $" Boss {__state.GetType()} defeated.");
 		}
 	}
 }

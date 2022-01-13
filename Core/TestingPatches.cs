@@ -82,20 +82,16 @@ namespace GrimoraMod
 					// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] " +
 					//                            $"map is null? [{RunState.Run.map == null}])");
 
-					if (ChessboardMapExt.Instance.pieces.Count > 0)
+					bool isBossDefeated = ChessboardMapExt.Instance.BossDefeated;
+					bool piecesExist = ChessboardMapExt.Instance.pieces.Count > 0;
+
+					GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] IsBossDefeated? [{isBossDefeated}] Pieces exist? [{piecesExist}]");
+					if (piecesExist && isBossDefeated)
 					{
 						// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] ChessboardMapExt is not null");
-						var bossPiece = ChessboardMapExt.Instance.BossPiece;
-
-						if (bossPiece is not null && bossPiece.NodeData is not null)
-						{
-							if (RunState.Run.map != null
-							    && RunState.Run.currentNodeId == bossPiece.NodeData.id + RunState.Run.regionTier + 1)
-							{
-								// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] Completing region sequence");
-								yield return ChessboardMapExt.Instance.CompleteRegionSequence();
-							}
-						}
+						ChessboardMapExt.Instance.BossDefeated = false;
+						GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] Calling CompleteRegionSequence");
+						yield return ChessboardMapExt.Instance.CompleteRegionSequence();
 					}
 
 					// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] unlockViewAfterTransition");
