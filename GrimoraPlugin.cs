@@ -57,7 +57,7 @@ namespace GrimoraMod
 		private static void BindConfig()
 		{
 			ConfigCurrentChessboardIndex
-				= GrimoraConfigFile.Bind(PluginName, "Current chessboard layout index", -1);
+				= GrimoraConfigFile.Bind(PluginName, "Current chessboard layout index", 0);
 
 			ConfigKayceeFirstBossDead
 				= GrimoraConfigFile.Bind(PluginName, "Kaycee defeated?", false);
