@@ -23,6 +23,8 @@ namespace GrimoraMod
 
 		private static Harmony _harmony;
 
+		public static Object[] AllAssets;
+
 		public static readonly ConfigFile GrimoraConfigFile = new(
 			Path.Combine(Paths.ConfigPath, "grimora_mod_config.cfg"),
 			true
@@ -142,6 +144,8 @@ namespace GrimoraMod
 		private void Awake()
 		{
 			Log = base.Logger;
+
+			LoadAssets();
 			
 			BindConfig();
 
@@ -205,6 +209,13 @@ namespace GrimoraMod
 			ChangePackRat();
 			// ChangeSquirrel();
 		}
+		
+		private static void LoadAssets()
+		{
+			AssetBundle bundle = AssetBundle.LoadFromMemory(Properties.Resources.GrimoraMod_Prefabs_Blockers);
+			AllAssets = bundle.LoadAllAssets();
+		}
+
 
 		private static void UnlockAllNecessaryEventsToPlay()
 		{
