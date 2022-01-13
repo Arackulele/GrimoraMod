@@ -1,57 +1,74 @@
 # Grimora Mod
 
-The most important : THIS IS A BETA AND IS NOT BUG FREE!!!
+- A giant Mod made by Kopie, Arackulele, xXxStoner420BongMasterxXx that builds upon the finale with Grimora's chessboard.
 
-A giant Mod made by Kopie and Arackulele that adds an entire new
+- **IMPORTANT**: Disable energy drone (but not energy refresh) in the API config!!!
+- **BEWARE**: THIS WILL UNLOCK CERTAIN STORY EVENTS IN ORDER FOR THE MOD TO WORK, WHICH ALSO MEANS UNLOCKING CERTAIN ACHIEVEMENTS!
+- In the event you are starting from a brand new save, this mod will unlock all learned abilities, mechanics, and cards and some Story Events like the first tutorial battle, Bones, and a few others in order for this mod to work.
+- If you are not starting from a new save, this mod will check for certain story events and determine if it needs to unlock those.
+- I suggest restarting your game at least once if you haven't actually gotten to the finale.
+- The most important, !!!THIS IS A BETA AND IS NOT BUG FREE!!!
 
-IMPORTANT : Disable energy drone (but not energy refresh) in the API config!!!
+- This mod is not tested with KC mod and we cannot guarantee it will work on that version of the game
 
---This mod is not tested with KC mod and we cannot guarantee it will work on that version of the game.--
+## Special thanks to
 
+- LavaErrorDoggo for making a lot of the Artwork
 
-# Special thanks to :
+- YisusWhy for the epic Bone Lord Artwork
 
-LavaErrorDoggo for making a lot of the Artwork
+- JulianMods (xXxStoner420BongMasterxXx) for refactoring the code.
 
-YisusWhy for the epic Bone Lord Artwork
+## Update Notes
 
-# Known Issues:
+### 2.1.0
 
-Grimoras dialogue is unfinished and still the one from the finale and part 1 dialogue in some cases
+- MASSIVE refactor for readability and overall code quality!
 
--This is a temporary problem and will be fixed soon
+- Added custom config file `grimora_mod_config.cfg` to keep track of bosses defeated and active/removed pieces.
 
-In some circumstances, the game does not save the board correctly
+- Added 53 random chessboard layouts in JSON format for 'random' setups.
 
--There is currently no fix for this
+- Added Deck Review board view!
 
-Energy Cards dont work
+  - Still doesn't quite work right, expect bugs.
 
--Try enabling energy refresh in api config, that option may be unstable with this mod but should fix the issue until we implement a more proper solution
+- Encounter blueprints reworked into own class.
 
-Black Square Sigils
+- Made resource files of all artwork for significantly easier sprite loading.
 
--Fix: Install https://inscryption.thunderstore.io/package/MADH95Mods/SigilArtPatch/
+- Fixed issue with custom card sprites being positioned too low.
 
-# Update Notes:
+- Fixed issue with loading the pieces back in their respective nodes if the player quit.
 
--Balance overhaul
+- Fixed issue with player chesspeice appearing at previous node after region change.
 
--Fixed Blueprints
+- Fixed issue with player chesspiece not spawning if there are no available nodes to spawn in for the row.
 
--Added 30 more Blueprints
+- Fixed issue with softlocking on final boss!
 
-# How to add to the Game
+- Fixed issue with pieces overlapping and not being destroyed correctly causing newer pieces to never be created.
 
-Step 1:
-Install API, it is a dependency
+- Fixed issue with defeating bosses throwing an exception when changing to a new map.
 
-Step 2:
-Put the Artwork folder and .dll files into the plugins folder
+### 2.0.2
 
-Step 3:
-You are done
+- Balance overhaul
 
-...Or  just use the Mod Manager
+- Fixed Blueprints
 
+- Added 30 more Blueprints
 
+## Known Issues
+
+### Grimora's dialogue is unfinished and still the one from the finale and part 1 dialogue in some cases
+
+- This is a temporary problem and will be fixed soon.
+
+### Energy Cards don't work
+
+- Try enabling energy refresh in API config, that option may be unstable with this mod but should fix the issue until we implement a more proper solution.
+
+### Black Square Sigils
+
+- Install [SigilArtPatch](https://inscryption.thunderstore.io/package/MADH95Mods/SigilArtPatch/)
