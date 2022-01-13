@@ -61,7 +61,7 @@ namespace GrimoraMod
 			if (chessboards == null)
 			{
 				GrimoraPlugin.Log.LogDebug($"[ChessboardMapExt] Loading json boards");
-				string jsonString = Encoding.UTF8.GetString(Resources.GrimoraChessboards);
+				string jsonString = Encoding.UTF8.GetString(Resources.GrimoraChessboardsStatic);
 
 				chessboards = ParseJson(
 					SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString)
