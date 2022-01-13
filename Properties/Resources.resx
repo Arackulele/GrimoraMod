@@ -196,8 +196,17 @@
   <data name="GraveDigger" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Artwork\GraveDigger.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="GrimoraAssetBundle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Artwork\GrimoraAssetBundle;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="GrimoraChessboards" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>GrimoraChessboards.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="GrimoraChessboardsStatic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>GrimoraChessboardsStatic.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="GrimoraMod_Prefabs_Blockers" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>GrimoraMod_Prefabs_Blockers;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="HeadlessHorseman" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Artwork\HeadlessHorseman.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

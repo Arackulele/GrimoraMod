@@ -323,9 +323,39 @@ namespace GrimoraMod.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] GrimoraAssetBundle {
+            get {
+                object obj = ResourceManager.GetObject("GrimoraAssetBundle", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] GrimoraChessboards {
             get {
                 object obj = ResourceManager.GetObject("GrimoraChessboards", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] GrimoraChessboardsStatic {
+            get {
+                object obj = ResourceManager.GetObject("GrimoraChessboardsStatic", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] GrimoraMod_Prefabs_Blockers {
+            get {
+                object obj = ResourceManager.GetObject("GrimoraMod_Prefabs_Blockers", resourceCulture);
                 return ((byte[])(obj));
             }
         }
