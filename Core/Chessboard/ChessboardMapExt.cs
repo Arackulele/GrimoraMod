@@ -195,63 +195,34 @@ namespace GrimoraMod
 
 			HandleChessboardSetup();
 
-			activeChessboard.CreateBlockerPiecesForBoard(this);
-
-			var firstRow = activeChessboard.GetRowsWithOpenPathNodes.First();
-			// var rowsWithOpenPathNodes = activeChessboard.GetRowsWithOpenPathNodes;
-
-			var openPathNodes = activeChessboard.GetAllOpenPathNodes();
-			// var nodeNearestToZeroZero = openPathNodes.First();
-			// var nodeFarthestFromZeroZero = openPathNodes.Last();
-
-			var firstNodeFirstRow = firstRow.GetOpenPathNodes().First();
-
-			var nextRowAfterFirst = activeChessboard.GetRowsWithOpenPathNodes.Skip(1).First().GetOpenPathNodes().First();
-
 			if (GrimoraPlugin.ConfigRoyalThirdBossDead.Value)
 			{
-				//tptohereforzone4
-				GrimoraPlugin.Log.LogDebug($"Royal defeated");
-				// ResetChessboard(__instance);
-
-				ChessPieceUtils.CreateBossPiece(this, "GrimoraBoss", firstNodeFirstRow.GridX, firstNodeFirstRow.GridY);
-
-				ChessPieceUtils.CreateEnemyPiece(this, nextRowAfterFirst.GridX, nextRowAfterFirst.GridY);
-
-				ChessPieceUtils.CreateChestPiece(this, openPathNodes.Last().GridX, openPathNodes.Last().GridY);
+				GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Royal defeated");
+				activeChessboard.PlaceBossPiece("GrimoraBoss");
+				activeChessboard.ActiveBossType = BaseBossExt.GrimoraOpponent;
 			}
 			else if (GrimoraPlugin.ConfigDoggySecondBossDead.Value)
 			{
-				GrimoraPlugin.Log.LogDebug($"Doggy defeated");
-
-				ChessPieceUtils.CreateBossPiece(this, "RoyalBoss", firstNodeFirstRow.GridX, firstNodeFirstRow.GridY);
-
-				ChessPieceUtils.CreateEnemyPiece(this, nextRowAfterFirst.GridX, nextRowAfterFirst.GridY);
-
-				ChessPieceUtils.CreateChestPiece(this, openPathNodes.Last().GridX, openPathNodes.Last().GridY);
+				GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Doggy defeated");
+				activeChessboard.PlaceBossPiece("RoyalBoss");
+				activeChessboard.ActiveBossType = BaseBossExt.RoyalOpponent;
 			}
 			else if (GrimoraPlugin.ConfigKayceeFirstBossDead.Value)
 			{
-				//tptohereforzone2
-				GrimoraPlugin.Log.LogDebug($"Kaycee defeated");
-
-				ChessPieceUtils.CreateBossPiece(this, "DoggyBoss", firstNodeFirstRow.GridX, firstNodeFirstRow.GridY);
-
-				ChessPieceUtils.CreateEnemyPiece(this, nextRowAfterFirst.GridX, nextRowAfterFirst.GridY);
-
-				ChessPieceUtils.CreateChestPiece(this, openPathNodes.Last().GridX, openPathNodes.Last().GridY);
+				GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Kaycee defeated");
+				activeChessboard.PlaceBossPiece("DoggyBoss");
+				activeChessboard.ActiveBossType = BaseBossExt.DoggyOpponent;
 			}
 			else
 			{
-				GrimoraPlugin.Log.LogDebug($"No bosses defeated yet, creating Kaycee");
-
-				ChessPieceUtils.CreateBossPiece(this, "KayceeBoss", firstNodeFirstRow.GridX, firstNodeFirstRow.GridY);
-
-				ChessPieceUtils.CreateEnemyPiece(this, nextRowAfterFirst.GridX, nextRowAfterFirst.GridY);
-
-				ChessPieceUtils.CreateChestPiece(this, openPathNodes.Last().GridX, openPathNodes.Last().GridY);
+				GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] No bosses defeated yet, creating Kaycee");
+				activeChessboard.PlaceBossPiece("KayceeBoss");
+				activeChessboard.ActiveBossType = BaseBossExt.KayceeOpponent;
 			}
 
+			activeChessboard.PlaceBlockerPieces();
+			activeChessboard.PlaceChestPieces();
+			activeChessboard.PlaceEnemyPieces();
 
 			// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Finished setting up game pieces." +
 			//                            $" Current active list before {PiecesDelimited}");
