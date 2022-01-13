@@ -291,7 +291,7 @@ namespace GrimoraMod
 			if (ChangingRegion || occupyingPiece != null && !isPlayerOccupied)
 			{
 				// GrimoraPlugin.Log.LogDebug($"[HandlePlayerMarkerPosition] Is boss transition or current active node has an already occupying piece");
-				var allOpenPathNodes = activeChessboard.GetAllOpenPathNodes();
+				var allOpenPathNodes = activeChessboard.GetOpenPathNodes();
 
 				// GrimoraPlugin.Log.LogDebug($"[HandlePlayerMarkerPosition] AllOpenNodes count [{allOpenPathNodes.Count}]");
 
