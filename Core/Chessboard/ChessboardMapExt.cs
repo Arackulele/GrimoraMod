@@ -9,7 +9,6 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using Resources = GrimoraMod.Properties.Resources;
 
-// This class is literally just meant to be able to view the deck review sequencer
 namespace GrimoraMod
 {
 	public class ChessboardMapExt : ChessboardMap
@@ -47,6 +46,7 @@ namespace GrimoraMod
 		}
 
 		public bool ChangingRegion { get; private set; }
+		public bool BossDefeated { get; protected internal set; }
 
 		public List<GrimoraChessboard> Chessboards
 		{
