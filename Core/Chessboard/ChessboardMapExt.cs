@@ -13,17 +13,24 @@ namespace GrimoraMod
 {
 	public class ChessboardMapExt : ChessboardMap
 	{
-		public new static ChessboardMapExt Instance => GameMap.Instance as ChessboardMapExt;
-
 		private GrimoraChessboard activeChessboard;
-		private int currentChessboardIndex;
-		private List<GrimoraChessboard> chessboards;
-		private List<string> removedPieces;
 		private List<ChessboardPiece> activePieces;
 
-		public List<string> RemovedPieces => GrimoraPlugin.ConfigCurrentRemovedPieces.Value.Split(',').Distinct().ToList();
-
 		private ChessboardEnemyPiece bossPiece;
+
+		private string[] buttonNames =
+		{
+			"Win Round", "Deck View"
+		};
+
+		private List<GrimoraChessboard> chessboards;
+		private int currentChessboardIndex;
+		private List<string> removedPieces;
+
+		private bool toggleEncounterMenu;
+		public new static ChessboardMapExt Instance => GameMap.Instance as ChessboardMapExt;
+
+		public List<string> RemovedPieces => GrimoraPlugin.ConfigCurrentRemovedPieces.Value.Split(',').Distinct().ToList();
 
 		public ChessboardEnemyPiece BossPiece
 		{
@@ -44,7 +51,7 @@ namespace GrimoraMod
 		}
 
 		private bool ChangingRegion { get; set; }
-		
+
 		public bool BossDefeated { get; protected internal set; }
 
 		private List<GrimoraChessboard> Chessboards
@@ -56,24 +63,6 @@ namespace GrimoraMod
 			}
 		}
 
-		public void LoadData()
-		{
-			if (chessboards == null)
-			{
-				GrimoraPlugin.Log.LogDebug($"[ChessboardMapExt] Loading json boards");
-				string jsonString = Encoding.UTF8.GetString(Resources.GrimoraChessboardsStatic);
-
-				chessboards = ParseJson(
-					SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString)
-				);
-			}
-		}
-
-		private static List<GrimoraChessboard> ParseJson(IEnumerable<List<List<int>>> chessboardsFromJson)
-		{
-			return chessboardsFromJson.Select(board => new GrimoraChessboard(board)).ToList();
-		}
-
 		private void Start()
 		{
 			// GrimoraPlugin.Log.LogDebug($"[MapExt] Setting on view changed");
@@ -82,13 +71,6 @@ namespace GrimoraMod
 				.Combine(instance.ViewChanged, new Action<View, View>(OnViewChanged));
 		}
 
-		private bool toggleEncounterMenu = false;
-
-		private string[] buttonNames = new[]
-		{
-			"Win Round", "Deck View"
-		};
-		
 		private void OnGUI()
 		{
 			toggleEncounterMenu = GUI.Toggle(
@@ -127,10 +109,30 @@ namespace GrimoraMod
 								ViewManager.Instance.SwitchToView(View.MapDeckReview);
 								break;
 						}
+
 						break;
 				}
 			}
 		}
+
+		public void LoadData()
+		{
+			if (chessboards == null)
+			{
+				GrimoraPlugin.Log.LogDebug($"[ChessboardMapExt] Loading json boards");
+				string jsonString = Encoding.UTF8.GetString(Resources.GrimoraChessboardsStatic);
+
+				chessboards = ParseJson(
+					SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString)
+				);
+			}
+		}
+
+		private static List<GrimoraChessboard> ParseJson(IEnumerable<List<List<int>>> chessboardsFromJson)
+		{
+			return chessboardsFromJson.Select(board => new GrimoraChessboard(board)).ToList();
+		}
+
 		public IEnumerator CompleteRegionSequence()
 		{
 			// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Starting CompleteRegionSequence");
@@ -138,11 +140,11 @@ namespace GrimoraMod
 
 			ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
 			yield return new WaitForSeconds(0.8f);
-			
+
 			// yield return TextDisplayer.Instance.PlayDialogueEvent("RegionNext", TextDisplayer.MessageAdvanceMode.Input);
 
 			ViewManager.Instance.SwitchToView(View.MapDefault);
-		  yield return new WaitForSeconds(0.25f);
+			yield return new WaitForSeconds(0.25f);
 
 			RunState.CurrentMapRegion.FadeInAmbientAudio();
 
@@ -293,6 +295,7 @@ namespace GrimoraMod
 				GrimoraSaveData.Data.gridX = activeChessboard.GetPlayerNode().GridX;
 				GrimoraSaveData.Data.gridY = activeChessboard.GetPlayerNode().GridY;
 			}
+
 			// GrimoraPlugin.Log.LogDebug($"[HandleChessboardSetup] ActiveChessboard [{activeChessboard}] Chessboards size [{Chessboards.Count}]");
 			activeChessboard ??= Chessboards[currentChessboardIndex];
 		}
@@ -412,7 +415,7 @@ namespace GrimoraMod
 
 			TableVisualEffectsManager.Instance.SetDustParticlesActive(!RunState.CurrentMapRegion.dustParticlesDisabled);
 		}
-		
+
 		private void OnViewChanged(View newView, View oldView)
 		{
 			// GrimoraPlugin.Log.LogDebug($"[OnViewChanged] OnViewChanged called");
