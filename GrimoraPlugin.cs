@@ -90,56 +90,7 @@ namespace GrimoraMod
 			ConfigCurrentRemovedPieces.Value = string.Join(",", list.Distinct());
 		}
 		
-		private bool toggleEncounterMenu = false;
 
-		private string[] buttonNames = new[]
-		{
-			"Win Round", "Deck View"
-		};
-
-		private void OnGUI()
-		{
-			toggleEncounterMenu = GUI.Toggle(
-				new Rect(20, 100, 200, 20),
-				toggleEncounterMenu,
-				"Debug Tools"
-			);
-
-			if (!toggleEncounterMenu) return;
-
-			int selectedButton = GUI.SelectionGrid(
-				new Rect(25, 150, 300, 100),
-				-1,
-				buttonNames,
-				2
-			);
-
-			if (selectedButton >= 0)
-			{
-				Log.LogDebug($"Calling button [{selectedButton}]");
-				switch (buttonNames[selectedButton])
-				{
-					case "Win Round":
-						LifeManager.Instance.StartCoroutine(
-							LifeManager.Instance.ShowDamageSequence(10, 1, false)
-						);
-						break;
-					case "Deck View":
-						ViewManager instance = ViewManager.Instance;
-						Log.LogDebug($"-> is deck view [{selectedButton}]");
-						switch (instance.CurrentView)
-						{
-							case View.MapDeckReview:
-								instance.SwitchToView(View.MapDefault);
-								break;
-							case View.MapDefault:
-								instance.SwitchToView(View.MapDeckReview);
-								break;
-						}
-						break;
-				}
-			}
-		}
 
 		private void Awake()
 		{
@@ -225,30 +176,13 @@ namespace GrimoraMod
 				ProgressionData.UnlockAll();
 				StoryEventsData.SetEventCompleted(StoryEvent.BasicTutorialCompleted);
 				StoryEventsData.SetEventCompleted(StoryEvent.TutorialRunCompleted);
-				StoryEventsData.SetEventCompleted(StoryEvent.StoatIntroduction);
-				StoryEventsData.SetEventCompleted(StoryEvent.StoatIntroduction2);
-				StoryEventsData.SetEventCompleted(StoryEvent.StoatIntroduction3);
 				StoryEventsData.SetEventCompleted(StoryEvent.BonesTutorialCompleted);
 				StoryEventsData.SetEventCompleted(StoryEvent.TutorialRun2Completed);
-				StoryEventsData.SetEventCompleted(StoryEvent.FigurineFetched);
-				StoryEventsData.SetEventCompleted(StoryEvent.LeshyLostCamera);
 				StoryEventsData.SetEventCompleted(StoryEvent.TutorialRun3Completed);
-				StoryEventsData.SetEventCompleted(StoryEvent.SafeOpened);
-				StoryEventsData.SetEventCompleted(StoryEvent.StinkbugCardDiscovered);
-				StoryEventsData.SetEventCompleted(StoryEvent.StinkbugStoatReunited);
-				StoryEventsData.SetEventCompleted(StoryEvent.StinkbugIntroduction2);
-				StoryEventsData.SetEventCompleted(StoryEvent.WoodcarverMet);
-				StoryEventsData.SetEventCompleted(StoryEvent.StartScreenNewGameUnlocked);
-				StoryEventsData.SetEventCompleted(StoryEvent.StartScreenNewGameUsed);
-				StoryEventsData.SetEventCompleted(StoryEvent.Part2Completed);
-				StoryEventsData.SetEventCompleted(StoryEvent.GBCIntroCompleted);
-				StoryEventsData.SetEventCompleted(StoryEvent.GBCProspectorPhoto);
-				StoryEventsData.SetEventCompleted(StoryEvent.GBCAnglerPhoto);
-				StoryEventsData.SetEventCompleted(StoryEvent.GBCTrapperPhoto);
-				StoryEventsData.SetEventCompleted(StoryEvent.GBCGrimoraDefeated);
-				StoryEventsData.SetEventCompleted(StoryEvent.GBCLeshyDefeated);
-				StoryEventsData.SetEventCompleted(StoryEvent.GBCPoeDefeated);
-				StoryEventsData.SetEventCompleted(StoryEvent.GBCMagnificusDefeated);
+				// StoryEventsData.SetEventCompleted(StoryEvent.StartScreenNewGameUnlocked);
+				// StoryEventsData.SetEventCompleted(StoryEvent.StartScreenNewGameUsed);
+				// StoryEventsData.SetEventCompleted(StoryEvent.Part2Completed);
+				SaveManager.SaveToFile();
 			}
 		}
 
@@ -263,7 +197,7 @@ namespace GrimoraMod
 				ConfigGrimoraBossDead.Value = false;
 				ConfigFirstTimeBoardInteraction.Value = false;
 				ConfigCurrentRemovedPieces.Value = StaticDefaultRemovedPiecesList;
-				ConfigCurrentChessboardIndex.Value = -1;
+				ConfigCurrentChessboardIndex.Value = 0;
 			}
 		}
 
