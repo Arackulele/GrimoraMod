@@ -15,10 +15,8 @@ namespace GrimoraMod
 	{
 		public new static ChessboardMapExt Instance => GameMap.Instance as ChessboardMapExt;
 
-		public string PiecesDelimited => string.Join(",", this.pieces.Select(p => p.name).Distinct());
-
 		private GrimoraChessboard activeChessboard;
-		private int currentChessboardIndex = -1;
+		private int currentChessboardIndex;
 		private List<GrimoraChessboard> chessboards;
 		private List<string> removedPieces;
 		private List<ChessboardPiece> activePieces;
@@ -71,7 +69,7 @@ namespace GrimoraMod
 			}
 		}
 
-		private static List<GrimoraChessboard> ParseJson(List<List<List<int>>> chessboardsFromJson)
+		private static List<GrimoraChessboard> ParseJson(IEnumerable<List<List<int>>> chessboardsFromJson)
 		{
 			return chessboardsFromJson.Select(board => new GrimoraChessboard(board)).ToList();
 		}
@@ -139,25 +137,24 @@ namespace GrimoraMod
 			ChangingRegion = true;
 
 			ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+			yield return new WaitForSeconds(0.8f);
 
 
 			// todo: replace with own method ?
 			RunState.Run.regionTier++;
 			RunState.Run.regionIndex = RegionProgression.GetRandomRegionIndexForTier(RunState.Run.regionTier);
 
-			// yield return new WaitForSeconds(0.5f);
 
 			// yield return TextDisplayer.Instance.PlayDialogueEvent("RegionNext", TextDisplayer.MessageAdvanceMode.Input);
 
 			ViewManager.Instance.SwitchToView(View.MapDefault);
-
-			// yield return new WaitForSeconds(0.5f);
+		  yield return new WaitForSeconds(0.25f);
 
 			RunState.CurrentMapRegion.FadeInAmbientAudio();
 
-			// yield return ShowMapSequence(0.75f);
 
 			MapNodeManager.Instance.SetAllNodesInteractable(false);
+			yield return ShowMapSequence(0.25f);
 
 			// yield return TextDisplayer.Instance.PlayDialogueEvent("Region" + RunState.CurrentMapRegion.name, TextDisplayer.MessageAdvanceMode.Input);
 
