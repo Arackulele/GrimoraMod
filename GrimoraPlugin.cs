@@ -18,7 +18,7 @@ namespace GrimoraMod
 		public const string PluginGuid = "arackulele.inscryption.grimoramod";
 		public const string PluginName = "GrimoraMod";
 		private const string PluginVersion = "2.1.0";
-		
+
 		internal static ManualLogSource Log;
 
 		private static Harmony _harmony;
@@ -54,42 +54,11 @@ namespace GrimoraMod
 
 		public static ConfigEntry<string> ConfigCurrentActivePieces;
 
-		private static void BindConfig()
+		private static readonly List<StoryEvent> StoryEventsToBeCompleteBeforeStarting = new()
 		{
-			ConfigCurrentChessboardIndex
-				= GrimoraConfigFile.Bind(PluginName, "Current chessboard layout index", 0);
-
-			ConfigKayceeFirstBossDead
-				= GrimoraConfigFile.Bind(PluginName, "Kaycee defeated?", false);
-
-			ConfigDoggySecondBossDead
-				= GrimoraConfigFile.Bind(PluginName, "Doggy defeated?", false);
-
-			ConfigRoyalThirdBossDead
-				= GrimoraConfigFile.Bind(PluginName, "Royal defeated?", false);
-
-			ConfigGrimoraBossDead
-				= GrimoraConfigFile.Bind(PluginName, "Grimora defeated?", false);
-
-			ConfigFirstTimeBoardInteraction
-				= GrimoraConfigFile.Bind(PluginName, "Player interacted with board first time?", false);
-
-			ConfigCurrentRemovedPieces = GrimoraConfigFile.Bind(
-				PluginName, "Current Removed Pieces", StaticDefaultRemovedPiecesList);
-
-			ConfigCurrentActivePieces = GrimoraConfigFile.Bind(PluginName, "Current Active Pieces", "");
-
-			var list = ConfigCurrentRemovedPieces.Value.Split(',').ToList();
-			// this is so that for whatever reason the game map gets added to the removal list,
-			//	this will automatically remove those entries
-			if (list.Contains("ChessboardGameMap"))
-			{
-				list.RemoveAll(piece => piece.Equals("ChessboardGameMap"));
-			}
-
-			ConfigCurrentRemovedPieces.Value = string.Join(",", list.Distinct());
-		}
-		
+			StoryEvent.BasicTutorialCompleted, StoryEvent.TutorialRunCompleted, StoryEvent.BonesTutorialCompleted,
+			StoryEvent.TutorialRun2Completed, StoryEvent.TutorialRun3Completed
+		};
 
 
 		private void Awake()
@@ -97,7 +66,7 @@ namespace GrimoraMod
 			Log = base.Logger;
 
 			LoadAssets();
-			
+
 			BindConfig();
 
 			GrimoraConfigFile.SaveOnConfigSet = true;
@@ -155,33 +124,66 @@ namespace GrimoraMod
 			AddAra_Zombie();
 
 			#endregion
-			
+
 			DisableAllActOneCardsFromAppearing();
 			ChangePackRat();
 			// ChangeSquirrel();
 		}
-		
+
+		private void OnDestroy()
+		{
+			_harmony?.UnpatchSelf();
+		}
+
+		private static void BindConfig()
+		{
+			ConfigCurrentChessboardIndex
+				= GrimoraConfigFile.Bind(PluginName, "Current chessboard layout index", 0);
+
+			ConfigKayceeFirstBossDead
+				= GrimoraConfigFile.Bind(PluginName, "Kaycee defeated?", false);
+
+			ConfigDoggySecondBossDead
+				= GrimoraConfigFile.Bind(PluginName, "Doggy defeated?", false);
+
+			ConfigRoyalThirdBossDead
+				= GrimoraConfigFile.Bind(PluginName, "Royal defeated?", false);
+
+			ConfigGrimoraBossDead
+				= GrimoraConfigFile.Bind(PluginName, "Grimora defeated?", false);
+
+			ConfigFirstTimeBoardInteraction
+				= GrimoraConfigFile.Bind(PluginName, "Player interacted with board first time?", false);
+
+			ConfigCurrentRemovedPieces = GrimoraConfigFile.Bind(
+				PluginName, "Current Removed Pieces", StaticDefaultRemovedPiecesList);
+
+			ConfigCurrentActivePieces = GrimoraConfigFile.Bind(PluginName, "Current Active Pieces", "");
+
+			var list = ConfigCurrentRemovedPieces.Value.Split(',').ToList();
+			// this is so that for whatever reason the game map gets added to the removal list,
+			//	this will automatically remove those entries
+			if (list.Contains("ChessboardGameMap"))
+			{
+				list.RemoveAll(piece => piece.Equals("ChessboardGameMap"));
+			}
+
+			ConfigCurrentRemovedPieces.Value = string.Join(",", list.Distinct());
+		}
+
 		private static void LoadAssets()
 		{
 			AssetBundle bundle = AssetBundle.LoadFromMemory(Properties.Resources.GrimoraMod_Prefabs_Blockers);
 			AllAssets = bundle.LoadAllAssets();
 		}
 
-
 		private static void UnlockAllNecessaryEventsToPlay()
 		{
-			if (!StoryEventsData.EventCompleted(StoryEvent.BasicTutorialCompleted))
+			if (StoryEventsToBeCompleteBeforeStarting.Any(evt => !StoryEventsData.EventCompleted(evt)))
 			{
-				Log.LogWarning($"You haven't completed the basic tutorial... THIS WILL UNLOCK A LOT THINGS");
+				Log.LogWarning($"You haven't completed a required event... Starting unlock process");
+				StoryEventsToBeCompleteBeforeStarting.ForEach(evt => StoryEventsData.SetEventCompleted(evt));
 				ProgressionData.UnlockAll();
-				StoryEventsData.SetEventCompleted(StoryEvent.BasicTutorialCompleted);
-				StoryEventsData.SetEventCompleted(StoryEvent.TutorialRunCompleted);
-				StoryEventsData.SetEventCompleted(StoryEvent.BonesTutorialCompleted);
-				StoryEventsData.SetEventCompleted(StoryEvent.TutorialRun2Completed);
-				StoryEventsData.SetEventCompleted(StoryEvent.TutorialRun3Completed);
-				// StoryEventsData.SetEventCompleted(StoryEvent.StartScreenNewGameUnlocked);
-				// StoryEventsData.SetEventCompleted(StoryEvent.StartScreenNewGameUsed);
-				// StoryEventsData.SetEventCompleted(StoryEvent.Part2Completed);
 				SaveManager.SaveToFile();
 			}
 		}
@@ -199,11 +201,6 @@ namespace GrimoraMod
 				ConfigCurrentRemovedPieces.Value = StaticDefaultRemovedPiecesList;
 				ConfigCurrentChessboardIndex.Value = 0;
 			}
-		}
-
-		private void OnDestroy()
-		{
-			_harmony?.UnpatchSelf();
 		}
 
 		private static void DisableAllActOneCardsFromAppearing()
