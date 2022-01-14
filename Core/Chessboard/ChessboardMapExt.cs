@@ -150,7 +150,7 @@ namespace GrimoraMod
 
 
 			MapNodeManager.Instance.SetAllNodesInteractable(false);
-			yield return ShowMapSequence(0.25f);
+			// yield return ShowMapSequence(0.25f);
 
 			// yield return TextDisplayer.Instance.PlayDialogueEvent("Region" + RunState.CurrentMapRegion.name, TextDisplayer.MessageAdvanceMode.Input);
 
@@ -161,6 +161,7 @@ namespace GrimoraMod
 
 			// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] HandleChessboardSetup called");
 			Instance.HandleChessboardSetup();
+
 			// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Clearing and destroying pieces");
 			Instance.pieces.RemoveAll(delegate(ChessboardPiece piece)
 			{
@@ -287,6 +288,11 @@ namespace GrimoraMod
 
 			if (ChangingRegion)
 			{
+				if (currentChessboardIndex == 4)
+				{
+					currentChessboardIndex = -1;
+				}
+
 				GrimoraPlugin.ConfigCurrentChessboardIndex.Value = ++currentChessboardIndex;
 				// GrimoraPlugin.Log.LogDebug($"[HandleChessboardSetup] -> Setting new chessboard idx [{currentChessboardIndex}]");
 				activeChessboard = Chessboards[currentChessboardIndex];
