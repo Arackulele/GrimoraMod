@@ -48,6 +48,8 @@ namespace GrimoraMod
 				__instance.gameTableCandlesParent.SetActive(setLightsActive);
 				__instance.gravestoneNavZone.SetActive(setLightsActive);
 
+				__instance.StartCoroutine(__instance.StartSceneSequence());
+
 				CryptEpitaphSlotInteractable cryptEpitaphSlotInteractable =
 					Object.FindObjectOfType<CryptEpitaphSlotInteractable>();
 
@@ -76,16 +78,12 @@ namespace GrimoraMod
 				__instance.StartCoroutine((
 						(GrimoraGameFlowManager)Singleton<GameFlowManager>.Instance).RevealGrimoraSequence()
 				);
-				// else
-				// {
-				// 	// GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Intro is not being skipped");
-				// 	__instance.StartCoroutine(__instance.StartSceneSequence());
-				// }
 				SaveManager.SaveToFile();
 			}
 			else
 			{
-				GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] GrimoraReachedTable is true, playing finalegrimora_ambience");
+				GrimoraPlugin.Log.LogDebug(
+					$"[SceneSpecificInitialization] GrimoraReachedTable is true, playing finalegrimora_ambience");
 				AudioController.Instance.SetLoopAndPlay("finalegrimora_ambience");
 				if (GameMap.Instance != null)
 				{
