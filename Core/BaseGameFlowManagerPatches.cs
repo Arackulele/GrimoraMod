@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
@@ -110,7 +112,7 @@ namespace GrimoraMod
 				ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
 
 				// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] SceneSpecificTransitionTo");
-				__instance.SceneSpecificTransitionTo(GameState.Map, immediate);
+				__instance.SceneSpecificTransitionTo(gameState, immediate);
 
 				SaveManager.SaveToFile();
 				
