@@ -72,7 +72,10 @@ namespace GrimoraMod
 		[HarmonyPrefix, HarmonyPatch(nameof(Part1BossOpponent.ReducePlayerLivesSequence))]
 		public static void SetPlayerLivesToOne(Part1BossOpponent __instance)
 		{
-			RunState.Run.playerLives = 1;
+			if(SaveManager.SaveFile.IsGrimora)
+			{
+				RunState.Run.playerLives = 1;
+			}
 		}
 
 		[HarmonyPrefix, HarmonyPatch(nameof(Part1BossOpponent.BossDefeatedSequence))]
