@@ -9,7 +9,7 @@ namespace GrimoraMod
 	public class BaseGameFlowManagerPatches
 	{
 		[HarmonyPostfix, HarmonyPatch(nameof(GameFlowManager.TransitionTo))]
-		public static IEnumerator Postfix(
+		public static IEnumerator PostfixGameLogicPatch(
 			IEnumerator enumerator,
 			GameFlowManager __instance,
 			GameState gameState,
@@ -30,38 +30,38 @@ namespace GrimoraMod
 				// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] SceneSpecificTransitionTo");
 				__instance.SceneSpecificTransitionTo(GameState.Map, immediate);
 
-				// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] SaveToFile");
 				SaveManager.SaveToFile();
+				
+				bool isBossDefeated = ChessboardMapExt.Instance.BossDefeated;
+				bool piecesExist = ChessboardMapExt.Instance.pieces.Count > 0;
 
-				yield return new WaitForSeconds(0.2f);
-				// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] " +
-				//                            $"map is null? [{RunState.Run.map == null}])");
-
-				if (ChessboardMapExt.Instance.pieces.Count > 0)
+				// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] IsBossDefeated? [{isBossDefeated}] Pieces exist? [{piecesExist}]");
+				if (piecesExist && isBossDefeated)
 				{
 					// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] ChessboardMapExt is not null");
-					var bossPiece = ChessboardMapExt.Instance.BossPiece;
-
-					if (bossPiece is not null && bossPiece.NodeData is not null)
-					{
-						if (RunState.Run.map != null
-						    && RunState.Run.currentNodeId == bossPiece.NodeData.id + RunState.Run.regionTier + 1)
-						{
-							// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] Completing region sequence");
-							yield return ChessboardMapExt.Instance.CompleteRegionSequence();
-						}
-					}
+					ChessboardMapExt.Instance.BossDefeated = false;
+					// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] Calling CompleteRegionSequence");
+					yield return ChessboardMapExt.Instance.CompleteRegionSequence();
 				}
+				
+				// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] ShowMapSequence");
+				yield return GameMap.Instance.ShowMapSequence(__instance.SpecialSequencer
+					? __instance.SpecialSequencer.MapUnrollSpeed : 1f);
 
-				// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] unlockViewAfterTransition");
 				if (unlockViewAfterTransition)
 				{
 					ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 				}
+
+				// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] Setting CurrentGameState");
+				__instance.CurrentGameState = gameState;
+			}
+			else
+			{
+				GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] yield return the enumerator");
+				yield return enumerator;
 			}
 
-			yield return enumerator;
-			yield break;
 		}
 	}
 }

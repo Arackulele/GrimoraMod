@@ -46,6 +46,8 @@ namespace GrimoraMod
 		}
 
 		private bool ChangingRegion { get; set; }
+		
+		public bool BossDefeated { get; protected internal set; }
 
 		private List<GrimoraChessboard> Chessboards
 		{
@@ -82,6 +84,55 @@ namespace GrimoraMod
 				.Combine(instance.ViewChanged, new Action<View, View>(OnViewChanged));
 		}
 
+		private bool toggleEncounterMenu = false;
+
+		private string[] buttonNames = new[]
+		{
+			"Win Round", "Deck View"
+		};
+		
+		private void OnGUI()
+		{
+			toggleEncounterMenu = GUI.Toggle(
+				new Rect(20, 100, 200, 20),
+				toggleEncounterMenu,
+				"Debug Tools"
+			);
+
+			if (!toggleEncounterMenu) return;
+
+			int selectedButton = GUI.SelectionGrid(
+				new Rect(25, 150, 300, 100),
+				-1,
+				buttonNames,
+				2
+			);
+
+			if (selectedButton >= 0)
+			{
+				GrimoraPlugin.Log.LogDebug($"[OnGUI] Calling button [{selectedButton}]");
+				switch (buttonNames[selectedButton])
+				{
+					case "Win Round":
+						LifeManager.Instance.StartCoroutine(
+							LifeManager.Instance.ShowDamageSequence(10, 1, false)
+						);
+						break;
+					case "Deck View":
+						GrimoraPlugin.Log.LogDebug($"[OnGUI] is deck view [{selectedButton}]");
+						switch (ViewManager.Instance.CurrentView)
+						{
+							case View.MapDeckReview:
+								ViewManager.Instance.SwitchToView(View.MapDefault);
+								break;
+							case View.MapDefault:
+								ViewManager.Instance.SwitchToView(View.MapDeckReview);
+								break;
+						}
+						break;
+				}
+			}
+		}
 		public IEnumerator CompleteRegionSequence()
 		{
 			// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Starting CompleteRegionSequence");
