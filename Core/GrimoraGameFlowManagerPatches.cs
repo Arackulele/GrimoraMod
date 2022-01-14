@@ -11,7 +11,7 @@ namespace GrimoraMod
 		[HarmonyPrefix, HarmonyPatch(nameof(GrimoraGameFlowManager.SceneSpecificInitialization))]
 		public static bool PrefixAddMultipleSequencersDuringLoad(GrimoraGameFlowManager __instance)
 		{
-			// GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Instance is [{__instance.GetType()}]");
+			GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Instance is [{__instance.GetType()}]");
 
 			// bool skipIntro = GrimoraPlugin.ConfigHasPlayedRevealSequence.Value;
 			bool setLightsActive = true;
@@ -39,7 +39,7 @@ namespace GrimoraMod
 				// GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Setting __instance.CurrentGameState to GameState.FirstPerson3D");
 				__instance.CurrentGameState = GameState.FirstPerson3D;
 
-				// GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Transitioning to FirstPerson3D");
+				GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Transitioning to FirstPerson3D");
 				__instance.StartCoroutine(__instance.TransitionTo(GameState.FirstPerson3D, null, immediate: true));
 
 				ExplorableAreaManager.Instance.HangingLight.gameObject.SetActive(setLightsActive);
@@ -89,7 +89,7 @@ namespace GrimoraMod
 				{
 					// GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Setting CurrentGameState to GameState.Map");
 					__instance.CurrentGameState = GameState.Map;
-					// GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Transitioning to GameState.Map");
+					GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Transitioning to GameState.Map");
 					__instance.StartCoroutine(__instance.TransitionTo(GameState.Map, null, immediate: true));
 				}
 			}
