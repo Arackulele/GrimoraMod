@@ -192,13 +192,13 @@ namespace GrimoraMod
 
 			TableRuleBook.Instance.SetOnBoard(false);
 
-			// GrimoraPlugin.Log.LogDebug($"[ChessboardMap.UnrollingSequence] Setting each piece game object active to false");
+			GrimoraPlugin.Log.LogDebug($"[ChessboardMap.UnrollingSequence] Setting each piece game object active to false");
 			pieces.ForEach(delegate(ChessboardPiece x) { x.gameObject.SetActive(false); });
 			// yield return new WaitForSeconds(0.5f);
 
 			UpdateVisuals();
 
-			// GrimoraPlugin.Log.LogDebug($"[ChessboardMap.UnrollingSequence] Playing map anim enter");
+			GrimoraPlugin.Log.LogDebug($"[ChessboardMap.UnrollingSequence] Playing map anim enter");
 			// base.mapAnim.speed = 1f;
 			mapAnim.Play("enter", 0, 0f);
 			yield return new WaitForSeconds(0.25f);
@@ -272,8 +272,8 @@ namespace GrimoraMod
 
 			var removedList = RemovedPieces;
 
-			// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] " +
-			//                            $" Current removed list before {GrimoraPlugin.ConfigCurrentRemovedPieces.Value}");
+			GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] " +
+			                           $" Current removed list before {GrimoraPlugin.ConfigCurrentRemovedPieces.Value}");
 
 			activePieces = pieces
 				.Where(p => !removedList.Contains(p.name))
