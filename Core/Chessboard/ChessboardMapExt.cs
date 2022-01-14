@@ -138,13 +138,7 @@ namespace GrimoraMod
 
 			ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
 			yield return new WaitForSeconds(0.8f);
-
-
-			// todo: replace with own method ?
-			RunState.Run.regionTier++;
-			RunState.Run.regionIndex = RegionProgression.GetRandomRegionIndexForTier(RunState.Run.regionTier);
-
-
+			
 			// yield return TextDisplayer.Instance.PlayDialogueEvent("RegionNext", TextDisplayer.MessageAdvanceMode.Input);
 
 			ViewManager.Instance.SwitchToView(View.MapDefault);
