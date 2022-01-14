@@ -373,23 +373,28 @@ namespace GrimoraMod
 		
 		private void OnViewChanged(View newView, View oldView)
 		{
+			// GrimoraPlugin.Log.LogDebug($"[OnViewChanged] OnViewChanged called");
 			switch (oldView)
 			{
 				case View.MapDefault when newView == View.MapDeckReview:
 				{
 					if (MapNodeManager.Instance != null)
 					{
+						// GrimoraPlugin.Log.LogDebug($"[OnViewChanged] SetAllNodesInteractable false");
 						MapNodeManager.Instance.SetAllNodesInteractable(false);
 					}
 
-					DeckReviewSequencer.Instance.SetDeckReviewShown(true, base.transform, base.DefaultPosition);
+					DeckReviewSequencer.Instance.SetDeckReviewShown(true, transform, DefaultPosition);
 					break;
 				}
 				case View.MapDeckReview when newView == View.MapDefault:
 				{
-					DeckReviewSequencer.Instance.SetDeckReviewShown(false, base.transform, base.DefaultPosition);
+					DeckReviewSequencer.Instance.SetDeckReviewShown(false, transform, DefaultPosition);
 					if (MapNodeManager.Instance != null)
 					{
+						// GrimoraPlugin.Log.LogDebug($"[OnViewChanged] SetAllNodesInteractable true");
+						MapNodeManager.Instance.SetAllNodesInteractable(true);
+						// GrimoraPlugin.Log.LogDebug($"[OnViewChanged] FindAndSetActiveNodeInteractable");
 						MapNodeManager.Instance.FindAndSetActiveNodeInteractable();
 					}
 
@@ -401,7 +406,7 @@ namespace GrimoraMod
 		public void RenameMapNodesWithGridCoords()
 		{
 			if (string.Equals(
-				this.navGrid.zones[0, 0].name,
+				navGrid.zones[0, 0].name,
 				"ChessBoardMapNode",
 				StringComparison.InvariantCultureIgnoreCase)
 			)
