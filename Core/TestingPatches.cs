@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using DiskCardGame;
 using HarmonyLib;
 
@@ -12,7 +13,7 @@ namespace GrimoraMod
 		{
 			[HarmonyPrefix, HarmonyPatch(nameof(ViewController.SwitchToControlMode))]
 			public static bool Prefix(
-				ref ViewController __instance, 
+				ref ViewController __instance,
 				ref ViewController.ControlMode mode,
 				bool immediate = false)
 			{
