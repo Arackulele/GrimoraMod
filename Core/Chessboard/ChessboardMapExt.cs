@@ -94,20 +94,19 @@ namespace GrimoraMod
 			RunState.Run.regionTier++;
 			RunState.Run.regionIndex = RegionProgression.GetRandomRegionIndexForTier(RunState.Run.regionTier);
 
-			yield return new WaitForSeconds(0.5f);
+			// yield return new WaitForSeconds(0.5f);
 
 			// yield return TextDisplayer.Instance.PlayDialogueEvent("RegionNext", TextDisplayer.MessageAdvanceMode.Input);
 
 			ViewManager.Instance.SwitchToView(View.MapDefault);
 
-			yield return new WaitForSeconds(0.5f);
+			// yield return new WaitForSeconds(0.5f);
 
 			RunState.CurrentMapRegion.FadeInAmbientAudio();
 
 			// yield return ShowMapSequence(0.75f);
 
 			MapNodeManager.Instance.SetAllNodesInteractable(false);
-			yield return new WaitForSeconds(1f);
 
 			// yield return TextDisplayer.Instance.PlayDialogueEvent("Region" + RunState.CurrentMapRegion.name, TextDisplayer.MessageAdvanceMode.Input);
 
@@ -144,19 +143,19 @@ namespace GrimoraMod
 
 		public override IEnumerator UnrollingSequence(float unrollSpeed)
 		{
-			StoryEventsData.SetEventCompleted(StoryEvent.GrimoraReachedTable, true);
+			// StoryEventsData.SetEventCompleted(StoryEvent.GrimoraReachedTable, true);
 
 			TableRuleBook.Instance.SetOnBoard(false);
 
 			// GrimoraPlugin.Log.LogDebug($"[ChessboardMap.UnrollingSequence] Setting each piece game object active to false");
-			base.pieces.ForEach(delegate(ChessboardPiece x) { x.gameObject.SetActive(false); });
+			pieces.ForEach(delegate(ChessboardPiece x) { x.gameObject.SetActive(false); });
 			// yield return new WaitForSeconds(0.5f);
 
 			UpdateVisuals();
 
 			// GrimoraPlugin.Log.LogDebug($"[ChessboardMap.UnrollingSequence] Playing map anim enter");
 			// base.mapAnim.speed = 1f;
-			base.mapAnim.Play("enter", 0, 0f);
+			mapAnim.Play("enter", 0, 0f);
 			yield return new WaitForSeconds(0.25f);
 
 			// todo: play sound?
@@ -165,7 +164,7 @@ namespace GrimoraMod
 			// yield return new WaitForSeconds(0.15f);
 
 			// GrimoraPlugin.Log.LogDebug($"[ChessboardMap.UnrollingSequence] Setting dynamicElements [{__instance.dynamicElementsParent}] to active");
-			base.dynamicElementsParent.gameObject.SetActive(true);
+			dynamicElementsParent.gameObject.SetActive(true);
 
 			// for checking which nodes are active/inactive
 			RenameMapNodesWithGridCoords();
@@ -231,27 +230,28 @@ namespace GrimoraMod
 			// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] " +
 			//                            $" Current removed list before {GrimoraPlugin.ConfigCurrentRemovedPieces.Value}");
 
-			activePieces = base.pieces
+			activePieces = pieces
 				.Where(p => !removedList.Contains(p.name))
 				.ToList();
 		}
 
 		private void HandleChessboardSetup()
 		{
+			// GrimoraPlugin.Log.LogDebug($"[HandleChessboardSetup] Before setting chess board idx [{currentChessboardIndex}]");
 			currentChessboardIndex = GrimoraPlugin.ConfigCurrentChessboardIndex.Value;
-			// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Current chess board idx [{currentChessboardIndex}]");
+			// GrimoraPlugin.Log.LogDebug($"[HandleChessboardSetup] After setting chess board idx [{currentChessboardIndex}]");
 
 			if (ChangingRegion)
 			{
 				GrimoraPlugin.ConfigCurrentChessboardIndex.Value = ++currentChessboardIndex;
-				// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] -> Setting new chessboard idx [{currentChessboardIndex}]");
+				// GrimoraPlugin.Log.LogDebug($"[HandleChessboardSetup] -> Setting new chessboard idx [{currentChessboardIndex}]");
 				activeChessboard = Chessboards[currentChessboardIndex];
 
 				// set the updated position to spawn the player in
 				GrimoraSaveData.Data.gridX = activeChessboard.GetPlayerNode().GridX;
 				GrimoraSaveData.Data.gridY = activeChessboard.GetPlayerNode().GridY;
 			}
-
+			// GrimoraPlugin.Log.LogDebug($"[HandleChessboardSetup] ActiveChessboard [{activeChessboard}] Chessboards size [{Chessboards.Count}]");
 			activeChessboard ??= Chessboards[currentChessboardIndex];
 		}
 
@@ -303,7 +303,7 @@ namespace GrimoraMod
 				}
 			}
 
-			MapNodeManager.Instance.ActiveNode = this.navGrid.zones[x, y].GetComponent<MapNode>();
+			MapNodeManager.Instance.ActiveNode = navGrid.zones[x, y].GetComponent<MapNode>();
 			// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] MapNodeManager ActiveNode is x[{x}]y[{y}]");
 
 			// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] SetPlayerAdjacentNodesActive");
