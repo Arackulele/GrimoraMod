@@ -29,6 +29,12 @@ namespace GrimoraMod
 		[HarmonyPrefix, HarmonyPatch(nameof(MenuController.OnCardReachedSlot))]
 		public static bool MainMenuThree(MenuController __instance, MenuCard card, bool skipTween = false)
 		{
+			if (SaveManager.SaveFile.IsGrimora && card.MenuAction == MenuAction.ReturnToStartMenu)
+			{
+				GrimoraPlugin.Log.LogDebug($"[MenuController.OnCardReachedSlot] saving before exiting");
+				SaveManager.SaveToFile();
+			}
+
 			if (card.titleText == "Start Grimora Mod")
 			{
 				// GrimoraPlugin.Log.LogDebug($"[MenuController.OnCardReachedSlot] Card.titleText is 'Start Grimora Mod'");
