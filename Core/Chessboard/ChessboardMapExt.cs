@@ -20,7 +20,8 @@ namespace GrimoraMod
 
 		private string[] buttonNames =
 		{
-			"Win Round", "Deck View"
+			"Win Round", "Lose Round", "Deck View",
+			"Place Chest"
 		};
 
 		private List<GrimoraChessboard> chessboards;
@@ -97,6 +98,14 @@ namespace GrimoraMod
 						LifeManager.Instance.StartCoroutine(
 							LifeManager.Instance.ShowDamageSequence(10, 1, false)
 						);
+						break;
+					case "Lose Round":
+						LifeManager.Instance.StartCoroutine(
+							LifeManager.Instance.ShowDamageSequence(10, 1, true)
+						);
+						break;
+					case "Place Chest":
+						ChessboardMapExt.Instance.activeChessboard.PlaceChestPiece(0, 0);
 						break;
 					case "Deck View":
 						GrimoraPlugin.Log.LogDebug($"[OnGUI] is deck view [{selectedButton}]");
@@ -444,8 +453,8 @@ namespace GrimoraMod
 					if (MapNodeManager.Instance != null)
 					{
 						// GrimoraPlugin.Log.LogDebug($"[OnViewChanged] SetAllNodesInteractable true");
-						MapNodeManager.Instance.SetAllNodesInteractable(true);
-						// GrimoraPlugin.Log.LogDebug($"[OnViewChanged] FindAndSetActiveNodeInteractable");
+						// MapNodeManager.Instance.SetAllNodesInteractable(true);
+						GrimoraPlugin.Log.LogDebug($"[OnViewChanged] PlayerMarker transform {PlayerMarker.Instance.transform}");
 						MapNodeManager.Instance.FindAndSetActiveNodeInteractable();
 					}
 
