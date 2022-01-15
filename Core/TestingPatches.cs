@@ -2,6 +2,7 @@
 using System.Linq;
 using DiskCardGame;
 using HarmonyLib;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod
 {
@@ -28,7 +29,7 @@ namespace GrimoraMod
 
 				if (mode == ViewController.ControlMode.Map)
 				{
-					GrimoraPlugin.Log.LogDebug($"[ViewController.SwitchToControlMode] Adding MapDeckReview to allowed views");
+					Log.LogDebug($"[ViewController.SwitchToControlMode] Adding MapDeckReview to allowed views");
 					__instance.allowedViews = new List<View> { View.MapDefault, View.MapDeckReview };
 
 					if (!__instance.allowedViews.Contains(currentView))
@@ -48,7 +49,7 @@ namespace GrimoraMod
 			[HarmonyPrefix, HarmonyPatch(nameof(RuleBookController.Start))]
 			public static bool PrefixAddRestOfAbilityMetaCategoriesPatch(ref RuleBookController __instance)
 			{
-				if (SaveManager.SaveFile.IsGrimora)
+				if (SaveManager.SaveFile.IsGrimora && __instance.PageData is null)
 				{
 					List<AbilityMetaCategory> pagesToConstruct = new List<AbilityMetaCategory>()
 					{
@@ -58,7 +59,7 @@ namespace GrimoraMod
 					};
 
 					List<RuleBookPageInfo> pageInfos = new List<RuleBookPageInfo>();
-					GrimoraPlugin.Log.LogDebug($"[RuleBookController.Start] About to start adding all rulebooks");
+					Log.LogDebug($"[RuleBookController.Start] About to start adding all rulebooks");
 					foreach (var category in pagesToConstruct)
 					{
 						pageInfos.AddRange(__instance.bookInfo.ConstructPageData(category));
@@ -68,7 +69,7 @@ namespace GrimoraMod
 						.GroupBy(i => i.ability)
 						.Select(i => i.First()).ToList();
 
-					GrimoraPlugin.Log.LogDebug($"[RuleBookController.Start] Setting pages of rulebook infos");
+					Log.LogDebug($"[RuleBookController.Start] Setting pages of rulebook infos");
 					__instance.PageData = pageInfos;
 
 					// RuleBookController.Instance.PageData.ForEach(info => UnityExplorer.ExplorerCore.Log(info.ability));
@@ -80,6 +81,35 @@ namespace GrimoraMod
 				}
 
 				return true;
+			}
+		}
+
+		[HarmonyPatch(typeof(GrimoraSaveData))]
+		public class GrimoraSaveDataPatches
+		{
+			private static List<CardInfo> defaultCardInfos = new List<CardInfo>()
+			{
+				CardLoader.GetCardByName(NameGraveDigger),
+				CardLoader.GetCardByName(NameGraveDigger),
+				CardLoader.GetCardByName(NameGraveDigger),
+				CardLoader.GetCardByName(NameFranknstein),
+				CardLoader.GetCardByName(NameFranknstein)
+			};
+
+			[HarmonyPrefix, HarmonyPatch(nameof(GrimoraSaveData.Initialize))]
+			public static bool PrefixChangeSetupOfGrimoraSaveData(ref GrimoraSaveData __instance)
+			{
+				__instance.gridX = 0;
+				__instance.gridY = 7;
+				__instance.removedPieces = new List<int>();
+				__instance.deck.Cards.Clear();
+				__instance.deck = new DeckInfo();
+				foreach (var cardInfo in defaultCardInfos)
+				{
+					__instance.deck.AddCard(cardInfo);
+				}
+
+				return false;
 			}
 		}
 	}
