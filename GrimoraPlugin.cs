@@ -193,14 +193,19 @@ namespace GrimoraMod
 			if (!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable))
 			{
 				Log.LogWarning($"Grimora has not reached the table yet, resetting values to false again.");
-				ConfigKayceeFirstBossDead.Value = false;
-				ConfigDoggySecondBossDead.Value = false;
-				ConfigRoyalThirdBossDead.Value = false;
-				ConfigGrimoraBossDead.Value = false;
-				ConfigFirstTimeBoardInteraction.Value = false;
-				ConfigCurrentRemovedPieces.Value = StaticDefaultRemovedPiecesList;
-				ConfigCurrentChessboardIndex.Value = 0;
+				ResetConfig();
 			}
+		}
+
+		public static void ResetConfig()
+		{
+			ConfigKayceeFirstBossDead.Value = false;
+			ConfigDoggySecondBossDead.Value = false;
+			ConfigRoyalThirdBossDead.Value = false;
+			ConfigGrimoraBossDead.Value = false;
+			ConfigFirstTimeBoardInteraction.Value = false;
+			ConfigCurrentRemovedPieces.Value = StaticDefaultRemovedPiecesList;
+			ConfigCurrentChessboardIndex.Value = 0;
 		}
 
 		private static void DisableAllActOneCardsFromAppearing()

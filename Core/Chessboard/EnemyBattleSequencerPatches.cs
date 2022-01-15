@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod
 {
@@ -26,7 +27,7 @@ namespace GrimoraMod
 
 			if (!TurnManager.Instance.PlayerWon)
 			{
-				GrimoraPlugin.Log.LogDebug($"[ChessboardEnemyBattleSequencer.PreCleanUp][Postfix] Player did not win...");
+				Log.LogDebug($"[ChessboardEnemyBattleSequencer.PreCleanUp][Postfix] Player did not win...");
 				AudioController.Instance.FadeOutLoop(3f, Array.Empty<int>());
 
 				ViewManager.Instance.SwitchToView(View.Default, false, true);
@@ -56,30 +57,56 @@ namespace GrimoraMod
 
 				yield return new WaitForSeconds(0.75f);
 
+				RuleBookController.Instance.SetShown(shown: false);
 				TableRuleBook.Instance.enabled = false;
 
 				GlitchOutAssetEffect.GlitchModel(TableRuleBook.Instance.transform, false, true);
 
 				yield return new WaitForSeconds(0.75f);
 
-				yield return TextDisplayer.Instance.ShowUntilInput("Let the circle reset");
+				// yield return TextDisplayer.Instance.ShowUntilInput("Let the circle reset");
 
+				yield return TextDisplayer.Instance.PlayDialogueEvent("RoyalBossDeleted",
+					TextDisplayer.MessageAdvanceMode.Input);
 				yield return new WaitForSeconds(0.5f);
 
-				InteractionCursor.Instance.InteractionDisabled = false;
+				Singleton<InteractionCursor>.Instance.InteractionDisabled = false;
 
-				SaveManager.saveFile.grimoraData.Initialize();
+				GlitchOutAssetEffect.GlitchModel(((BoardManager3D)BoardManager3D.Instance).Bell.transform);
+				yield return new WaitForSeconds(0.75f);
 
-				SaveManager.SaveToFile();
+				GlitchOutAssetEffect.GlitchModel(LifeManager.Instance.Scales3D.transform);
+				yield return new WaitForSeconds(0.75f);
 
-				SceneLoader.Load("Start");
+				// yield return (Singleton<GameFlowManager>.Instance as GrimoraGameFlowManager).EndSceneSequence();
+
+				(ResourcesManager.Instance as Part1ResourcesManager).GlitchOutBoneTokens();
+				GlitchOutAssetEffect.GlitchModel(Singleton<TableVisualEffectsManager>.Instance.Table.transform);
+				yield return new WaitForSeconds(0.75f);
+
+				yield return TextDisplayer.Instance.PlayDialogueEvent("GrimoraFinaleEnd",
+					TextDisplayer.MessageAdvanceMode.Input);
+				ViewManager.Instance.SwitchToView(View.Default, immediate: false, lockAfter: true);
+
+				__state.StartCoroutine(TextDisplayer.Instance.ShowThenClear(
+					"It is time to rest.", 3f, 0f, Emotion.Curious)
+				);
+				yield return new WaitForSeconds(1.5f);
+				ViewManager.Instance.OffsetFOV(150f, 1.5f);
+
+				ResetRun();
+
+				yield return new WaitForSeconds(1.5f);
+
+				LoadingScreenManager.LoadScene("finale_grimora");
+
+				yield break;
 			}
 
-
-			else if (!DialogueEventsData.EventIsPlayed("FinaleGrimoraBattleWon"))
+			if (!DialogueEventsData.EventIsPlayed("FinaleGrimoraBattleWon"))
 			{
-				GrimoraPlugin.Log.LogDebug($"[ChessboardEnemyBattleSequencer.PreCleanUp][Postfix]" +
-				                           $" FinaleGrimoraBattleWon has not played yet, playing now.");
+				Log.LogDebug($"[ChessboardEnemyBattleSequencer.PreCleanUp][Postfix]" +
+				             $" FinaleGrimoraBattleWon has not played yet, playing now.");
 
 				ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
 				yield return new WaitForSeconds(0.5f);
@@ -88,11 +115,22 @@ namespace GrimoraMod
 				);
 			}
 
-			GrimoraPlugin.Log.LogDebug($"[ChessboardEnemyBattleSequencer.PreCleanUp] " +
-			                           $"Adding enemy [{activeEnemyPiece.name}] to config removed pieces");
+			Log.LogDebug($"[ChessboardEnemyBattleSequencer.PreCleanUp] " +
+			             $"Adding enemy [{activeEnemyPiece.name}] to config removed pieces");
 			ChessboardMapExt.Instance.AddPieceToRemovedPiecesConfig(activeEnemyPiece.name);
 
 			yield break;
+		}
+
+		private static void ResetRun()
+		{
+			Log.LogDebug($"[ResetRun] Resetting run");
+
+			GrimoraSaveData.Data.Initialize();
+			StoryEventsData.EraseEvent(StoryEvent.GrimoraReachedTable);
+			ResetConfig();
+
+			SaveManager.SaveToFile();
 		}
 	}
 }
