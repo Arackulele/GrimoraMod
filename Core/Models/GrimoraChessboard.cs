@@ -8,35 +8,14 @@ namespace GrimoraMod
 {
 	public class GrimoraChessboard
 	{
-		#region Prefabs
-
-		public const string PrefabPath = "Prefabs/Map/ChessboardMap";
-
-		public static Mesh MeshFilterBlockerIceBlock => GrimoraPlugin.AllAssets[8] as Mesh;
-		public static Mesh MeshFilterBlockerBones => GrimoraPlugin.AllAssets[5] as Mesh;
-		public static Mesh MeshFilterBlockerBarrels => GrimoraPlugin.AllAssets[2] as Mesh;
-
-		public static ChessboardBlockerPiece PrefabTombstone =>
-			ResourceBank.Get<ChessboardBlockerPiece>($"{PrefabPath}/Chessboard_Tombstone_1");
-		
-		public static ChessboardEnemyPiece PrefabEnemyPiece =>
-			ResourceBank.Get<ChessboardEnemyPiece>($"{PrefabPath}/ChessboardEnemyPiece");
-
-		public static ChessboardEnemyPiece PrefabBossPiece =>
-			ResourceBank.Get<ChessboardEnemyPiece>($"{PrefabPath}/BossFigurine");
-
-		public static ChessboardChestPiece PrefabChestPiece =>
-			ResourceBank.Get<ChessboardChestPiece>($"{PrefabPath}/ChessboardChestPiece");
-
-		#endregion
-
-		public readonly List<ChessRow> Rows;
 		public readonly List<ChessNode> BlockerNodes;
 		public readonly ChessNode BossNode;
 		public readonly List<ChessNode> ChestNodes;
 		public readonly List<ChessNode> EnemyNodes;
 		public readonly List<ChessNode> OpenPathNodes;
 		public readonly ChessNode PlayerNode;
+
+		public readonly List<ChessRow> Rows;
 
 		public Opponent.Type ActiveBossType;
 
@@ -81,6 +60,28 @@ namespace GrimoraMod
 			return Rows.SelectMany(row => row.GetNodesOfType(9)).Single();
 		}
 
+		#region Prefabs
+
+		public const string PrefabPath = "Prefabs/Map/ChessboardMap";
+
+		public static Mesh MeshFilterBlockerIceBlock => GrimoraPlugin.AllAssets[8] as Mesh;
+		public static Mesh MeshFilterBlockerBones => GrimoraPlugin.AllAssets[5] as Mesh;
+		public static Mesh MeshFilterBlockerBarrels => GrimoraPlugin.AllAssets[2] as Mesh;
+
+		public static ChessboardBlockerPiece PrefabTombstone =>
+			ResourceBank.Get<ChessboardBlockerPiece>($"{PrefabPath}/Chessboard_Tombstone_1");
+
+		public static ChessboardEnemyPiece PrefabEnemyPiece =>
+			ResourceBank.Get<ChessboardEnemyPiece>($"{PrefabPath}/ChessboardEnemyPiece");
+
+		public static ChessboardEnemyPiece PrefabBossPiece =>
+			ResourceBank.Get<ChessboardEnemyPiece>($"{PrefabPath}/BossFigurine");
+
+		public static ChessboardChestPiece PrefabChestPiece =>
+			ResourceBank.Get<ChessboardChestPiece>($"{PrefabPath}/ChessboardChestPiece");
+
+		#endregion
+
 
 		#region PiecesHelperMethods
 
@@ -116,9 +117,19 @@ namespace GrimoraMod
 			CreateBossPiece(bossName, BossNode.GridX, BossNode.GridY);
 		}
 
+		public void PlaceChestPiece(int x, int y)
+		{
+			CreateChestPiece(x, y);
+		}
+
 		public void PlaceChestPieces()
 		{
 			ChestNodes.ForEach(node => CreateChestPiece(node.GridX, node.GridY));
+		}
+
+		public void PlaceEnemyPiece(int x, int y)
+		{
+			CreateEnemyPiece(x, y);
 		}
 
 		public void PlaceEnemyPieces()
@@ -225,7 +236,7 @@ namespace GrimoraMod
 									// meshFilter59.mesh = (Pluginz.allAssets[2] as Mesh);
 									// .material.mainTexture = (Pluginz.allAssets[3] as Texture2D);
 									// .sharedMaterial.mainTexture = (Pluginz.allAssets[3] as Texture2D);
-									
+
 									meshFilter.mesh = blockerMesh;
 									// meshObj.GetComponent<MeshRenderer>().material.mainTexture = blockerMesh as Texture2D;
 									// meshObj.GetComponent<MeshRenderer>().sharedMaterial.mainTexture = allAssets[3] as Texture2D;

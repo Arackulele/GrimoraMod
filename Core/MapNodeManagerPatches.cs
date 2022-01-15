@@ -21,7 +21,8 @@ namespace GrimoraMod
 				newActiveNode.nodeId = RunState.Run.currentNodeId;
 			}
 
-			GrimoraPlugin.Log.LogDebug($"[SetActiveNode] Setting active node to true");
+			GrimoraPlugin.Log.LogDebug(
+				$"[SetActiveNode] Setting activeNode active x{newActiveNode.Data.gridX}y{newActiveNode.Data.gridY}");
 			newActiveNode.SetActive(true);
 			ChessboardNavGrid.instance.SetPlayerAdjacentNodesActive();
 
