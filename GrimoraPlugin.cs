@@ -18,7 +18,7 @@ namespace GrimoraMod
 		public const string PluginGuid = "arackulele.inscryption.grimoramod";
 		public const string PluginName = "GrimoraMod";
 		private const string PluginVersion = "2.1.0";
-		
+
 		internal static ManualLogSource Log;
 
 		private static Harmony _harmony;
@@ -53,6 +53,87 @@ namespace GrimoraMod
 		public static ConfigEntry<string> ConfigCurrentRemovedPieces;
 
 		public static ConfigEntry<string> ConfigCurrentActivePieces;
+
+		private static readonly List<StoryEvent> StoryEventsToBeCompleteBeforeStarting = new()
+		{
+			StoryEvent.BasicTutorialCompleted, StoryEvent.TutorialRunCompleted, StoryEvent.BonesTutorialCompleted,
+			StoryEvent.TutorialRun2Completed, StoryEvent.TutorialRun3Completed
+		};
+
+
+		private void Awake()
+		{
+			Log = base.Logger;
+
+			LoadAssets();
+
+			BindConfig();
+
+			GrimoraConfigFile.SaveOnConfigSet = true;
+			ResetConfigDataIfGrimoraHasNotReachedTable();
+
+			UnlockAllNecessaryEventsToPlay();
+
+			_harmony = new Harmony(PluginGuid);
+			_harmony.PatchAll();
+
+			#region AddingAbilities
+
+			FlameStrafe.CreateFlameStrafe();
+
+			#endregion
+
+			#region AddingCards
+
+			AddAra_Bonepile();
+			AddAra_BonePrince();
+			AddAra_Bonelord();
+			AddAra_BonelordsHorn();
+			AddAra_BoneSerpent();
+			AddAra_CrazedMantis();
+			AddAra_DeadHand();
+			AddAra_DeadPets();
+			AddAra_Draugr();
+			AddAra_DrownedSoul();
+			AddAra_Ember_spirit();
+			AddAra_Family();
+			AddAra_Flames();
+			AddAra_Franknstein();
+			AddAra_GhostShip();
+			AddAra_GraveDigger();
+			AddAra_HeadlessHorseman();
+			AddAra_Hydra();
+			AddAra_Mummy();
+			AddAra_Necromancer();
+			AddAra_Obol();
+			AddAra_Poltergeist();
+			AddAra_Revenant();
+			AddAra_RingWorm();
+			AddAra_Sarcophagus();
+			AddAra_Skelemancer();
+			AddAra_Skelemaniac();
+			AddAra_SkeletonArmy();
+			AddAra_SkeletonMage();
+			AddAra_Snapper();
+			AddAra_SporeDigger();
+			AddAra_TombRobber();
+			AddAra_Wendigo();
+			AddAra_Wolf();
+			AddAra_Wyvern();
+			AddAra_ZombieGeck();
+			AddAra_Zombie();
+
+			#endregion
+
+			DisableAllActOneCardsFromAppearing();
+			ChangePackRat();
+			// ChangeSquirrel();
+		}
+
+		private void OnDestroy()
+		{
+			_harmony?.UnpatchSelf();
+		}
 
 		private static void BindConfig()
 		{
@@ -89,99 +170,20 @@ namespace GrimoraMod
 
 			ConfigCurrentRemovedPieces.Value = string.Join(",", list.Distinct());
 		}
-		
 
-
-		private void Awake()
-		{
-			Log = base.Logger;
-
-			LoadAssets();
-			
-			BindConfig();
-
-			GrimoraConfigFile.SaveOnConfigSet = true;
-			ResetConfigDataIfGrimoraHasNotReachedTable();
-
-			UnlockAllNecessaryEventsToPlay();
-
-			_harmony = new Harmony(PluginGuid);
-			_harmony.PatchAll();
-
-			#region AddingAbilities
-
-			FlameStrafe.CreateFlameStrafe();
-
-			#endregion
-
-			#region AddingCards
-
-			AddAra_Bonepile();
-			AddAra_BonePrince();
-			AddAra_Bonelord();
-			AddAra_BonelordsHorn();
-			AddAra_BoneSerpent();
-			AddAra_CrazedMantis();
-			AddAra_DeadHand();
-			AddAra_DeadPets();
-			AddAra_Draugr();
-			AddAra_DrownedSoul();
-			AddAra_Ember_spirit();
-			AddAra_Family();
-			AddAra_Flames();
-			// AddAra_Franknstein();
-			AddAra_GhostShip();
-			// AddAra_GraveDigger();
-			AddAra_HeadlessHorseman();
-			AddAra_Hydra();
-			AddAra_Mummy();
-			AddAra_Necromancer();
-			AddAra_Obol();
-			AddAra_Poltergeist();
-			AddAra_Revenant();
-			AddAra_RingWorm();
-			AddAra_Sarcophagus();
-			AddAra_Skelemancer();
-			// AddAra_Skelemaniac();
-			AddAra_SkeletonArmy();
-			AddAra_SkeletonMage();
-			AddAra_Snapper();
-			AddAra_SporeDigger();
-			AddAra_TombRobber();
-			AddAra_Wendigo();
-			AddAra_Wolf();
-			AddAra_Wyvern();
-			AddAra_ZombieGeck();
-			AddAra_Zombie();
-
-			#endregion
-			
-			DisableAllActOneCardsFromAppearing();
-			ChangePackRat();
-			// ChangeSquirrel();
-		}
-		
 		private static void LoadAssets()
 		{
 			AssetBundle bundle = AssetBundle.LoadFromMemory(Properties.Resources.GrimoraMod_Prefabs_Blockers);
 			AllAssets = bundle.LoadAllAssets();
 		}
 
-
 		private static void UnlockAllNecessaryEventsToPlay()
 		{
-			if (!StoryEventsData.EventCompleted(StoryEvent.BasicTutorialCompleted))
+			if (StoryEventsToBeCompleteBeforeStarting.Any(evt => !StoryEventsData.EventCompleted(evt)))
 			{
-				Log.LogWarning($"You haven't completed the basic tutorial... THIS WILL UNLOCK A LOT THINGS");
+				Log.LogWarning($"You haven't completed a required event... Starting unlock process");
+				StoryEventsToBeCompleteBeforeStarting.ForEach(evt => StoryEventsData.SetEventCompleted(evt));
 				ProgressionData.UnlockAll();
-				StoryEventsData.SetEventCompleted(StoryEvent.BasicTutorialCompleted);
-				StoryEventsData.SetEventCompleted(StoryEvent.TutorialRunCompleted);
-				StoryEventsData.SetEventCompleted(StoryEvent.BonesTutorialCompleted);
-				StoryEventsData.SetEventCompleted(StoryEvent.TutorialRun2Completed);
-				StoryEventsData.SetEventCompleted(StoryEvent.TutorialRun3Completed);
-				// StoryEventsData.SetEventCompleted(StoryEvent.StartScreenNewGameUnlocked);
-				// StoryEventsData.SetEventCompleted(StoryEvent.StartScreenNewGameUsed);
-				// StoryEventsData.SetEventCompleted(StoryEvent.Part2Completed);
 				SaveManager.SaveToFile();
 			}
 		}
@@ -199,11 +201,6 @@ namespace GrimoraMod
 				ConfigCurrentRemovedPieces.Value = StaticDefaultRemovedPiecesList;
 				ConfigCurrentChessboardIndex.Value = 0;
 			}
-		}
-
-		private void OnDestroy()
-		{
-			_harmony?.UnpatchSelf();
 		}
 
 		private static void DisableAllActOneCardsFromAppearing()
