@@ -98,9 +98,9 @@ namespace GrimoraMod
 			AddAra_Ember_spirit();
 			AddAra_Family();
 			AddAra_Flames();
-			// AddAra_Franknstein();
+			AddAra_Franknstein();
 			AddAra_GhostShip();
-			// AddAra_GraveDigger();
+			AddAra_GraveDigger();
 			AddAra_HeadlessHorseman();
 			AddAra_Hydra();
 			AddAra_Mummy();
@@ -111,7 +111,7 @@ namespace GrimoraMod
 			AddAra_RingWorm();
 			AddAra_Sarcophagus();
 			AddAra_Skelemancer();
-			// AddAra_Skelemaniac();
+			AddAra_Skelemaniac();
 			AddAra_SkeletonArmy();
 			AddAra_SkeletonMage();
 			AddAra_Snapper();
