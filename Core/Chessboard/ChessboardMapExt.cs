@@ -197,7 +197,7 @@ namespace GrimoraMod
 
 		public override IEnumerator UnrollingSequence(float unrollSpeed)
 		{
-			// StoryEventsData.SetEventCompleted(StoryEvent.GrimoraReachedTable, true);
+			StoryEventsData.SetEventCompleted(StoryEvent.GrimoraReachedTable);
 
 			TableRuleBook.Instance.SetOnBoard(false);
 
