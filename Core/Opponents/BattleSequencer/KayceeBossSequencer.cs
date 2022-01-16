@@ -1,11 +1,12 @@
 ﻿using System.Collections;
+using System.Linq;
 using DiskCardGame;
 
 namespace GrimoraMod
 {
 	public class KayceeBossSequencer : Part1BossBattleSequencer
 	{
-		public override Opponent.Type BossType => Opponent.Type.ProspectorBoss;
+		public override Opponent.Type BossType => BaseBossExt.KayceeOpponent;
 
 		public override StoryEvent DefeatedStoryEvent => StoryEvent.TutorialRunCompleted;
 
@@ -13,7 +14,7 @@ namespace GrimoraMod
 		{
 			return new EncounterData()
 			{
-				opponentType = BaseBossExt.KayceeOpponent
+				opponentType = BossType
 			};
 		}
 
@@ -26,19 +27,23 @@ namespace GrimoraMod
 
 		public override IEnumerator OnUpkeep(bool playerUpkeep)
 		{
-			if (++this.freezeCounter == 3)
+			var playerSlotsWithCards = CardSlotUtils.GetPlayerSlotsWithCards();
+			if (playerSlotsWithCards.Capacity > 0)
 			{
-				StartCoroutine(TextDisplayer.Instance.ShowUntilInput("Freeze!"));
-				foreach (var slot in CardSlotUtils.GetPlayerSlotsWithCards())
+				if (++freezeCounter == 3)
 				{
-					slot.Card.Anim.StrongNegationEffect();
-					slot.Card.Anim.StrongNegationEffect();
-					slot.Card.Anim.StrongNegationEffect();
-					slot.Card.Anim.StrongNegationEffect();
-					slot.Card.Anim.StrongNegationEffect();
-					slot.Card.AddTemporaryMod(new CardModificationInfo(-1, 0));
-					
-					freezeCounter = 0;
+					StartCoroutine(TextDisplayer.Instance.ShowUntilInput("Freeze!"));
+					foreach (var card in playerSlotsWithCards.Select(slot => slot.Card))
+					{
+						card.Anim.StrongNegationEffect();
+						card.Anim.StrongNegationEffect();
+						card.Anim.StrongNegationEffect();
+						card.Anim.StrongNegationEffect();
+						card.Anim.StrongNegationEffect();
+						card.AddTemporaryMod(new CardModificationInfo(-1, 0));
+
+						freezeCounter = 0;
+					}
 				}
 			}
 

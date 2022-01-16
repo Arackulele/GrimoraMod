@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using DiskCardGame;
 using UnityEngine;
@@ -7,14 +6,13 @@ using static GrimoraMod.BlueprintUtils;
 
 namespace GrimoraMod
 {
-	public class KayceeBossExt : BaseBossExt
+	public class KayceeBossOpponent : BaseBossExt
 	{
-		
-		// public const Type Opponent = (Type)1001;
+		public const string SpecialId = "kayceeBoss";
 
 		public override StoryEvent EventForDefeat => StoryEvent.FactoryConveyorBeltMoved;
-		
-		public override Opponent.Type Opponent => (Type)1001;
+
+		public override Type Opponent => KayceeOpponent;
 
 		public override string DefeatedPlayerDialogue => "Youuuuuuu, painnnfulllll deaaathhh awaiiitttsss youuuuuuu!";
 

@@ -8,17 +8,17 @@ namespace GrimoraMod
 {
 	public partial class GrimoraPlugin
 	{
-
 		public const string DisplayNameSkelemaniac = "Skelemaniac";
 
 
 		private void AddAra_Skelemaniac()
 		{
 			ApiUtils.Add("ara_" + DisplayNameSkelemaniac, DisplayNameSkelemaniac,
-				"A skeleton gone mad. At least it follows your command.", 
-				1, 3, 4, Resources.Skelemaniac, Ability.GuardDog);
+				"A skeleton gone mad. At least it follows your command.",
+				1, 3, 4, Resources.Skelemaniac, Ability.GuardDog, CardMetaCategory.Rare
+			);
 		}
-		
+
 		private void ChangePackRat()
 		{
 			List<Ability> abilities = new List<Ability> { Ability.GuardDog };

@@ -100,7 +100,8 @@ namespace GrimoraMod
 
 						card.SetFaceDown(true, true);
 						Vector3 position = card.transform.position;
-						card.transform.position = card.transform.position + Vector3.forward * 5f + new Vector3(-0.5f + UnityEngine.Random.value * 1f , 0f, 0f);
+						card.transform.position = card.transform.position + Vector3.forward * 5f +
+						                          new Vector3(-0.5f + UnityEngine.Random.value * 1f, 0f, 0f);
 						Tween.Position(card.transform, position, 0.3f, 0.0f, Tween.EaseInOut);
 						Tween.Rotate(card.transform, new Vector3(0f, 0f, Random.value * 1.5f), Space.Self, 0.4f, 0f, Tween.EaseOut);
 						yield return new WaitForSeconds(0.2f);
@@ -113,7 +114,8 @@ namespace GrimoraMod
 					}
 
 					yield return new WaitForSeconds(0.2f);
-					if (choicesData.choicesType == CardChoicesType.Cost && !ProgressionData.LearnedMechanic(MechanicsConcept.CostBasedCardChoice))
+					if (choicesData.choicesType == CardChoicesType.Cost &&
+					    !ProgressionData.LearnedMechanic(MechanicsConcept.CostBasedCardChoice))
 					{
 						yield return TextDisplayer.Instance.PlayDialogueEvent(
 							"TutorialCostBasedChoice",
@@ -121,7 +123,8 @@ namespace GrimoraMod
 						);
 						yield return new WaitForSeconds(0.2f);
 					}
-					else if (choicesData.choicesType == CardChoicesType.Tribe && !ProgressionData.LearnedMechanic(MechanicsConcept.TribeBasedCardChoice))
+					else if (choicesData.choicesType == CardChoicesType.Tribe &&
+					         !ProgressionData.LearnedMechanic(MechanicsConcept.TribeBasedCardChoice))
 					{
 						yield return TextDisplayer.Instance.PlayDialogueEvent(
 							"TutorialTribeBasedChoice",
@@ -129,7 +132,8 @@ namespace GrimoraMod
 						);
 						yield return new WaitForSeconds(0.2f);
 					}
-					else if (choicesData.choicesType == CardChoicesType.Deathcard && !ProgressionData.LearnedMechanic(MechanicsConcept.DeathcardCardChoice))
+					else if (choicesData.choicesType == CardChoicesType.Deathcard &&
+					         !ProgressionData.LearnedMechanic(MechanicsConcept.DeathcardCardChoice))
 					{
 						yield return TextDisplayer.Instance.PlayDialogueEvent(
 							"TutorialDeathcardChoice",
@@ -153,7 +157,6 @@ namespace GrimoraMod
 			{
 				yield return enumerator;
 			}
-			
 		}
 	}
 }

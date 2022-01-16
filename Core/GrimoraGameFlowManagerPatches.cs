@@ -2,6 +2,7 @@
 using HarmonyLib;
 using Pixelplacement;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod
 {
@@ -9,9 +10,9 @@ namespace GrimoraMod
 	public class GrimoraGameFlowManagerPatches
 	{
 		[HarmonyPrefix, HarmonyPatch(nameof(GrimoraGameFlowManager.SceneSpecificInitialization))]
-		public static bool PrefixAddMultipleSequencersDuringLoad(GrimoraGameFlowManager __instance)
+		public static bool PrefixAddMultipleSequencersDuringLoad(ref GrimoraGameFlowManager __instance)
 		{
-			GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Instance is [{__instance.GetType()}]");
+			// Log.LogDebug($"[SceneSpecificInitialization] Instance is [{__instance.GetType()}]");
 
 			// bool skipIntro = GrimoraPlugin.ConfigHasPlayedRevealSequence.Value;
 			bool setLightsActive = true;
@@ -26,9 +27,7 @@ namespace GrimoraMod
 
 			if (!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable))
 			{
-				StoryEventsData.SetEventCompleted(StoryEvent.GrimoraReachedTable, true);
-
-				GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] GrimoraReachedTable is false");
+				Log.LogDebug($"[SceneSpecificInitialization] GrimoraReachedTable is false");
 
 				if (GameMap.Instance != null)
 				{
@@ -39,17 +38,39 @@ namespace GrimoraMod
 				// GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Setting __instance.CurrentGameState to GameState.FirstPerson3D");
 				__instance.CurrentGameState = GameState.FirstPerson3D;
 
-				GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Transitioning to FirstPerson3D");
+				// Log.LogDebug($"[SceneSpecificInitialization] Transitioning to FirstPerson3D");
 				__instance.StartCoroutine(__instance.TransitionTo(GameState.FirstPerson3D, null, immediate: true));
 
-				ExplorableAreaManager.Instance.HangingLight.gameObject.SetActive(setLightsActive);
-				ExplorableAreaManager.Instance.HandLight.gameObject.SetActive(setLightsActive);
+				// Log.LogDebug($"[SceneSpecificInitialization] Setting ExplorableAreaManager lights active");
+				CryptManager.Instance.HangingLight.gameObject.SetActive(setLightsActive);
+				CryptManager.Instance.HandLight.gameObject.SetActive(setLightsActive);
 
+				// Log.LogDebug($"[SceneSpecificInitialization] Setting gameTableCandlesParent active");
 				__instance.gameTableCandlesParent.SetActive(setLightsActive);
+
+				Transform tableTransform = __instance.gameTableCandlesParent.transform;
+				int childCountTable = tableTransform.childCount;
+				for (int i = 0; i < childCountTable; i++)
+				{
+					var candle = tableTransform.GetChild(i).gameObject;
+					// Log.LogDebug($"[SceneSpecificInitialization] Setting cryptLight [{candle.name}] active");
+					candle.SetActive(true);
+					candle.GetComponentInChildren<Animator>().Play("candle_light");
+				}
+
+				Transform cryptLightsTransform = CryptManager.Instance.transform.Find("Lights");
+				int cryptLightsCount = cryptLightsTransform.childCount;
+				for (int i = 0; i < cryptLightsCount; i++)
+				{
+					// Log.LogDebug($"[SceneSpecificInitialization] Setting cryptLight [{cryptLightsTransform.GetChild(i).gameObject.name}] active");
+					cryptLightsTransform.GetChild(i).gameObject.SetActive(true);
+				}
+
 				__instance.gravestoneNavZone.SetActive(setLightsActive);
 
 				__instance.StartCoroutine(__instance.StartSceneSequence());
 
+				// Log.LogDebug($"[SceneSpecificInitialization] Tombstones falling");
 				CryptEpitaphSlotInteractable cryptEpitaphSlotInteractable =
 					Object.FindObjectOfType<CryptEpitaphSlotInteractable>();
 
@@ -75,21 +96,22 @@ namespace GrimoraMod
 					0f,
 					Tween.LoopType.Loop
 				);
-				__instance.StartCoroutine((
-						(GrimoraGameFlowManager)Singleton<GameFlowManager>.Instance).RevealGrimoraSequence()
-				);
+
+				// Log.LogDebug($"[SceneSpecificInitialization] RevealGrimoraSequence");
+				__instance.StartCoroutine((GameFlowManager.Instance as GrimoraGameFlowManager).RevealGrimoraSequence());
+
 				SaveManager.SaveToFile();
 			}
 			else
 			{
-				GrimoraPlugin.Log.LogDebug(
+				Log.LogDebug(
 					$"[SceneSpecificInitialization] GrimoraReachedTable is true, playing finalegrimora_ambience");
 				AudioController.Instance.SetLoopAndPlay("finalegrimora_ambience");
 				if (GameMap.Instance != null)
 				{
 					// GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Setting CurrentGameState to GameState.Map");
 					__instance.CurrentGameState = GameState.Map;
-					GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Transitioning to GameState.Map");
+					// Log.LogDebug($"[SceneSpecificInitialization] Transitioning to GameState.Map");
 					__instance.StartCoroutine(__instance.TransitionTo(GameState.Map, null, immediate: true));
 				}
 			}

@@ -9,5 +9,10 @@ namespace GrimoraMod
 		{
 			return BoardManager.Instance.PlayerSlotsCopy.FindAll(slot => slot.Card != null);
 		}
+
+		public static List<CardSlot> GetOpponentSlotsWithCards()
+		{
+			return BoardManager.Instance.OpponentSlotsCopy.FindAll(slot => slot.Card != null);
+		}
 	}
 }

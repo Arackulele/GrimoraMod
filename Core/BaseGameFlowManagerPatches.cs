@@ -4,6 +4,7 @@ using System.Linq;
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod
 {
@@ -17,8 +18,8 @@ namespace GrimoraMod
 		public static void PrefixStart(GameFlowManager __instance)
 		{
 			GameObject boardObj = GameObject.Find("ChessboardGameMap");
-			GrimoraPlugin.Log.LogDebug($"[GameFlowManager.Start] Instance is [{__instance.GetType()}]" +
-			                           $" Board Already exists? [{boardObj is not null}]");
+			Log.LogDebug($"[GameFlowManager.Start] Instance is [{__instance.GetType()}]" +
+			             $" Board Already exists? [{boardObj is not null}]");
 			if (SaveManager.SaveFile.IsGrimora && boardObj is not null)
 			{
 				ChangeChessboardToExtendedClass();
@@ -26,12 +27,28 @@ namespace GrimoraMod
 				AddRareCardSequencerToScene();
 
 				AddDeckReviewSequencerToScene();
+
+				// ResizeArtworkForVanillaBoneCards();
+
+				ChangeStartDeckIfNotAlreadyChanged();
+			}
+		}
+
+		private static void ChangeStartDeckIfNotAlreadyChanged()
+		{
+			List<CardInfo> grimoraDeck = GrimoraSaveData.Data.deck.Cards;
+			int graveDiggerCount = grimoraDeck.Count(info => info.name == "Gravedigger");
+			int frankNSteinCount = grimoraDeck.Count(info => info.name == "FrankNStein");
+			if (grimoraDeck.Count == 5 && graveDiggerCount == 3 && frankNSteinCount == 2)
+			{
+				Log.LogDebug($"[ChangeStartDeckIfNotAlreadyChanged] Starter deck needs reset");
+				GrimoraSaveData.Data.Initialize();
 			}
 		}
 
 		private static void ChangeChessboardToExtendedClass()
 		{
-			GrimoraPlugin.Log.LogDebug($"Adding MapExt to ChessboardMapGameObject");
+			// Log.LogDebug($"[ChangeChessboardToExtendedClass] Adding MapExt to ChessboardMapGameObject");
 			GameObject boardObj = GameObject.Find("ChessboardGameMap");
 			ChessboardMap boardComp = boardObj.GetComponent<ChessboardMap>();
 
@@ -45,10 +62,11 @@ namespace GrimoraMod
 			// GrimoraPlugin.Log.LogDebug($"Destroying old chessboard component");
 			Object.Destroy(boardComp);
 
-			var allPieces = Object.FindObjectsOfType<ChessboardPiece>();
-			GrimoraPlugin.Log.LogDebug($"[ChangeChessboardToExtendedClass] Resetting initial pieces" +
-			                           $" {string.Join(", ", allPieces.Select(_ => _.name))}");
-			foreach (var piece in allPieces)
+			var initialStartingPieces = Object.FindObjectsOfType<ChessboardPiece>();
+			Log.LogDebug($"[ChangeChessboardToExtendedClass] Resetting initial pieces" +
+			             $" {string.Join(", ", initialStartingPieces.Select(_ => _.name))}");
+
+			foreach (var piece in initialStartingPieces)
 			{
 				ext.pieces.Remove(piece);
 				piece.MapNode.OccupyingPiece = null;
@@ -92,6 +110,29 @@ namespace GrimoraMod
 			specialNodeHandler.rareCardChoiceSequencer = sequencer;
 		}
 
+		private static void ResizeArtworkForVanillaBoneCards()
+		{
+			List<string> cardsToResizeArtwork = new List<string>
+			{
+				"Amoeba", "Bat", "Maggots", "Rattler", "Vulture",
+			};
+
+			var newPivot = new Vector2(0.5f, 0.65f);
+
+			CardLoader.AllData.ForEach(info =>
+			{
+				if (cardsToResizeArtwork.Contains(info.name))
+				{
+					Sprite spriteCopy = info.portraitTex;
+
+					// Log.LogDebug($"[{info.name}] Rect {spriteCopy.rect} Pivot [{spriteCopy.pivot}] PPU [{spriteCopy.pixelsPerUnit}]");
+					info.portraitTex = Sprite.Create(
+						spriteCopy.texture, spriteCopy.rect, newPivot, 125f
+					);
+				}
+			});
+		}
+
 		[HarmonyPostfix, HarmonyPatch(nameof(GameFlowManager.TransitionTo))]
 		public static IEnumerator PostfixGameLogicPatch(
 			IEnumerator enumerator,
@@ -102,50 +143,37 @@ namespace GrimoraMod
 			bool unlockViewAfterTransition = true
 		)
 		{
-			// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] GameState is [{gameState}]");
+			// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] Current state is [{__instance.CurrentGameState}]");
 
-			if (SaveManager.SaveFile.IsGrimora && gameState == GameState.Map)
+			if (SaveManager.SaveFile.IsGrimora)
 			{
-				// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] SaveFile is Grimora and GameState is GameState.Map");
-				ViewManager.Instance.Controller.SwitchToControlMode(ViewController.ControlMode.Map);
-
-				ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
-
-				// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] SceneSpecificTransitionTo");
-				__instance.SceneSpecificTransitionTo(gameState, immediate);
-
-				SaveManager.SaveToFile();
-				
 				bool isBossDefeated = ChessboardMapExt.Instance.BossDefeated;
 				bool piecesExist = ChessboardMapExt.Instance.pieces.Count > 0;
 
-				// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] IsBossDefeated? [{isBossDefeated}] Pieces exist? [{piecesExist}]");
-				if (piecesExist && isBossDefeated)
+				// GrimoraPlugin.Log.LogDebug($"[TransitionTo] IsBossDefeated [{isBossDefeated}] Pieces exist [{piecesExist}]");
+
+				// FOR ENUMS IN POSTFIX CALLS, THE OPERATOR TO USE IS 'IS' NOT '==' 
+				// CORRECT  : gameState is GameState.Map
+				// INCORRECT: gameState == GameState.Map
+				if (gameState is GameState.Map && piecesExist && isBossDefeated)
 				{
-					// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] ChessboardMapExt is not null");
-					ChessboardMapExt.Instance.BossDefeated = false;
-					// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] Calling CompleteRegionSequence");
 					yield return ChessboardMapExt.Instance.CompleteRegionSequence();
-				}
-				
-				// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] ShowMapSequence");
-				yield return GameMap.Instance.ShowMapSequence(__instance.SpecialSequencer
-					? __instance.SpecialSequencer.MapUnrollSpeed : 1f);
 
-				if (unlockViewAfterTransition)
+					__instance.CurrentGameState = gameState;
+				}
+				else
 				{
-					ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+					// GrimoraPlugin.Log.LogDebug($"[TransitionTo] yield return the enumerator inside SaveFile");
+					yield return enumerator;
 				}
 
-				// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] Setting CurrentGameState");
-				__instance.CurrentGameState = gameState;
-			}
-			else
-			{
-				GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] yield return the enumerator");
-				yield return enumerator;
+				// GrimoraPlugin.Log.LogDebug($"[TransitionTo] yield breaking");
+				yield break;
 			}
 
+			// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] GameState is [{gameState}]");
+			// GrimoraPlugin.Log.LogDebug($"[TransitionTo] yield return the enumerator");
+			yield return enumerator;
 		}
 	}
 }

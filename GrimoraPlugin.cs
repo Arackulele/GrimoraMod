@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace GrimoraMod
 {
-	[BepInDependency("cyantist.inscryption.api", BepInDependency.DependencyFlags.HardDependency)]
+	[BepInDependency("cyantist.inscryption.api")]
 	[BepInPlugin(PluginGuid, PluginName, PluginVersion)]
 	public partial class GrimoraPlugin : BaseUnityPlugin
 	{
@@ -30,7 +30,7 @@ namespace GrimoraMod
 			true
 		);
 
-		public static string StaticDefaultRemovedPiecesList =
+		public const string StaticDefaultRemovedPiecesList =
 			"BossFigurine," +
 			"ChessboardChestPiece," +
 			"EnemyPiece_Skelemagus,EnemyPiece_Gravedigger," +
@@ -42,17 +42,15 @@ namespace GrimoraMod
 
 		public static ConfigEntry<bool> ConfigKayceeFirstBossDead;
 
-		public static ConfigEntry<bool> ConfigDoggySecondBossDead;
+		public static ConfigEntry<bool> ConfigSawyerSecondBossDead;
 
 		public static ConfigEntry<bool> ConfigRoyalThirdBossDead;
 
 		public static ConfigEntry<bool> ConfigGrimoraBossDead;
 
-		public static ConfigEntry<bool> ConfigFirstTimeBoardInteraction;
+		public static ConfigEntry<bool> ConfigDeveloperMode;
 
 		public static ConfigEntry<string> ConfigCurrentRemovedPieces;
-
-		public static ConfigEntry<string> ConfigCurrentActivePieces;
 
 		private static readonly List<StoryEvent> StoryEventsToBeCompleteBeforeStarting = new()
 		{
@@ -126,7 +124,7 @@ namespace GrimoraMod
 			#endregion
 
 			DisableAllActOneCardsFromAppearing();
-			ChangePackRat();
+			// ChangePackRat();
 			// ChangeSquirrel();
 		}
 
@@ -143,8 +141,8 @@ namespace GrimoraMod
 			ConfigKayceeFirstBossDead
 				= GrimoraConfigFile.Bind(PluginName, "Kaycee defeated?", false);
 
-			ConfigDoggySecondBossDead
-				= GrimoraConfigFile.Bind(PluginName, "Doggy defeated?", false);
+			ConfigSawyerSecondBossDead
+				= GrimoraConfigFile.Bind(PluginName, "Sawyer defeated?", false);
 
 			ConfigRoyalThirdBossDead
 				= GrimoraConfigFile.Bind(PluginName, "Royal defeated?", false);
@@ -152,13 +150,20 @@ namespace GrimoraMod
 			ConfigGrimoraBossDead
 				= GrimoraConfigFile.Bind(PluginName, "Grimora defeated?", false);
 
-			ConfigFirstTimeBoardInteraction
-				= GrimoraConfigFile.Bind(PluginName, "Player interacted with board first time?", false);
-
 			ConfigCurrentRemovedPieces = GrimoraConfigFile.Bind(
-				PluginName, "Current Removed Pieces", StaticDefaultRemovedPiecesList);
+				PluginName,
+				"Current Removed Pieces",
+				StaticDefaultRemovedPiecesList,
+				new ConfigDescription("Contains all the current removed pieces." +
+				                      "\nDo not alter this list unless you know what you are doing!")
+			);
 
-			ConfigCurrentActivePieces = GrimoraConfigFile.Bind(PluginName, "Current Active Pieces", "");
+			ConfigDeveloperMode = GrimoraConfigFile.Bind(
+				PluginName,
+				"Enable Developer Mode",
+				false,
+				new ConfigDescription("Does not generate blocker or enemy pieces except boss. Chests fill first row.")
+			);
 
 			var list = ConfigCurrentRemovedPieces.Value.Split(',').ToList();
 			// this is so that for whatever reason the game map gets added to the removal list,
@@ -193,14 +198,18 @@ namespace GrimoraMod
 			if (!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable))
 			{
 				Log.LogWarning($"Grimora has not reached the table yet, resetting values to false again.");
-				ConfigKayceeFirstBossDead.Value = false;
-				ConfigDoggySecondBossDead.Value = false;
-				ConfigRoyalThirdBossDead.Value = false;
-				ConfigGrimoraBossDead.Value = false;
-				ConfigFirstTimeBoardInteraction.Value = false;
-				ConfigCurrentRemovedPieces.Value = StaticDefaultRemovedPiecesList;
-				ConfigCurrentChessboardIndex.Value = 0;
+				ResetConfig();
 			}
+		}
+
+		public static void ResetConfig()
+		{
+			ConfigKayceeFirstBossDead.Value = false;
+			ConfigSawyerSecondBossDead.Value = false;
+			ConfigRoyalThirdBossDead.Value = false;
+			ConfigGrimoraBossDead.Value = false;
+			ConfigCurrentRemovedPieces.Value = StaticDefaultRemovedPiecesList;
+			ConfigCurrentChessboardIndex.Value = 0;
 		}
 
 		private static void DisableAllActOneCardsFromAppearing()

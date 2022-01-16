@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod
 {
 	public class GrimoraBossSequencer : Part1BossBattleSequencer
 	{
-		public override Opponent.Type BossType => Opponent.Type.ProspectorBoss;
+		public override Opponent.Type BossType => BaseBossExt.GrimoraOpponent;
 
 		public override StoryEvent DefeatedStoryEvent => StoryEvent.TutorialRunCompleted;
 
@@ -14,7 +15,7 @@ namespace GrimoraMod
 		{
 			return new EncounterData
 			{
-				opponentType = BaseBossExt.GrimoraOpponent
+				opponentType = BossType
 			};
 		}
 
@@ -29,6 +30,23 @@ namespace GrimoraMod
 			PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer
 		)
 		{
+			Log.LogDebug($"[{GetType()}] Other Card [{card.Info.name}] is happening");
+			var opponentSlots = CardSlotUtils.GetOpponentSlotsWithCards();
+			Log.LogDebug($"[{GetType()}] Opponent Slots count [{opponentSlots.Capacity}]");
+			if (opponentSlots.Count > 0)
+			{
+				ViewManager.Instance.SwitchToView(View.BossCloseup);
+				TextDisplayer.Instance.PlayDialogueEvent(
+					"GrimoraBossReanimate1",
+					TextDisplayer.MessageAdvanceMode.Input
+				);
+
+				BoardManager.Instance.QueueCardForSlot(
+					card,
+					opponentSlots[UnityEngine.Random.RandomRangeInt(0, opponentSlots.Count)]
+				);
+			}
+
 			yield return TurnManager.Instance.Opponent.QueueCard(
 				card.Info,
 				BoardManager.Instance.OpponentSlotsCopy[Random.Range(0, 3)]
@@ -37,15 +55,16 @@ namespace GrimoraMod
 
 		public override bool RespondsToUpkeep(bool playerUpkeep)
 		{
-			return playerUpkeep;
+			return !playerUpkeep;
 		}
 
 		public override IEnumerator OnUpkeep(bool playerUpkeep)
 		{
-			var playerSlots = CardSlotUtils.GetPlayerSlotsWithCards();
-			if (playerSlots.Count >= 1)
+			RandomEx rnd = new RandomEx();
+			if (rnd.NextBoolean())
 			{
-				var card = playerSlots[Random.Range(0, playerSlots.Count)].Card;
+				TextDisplayer.Instance.ShowUntilInput("Only a few more turns before I can bring my army back...",
+					letterAnimation: TextDisplayer.LetterAnimation.None);
 			}
 
 			yield break;
