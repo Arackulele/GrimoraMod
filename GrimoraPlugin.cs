@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace GrimoraMod
 {
-	[BepInDependency("cyantist.inscryption.api", BepInDependency.DependencyFlags.HardDependency)]
+	[BepInDependency("cyantist.inscryption.api")]
 	[BepInPlugin(PluginGuid, PluginName, PluginVersion)]
 	public partial class GrimoraPlugin : BaseUnityPlugin
 	{
@@ -48,11 +48,7 @@ namespace GrimoraMod
 
 		public static ConfigEntry<bool> ConfigGrimoraBossDead;
 
-		public static ConfigEntry<bool> ConfigFirstTimeBoardInteraction;
-
 		public static ConfigEntry<string> ConfigCurrentRemovedPieces;
-
-		public static ConfigEntry<string> ConfigCurrentActivePieces;
 
 		private static readonly List<StoryEvent> StoryEventsToBeCompleteBeforeStarting = new()
 		{
@@ -152,13 +148,8 @@ namespace GrimoraMod
 			ConfigGrimoraBossDead
 				= GrimoraConfigFile.Bind(PluginName, "Grimora defeated?", false);
 
-			ConfigFirstTimeBoardInteraction
-				= GrimoraConfigFile.Bind(PluginName, "Player interacted with board first time?", false);
-
 			ConfigCurrentRemovedPieces = GrimoraConfigFile.Bind(
 				PluginName, "Current Removed Pieces", StaticDefaultRemovedPiecesList);
-
-			ConfigCurrentActivePieces = GrimoraConfigFile.Bind(PluginName, "Current Active Pieces", "");
 
 			var list = ConfigCurrentRemovedPieces.Value.Split(',').ToList();
 			// this is so that for whatever reason the game map gets added to the removal list,
@@ -203,7 +194,6 @@ namespace GrimoraMod
 			ConfigDoggySecondBossDead.Value = false;
 			ConfigRoyalThirdBossDead.Value = false;
 			ConfigGrimoraBossDead.Value = false;
-			ConfigFirstTimeBoardInteraction.Value = false;
 			ConfigCurrentRemovedPieces.Value = StaticDefaultRemovedPiecesList;
 			ConfigCurrentChessboardIndex.Value = 0;
 		}
