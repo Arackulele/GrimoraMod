@@ -186,6 +186,7 @@ namespace GrimoraMod
 		public void PlaceBossPiece(string bossName)
 		{
 			CreateBossPiece(bossName, BossNode.GridX, BossNode.GridY);
+			BaseBossExt.BossTypesByString.TryGetValue(bossName, out ActiveBossType);
 		}
 
 		public void PlaceChestPiece(int x, int y)
