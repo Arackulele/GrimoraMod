@@ -45,10 +45,11 @@ namespace GrimoraMod
 			// GrimoraPlugin.Log.LogDebug($"Destroying old chessboard component");
 			Object.Destroy(boardComp);
 
-			var allPieces = Object.FindObjectsOfType<ChessboardPiece>();
+			var initialStartingPieces = Object.FindObjectsOfType<ChessboardPiece>();
 			GrimoraPlugin.Log.LogDebug($"[ChangeChessboardToExtendedClass] Resetting initial pieces" +
-			                           $" {string.Join(", ", allPieces.Select(_ => _.name))}");
-			foreach (var piece in allPieces)
+			                           $" {string.Join(", ", initialStartingPieces.Select(_ => _.name))}");
+
+			foreach (var piece in initialStartingPieces)
 			{
 				ext.pieces.Remove(piece);
 				piece.MapNode.OccupyingPiece = null;
