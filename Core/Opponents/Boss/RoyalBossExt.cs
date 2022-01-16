@@ -19,25 +19,21 @@ namespace GrimoraMod
 
 		public override IEnumerator IntroSequence(EncounterData encounter)
 		{
-			Log.LogDebug($"[{GetType()}] Calling base IntroSequence");
+			// Log.LogDebug($"[{GetType()}] Calling base IntroSequence, this creates and sets the candle skull");
 			yield return base.IntroSequence(encounter);
 
 			GrimoraAnimationController.Instance.SetHeadBool("face_happy", val: true);
-			yield return Singleton<TextDisplayer>.Instance.PlayDialogueEvent(
+			yield return TextDisplayer.Instance.PlayDialogueEvent(
 				"RoyalBossPreIntro",
 				TextDisplayer.MessageAdvanceMode.Input
 			);
 			AudioController.Instance.PlaySound2D("boss_royal");
 			yield return new WaitForSeconds(0.1f);
 
-			Log.LogDebug($"[{GetType()}] Calling ShowBossSkull");
-			GrimoraAnimationController.Instance.ShowBossSkull();
-
-			Log.LogDebug($"[{GetType()}] Setting Head Trigger");
-			GrimoraAnimationController.Instance.SetHeadTrigger("show_skull");
-
-			Log.LogDebug($"[{GetType()}] Setting RoyalBossSkull active");
+			Log.LogDebug($"[{GetType()}] Setting RoyalBossSkull [{RoyalBossSkull}]");
 			RoyalBossSkull.SetActive(true);
+
+			yield return base.ShowBossSkull();
 
 			Log.LogDebug($"[{GetType()}] Creating royal mask if not null");
 			Mask = RoyalBossSkull;
@@ -46,12 +42,11 @@ namespace GrimoraMod
 			Mask.transform.localPosition = new Vector3(0, 0.2f, 0);
 			Mask.transform.localRotation = Quaternion.Euler(90, 325, 0);
 
-			Singleton<ViewManager>.Instance.SwitchToView(View.BossCloseup, immediate: false, lockAfter: true);
 			SetSceneEffectsShownRoyal();
 			yield return new WaitForSeconds(1f);
 
-			StartCoroutine(Singleton<TextDisplayer>.Instance.ShowThenClear("Y'AARRRRR!", 1.5f));
-			Singleton<ViewManager>.Instance.SwitchToView(View.Default);
+			StartCoroutine(TextDisplayer.Instance.ShowThenClear("Y'AARRRRR!", 1.5f));
+			ViewManager.Instance.SwitchToView(View.Default);
 			yield return new WaitForSeconds(0.75f);
 
 			cannons = Object.Instantiate(
