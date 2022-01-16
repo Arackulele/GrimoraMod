@@ -30,7 +30,7 @@ namespace GrimoraMod
 			true
 		);
 
-		public static string StaticDefaultRemovedPiecesList =
+		public const string StaticDefaultRemovedPiecesList =
 			"BossFigurine," +
 			"ChessboardChestPiece," +
 			"EnemyPiece_Skelemagus,EnemyPiece_Gravedigger," +
