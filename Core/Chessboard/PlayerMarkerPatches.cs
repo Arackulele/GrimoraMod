@@ -6,7 +6,6 @@ namespace GrimoraMod
 	[HarmonyPatch(typeof(AnimatedGameMapMarker))]
 	public class PlayerMarkerPatches
 	{
-		
 		[HarmonyPostfix, HarmonyPatch(nameof(AnimatedGameMapMarker.Show))]
 		public static void PostfixAddExtraLogicAfterUnrolling(AnimatedGameMapMarker __instance)
 		{
