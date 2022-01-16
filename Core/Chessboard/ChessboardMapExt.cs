@@ -275,49 +275,24 @@ namespace GrimoraMod
 			}
 		}
 
-		private void HandlePlayerMarkerPosition()
-		{
-			int x = GrimoraSaveData.Data.gridX;
-			int y = GrimoraSaveData.Data.gridY;
-
-			GrimoraPlugin.Log.LogDebug($"[HandlePlayerMarkerPosition] " +
-			                           $"Player Marker name [{PlayerMarker.Instance.name}] " +
-			                           $"x{x}y{y} coords");
-			
-			var occupyingPiece = GetMapNodeFromXY(x, y).OccupyingPiece;
-			
-			bool isPlayerOccupied = occupyingPiece is not null && PlayerMarker.Instance.name == occupyingPiece.name;
-
-			GrimoraPlugin.Log.LogDebug($"[HandlePlayerMarkerPosition] isPlayerOccupied? [{isPlayerOccupied}]");
-
-			if (ChangingRegion)
-			{
-				x = activeChessboard.GetPlayerNode().GridX;
-				y = activeChessboard.GetPlayerNode().GridY;
-			}
-			
-			MapNodeManager.Instance.ActiveNode = navGrid.zones[x, y].GetComponent<MapNode>();
-			GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] MapNodeManager ActiveNode is x[{x}]y[{y}]");
-
-			GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] SetPlayerAdjacentNodesActive");
-			ChessboardNavGrid.instance.SetPlayerAdjacentNodesActive();
-
-			GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Setting player position to active node");
-			PlayerMarker.Instance.transform.position = MapNodeManager.Instance.ActiveNode.transform.position;
-		}
-
-		private static ChessboardMapNode GetMapNodeFromXY(int x, int y)
-		{
-			return ChessboardNavGrid.instance.zones[x, y].GetComponent<ChessboardMapNode>();
-		}
-
 		private IEnumerator HandleActivatingChessPieces()
 		{
 			// GrimoraPlugin.Log.LogDebug($"[HandleActivatingChessPieces] active pieces before setting if active " +
 			//                            $"[{string.Join(",", activePieces.Select(_ => _.name))}]");
 
-			pieces.ForEach(delegate(ChessboardPiece piece)
+			var removedList = RemovedPieces;
+
+			Log.LogDebug($"[SetupGamePieces] " +
+			             $" Current removed list before {ConfigCurrentRemovedPieces.Value}");
+
+			// pieces will contain the pieces just placed
+			var activePieces = Instance.pieces
+				.Where(p => !removedList.Contains(p.name))
+				.ToList();
+
+			Instance.pieces.RemoveAll(delegate(ChessboardPiece piece)
 			{
+				bool toRemove = false;
 				if (activePieces.Contains(piece))
 				{
 					// GrimoraPlugin.Log.LogDebug($"[HandleSaveStatesForPieces] Setting active [{piece.name}]");
@@ -328,10 +303,12 @@ namespace GrimoraMod
 					// GrimoraPlugin.Log.LogDebug($"[HandleSaveStatesForPieces] Setting inactive [{piece.gameObject}]] Node is active? [{piece.MapNode.isActiveAndEnabled}]]");
 					piece.gameObject.SetActive(false);
 					piece.MapNode.OccupyingPiece = null;
+					toRemove = true;
 					// GrimoraPlugin.Log.LogDebug($"[HandleSaveStatesForPieces] -> is node active and enabled? [{piece.MapNode.isActiveAndEnabled}]]");
 				}
 
 				piece.Hide(true);
+				return toRemove;
 			});
 
 			// GrimoraPlugin.Log.LogDebug("[HandleSaveStatesForPieces] Finished UpdatingSaveStates of pieces");
