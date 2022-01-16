@@ -248,8 +248,6 @@ namespace GrimoraMod
 					TextDisplayer.MessageAdvanceMode.Input);
 			}
 
-			MapNodeManager.Instance.FindAndSetActiveNodeInteractable();
-
 			StoryEventsData.SetEventCompleted(StoryEvent.GrimoraReachedTable);
 
 			SaveManager.SaveToFile();
