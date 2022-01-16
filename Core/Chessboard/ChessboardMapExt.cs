@@ -335,41 +335,29 @@ namespace GrimoraMod
 			int x = GrimoraSaveData.Data.gridX;
 			int y = GrimoraSaveData.Data.gridY;
 
+			GrimoraPlugin.Log.LogDebug($"[HandlePlayerMarkerPosition] " +
+			                           $"Player Marker name [{PlayerMarker.Instance.name}] " +
+			                           $"x{x}y{y} coords");
+			
 			var occupyingPiece = GetMapNodeFromXY(x, y).OccupyingPiece;
-			bool isPlayerOccupied = occupyingPiece != null && PlayerMarker.Instance.name == occupyingPiece.name;
+			
+			bool isPlayerOccupied = occupyingPiece is not null && PlayerMarker.Instance.name == occupyingPiece.name;
 
-			// GrimoraPlugin.Log.LogDebug($"[HandlePlayerMarkerPosition] isPlayerOccupied? [{isPlayerOccupied}]");
+			GrimoraPlugin.Log.LogDebug($"[HandlePlayerMarkerPosition] isPlayerOccupied? [{isPlayerOccupied}]");
 
-			if (ChangingRegion || occupyingPiece != null && !isPlayerOccupied)
+			if (ChangingRegion)
 			{
-				// GrimoraPlugin.Log.LogDebug($"[HandlePlayerMarkerPosition] Is boss transition or current active node has an already occupying piece");
-				var allOpenPathNodes = activeChessboard.GetOpenPathNodes();
-
-				// GrimoraPlugin.Log.LogDebug($"[HandlePlayerMarkerPosition] AllOpenNodes count [{allOpenPathNodes.Count}]");
-
-				for (var i = allOpenPathNodes.Count - 1; i >= 0; i--)
-				{
-					x = allOpenPathNodes[i].GridX;
-					y = allOpenPathNodes[i].GridY;
-
-					// GrimoraPlugin.Log.LogDebug($"[HandlePlayerMarkerPosition] index [{i}] OpenPathNode is x[{x}]y[{y}]");
-
-					occupyingPiece = GetMapNodeFromXY(x, y).OccupyingPiece;
-
-					if (occupyingPiece is null)
-					{
-						break;
-					}
-				}
+				x = activeChessboard.GetPlayerNode().GridX;
+				y = activeChessboard.GetPlayerNode().GridY;
 			}
-
+			
 			MapNodeManager.Instance.ActiveNode = navGrid.zones[x, y].GetComponent<MapNode>();
-			// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] MapNodeManager ActiveNode is x[{x}]y[{y}]");
+			GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] MapNodeManager ActiveNode is x[{x}]y[{y}]");
 
-			// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] SetPlayerAdjacentNodesActive");
+			GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] SetPlayerAdjacentNodesActive");
 			ChessboardNavGrid.instance.SetPlayerAdjacentNodesActive();
 
-			// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Setting player position to active node");
+			GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Setting player position to active node");
 			PlayerMarker.Instance.transform.position = MapNodeManager.Instance.ActiveNode.transform.position;
 		}
 
