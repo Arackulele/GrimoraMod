@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using DiskCardGame;
+﻿using DiskCardGame;
 using HarmonyLib;
 using Pixelplacement;
 using UnityEngine;
@@ -13,10 +12,6 @@ namespace GrimoraMod
 		[HarmonyPrefix, HarmonyPatch(nameof(GrimoraGameFlowManager.SceneSpecificInitialization))]
 		public static bool PrefixAddMultipleSequencersDuringLoad(ref GrimoraGameFlowManager __instance)
 		{
-			RunState.Run.playerDeck.AddBoon(BoonData.Type.MinorStartingBones);
-			RunState.Run.playerDeck.AddBoon(BoonData.Type.MinorStartingBones);
-			RunState.Run.playerDeck.AddBoon(BoonData.Type.MinorStartingBones);
-
 			// Log.LogDebug($"[SceneSpecificInitialization] Instance is [{__instance.GetType()}]");
 
 			// bool skipIntro = GrimoraPlugin.ConfigHasPlayedRevealSequence.Value;
@@ -73,7 +68,7 @@ namespace GrimoraMod
 
 				__instance.gravestoneNavZone.SetActive(setLightsActive);
 
-				__instance.StartCoroutine(CorrectedSceneStart(__instance));
+				__instance.StartCoroutine(__instance.StartSceneSequence());
 
 				// Log.LogDebug($"[SceneSpecificInitialization] Tombstones falling");
 				CryptEpitaphSlotInteractable cryptEpitaphSlotInteractable =
@@ -122,42 +117,6 @@ namespace GrimoraMod
 			}
 
 			return false;
-		}
-
-		public static IEnumerator CorrectedSceneStart(GrimoraGameFlowManager manager)
-		{
-			// Log.LogDebug($"[CorrectedSceneStart] Starting scene sequence");
-			manager.mainEnvironmentLight.enabled = false;
-			manager.additionalEnvironmentLights.ForEach(delegate(Light l)
-			{
-				// Log.LogDebug($"-> light is [{l.name}]");
-				l.enabled = false;
-			});
-
-			FirstPersonController instance = FirstPersonController.Instance;
-			bool moveLocked = (FirstPersonController.Instance.LookLocked = true);
-			instance.MoveLocked = moveLocked;
-
-			yield return manager.EyesOpeningFadeIn(0.05f);
-			InteractionCursor.Instance.SetHidden(hidden: true);
-			AudioController.Instance.SetLoopAndPlay("finalegrimora_ambience");
-
-			manager.mainEnvironmentLight.enabled = true;
-			manager.mainEnvironmentLight.intensity = 0f;
-			yield return new WaitForSeconds(2.85f);
-
-			foreach (Light additionalEnvironmentLight in manager.additionalEnvironmentLights)
-			{
-				additionalEnvironmentLight.enabled = true;
-				additionalEnvironmentLight.intensity = 0f;
-				yield return new WaitForSeconds(1f);
-			}
-
-			FirstPersonController instance2 = FirstPersonController.Instance;
-			moveLocked = (FirstPersonController.Instance.LookLocked = false);
-			instance2.MoveLocked = moveLocked;
-
-			InteractionCursor.Instance.SetHidden(hidden: false);
 		}
 	}
 }
