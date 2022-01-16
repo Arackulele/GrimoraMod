@@ -48,7 +48,7 @@ namespace GrimoraMod
 
 		private static void ChangeChessboardToExtendedClass()
 		{
-			Log.LogDebug($"Adding MapExt to ChessboardMapGameObject");
+			// Log.LogDebug($"[ChangeChessboardToExtendedClass] Adding MapExt to ChessboardMapGameObject");
 			GameObject boardObj = GameObject.Find("ChessboardGameMap");
 			ChessboardMap boardComp = boardObj.GetComponent<ChessboardMap>();
 
@@ -125,8 +125,7 @@ namespace GrimoraMod
 				{
 					Sprite spriteCopy = info.portraitTex;
 
-					Log.LogDebug(
-						$"[{info.name}] Rect {spriteCopy.rect} Pivot [{spriteCopy.pivot}] PPU [{spriteCopy.pixelsPerUnit}]");
+					// Log.LogDebug($"[{info.name}] Rect {spriteCopy.rect} Pivot [{spriteCopy.pivot}] PPU [{spriteCopy.pixelsPerUnit}]");
 					info.portraitTex = Sprite.Create(
 						spriteCopy.texture, spriteCopy.rect, newPivot, 125f
 					);

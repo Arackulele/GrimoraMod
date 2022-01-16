@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using DiskCardGame;
 using HarmonyLib;
-using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod
 {
@@ -25,7 +24,7 @@ namespace GrimoraMod
 
 			if (mode == ViewController.ControlMode.Map)
 			{
-				Log.LogDebug($"[ViewController.SwitchToControlMode] Adding MapDeckReview to allowed views");
+				// Log.LogDebug($"[ViewController.SwitchToControlMode] Adding MapDeckReview to allowed views");
 				__instance.allowedViews = new List<View> { View.MapDefault, View.MapDeckReview };
 
 				if (!__instance.allowedViews.Contains(currentView))
