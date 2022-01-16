@@ -13,10 +13,7 @@ namespace GrimoraMod
 {
 	public class ChessboardMapExt : ChessboardMap
 	{
-		private GrimoraChessboard activeChessboard;
-		private List<ChessboardPiece> activePieces;
-
-		private ChessboardEnemyPiece bossPiece;
+		private GrimoraChessboard _activeChessboard;
 
 		private string[] buttonNames =
 		{
