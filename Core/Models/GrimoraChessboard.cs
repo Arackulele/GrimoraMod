@@ -86,7 +86,7 @@ namespace GrimoraMod
 			else
 			{
 				Log.LogDebug($"[SetupGamePieces] No bosses defeated yet, creating Kaycee");
-				PlaceBossPiece("KayceeBoss");
+				PlaceBossPiece(KayceeBossOpponent.SpecialId);
 			}
 
 			if (ConfigDeveloperMode.Value)
@@ -174,9 +174,8 @@ namespace GrimoraMod
 
 		private EncounterBlueprintData GetBlueprint()
 		{
-			var randomType = BaseBossExt.BossTypesByString.GetValueSafe(BossPiece.specialEncounterId);
-			Log.LogDebug($"[GetBlueprint] Getting blueprint for region [{randomType}]");
-			var blueprints = BlueprintUtils.RegionWithBlueprints[randomType];
+			Log.LogDebug($"[GetBlueprint] ActiveBoss [{ActiveBossType}]");
+			var blueprints = BlueprintUtils.RegionWithBlueprints[ActiveBossType];
 			return blueprints[UnityEngine.Random.RandomRangeInt(0, blueprints.Count)];
 		}
 
@@ -193,7 +192,6 @@ namespace GrimoraMod
 		public void PlaceBossPiece(string bossName)
 		{
 			CreateBossPiece(bossName, BossNode.GridX, BossNode.GridY);
-			BaseBossExt.BossTypesByString.TryGetValue(bossName, out ActiveBossType);
 		}
 
 		public void PlaceChestPiece(int x, int y)
@@ -290,14 +288,16 @@ namespace GrimoraMod
 							enemyPiece.GoalPosX = x;
 							enemyPiece.GoalPosX = y;
 
-							if (prefab.name.Contains("Boss"))
+							if (!string.IsNullOrEmpty(id))
 							{
-								// GrimoraPlugin.Log.LogDebug($"Prefab piece is boss, setting name");
+								// Log.LogDebug($"[CreateChessPiece] id is not null, setting ActiveBossType");
 								enemyPiece.specialEncounterId = id;
 								nameTemp = nameTemp.Replace("Enemy", "Boss");
+								ActiveBossType = BaseBossExt.BossTypesByString.GetValueSafe(id);
 							}
 							else
 							{
+								// Log.LogDebug($"[CreateChessPiece] id is null, getting blueprint");
 								enemyPiece.blueprint = GetBlueprint();
 							}
 
