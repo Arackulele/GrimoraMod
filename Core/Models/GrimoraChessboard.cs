@@ -88,7 +88,14 @@ namespace GrimoraMod
 				PlaceBossPiece("KayceeBoss");
 			}
 
-			if (!GrimoraPlugin.ConfigDeveloperMode.Value)
+			if (GrimoraPlugin.ConfigDeveloperMode.Value)
+			{
+				for (int i = 0; i < 7; i++)
+				{
+					PlaceChestPiece(i, 0);
+				}
+			}
+			else
 			{
 				PlaceBlockerPieces();
 				PlaceChestPieces();
