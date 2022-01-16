@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod
 {
 	public class RoyalBossSequencer : Part1BossBattleSequencer
 	{
-		public override Opponent.Type BossType => Opponent.Type.ProspectorBoss;
+		public override Opponent.Type BossType => BaseBossExt.RoyalOpponent;
 
 		public override StoryEvent DefeatedStoryEvent => StoryEvent.TutorialRunCompleted;
 
@@ -13,7 +15,7 @@ namespace GrimoraMod
 		{
 			return new EncounterData()
 			{
-				opponentType = BaseBossExt.RoyalOpponent
+				opponentType = BossType
 			};
 		}
 
@@ -24,11 +26,16 @@ namespace GrimoraMod
 
 		public override IEnumerator OnUpkeep(bool playerUpkeep)
 		{
+			RandomEx rnd = new RandomEx();
 			var playerSlotsWithCards = CardSlotUtils.GetPlayerSlotsWithCards();
-			if (playerSlotsWithCards.Count >= 1)
+			if (playerSlotsWithCards.Count > 0 && rnd.NextBoolean())
 			{
-				var card = playerSlotsWithCards[UnityEngine.Random.Range(0, playerSlotsWithCards.Count)].Card;
-				card.AddTemporaryMod(new CardModificationInfo(Ability.Submerge));
+				var playableCard = playerSlotsWithCards[UnityEngine.Random.Range(0, playerSlotsWithCards.Count)].Card;
+				Log.LogDebug($"[{GetType()}] About to assign ExplodeOnDeath to [{playableCard.Info.name}]");
+
+				playableCard.AddTemporaryMod(new CardModificationInfo(Ability.ExplodeOnDeath));
+				playableCard.Anim.StrongNegationEffect();
+				yield return new WaitForSeconds(1f);
 			}
 
 			yield break;

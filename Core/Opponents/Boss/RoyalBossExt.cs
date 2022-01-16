@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DiskCardGame;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod
 {
@@ -12,23 +13,38 @@ namespace GrimoraMod
 
 		public override StoryEvent EventForDefeat => StoryEvent.Part3PurchasedHoloBrush;
 
-		public override Type Opponent => (Type)1003;
+		public override Type Opponent => RoyalOpponent;
 
 		public override string DefeatedPlayerDialogue => "Arrg! Walk off a Plank yee dirty Scallywag!!";
 
 		public override IEnumerator IntroSequence(EncounterData encounter)
 		{
+			Log.LogDebug($"[{GetType()}] Calling base IntroSequence");
 			yield return base.IntroSequence(encounter);
 
 			GrimoraAnimationController.Instance.SetHeadBool("face_happy", val: true);
-			yield return Singleton<TextDisplayer>.Instance.PlayDialogueEvent("RoyalBossPreIntro",
-				TextDisplayer.MessageAdvanceMode.Input);
+			yield return Singleton<TextDisplayer>.Instance.PlayDialogueEvent(
+				"RoyalBossPreIntro",
+				TextDisplayer.MessageAdvanceMode.Input
+			);
 			AudioController.Instance.PlaySound2D("boss_royal");
 			yield return new WaitForSeconds(0.1f);
 
-			// GrimoraAnimationController.Instance.ShowBossSkull();
-			// GrimoraAnimationController.Instance.SetHeadTrigger("show_skull");
-			yield return new WaitForSeconds(0.05f);
+			Log.LogDebug($"[{GetType()}] Calling ShowBossSkull");
+			GrimoraAnimationController.Instance.ShowBossSkull();
+
+			Log.LogDebug($"[{GetType()}] Setting Head Trigger");
+			GrimoraAnimationController.Instance.SetHeadTrigger("show_skull");
+
+			Log.LogDebug($"[{GetType()}] Setting RoyalBossSkull active");
+			RoyalBossSkull.SetActive(true);
+
+			Log.LogDebug($"[{GetType()}] Creating royal mask if not null");
+			Mask = RoyalBossSkull;
+
+			Log.LogDebug($"[{GetType()}] Transforming mask");
+			Mask.transform.localPosition = new Vector3(0, 0.2f, 0);
+			Mask.transform.localRotation = Quaternion.Euler(90, 325, 0);
 
 			Singleton<ViewManager>.Instance.SwitchToView(View.BossCloseup, immediate: false, lockAfter: true);
 			SetSceneEffectsShownRoyal();
@@ -44,26 +60,33 @@ namespace GrimoraMod
 			yield return new WaitForSeconds(2f);
 		}
 
-		private void SetSceneEffectsShownRoyal()
+		private static void SetSceneEffectsShownRoyal()
 		{
 			Color brightBlue = GameColors.Instance.brightBlue;
 			brightBlue.a = 0.5f;
-			Singleton<TableVisualEffectsManager>.Instance.ChangeTableColors(GameColors.Instance.blue,
-				GameColors.Instance.marigold, GameColors.Instance.brightBlue, brightBlue, GameColors.Instance.brightBlue,
-				GameColors.Instance.brightBlue, GameColors.Instance.gray, GameColors.Instance.gray,
-				GameColors.Instance.lightGray);
+			TableVisualEffectsManager.Instance.ChangeTableColors(
+				GameColors.Instance.blue,
+				GameColors.Instance.marigold,
+				GameColors.Instance.brightBlue,
+				brightBlue,
+				GameColors.Instance.brightBlue,
+				GameColors.Instance.brightBlue,
+				GameColors.Instance.gray,
+				GameColors.Instance.gray,
+				GameColors.Instance.lightGray
+			);
 		}
 
 		public override IEnumerator StartNewPhaseSequence()
 		{
-			GrimoraPlugin.Log.LogDebug($"StartNewPhaseSequence started for RoyalBoss");
+			Log.LogDebug($"StartNewPhaseSequence started for RoyalBoss");
 
 			var playerSlotsWithCards = CardSlotUtils.GetPlayerSlotsWithCards();
 
-			foreach (var slot in playerSlotsWithCards)
-			{
-				slot.Card.Anim.PlayDeathAnimation();
-			}
+			// foreach (var slot in playerSlotsWithCards)
+			// {
+			// 	slot.Card.Anim.PlayDeathAnimation();
+			// }
 
 			// var blueprint = BuildInitialBlueprint();
 
