@@ -89,36 +89,53 @@ namespace GrimoraMod
 		{
 			if (SaveManager.saveFile.IsGrimora)
 			{
-				GrimoraPlugin.Log.LogDebug($"> SaveFile is Grimora");
+				GrimoraPlugin.Log.LogDebug($"[{__state.GetType()}] SaveFile is Grimora");
 
 				if (__state is BaseBossExt bossExt)
 				{
-					HandleBossExtensions(__state, bossExt);
+					SetBossDefeatedInConfig(__state, bossExt);
+
+					GrimoraPlugin.Log.LogDebug($"[{__state.GetType()}] Glitching mask");
+					GlitchOutAssetEffect.GlitchModel(
+						bossExt.Mask.transform,
+						true
+					);
+
+					GrimoraPlugin.Log.LogDebug($"[{__state.GetType()}] audio queue");
+					AudioController.Instance.PlaySound2D("glitch_error", MixerGroup.TableObjectsSFX);
+
+					GrimoraPlugin.Log.LogDebug($"[{__state.GetType()}] hiding skull");
+					GrimoraAnimationController.Instance.SetHeadTrigger("hide_skull");
+
+					if (bossExt is RoyalBossExt royalBossExt)
+					{
+						GrimoraAnimationController.Instance.SetHeadBool("face_disappointed", val: true);
+						GrimoraAnimationController.Instance.SetHeadBool("face_happy", val: false);
+						yield return TextDisplayer.Instance.PlayDialogueEvent("RoyalBossDeleted", TextDisplayer.MessageAdvanceMode.Input);
+						yield return new WaitForSeconds(0.5f);
+						yield return royalBossExt.cannons.GetComponent<CannonTableEffects>().GlitchOutCannons();
+					}
+					
+					GrimoraPlugin.Log.LogDebug($"[{__state.GetType()}] Destroying scenery");
+					__state.DestroyScenery();
+					
+					GrimoraPlugin.Log.LogDebug($"[{__state.GetType()}] Set Scene Effects");
+					__state.SetSceneEffectsShown(false);
+					
+					GrimoraPlugin.Log.LogDebug($"[{__state.GetType()}] Stopping audio");
+					AudioController.Instance.StopAllLoops();
+					
+					yield return new WaitForSeconds(0.75f);
+
+					GrimoraPlugin.Log.LogDebug($"[{__state.GetType()}] CleanUpBossBehaviours");
+					__state.CleanUpBossBehaviours();
+
+					ViewManager.Instance.SwitchToView(View.Default, false, true);
+
+					GrimoraPlugin.Log.LogDebug($"Setting post battle special node to a rare code node data");
+					TurnManager.Instance.PostBattleSpecialNode = new ChooseRareCardNodeData();
 				}
 
-				GlitchOutAssetEffect.GlitchModel(
-					GameObject.Find("Grimora_RightWrist").GetComponentsInChildren<Transform>().ToList()
-						.Find(transform1 => transform1.gameObject.name.Contains("Mask")).gameObject.transform,
-					true
-				);
-
-				AudioController.Instance.PlaySound2D("glitch_error", MixerGroup.TableObjectsSFX);
-
-				GrimoraAnimationController.Instance.SetHeadTrigger("hide_skull");
-
-				__state.DestroyScenery();
-				__state.SetSceneEffectsShown(false);
-				AudioController.Instance.StopAllLoops();
-				yield return new WaitForSeconds(0.75f);
-
-				__state.CleanUpBossBehaviours();
-
-				ViewManager.Instance.SwitchToView(View.Default, false, true);
-
-				RunState.Run.playerLives = 2;
-
-				GrimoraPlugin.Log.LogDebug($"Setting post battle special node to a rare code node data");
-				TurnManager.Instance.PostBattleSpecialNode = new ChooseRareCardNodeData();
 				yield break;
 			}
 			else
@@ -127,7 +144,7 @@ namespace GrimoraMod
 			}
 		}
 
-		private static void HandleBossExtensions(Part1BossOpponent __state, BaseBossExt bossExt)
+		private static void SetBossDefeatedInConfig(Part1BossOpponent __state, BaseBossExt bossExt)
 		{
 			switch (bossExt)
 			{
