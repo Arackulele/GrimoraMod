@@ -14,21 +14,21 @@ namespace GrimoraMod
 		public GameObject RightWrist { get; } = GameObject.Find("Grimora_RightWrist");
 
 		public const Type KayceeOpponent = (Type)1001;
-		public const Type DoggyOpponent = (Type)1002;
+		public const Type SawyerOpponent = (Type)1002;
 		public const Type RoyalOpponent = (Type)1003;
 		public const Type GrimoraOpponent = (Type)1004;
 
 		public static readonly Dictionary<string, Type> BossTypesByString = new()
 		{
-			{ "DoggyBoss", DoggyOpponent },
-			{ "GrimoraBoss", GrimoraOpponent },
-			{ "KayceeBoss", KayceeOpponent },
-			{ "RoyalBoss", RoyalOpponent }
+			{ SawyerBossOpponent.SpecialId, SawyerOpponent },
+			{ GrimoraBossOpponentExt.SpecialId, GrimoraOpponent },
+			{ KayceeBossOpponent.SpecialId, KayceeOpponent },
+			{ RoyalBossOpponentExt.SpecialId, RoyalOpponent }
 		};
 
 		public static readonly Dictionary<Type, string> BossMasksByType = new()
 		{
-			{ DoggyOpponent, $"{PrefabPathMasks}/MaskProspector" },
+			{ SawyerOpponent, $"{PrefabPathMasks}/MaskProspector" },
 			{ KayceeOpponent, $"{PrefabPathMasks}/MaskAngler" },
 			{ RoyalOpponent, PrefabPathRoyalBossSkull }
 		};
@@ -49,7 +49,7 @@ namespace GrimoraMod
 			yield return ReplaceBlueprintCustom(BuildInitialBlueprint());
 
 			// Royal boss has a specific sequence to follow so that it flows easier
-			if (this is not RoyalBossExt && BossMasksByType.TryGetValue(OpponentType, out string prefabPath))
+			if (this is not RoyalBossOpponentExt && BossMasksByType.TryGetValue(OpponentType, out string prefabPath))
 			{
 				yield return ShowBossSkull();
 

@@ -71,17 +71,17 @@ namespace GrimoraMod
 			if (ConfigRoyalThirdBossDead.Value)
 			{
 				Log.LogDebug($"[SetupGamePieces] Royal defeated");
-				PlaceBossPiece("GrimoraBoss");
+				PlaceBossPiece(GrimoraBossOpponentExt.SpecialId);
 			}
-			else if (ConfigDoggySecondBossDead.Value)
+			else if (ConfigSawyerSecondBossDead.Value)
 			{
-				Log.LogDebug($"[SetupGamePieces] Doggy defeated");
-				PlaceBossPiece("RoyalBoss");
+				Log.LogDebug($"[SetupGamePieces] Sawyer defeated");
+				PlaceBossPiece(RoyalBossOpponentExt.SpecialId);
 			}
 			else if (ConfigKayceeFirstBossDead.Value)
 			{
 				Log.LogDebug($"[SetupGamePieces] Kaycee defeated");
-				PlaceBossPiece("DoggyBoss");
+				PlaceBossPiece(SawyerBossOpponent.SpecialId);
 			}
 			else
 			{
@@ -253,7 +253,7 @@ namespace GrimoraMod
 		{
 			Mesh meshObj = ActiveBossType switch
 			{
-				BaseBossExt.DoggyOpponent => MeshFilterBlockerBones,
+				BaseBossExt.SawyerOpponent => MeshFilterBlockerBones,
 				BaseBossExt.RoyalOpponent => MeshFilterBlockerBarrels,
 				_ => MeshFilterBlockerIceBlock
 			};

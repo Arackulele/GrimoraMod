@@ -6,8 +6,10 @@ using static GrimoraMod.BlueprintUtils;
 
 namespace GrimoraMod
 {
-	public class KayceeBossExt : BaseBossExt
+	public class KayceeBossOpponent : BaseBossExt
 	{
+		public const string SpecialId = "kayceeBoss";
+
 		public override StoryEvent EventForDefeat => StoryEvent.FactoryConveyorBeltMoved;
 
 		public override Type Opponent => KayceeOpponent;

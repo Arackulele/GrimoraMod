@@ -13,10 +13,10 @@ namespace GrimoraMod
 		// this.AddComponent(typeof (T)) as T;
 		private static readonly Dictionary<Opponent.Type, Type> BossBattleSequencers = new()
 		{
-			{ BaseBossExt.DoggyOpponent, typeof(DoggyBossExt) },
-			{ BaseBossExt.GrimoraOpponent, typeof(GrimoraBossExt) },
-			{ BaseBossExt.KayceeOpponent, typeof(KayceeBossExt) },
-			{ BaseBossExt.RoyalOpponent, typeof(RoyalBossExt) }
+			{ BaseBossExt.SawyerOpponent, typeof(SawyerBossOpponent) },
+			{ BaseBossExt.GrimoraOpponent, typeof(GrimoraBossOpponentExt) },
+			{ BaseBossExt.KayceeOpponent, typeof(KayceeBossOpponent) },
+			{ BaseBossExt.RoyalOpponent, typeof(RoyalBossOpponentExt) }
 		};
 
 		[HarmonyPrefix, HarmonyPatch(nameof(Opponent.SpawnOpponent))]
@@ -106,7 +106,7 @@ namespace GrimoraMod
 					GrimoraPlugin.Log.LogDebug($"[{__state.GetType()}] hiding skull");
 					GrimoraAnimationController.Instance.SetHeadTrigger("hide_skull");
 
-					if (bossExt is RoyalBossExt royalBossExt)
+					if (bossExt is RoyalBossOpponentExt royalBossExt)
 					{
 						GrimoraAnimationController.Instance.SetHeadBool("face_disappointed", val: true);
 						GrimoraAnimationController.Instance.SetHeadBool("face_happy", val: false);
@@ -147,16 +147,16 @@ namespace GrimoraMod
 		{
 			switch (bossExt)
 			{
-				case KayceeBossExt:
+				case KayceeBossOpponent:
 					GrimoraPlugin.ConfigKayceeFirstBossDead.Value = true;
 					break;
-				case DoggyBossExt:
-					GrimoraPlugin.ConfigDoggySecondBossDead.Value = true;
+				case SawyerBossOpponent:
+					GrimoraPlugin.ConfigSawyerSecondBossDead.Value = true;
 					break;
-				case RoyalBossExt:
+				case RoyalBossOpponentExt:
 					GrimoraPlugin.ConfigRoyalThirdBossDead.Value = true;
 					break;
-				case GrimoraBossExt:
+				case GrimoraBossOpponentExt:
 					GrimoraPlugin.ConfigGrimoraBossDead.Value = true;
 					break;
 			}

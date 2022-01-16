@@ -11,10 +11,10 @@ namespace GrimoraMod
 	{
 		private static readonly Dictionary<string, Type> BossBattleSequencers = new()
 		{
-			{ "DoggyBoss", typeof(DoggyBossSequencer) },
-			{ "GrimoraBoss", typeof(GrimoraBossSequencer) },
-			{ "KayceeBoss", typeof(KayceeBossSequencer) },
-			{ "RoyalBoss", typeof(RoyalBossSequencer) }
+			{ SawyerBossOpponent.SpecialId, typeof(SawyerBattleSequencer) },
+			{ GrimoraBossOpponentExt.SpecialId, typeof(GrimoraBossSequencer) },
+			{ KayceeBossOpponent.SpecialId, typeof(KayceeBossSequencer) },
+			{ RoyalBossOpponentExt.SpecialId, typeof(RoyalBossSequencer) }
 		};
 
 		[HarmonyPrefix, HarmonyPatch(nameof(TurnManager.UpdateSpecialSequencer))]

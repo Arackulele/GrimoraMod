@@ -42,7 +42,7 @@ namespace GrimoraMod
 
 		public static ConfigEntry<bool> ConfigKayceeFirstBossDead;
 
-		public static ConfigEntry<bool> ConfigDoggySecondBossDead;
+		public static ConfigEntry<bool> ConfigSawyerSecondBossDead;
 
 		public static ConfigEntry<bool> ConfigRoyalThirdBossDead;
 
@@ -141,8 +141,8 @@ namespace GrimoraMod
 			ConfigKayceeFirstBossDead
 				= GrimoraConfigFile.Bind(PluginName, "Kaycee defeated?", false);
 
-			ConfigDoggySecondBossDead
-				= GrimoraConfigFile.Bind(PluginName, "Doggy defeated?", false);
+			ConfigSawyerSecondBossDead
+				= GrimoraConfigFile.Bind(PluginName, "Sawyer defeated?", false);
 
 			ConfigRoyalThirdBossDead
 				= GrimoraConfigFile.Bind(PluginName, "Royal defeated?", false);
@@ -205,7 +205,7 @@ namespace GrimoraMod
 		public static void ResetConfig()
 		{
 			ConfigKayceeFirstBossDead.Value = false;
-			ConfigDoggySecondBossDead.Value = false;
+			ConfigSawyerSecondBossDead.Value = false;
 			ConfigRoyalThirdBossDead.Value = false;
 			ConfigGrimoraBossDead.Value = false;
 			ConfigCurrentRemovedPieces.Value = StaticDefaultRemovedPiecesList;

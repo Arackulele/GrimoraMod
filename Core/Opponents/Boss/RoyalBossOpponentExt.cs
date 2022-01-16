@@ -7,8 +7,10 @@ using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod
 {
-	public class RoyalBossExt : BaseBossExt
+	public class RoyalBossOpponentExt : BaseBossExt
 	{
+		public const string SpecialId = "RoyalBoss";
+
 		public GameObject cannons;
 
 		public override StoryEvent EventForDefeat => StoryEvent.Part3PurchasedHoloBrush;

@@ -3,7 +3,7 @@ using DiskCardGame;
 
 namespace GrimoraMod
 {
-	public class DoggyBehavior : BossBehaviour
+	public class SawyerBehaviour : BossBehaviour
 	{
 		public IEnumerator OnOtherCardDie(CardSlot otherCard)
 		{

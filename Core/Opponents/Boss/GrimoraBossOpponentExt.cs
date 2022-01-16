@@ -5,8 +5,10 @@ using UnityEngine;
 
 namespace GrimoraMod
 {
-	public class GrimoraBossExt : BaseBossExt
+	public class GrimoraBossOpponentExt : BaseBossExt
 	{
+		public const string SpecialId = "GrimoraBoss";
+
 		public override StoryEvent EventForDefeat => StoryEvent.PhotoDroneSeenInCabin;
 
 		public override Type Opponent => GrimoraOpponent;

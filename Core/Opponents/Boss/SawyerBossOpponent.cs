@@ -6,11 +6,13 @@ using static GrimoraMod.BlueprintUtils;
 
 namespace GrimoraMod
 {
-	public class DoggyBossExt : BaseBossExt
+	public class SawyerBossOpponent : BaseBossExt
 	{
+		public const string SpecialId = "SawyerBoss";
+
 		public override StoryEvent EventForDefeat => StoryEvent.FactoryCuckooClockAppeared;
 
-		public override Type Opponent => DoggyOpponent;
+		public override Type Opponent => SawyerOpponent;
 
 		public override string DefeatedPlayerDialogue => "My dogs will enjoy your bones!";
 
@@ -69,7 +71,7 @@ namespace GrimoraMod
 		public override IEnumerator StartNewPhaseSequence()
 		{
 			{
-				base.InstantiateBossBehaviour<DoggyBehavior>();
+				base.InstantiateBossBehaviour<SawyerBehaviour>();
 
 				var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 				blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
