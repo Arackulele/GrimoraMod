@@ -187,8 +187,6 @@ namespace GrimoraMod
 
 		public override IEnumerator UnrollingSequence(float unrollSpeed)
 		{
-			StoryEventsData.SetEventCompleted(StoryEvent.GrimoraReachedTable);
-
 			TableRuleBook.Instance.SetOnBoard(false);
 
 			// Log.LogDebug($"[ChessboardMap.UnrollingSequence] Setting each piece game object active to false");
@@ -229,6 +227,8 @@ namespace GrimoraMod
 			}
 
 			MapNodeManager.Instance.FindAndSetActiveNodeInteractable();
+
+			StoryEventsData.SetEventCompleted(StoryEvent.GrimoraReachedTable);
 
 			SaveManager.SaveToFile();
 		}
