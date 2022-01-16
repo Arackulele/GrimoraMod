@@ -23,8 +23,8 @@ namespace GrimoraMod
 			__instance.gridX = 0;
 			__instance.gridY = 7;
 			__instance.removedPieces = new List<int>();
-			__instance.deck.Cards.Clear();
 			__instance.deck = new DeckInfo();
+			__instance.deck.Cards.Clear();
 			foreach (var cardInfo in DefaultCardInfos)
 			{
 				__instance.deck.AddCard(cardInfo);
