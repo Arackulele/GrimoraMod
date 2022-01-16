@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using DiskCardGame;
 using UnityEngine;
 
@@ -17,6 +18,7 @@ namespace GrimoraMod
 
 		public override IEnumerator IntroSequence(EncounterData encounter)
 		{
+			// Log.LogDebug($"[{GetType()}] Calling base IntroSequence, this creates and sets the candle skull");
 			yield return base.IntroSequence(encounter);
 
 			yield return new WaitForSeconds(0.5f);
@@ -26,19 +28,19 @@ namespace GrimoraMod
 			AudioController.Instance.SetLoopVolume(1f, 0.5f);
 			yield return new WaitForSeconds(1f);
 
-			yield return Singleton<TextDisplayer>.Instance.PlayDialogueEvent("LeshyBossIntro1",
+			yield return TextDisplayer.Instance.PlayDialogueEvent("LeshyBossIntro1",
 				TextDisplayer.MessageAdvanceMode.Input);
 			yield return new WaitForSeconds(0.75f);
 
 			yield return new WaitForSeconds(0.25f);
-			yield return Singleton<TextDisplayer>.Instance.PlayDialogueEvent("LeshyBossAddCandle",
+			yield return TextDisplayer.Instance.PlayDialogueEvent("LeshyBossAddCandle",
 				TextDisplayer.MessageAdvanceMode.Input);
 			yield return new WaitForSeconds(0.4f);
 
 			bossSkull.EnterHand();
 			yield return new WaitForSeconds(3.5f);
 
-			Singleton<ViewManager>.Instance.SwitchToView(View.Default, immediate: false, lockAfter: true);
+			ViewManager.Instance.SwitchToView(View.Default, immediate: false, lockAfter: true);
 		}
 
 		public override EncounterBlueprintData BuildInitialBlueprint()
@@ -51,19 +53,6 @@ namespace GrimoraMod
 			switch (this.NumLives)
 			{
 				case 1:
-				{
-					var playerCardSlots = BoardManager.Instance.playerSlots.FindAll(slot => slot.Card != null);
-					if (playerCardSlots.Count >= 1)
-					{
-						foreach (var slot in playerCardSlots)
-						{
-							slot.Card.AddTemporaryMod(new CardModificationInfo(-slot.Card.Attack + 1, -slot.Card.Health + 1));
-						}
-					}
-
-					break;
-				}
-				case 2:
 				{
 					yield return base.ClearBoard();
 
@@ -89,6 +78,30 @@ namespace GrimoraMod
 						);
 
 						yield return new WaitForSeconds(0.25f);
+					}
+
+					break;
+				}
+				case 2:
+				{
+					var playerCardSlots = CardSlotUtils.GetPlayerSlotsWithCards();
+					if (playerCardSlots.Count > 0)
+					{
+						foreach (var playableCard in playerCardSlots.Select(slot => slot.Card))
+						{
+							TextDisplayer.Instance.ShowUntilInput(
+								$"{playableCard.name}, I WILL MAKE YOU WEAK!",
+								letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
+							);
+
+							playableCard.AddTemporaryMod(
+								new CardModificationInfo(
+									-playableCard.Attack + 1,
+									-playableCard.Health + 1)
+							);
+							playableCard.Anim.StrongNegationEffect();
+							yield return new WaitForSeconds(0.05f);
+						}
 					}
 
 
