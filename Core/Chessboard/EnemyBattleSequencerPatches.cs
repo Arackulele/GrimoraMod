@@ -70,7 +70,7 @@ namespace GrimoraMod
 					TextDisplayer.MessageAdvanceMode.Input);
 				yield return new WaitForSeconds(0.5f);
 
-				Singleton<InteractionCursor>.Instance.InteractionDisabled = false;
+				InteractionCursor.Instance.InteractionDisabled = false;
 
 				GlitchOutAssetEffect.GlitchModel(((BoardManager3D)BoardManager3D.Instance).Bell.transform);
 				yield return new WaitForSeconds(0.75f);
@@ -81,7 +81,7 @@ namespace GrimoraMod
 				// yield return (Singleton<GameFlowManager>.Instance as GrimoraGameFlowManager).EndSceneSequence();
 
 				(ResourcesManager.Instance as Part1ResourcesManager).GlitchOutBoneTokens();
-				GlitchOutAssetEffect.GlitchModel(Singleton<TableVisualEffectsManager>.Instance.Table.transform);
+				GlitchOutAssetEffect.GlitchModel(TableVisualEffectsManager.Instance.Table.transform);
 				yield return new WaitForSeconds(0.75f);
 
 				yield return TextDisplayer.Instance.PlayDialogueEvent("GrimoraFinaleEnd",
