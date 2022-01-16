@@ -14,18 +14,19 @@ namespace GrimoraMod
 {
 	public class ChessboardMapExt : ChessboardMap
 	{
+		private readonly bool _enableDevMode = ConfigDeveloperMode.Value;
 		private GrimoraChessboard _activeChessboard;
 
-		private string[] buttonNames =
+		private bool _toggleEncounterMenu;
+
+		private readonly string[] _buttonNames =
 		{
-			"Win Round", "Lose Round", "Deck View",
-			"Place Chest"
+			"Win Round", "Lose Round",
+			"Deck View", "Place Chest"
 		};
 
 		private List<GrimoraChessboard> _chessboards;
-		private List<string> removedPieces;
 
-		private bool toggleEncounterMenu;
 		public new static ChessboardMapExt Instance => GameMap.Instance as ChessboardMapExt;
 
 		public List<string> RemovedPieces => ConfigCurrentRemovedPieces.Value.Split(',').Distinct().ToList();
@@ -77,52 +78,55 @@ namespace GrimoraMod
 
 		private void OnGUI()
 		{
-			toggleEncounterMenu = GUI.Toggle(
-				new Rect(20, 100, 200, 20),
-				toggleEncounterMenu,
-				"Debug Tools"
-			);
-
-			if (!toggleEncounterMenu) return;
-
-			int selectedButton = GUI.SelectionGrid(
-				new Rect(25, 150, 300, 100),
-				-1,
-				buttonNames,
-				2
-			);
-
-			if (selectedButton >= 0)
+			if (_enableDevMode)
 			{
-				// Log.LogDebug($"[OnGUI] Calling button [{selectedButton}]");
-				switch (buttonNames[selectedButton])
-				{
-					case "Win Round":
-						LifeManager.Instance.StartCoroutine(
-							LifeManager.Instance.ShowDamageSequence(10, 1, false)
-						);
-						break;
-					case "Lose Round":
-						LifeManager.Instance.StartCoroutine(
-							LifeManager.Instance.ShowDamageSequence(10, 1, true)
-						);
-						break;
-					case "Place Chest":
-						Instance._activeChessboard.PlaceChestPiece(0, 0);
-						break;
-					case "Deck View":
-						// Log.LogDebug($"[OnGUI] is deck view [{selectedButton}]");
-						switch (ViewManager.Instance.CurrentView)
-						{
-							case View.MapDeckReview:
-								ViewManager.Instance.SwitchToView(View.MapDefault);
-								break;
-							case View.MapDefault:
-								ViewManager.Instance.SwitchToView(View.MapDeckReview);
-								break;
-						}
+				_toggleEncounterMenu = GUI.Toggle(
+					new Rect(20, 100, 200, 20),
+					_toggleEncounterMenu,
+					"Debug Tools"
+				);
 
-						break;
+				if (!_toggleEncounterMenu) return;
+
+				int selectedButton = GUI.SelectionGrid(
+					new Rect(25, 150, 300, 100),
+					-1,
+					_buttonNames,
+					2
+				);
+
+				if (selectedButton >= 0)
+				{
+					// Log.LogDebug($"[OnGUI] Calling button [{selectedButton}]");
+					switch (_buttonNames[selectedButton])
+					{
+						case "Win Round":
+							LifeManager.Instance.StartCoroutine(
+								LifeManager.Instance.ShowDamageSequence(10, 1, false)
+							);
+							break;
+						case "Lose Round":
+							LifeManager.Instance.StartCoroutine(
+								LifeManager.Instance.ShowDamageSequence(10, 1, true)
+							);
+							break;
+						case "Place Chest":
+							Instance._activeChessboard.PlaceChestPiece(0, 0);
+							break;
+						case "Deck View":
+							// Log.LogDebug($"[OnGUI] is deck view [{selectedButton}]");
+							switch (ViewManager.Instance.CurrentView)
+							{
+								case View.MapDeckReview:
+									ViewManager.Instance.SwitchToView(View.MapDefault);
+									break;
+								case View.MapDefault:
+									ViewManager.Instance.SwitchToView(View.MapDeckReview);
+									break;
+							}
+
+							break;
+					}
 				}
 			}
 		}
