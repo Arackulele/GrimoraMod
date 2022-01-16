@@ -154,7 +154,7 @@ namespace GrimoraMod
 				PluginName,
 				"Enable Developer Mode",
 				false,
-				new ConfigDescription("This will skip generating all pieces except the boss")
+				new ConfigDescription("Does not generate blocker or enemy pieces except boss. Chests fill first row.")
 			);
 
 			ConfigCurrentRemovedPieces = GrimoraConfigFile.Bind(
