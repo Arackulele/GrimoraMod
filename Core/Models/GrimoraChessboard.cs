@@ -3,6 +3,7 @@ using System.Linq;
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod
 {
@@ -67,28 +68,28 @@ namespace GrimoraMod
 
 		public void SetupBoard()
 		{
-			if (GrimoraPlugin.ConfigRoyalThirdBossDead.Value)
+			if (ConfigRoyalThirdBossDead.Value)
 			{
-				GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Royal defeated");
+				Log.LogDebug($"[SetupGamePieces] Royal defeated");
 				PlaceBossPiece("GrimoraBoss");
 			}
-			else if (GrimoraPlugin.ConfigDoggySecondBossDead.Value)
+			else if (ConfigDoggySecondBossDead.Value)
 			{
-				GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Doggy defeated");
+				Log.LogDebug($"[SetupGamePieces] Doggy defeated");
 				PlaceBossPiece("RoyalBoss");
 			}
-			else if (GrimoraPlugin.ConfigKayceeFirstBossDead.Value)
+			else if (ConfigKayceeFirstBossDead.Value)
 			{
-				GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Kaycee defeated");
+				Log.LogDebug($"[SetupGamePieces] Kaycee defeated");
 				PlaceBossPiece("DoggyBoss");
 			}
 			else
 			{
-				GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] No bosses defeated yet, creating Kaycee");
+				Log.LogDebug($"[SetupGamePieces] No bosses defeated yet, creating Kaycee");
 				PlaceBossPiece("KayceeBoss");
 			}
 
-			if (GrimoraPlugin.ConfigDeveloperMode.Value)
+			if (ConfigDeveloperMode.Value)
 			{
 				for (int i = 0; i < 7; i++)
 				{
@@ -108,15 +109,15 @@ namespace GrimoraMod
 			int x = GrimoraSaveData.Data.gridX;
 			int y = GrimoraSaveData.Data.gridY;
 
-			GrimoraPlugin.Log.LogDebug($"[HandlePlayerMarkerPosition] " +
-			                           $"Player Marker name [{PlayerMarker.Instance.name}] " +
-			                           $"x{x}y{y} coords");
+			Log.LogDebug($"[HandlePlayerMarkerPosition] " +
+			             $"Player Marker name [{PlayerMarker.Instance.name}] " +
+			             $"x{x}y{y} coords");
 
 			var occupyingPiece = GetPieceAtSpace(x, y);
 
 			bool isPlayerOccupied = occupyingPiece is not null && PlayerMarker.Instance.name == occupyingPiece.name;
 
-			GrimoraPlugin.Log.LogDebug($"[HandlePlayerMarkerPosition] isPlayerOccupied? [{isPlayerOccupied}]");
+			Log.LogDebug($"[HandlePlayerMarkerPosition] isPlayerOccupied? [{isPlayerOccupied}]");
 
 			if (changingRegion || !StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable))
 			{
@@ -126,12 +127,12 @@ namespace GrimoraMod
 			}
 
 			MapNodeManager.Instance.ActiveNode = ChessboardNavGrid.instance.zones[x, y].GetComponent<MapNode>();
-			GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] MapNodeManager ActiveNode is x[{x}]y[{y}]");
+			Log.LogDebug($"[SetupGamePieces] MapNodeManager ActiveNode is x[{x}]y[{y}]");
 
-			GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] SetPlayerAdjacentNodesActive");
+			Log.LogDebug($"[SetupGamePieces] SetPlayerAdjacentNodesActive");
 			ChessboardNavGrid.instance.SetPlayerAdjacentNodesActive();
 
-			GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Setting player position to active node");
+			Log.LogDebug($"[SetupGamePieces] Setting player position to active node");
 			PlayerMarker.Instance.transform.position = MapNodeManager.Instance.ActiveNode.transform.position;
 		}
 
@@ -146,9 +147,9 @@ namespace GrimoraMod
 
 		public const string PrefabPath = "Prefabs/Map/ChessboardMap";
 
-		public static Mesh MeshFilterBlockerIceBlock => GrimoraPlugin.AllAssets[8] as Mesh;
-		public static Mesh MeshFilterBlockerBones => GrimoraPlugin.AllAssets[5] as Mesh;
-		public static Mesh MeshFilterBlockerBarrels => GrimoraPlugin.AllAssets[2] as Mesh;
+		public static Mesh MeshFilterBlockerIceBlock => AllAssets[8] as Mesh;
+		public static Mesh MeshFilterBlockerBones => AllAssets[5] as Mesh;
+		public static Mesh MeshFilterBlockerBarrels => AllAssets[2] as Mesh;
 
 		public static ChessboardBlockerPiece PrefabTombstone =>
 			ResourceBank.Get<ChessboardBlockerPiece>($"{PrefabPath}/Chessboard_Tombstone_1");
@@ -171,14 +172,10 @@ namespace GrimoraMod
 			return ChessboardNavGrid.instance.zones[x, y].GetComponent<ChessboardMapNode>().OccupyingPiece;
 		}
 
-		private static EncounterBlueprintData GetBlueprint(string bossType = "")
+		private EncounterBlueprintData GetBlueprint()
 		{
-			List<Opponent.Type> opponentTypes = BlueprintUtils.RegionWithBlueprints.Keys.ToList();
-
-			var randomType = string.IsNullOrEmpty(bossType)
-				? opponentTypes[UnityEngine.Random.RandomRangeInt(0, opponentTypes.Count)]
-				: BaseBossExt.BossTypesByString.GetValueSafe(bossType);
-
+			var randomType = BaseBossExt.BossTypesByString.GetValueSafe(BossPiece.specialEncounterId);
+			Log.LogDebug($"[GetBlueprint] Getting blueprint for region [{randomType}]");
 			var blueprints = BlueprintUtils.RegionWithBlueprints[randomType];
 			return blueprints[UnityEngine.Random.RandomRangeInt(0, blueprints.Count)];
 		}
@@ -189,7 +186,7 @@ namespace GrimoraMod
 
 		public void PlaceBlockerPieces()
 		{
-			GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Creating blocker pieces for the board");
+			// Log.LogDebug($"[SetupGamePieces] Creating blocker pieces for the board");
 			BlockerNodes.ForEach(node => CreateBlockerPiece(node.GridX, node.GridY));
 		}
 
@@ -272,7 +269,7 @@ namespace GrimoraMod
 
 			if (ChessboardMapExt.Instance.RemovedPieces.Exists(c => piece is not null && c == piece.name))
 			{
-				GrimoraPlugin.Log.LogDebug($"-> Skipping [{coordName}] as it already exists. Setting MapNode to active.");
+				Log.LogDebug($"-> Skipping [{coordName}] as it already exists. Setting MapNode to active.");
 				piece.MapNode.SetActive(true);
 			}
 			else
@@ -292,13 +289,16 @@ namespace GrimoraMod
 						{
 							enemyPiece.GoalPosX = x;
 							enemyPiece.GoalPosX = y;
-							enemyPiece.blueprint = GetBlueprint(id);
 
 							if (prefab.name.Contains("Boss"))
 							{
 								// GrimoraPlugin.Log.LogDebug($"Prefab piece is boss, setting name");
 								enemyPiece.specialEncounterId = id;
 								nameTemp = nameTemp.Replace("Enemy", "Boss");
+							}
+							else
+							{
+								enemyPiece.blueprint = GetBlueprint();
 							}
 
 							break;
