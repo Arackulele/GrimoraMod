@@ -80,7 +80,7 @@ namespace GrimoraMod
 			// Log.LogDebug($"[{GetType()}] Setting Head Trigger");
 			GrimoraAnimationController.Instance.SetHeadTrigger("show_skull");
 
-			yield return new WaitForSeconds(0.05f);
+			yield return new WaitForSeconds(0.25f);
 
 			ViewManager.Instance.SwitchToView(View.BossCloseup, immediate: false, lockAfter: true);
 		}

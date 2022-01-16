@@ -16,8 +16,6 @@ namespace GrimoraMod
 
 		public override IEnumerator IntroSequence(EncounterData encounter)
 		{
-			yield return base.IntroSequence(encounter);
-
 			AudioController.Instance.SetLoopAndPlay("boss_prospector_base");
 			AudioController.Instance.SetLoopAndPlay("boss_prospector_ambient", 1);
 			base.SpawnScenery("ForestTableEffects");
@@ -33,6 +31,9 @@ namespace GrimoraMod
 				"ProspectorPreIntro", TextDisplayer.MessageAdvanceMode.Input
 			);
 			yield return new WaitForSeconds(1.5f);
+
+			yield return base.IntroSequence(encounter);
+			yield return new WaitForSeconds(0.5f);
 
 			yield return base.FaceZoomSequence();
 			yield return TextDisplayer.Instance.PlayDialogueEvent(
