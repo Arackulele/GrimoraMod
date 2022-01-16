@@ -6,6 +6,7 @@ using System.Text;
 using DiskCardGame;
 using Unity.Cloud.UserReporting.Plugin.SimpleJson;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 using Resources = GrimoraMod.Properties.Resources;
 
 // This class is literally just meant to be able to view the deck review sequencer
@@ -21,8 +22,7 @@ namespace GrimoraMod
 			"Place Chest"
 		};
 
-		private List<GrimoraChessboard> chessboards;
-		private int currentChessboardIndex;
+		private List<GrimoraChessboard> _chessboards;
 		private List<string> removedPieces;
 
 		private bool toggleEncounterMenu;
@@ -54,7 +54,7 @@ namespace GrimoraMod
 			get
 			{
 				LoadData();
-				return chessboards;
+				return _chessboards;
 			}
 		}
 
@@ -99,7 +99,7 @@ namespace GrimoraMod
 						);
 						break;
 					case "Place Chest":
-						ChessboardMapExt.Instance.activeChessboard.PlaceChestPiece(0, 0);
+						Instance._activeChessboard.PlaceChestPiece(0, 0);
 						break;
 					case "Deck View":
 						GrimoraPlugin.Log.LogDebug($"[OnGUI] is deck view [{selectedButton}]");
@@ -120,12 +120,12 @@ namespace GrimoraMod
 
 		public void LoadData()
 		{
-			if (chessboards == null)
+			if (_chessboards == null)
 			{
 				GrimoraPlugin.Log.LogDebug($"[ChessboardMapExt] Loading json boards");
 				string jsonString = Encoding.UTF8.GetString(Resources.GrimoraChessboardsStatic);
 
-				chessboards = ParseJson(
+				_chessboards = ParseJson(
 					SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString)
 				);
 			}
