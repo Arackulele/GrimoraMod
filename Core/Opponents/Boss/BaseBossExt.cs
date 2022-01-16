@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DiskCardGame;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod
 {
@@ -10,10 +11,13 @@ namespace GrimoraMod
 		public const string PrefabPathMasks = "Prefabs/Opponents/Leshy/Masks";
 		public const string PrefabPathRoyalBossSkull = "Prefabs/Opponents/Grimora/RoyalBossSkull";
 
-		public const Opponent.Type KayceeOpponent = (Type)1001;
-		public const Opponent.Type DoggyOpponent = (Type)1002;
-		public const Opponent.Type RoyalOpponent = (Type)1003;
-		public const Opponent.Type GrimoraOpponent = (Type)1004;
+		private protected GameObject RoyalBossSkull => RightWrist.transform.GetChild(6).gameObject;
+		public GameObject RightWrist { get; } = GameObject.Find("Grimora_RightWrist");
+
+		public const Type KayceeOpponent = (Type)1001;
+		public const Type DoggyOpponent = (Type)1002;
+		public const Type RoyalOpponent = (Type)1003;
+		public const Type GrimoraOpponent = (Type)1004;
 
 		public static readonly Dictionary<string, Type> BossTypesByString = new()
 		{
@@ -30,49 +34,54 @@ namespace GrimoraMod
 			{ RoyalOpponent, PrefabPathRoyalBossSkull }
 		};
 
-		public GameObject rightWrist = GameObject.Find("Grimora_RightWrist");
 
 		public abstract StoryEvent EventForDefeat { get; }
 
-		public abstract Opponent.Type Opponent { get; }
+		public abstract Type Opponent { get; }
 
-		public GameObject Mask { get; set; }
+		protected internal GameObject Mask { get; set; }
 
 		public override IEnumerator IntroSequence(EncounterData encounter)
 		{
+			Log.LogDebug($"[{GetType()}] Calling ReplaceBlueprintCustom");
 			yield return ReplaceBlueprintCustom(BuildInitialBlueprint());
 
 			AudioController.Instance.FadeOutLoop(0.75f);
 			RunState.CurrentMapRegion.FadeOutAmbientAudio();
 
+			Log.LogDebug($"[{GetType()}] Calling IntroSequence");
 			yield return base.IntroSequence(encounter);
+			yield return new WaitForSeconds(1f);
 
-			yield return new WaitForSeconds(0.15f);
-			GrimoraAnimationController.Instance.ShowBossSkull();
-			GrimoraAnimationController.Instance.SetHeadTrigger("show_skull");
-
+			// Royal boss has a specific sequence to follow so that it flows easier
 			if (this is not RoyalBossExt)
 			{
-				UnityEngine.Object.Destroy(GameObject.Find("RoyalBossSkull"));
-			}
+				Log.LogDebug($"[{GetType()}] Setting RoyalBossSkull inactive");
+				RoyalBossSkull.SetActive(false);
+				if (BossMasksByType.TryGetValue(OpponentType, out string prefabPath))
+				{
+					Log.LogDebug($"[{GetType()}] Calling ShowBossSkull");
+					GrimoraAnimationController.Instance.ShowBossSkull();
 
-			if (BossMasksByType.TryGetValue(this.OpponentType, out string prefab))
-			{
-				Mask = (GameObject)UnityEngine.Object.Instantiate(Resources.Load(prefab),
-					GameObject.Find("Grimora_RightWrist").transform,
-					true
-				);
-			}
+					Log.LogDebug($"[{GetType()}] Setting Head Trigger");
+					GrimoraAnimationController.Instance.SetHeadTrigger("show_skull");
 
-			Mask.transform.localPosition = new Vector3(0, 0.19f, 0.065f);
-			Mask.transform.localRotation = Quaternion.Euler(0, 0, 260);
+					// Object.Destroy(RoyalBossSkull);
+
+					Log.LogDebug($"[{GetType()}] Creating mask [{prefabPath}]");
+					Mask = (GameObject)Instantiate(Resources.Load(prefabPath),
+						RightWrist.transform,
+						true
+					);
+				}
+			}
 		}
 
 		public virtual IEnumerator ReplaceBlueprintCustom(EncounterBlueprintData blueprintData)
 		{
-			base.Blueprint = blueprintData;
-			List<List<CardInfo>> plan = EncounterBuilder.BuildOpponentTurnPlan(this.Blueprint, 0, false);
-			this.ReplaceAndAppendTurnPlan(plan);
+			Blueprint = blueprintData;
+			List<List<CardInfo>> plan = EncounterBuilder.BuildOpponentTurnPlan(Blueprint, 0, false);
+			ReplaceAndAppendTurnPlan(plan);
 			yield return QueueNewCards();
 		}
 
