@@ -13,7 +13,11 @@ namespace GrimoraMod
 		[HarmonyPrefix, HarmonyPatch(nameof(GrimoraGameFlowManager.SceneSpecificInitialization))]
 		public static bool PrefixAddMultipleSequencersDuringLoad(ref GrimoraGameFlowManager __instance)
 		{
-			Log.LogDebug($"[SceneSpecificInitialization] Instance is [{__instance.GetType()}]");
+			RunState.Run.playerDeck.AddBoon(BoonData.Type.MinorStartingBones);
+			RunState.Run.playerDeck.AddBoon(BoonData.Type.MinorStartingBones);
+			RunState.Run.playerDeck.AddBoon(BoonData.Type.MinorStartingBones);
+
+			// Log.LogDebug($"[SceneSpecificInitialization] Instance is [{__instance.GetType()}]");
 
 			// bool skipIntro = GrimoraPlugin.ConfigHasPlayedRevealSequence.Value;
 			bool setLightsActive = true;
@@ -39,14 +43,14 @@ namespace GrimoraMod
 				// GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Setting __instance.CurrentGameState to GameState.FirstPerson3D");
 				__instance.CurrentGameState = GameState.FirstPerson3D;
 
-				Log.LogDebug($"[SceneSpecificInitialization] Transitioning to FirstPerson3D");
+				// Log.LogDebug($"[SceneSpecificInitialization] Transitioning to FirstPerson3D");
 				__instance.StartCoroutine(__instance.TransitionTo(GameState.FirstPerson3D, null, immediate: true));
 
-				Log.LogDebug($"[SceneSpecificInitialization] Setting ExplorableAreaManager lights active");
+				// Log.LogDebug($"[SceneSpecificInitialization] Setting ExplorableAreaManager lights active");
 				CryptManager.Instance.HangingLight.gameObject.SetActive(setLightsActive);
 				CryptManager.Instance.HandLight.gameObject.SetActive(setLightsActive);
 
-				Log.LogDebug($"[SceneSpecificInitialization] Setting gameTableCandlesParent active");
+				// Log.LogDebug($"[SceneSpecificInitialization] Setting gameTableCandlesParent active");
 				__instance.gameTableCandlesParent.SetActive(setLightsActive);
 
 				Transform tableTransform = __instance.gameTableCandlesParent.transform;
@@ -54,7 +58,7 @@ namespace GrimoraMod
 				for (int i = 0; i < childCountTable; i++)
 				{
 					var candle = tableTransform.GetChild(i).gameObject;
-					Log.LogDebug($"[SceneSpecificInitialization] Setting cryptLight [{candle.name}] active");
+					// Log.LogDebug($"[SceneSpecificInitialization] Setting cryptLight [{candle.name}] active");
 					candle.SetActive(true);
 					candle.GetComponentInChildren<Animator>().Play("candle_light");
 				}
@@ -63,8 +67,7 @@ namespace GrimoraMod
 				int cryptLightsCount = cryptLightsTransform.childCount;
 				for (int i = 0; i < cryptLightsCount; i++)
 				{
-					Log.LogDebug(
-						$"[SceneSpecificInitialization] Setting cryptLight [{cryptLightsTransform.GetChild(i).gameObject.name}] active");
+					// Log.LogDebug($"[SceneSpecificInitialization] Setting cryptLight [{cryptLightsTransform.GetChild(i).gameObject.name}] active");
 					cryptLightsTransform.GetChild(i).gameObject.SetActive(true);
 				}
 
@@ -72,7 +75,7 @@ namespace GrimoraMod
 
 				__instance.StartCoroutine(CorrectedSceneStart(__instance));
 
-				Log.LogDebug($"[SceneSpecificInitialization] Tombstones falling");
+				// Log.LogDebug($"[SceneSpecificInitialization] Tombstones falling");
 				CryptEpitaphSlotInteractable cryptEpitaphSlotInteractable =
 					Object.FindObjectOfType<CryptEpitaphSlotInteractable>();
 
@@ -99,7 +102,7 @@ namespace GrimoraMod
 					Tween.LoopType.Loop
 				);
 
-				Log.LogDebug($"[SceneSpecificInitialization] RevealGrimoraSequence");
+				// Log.LogDebug($"[SceneSpecificInitialization] RevealGrimoraSequence");
 				__instance.StartCoroutine((GameFlowManager.Instance as GrimoraGameFlowManager).RevealGrimoraSequence());
 
 				SaveManager.SaveToFile();
@@ -113,7 +116,7 @@ namespace GrimoraMod
 				{
 					// GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Setting CurrentGameState to GameState.Map");
 					__instance.CurrentGameState = GameState.Map;
-					Log.LogDebug($"[SceneSpecificInitialization] Transitioning to GameState.Map");
+					// Log.LogDebug($"[SceneSpecificInitialization] Transitioning to GameState.Map");
 					__instance.StartCoroutine(__instance.TransitionTo(GameState.Map, null, immediate: true));
 				}
 			}
@@ -123,11 +126,11 @@ namespace GrimoraMod
 
 		public static IEnumerator CorrectedSceneStart(GrimoraGameFlowManager manager)
 		{
-			Log.LogDebug($"[CorrectedSceneStart] Starting scene sequence");
+			// Log.LogDebug($"[CorrectedSceneStart] Starting scene sequence");
 			manager.mainEnvironmentLight.enabled = false;
 			manager.additionalEnvironmentLights.ForEach(delegate(Light l)
 			{
-				Log.LogDebug($"-> light is [{l.name}]");
+				// Log.LogDebug($"-> light is [{l.name}]");
 				l.enabled = false;
 			});
 
