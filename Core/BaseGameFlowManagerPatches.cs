@@ -102,24 +102,37 @@ namespace GrimoraMod
 			bool unlockViewAfterTransition = true
 		)
 		{
-			// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] GameState is [{gameState}]");
-			GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] yield return the enumerator");
-			yield return enumerator;
+			// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] Current state is [{__instance.CurrentGameState}]");
 
-			if (SaveManager.SaveFile.IsGrimora && gameState == GameState.Map)
+			if (SaveManager.SaveFile.IsGrimora)
 			{
 				bool isBossDefeated = ChessboardMapExt.Instance.BossDefeated;
 				bool piecesExist = ChessboardMapExt.Instance.pieces.Count > 0;
 
-				// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] IsBossDefeated? [{isBossDefeated}] Pieces exist? [{piecesExist}]");
-				if (piecesExist && isBossDefeated)
+				// GrimoraPlugin.Log.LogDebug($"[TransitionTo] IsBossDefeated [{isBossDefeated}] Pieces exist [{piecesExist}]");
+
+				// FOR ENUMS IN POSTFIX CALLS, THE OPERATOR TO USE IS 'IS' NOT '==' 
+				// CORRECT  : gameState is GameState.Map
+				// INCORRECT: gameState == GameState.Map
+				if (gameState is GameState.Map && piecesExist && isBossDefeated)
 				{
-					// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] ChessboardMapExt is not null");
-					ChessboardMapExt.Instance.BossDefeated = false;
-					// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] Calling CompleteRegionSequence");
 					yield return ChessboardMapExt.Instance.CompleteRegionSequence();
+
+					__instance.CurrentGameState = gameState;
 				}
+				else
+				{
+					// GrimoraPlugin.Log.LogDebug($"[TransitionTo] yield return the enumerator inside SaveFile");
+					yield return enumerator;
+				}
+
+				// GrimoraPlugin.Log.LogDebug($"[TransitionTo] yield breaking");
+				yield break;
 			}
+
+			// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] GameState is [{gameState}]");
+			// GrimoraPlugin.Log.LogDebug($"[TransitionTo] yield return the enumerator");
+			yield return enumerator;
 		}
 	}
 }
