@@ -88,9 +88,12 @@ namespace GrimoraMod
 				PlaceBossPiece("KayceeBoss");
 			}
 
-			PlaceBlockerPieces();
-			PlaceChestPieces();
-			PlaceEnemyPieces();
+			if (!GrimoraPlugin.ConfigDeveloperMode.Value)
+			{
+				PlaceBlockerPieces();
+				PlaceChestPieces();
+				PlaceEnemyPieces();
+			}
 		}
 
 		public void UpdatePlayerMarkerPosition(bool changingRegion)

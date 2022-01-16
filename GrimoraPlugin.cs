@@ -48,6 +48,8 @@ namespace GrimoraMod
 
 		public static ConfigEntry<bool> ConfigGrimoraBossDead;
 
+		public static ConfigEntry<bool> ConfigDeveloperMode;
+
 		public static ConfigEntry<string> ConfigCurrentRemovedPieces;
 
 		private static readonly List<StoryEvent> StoryEventsToBeCompleteBeforeStarting = new()
@@ -147,6 +149,9 @@ namespace GrimoraMod
 
 			ConfigGrimoraBossDead
 				= GrimoraConfigFile.Bind(PluginName, "Grimora defeated?", false);
+
+			ConfigDeveloperMode
+				= GrimoraConfigFile.Bind(PluginName, "Enable Developer mode", false);
 
 			ConfigCurrentRemovedPieces = GrimoraConfigFile.Bind(
 				PluginName, "Current Removed Pieces", StaticDefaultRemovedPiecesList);
