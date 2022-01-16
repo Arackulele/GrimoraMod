@@ -28,24 +28,11 @@ namespace GrimoraMod
 		private bool toggleEncounterMenu;
 		public new static ChessboardMapExt Instance => GameMap.Instance as ChessboardMapExt;
 
-		public List<string> RemovedPieces => GrimoraPlugin.ConfigCurrentRemovedPieces.Value.Split(',').Distinct().ToList();
-
-		public ChessboardEnemyPiece BossPiece
-		{
-			get
-			{
-				if (bossPiece != null)
-				{
-					return bossPiece;
-				}
+		public List<string> RemovedPieces => ConfigCurrentRemovedPieces.Value.Split(',').Distinct().ToList();
 
 		public ChessboardEnemyPiece BossPiece => _activeChessboard.BossPiece;
 
-				return bossPiece;
-			}
-		}
-
-		private bool ChangingRegion { get; set; }
+		internal bool ChangingRegion { get; private set; }
 
 		public bool BossDefeated { get; protected internal set; }
 
@@ -133,12 +120,19 @@ namespace GrimoraMod
 
 		private static List<GrimoraChessboard> ParseJson(IEnumerable<List<List<int>>> chessboardsFromJson)
 		{
-			return chessboardsFromJson.Select(board => new GrimoraChessboard(board)).ToList();
+			return chessboardsFromJson.Select((board, idx) => new GrimoraChessboard(board, idx)).ToList();
 		}
 
 		public IEnumerator CompleteRegionSequence()
 		{
-			// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Starting CompleteRegionSequence");
+			ViewManager.Instance.Controller.SwitchToControlMode(ViewController.ControlMode.Map);
+			ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+
+			SaveManager.SaveToFile();
+
+			Instance.BossDefeated = false;
+
+			Log.LogDebug($"[CompleteRegionSequence] Starting CompleteRegionSequence");
 			ChangingRegion = true;
 
 			ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
@@ -162,10 +156,22 @@ namespace GrimoraMod
 			AudioController.Instance.SetLoopVolumeImmediate(0f);
 			AudioController.Instance.FadeInLoop(1f, 1f);
 
-			// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] HandleChessboardSetup called");
-			Instance.HandleChessboardSetup();
+			ClearBoardForChangingRegion();
 
-			// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Clearing and destroying pieces");
+			SetAllNodesActive();
+
+			// this will call Unrolling and Showing the player Marker
+			yield return GameMap.Instance.ShowMapSequence();
+
+			ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+
+			ChangingRegion = false;
+			Log.LogDebug($"[CompleteRegionSequence] No longer ChangingRegion");
+		}
+
+		private static void ClearBoardForChangingRegion()
+		{
+			Log.LogDebug($"[CompleteRegionSequence] Clearing and destroying pieces");
 			Instance.pieces.RemoveAll(delegate(ChessboardPiece piece)
 			{
 				// piece.gameObject.SetActive(false);
@@ -174,19 +180,9 @@ namespace GrimoraMod
 
 				return true;
 			});
-			// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Clearing activePieces list");
-			Instance.activePieces.Clear();
+
 			// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Clearing removedPiecesConfig");
-			GrimoraPlugin.ConfigCurrentRemovedPieces.Value = "";
-
-			// MapNodeManager.Instance.FindAndSetActiveNodeInteractable();
-
-			ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
-
-			// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] No longer ChangingRegion");
-
-			SetAllNodesActive();
-			ChangingRegion = false;
+			ConfigCurrentRemovedPieces.Value = "";
 		}
 
 		public override IEnumerator UnrollingSequence(float unrollSpeed)
@@ -223,7 +219,7 @@ namespace GrimoraMod
 
 			yield return HandleActivatingChessPieces();
 
-			HandlePlayerMarkerPosition();
+			_activeChessboard.UpdatePlayerMarkerPosition(ChangingRegion);
 
 			if (!DialogueEventsData.EventIsPlayed("FinaleGrimoraMapShown"))
 			{
@@ -262,7 +258,7 @@ namespace GrimoraMod
 
 		public void AddPieceToRemovedPiecesConfig(string pieceName)
 		{
-			GrimoraPlugin.ConfigCurrentRemovedPieces.Value += "," + pieceName + ",";
+			ConfigCurrentRemovedPieces.Value += "," + pieceName + ",";
 		}
 
 		private static void SetAllNodesActive()
