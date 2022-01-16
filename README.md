@@ -19,6 +19,8 @@
 
 - JulianMods (xXxStoner420BongMasterxXx) for refactoring the code.
 
+- Morrígan/crow_system#3539 for extensive beta testing v2.1
+
 ## Update Notes
 
 ### 2.1.0
