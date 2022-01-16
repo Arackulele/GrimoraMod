@@ -8,8 +8,6 @@ namespace GrimoraMod
 {
 	public class KayceeBossExt : BaseBossExt
 	{
-		// public const Type Opponent = (Type)1001;
-
 		public override StoryEvent EventForDefeat => StoryEvent.FactoryConveyorBeltMoved;
 
 		public override Type Opponent => KayceeOpponent;
