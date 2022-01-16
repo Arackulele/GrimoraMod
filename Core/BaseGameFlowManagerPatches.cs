@@ -28,7 +28,7 @@ namespace GrimoraMod
 
 				AddDeckReviewSequencerToScene();
 
-				ResizeArtworkForVanillaBoneCards();
+				// ResizeArtworkForVanillaBoneCards();
 
 				ChangeStartDeckIfNotAlreadyChanged();
 			}
@@ -117,7 +117,7 @@ namespace GrimoraMod
 				"Amoeba", "Bat", "Maggots", "Rattler", "Vulture",
 			};
 
-			var newPivot = new Vector2(0.5f, 0.5f);
+			var newPivot = new Vector2(0.5f, 0.65f);
 
 			CardLoader.AllData.ForEach(info =>
 			{
