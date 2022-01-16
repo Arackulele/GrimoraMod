@@ -8,6 +8,7 @@ namespace GrimoraMod
 {
 	public class GrimoraChessboard
 	{
+		public readonly int indexInList;
 		public readonly List<ChessNode> BlockerNodes;
 		public readonly ChessNode BossNode;
 		public readonly List<ChessNode> ChestNodes;
@@ -15,11 +16,14 @@ namespace GrimoraMod
 		public readonly List<ChessNode> OpenPathNodes;
 		public readonly ChessNode PlayerNode;
 
+		protected internal ChessboardEnemyPiece BossPiece =>
+			GetPieceAtSpace(BossNode.GridX, BossNode.GridY) as ChessboardEnemyPiece;
+
 		public readonly List<ChessRow> Rows;
 
 		public Opponent.Type ActiveBossType;
 
-		public GrimoraChessboard(IEnumerable<List<int>> board)
+		public GrimoraChessboard(IEnumerable<List<int>> board, int indexInList)
 		{
 			this.Rows = board.Select((_board, idx) => new ChessRow(_board, idx)).ToList();
 			this.BlockerNodes = GetBlockerNodes();
@@ -28,6 +32,7 @@ namespace GrimoraMod
 			this.EnemyNodes = GetEnemyNodes();
 			this.OpenPathNodes = GetOpenPathNodes();
 			this.PlayerNode = GetPlayerNode();
+			this.indexInList = indexInList;
 		}
 
 		public List<ChessNode> GetOpenPathNodes()
@@ -58,6 +63,73 @@ namespace GrimoraMod
 		public ChessNode GetPlayerNode()
 		{
 			return Rows.SelectMany(row => row.GetNodesOfType(9)).Single();
+		}
+
+		public void SetupBoard()
+		{
+			if (GrimoraPlugin.ConfigRoyalThirdBossDead.Value)
+			{
+				GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Royal defeated");
+				PlaceBossPiece("GrimoraBoss");
+			}
+			else if (GrimoraPlugin.ConfigDoggySecondBossDead.Value)
+			{
+				GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Doggy defeated");
+				PlaceBossPiece("RoyalBoss");
+			}
+			else if (GrimoraPlugin.ConfigKayceeFirstBossDead.Value)
+			{
+				GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Kaycee defeated");
+				PlaceBossPiece("DoggyBoss");
+			}
+			else
+			{
+				GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] No bosses defeated yet, creating Kaycee");
+				PlaceBossPiece("KayceeBoss");
+			}
+
+			PlaceBlockerPieces();
+			PlaceChestPieces();
+			PlaceEnemyPieces();
+		}
+
+		public void UpdatePlayerMarkerPosition(bool changingRegion)
+		{
+			int x = GrimoraSaveData.Data.gridX;
+			int y = GrimoraSaveData.Data.gridY;
+
+			GrimoraPlugin.Log.LogDebug($"[HandlePlayerMarkerPosition] " +
+			                           $"Player Marker name [{PlayerMarker.Instance.name}] " +
+			                           $"x{x}y{y} coords");
+
+			var occupyingPiece = GetPieceAtSpace(x, y);
+
+			bool isPlayerOccupied = occupyingPiece is not null && PlayerMarker.Instance.name == occupyingPiece.name;
+
+			GrimoraPlugin.Log.LogDebug($"[HandlePlayerMarkerPosition] isPlayerOccupied? [{isPlayerOccupied}]");
+
+			if (changingRegion)
+			{
+				// the PlayerNode will be different since this is now a different chessboard
+				x = GetPlayerNode().GridX;
+				y = GetPlayerNode().GridY;
+			}
+
+			MapNodeManager.Instance.ActiveNode = ChessboardNavGrid.instance.zones[x, y].GetComponent<MapNode>();
+			GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] MapNodeManager ActiveNode is x[{x}]y[{y}]");
+
+			GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] SetPlayerAdjacentNodesActive");
+			ChessboardNavGrid.instance.SetPlayerAdjacentNodesActive();
+
+			GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Setting player position to active node");
+			PlayerMarker.Instance.transform.position = MapNodeManager.Instance.ActiveNode.transform.position;
+		}
+
+		public void SetSavePositions()
+		{
+			// set the updated position to spawn the player in
+			GrimoraSaveData.Data.gridX = GetPlayerNode().GridX;
+			GrimoraSaveData.Data.gridY = GetPlayerNode().GridY;
 		}
 
 		#region Prefabs

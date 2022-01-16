@@ -217,7 +217,9 @@ namespace GrimoraMod
 			// for checking which nodes are active/inactive
 			RenameMapNodesWithGridCoords();
 
-			SetupGamePieces();
+			UpdateActiveChessboard();
+
+			_activeChessboard.SetupBoard();
 
 			yield return HandleActivatingChessPieces();
 
@@ -235,78 +237,27 @@ namespace GrimoraMod
 			SaveManager.SaveToFile();
 		}
 
-		public void SetupGamePieces()
+		private void UpdateActiveChessboard()
 		{
-			GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Setting up game pieces");
-
-			HandleChessboardSetup();
-
-			if (GrimoraPlugin.ConfigRoyalThirdBossDead.Value)
-			{
-				GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Royal defeated");
-				activeChessboard.PlaceBossPiece("GrimoraBoss");
-				activeChessboard.ActiveBossType = BaseBossExt.GrimoraOpponent;
-			}
-			else if (GrimoraPlugin.ConfigDoggySecondBossDead.Value)
-			{
-				GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Doggy defeated");
-				activeChessboard.PlaceBossPiece("RoyalBoss");
-				activeChessboard.ActiveBossType = BaseBossExt.RoyalOpponent;
-			}
-			else if (GrimoraPlugin.ConfigKayceeFirstBossDead.Value)
-			{
-				GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Kaycee defeated");
-				activeChessboard.PlaceBossPiece("DoggyBoss");
-				activeChessboard.ActiveBossType = BaseBossExt.DoggyOpponent;
-			}
-			else
-			{
-				GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] No bosses defeated yet, creating Kaycee");
-				activeChessboard.PlaceBossPiece("KayceeBoss");
-				activeChessboard.ActiveBossType = BaseBossExt.KayceeOpponent;
-			}
-
-			activeChessboard.PlaceBlockerPieces();
-			activeChessboard.PlaceChestPieces();
-			activeChessboard.PlaceEnemyPieces();
-
-			// GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] Finished setting up game pieces." +
-			//                            $" Current active list before {PiecesDelimited}");
-
-			var removedList = RemovedPieces;
-
-			GrimoraPlugin.Log.LogDebug($"[SetupGamePieces] " +
-			                           $" Current removed list before {GrimoraPlugin.ConfigCurrentRemovedPieces.Value}");
-
-			activePieces = pieces
-				.Where(p => !removedList.Contains(p.name))
-				.ToList();
-		}
-
-		private void HandleChessboardSetup()
-		{
-			// GrimoraPlugin.Log.LogDebug($"[HandleChessboardSetup] Before setting chess board idx [{currentChessboardIndex}]");
-			currentChessboardIndex = GrimoraPlugin.ConfigCurrentChessboardIndex.Value;
-			// GrimoraPlugin.Log.LogDebug($"[HandleChessboardSetup] After setting chess board idx [{currentChessboardIndex}]");
+			int currentChessboardIndex = ConfigCurrentChessboardIndex.Value;
+			Log.LogDebug($"[HandleChessboardSetup] Before setting chess board idx [{currentChessboardIndex}]");
 
 			if (ChangingRegion)
 			{
-				if (currentChessboardIndex == 4)
+				if (currentChessboardIndex++ == 4)
 				{
-					currentChessboardIndex = -1;
+					currentChessboardIndex = 0;
 				}
 
-				GrimoraPlugin.ConfigCurrentChessboardIndex.Value = ++currentChessboardIndex;
-				// GrimoraPlugin.Log.LogDebug($"[HandleChessboardSetup] -> Setting new chessboard idx [{currentChessboardIndex}]");
-				activeChessboard = Chessboards[currentChessboardIndex];
+				ConfigCurrentChessboardIndex.Value = currentChessboardIndex;
+				Log.LogDebug($"[HandleChessboardSetup] -> Setting new chessboard idx [{currentChessboardIndex}]");
+				_activeChessboard = Chessboards[currentChessboardIndex];
 
-				// set the updated position to spawn the player in
-				GrimoraSaveData.Data.gridX = activeChessboard.GetPlayerNode().GridX;
-				GrimoraSaveData.Data.gridY = activeChessboard.GetPlayerNode().GridY;
+				_activeChessboard.SetSavePositions();
 			}
 
-			// GrimoraPlugin.Log.LogDebug($"[HandleChessboardSetup] ActiveChessboard [{activeChessboard}] Chessboards size [{Chessboards.Count}]");
-			activeChessboard ??= Chessboards[currentChessboardIndex];
+			Log.LogDebug($"[HandleChessboardSetup] Chessboard [{_activeChessboard}] Chessboards [{Chessboards.Count}]");
+			_activeChessboard ??= Chessboards[currentChessboardIndex];
 		}
 
 		public void AddPieceToRemovedPiecesConfig(string pieceName)
