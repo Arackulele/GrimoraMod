@@ -10,8 +10,8 @@ namespace GrimoraMod
 		{
 			ApiUtils.Add(
 				NameCrazedMantis, "Crazed Mantis",
-				"The poor mantis has gone insane.", 1,
-				1, 4, Resources.Mantis, Ability.SplitStrike);
+				"The poor mantis has gone insane.", 0, 1,
+				1, 4, Resources.Mantis, Ability.SplitStrike, CardMetaCategory.ChoiceNode);
 		}
 	}
 }

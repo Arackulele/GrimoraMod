@@ -18,8 +18,8 @@ namespace GrimoraMod
 			};
 			
 			ApiUtils.Add(NameGhostShip, "Ghost Ship",
-				"The skeleton army never rests.", 
-				0, 1, 4, Resources.GhostShip, abilities, complexity: CardComplexity.Advanced);
+				"The skeleton army never rests.", 0,
+				0, 1, 4, Resources.GhostShip, abilities, CardMetaCategory.ChoiceNode);
 		}
 	}
 }

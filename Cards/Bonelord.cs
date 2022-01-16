@@ -16,7 +16,7 @@ namespace GrimoraMod
 
 			List<Texture> decals = new() { decalTex };
 
-			ApiUtils.Add(NameBonelord, "The Bone Lord", "Lord of Bones, Lord of Bones, answer our call.",
+			ApiUtils.Add(NameBonelord, "The Bone Lord", "Lord of Bones, Lord of Bones, answer our call.", 6,
 				5, 10, 6, Resources.BoneLord,
 				appearanceBehaviour: CardUtils.getRareAppearance,
 				ability: Ability.Deathtouch,

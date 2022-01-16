@@ -14,7 +14,7 @@ namespace GrimoraMod
 		private void AddAra_Skelemaniac()
 		{
 			ApiUtils.Add("ara_" + DisplayNameSkelemaniac, DisplayNameSkelemaniac,
-				"A skeleton gone mad. At least it follows your command.",
+				"A skeleton gone mad. At least it follows your command.", 0,
 				1, 3, 4, Resources.Skelemaniac, Ability.GuardDog, CardMetaCategory.Rare
 			);
 		}

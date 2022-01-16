@@ -17,9 +17,9 @@ namespace GrimoraMod
 			
 			ApiUtils.Add(
 				NameSkeletonArmy, "Skeleton Army",
-				"The skeleton army, boons of the Bone Lord.", 2, 
+				"The skeleton army, boons of the Bone Lord.", 4, 2, 
 				4,
-				2, Resources.SkeletonArmy, Ability.SkeletonStrafe, decals: decals);
+				2, Resources.SkeletonArmy, Ability.SkeletonStrafe, CardMetaCategory.ChoiceNode, decals: decals);
 
 			// new CustomCard("Goat")
 			// {

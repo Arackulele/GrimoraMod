@@ -4,6 +4,7 @@ using DiskCardGame;
 using HarmonyLib;
 using Pixelplacement;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace GrimoraMod
 {

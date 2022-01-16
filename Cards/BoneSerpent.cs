@@ -10,9 +10,11 @@ namespace GrimoraMod
 
 		private void AddAra_BoneSerpent()
 		{
+
+
 			ApiUtils.Add(NameBoneSerpent, "Bone Serpent",
-				"The poison strike will melt even the most dense bones.", 1,
-				1, 4, Resources.Adder, Ability.Deathtouch);
+				"The poison strike will melt even the most dense bones.", 0, 1,
+				1, 4, Resources.Adder, Ability.Deathtouch, CardMetaCategory.ChoiceNode);
 		}
 	}
 }

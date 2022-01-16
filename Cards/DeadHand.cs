@@ -11,8 +11,8 @@ namespace GrimoraMod
 		{
 			ApiUtils.Add(
 				NameDeadHand, "Dead Hand",
-				"Cut off from an ancient God, the Dead Hand took on its own Life.",
-				1, 1, 5, Resources.DeadHand, Ability.DrawNewHand, complexity: CardComplexity.Advanced);
+				"Cut off from an ancient God, the Dead Hand took on its own Life.", 0,
+				1, 1, 5, Resources.DeadHand, Ability.DrawNewHand, CardMetaCategory.ChoiceNode);
 		}
 	}
 }

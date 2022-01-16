@@ -20,8 +20,8 @@ namespace GrimoraMod
 			Texture2D tex = ImageUtils.LoadTextureFromResource(Resources.Obol);
 
 			ApiUtils.Add(NameObol, "Ancient Obol",
-				"The Ancient Obol, the Bone Lord likes this one.", 0,
-				6, 0, Resources.Obol, Ability.Sharp, decals: decals);
+				"The Ancient Obol, the Bone Lord likes this one.", 3, 0,
+				6, 0, Resources.Obol, Ability.Sharp, CardMetaCategory.ChoiceNode,  decals: decals );
 		}
 	}
 }

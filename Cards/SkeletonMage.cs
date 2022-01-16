@@ -17,8 +17,8 @@ namespace GrimoraMod
 
 			ApiUtils.Add(
 				NameSkeletonMage, "Skelemagus",
-				"The Skelemagus, they have learned the ancient spell of Death.",
-				4, 1, 1, Resources.SkeletonMage, Ability.Brittle, decals: decals);
+				"The Skelemagus, they have learned the ancient spell of Death.", 5,
+				4, 1, 0, Resources.SkeletonMage, Ability.Brittle,  CardMetaCategory.ChoiceNode, decals: decals);
 		}
 	}
 }

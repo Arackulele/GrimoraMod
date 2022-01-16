@@ -14,8 +14,8 @@ namespace GrimoraMod
 		{
 			ApiUtils.Add(
 				NameGraveDigger, "Gravedigger",
-				"He spends his time alone digging for Bones in hopes of finding a treasure.",
-				0, 3, 1, Resources.GraveDigger, Ability.BoneDigger);
+				"He spends his time alone digging for Bones in hopes of finding a treasure.", 0,
+				0, 3, 1, Resources.GraveDigger, Ability.BoneDigger, CardMetaCategory.ChoiceNode);
 		}
 
 		private void AddAra_SporeDigger()
@@ -31,7 +31,7 @@ namespace GrimoraMod
 				Trait.Fused
 			};
 
-			ApiUtils.Add(NameSporeDigger, "Sporedigger", "The SporeDigger, an excellent digger.", 0,
+			ApiUtils.Add(NameSporeDigger, "Sporedigger", "The SporeDigger, an excellent digger.", 0, 0,
 				3, 1,
 				Resources.SporeDigger,
 				abilities,

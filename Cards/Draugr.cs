@@ -12,10 +12,10 @@ namespace GrimoraMod
 		private void AddAra_Draugr()
 		{
 			ApiUtils.Add(NameDraugr, "Draugr",
-				"Hiding in a suit of armor, this skeleton won't last forever.", 0,
+				"Hiding in a suit of armor, this skeleton won't last forever.", 0, 0,
 				1, 1,
 				Resources.Draugr,
-				Ability.IceCube, complexity: CardComplexity.Intermediate, iceCubeId: new IceCubeIdentifier("Squirrel"));
+				Ability.IceCube, CardMetaCategory.ChoiceNode, iceCubeId: new IceCubeIdentifier("Skeleton"));
 		}
 	}
 }

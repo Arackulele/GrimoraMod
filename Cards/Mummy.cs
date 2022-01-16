@@ -13,8 +13,8 @@ namespace GrimoraMod
 		{
 			ApiUtils.Add(
 				NameMummy, "Mummy Lord",
-				"The cycle of the Mummy Lord is never ending.", 3, 3,
-				2, Resources.Mummy, new List<Ability>(), CardMetaCategory.GBCPlayable);
+				"The cycle of the Mummy Lord is never ending.", 0, 3, 3,
+				8, Resources.Mummy, new List<Ability>(), CardMetaCategory.ChoiceNode);
 		}
 	}
 }

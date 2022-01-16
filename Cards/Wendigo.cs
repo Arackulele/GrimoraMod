@@ -19,9 +19,9 @@ namespace GrimoraMod
 			Texture2D defaultTex = ImageUtils.LoadTextureFromResource(Resources.Wendigo);
 
 			ApiUtils.Add("ara_Wendigo", "Wendigo",
-				"Described by some as the truest nightmare", 2,
+				"Described by some as the truest nightmare", 0, 2,
 				2, 5,
-				Resources.Wendigo, abilities, CardMetaCategory.Rare, appearanceBehaviour: CardUtils.getRareAppearance);
+				Resources.Wendigo, abilities, CardMetaCategory.Rare );
 		}
 	}
 }

@@ -10,9 +10,11 @@ namespace GrimoraMod
 		
 		private void AddAra_Bonepile()
 		{
+
+
 			ApiUtils.Add(NameBonepile, "Bone Heap",
 				"An uninspiring pile of bones. You can have it.",
-				0, 1, 1, Resources.BonePile, Ability.QuadrupleBones);
+				0, 0, 1, 1, Resources.BonePile, Ability.QuadrupleBones, metaCategory: CardMetaCategory.ChoiceNode);
 		}
 	}
 }

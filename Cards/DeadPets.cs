@@ -13,11 +13,11 @@ namespace GrimoraMod
 		{
 			List<Ability> abilities = new List<Ability>
 			{
-				Ability.TripleBlood,
-				Ability.Sacrificial
+				Ability.DrawCopyOnDeath,
+				Ability.Brittle
 			};
 
-			ApiUtils.Add(NameDeadPets, "Pharaoh's Pets", "The undying pets of the Pharaoh.",
+			ApiUtils.Add(NameDeadPets, "Pharaoh's Pets", "The undying underlings of the Pharaoh.", 0,
 				3, 1, 4, Resources.DeadPets,
 				complexity: CardComplexity.Intermediate,
 				metaCategory: CardMetaCategory.Rare,

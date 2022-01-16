@@ -11,10 +11,10 @@ namespace GrimoraMod
 		private void AddAra_Sarcophagus()
 		{
 			ApiUtils.Add(NameSarcophagus, "Sarcophagus",
-				"The cycle of the Mummy Lord, never ending.", 0,
+				"The cycle of the Mummy Lord, never ending.", 0, 0,
 				2, 4,
 				Resources.Sarcophagus,
-				Ability.Evolve, complexity: CardComplexity.Intermediate, evolveId: new EvolveIdentifier("ara_Mummy", 1));
+				Ability.Evolve, CardMetaCategory.ChoiceNode, evolveId: new EvolveIdentifier("ara_Mummy", 1));
 		}
 	}
 }

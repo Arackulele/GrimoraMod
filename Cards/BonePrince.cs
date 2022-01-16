@@ -10,7 +10,7 @@ namespace GrimoraMod
 
 		private void AddAra_BonePrince()
 		{
-			ApiUtils.Add(NameBonePrince, "Bone Prince", "", 2,
+			ApiUtils.Add(NameBonePrince, "Bone Prince", "", 0, 2,
 				1, 1, Resources.BonePrince, new List<Ability>(), CardMetaCategory.GBCPlayable);
 		}
 	}

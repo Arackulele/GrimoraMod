@@ -17,10 +17,15 @@ namespace GrimoraMod
 
 			List<Texture> decals = new() { decalTex };
 
+
+			List<Ability> abilities = new List<Ability>
+			{
+			};
+
 			ApiUtils.Add(
 				NameSkelemancer, "Skelemancer",
-				"The humble Skelemancer, he likes a good fight.",  1, 
-				1, 2, Resources.SkeletonJuniorSage, decals: decals);
+				"The humble Skelemancer, they like a good fight.",  2,1, 
+				1, 0, Resources.SkeletonJuniorSage, abilities: abilities,CardMetaCategory.ChoiceNode, decals: decals);
 		}
 	}
 }

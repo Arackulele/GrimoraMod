@@ -20,7 +20,7 @@ namespace GrimoraMod
 			};
 
 			ApiUtils.Add(NameHydra, "Hydra",
-				"Described by some as the truest nightmare", 1, 
+				"Described by some as the truest nightmare", 0, 1, 
 				1, 4,
 				Resources.Hydra, abilities,
 				CardMetaCategory.Rare, CardComplexity.Advanced, appearanceBehaviour: CardUtils.getRareAppearance);

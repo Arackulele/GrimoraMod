@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DiskCardGame;
+using UnityEngine;
 using Resources = GrimoraMod.Properties.Resources;
 
 namespace GrimoraMod
@@ -9,9 +10,13 @@ namespace GrimoraMod
 
 		private void AddAra_Franknstein()
 		{
+			List<Ability> abilities = new List<Ability>
+			{
+			};
+
 			ApiUtils.Add(NameFranknstein, "Frank & Stein",
-				"Best friends, brothers, and fighters.", 2,
-				2, 5, Resources.Franknstein);
+				"Best friends, brothers, and fighters.", 0, 2,
+				2, 5, Resources.Franknstein, abilities, CardMetaCategory.ChoiceNode);
 		}
 	}
 }

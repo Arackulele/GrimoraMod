@@ -18,8 +18,8 @@ namespace GrimoraMod
 			};
 
 			ApiUtils.Add(NameDrownedSoul, "Drowned Soul",
-				"Going into that well wasn't the best idea...", 1,
-				1, 4, Resources.DrownedSoul, abilities, complexity: CardComplexity.Advanced);
+				"Going into that well wasn't the best idea...", 0, 1,
+				1, 4, Resources.DrownedSoul, abilities, CardMetaCategory.ChoiceNode);
 		}
 	}
 }

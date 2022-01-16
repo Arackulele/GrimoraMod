@@ -12,8 +12,8 @@ namespace GrimoraMod
 		private void AddAra_Wolf()
 		{
 			ApiUtils.Add(NameUndeadWolf, "Undead Wolf",
-				"A diseased wolf. The pack has left him for death.", 3, 2,
-				7, Resources.Wolf, new List<Ability>());
+				"A diseased wolf. The pack has left him for death.", 4, 3, 2,
+				4, Resources.Wolf, new List<Ability>(), CardMetaCategory.ChoiceNode);
 		}
 	}
 }

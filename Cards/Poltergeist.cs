@@ -19,9 +19,9 @@ namespace GrimoraMod
 			};
 
 			ApiUtils.Add(NamePoltergeist, "Poltergeist", 
-				"A skilled haunting ghost. Handle with caution.",
-				1, 1, 3, 
-				Resources.Poltergeist, abilities
+				"A skilled haunting ghost. Handle with caution.", 2,
+				1, 1, 0, 
+				Resources.Poltergeist, abilities, CardMetaCategory.ChoiceNode
 			);
 		}
 	}

@@ -12,8 +12,8 @@ namespace GrimoraMod
 		{
 			ApiUtils.Add(
 				NameTombRobber, "Tomb Robber",
-				"Nothing... Nothing again... No treasure is left anymore.", 0,
-				1, 0,  Resources.TombRobber, Ability.ActivatedDrawSkeleton, complexity: CardComplexity.Advanced);
+				"Nothing... Nothing again... No treasure is left anymore.", 0, 0,
+				1, 0,  Resources.TombRobber, Ability.ExplodeOnDeath, CardMetaCategory.ChoiceNode);
 		}
 	}
 }

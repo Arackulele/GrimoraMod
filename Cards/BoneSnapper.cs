@@ -11,9 +11,15 @@ namespace GrimoraMod
 		
 		private void AddAra_Snapper()
 		{
+
+			List<Ability> abilities = new List<Ability>
+			{
+			};
+
 			ApiUtils.Add(NameBoneSnapper, "Bone Snapper",
-				"Snap snap your Bones are gone.", 1, 6,
-				5, Resources.Snapper, new List<Ability>());
-		}
-	}
+				"One bite of this Vile being is strong enough to break even Bones.",0, 1, 6,
+				5, Resources.Snapper, abilities, CardMetaCategory.ChoiceNode);
+
+        }
+    }
 }

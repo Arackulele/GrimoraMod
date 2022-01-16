@@ -13,7 +13,7 @@ namespace GrimoraMod
 			ApiUtils.Add(
 				NameNecromancer, "Necromancer",
 				"The vicious Necromancer, nothing dies once.",
-				1, 2, 3, Resources.Necromancer, Ability.DoubleDeath, CardMetaCategory.Rare, CardComplexity.Advanced);
+				0, 1, 2, 3, Resources.Necromancer, Ability.DoubleDeath, CardMetaCategory.Rare, CardComplexity.Advanced);
 		}
 	}
 }
