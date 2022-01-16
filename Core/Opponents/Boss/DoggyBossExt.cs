@@ -22,15 +22,18 @@ namespace GrimoraMod
 			AudioController.Instance.SetLoopAndPlay("boss_prospector_ambient", 1);
 			base.SpawnScenery("ForestTableEffects");
 			yield return new WaitForSeconds(0.5f);
+
 			AudioController.Instance.PlaySound2D("prospector_trees_enter", MixerGroup.TableObjectsSFX, 0.2f);
 			yield return new WaitForSeconds(0.25f);
+
 			ViewManager.Instance.SwitchToView(View.Default);
 			yield return new WaitForSeconds(1.25f);
+
 			yield return TextDisplayer.Instance.PlayDialogueEvent(
 				"ProspectorPreIntro", TextDisplayer.MessageAdvanceMode.Input
 			);
-
 			yield return new WaitForSeconds(1.5f);
+
 			yield return base.FaceZoomSequence();
 			yield return TextDisplayer.Instance.PlayDialogueEvent(
 				"ProspectorIntro", TextDisplayer.MessageAdvanceMode.Input
