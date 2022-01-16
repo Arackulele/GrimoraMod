@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
@@ -72,7 +71,7 @@ namespace GrimoraMod
 		[HarmonyPrefix, HarmonyPatch(nameof(Part1BossOpponent.ReducePlayerLivesSequence))]
 		public static void SetPlayerLivesToOne(Part1BossOpponent __instance)
 		{
-			if(SaveManager.SaveFile.IsGrimora)
+			if (SaveManager.SaveFile.IsGrimora)
 			{
 				RunState.Run.playerLives = 1;
 			}
@@ -111,20 +110,20 @@ namespace GrimoraMod
 					{
 						GrimoraAnimationController.Instance.SetHeadBool("face_disappointed", val: true);
 						GrimoraAnimationController.Instance.SetHeadBool("face_happy", val: false);
-						yield return TextDisplayer.Instance.PlayDialogueEvent("RoyalBossDeleted", TextDisplayer.MessageAdvanceMode.Input);
 						yield return new WaitForSeconds(0.5f);
 						yield return royalBossExt.cannons.GetComponent<CannonTableEffects>().GlitchOutCannons();
+						TableVisualEffectsManager.Instance.ResetTableColors();
 					}
-					
+
 					GrimoraPlugin.Log.LogDebug($"[{__state.GetType()}] Destroying scenery");
 					__state.DestroyScenery();
-					
+
 					GrimoraPlugin.Log.LogDebug($"[{__state.GetType()}] Set Scene Effects");
 					__state.SetSceneEffectsShown(false);
-					
+
 					GrimoraPlugin.Log.LogDebug($"[{__state.GetType()}] Stopping audio");
 					AudioController.Instance.StopAllLoops();
-					
+
 					yield return new WaitForSeconds(0.75f);
 
 					GrimoraPlugin.Log.LogDebug($"[{__state.GetType()}] CleanUpBossBehaviours");
