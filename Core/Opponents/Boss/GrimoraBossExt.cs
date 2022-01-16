@@ -8,7 +8,7 @@ namespace GrimoraMod
 	{
 		public override StoryEvent EventForDefeat => StoryEvent.PhotoDroneSeenInCabin;
 
-		public override Type Opponent => (Type)1004;
+		public override Type Opponent => GrimoraOpponent;
 
 		public override string DefeatedPlayerDialogue => "Thank you!";
 
@@ -17,21 +17,27 @@ namespace GrimoraMod
 
 		public override IEnumerator IntroSequence(EncounterData encounter)
 		{
+			yield return base.IntroSequence(encounter);
+
 			yield return new WaitForSeconds(0.5f);
 			// InitializeAudioSources();
 			yield return new WaitForSeconds(0.25f);
+
 			AudioController.Instance.SetLoopVolume(1f, 0.5f);
 			yield return new WaitForSeconds(1f);
+
 			yield return Singleton<TextDisplayer>.Instance.PlayDialogueEvent("LeshyBossIntro1",
 				TextDisplayer.MessageAdvanceMode.Input);
 			yield return new WaitForSeconds(0.75f);
-			yield return base.IntroSequence(encounter);
+
 			yield return new WaitForSeconds(0.25f);
 			yield return Singleton<TextDisplayer>.Instance.PlayDialogueEvent("LeshyBossAddCandle",
 				TextDisplayer.MessageAdvanceMode.Input);
 			yield return new WaitForSeconds(0.4f);
+
 			bossSkull.EnterHand();
 			yield return new WaitForSeconds(3.5f);
+
 			Singleton<ViewManager>.Instance.SwitchToView(View.Default, immediate: false, lockAfter: true);
 		}
 

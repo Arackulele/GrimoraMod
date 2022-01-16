@@ -10,12 +10,14 @@ namespace GrimoraMod
 	{
 		public override StoryEvent EventForDefeat => StoryEvent.FactoryCuckooClockAppeared;
 
-		public override Type Opponent => (Type)1002;
+		public override Type Opponent => DoggyOpponent;
 
 		public override string DefeatedPlayerDialogue => "My dogs will enjoy your bones!";
 
 		public override IEnumerator IntroSequence(EncounterData encounter)
 		{
+			yield return base.IntroSequence(encounter);
+
 			AudioController.Instance.SetLoopAndPlay("boss_prospector_base");
 			AudioController.Instance.SetLoopAndPlay("boss_prospector_ambient", 1);
 			base.SpawnScenery("ForestTableEffects");
@@ -27,7 +29,6 @@ namespace GrimoraMod
 			yield return TextDisplayer.Instance.PlayDialogueEvent(
 				"ProspectorPreIntro", TextDisplayer.MessageAdvanceMode.Input
 			);
-
 
 			yield return new WaitForSeconds(1.5f);
 			yield return base.FaceZoomSequence();
