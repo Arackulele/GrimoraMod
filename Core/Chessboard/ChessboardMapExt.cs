@@ -22,7 +22,7 @@ namespace GrimoraMod
 		private readonly string[] _buttonNames =
 		{
 			"Win Round", "Lose Round",
-			"Deck View", "Place Chest"
+			"Place Chest"
 		};
 
 		private List<GrimoraChessboard> _chessboards;
@@ -78,6 +78,24 @@ namespace GrimoraMod
 
 		private void OnGUI()
 		{
+			var button = GUI.Button(
+				new Rect(100, 0, 100, 80),
+				"Deck View"
+			);
+
+			if (button)
+			{
+				switch (ViewManager.Instance.CurrentView)
+				{
+					case View.MapDeckReview:
+						ViewManager.Instance.SwitchToView(View.MapDefault);
+						break;
+					case View.MapDefault:
+						ViewManager.Instance.SwitchToView(View.MapDeckReview);
+						break;
+				}
+			}
+
 			if (_enableDevMode)
 			{
 				_toggleEncounterMenu = GUI.Toggle(
@@ -112,19 +130,6 @@ namespace GrimoraMod
 							break;
 						case "Place Chest":
 							Instance._activeChessboard.PlaceChestPiece(0, 0);
-							break;
-						case "Deck View":
-							// Log.LogDebug($"[OnGUI] is deck view [{selectedButton}]");
-							switch (ViewManager.Instance.CurrentView)
-							{
-								case View.MapDeckReview:
-									ViewManager.Instance.SwitchToView(View.MapDefault);
-									break;
-								case View.MapDefault:
-									ViewManager.Instance.SwitchToView(View.MapDeckReview);
-									break;
-							}
-
 							break;
 					}
 				}
