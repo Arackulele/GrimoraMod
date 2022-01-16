@@ -42,10 +42,7 @@ namespace GrimoraMod
 					return bossPiece;
 				}
 
-				foreach (var piece in pieces.Where(piece => piece.name.Contains("Boss")))
-				{
-					bossPiece = piece as ChessboardEnemyPiece;
-				}
+		public ChessboardEnemyPiece BossPiece => _activeChessboard.BossPiece;
 
 				return bossPiece;
 			}
