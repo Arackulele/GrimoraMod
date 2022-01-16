@@ -244,8 +244,10 @@ namespace GrimoraMod
 			if (!DialogueEventsData.EventIsPlayed("FinaleGrimoraMapShown"))
 			{
 				yield return new WaitForSeconds(0.5f);
-				yield return TextDisplayer.Instance.PlayDialogueEvent("FinaleGrimoraMapShown",
-					TextDisplayer.MessageAdvanceMode.Input);
+				yield return TextDisplayer.Instance.PlayDialogueEvent(
+					"FinaleGrimoraMapShown",
+					TextDisplayer.MessageAdvanceMode.Input
+				);
 			}
 
 			StoryEventsData.SetEventCompleted(StoryEvent.GrimoraReachedTable);
