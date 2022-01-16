@@ -19,7 +19,7 @@ namespace GrimoraMod
 
 		public Opponent.Type ActiveBossType;
 
-		public GrimoraChessboard(List<List<int>> board)
+		public GrimoraChessboard(IEnumerable<List<int>> board)
 		{
 			this.Rows = board.Select((_board, idx) => new ChessRow(_board, idx)).ToList();
 			this.BlockerNodes = GetBlockerNodes();
@@ -82,8 +82,7 @@ namespace GrimoraMod
 
 		#endregion
 
-
-		#region PiecesHelperMethods
+		#region HelperMethods
 
 		private static ChessboardPiece GetPieceAtSpace(int x, int y)
 		{
