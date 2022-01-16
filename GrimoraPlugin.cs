@@ -150,19 +150,19 @@ namespace GrimoraMod
 			ConfigGrimoraBossDead
 				= GrimoraConfigFile.Bind(PluginName, "Grimora defeated?", false);
 
-			ConfigDeveloperMode = GrimoraConfigFile.Bind(
-				PluginName,
-				"Enable Developer Mode",
-				false,
-				new ConfigDescription("Does not generate blocker or enemy pieces except boss. Chests fill first row.")
-			);
-
 			ConfigCurrentRemovedPieces = GrimoraConfigFile.Bind(
 				PluginName,
 				"Current Removed Pieces",
 				StaticDefaultRemovedPiecesList,
 				new ConfigDescription("Contains all the current removed pieces." +
 				                      "\nDo not alter this list unless you know what you are doing!")
+			);
+
+			ConfigDeveloperMode = GrimoraConfigFile.Bind(
+				PluginName,
+				"Enable Developer Mode",
+				false,
+				new ConfigDescription("Does not generate blocker or enemy pieces except boss. Chests fill first row.")
 			);
 
 			var list = ConfigCurrentRemovedPieces.Value.Split(',').ToList();
