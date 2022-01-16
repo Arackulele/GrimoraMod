@@ -85,7 +85,7 @@ namespace GrimoraMod
 
 			if (selectedButton >= 0)
 			{
-				GrimoraPlugin.Log.LogDebug($"[OnGUI] Calling button [{selectedButton}]");
+				// Log.LogDebug($"[OnGUI] Calling button [{selectedButton}]");
 				switch (buttonNames[selectedButton])
 				{
 					case "Win Round":
@@ -102,7 +102,7 @@ namespace GrimoraMod
 						Instance._activeChessboard.PlaceChestPiece(0, 0);
 						break;
 					case "Deck View":
-						GrimoraPlugin.Log.LogDebug($"[OnGUI] is deck view [{selectedButton}]");
+						// Log.LogDebug($"[OnGUI] is deck view [{selectedButton}]");
 						switch (ViewManager.Instance.CurrentView)
 						{
 							case View.MapDeckReview:
@@ -122,7 +122,7 @@ namespace GrimoraMod
 		{
 			if (_chessboards == null)
 			{
-				GrimoraPlugin.Log.LogDebug($"[ChessboardMapExt] Loading json boards");
+				// Log.LogDebug($"[ChessboardMapExt] Loading json boards");
 				string jsonString = Encoding.UTF8.GetString(Resources.GrimoraChessboardsStatic);
 
 				_chessboards = ParseJson(
@@ -157,7 +157,7 @@ namespace GrimoraMod
 
 			// yield return TextDisplayer.Instance.PlayDialogueEvent("Region" + RunState.CurrentMapRegion.name, TextDisplayer.MessageAdvanceMode.Input);
 
-			// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Looping audio");
+			// Log.LogDebug($"[CompleteRegionSequence] Looping audio");
 			AudioController.Instance.SetLoopAndPlay("finalegrimora_ambience");
 			AudioController.Instance.SetLoopVolumeImmediate(0f);
 			AudioController.Instance.FadeInLoop(1f, 1f);
@@ -195,13 +195,13 @@ namespace GrimoraMod
 
 			TableRuleBook.Instance.SetOnBoard(false);
 
-			GrimoraPlugin.Log.LogDebug($"[ChessboardMap.UnrollingSequence] Setting each piece game object active to false");
-			pieces.ForEach(delegate(ChessboardPiece x) { x.gameObject.SetActive(false); });
+			// Log.LogDebug($"[ChessboardMap.UnrollingSequence] Setting each piece game object active to false");
+			Instance.pieces.ForEach(delegate(ChessboardPiece x) { x.gameObject.SetActive(false); });
 			// yield return new WaitForSeconds(0.5f);
 
 			UpdateVisuals();
 
-			GrimoraPlugin.Log.LogDebug($"[ChessboardMap.UnrollingSequence] Playing map anim enter");
+			// Log.LogDebug($"[ChessboardMap.UnrollingSequence] Playing map anim enter");
 			// base.mapAnim.speed = 1f;
 			mapAnim.Play("enter", 0, 0f);
 			yield return new WaitForSeconds(0.25f);
@@ -211,7 +211,7 @@ namespace GrimoraMod
 			// base.mapAnim.speed = unrollSpeed;
 			// yield return new WaitForSeconds(0.15f);
 
-			// GrimoraPlugin.Log.LogDebug($"[ChessboardMap.UnrollingSequence] Setting dynamicElements [{__instance.dynamicElementsParent}] to active");
+			// Log.LogDebug($"[UnrollingSequence] Setting dynamicElements [{dynamicElementsParent}] to active");
 			dynamicElementsParent.gameObject.SetActive(true);
 
 			// for checking which nodes are active/inactive
@@ -320,7 +320,7 @@ namespace GrimoraMod
 
 		private IEnumerator ShowPiecesThatAreActive()
 		{
-			foreach (var piece in pieces.Where(piece => piece.gameObject.activeInHierarchy))
+			foreach (var piece in Instance.pieces.Where(piece => piece.gameObject.activeInHierarchy))
 			{
 				// GrimoraPlugin.Log.LogDebug($"-> Piece [{piece.name}] saveId [{piece.saveId}] is active in hierarchy, calling Show method");
 				piece.Show();
@@ -364,7 +364,7 @@ namespace GrimoraMod
 					{
 						// GrimoraPlugin.Log.LogDebug($"[OnViewChanged] SetAllNodesInteractable true");
 						// MapNodeManager.Instance.SetAllNodesInteractable(true);
-						GrimoraPlugin.Log.LogDebug($"[OnViewChanged] PlayerMarker transform {PlayerMarker.Instance.transform}");
+						// Log.LogDebug($"[OnViewChanged] PlayerMarker transform {PlayerMarker.Instance.transform}");
 						MapNodeManager.Instance.FindAndSetActiveNodeInteractable();
 					}
 
