@@ -150,11 +150,20 @@ namespace GrimoraMod
 			ConfigGrimoraBossDead
 				= GrimoraConfigFile.Bind(PluginName, "Grimora defeated?", false);
 
-			ConfigDeveloperMode
-				= GrimoraConfigFile.Bind(PluginName, "Enable Developer mode", false);
+			ConfigDeveloperMode = GrimoraConfigFile.Bind(
+				PluginName,
+				"Enable Developer Mode",
+				false,
+				new ConfigDescription("This will skip generating all pieces except the boss")
+			);
 
 			ConfigCurrentRemovedPieces = GrimoraConfigFile.Bind(
-				PluginName, "Current Removed Pieces", StaticDefaultRemovedPiecesList);
+				PluginName,
+				"Current Removed Pieces",
+				StaticDefaultRemovedPiecesList,
+				new ConfigDescription("Contains all the current removed pieces." +
+				                      "\nDo not alter this list unless you know what you are doing!")
+			);
 
 			var list = ConfigCurrentRemovedPieces.Value.Split(',').ToList();
 			// this is so that for whatever reason the game map gets added to the removal list,
