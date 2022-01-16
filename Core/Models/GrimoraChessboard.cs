@@ -108,7 +108,7 @@ namespace GrimoraMod
 
 			GrimoraPlugin.Log.LogDebug($"[HandlePlayerMarkerPosition] isPlayerOccupied? [{isPlayerOccupied}]");
 
-			if (changingRegion)
+			if (changingRegion || !StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable))
 			{
 				// the PlayerNode will be different since this is now a different chessboard
 				x = GetPlayerNode().GridX;
@@ -323,7 +323,7 @@ namespace GrimoraMod
 
 					piece.name = nameTemp;
 
-					GrimoraPlugin.Log.LogDebug($"[CreatingPiece] {piece.name}");
+					// GrimoraPlugin.Log.LogDebug($"[CreatingPiece] {piece.name}");
 					ChessboardMapExt.Instance.pieces.Add(piece);
 				}
 			}
