@@ -124,7 +124,7 @@ namespace GrimoraMod
 			#endregion
 
 			DisableAllActOneCardsFromAppearing();
-			ChangePackRat();
+			// ChangePackRat();
 			// ChangeSquirrel();
 		}
 
