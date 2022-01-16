@@ -48,8 +48,9 @@ namespace GrimoraMod
 		)
 		{
 			yield return enumerator;
-			GrimoraPlugin.Log.LogDebug($"[SetupPhase] Adding 3 bones");
-			yield return ResourcesManager.Instance.AddBones(3);
+			int bonesToAdd = ChessboardMapExt.BonesToAdd;
+			GrimoraPlugin.Log.LogDebug($"[SetupPhase] Adding [{bonesToAdd}] bones");
+			yield return ResourcesManager.Instance.AddBones(bonesToAdd);
 		}
 	}
 }

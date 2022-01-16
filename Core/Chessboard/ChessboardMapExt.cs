@@ -36,6 +36,28 @@ namespace GrimoraMod
 
 		public bool BossDefeated { get; protected internal set; }
 
+		public static int BonesToAdd
+		{
+			get
+			{
+				int bonesToAdd = 0;
+				if (ConfigKayceeFirstBossDead.Value)
+				{
+					bonesToAdd += 2;
+				}
+				else if (ConfigSawyerSecondBossDead.Value)
+				{
+					bonesToAdd += 2;
+				}
+				else if (ConfigRoyalThirdBossDead.Value)
+				{
+					bonesToAdd += 2;
+				}
+
+				return bonesToAdd;
+			}
+		}
+
 		private List<GrimoraChessboard> Chessboards
 		{
 			get
