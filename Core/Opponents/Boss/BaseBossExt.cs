@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using DiskCardGame;
 using UnityEngine;
-using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod
 {
@@ -43,38 +42,47 @@ namespace GrimoraMod
 
 		public override IEnumerator IntroSequence(EncounterData encounter)
 		{
-			Log.LogDebug($"[{GetType()}] Calling ReplaceBlueprintCustom");
+			// Log.LogDebug($"[{GetType()}] Calling IntroSequence");
+			yield return base.IntroSequence(encounter);
+
+			// Log.LogDebug($"[{GetType()}] Calling ReplaceBlueprintCustom");
 			yield return ReplaceBlueprintCustom(BuildInitialBlueprint());
 
-			AudioController.Instance.FadeOutLoop(0.75f);
-			RunState.CurrentMapRegion.FadeOutAmbientAudio();
-
-			Log.LogDebug($"[{GetType()}] Calling IntroSequence");
-			yield return base.IntroSequence(encounter);
-			yield return new WaitForSeconds(1f);
-
 			// Royal boss has a specific sequence to follow so that it flows easier
-			if (this is not RoyalBossExt)
+			if (this is not RoyalBossExt && BossMasksByType.TryGetValue(OpponentType, out string prefabPath))
 			{
-				Log.LogDebug($"[{GetType()}] Setting RoyalBossSkull inactive");
+				yield return ShowBossSkull();
+
+				// Log.LogDebug($"[{GetType()}] Creating mask [{prefabPath}]");
+				Mask = (GameObject)Instantiate(
+					Resources.Load(prefabPath),
+					RightWrist.transform
+				);
+
+				Mask.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
+				Mask.transform.localPosition = new Vector3(0, 0.19f, 0.065f);
+				Mask.transform.localRotation = Quaternion.Euler(0, 0, 260);
+
+				// Object.Destroy(RoyalBossSkull);
 				RoyalBossSkull.SetActive(false);
-				if (BossMasksByType.TryGetValue(OpponentType, out string prefabPath))
-				{
-					Log.LogDebug($"[{GetType()}] Calling ShowBossSkull");
-					GrimoraAnimationController.Instance.ShowBossSkull();
+				yield return new WaitForSeconds(1f);
 
-					Log.LogDebug($"[{GetType()}] Setting Head Trigger");
-					GrimoraAnimationController.Instance.SetHeadTrigger("show_skull");
-
-					// Object.Destroy(RoyalBossSkull);
-
-					Log.LogDebug($"[{GetType()}] Creating mask [{prefabPath}]");
-					Mask = (GameObject)Instantiate(Resources.Load(prefabPath),
-						RightWrist.transform,
-						true
-					);
-				}
+				AudioController.Instance.FadeOutLoop(0.75f);
+				RunState.CurrentMapRegion.FadeOutAmbientAudio();
 			}
+		}
+
+		public IEnumerator ShowBossSkull()
+		{
+			// Log.LogDebug($"[{GetType()}] Calling ShowBossSkull");
+			GrimoraAnimationController.Instance.ShowBossSkull();
+
+			// Log.LogDebug($"[{GetType()}] Setting Head Trigger");
+			GrimoraAnimationController.Instance.SetHeadTrigger("show_skull");
+
+			yield return new WaitForSeconds(0.05f);
+
+			ViewManager.Instance.SwitchToView(View.BossCloseup, immediate: false, lockAfter: true);
 		}
 
 		public virtual IEnumerator ReplaceBlueprintCustom(EncounterBlueprintData blueprintData)
