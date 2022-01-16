@@ -4,6 +4,7 @@ using System.Linq;
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod
 {
@@ -17,8 +18,8 @@ namespace GrimoraMod
 		public static void PrefixStart(GameFlowManager __instance)
 		{
 			GameObject boardObj = GameObject.Find("ChessboardGameMap");
-			GrimoraPlugin.Log.LogDebug($"[GameFlowManager.Start] Instance is [{__instance.GetType()}]" +
-			                           $" Board Already exists? [{boardObj is not null}]");
+			Log.LogDebug($"[GameFlowManager.Start] Instance is [{__instance.GetType()}]" +
+			             $" Board Already exists? [{boardObj is not null}]");
 			if (SaveManager.SaveFile.IsGrimora && boardObj is not null)
 			{
 				ChangeChessboardToExtendedClass();
@@ -26,12 +27,28 @@ namespace GrimoraMod
 				AddRareCardSequencerToScene();
 
 				AddDeckReviewSequencerToScene();
+
+				ResizeArtworkForVanillaBoneCards();
+
+				ChangeStartDeckIfNotAlreadyChanged();
+			}
+		}
+
+		private static void ChangeStartDeckIfNotAlreadyChanged()
+		{
+			List<CardInfo> grimoraDeck = GrimoraSaveData.Data.deck.Cards;
+			int graveDiggerCount = grimoraDeck.Count(info => info.name == "Gravedigger");
+			int frankNSteinCount = grimoraDeck.Count(info => info.name == "FrankNStein");
+			if (grimoraDeck.Count == 5 && graveDiggerCount == 3 && frankNSteinCount == 2)
+			{
+				Log.LogDebug($"[ChangeStartDeckIfNotAlreadyChanged] Starter deck needs reset");
+				GrimoraSaveData.Data.Initialize();
 			}
 		}
 
 		private static void ChangeChessboardToExtendedClass()
 		{
-			GrimoraPlugin.Log.LogDebug($"Adding MapExt to ChessboardMapGameObject");
+			Log.LogDebug($"Adding MapExt to ChessboardMapGameObject");
 			GameObject boardObj = GameObject.Find("ChessboardGameMap");
 			ChessboardMap boardComp = boardObj.GetComponent<ChessboardMap>();
 
@@ -46,8 +63,8 @@ namespace GrimoraMod
 			Object.Destroy(boardComp);
 
 			var initialStartingPieces = Object.FindObjectsOfType<ChessboardPiece>();
-			GrimoraPlugin.Log.LogDebug($"[ChangeChessboardToExtendedClass] Resetting initial pieces" +
-			                           $" {string.Join(", ", initialStartingPieces.Select(_ => _.name))}");
+			Log.LogDebug($"[ChangeChessboardToExtendedClass] Resetting initial pieces" +
+			             $" {string.Join(", ", initialStartingPieces.Select(_ => _.name))}");
 
 			foreach (var piece in initialStartingPieces)
 			{
@@ -91,6 +108,30 @@ namespace GrimoraMod
 
 			// GrimoraPlugin.Log.LogDebug($"-> Setting SpecialNodeHandler rareCardChoiceSequencer to sequencer");
 			specialNodeHandler.rareCardChoiceSequencer = sequencer;
+		}
+
+		private static void ResizeArtworkForVanillaBoneCards()
+		{
+			List<string> cardsToResizeArtwork = new List<string>
+			{
+				"Amoeba", "Bat", "Maggots", "Rattler", "Vulture",
+			};
+
+			var newPivot = new Vector2(0.5f, 0.5f);
+
+			CardLoader.AllData.ForEach(info =>
+			{
+				if (cardsToResizeArtwork.Contains(info.name))
+				{
+					Sprite spriteCopy = info.portraitTex;
+
+					Log.LogDebug(
+						$"[{info.name}] Rect {spriteCopy.rect} Pivot [{spriteCopy.pivot}] PPU [{spriteCopy.pixelsPerUnit}]");
+					info.portraitTex = Sprite.Create(
+						spriteCopy.texture, spriteCopy.rect, newPivot, 125f
+					);
+				}
+			});
 		}
 
 		[HarmonyPostfix, HarmonyPatch(nameof(GameFlowManager.TransitionTo))]
