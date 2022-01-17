@@ -34,6 +34,7 @@ namespace GrimoraMod
 				Log.LogDebug($"[{GetType()}] About to assign ExplodeOnDeath to [{playableCard.Info.name}]");
 
 				playableCard.AddTemporaryMod(new CardModificationInfo(Ability.ExplodeOnDeath));
+				playableCard.TakeDamage(1, null);
 				playableCard.Anim.StrongNegationEffect();
 				yield return new WaitForSeconds(1f);
 			}

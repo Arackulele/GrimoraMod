@@ -13,9 +13,14 @@ namespace GrimoraMod
 		
 		private void AddAra_Zombie()
 		{
+
+			List<Ability> abilities = new List<Ability>
+			{
+			};
+
 			ApiUtils.Add(NameZombie, "Zombie",
-				"The humble zombie, a respected member of the army.", 1, 
-				1, 2, Properties.Resources.Zombie);
+				"The humble zombie, a respected member of the army.", 0, 1,
+				1, 2, Properties.Resources.Zombie, abilities, CardMetaCategory.ChoiceNode);
 		}
 	}
 }

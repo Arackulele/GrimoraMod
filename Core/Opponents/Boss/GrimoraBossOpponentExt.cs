@@ -2,6 +2,7 @@
 using System.Linq;
 using DiskCardGame;
 using UnityEngine;
+using static GrimoraMod.BlueprintUtils;
 
 namespace GrimoraMod
 {
@@ -17,6 +18,23 @@ namespace GrimoraMod
 
 		public override int StartingLives => 3;
 
+		private static void SetSceneEffectsShownGrimora()
+		{
+			Color brightBlue = GameColors.Instance.brightBlue;
+			brightBlue.a = 0.5f;
+			TableVisualEffectsManager.Instance.ChangeTableColors(
+				GameColors.Instance.darkFuschia,
+				GameColors.Instance.lightPurple,
+				GameColors.Instance.darkBlue,
+				GameColors.Instance.darkBlue,
+				GameColors.Instance.darkFuschia,
+				GameColors.Instance.fuschia,
+				GameColors.Instance.darkFuschia,
+				GameColors.Instance.darkFuschia,
+				GameColors.Instance.fuschia
+			);
+		}
+
 
 		public override IEnumerator IntroSequence(EncounterData encounter)
 		{
@@ -29,6 +47,8 @@ namespace GrimoraMod
 
 			AudioController.Instance.SetLoopVolume(1f, 0.5f);
 			yield return new WaitForSeconds(1f);
+
+			SetSceneEffectsShownGrimora();
 
 			yield return TextDisplayer.Instance.PlayDialogueEvent("LeshyBossIntro1",
 				TextDisplayer.MessageAdvanceMode.Input);
@@ -47,7 +67,25 @@ namespace GrimoraMod
 
 		public override EncounterBlueprintData BuildInitialBlueprint()
 		{
-			return BlueprintUtils.BuildGrimoraBossRegionBlueprintTwo();
+			var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+			blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+			{
+				new() { bp_Zombie },
+				new() { bp_Obol },
+				new() { bp_Hydra },
+				new() { bp_FrankAndStein },
+				new() { bp_Family },
+				new() { },
+				new() { bp_Skeleton },
+				new() { },
+				new() { bp_Skeleton, bp_BoneSerpent },
+				new() { },
+				new() { bp_Revenant },
+				new() { },
+				new() { bp_Sarcophagus },
+				new() { bp_SkeletonMage }
+			};
+			return blueprint;
 		}
 
 		public override IEnumerator StartNewPhaseSequence()
@@ -58,7 +96,25 @@ namespace GrimoraMod
 				{
 					yield return base.ClearBoard();
 
-					var oppSlots = CardSlotUtils.GetOpponentSlotsWithCards();
+					var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+					blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+				{
+					new() {  bp_Skeleton },
+					new() { bp_Bonelord },
+					new() {  },
+					new() {  },
+					new() { bp_Draugr, bp_Draugr, bp_Draugr },
+					new() { },
+					new() { bp_Bonehound, bp_Bonehound },
+					new() { },
+					new() { bp_Bonehound },
+					new() { },
+					new() { },
+					new() { bp_GhostShip },
+					new() { bp_GhostShip }
+				};
+
+						var oppSlots = CardSlotUtils.GetOpponentSlotsWithCards();
 
 					TextDisplayer.Instance.ShowUntilInput("LET THE BONE LORD COMMETH!",
 						letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
@@ -86,7 +142,28 @@ namespace GrimoraMod
 				}
 				case 2:
 				{
-					var playerCardSlots = CardSlotUtils.GetPlayerSlotsWithCards();
+					yield return base.ClearBoard();
+
+					var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+					blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+				{
+					new() { bp_Sporedigger },
+					new() { bp_Poltergeist },
+					new() {  },
+					new() {  },
+					new() { bp_Draugr, bp_Draugr, bp_Draugr },
+					new() { },
+					new() { bp_Bonehound, bp_Bonehound },
+					new() { },
+					new() { bp_Bonehound },
+					new() { },
+					new() { },
+					new() { bp_GhostShip },
+					new() { bp_GhostShip },
+
+				};
+
+						var playerCardSlots = CardSlotUtils.GetPlayerSlotsWithCards();
 					if (playerCardSlots.Count > 0)
 					{
 						foreach (var playableCard in playerCardSlots.Select(slot => slot.Card))

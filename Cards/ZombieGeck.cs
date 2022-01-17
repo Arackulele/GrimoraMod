@@ -14,7 +14,7 @@ namespace GrimoraMod
 			List<Ability> abilities = new List<Ability> { Ability.Brittle };
 
 			ApiUtils.Add(
-				NameZombieGeck, "Geckz", "A bit famished. Could use a bite to eat.", 2,
+				NameZombieGeck, "Zomb-Geck", "A bit famished. Could use a bite to eat.", 0, 2,
 				1, 1, Resources.Geck,
 				abilities, CardMetaCategory.Rare, appearanceBehaviour: CardUtils.getRareAppearance);
 		}

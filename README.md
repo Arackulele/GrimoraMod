@@ -23,6 +23,18 @@
 
 ## Update Notes
 
+### 2.1.2
+
+-Minor Patches and slightly changed Kaycees Mechanic
+
+### 2.1.1
+
+-Flavor update
+
+-Added tons of new Dialogue
+
+-Added reset run button (this only resets all data values in the config)
+
 ### 2.1.0
 
 - MASSIVE refactor for readability and overall code quality!

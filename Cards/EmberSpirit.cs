@@ -18,7 +18,7 @@ namespace GrimoraMod
 
 			ApiUtils.Add(NameEmberSpirit, "Spirit of Ember",
 				"A trickster spirit fleeing and leaving behind its flames.",
-				2, 1, 3, 2, Resources.Ember,
+				3, 1, 3, 3, Resources.Ember,
 				metaCategory: CardMetaCategory.Rare,
 				appearanceBehaviour: CardUtils.getRareAppearance, 
 				decals: decals, 

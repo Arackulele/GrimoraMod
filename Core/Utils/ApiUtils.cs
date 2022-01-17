@@ -13,6 +13,7 @@ namespace GrimoraMod
 
 		public static void Add(string name, string displayName,
 			string description,
+			int energyCost,
 			int baseAttack, int baseHealth,
 			int bonesCost,
 			byte[] defaultTexture,
@@ -32,14 +33,14 @@ namespace GrimoraMod
 			}
 			
 			Add(
-				name, displayName, description,
+				name, displayName, description, energyCost,
 				baseAttack, baseHealth,
 				bonesCost, defaultTexture, abilities,
 				metaCategory, complexity, decals, appearanceBehaviour, iceCubeId, evolveId, traits);
 		}
 
 		public static void Add(string name, string displayName,
-			string description,
+			string description, int energyCost,
 			int baseAttack, int baseHealth,
 			int bonesCost,
 			byte[] defaultTexture,
@@ -80,6 +81,7 @@ namespace GrimoraMod
 			cardInfo.temple = CardTemple.Nature;
 			cardInfo.description = description;
 			cardInfo.bonesCost = bonesCost;
+			cardInfo.energyCost = energyCost;
 			cardInfo.abilities = abilities;
 			cardInfo.decals = decals;
 			cardInfo.appearanceBehaviour = appearanceBehaviour;

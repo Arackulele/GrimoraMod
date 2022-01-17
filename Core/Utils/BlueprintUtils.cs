@@ -79,20 +79,20 @@ namespace GrimoraMod
 			card = CardLoader.GetCardByName(GrimoraPlugin.NameFlames)
 		};
 		
-		// public static readonly EncounterBlueprintData.CardBlueprint bp_FrankAndStein = new()
-		// {
-		// 	card = CardLoader.GetCardByName(GrimoraPlugin.NameFranknstein)
-		// };
+		 public static readonly EncounterBlueprintData.CardBlueprint bp_FrankAndStein = new()
+		 {
+		 	card = CardLoader.GetCardByName(GrimoraPlugin.NameFranknstein)
+		 };
 
 		public static readonly EncounterBlueprintData.CardBlueprint bp_GhostShip = new()
 		{
 			card = CardLoader.GetCardByName(GrimoraPlugin.NameGhostShip)
 		};
 
-		// public static readonly EncounterBlueprintData.CardBlueprint bp_Gravedigger = new()
-		// {
-		// 	card = CardLoader.GetCardByName(GrimoraPlugin.NameGraveDigger)
-		// };
+		 public static readonly EncounterBlueprintData.CardBlueprint bp_Gravedigger = new()
+		 {
+		 	card = CardLoader.GetCardByName(GrimoraPlugin.NameGraveDigger)
+		 };
 		
 		public static readonly EncounterBlueprintData.CardBlueprint bp_HeadlessHorseman = new()
 		{
@@ -191,12 +191,13 @@ namespace GrimoraMod
 				}
 			},
 			{
-				BaseBossExt.DoggyOpponent,
+				BaseBossExt.SawyerOpponent,
 				new List<EncounterBlueprintData>()
 				{
-					BuildDoggyBossRegionBlueprintOne(),
-					BuildDoggyBossRegionBlueprintTwo(),
-					BuildDoggyBossRegionBlueprintThree()
+                   BuildSawyerRegionBlueprintOne(),
+                   BuildSawyerRegionBlueprintTwo(),
+                   BuildSawyerRegionBlueprintThree(),
+				   BuildSawyerRegionBlueprintFour()
 				}
 			},
 			{
@@ -229,13 +230,13 @@ namespace GrimoraMod
 			var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 			blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 			{
-				new() { bp_GhostShip },
+				new() { bp_Zombie },
 				new() { bp_BonePrince, bp_Zombie },
-				new() { bp_Zombie, bp_Zombie },
+				new() { bp_Zombie },
 				new() { bp_GhostShip },
-				new() { bp_Zombie, bp_Zombie },
+				new() {  },
 				new() { bp_BonePrince },
-				new() { bp_GhostShip }
+				new() { bp_Zombie }
 			};
 
 			return blueprint;
@@ -250,7 +251,7 @@ namespace GrimoraMod
 				new() { bp_Skeleton, bp_Skeleton, bp_Draugr },
 				new() { bp_Draugr, bp_Draugr },
 				new() { bp_Skeleton },
-				new() { bp_Bonelord }
+				new() { bp_Family }
 			};
 
 			return blueprint;
@@ -261,12 +262,12 @@ namespace GrimoraMod
 			var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 			blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 			{
-				new() { bp_Bonehound },
-				new() { bp_Skeleton, bp_Zombie, bp_Skeleton },
+				new() { },
+				new() { bp_Skeleton },
 				new() { bp_Zombie, bp_Bonehound },
-				new() { bp_Zombie, bp_Zombie },
+				new() {  },
 				new() { bp_Skeleton, bp_Skeleton },
-				new() { bp_Bonehound }
+				new() { bp_Zombie }
 			};
 
 			return blueprint;
@@ -277,13 +278,13 @@ namespace GrimoraMod
 			var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 			blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 			{
-				new() { bp_HeadlessHorseman },
-				new() { bp_HeadlessHorseman, bp_HeadlessHorseman },
-				new() { bp_Sporedigger },
-				new() { bp_HeadlessHorseman },
-				new() { bp_Sporedigger, bp_HeadlessHorseman },
-				new() { bp_HeadlessHorseman },
-				new() { bp_HeadlessHorseman, bp_HeadlessHorseman }
+				new() { bp_Draugr },
+				new() { bp_CrazedMantis },
+				new() {  },
+				new() { bp_Draugr },
+				new() { bp_Skeleton },
+				new() {  },
+				new() { bp_CrazedMantis }
 			};
 
 			return blueprint;
@@ -294,14 +295,14 @@ namespace GrimoraMod
 			var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 			blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 			{
-				new() { bp_Sarcophagus },
-				new() { bp_SkeletonMage, bp_SkeletonMage },
-				new() { bp_SkeletonMage, bp_Bonehound },
-				new() { bp_Sarcophagus },
-				new() { bp_SkeletonMage, bp_SkeletonMage },
-				new() { bp_Bonehound },
-				new() { bp_SkeletonMage, bp_SkeletonMage },
-				new() { bp_Sarcophagus }
+				new() { bp_FrankAndStein },
+				new() {  },
+				new() { bp_Zombie },
+				new() {  },
+				new() { bp_Skeleton },
+				new() { bp_FrankAndStein },
+				new() {  },
+				new() { bp_Zombie }
 			};
 			return blueprint;
 		}
@@ -312,11 +313,12 @@ namespace GrimoraMod
 			blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 			{
 				new(),
-				new() { bp_Obol },
-				new() { bp_UndeadWolf },
-				new() { bp_Zombie, bp_Zombie },
-				new() { bp_UndeadWolf },
-				new() { bp_Obol },
+				new() { bp_Draugr },
+				new() {  },
+				new() { bp_Draugr, bp_Zombie },
+				new() {  },
+				new() { bp_Zombie },
+				new() { bp_Zombie },
 				new() { bp_Zombie }
 			};
 
@@ -365,13 +367,15 @@ namespace GrimoraMod
 			var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 			blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 			{
-				new() { bp_HeadlessHorseman },
-				new() { bp_HeadlessHorseman, bp_HeadlessHorseman },
-				new() { bp_Sporedigger },
-				new() { bp_HeadlessHorseman },
-				new() { bp_Sporedigger, bp_HeadlessHorseman },
-				new() { bp_HeadlessHorseman },
-				new() { bp_HeadlessHorseman, bp_HeadlessHorseman }
+				new() { bp_DrownedSoul },
+				new() {  },
+				new() { bp_Skelemancer },
+				new() {  },
+				new() { bp_Skelemancer },
+				new() { bp_DrownedSoul },
+				new() { bp_Revenant },
+				new() {  },
+				new() { bp_Skelemancer }
 			};
 
 			return blueprint;
@@ -411,7 +415,10 @@ namespace GrimoraMod
 				new() { bp_Skeleton, bp_Skeleton, bp_Skeleton, bp_Skeleton },
 				new() { bp_Zombie },
 				new() { bp_Zombie, bp_Zombie },
-				new() { bp_Zombie }
+				new() { bp_Zombie },
+				new() { bp_Skeleton, bp_Skeleton, bp_Skeleton, bp_Skeleton },
+				new() { bp_Skeleton, bp_Skeleton, bp_Skeleton, bp_Skeleton },
+				new() { bp_Revenant },
 			};
 
 			return blueprint;
@@ -429,7 +436,8 @@ namespace GrimoraMod
 				new() { bp_TombRobber },
 				new() { bp_UndeadWolf },
 				new() { bp_TombRobber },
-				new() { bp_Mummy }
+				new() { bp_Mummy },
+				new() { bp_UndeadWolf },
 			};
 
 			return blueprint;
@@ -441,16 +449,16 @@ namespace GrimoraMod
 			blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 			{
 				// bp_Zombie.difficultyReplace = false;
+				new() { bp_Hydra },
+				new(),
+				new() {  },
 				new() { bp_Zombie },
 				new(),
-				new() { bp_Revenant },
+				new() { bp_Hydra },
 				new() { bp_Zombie },
 				new(),
-				new() { bp_Revenant },
 				new() { bp_Zombie },
-				new(),
-				new() { bp_Zombie, bp_Revenant },
-				new() { bp_Zombie, bp_Revenant }
+				new() { bp_Zombie, bp_Hydra }
 			};
 
 			return blueprint;
@@ -464,56 +472,57 @@ namespace GrimoraMod
 				new() { bp_Skeleton, bp_Skeleton },
 				new() { bp_Draugr },
 				new() { bp_Draugr },
-				new() { bp_Revenant },
+				new() {  },
 				new() { bp_Revenant, bp_Skeleton },
 				new() { bp_Skeleton, bp_Skeleton },
-				new() { bp_Draugr }
+				new() {  },
+				new() { bp_Revenant,bp_Revenant,bp_Revenant, bp_Revenant },
 			};
 
 			return blueprint;
 		}
 
-		public static EncounterBlueprintData BuildDoggyBossRegionBlueprintOne()
+		public static EncounterBlueprintData BuildSawyerRegionBlueprintOne()
 		{
 			var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 			blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 			{
-				new() { bp_HeadlessHorseman },
-				new() { bp_Draugr, bp_BoneSnapper },
-				new() { bp_Draugr },
-				new() { bp_HeadlessHorseman },
-				new() { bp_BoneSnapper },
-				new() { bp_Draugr, bp_Draugr },
-				new() { bp_HeadlessHorseman, bp_HeadlessHorseman, bp_BoneSnapper }
+				new() { bp_Poltergeist },
+				new() { bp_Sarcophagus },
+				new() {  },
+				new() {  },
+				new() {  },
+				new() { bp_Poltergeist },
+				new() { bp_Sarcophagus, bp_Sarcophagus }
 			};
 
 			return blueprint;
 		}
 
-		public static EncounterBlueprintData BuildDoggyBossRegionBlueprintTwo()
+		public static EncounterBlueprintData BuildSawyerRegionBlueprintTwo()
 		{
 			var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 			blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 			{
-				new() { bp_HeadlessHorseman },
+				new() { bp_Bonehound },
 				new() { bp_Revenant },
-				new() { bp_HeadlessHorseman },
+				new() {  },
 				new() { bp_BoneSerpent },
-				new() { bp_BoneSerpent, bp_HeadlessHorseman },
-				new() { bp_Revenant },
+				new() {  },
+				new() {  },
 				new() { bp_BoneSerpent },
-				new() { bp_HeadlessHorseman }
+				new() { bp_Bonehound }
 			};
 
 			return blueprint;
 		}
 
-		public static EncounterBlueprintData BuildDoggyBossRegionBlueprintThree()
+		public static EncounterBlueprintData BuildSawyerRegionBlueprintThree()
 		{
 			var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 			blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 			{
-				new() { bp_Skelemancer },
+				new() { bp_Bonehound },
 				new() { bp_Skelemancer },
 				new(),
 				new() { bp_SkeletonMage },
@@ -522,16 +531,38 @@ namespace GrimoraMod
 				new(),
 				new() { bp_SkeletonMage, bp_Draugr },
 				new() { bp_Draugr },
-				new() { bp_SkeletonMage },
+				new() { bp_Bonehound },
 				new(),
 				new(),
-				new() { bp_Draugr, bp_Skelemancer, bp_Skelemancer },
+				new() { bp_Bonehound, bp_Skelemancer, bp_Skelemancer },
 				new() { bp_SkeletonMage }
 			};
 
 			return blueprint;
 		}
-		
+		public static EncounterBlueprintData BuildSawyerRegionBlueprintFour()
+		{
+			var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+			blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+			{
+				new() { bp_Skelemancer },
+				new() { bp_Obol },
+				new(),
+				new() { bp_SkeletonMage },
+				new() { bp_Skelemancer },
+				new(),
+				new(),
+				new() { bp_SkeletonMage, bp_Draugr },
+				new() { bp_Obol },
+				new() { bp_Skelemancer },
+				new(),
+				new(),
+				new() { bp_Bonehound, bp_Skelemancer, bp_Skelemancer },
+				new() { bp_SkeletonMage }
+			};
+
+			return blueprint;
+		}
 		#endregion
 
 	}

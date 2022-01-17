@@ -18,7 +18,7 @@ namespace GrimoraMod
 
 			ApiUtils.Add(NameBoneSnapper, "Bone Snapper",
 				"One bite of this Vile being is strong enough to break even Bones.",0, 1, 6,
-				5, Resources.Snapper, abilities, CardMetaCategory.ChoiceNode);
+				7, Resources.Snapper, abilities, CardMetaCategory.ChoiceNode);
 
         }
     }

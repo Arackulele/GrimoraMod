@@ -2,6 +2,7 @@
 using DiskCardGame;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
+using Random = UnityEngine.Random;
 
 namespace GrimoraMod
 {

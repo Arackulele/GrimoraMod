@@ -8,6 +8,7 @@ using BepInEx.Logging;
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace GrimoraMod
 {
@@ -222,6 +223,7 @@ namespace GrimoraMod
 				"Daus",
 				"Elk", "ElkCub",
 				"FieldMouse",
+				"PackRat",
 				"Geck", "Goat", "Grizzly",
 				"JerseyDevil",
 				"Kingfisher",
@@ -233,7 +235,7 @@ namespace GrimoraMod
 				"Urayuli", "Warren", "Wolf", "WolfCub",
 				"PeltGolden", "PeltHare", "PeltWolf",
 				"Stinkbug_Talking", "Stoat_Talking", "Wolf_Talking",
-				"!STATIC!GLITCH",
+				"!STATIC!GLITCH", "Hrokkall", "Kraken"
 			};
 
 			foreach (var card in cards)

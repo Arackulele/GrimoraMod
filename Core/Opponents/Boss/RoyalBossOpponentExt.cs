@@ -4,6 +4,7 @@ using DiskCardGame;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
 using static GrimoraMod.GrimoraPlugin;
+using Object = UnityEngine.Object;
 
 namespace GrimoraMod
 {
@@ -47,9 +48,9 @@ namespace GrimoraMod
 			SetSceneEffectsShownRoyal();
 			yield return new WaitForSeconds(1f);
 
-			StartCoroutine(TextDisplayer.Instance.ShowThenClear("Y'AARRRRR!", 1.5f));
-			ViewManager.Instance.SwitchToView(View.Default);
-			yield return new WaitForSeconds(0.75f);
+			yield return base.FaceZoomSequence();
+			yield return Singleton<TextDisplayer>.Instance.ShowUntilInput("Var, i see you made it to me ship challenger! Ive been waiting for a worthy fight!", -0.65f, 0.4f, Emotion.Neutral, TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
+
 
 			cannons = Object.Instantiate(
 				ResourceBank.Get<GameObject>("Prefabs/Environment/TableEffects/CannonTableEffects")
@@ -77,6 +78,10 @@ namespace GrimoraMod
 		public override IEnumerator StartNewPhaseSequence()
 		{
 			Log.LogDebug($"StartNewPhaseSequence started for RoyalBoss");
+			yield return base.FaceZoomSequence();
+			yield return Singleton<TextDisplayer>.Instance.ShowUntilInput("Yee be a tough nut to crack! Ready for Round 2?", -0.65f, 0.4f, Emotion.Neutral, TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
+
+
 
 			var playerSlotsWithCards = CardSlotUtils.GetPlayerSlotsWithCards();
 
@@ -124,6 +129,23 @@ namespace GrimoraMod
 			};
 
 			return blueprint;
+		}
+
+		public override IEnumerator OutroSequence(bool wasDefeated)
+		{
+
+
+			yield return Singleton<TextDisplayer>.Instance.ShowUntilInput("I overestimated me skill, good luck challenger.", -0.65f, 0.4f, Emotion.Neutral, TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
+			TableVisualEffectsManager.Instance.ResetTableColors();
+
+			yield return new WaitForSeconds(1f);
+
+
+			yield return base.FaceZoomSequence();
+			yield return Singleton<TextDisplayer>.Instance.ShowUntilInput("Hello again! I am excited for you to see this last one. I put it together.Lets see if you can beat all odds and win.", -0.65f, 0.4f, Emotion.Neutral, TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
+
+
+			yield break;
 		}
 	}
 }

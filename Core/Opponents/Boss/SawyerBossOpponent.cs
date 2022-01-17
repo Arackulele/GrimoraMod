@@ -18,31 +18,40 @@ namespace GrimoraMod
 
 		public override IEnumerator IntroSequence(EncounterData encounter)
 		{
-			AudioController.Instance.SetLoopAndPlay("boss_prospector_base");
-			AudioController.Instance.SetLoopAndPlay("boss_prospector_ambient", 1);
-			base.SpawnScenery("ForestTableEffects");
+			AudioController.Instance.SetLoopAndPlay("gbc_battle_undead");
+			AudioController.Instance.SetLoopAndPlay("gbc_battle_undead", 1);
+			base.SpawnScenery("CratesTableEffects");
 			yield return new WaitForSeconds(0.5f);
 
-			AudioController.Instance.PlaySound2D("prospector_trees_enter", MixerGroup.TableObjectsSFX, 0.2f);
-			yield return new WaitForSeconds(0.25f);
 
 			ViewManager.Instance.SwitchToView(View.Default);
-			yield return new WaitForSeconds(1.25f);
+			yield return new WaitForSeconds(1f);
 
-			yield return TextDisplayer.Instance.PlayDialogueEvent(
-				"ProspectorPreIntro", TextDisplayer.MessageAdvanceMode.Input
-			);
-			yield return new WaitForSeconds(1.5f);
+			SetSceneEffectsShownSawyer();
 
 			yield return base.IntroSequence(encounter);
 			yield return new WaitForSeconds(0.5f);
 
 			yield return base.FaceZoomSequence();
-			yield return TextDisplayer.Instance.PlayDialogueEvent(
-				"ProspectorIntro", TextDisplayer.MessageAdvanceMode.Input
-			);
+			yield return Singleton<TextDisplayer>.Instance.ShowUntilInput("Look away.Look away.If you want to fight, get it over quick!", -0.65f, 0.4f, Emotion.Neutral, TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
+
 			ViewManager.Instance.SwitchToView(View.Default);
 			ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+		}
+
+		private static void SetSceneEffectsShownSawyer()
+		{
+			TableVisualEffectsManager.Instance.ChangeTableColors(
+				GameColors.Instance.darkGold,
+				GameColors.Instance.orange,
+				GameColors.Instance.yellow,
+				GameColors.Instance.yellow,
+				GameColors.Instance.orange,
+				GameColors.Instance.yellow,
+				GameColors.Instance.brown,
+				GameColors.Instance.orange,
+				GameColors.Instance.brown
+			);
 		}
 
 		public override EncounterBlueprintData BuildInitialBlueprint()
@@ -50,8 +59,8 @@ namespace GrimoraMod
 			var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 			blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 			{
-				new() { },
-				new() { bp_BoneSerpent },
+				new() { bp_Zombie },
+				new() {  },
 				new() { bp_Skeleton, bp_BoneSerpent },
 				new() { },
 				new() { },
@@ -73,15 +82,19 @@ namespace GrimoraMod
 			{
 				base.InstantiateBossBehaviour<SawyerBehaviour>();
 
+				yield return base.FaceZoomSequence();
+				yield return Singleton<TextDisplayer>.Instance.ShowUntilInput("Please, i dont want to fight more, get it over with.", -0.65f, 0.4f, Emotion.Neutral, TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
+
+
 				var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 				blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 				{
 					new() { bp_Skeleton },
-					new() { },
-					new() { bp_UndeadWolf },
+					new() { bp_BoneSerpent },
+					new() {  },
 					new() { bp_BoneSerpent },
 					new() { },
-					new() { },
+					new() { bp_UndeadWolf },
 					new() { },
 					new() { bp_BoneSerpent },
 					new() { bp_BoneSerpent },
@@ -92,6 +105,21 @@ namespace GrimoraMod
 
 				yield return ReplaceBlueprintCustom(blueprint);
 			}
+			yield break;
+		}
+
+        public override IEnumerator OutroSequence(bool wasDefeated)
+        {
+			yield return Singleton<TextDisplayer>.Instance.ShowUntilInput("Thanks for getting it over with, and dont return!", -0.65f, 0.4f, Emotion.Neutral, TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
+			TableVisualEffectsManager.Instance.ResetTableColors();
+
+			yield return new WaitForSeconds(1f);
+
+
+			yield return base.FaceZoomSequence();
+			yield return Singleton<TextDisplayer>.Instance.ShowUntilInput("This area wont be easy, i asked Royal to do his best at making it impossible.", -0.65f, 0.4f, Emotion.Neutral, TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
+
+
 			yield break;
 		}
 	}

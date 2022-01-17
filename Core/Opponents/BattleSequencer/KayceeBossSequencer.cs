@@ -40,7 +40,7 @@ namespace GrimoraMod
 						card.Anim.StrongNegationEffect();
 						card.Anim.StrongNegationEffect();
 						card.Anim.StrongNegationEffect();
-						card.AddTemporaryMod(new CardModificationInfo(-1, 0));
+						card.AddTemporaryMod(new CardModificationInfo(1 - card.Attack , 0));
 
 						freezeCounter = 0;
 					}

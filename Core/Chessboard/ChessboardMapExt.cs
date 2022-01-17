@@ -48,11 +48,11 @@ namespace GrimoraMod
 				}
 				else if (ConfigSawyerSecondBossDead.Value)
 				{
-					bonesToAdd += 2;
+					bonesToAdd += 3;
 				}
 				else if (ConfigRoyalThirdBossDead.Value)
 				{
-					bonesToAdd += 2;
+					bonesToAdd += 5;
 				}
 
 				return bonesToAdd;
@@ -81,6 +81,11 @@ namespace GrimoraMod
 			var button = GUI.Button(
 				new Rect(100, 0, 100, 80),
 				"Deck View"
+						);
+			var button2 = GUI.Button(
+			new Rect(200, 0, 100, 80),
+			"Reset Run"
+
 			);
 
 			if (button)
@@ -95,6 +100,15 @@ namespace GrimoraMod
 						break;
 				}
 			}
+			if (button2)
+			{
+				GrimoraPlugin.ResetConfig();
+
+			}
+
+
+
+
 
 			if (_enableDevMode)
 			{
@@ -168,7 +182,6 @@ namespace GrimoraMod
 
 			ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
 			yield return new WaitForSeconds(0.8f);
-
 			// yield return TextDisplayer.Instance.PlayDialogueEvent("RegionNext", TextDisplayer.MessageAdvanceMode.Input);
 
 			ViewManager.Instance.SwitchToView(View.MapDefault);
@@ -281,6 +294,8 @@ namespace GrimoraMod
 				_activeChessboard = Chessboards[currentChessboardIndex];
 
 				_activeChessboard.SetSavePositions();
+
+
 			}
 
 			Log.LogDebug($"[HandleChessboardSetup] Chessboard [{_activeChessboard}] Chessboards [{Chessboards.Count}]");
@@ -299,6 +314,8 @@ namespace GrimoraMod
 			{
 				zone.gameObject.SetActive(true);
 				// UnityExplorer.ExplorerCore.Log(zone.GetComponent<ChessboardMapNode>().isActiveAndEnabled);
+
+
 			}
 		}
 

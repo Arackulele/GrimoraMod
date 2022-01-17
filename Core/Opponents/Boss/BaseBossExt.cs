@@ -28,8 +28,8 @@ namespace GrimoraMod
 
 		public static readonly Dictionary<Type, string> BossMasksByType = new()
 		{
-			{ SawyerOpponent, $"{PrefabPathMasks}/MaskProspector" },
-			{ KayceeOpponent, $"{PrefabPathMasks}/MaskAngler" },
+			{ SawyerOpponent, $"{PrefabPathMasks}/MaskTrader" },
+			{ KayceeOpponent, $"{PrefabPathMasks}/MaskWoodcarver" },
 			{ RoyalOpponent, PrefabPathRoyalBossSkull }
 		};
 
