@@ -123,10 +123,10 @@ namespace GrimoraMod.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap BoneSerpent {
+        public static byte[] BoneSerpent {
             get {
                 object obj = ResourceManager.GetObject("BoneSerpent", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ((byte[])(obj));
             }
         }
         
@@ -143,10 +143,10 @@ namespace GrimoraMod.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap CrazedMantis {
+        public static byte[] CrazedMantis {
             get {
                 object obj = ResourceManager.GetObject("CrazedMantis", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ((byte[])(obj));
             }
         }
         
