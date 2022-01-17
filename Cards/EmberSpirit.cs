@@ -1,29 +1,24 @@
-﻿using System.Collections.Generic;
-using APIPlugin;
-using DiskCardGame;
-using UnityEngine;
-using Resources = GrimoraMod.Properties.Resources;
+﻿using APIPlugin;
+using GrimoraMod.Properties;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
+	public const string NameEmberSpirit = "ara_Ember_Spirit";
+
+	private void AddAra_Ember_spirit()
 	{
-		public const string NameEmberSpirit = "ara_Ember_Spirit";
-
-		private void AddAra_Ember_spirit()
-		{
-			Texture2D decalTex = ImageUtils.LoadTextureFromResource(Resources.Energy2);
-
-			List<Texture> decals = new() { decalTex };
-
-			ApiUtils.Add(NameEmberSpirit, "Spirit of Ember",
-				"A trickster spirit fleeing and leaving behind its flames.",
-				3, 1, 3, 3, Resources.Ember,
-				metaCategory: CardMetaCategory.Rare,
-				appearanceBehaviour: CardUtils.getRareAppearance, 
-				decals: decals, 
-				ability: FlameStrafe.ability
-			);
-		}
+		NewCard.Add(CardBuilder.Builder
+			.AsRareCard()
+			.WithAbilities(FlameStrafe.ability)
+			.WithBaseAttackAndHealth(1, 3)
+			.WithBonesCost(3)
+			.WithDescription("A trickster spirit fleeing and leaving behind its flames.")
+			.WithEnergyCost(3)
+			.WithNames(NameEmberSpirit, "Spirit of Ember")
+			.WithPortrait(Resources.Ember)
+			.Build()
+		);
 	}
 }

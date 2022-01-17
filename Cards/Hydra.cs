@@ -1,29 +1,31 @@
 ﻿using System.Collections.Generic;
 using APIPlugin;
 using DiskCardGame;
-using UnityEngine;
-using Resources = GrimoraMod.Properties.Resources;
+using GrimoraMod.Properties;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
+	public const string NameHydra = "ara_Hydra";
+
+	private void AddAra_Hydra()
 	{
-
-		public const string NameHydra = "ara_Hydra";
-		
-		private void AddAra_Hydra()
+		List<Ability> abilities = new List<Ability>
 		{
-			List<Ability> abilities = new List<Ability>
-			{
-				Ability.DrawCopyOnDeath,
-				Ability.TriStrike
-			};
+			Ability.DrawCopyOnDeath,
+			Ability.TriStrike
+		};
 
-			ApiUtils.Add(NameHydra, "Hydra",
-				"Described by some as the truest nightmare", 0, 1, 
-				1, 4,
-				Resources.Hydra, abilities,
-				CardMetaCategory.Rare, CardComplexity.Advanced, appearanceBehaviour: CardUtils.getRareAppearance);
-		}
+		NewCard.Add(CardBuilder.Builder
+			.AsRareCard()
+			.WithAbilities(abilities)
+			.WithBaseAttackAndHealth(1, 1)
+			.WithBonesCost(4)
+			.WithDescription("Described by some as the truest nightmare.")
+			.WithNames(NameHydra, "Hydra")
+			.WithPortrait(Resources.HeadlessHorseman)
+			.Build()
+		);
 	}
 }

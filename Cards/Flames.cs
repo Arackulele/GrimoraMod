@@ -1,26 +1,29 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using APIPlugin;
 using DiskCardGame;
-using UnityEngine;
+using GrimoraMod.Properties;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
+	public const string NameFlames = "ara_Flames";
+
+	private void AddAra_Flames()
 	{
-		public const string NameFlames = "ara_Flames";
-
-		private void AddAra_Flames()
+		List<Ability> abilities = new List<Ability>
 		{
-			List<Ability> abilities = new List<Ability>
-			{
-				Ability.BuffNeighbours,
-				Ability.Brittle
-			};
+			Ability.BuffNeighbours,
+			Ability.Brittle
+		};
 
-			ApiUtils.Add(
-				NameFlames, "Flames",
-				"", 0, 0, 1, 2, Properties.Resources.Flames, abilities);
-		}
+		NewCard.Add(CardBuilder.Builder
+			.WithAbilities(abilities)
+			.WithBaseAttackAndHealth(0, 1)
+			.WithBonesCost(2)
+			.WithNames(NameFlames, "Flames")
+			.WithPortrait(Resources.Flames)
+			.Build()
+		);
 	}
 }

@@ -1,39 +1,39 @@
-﻿using System.Collections.Generic;
+﻿using APIPlugin;
 using DiskCardGame;
-using UnityEngine;
-using Resources = GrimoraMod.Properties.Resources;
+using GrimoraMod.Properties;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
+	public const string NameSkeletonArmy = "ara_SkeletonArmy";
+
+	private void AddAra_SkeletonArmy()
 	{
-		public const string NameSkeletonArmy = "ara_SkeletonArmy";
-		
-		private void AddAra_SkeletonArmy()
-		{
-			Texture2D decalTex = ImageUtils.LoadTextureFromResource(Resources.Energy2);
+		NewCard.Add(CardBuilder.Builder
+			.AsNormalCard()
+			.WithAbilities(Ability.SkeletonStrafe)
+			.WithBaseAttackAndHealth(2, 4)
+			.WithBonesCost(2)
+			.WithEnergyCost(4)
+			.WithDescription("The skeleton army, boons of the Bone Lord")
+			.WithNames(NameSkeletonArmy, "Skeleton Army")
+			.WithPortrait(Resources.SkeletonArmy)
+			.Build()
+		);
 
-			List<Texture> decals = new() { decalTex };
-			
-			ApiUtils.Add(
-				NameSkeletonArmy, "Skeleton Army",
-				"The skeleton army, boons of the Bone Lord.", 4, 2, 
-				4,
-				2, Resources.SkeletonArmy, Ability.SkeletonStrafe, CardMetaCategory.ChoiceNode, decals: decals);
-
-			// new CustomCard("Goat")
-			// {
-			// 	displayedName = NameSkeletonArmy,
-			// 	baseAttack = 2,
-			// 	baseHealth = 4,
-			// 	energyCost = 2,
-			// 	cost = 0,
-			// 	tex = defaultTex,
-			// 	abilities = abilities,
-			// 	decals = decals,
-			// 	metaCategories = metaCategories,
-			// 	description = "The skeleton army, boons of the Bone Lord."
-			// };
-		}
+		// new CustomCard("Goat")
+		// {
+		// 	displayedName = NameSkeletonArmy,
+		// 	baseAttack = 2,
+		// 	baseHealth = 4,
+		// 	energyCost = 2,
+		// 	cost = 0,
+		// 	tex = defaultTex,
+		// 	abilities = abilities,
+		// 	decals = decals,
+		// 	metaCategories = metaCategories,
+		// 	description = "The skeleton army, boons of the Bone Lord."
+		// };
 	}
 }

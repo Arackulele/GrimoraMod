@@ -1,19 +1,24 @@
-﻿using DiskCardGame;
+﻿using APIPlugin;
+using DiskCardGame;
 using GrimoraMod.Properties;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
+	public const string NameFamily = "ara_Family";
+
+	private void AddAra_Family()
 	{
-
-		public const string NameFamily = "ara_Family";
-		
-		private void AddAra_Family()
-		{
-			ApiUtils.Add(NameFamily, "The Walkers",
-				"The family wishes to rest in piece.", 0, 1, 2,
-				4, Resources.Walkers, Ability.QuadrupleBones, metaCategory: CardMetaCategory.ChoiceNode);
-
-		}
+		NewCard.Add(CardBuilder.Builder
+			.AsNormalCard()
+			.WithAbilities(Ability.QuadrupleBones)
+			.WithBaseAttackAndHealth(1, 2)
+			.WithBonesCost(4)
+			.WithDescription("The family wishes to rest in piece.")
+			.WithNames(NameFamily, "The Walkers")
+			.WithPortrait(Resources.Walkers)
+			.Build()
+		);
 	}
 }

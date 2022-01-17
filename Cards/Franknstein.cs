@@ -1,22 +1,22 @@
-﻿using DiskCardGame;
-using UnityEngine;
-using Resources = GrimoraMod.Properties.Resources;
+﻿using APIPlugin;
+using GrimoraMod.Properties;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
+	public const string NameFranknstein = "ara_Franknstein";
+
+	private void AddAra_Franknstein()
 	{
-		public const string NameFranknstein = "ara_Franknstein";
-
-		private void AddAra_Franknstein()
-		{
-			List<Ability> abilities = new List<Ability>
-			{
-			};
-
-			ApiUtils.Add(NameFranknstein, "Frank & Stein",
-				"Best friends, brothers, and fighters.", 0, 2,
-				2, 5, Resources.Franknstein, abilities, CardMetaCategory.ChoiceNode);
-		}
+		NewCard.Add(CardBuilder.Builder
+			.AsNormalCard()
+			.WithBaseAttackAndHealth(2, 2)
+			.WithBonesCost(5)
+			.WithDescription("Best friends, brothers, and fighters.")
+			.WithNames(NameFranknstein, "Frank & Stein")
+			.WithPortrait(Resources.Franknstein)
+			.Build()
+		);
 	}
 }

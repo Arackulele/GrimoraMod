@@ -1,20 +1,24 @@
-﻿using DiskCardGame;
+﻿using APIPlugin;
+using DiskCardGame;
 using GrimoraMod.Properties;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
+	public const string NameBoneSerpent = "ara_BoneSerpent";
+
+	private void AddAra_BoneSerpent()
 	{
-		
-		public const string NameBoneSerpent = "ara_BoneSerpent";
-
-		private void AddAra_BoneSerpent()
-		{
-
-
-			ApiUtils.Add(NameBoneSerpent, "Bone Serpent",
-				"The poison strike will melt even the most dense bones.", 0, 1,
-				1, 4, Resources.Adder, Ability.Deathtouch, CardMetaCategory.ChoiceNode);
-		}
+		NewCard.Add(CardBuilder.Builder
+			.AsNormalCard()
+			.WithAbilities(Ability.Deathtouch)
+			.WithBaseAttackAndHealth(1, 1)
+			.WithBonesCost(4)
+			.WithNames(NameBoneSerpent, "Bone Serpent")
+			.WithDescription("The poison strike will melt even the most dense bones.")
+			.WithPortrait(Resources.BoneSerpent)
+			.Build()
+		);
 	}
 }

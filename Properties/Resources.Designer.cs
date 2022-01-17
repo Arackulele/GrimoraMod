@@ -19,7 +19,7 @@ namespace GrimoraMod.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -57,16 +57,6 @@ namespace GrimoraMod.Properties {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] Adder {
-            get {
-                object obj = ResourceManager.GetObject("Adder", resourceCulture);
-                return ((byte[])(obj));
             }
         }
         
@@ -127,6 +117,36 @@ namespace GrimoraMod.Properties {
             get {
                 object obj = ResourceManager.GetObject("Boneseed", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap BoneSerpent {
+            get {
+                object obj = ResourceManager.GetObject("BoneSerpent", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] BoneSnapper {
+            get {
+                object obj = ResourceManager.GetObject("BoneSnapper", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap CrazedMantis {
+            get {
+                object obj = ResourceManager.GetObject("CrazedMantis", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -383,16 +403,6 @@ namespace GrimoraMod.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] Mantis {
-            get {
-                object obj = ResourceManager.GetObject("Mantis", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
         public static byte[] menucard_grimora {
             get {
                 object obj = ResourceManager.GetObject("menucard_grimora", resourceCulture);
@@ -523,16 +533,6 @@ namespace GrimoraMod.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] Snapper {
-            get {
-                object obj = ResourceManager.GetObject("Snapper", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
         public static byte[] SporeDigger {
             get {
                 object obj = ResourceManager.GetObject("SporeDigger", resourceCulture);
@@ -553,6 +553,16 @@ namespace GrimoraMod.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] UndeadWolf {
+            get {
+                object obj = ResourceManager.GetObject("UndeadWolf", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] Walkers {
             get {
                 object obj = ResourceManager.GetObject("Walkers", resourceCulture);
@@ -566,16 +576,6 @@ namespace GrimoraMod.Properties {
         public static byte[] Wendigo {
             get {
                 object obj = ResourceManager.GetObject("Wendigo", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] Wolf {
-            get {
-                object obj = ResourceManager.GetObject("Wolf", resourceCulture);
                 return ((byte[])(obj));
             }
         }

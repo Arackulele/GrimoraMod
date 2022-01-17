@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <IsPackable>false</IsPackable>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>10</LangVersion>
     <TargetFramework>net472</TargetFramework>
     <AssemblyName>GrimoraMod</AssemblyName>
     <RootNamespace>GrimoraMod</RootNamespace>

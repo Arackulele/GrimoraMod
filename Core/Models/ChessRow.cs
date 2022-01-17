@@ -1,27 +1,26 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public class ChessRow
 {
-	public class ChessRow
+	public readonly List<ChessNode> Columns;
+	protected internal readonly int Index;
+
+	public ChessRow(List<int> columns, int index)
 	{
-		public readonly List<ChessNode> Columns;
-		protected internal readonly int Index;
+		this.Columns = columns.Select((c, idx) => new ChessNode(c, idx, this)).ToList();
+		this.Index = index;
+	}
 
-		public ChessRow(List<int> columns, int index)
-		{
-			this.Columns = columns.Select((c, idx) => new ChessNode(c, idx, this)).ToList();
-			this.Index = index;
-		}
+	public bool HasOpenPathNodes()
+	{
+		return this.Columns.Any(c => c.IsPath);
+	}
 
-		public bool HasOpenPathNodes()
-		{
-			return this.Columns.Any(c => c.IsPath);
-		}
-
-		public List<ChessNode> GetNodesOfType(int type)
-		{
-			return this.Columns.Where(c => c.JsonValue == type).ToList();
-		}
+	public List<ChessNode> GetNodesOfType(int type)
+	{
+		return this.Columns.Where(c => c.JsonValue == type).ToList();
 	}
 }

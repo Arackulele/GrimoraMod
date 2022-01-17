@@ -3,26 +3,29 @@ using APIPlugin;
 using DiskCardGame;
 using GrimoraMod.Properties;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
+	public const string NameDeadPets = "ara_DeadPets";
+
+	private void AddAra_DeadPets()
 	{
-		public const string NameDeadPets = "ara_DeadPets";
-
-		private void AddAra_DeadPets()
+		List<Ability> abilities = new List<Ability>
 		{
-			List<Ability> abilities = new List<Ability>
-			{
-				Ability.DrawCopyOnDeath,
-				Ability.Brittle
-			};
+			Ability.DrawCopyOnDeath,
+			Ability.Brittle
+		};
 
-			ApiUtils.Add(NameDeadPets, "Pharaoh's Pets", "The undying underlings of the Pharaoh.", 0,
-				3, 1, 4, Resources.DeadPets,
-				complexity: CardComplexity.Intermediate,
-				metaCategory: CardMetaCategory.Rare,
-				appearanceBehaviour: CardUtils.getRareAppearance, abilities: abilities
-			);
-		}
+		NewCard.Add(CardBuilder.Builder
+			.AsRareCard()
+			.WithAbilities(abilities)
+			.WithBaseAttackAndHealth(3, 1)
+			.WithBonesCost(4)
+			.WithDescription("The undying underlings of the Pharaoh.")
+			.WithNames(NameDeadPets, "Pharaoh's Pets")
+			.WithPortrait(Resources.DeadPets)
+			.Build()
+		);
 	}
 }

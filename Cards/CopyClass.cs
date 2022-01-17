@@ -1,13 +1,5 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using APIPlugin;
-using DiskCardGame;
-using UnityEngine;
+﻿namespace GrimoraMod;
 
-namespace GrimoraMod
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
-	{
-		
-	}
 }

@@ -1,22 +1,24 @@
-﻿using System.Collections.Generic;
-using APIPlugin;
+﻿using APIPlugin;
 using DiskCardGame;
 using GrimoraMod.Properties;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
+	public const string NameZombieGeck = "ara_ZombieGeck";
+
+	private void AddAra_ZombieGeck()
 	{
-		public const string NameZombieGeck = "ara_ZombieGeck";
-
-		private void AddAra_ZombieGeck()
-		{
-			List<Ability> abilities = new List<Ability> { Ability.Brittle };
-
-			ApiUtils.Add(
-				NameZombieGeck, "Zomb-Geck", "A bit famished. Could use a bite to eat.", 0, 2,
-				1, 1, Resources.Geck,
-				abilities, CardMetaCategory.Rare, appearanceBehaviour: CardUtils.getRareAppearance);
-		}
+		NewCard.Add(CardBuilder.Builder
+			.AsRareCard()
+			.WithAbilities(Ability.Brittle)
+			.WithBaseAttackAndHealth(2, 1)
+			.WithBonesCost(1)
+			.WithDescription("A bit famished. Could use a bite to eat.")
+			.WithNames(NameZombieGeck, "Zomb-Geck")
+			.WithPortrait(Resources.Geck)
+			.Build()
+		);
 	}
 }

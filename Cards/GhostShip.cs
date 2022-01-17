@@ -1,25 +1,31 @@
 ﻿using System.Collections.Generic;
+using APIPlugin;
 using DiskCardGame;
 using GrimoraMod.Properties;
 
-namespace GrimoraMod
-{
-	public partial class GrimoraPlugin
-	{
+namespace GrimoraMod;
 
-		public const string NameGhostShip = "ara_GhostShip";
-		
-		private void AddAra_GhostShip()
+public partial class GrimoraPlugin
+{
+	public const string NameGhostShip = "ara_GhostShip";
+
+	private void AddAra_GhostShip()
+	{
+		List<Ability> abilities = new List<Ability>
 		{
-			List<Ability> abilities = new List<Ability>
-			{
-				Ability.SkeletonStrafe,
-				Ability.Submerge
-			};
-			
-			ApiUtils.Add(NameGhostShip, "Ghost Ship",
-				"The skeleton army never rests.", 0,
-				0, 1, 4, Resources.GhostShip, abilities, CardMetaCategory.ChoiceNode);
-		}
+			Ability.SkeletonStrafe,
+			Ability.Submerge
+		};
+
+		NewCard.Add(CardBuilder.Builder
+			.AsNormalCard()
+			.WithAbilities(abilities)
+			.WithBaseAttackAndHealth(0, 1)
+			.WithBonesCost(4)
+			.WithDescription("The skeleton army never rests.")
+			.WithNames(NameGhostShip, "Ghost Ship")
+			.WithPortrait(Resources.GhostShip)
+			.Build()
+		);
 	}
 }

@@ -1,26 +1,22 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using APIPlugin;
-using DiskCardGame;
-using UnityEngine;
+﻿using APIPlugin;
+using GrimoraMod.Properties;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
+	public const string NameZombie = "ara_Zombie";
+
+	private void AddAra_Zombie()
 	{
-
-		public const string NameZombie = "ara_Zombie";
-		
-		private void AddAra_Zombie()
-		{
-
-			List<Ability> abilities = new List<Ability>
-			{
-			};
-
-			ApiUtils.Add(NameZombie, "Zombie",
-				"The humble zombie, a respected member of the army.", 0, 1,
-				1, 2, Properties.Resources.Zombie, abilities, CardMetaCategory.ChoiceNode);
-		}
+		NewCard.Add(CardBuilder.Builder
+			.AsNormalCard()
+			.WithBaseAttackAndHealth(1, 1)
+			.WithBonesCost(2)
+			.WithDescription("The humble zombie, a respected member of the army.")
+			.WithNames(NameZombie, "Zombie")
+			.WithPortrait(Resources.Zombie)
+			.Build()
+		);
 	}
 }

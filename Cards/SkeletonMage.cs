@@ -1,24 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using APIPlugin;
 using DiskCardGame;
-using UnityEngine;
-using Resources = GrimoraMod.Properties.Resources;
+using GrimoraMod.Properties;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
+	public const string NameSkeletonMage = "ara_SkeletonMage";
+
+	private void AddAra_SkeletonMage()
 	{
-		public const string NameSkeletonMage = "ara_SkeletonMage";
-
-		private void AddAra_SkeletonMage()
-		{
-			Texture2D decalTex = ImageUtils.LoadTextureFromResource(Resources.Energy4);
-
-			List<Texture> decals = new() { decalTex };
-
-			ApiUtils.Add(
-				NameSkeletonMage, "Skelemagus",
-				"The Skelemagus, they have learned the ancient spell of Death.", 5,
-				4, 1, 0, Resources.SkeletonMage, Ability.Brittle,  CardMetaCategory.ChoiceNode, decals: decals);
-		}
+		NewCard.Add(CardBuilder.Builder
+			.AsNormalCard()
+			.WithAbilities(Ability.Brittle)
+			.WithBaseAttackAndHealth(4, 1)
+			.WithEnergyCost(5)
+			.WithDescription("The Skelemagus, they have learned the ancient spell of Death.")
+			.WithNames(NameSkeletonMage, "Skelemagus")
+			.WithPortrait(Resources.SkeletonMage)
+			.Build()
+		);
 	}
 }

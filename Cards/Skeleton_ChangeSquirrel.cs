@@ -3,24 +3,22 @@ using APIPlugin;
 using DiskCardGame;
 using GrimoraMod.Properties;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
+	public const string NameSkeleton = "Skeleton";
+
+	private void ChangeSquirrel()
 	{
+		List<Ability> abilities = new List<Ability> { Ability.Brittle };
 
-		public const string NameSkeleton = "Skeleton";
-		
-		private void ChangeSquirrel()
+		new CustomCard("Squirrel")
 		{
-			List<Ability> abilities = new List<Ability> { Ability.Brittle };
-
-			new CustomCard("Squirrel")
-			{
-				displayedName = NameSkeleton,
-				baseAttack = 1,
-				abilities = abilities,
-				tex = ImageUtils.LoadTextureFromResource(Resources.Skeleton)
-			};
-		}
+			displayedName = NameSkeleton,
+			baseAttack = 1,
+			abilities = abilities,
+			tex = ImageUtils.LoadTextureFromResource(Resources.Skeleton)
+		};
 	}
 }

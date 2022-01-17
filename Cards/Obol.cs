@@ -1,27 +1,24 @@
-﻿using System.Collections.Generic;
-using APIPlugin;
+﻿using APIPlugin;
 using DiskCardGame;
-using UnityEngine;
-using Resources = GrimoraMod.Properties.Resources;
+using GrimoraMod.Properties;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
+	public const string NameObol = "ara_Obol";
+
+	private void AddAra_Obol()
 	{
-
-		public const string NameObol = "ara_Obol";
-		
-		private void AddAra_Obol()
-		{
-			Texture2D decalTex = ImageUtils.LoadTextureFromResource(Resources.Energy3);
-
-			List<Texture> decals = new() { decalTex };
-
-			Texture2D tex = ImageUtils.LoadTextureFromResource(Resources.Obol);
-
-			ApiUtils.Add(NameObol, "Ancient Obol",
-				"The Ancient Obol, the Bone Lord likes this one.", 3, 0,
-				6, 0, Resources.Obol, Ability.Sharp, CardMetaCategory.ChoiceNode,  decals: decals );
-		}
+		NewCard.Add(CardBuilder.Builder
+			.AsNormalCard()
+			.WithAbilities(Ability.Sharp)
+			.WithBaseAttackAndHealth(0, 6)
+			.WithEnergyCost(3)
+			.WithDescription("Going into that well wasn't the best idea...")
+			.WithNames(NameObol, "Ancient Obol")
+			.WithPortrait(Resources.Obol)
+			.Build()
+		);
 	}
 }

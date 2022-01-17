@@ -1,9 +1,8 @@
 ﻿using HarmonyLib;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+[HarmonyPatch]
+public class TestingPatches
 {
-	[HarmonyPatch]
-	public class TestingPatches
-	{
-	}
 }
