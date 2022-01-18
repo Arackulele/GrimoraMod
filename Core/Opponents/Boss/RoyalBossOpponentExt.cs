@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using DiskCardGame;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
@@ -53,7 +52,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 			Emotion.Neutral, TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
 
 
-		cannons = Object.Instantiate(
+		cannons = UnityEngine.Object.Instantiate(
 			ResourceBank.Get<GameObject>("Prefabs/Environment/TableEffects/CannonTableEffects")
 		);
 		yield return new WaitForSeconds(2f);

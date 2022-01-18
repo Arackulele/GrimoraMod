@@ -23,7 +23,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private static Harmony _harmony;
 
-	public static Object[] AllAssets;
+	public static UnityEngine.Object[] AllAssets;
 
 	public static readonly ConfigFile GrimoraConfigFile = new(
 		Path.Combine(Paths.ConfigPath, "grimora_mod_config.cfg"),

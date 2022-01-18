@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using DiskCardGame;
 using UnityEngine;
 
@@ -63,7 +62,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 			Mask.transform.localPosition = new Vector3(0, 0.19f, 0.065f);
 			Mask.transform.localRotation = Quaternion.Euler(0, 0, 260);
 
-			// Object.Destroy(RoyalBossSkull);
+			// UnityEngine.Object.Destroy(RoyalBossSkull);
 			RoyalBossSkull.SetActive(false);
 			yield return new WaitForSeconds(1f);
 

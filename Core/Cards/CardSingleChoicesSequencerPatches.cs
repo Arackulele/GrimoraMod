@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using DiskCardGame;
 using HarmonyLib;
 using Pixelplacement;
@@ -103,7 +102,8 @@ public class CardSingleChoicesSequencerPatches
 					card.transform.position = card.transform.position + Vector3.forward * 5f +
 					                          new Vector3(-0.5f + UnityEngine.Random.value * 1f, 0f, 0f);
 					Tween.Position(card.transform, position, 0.3f, 0.0f, Tween.EaseInOut);
-					Tween.Rotate(card.transform, new Vector3(0f, 0f, Random.value * 1.5f), Space.Self, 0.4f, 0f, Tween.EaseOut);
+					Tween.Rotate(card.transform, new Vector3(0f, 0f, UnityEngine.Random.value * 1.5f), Space.Self, 0.4f, 0f,
+						Tween.EaseOut);
 					yield return new WaitForSeconds(0.2f);
 					ParticleSystem componentInChildren = card.GetComponentInChildren<ParticleSystem>();
 					if (componentInChildren != null)

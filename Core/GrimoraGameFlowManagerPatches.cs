@@ -20,7 +20,7 @@ public class GrimoraGameFlowManagerPatches
 		if (FinaleDeletionWindowManager.instance != null)
 		{
 			// GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Destroying FinaleDeletionWindowManager as it exists");
-			Object.Destroy(FinaleDeletionWindowManager.instance.gameObject);
+			UnityEngine.Object.Destroy(FinaleDeletionWindowManager.instance.gameObject);
 		}
 
 		ViewManager.Instance.SwitchToView(View.Default, immediate: true);
@@ -72,7 +72,7 @@ public class GrimoraGameFlowManagerPatches
 
 			// Log.LogDebug($"[SceneSpecificInitialization] Tombstones falling");
 			CryptEpitaphSlotInteractable cryptEpitaphSlotInteractable =
-				Object.FindObjectOfType<CryptEpitaphSlotInteractable>();
+				UnityEngine.Object.FindObjectOfType<CryptEpitaphSlotInteractable>();
 
 			AudioController.Instance.PlaySound3D(
 				"giant_stones_falling",

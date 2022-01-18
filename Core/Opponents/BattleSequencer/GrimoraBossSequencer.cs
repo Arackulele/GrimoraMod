@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using DiskCardGame;
-using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -49,7 +48,7 @@ public class GrimoraBossSequencer : Part1BossBattleSequencer
 
 		yield return TurnManager.Instance.Opponent.QueueCard(
 			card.Info,
-			BoardManager.Instance.OpponentSlotsCopy[Random.Range(0, 3)]
+			BoardManager.Instance.OpponentSlotsCopy[UnityEngine.Random.Range(0, 3)]
 		);
 	}
 

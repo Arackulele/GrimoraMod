@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
@@ -46,7 +44,7 @@ public class EnemyBattleSequencerPatches
 				yield return new WaitForSeconds(0.1f);
 			}
 
-			List<PlayableCard>.Enumerator enumerator = default(List<PlayableCard>.Enumerator);
+			// List<PlayableCard>.Enumerator enumerator = default(List<PlayableCard>.Enumerator);
 			foreach (PlayableCard c2 in PlayerHand.Instance.CardsInHand)
 			{
 				__state.GlitchOutCard(c2);

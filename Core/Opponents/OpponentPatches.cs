@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
@@ -111,7 +109,6 @@ public class Part1BossOpponentPatches
 					GrimoraAnimationController.Instance.SetHeadBool("face_happy", val: false);
 					yield return new WaitForSeconds(0.5f);
 					yield return royalBossExt.cannons.GetComponent<CannonTableEffects>().GlitchOutCannons();
-					TableVisualEffectsManager.Instance.ResetTableColors();
 				}
 
 				GrimoraPlugin.Log.LogDebug($"[{__state.GetType()}] Destroying scenery");

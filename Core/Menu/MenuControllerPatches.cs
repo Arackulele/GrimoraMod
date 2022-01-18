@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
@@ -11,16 +8,11 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(MenuController))]
 public class MenuControllerPatches
 {
-	private static readonly List<StoryEvent> TutorialsToFinish = Enum.GetValues(typeof(StoryEvent))
-		.Cast<StoryEvent>()
-		.Where(ev => ev.ToString().Contains("Tutorial"))
-		.ToList();
-
 	[HarmonyPrefix, HarmonyPatch(nameof(MenuController.LoadGameFromMenu))]
 	public static bool ContinueActOne(bool newGameGBC)
 	{
 		SaveManager.LoadFromFile();
-		LoadingScreenManager.LoadScene(newGameGBC ? "GBC_Intro" : "Part1_Cabin");
+		LoadingScreenManager.LoadScene(newGameGBC ? "GBC_Intro" : SaveManager.SaveFile.currentScene);
 		SaveManager.savingDisabled = false;
 
 		return false;

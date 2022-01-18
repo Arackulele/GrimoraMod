@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using DiskCardGame;
+﻿using DiskCardGame;
 using HarmonyLib;
 using static GrimoraMod.GrimoraPlugin;
 
