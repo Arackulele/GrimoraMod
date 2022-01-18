@@ -60,9 +60,9 @@ public class BaseGameFlowManagerPatches
 		ext.defaultPosition = boardComp.defaultPosition;
 
 		// GrimoraPlugin.Log.LogDebug($"Destroying old chessboard component");
-		Object.Destroy(boardComp);
+		UnityEngine.Object.Destroy(boardComp);
 
-		var initialStartingPieces = Object.FindObjectsOfType<ChessboardPiece>();
+		var initialStartingPieces = UnityEngine.Object.FindObjectsOfType<ChessboardPiece>();
 		Log.LogDebug($"[ChangeChessboardToExtendedClass] Resetting initial pieces" +
 		             $" {string.Join(", ", initialStartingPieces.Select(_ => _.name))}");
 
@@ -71,13 +71,13 @@ public class BaseGameFlowManagerPatches
 			ext.pieces.Remove(piece);
 			piece.MapNode.OccupyingPiece = null;
 			piece.gameObject.SetActive(false);
-			Object.Destroy(piece.gameObject);
+			UnityEngine.Object.Destroy(piece.gameObject);
 		}
 	}
 
 	private static void AddDeckReviewSequencerToScene()
 	{
-		DeckReviewSequencer deckReviewSequencer = Object.FindObjectOfType<DeckReviewSequencer>();
+		DeckReviewSequencer deckReviewSequencer = UnityEngine.Object.FindObjectOfType<DeckReviewSequencer>();
 
 		if (deckReviewSequencer is not null)
 		{
@@ -89,11 +89,11 @@ public class BaseGameFlowManagerPatches
 
 	private static void AddRareCardSequencerToScene()
 	{
-		SpecialNodeHandler specialNodeHandler = Object.FindObjectOfType<SpecialNodeHandler>();
+		SpecialNodeHandler specialNodeHandler = UnityEngine.Object.FindObjectOfType<SpecialNodeHandler>();
 
 		// GrimoraPlugin.Log.LogDebug($"Creating RareCardChoiceSelector");
 
-		GameObject rareCardChoicesSelector = Object.Instantiate(
+		GameObject rareCardChoicesSelector = UnityEngine.Object.Instantiate(
 			ResourceBank.Get<GameObject>("Prefabs/SpecialNodeSequences/RareCardChoiceSelector"),
 			specialNodeHandler.transform
 		);
