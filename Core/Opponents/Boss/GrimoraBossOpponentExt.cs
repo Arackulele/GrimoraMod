@@ -37,13 +37,6 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
-		// Log.LogDebug($"[{GetType()}] Calling base IntroSequence, this creates and sets the candle skull");
-		yield return base.IntroSequence(encounter);
-
-		yield return new WaitForSeconds(0.5f);
-		// InitializeAudioSources();
-		yield return new WaitForSeconds(0.25f);
-
 		AudioController.Instance.SetLoopVolume(1f, 0.5f);
 		yield return new WaitForSeconds(1f);
 
@@ -53,15 +46,17 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			TextDisplayer.MessageAdvanceMode.Input);
 		yield return new WaitForSeconds(0.75f);
 
+		// Log.LogDebug($"[{GetType()}] Calling base IntroSequence, this creates and sets the candle skull");
+		yield return base.IntroSequence(encounter);
+
+		ViewManager.Instance.SwitchToView(View.BossSkull, immediate: false, lockAfter: true);
+
 		yield return new WaitForSeconds(0.25f);
 		yield return TextDisplayer.Instance.PlayDialogueEvent("LeshyBossAddCandle",
 			TextDisplayer.MessageAdvanceMode.Input);
 		yield return new WaitForSeconds(0.4f);
 
 		bossSkull.EnterHand();
-		yield return new WaitForSeconds(3.5f);
-
-		ViewManager.Instance.SwitchToView(View.Default, immediate: false, lockAfter: true);
 	}
 
 	public override EncounterBlueprintData BuildInitialBlueprint()
