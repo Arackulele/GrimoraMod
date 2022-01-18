@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
 using APIPlugin;
 using DiskCardGame;
 using UnityEngine;
@@ -35,7 +33,7 @@ namespace GrimoraMod
 		) where T : AbilityBehaviour
 		{
 			return CreateAbility<T>(
-				ImageUtils.LoadTextureFromResource(texture),
+				ImageUtils.LoadTextureFromBytes(texture),
 				rulebookName,
 				rulebookDescription,
 				powerLevel

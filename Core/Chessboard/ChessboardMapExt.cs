@@ -150,8 +150,8 @@ public class ChessboardMapExt : ChessboardMap
 	{
 		if (_chessboards == null)
 		{
-			// Log.LogDebug($"[ChessboardMapExt] Loading json boards");
-			string jsonString = Encoding.UTF8.GetString(Resources.GrimoraChessboardsStatic);
+			Log.LogDebug($"[ChessboardMapExt] Loading json boards");
+			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("GrimoraChessboardsStatic.json"));
 
 			_chessboards = ParseJson(
 				SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString)

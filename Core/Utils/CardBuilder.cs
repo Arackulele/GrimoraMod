@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using APIPlugin;
+﻿using APIPlugin;
 using DiskCardGame;
 using UnityEngine;
 
@@ -25,13 +24,9 @@ public class CardBuilder
 	{
 	}
 
-	internal CardBuilder WithPortrait(byte[] resource)
+	internal CardBuilder WithPortrait(string imageFileName)
 	{
-		_cardInfo.portraitTex = Sprite.Create(
-			ImageUtils.LoadTextureFromResource(resource),
-			CardUtils.DefaultCardArtRect,
-			CardUtils.DefaultVector2
-		);
+		_cardInfo.portraitTex = ImageUtils.CreateSpriteFromFile(imageFileName);
 		return this;
 	}
 
@@ -81,7 +76,8 @@ public class CardBuilder
 	{
 		_cardInfo.name = name;
 		_cardInfo.displayedName = displayedName;
-		return this;
+
+		return WithPortrait(name);
 	}
 
 	internal CardBuilder AsNormalCard()
