@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using DiskCardGame;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
@@ -34,7 +33,7 @@ public class SawyerBossOpponent : BaseBossExt
 
 		yield return base.FaceZoomSequence();
 		yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
-			"Look away.Look away.If you want to fight, get it over quick!", -0.65f, 0.4f, Emotion.Neutral,
+			"Look away, Look away! If you want to fight, get it over quick!", -0.65f, 0.4f, Emotion.Neutral,
 			TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
 
 		ViewManager.Instance.SwitchToView(View.Default);
