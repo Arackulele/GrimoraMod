@@ -88,7 +88,12 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		{
 			case 1:
 			{
+				GrimoraPlugin.Log.LogDebug($"[GrimoraBoss] Clearing board");
 				yield return base.ClearBoard();
+				GrimoraPlugin.Log.LogDebug($"[GrimoraBoss] Clearing queue");
+				yield return base.ClearQueue();
+
+				yield return new WaitForSeconds(0.5f);
 
 				var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 				blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -108,9 +113,9 @@ public class GrimoraBossOpponentExt : BaseBossExt
 					new() { bp_GhostShip }
 				};
 
-				var oppSlots = CardSlotUtils.GetOpponentSlotsWithCards();
+				var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
 
-				TextDisplayer.Instance.ShowUntilInput("LET THE BONE LORD COMMETH!",
+				yield return TextDisplayer.Instance.ShowUntilInput("LET THE BONE LORD COMMETH!",
 					letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
 
 				yield return BoardManager.Instance.CreateCardInSlot(
@@ -120,7 +125,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 				oppSlots.RemoveAt(2);
 
-				TextDisplayer.Instance.ShowUntilInput("RISE MY ARMY! RIIIIIIIIIISE!",
+				yield return TextDisplayer.Instance.ShowUntilInput("RISE MY ARMY! RIIIIIIIIIISE!",
 					letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
 
 				foreach (CardSlot cardSlot in oppSlots)
