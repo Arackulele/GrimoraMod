@@ -1,6 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
@@ -31,7 +29,23 @@ public class BaseGameFlowManagerPatches
 			// ResizeArtworkForVanillaBoneCards();
 
 			ChangeStartDeckIfNotAlreadyChanged();
+
+			AddEnergyDrone();
 		}
+	}
+
+	private static void AddEnergyDrone()
+	{
+		BoardManager3D boardManager = UnityEngine.Object.FindObjectOfType<BoardManager3D>();
+
+		ResourceDrone drone = UnityEngine.Object.Instantiate(
+			ResourceBank.Get<ResourceDrone>("Prefabs/CardBattle/ResourceModules"),
+			new Vector3(4.042f, 7.16f, 1.92f),
+			Quaternion.Euler(270f, 0f, -146.804f),
+			boardManager.transform
+		);
+
+		drone.Awake();
 	}
 
 	private static void ChangeStartDeckIfNotAlreadyChanged()
