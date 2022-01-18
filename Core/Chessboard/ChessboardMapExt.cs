@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections;
+using BepInEx.Configuration;
 using DiskCardGame;
 using Unity.Cloud.UserReporting.Plugin.SimpleJson;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
-using Resources = GrimoraMod.Properties.Resources;
 
 // This class is literally just meant to be able to view the deck review sequencer
 namespace GrimoraMod;
@@ -78,16 +74,22 @@ public class ChessboardMapExt : ChessboardMap
 
 	private void OnGUI()
 	{
-		var button = GUI.Button(
-			new Rect(100, 0, 100, 80),
+		var deckViewBtn = GUI.Button(
+			new Rect(0, 0, 100, 50),
 			"Deck View"
 		);
-		var button2 = GUI.Button(
-			new Rect(200, 0, 100, 80),
+
+		var deckResetBtn = GUI.Button(
+			new Rect(100, 0, 100, 50),
+			"Reset Deck"
+		);
+
+		var resetRunBtn = GUI.Button(
+			new Rect(200, 0, 100, 50),
 			"Reset Run"
 		);
 
-		if (button)
+		if (deckViewBtn)
 		{
 			switch (ViewManager.Instance.CurrentView)
 			{
@@ -99,12 +101,14 @@ public class ChessboardMapExt : ChessboardMap
 					break;
 			}
 		}
-
-		if (button2)
+		else if (resetRunBtn)
 		{
-			GrimoraPlugin.ResetConfig();
+			ResetConfig();
 		}
-
+		else if (deckResetBtn)
+		{
+			ResetDeck();
+		}
 
 		if (_enableDevMode)
 		{

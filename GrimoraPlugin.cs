@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using APIPlugin;
 using BepInEx;
 using BepInEx.Configuration;
@@ -17,7 +14,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 {
 	public const string PluginGuid = "arackulele.inscryption.grimoramod";
 	public const string PluginName = "GrimoraMod";
-	private const string PluginVersion = "2.1.0";
+	private const string PluginVersion = "2.3.3";
 
 	internal static ManualLogSource Log;
 
@@ -178,13 +175,14 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private static void LoadAssets()
 	{
-		AssetBundle bundle = AssetBundle.LoadFromMemory(Properties.Resources.GrimoraMod_Prefabs_Blockers);
+		string blockersFile = FileUtils.FindFileInPluginDir("GrimoraMod_Prefabs_Blockers");
+		AssetBundle bundle = AssetBundle.LoadFromFile(blockersFile);
 		AllAssets = bundle.LoadAllAssets();
 	}
 
 	private static void UnlockAllNecessaryEventsToPlay()
 	{
-		if (StoryEventsToBeCompleteBeforeStarting.Any(evt => !StoryEventsData.EventCompleted(evt)))
+		if (!StoryEventsToBeCompleteBeforeStarting.TrueForAll(StoryEventsData.EventCompleted))
 		{
 			Log.LogWarning($"You haven't completed a required event... Starting unlock process");
 			StoryEventsToBeCompleteBeforeStarting.ForEach(evt => StoryEventsData.SetEventCompleted(evt));
@@ -204,12 +202,19 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	public static void ResetConfig()
 	{
+		Log.LogWarning($"Resetting Grimora Mod config");
 		ConfigKayceeFirstBossDead.Value = false;
 		ConfigSawyerSecondBossDead.Value = false;
 		ConfigRoyalThirdBossDead.Value = false;
 		ConfigGrimoraBossDead.Value = false;
 		ConfigCurrentRemovedPieces.Value = StaticDefaultRemovedPiecesList;
 		ConfigCurrentChessboardIndex.Value = 0;
+	}
+
+	public static void ResetDeck()
+	{
+		Log.LogWarning($"Resetting Grimora Deck Data");
+		GrimoraSaveData.Data.Initialize();
 	}
 
 	private static void DisableAllActOneCardsFromAppearing()
@@ -222,19 +227,19 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			"Daus",
 			"Elk", "ElkCub",
 			"FieldMouse",
-			"PackRat",
 			"Geck", "Goat", "Grizzly",
+			"Hrokkall",
 			"JerseyDevil",
-			"Kingfisher",
+			"Kingfisher", "Kraken",
 			"Magpie", "Mantis", "MantisGod", "Mole", "MoleMan", "Moose", "Mothman_Stage1",
 			"Opossum", "Otter", "Ouroboros",
-			"Porcupine", "Pronghorn",
+			"PackRat", "Porcupine", "Pronghorn",
 			"RatKing", "Raven", "RavenEgg", "RingWorm",
 			"Shark", "Skink", "Skunk", "Snapper", "Snelk", "Sparrow", "SquidBell", "SquidCards", "SquidMirror",
 			"Urayuli", "Warren", "Wolf", "WolfCub",
 			"PeltGolden", "PeltHare", "PeltWolf",
 			"Stinkbug_Talking", "Stoat_Talking", "Wolf_Talking",
-			"!STATIC!GLITCH", "Hrokkall", "Kraken"
+			"!STATIC!GLITCH"
 		};
 
 		foreach (var card in cards)
