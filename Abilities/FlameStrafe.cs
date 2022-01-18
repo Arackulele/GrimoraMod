@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -31,7 +30,7 @@ public class FlameStrafe : Strafe
 			"The warmth of the Embers shall enlighten nearby cards.";
 
 		return ApiUtils.CreateAbility<FlameStrafe>(
-			Resources.DropFlames,
+			ImageUtils.LoadTextureFromFile("DropFlames"),
 			nameof(FlameStrafe),
 			rulebookDescription,
 			5

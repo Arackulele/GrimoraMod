@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using APIPlugin;
+﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -24,7 +22,6 @@ public partial class GrimoraPlugin
 			.WithEnergyCost(2)
 			.WithDescription("A skilled haunting ghost. Handle with caution.")
 			.WithNames(NamePoltergeist, "Poltergeist")
-			.WithPortrait(Resources.Poltergeist)
 			.Build()
 		);
 	}

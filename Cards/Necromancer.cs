@@ -1,6 +1,5 @@
 ﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -15,9 +14,8 @@ public partial class GrimoraPlugin
 			.WithAbilities(Ability.DoubleDeath)
 			.WithBaseAttackAndHealth(1, 2)
 			.WithBonesCost(3)
-			.WithDescription("The vicious Necromancer, nothing dies once.")
+			.WithDescription("Nothing dies once.")
 			.WithNames(NameNecromancer, "Necromancer")
-			.WithPortrait(Resources.Necromancer)
 			.Build()
 		);
 	}

@@ -1,5 +1,4 @@
 ﻿using APIPlugin;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -15,7 +14,6 @@ public partial class GrimoraPlugin
 			.WithBonesCost(8)
 			.WithDescription("The cycle of the Mummy Lord is never ending.")
 			.WithNames(NameMummy, "Mummy Lord")
-			.WithPortrait(Resources.Mummy)
 			.Build()
 		);
 	}

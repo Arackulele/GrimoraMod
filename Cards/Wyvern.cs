@@ -1,6 +1,5 @@
 ﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -17,7 +16,6 @@ public partial class GrimoraPlugin
 			.WithBonesCost(5)
 			.WithDescription("The wyvern army approaches.")
 			.WithNames(NameWyvern, "Wyvern")
-			.WithPortrait(Resources.Wyvern)
 			.Build()
 		);
 	}

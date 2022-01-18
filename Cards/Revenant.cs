@@ -1,6 +1,5 @@
 ﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -17,7 +16,6 @@ public partial class GrimoraPlugin
 			.WithBonesCost(3)
 			.WithDescription("The Revenant, bringing the scythe of death.")
 			.WithNames(NameRevenant, "Revenant")
-			.WithPortrait(Resources.Revenant)
 			.Build()
 		);
 	}

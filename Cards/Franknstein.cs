@@ -1,5 +1,4 @@
 ﻿using APIPlugin;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -15,7 +14,6 @@ public partial class GrimoraPlugin
 			.WithBonesCost(5)
 			.WithDescription("Best friends, brothers, and fighters.")
 			.WithNames(NameFranknstein, "Frank & Stein")
-			.WithPortrait(Resources.Franknstein)
 			.Build()
 		);
 	}

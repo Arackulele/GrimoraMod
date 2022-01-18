@@ -1,6 +1,5 @@
 ﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -17,7 +16,6 @@ public partial class GrimoraPlugin
 			.WithBonesCost(1)
 			.WithNames(NameBonepile, "Bone Heap")
 			.WithDescription("An uninspiring pile of bones. You can have it.")
-			.WithPortrait(Resources.BonePile)
 			.Build()
 		);
 	}

@@ -1,6 +1,5 @@
 ﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -17,7 +16,6 @@ public partial class GrimoraPlugin
 			.WithBonesCost(4)
 			.WithNames(NameBoneSerpent, "Bone Serpent")
 			.WithDescription("The poison strike will melt even the most dense bones.")
-			.WithPortrait(Resources.BoneSerpent)
 			.Build()
 		);
 	}

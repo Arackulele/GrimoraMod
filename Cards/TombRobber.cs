@@ -1,6 +1,5 @@
 ﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -16,7 +15,6 @@ public partial class GrimoraPlugin
 			.WithBaseAttackAndHealth(0, 1)
 			.WithDescription("Nothing... Nothing again... No treasure is left anymore.")
 			.WithNames(NameTombRobber, "Tomb Robber")
-			.WithPortrait(Resources.TombRobber)
 			.Build()
 		);
 	}

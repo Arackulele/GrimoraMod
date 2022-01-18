@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using APIPlugin;
+﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -24,7 +22,6 @@ public partial class GrimoraPlugin
 			.WithBonesCost(9)
 			.WithDescription("The apocalypse is soon.")
 			.WithNames(NameHeadlessHorseman, "Headless Horseman")
-			.WithPortrait(Resources.HeadlessHorseman)
 			.Build()
 		);
 	}

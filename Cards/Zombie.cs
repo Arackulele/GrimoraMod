@@ -1,5 +1,4 @@
 ﻿using APIPlugin;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -15,7 +14,6 @@ public partial class GrimoraPlugin
 			.WithBonesCost(2)
 			.WithDescription("The humble zombie, a respected member of the army.")
 			.WithNames(NameZombie, "Zombie")
-			.WithPortrait(Resources.Zombie)
 			.Build()
 		);
 	}

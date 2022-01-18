@@ -1,5 +1,4 @@
 ﻿using APIPlugin;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -16,7 +15,6 @@ public partial class GrimoraPlugin
 			.WithEnergyCost(4)
 			.WithDescription("A diseased wolf. The pack has left him for death.")
 			.WithNames(NameUndeadWolf, "Undead Wolf")
-			.WithPortrait(Resources.UndeadWolf)
 			.Build()
 		);
 	}

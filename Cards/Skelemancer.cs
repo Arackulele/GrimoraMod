@@ -1,5 +1,4 @@
 ﻿using APIPlugin;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -15,7 +14,6 @@ public partial class GrimoraPlugin
 			.WithEnergyCost(2)
 			.WithDescription("Going into that well wasn't the best idea...")
 			.WithNames(NameSkelemancer, "Skelemancer")
-			.WithPortrait(Resources.SkeletonJuniorSage)
 			.Build()
 		);
 	}

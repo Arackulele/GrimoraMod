@@ -1,5 +1,4 @@
 ﻿using APIPlugin;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -17,7 +16,6 @@ public partial class GrimoraPlugin
 			.WithDescription("A trickster spirit fleeing and leaving behind its flames.")
 			.WithEnergyCost(3)
 			.WithNames(NameEmberSpirit, "Spirit of Ember")
-			.WithPortrait(Resources.Ember)
 			.Build()
 		);
 	}

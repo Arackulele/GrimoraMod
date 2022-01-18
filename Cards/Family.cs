@@ -1,6 +1,5 @@
 ﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -17,7 +16,6 @@ public partial class GrimoraPlugin
 			.WithBonesCost(4)
 			.WithDescription("The family wishes to rest in piece.")
 			.WithNames(NameFamily, "The Walkers")
-			.WithPortrait(Resources.Walkers)
 			.Build()
 		);
 	}

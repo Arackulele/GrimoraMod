@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using APIPlugin;
+﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -18,7 +16,7 @@ public partial class GrimoraPlugin
 			displayedName = NameSkeleton,
 			baseAttack = 1,
 			abilities = abilities,
-			tex = ImageUtils.LoadTextureFromResource(Resources.Skeleton)
+			// tex = ImageUtils.LoadTextureFromBytes(Resources.Skeleton)
 		};
 	}
 }

@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using APIPlugin;
+﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -24,7 +22,6 @@ public partial class GrimoraPlugin
 				.WithEnergyCost(4)
 				.WithNames(NameBoneLordsHorn, "Bone Lord's Horn")
 				.WithDescription("The Horn of the Bonelord, you do not want to find out what's inside.")
-				.WithPortrait(Resources.BoneLordsHorn)
 				.Build(),
 			iceCubeId: new IceCubeIdentifier(NameBonePrince)
 		);

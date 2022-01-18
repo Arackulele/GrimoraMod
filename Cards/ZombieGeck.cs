@@ -1,6 +1,5 @@
 ﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -17,7 +16,6 @@ public partial class GrimoraPlugin
 			.WithBonesCost(1)
 			.WithDescription("A bit famished. Could use a bite to eat.")
 			.WithNames(NameZombieGeck, "Zomb-Geck")
-			.WithPortrait(Resources.Geck)
 			.Build()
 		);
 	}

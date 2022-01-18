@@ -1,6 +1,5 @@
 ﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -18,7 +17,6 @@ public partial class GrimoraPlugin
 			.WithEnergyCost(4)
 			.WithDescription("The skeleton army, boons of the Bone Lord")
 			.WithNames(NameSkeletonArmy, "Skeleton Army")
-			.WithPortrait(Resources.SkeletonArmy)
 			.Build()
 		);
 

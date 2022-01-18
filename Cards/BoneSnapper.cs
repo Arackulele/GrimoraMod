@@ -1,5 +1,4 @@
 ﻿using APIPlugin;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -15,7 +14,6 @@ public partial class GrimoraPlugin
 			.WithBonesCost(7)
 			.WithNames(NameBoneSnapper, "Bone Snapper")
 			.WithDescription("One bite of this vile being is strong enough to break it's own shell.")
-			.WithPortrait(Resources.BoneSnapper)
 			.Build()
 		);
 	}

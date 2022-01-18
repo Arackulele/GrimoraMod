@@ -1,6 +1,5 @@
 ﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -17,7 +16,6 @@ public partial class GrimoraPlugin
 				.WithBonesCost(1)
 				.WithDescription("Hiding in a suit of armor, this skeleton won't last forever.")
 				.WithNames(NameDraugr, "Draugr")
-				.WithPortrait(Resources.Draugr)
 				.Build(),
 			iceCubeId: new IceCubeIdentifier("Skeleton")
 		);

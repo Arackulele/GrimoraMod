@@ -1,6 +1,5 @@
 ﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -17,7 +16,6 @@ public partial class GrimoraPlugin
 			.WithEnergyCost(3)
 			.WithDescription("Going into that well wasn't the best idea...")
 			.WithNames(NameObol, "Ancient Obol")
-			.WithPortrait(Resources.Obol)
 			.Build()
 		);
 	}

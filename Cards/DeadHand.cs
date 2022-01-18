@@ -1,6 +1,5 @@
 ﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -17,7 +16,6 @@ public partial class GrimoraPlugin
 			.WithBonesCost(5)
 			.WithDescription("Cut off from an ancient God, the Dead Hand took on its own Life.")
 			.WithNames(NameDeadHand, "Dead Hand")
-			.WithPortrait(Resources.DeadHand)
 			.Build()
 		);
 	}

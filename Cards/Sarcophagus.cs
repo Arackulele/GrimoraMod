@@ -1,6 +1,5 @@
 ﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -17,7 +16,6 @@ public partial class GrimoraPlugin
 				.WithBonesCost(4)
 				.WithDescription("The cycle of the Mummy Lord, never ending.")
 				.WithNames(NameSarcophagus, "Sarcophagus")
-				.WithPortrait(Resources.Sarcophagus)
 				.Build(),
 			evolveId: new EvolveIdentifier(NameMummy, 1)
 		);

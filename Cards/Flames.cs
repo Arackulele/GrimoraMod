@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using APIPlugin;
+﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -22,7 +20,6 @@ public partial class GrimoraPlugin
 			.WithBaseAttackAndHealth(0, 1)
 			.WithBonesCost(2)
 			.WithNames(NameFlames, "Flames")
-			.WithPortrait(Resources.Flames)
 			.Build()
 		);
 	}

@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using APIPlugin;
+﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -20,7 +18,6 @@ public partial class GrimoraPlugin
 			.WithDescription(
 				"He spends his time alone digging for bones in hopes of finding a treasure. Just like his grandpa.")
 			.WithNames(NameGraveDigger, "Gravedigger")
-			.WithPortrait(Resources.GraveDigger)
 			.Build()
 		);
 	}
@@ -38,9 +35,8 @@ public partial class GrimoraPlugin
 			.WithAbilities(abilities)
 			.WithBaseAttackAndHealth(0, 3)
 			.WithBonesCost(1)
-			.WithDescription("The Sporedigger, an excellent digger.")
+			.WithDescription("An excellent digger.")
 			.WithNames(NameSporeDigger, "Sporedigger")
-			.WithPortrait(Resources.SporeDigger)
 			.WithTraits(Trait.Fused)
 			.Build()
 		);

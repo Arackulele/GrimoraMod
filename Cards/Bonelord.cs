@@ -1,6 +1,5 @@
 ﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -18,7 +17,6 @@ public partial class GrimoraPlugin
 			.WithDescription("Lord of Bones, Lord of Bones, answer our call.")
 			.WithEnergyCost(6)
 			.WithNames(NameBonelord, "The Bone Lord")
-			.WithPortrait(Resources.BoneLord)
 			.Build()
 		);
 	}

@@ -1,6 +1,5 @@
 ﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -17,7 +16,6 @@ public partial class GrimoraPlugin
 			.WithBonesCost(5)
 			.WithDescription("Like a true worm, loves to dig in the dirt.")
 			.WithNames(NameMudWorm, "Mud Worm")
-			.WithPortrait(Resources.RingWorm)
 			.Build()
 		);
 	}

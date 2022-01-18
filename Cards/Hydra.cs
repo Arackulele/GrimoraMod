@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using APIPlugin;
+﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
 namespace GrimoraMod;
 
@@ -24,7 +22,6 @@ public partial class GrimoraPlugin
 			.WithBonesCost(4)
 			.WithDescription("Described by some as the truest nightmare.")
 			.WithNames(NameHydra, "Hydra")
-			.WithPortrait(Resources.HeadlessHorseman)
 			.Build()
 		);
 	}

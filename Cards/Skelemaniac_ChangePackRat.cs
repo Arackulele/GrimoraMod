@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using APIPlugin;
+﻿using APIPlugin;
 using DiskCardGame;
-using UnityEngine;
-using Resources = GrimoraMod.Properties.Resources;
 
 namespace GrimoraMod;
 
@@ -20,7 +17,6 @@ public partial class GrimoraPlugin
 			.WithBonesCost(4)
 			.WithDescription("A skeleton gone mad. At least it follows your command.")
 			.WithNames(NameSkelemaniac, DisplayNameSkelemaniac)
-			.WithPortrait(Resources.Skelemaniac)
 			.Build()
 		);
 	}
@@ -28,8 +24,6 @@ public partial class GrimoraPlugin
 	private void ChangePackRat()
 	{
 		List<Ability> abilities = new List<Ability> { Ability.GuardDog };
-
-		Texture2D tex = ImageUtils.LoadTextureFromResource(Resources.Skelemaniac);
 
 		new CustomCard("PackRat")
 		{
@@ -39,7 +33,7 @@ public partial class GrimoraPlugin
 			bonesCost = 4,
 			baseHealth = 3,
 			abilities = abilities,
-			tex = tex,
+			// tex = tex,
 			description = "A skeleton gone mad. At least it follows your command."
 		};
 	}
