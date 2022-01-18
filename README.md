@@ -98,10 +98,6 @@
 
 - This is a temporary problem and will be fixed soon.
 
-### Energy Cards don't work
-
-- Try enabling energy refresh in API config, that option may be unstable with this mod but should fix the issue until we implement a more proper solution.
-
 ### Black Square Sigils
 
 - Install [SigilArtPatch](https://inscryption.thunderstore.io/package/MADH95Mods/SigilArtPatch/)

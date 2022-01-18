@@ -38,8 +38,8 @@
 		<Message Text="Copied build files" Importance="High" />
 	</Target>
 
-	<!--<Target Name="ZipFiles" AfterTargets="Build">
-		<Exec Command="7z a -tzip SigilADay-JulianPerge.zip .\README.md .\manifest.json .\icon.png $(TargetDir)$(ProjectName).dll" />
-	</Target> -->
+	<Target Name="ZipFiles" AfterTargets="Build">
+		<Exec Command="7z a -tzip GrimoraMod.zip .\Artwork .\DataFiles .\README.md .\manifest.json .\icon.png $(TargetDir)$(ProjectName).dll" />
+	</Target>
 
 </Project>
