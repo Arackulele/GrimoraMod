@@ -42,11 +42,13 @@ public class ChessboardMapExt : ChessboardMap
 			{
 				bonesToAdd += 2;
 			}
-			else if (ConfigSawyerSecondBossDead.Value)
+
+			if (ConfigSawyerSecondBossDead.Value)
 			{
 				bonesToAdd += 3;
 			}
-			else if (ConfigRoyalThirdBossDead.Value)
+
+			if (ConfigRoyalThirdBossDead.Value)
 			{
 				bonesToAdd += 5;
 			}
