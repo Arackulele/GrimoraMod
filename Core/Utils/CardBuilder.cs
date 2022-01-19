@@ -1,6 +1,7 @@
 ﻿using APIPlugin;
 using DiskCardGame;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -24,10 +25,26 @@ public class CardBuilder
 	{
 	}
 
-	internal CardBuilder WithPortrait(string imageFileName)
+	private CardBuilder SetPortrait(string cardName, Sprite ogCardArt = null)
 	{
-		_cardInfo.portraitTex = ImageUtils.CreateSpriteFromFile(imageFileName);
+		if (ogCardArt is null)
+		{
+			cardName = cardName.Replace("ara_", "");
+			// Log.LogDebug($"Looking in AllSprites for [{cardName}]");
+			_cardInfo.portraitTex = AllSpriteAssets.Single(spr => spr.name == cardName);
+		}
+		else
+		{
+			Log.LogDebug($"Setting original card art [{ogCardArt.name}]");
+			_cardInfo.portraitTex = ogCardArt;
+		}
+
 		return this;
+	}
+
+	internal CardBuilder SetPortrait(Sprite sprite)
+	{
+		return SetPortrait(null, sprite);
 	}
 
 	internal CardBuilder SetBoneCost(int bonesCost)
@@ -72,12 +89,12 @@ public class CardBuilder
 		return this;
 	}
 
-	internal CardBuilder SetNames(string name, string displayedName)
+	internal CardBuilder SetNames(string name, string displayedName, Sprite ogSprite = null)
 	{
 		_cardInfo.name = name;
 		_cardInfo.displayedName = displayedName;
 
-		return WithPortrait(name);
+		return SetPortrait(name, ogSprite);
 	}
 
 	internal CardBuilder SetAsNormalCard()

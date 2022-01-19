@@ -1,5 +1,6 @@
 ﻿using APIPlugin;
 using DiskCardGame;
+using UnityEngine;
 
 namespace GrimoraMod;
 
@@ -10,6 +11,7 @@ public partial class GrimoraPlugin
 
 	private void AddAra_GraveDigger()
 	{
+		Sprite ogSprite = CardLoader.GetCardByName("Gravedigger").portraitTex;
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()
 			.SetAbilities(Ability.BoneDigger)
@@ -17,7 +19,7 @@ public partial class GrimoraPlugin
 			.SetBoneCost(1)
 			.SetDescription(
 				"He spends his time alone digging for bones in hopes of finding a treasure. Just like his grandpa.")
-			.SetNames(NameGraveDigger, "Gravedigger")
+			.SetNames(NameGraveDigger, "Gravedigger", ogSprite)
 			.Build()
 		);
 	}
