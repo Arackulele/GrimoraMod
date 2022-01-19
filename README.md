@@ -39,6 +39,9 @@
 
 	- Bonelord and Dead Hand still have scaling/portrait overlaps until fixed.
 
+- Removed disabling act 1/2 cards from showing up as now the select card choices events now look for GrimoraMod specific
+	cards.
+
 ### 2.3.3
 
 - Added energy drone! **STILL KEEP ENERGY DRONE DISABLED IN API CONFIG!**
@@ -48,7 +51,7 @@
 - Corrected logic for adding bones to the start of combat once a boss has been defeated.
 
 	- Kaycee defeated = 2 bones
-  - Sawyer defeated = 5 bones
+	- Sawyer defeated = 5 bones
   - Royal defeated = 10 bones
 
 - Updated project to net6.
