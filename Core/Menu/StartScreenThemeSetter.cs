@@ -2,6 +2,7 @@
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 using Object = UnityEngine.Object;
 
 namespace GrimoraMod;
@@ -18,13 +19,7 @@ public class StartScreenThemeSetterPatches
 			grimoraTheme.fillColor = color;
 		}
 
-		Texture2D tex3 = ImageUtils.LoadTextureFromFile("background_grimora");
-
-		grimoraTheme.bgSpriteWide = Sprite.Create(
-			tex3,
-			new Rect(0.0f, 0.0f, tex3.width, tex3.height),
-			new Vector2(0.5f, 0.5f)
-		);
+		grimoraTheme.bgSpriteWide = AllSpriteAssets.Single(spr => spr.name == "Background");
 
 		grimoraTheme.triggeringEvent = StoryEvent.PlayerDeletedArchivistFile;
 		__instance.themes.Add(grimoraTheme);
@@ -50,14 +45,9 @@ public class StartScreenThemeSetterPatches
 			cardRow.transform
 		);
 
-		menuCardGrimora.name = "MenuCard_Grimora";
+		menuCardGrimora.GetComponent<SpriteRenderer>().sprite = AllSpriteAssets.Single(spr => spr.name == "MenuCard");
 
-		Texture2D tex3 = ImageUtils.LoadTextureFromFile("menucard_grimora");
-		menuCardGrimora.GetComponent<SpriteRenderer>().sprite = Sprite.Create(
-			tex3,
-			new Rect(0.0f, 0.0f, tex3.width, tex3.height),
-			new Vector2(0.5f, 0.5f)
-		);
+		menuCardGrimora.name = "MenuCard_Grimora";
 
 		menuCardGrimora.StartPosition = new Vector2(1.378f, 0f);
 		menuCardGrimora.targetPosition = new Vector2(1.378f, 0f);
