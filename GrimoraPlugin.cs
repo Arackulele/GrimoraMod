@@ -262,7 +262,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		List<string> cards = new List<string>
 		{
 			"Adder", "Alpha", "Amalgam", "Amoeba", "Ant", "AntQueen",
-			"Bee", "Beaver", "Beehive", "Bloodhound", "Bullfrog",
+			"Bat", "Bee", "Beaver", "Beehive", "Bloodhound", "Bullfrog",
 			"Cat", "Cockroach", "Coyote",
 			"Daus",
 			"Elk", "ElkCub",
