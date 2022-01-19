@@ -12,23 +12,9 @@ public class RuleBookControllerPatches
 	{
 		if (SaveManager.SaveFile.IsGrimora && __instance.PageData is null)
 		{
-			List<AbilityMetaCategory> pagesToConstruct = new List<AbilityMetaCategory>()
-			{
-				AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part1Rulebook,
-				AbilityMetaCategory.GrimoraRulebook, AbilityMetaCategory.MagnificusRulebook,
-				AbilityMetaCategory.Part3Modular, AbilityMetaCategory.Part3Rulebook
-			};
-
 			List<RuleBookPageInfo> pageInfos = new List<RuleBookPageInfo>();
 			Log.LogDebug($"[RuleBookController.Start] About to start adding all rulebooks");
-			foreach (var category in pagesToConstruct)
-			{
-				pageInfos.AddRange(__instance.bookInfo.ConstructPageData(category));
-			}
-
-			Log.LogDebug($"[RuleBookController.Start] About to start adding the 21 GBC only abilities");
 			List<int> abilitiesNoCategory = AbilitiesUtil.AllData
-				.Where(x => x.metaCategories.Count == 0)
 				.Select(x => (int)x.ability).ToList();
 			int min = abilitiesNoCategory.AsQueryable().Min();
 			int max = abilitiesNoCategory.AsQueryable().Max();
@@ -43,7 +29,7 @@ public class RuleBookControllerPatches
 					min,
 					DoAddPageFunc,
 					__instance.bookInfo.FillAbilityPage,
-					Localization.Translate("APPENDIX XII, SUBSECTION I - GRIMORA ABILITIES {0}")
+					Localization.Translate("APPENDIX XII, SUBSECTION I - ABILITIES {0}")
 				)
 			);
 
