@@ -21,6 +21,9 @@ public class PlaceAllActOneChoicesToGrimora
 			.Randomize()
 			.ToList();
 
+		GrimoraPlugin.Log.LogDebug($"[GenerateChoices] random cards are " +
+		                           $"{string.Join(",", randomizedChoices.Select(cc => cc.info.name))}");
+
 		while (cardsToAdd.Count < 3)
 		{
 			cardsToAdd.Add(

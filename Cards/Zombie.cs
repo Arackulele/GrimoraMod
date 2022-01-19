@@ -9,11 +9,11 @@ public partial class GrimoraPlugin
 	private void AddAra_Zombie()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.AsNormalCard()
-			.WithBaseAttackAndHealth(1, 1)
-			.WithBonesCost(2)
-			.WithDescription("The humble zombie, a respected member of the army.")
-			.WithNames(NameZombie, "Zombie")
+			.SetAsNormalCard()
+			.SetBaseAttackAndHealth(1, 1)
+			.SetBoneCost(2)
+			.SetDescription("The humble zombie, a respected member of the army.")
+			.SetNames(NameZombie, "Zombie")
 			.Build()
 		);
 	}

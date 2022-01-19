@@ -9,13 +9,13 @@ public partial class GrimoraPlugin
 	private void AddAra_Ember_spirit()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.AsRareCard()
-			.WithAbilities(FlameStrafe.ability)
-			.WithBaseAttackAndHealth(1, 3)
-			.WithBonesCost(3)
-			.WithDescription("A trickster spirit fleeing and leaving behind its flames.")
-			.WithEnergyCost(3)
-			.WithNames(NameEmberSpirit, "Spirit of Ember")
+			.SetAsRareCard()
+			.SetAbilities(FlameStrafe.ability)
+			.SetBaseAttackAndHealth(1, 3)
+			.SetBoneCost(3)
+			.SetDescription("A trickster spirit fleeing and leaving behind its flames.")
+			.SetEnergyCost(3)
+			.SetNames(NameEmberSpirit, "Spirit of Ember")
 			.Build()
 		);
 	}

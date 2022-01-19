@@ -10,13 +10,13 @@ public partial class GrimoraPlugin
 	private void AddAra_SkeletonArmy()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.AsNormalCard()
-			.WithAbilities(Ability.SkeletonStrafe)
-			.WithBaseAttackAndHealth(2, 4)
-			.WithBonesCost(2)
-			.WithEnergyCost(4)
-			.WithDescription("The skeleton army, boons of the Bone Lord")
-			.WithNames(NameSkeletonArmy, "Skeleton Army")
+			.SetAsNormalCard()
+			.SetAbilities(Ability.SkeletonStrafe)
+			.SetBaseAttackAndHealth(2, 4)
+			.SetBoneCost(2)
+			.SetEnergyCost(4)
+			.SetDescription("The skeleton army, boons of the Bone Lord")
+			.SetNames(NameSkeletonArmy, "Skeleton Army")
 			.Build()
 		);
 

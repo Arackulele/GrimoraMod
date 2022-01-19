@@ -16,12 +16,12 @@ public partial class GrimoraPlugin
 		};
 
 		NewCard.Add(CardBuilder.Builder
-			.AsNormalCard()
-			.WithAbilities(abilities)
-			.WithBaseAttackAndHealth(1, 1)
-			.WithBonesCost(4)
-			.WithDescription("Going into that well wasn't the best idea...")
-			.WithNames(NameDrownedSoul, "Drowned Soul")
+			.SetAsNormalCard()
+			.SetAbilities(abilities)
+			.SetBaseAttackAndHealth(1, 1)
+			.SetBoneCost(4)
+			.SetDescription("Going into that well wasn't the best idea...")
+			.SetNames(NameDrownedSoul, "Drowned Soul")
 			.Build()
 		);
 	}

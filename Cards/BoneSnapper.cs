@@ -9,11 +9,11 @@ public partial class GrimoraPlugin
 	private void AddAra_BoneSnapper()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.AsNormalCard()
-			.WithBaseAttackAndHealth(1, 6)
-			.WithBonesCost(7)
-			.WithNames(NameBoneSnapper, "Bone Snapper")
-			.WithDescription("One bite of this vile being is strong enough to break it's own shell.")
+			.SetAsNormalCard()
+			.SetBaseAttackAndHealth(1, 6)
+			.SetBoneCost(7)
+			.SetNames(NameBoneSnapper, "Bone Snapper")
+			.SetDescription("One bite of this vile being is strong enough to break it's own shell.")
 			.Build()
 		);
 	}

@@ -10,10 +10,10 @@ public partial class GrimoraPlugin
 	private void AddAra_BonePrince()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.WithBaseAttackAndHealth(2, 1)
-			.WithBonesCost(1)
-			.WithNames(NameBonePrince, "Bone Prince")
-			.WithMetaCategory(CardMetaCategory.GBCPlayable)
+			.SetBaseAttackAndHealth(2, 1)
+			.SetBoneCost(1)
+			.SetNames(NameBonePrince, "Bone Prince")
+			.SetMetaCategories(CardMetaCategory.GBCPlayable)
 			.Build()
 		);
 	}

@@ -10,12 +10,12 @@ public partial class GrimoraPlugin
 	private void AddAra_Family()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.AsNormalCard()
-			.WithAbilities(Ability.QuadrupleBones)
-			.WithBaseAttackAndHealth(1, 2)
-			.WithBonesCost(4)
-			.WithDescription("The family wishes to rest in piece.")
-			.WithNames(NameFamily, "The Walkers")
+			.SetAsNormalCard()
+			.SetAbilities(Ability.QuadrupleBones)
+			.SetBaseAttackAndHealth(1, 2)
+			.SetBoneCost(4)
+			.SetDescription("The family wishes to rest in piece.")
+			.SetNames(NameFamily, "The Walkers")
 			.Build()
 		);
 	}

@@ -10,11 +10,11 @@ public partial class GrimoraPlugin
 	private void AddAra_TombRobber()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.AsNormalCard()
-			.WithAbilities(Ability.ExplodeOnDeath)
-			.WithBaseAttackAndHealth(0, 1)
-			.WithDescription("Nothing... Nothing again... No treasure is left anymore.")
-			.WithNames(NameTombRobber, "Tomb Robber")
+			.SetAsNormalCard()
+			.SetAbilities(Ability.ExplodeOnDeath)
+			.SetBaseAttackAndHealth(0, 1)
+			.SetDescription("Nothing... Nothing again... No treasure is left anymore.")
+			.SetNames(NameTombRobber, "Tomb Robber")
 			.Build()
 		);
 	}

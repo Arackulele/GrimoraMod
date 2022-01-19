@@ -10,12 +10,12 @@ public partial class GrimoraPlugin
 	private void AddAra_Draugr()
 	{
 		NewCard.Add(CardBuilder.Builder
-				.AsNormalCard()
-				.WithAbilities(Ability.IceCube)
-				.WithBaseAttackAndHealth(0, 1)
-				.WithBonesCost(1)
-				.WithDescription("Hiding in a suit of armor, this skeleton won't last forever.")
-				.WithNames(NameDraugr, "Draugr")
+				.SetAsNormalCard()
+				.SetAbilities(Ability.IceCube)
+				.SetBaseAttackAndHealth(0, 1)
+				.SetBoneCost(1)
+				.SetDescription("Hiding in a suit of armor, this skeleton won't last forever.")
+				.SetNames(NameDraugr, "Draugr")
 				.Build(),
 			iceCubeId: new IceCubeIdentifier("Skeleton")
 		);

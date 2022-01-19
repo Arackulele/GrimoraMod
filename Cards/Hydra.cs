@@ -16,12 +16,12 @@ public partial class GrimoraPlugin
 		};
 
 		NewCard.Add(CardBuilder.Builder
-			.AsRareCard()
-			.WithAbilities(abilities)
-			.WithBaseAttackAndHealth(1, 1)
-			.WithBonesCost(4)
-			.WithDescription("Described by some as the truest nightmare.")
-			.WithNames(NameHydra, "Hydra")
+			.SetAsRareCard()
+			.SetAbilities(abilities)
+			.SetBaseAttackAndHealth(1, 1)
+			.SetBoneCost(4)
+			.SetDescription("Described by some as the truest nightmare.")
+			.SetNames(NameHydra, "Hydra")
 			.Build()
 		);
 	}

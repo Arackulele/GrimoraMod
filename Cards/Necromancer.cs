@@ -10,12 +10,12 @@ public partial class GrimoraPlugin
 	private void AddAra_Necromancer()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.AsRareCard()
-			.WithAbilities(Ability.DoubleDeath)
-			.WithBaseAttackAndHealth(1, 2)
-			.WithBonesCost(3)
-			.WithDescription("Nothing dies once.")
-			.WithNames(NameNecromancer, "Necromancer")
+			.SetAsRareCard()
+			.SetAbilities(Ability.DoubleDeath)
+			.SetBaseAttackAndHealth(1, 2)
+			.SetBoneCost(3)
+			.SetDescription("Nothing dies once.")
+			.SetNames(NameNecromancer, "Necromancer")
 			.Build()
 		);
 	}

@@ -9,11 +9,11 @@ public partial class GrimoraPlugin
 	private void AddAra_Franknstein()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.AsNormalCard()
-			.WithBaseAttackAndHealth(2, 2)
-			.WithBonesCost(5)
-			.WithDescription("Best friends, brothers, and fighters.")
-			.WithNames(NameFranknstein, "Frank & Stein")
+			.SetAsNormalCard()
+			.SetBaseAttackAndHealth(2, 2)
+			.SetBoneCost(5)
+			.SetDescription("Best friends, brothers, and fighters.")
+			.SetNames(NameFranknstein, "Frank & Stein")
 			.Build()
 		);
 	}

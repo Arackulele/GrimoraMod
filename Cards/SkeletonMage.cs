@@ -10,12 +10,12 @@ public partial class GrimoraPlugin
 	private void AddAra_SkeletonMage()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.AsNormalCard()
-			.WithAbilities(Ability.Brittle)
-			.WithBaseAttackAndHealth(4, 1)
-			.WithEnergyCost(5)
-			.WithDescription("The Skelemagus, they have learned the ancient spell of Death.")
-			.WithNames(NameSkeletonMage, "Skelemagus")
+			.SetAsNormalCard()
+			.SetAbilities(Ability.Brittle)
+			.SetBaseAttackAndHealth(4, 1)
+			.SetEnergyCost(5)
+			.SetDescription("The Skelemagus, they have learned the ancient spell of Death.")
+			.SetNames(NameSkeletonMage, "Skelemagus")
 			.Build()
 		);
 	}

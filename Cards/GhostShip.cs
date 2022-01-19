@@ -16,12 +16,12 @@ public partial class GrimoraPlugin
 		};
 
 		NewCard.Add(CardBuilder.Builder
-			.AsNormalCard()
-			.WithAbilities(abilities)
-			.WithBaseAttackAndHealth(0, 1)
-			.WithBonesCost(4)
-			.WithDescription("The skeleton army never rests.")
-			.WithNames(NameGhostShip, "Ghost Ship")
+			.SetAsNormalCard()
+			.SetAbilities(abilities)
+			.SetBaseAttackAndHealth(0, 1)
+			.SetBoneCost(4)
+			.SetDescription("The skeleton army never rests.")
+			.SetNames(NameGhostShip, "Ghost Ship")
 			.Build()
 		);
 	}

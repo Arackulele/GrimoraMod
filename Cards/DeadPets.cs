@@ -16,12 +16,12 @@ public partial class GrimoraPlugin
 		};
 
 		NewCard.Add(CardBuilder.Builder
-			.AsRareCard()
-			.WithAbilities(abilities)
-			.WithBaseAttackAndHealth(3, 1)
-			.WithBonesCost(4)
-			.WithDescription("The undying underlings of the Pharaoh.")
-			.WithNames(NameDeadPets, "Pharaoh's Pets")
+			.SetAsRareCard()
+			.SetAbilities(abilities)
+			.SetBaseAttackAndHealth(3, 1)
+			.SetBoneCost(4)
+			.SetDescription("The undying underlings of the Pharaoh.")
+			.SetNames(NameDeadPets, "Pharaoh's Pets")
 			.Build()
 		);
 	}

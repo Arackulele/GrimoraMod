@@ -9,11 +9,11 @@ public partial class GrimoraPlugin
 	private void AddAra_Skelemancer()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.AsNormalCard()
-			.WithBaseAttackAndHealth(1, 1)
-			.WithEnergyCost(2)
-			.WithDescription("Going into that well wasn't the best idea...")
-			.WithNames(NameSkelemancer, "Skelemancer")
+			.SetAsNormalCard()
+			.SetBaseAttackAndHealth(1, 1)
+			.SetEnergyCost(2)
+			.SetDescription("Going into that well wasn't the best idea...")
+			.SetNames(NameSkelemancer, "Skelemancer")
 			.Build()
 		);
 	}

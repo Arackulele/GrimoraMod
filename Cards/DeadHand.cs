@@ -10,12 +10,12 @@ public partial class GrimoraPlugin
 	private void AddAra_DeadHand()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.AsNormalCard()
-			.WithAbilities(Ability.DrawNewHand)
-			.WithBaseAttackAndHealth(1, 1)
-			.WithBonesCost(5)
-			.WithDescription("Cut off from an ancient God, the Dead Hand took on its own Life.")
-			.WithNames(NameDeadHand, "Dead Hand")
+			.SetAsNormalCard()
+			.SetAbilities(Ability.DrawNewHand)
+			.SetBaseAttackAndHealth(1, 1)
+			.SetBoneCost(5)
+			.SetDescription("Cut off from an ancient God, the Dead Hand took on its own Life.")
+			.SetNames(NameDeadHand, "Dead Hand")
 			.Build()
 		);
 	}

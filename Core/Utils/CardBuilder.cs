@@ -30,13 +30,13 @@ public class CardBuilder
 		return this;
 	}
 
-	internal CardBuilder WithBonesCost(int bonesCost)
+	internal CardBuilder SetBoneCost(int bonesCost)
 	{
 		_cardInfo.bonesCost = bonesCost;
 		return this;
 	}
 
-	internal CardBuilder WithEnergyCost(int energyCost)
+	internal CardBuilder SetEnergyCost(int energyCost)
 	{
 		_cardInfo.energyCost = energyCost;
 		List<Texture> energyDecal = new();
@@ -62,17 +62,17 @@ public class CardBuilder
 				break;
 		}
 
-		return WithDecals(energyDecal);
+		return SetDecals(energyDecal);
 	}
 
-	internal CardBuilder WithBaseAttackAndHealth(int baseAttack, int baseHealth)
+	internal CardBuilder SetBaseAttackAndHealth(int baseAttack, int baseHealth)
 	{
 		_cardInfo.baseAttack = baseAttack;
 		_cardInfo.baseHealth = baseHealth;
 		return this;
 	}
 
-	internal CardBuilder WithNames(string name, string displayedName)
+	internal CardBuilder SetNames(string name, string displayedName)
 	{
 		_cardInfo.name = name;
 		_cardInfo.displayedName = displayedName;
@@ -80,61 +80,61 @@ public class CardBuilder
 		return WithPortrait(name);
 	}
 
-	internal CardBuilder AsNormalCard()
+	internal CardBuilder SetAsNormalCard()
 	{
-		return WithMetaCategories(CardUtils.getNormalCardMetadata);
+		return SetMetaCategories(CardUtils.getNormalCardMetadata);
 	}
 
-	internal CardBuilder AsRareCard()
+	internal CardBuilder SetAsRareCard()
 	{
-		return WithMetaCategory(CardMetaCategory.Rare);
+		return SetMetaCategories(CardMetaCategory.Rare);
 	}
 
-	internal CardBuilder WithDescription(string description)
+	internal CardBuilder SetDescription(string description)
 	{
 		_cardInfo.description = description;
 		return this;
 	}
 
-	internal CardBuilder WithMetaCategory(CardMetaCategory category)
+	internal CardBuilder SetMetaCategories(CardMetaCategory category)
 	{
-		return WithMetaCategories(new List<CardMetaCategory>() { category });
+		return SetMetaCategories(new List<CardMetaCategory>() { category });
 	}
 
-	internal CardBuilder WithMetaCategories(List<CardMetaCategory> categories)
+	internal CardBuilder SetMetaCategories(List<CardMetaCategory> categories)
 	{
 		_cardInfo.metaCategories = categories;
 		return this;
 	}
 
-	internal CardBuilder WithAbilities(Ability ability)
+	internal CardBuilder SetAbilities(Ability ability)
 	{
-		return WithAbilities(new List<Ability>() { ability });
+		return SetAbilities(new List<Ability>() { ability });
 	}
 
-	internal CardBuilder WithAbilities(List<Ability> abilities)
+	internal CardBuilder SetAbilities(List<Ability> abilities)
 	{
 		_cardInfo.abilities = abilities;
 		return this;
 	}
 
-	internal CardBuilder WithTraits(Trait trait)
+	internal CardBuilder SetTraits(Trait trait)
 	{
-		return WithTraits(new List<Trait>() { trait });
+		return SetTraits(new List<Trait>() { trait });
 	}
 
-	internal CardBuilder WithTraits(List<Trait> traits)
+	internal CardBuilder SetTraits(List<Trait> traits)
 	{
 		_cardInfo.traits = traits;
 		return this;
 	}
 
-	internal CardBuilder WithDecal(Texture decal)
+	internal CardBuilder SetDecals(Texture decal)
 	{
-		return WithDecals(new List<Texture>() { decal });
+		return SetDecals(new List<Texture>() { decal });
 	}
 
-	internal CardBuilder WithDecals(List<Texture> decals)
+	internal CardBuilder SetDecals(List<Texture> decals)
 	{
 		_cardInfo.decals = decals;
 		return this;

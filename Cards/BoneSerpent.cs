@@ -10,12 +10,12 @@ public partial class GrimoraPlugin
 	private void AddAra_BoneSerpent()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.AsNormalCard()
-			.WithAbilities(Ability.Deathtouch)
-			.WithBaseAttackAndHealth(1, 1)
-			.WithBonesCost(4)
-			.WithNames(NameBoneSerpent, "Bone Serpent")
-			.WithDescription("The poison strike will melt even the most dense bones.")
+			.SetAsNormalCard()
+			.SetAbilities(Ability.Deathtouch)
+			.SetBaseAttackAndHealth(1, 1)
+			.SetBoneCost(4)
+			.SetNames(NameBoneSerpent, "Bone Serpent")
+			.SetDescription("The poison strike will melt even the most dense bones.")
 			.Build()
 		);
 	}

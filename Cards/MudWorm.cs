@@ -10,12 +10,12 @@ public partial class GrimoraPlugin
 	private void AddAra_RingWorm()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.AsNormalCard()
-			.WithAbilities(Ability.BoneDigger)
-			.WithBaseAttackAndHealth(2, 1)
-			.WithBonesCost(5)
-			.WithDescription("Like a true worm, loves to dig in the dirt.")
-			.WithNames(NameMudWorm, "Mud Worm")
+			.SetAsNormalCard()
+			.SetAbilities(Ability.BoneDigger)
+			.SetBaseAttackAndHealth(2, 1)
+			.SetBoneCost(5)
+			.SetDescription("Like a true worm, loves to dig in the dirt.")
+			.SetNames(NameMudWorm, "Mud Worm")
 			.Build()
 		);
 	}

@@ -10,12 +10,12 @@ public partial class GrimoraPlugin
 	private void AddAra_Wyvern()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.AsRareCard()
-			.WithAbilities(Ability.DrawCopy)
-			.WithBaseAttackAndHealth(1, 1)
-			.WithBonesCost(5)
-			.WithDescription("The wyvern army approaches.")
-			.WithNames(NameWyvern, "Wyvern")
+			.SetAsRareCard()
+			.SetAbilities(Ability.DrawCopy)
+			.SetBaseAttackAndHealth(1, 1)
+			.SetBoneCost(5)
+			.SetDescription("The wyvern army approaches.")
+			.SetNames(NameWyvern, "Wyvern")
 			.Build()
 		);
 	}

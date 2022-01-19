@@ -9,12 +9,12 @@ public partial class GrimoraPlugin
 	private void AddAra_UndeadWolf()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.AsNormalCard()
-			.WithBaseAttackAndHealth(3, 2)
-			.WithBonesCost(4)
-			.WithEnergyCost(4)
-			.WithDescription("A diseased wolf. The pack has left him for death.")
-			.WithNames(NameUndeadWolf, "Undead Wolf")
+			.SetAsNormalCard()
+			.SetBaseAttackAndHealth(3, 2)
+			.SetBoneCost(4)
+			.SetEnergyCost(4)
+			.SetDescription("A diseased wolf. The pack has left him for death.")
+			.SetNames(NameUndeadWolf, "Undead Wolf")
 			.Build()
 		);
 	}

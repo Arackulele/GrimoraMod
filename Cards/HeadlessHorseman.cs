@@ -16,12 +16,12 @@ public partial class GrimoraPlugin
 		};
 
 		NewCard.Add(CardBuilder.Builder
-			.AsRareCard()
-			.WithAbilities(abilities)
-			.WithBaseAttackAndHealth(4, 3)
-			.WithBonesCost(9)
-			.WithDescription("The apocalypse is soon.")
-			.WithNames(NameHeadlessHorseman, "Headless Horseman")
+			.SetAsRareCard()
+			.SetAbilities(abilities)
+			.SetBaseAttackAndHealth(4, 3)
+			.SetBoneCost(9)
+			.SetDescription("The apocalypse is soon.")
+			.SetNames(NameHeadlessHorseman, "Headless Horseman")
 			.Build()
 		);
 	}

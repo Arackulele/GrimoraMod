@@ -16,12 +16,12 @@ public partial class GrimoraPlugin
 		};
 
 		NewCard.Add(CardBuilder.Builder
-			.AsRareCard()
-			.WithAbilities(abilities)
-			.WithBaseAttackAndHealth(2, 2)
-			.WithBonesCost(5)
-			.WithDescription("A sense of dread consumes you as you realize you are not alone in these woods.")
-			.WithNames(NameWendigo, "Wendigo")
+			.SetAsRareCard()
+			.SetAbilities(abilities)
+			.SetBaseAttackAndHealth(2, 2)
+			.SetBoneCost(5)
+			.SetDescription("A sense of dread consumes you as you realize you are not alone in these woods.")
+			.SetNames(NameWendigo, "Wendigo")
 			.Build()
 		);
 	}

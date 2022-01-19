@@ -10,12 +10,12 @@ public partial class GrimoraPlugin
 	private void AddAra_ZombieGeck()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.AsRareCard()
-			.WithAbilities(Ability.Brittle)
-			.WithBaseAttackAndHealth(2, 1)
-			.WithBonesCost(1)
-			.WithDescription("A bit famished. Could use a bite to eat.")
-			.WithNames(NameZombieGeck, "Zomb-Geck")
+			.SetAsRareCard()
+			.SetAbilities(Ability.Brittle)
+			.SetBaseAttackAndHealth(2, 1)
+			.SetBoneCost(1)
+			.SetDescription("A bit famished. Could use a bite to eat.")
+			.SetNames(NameZombieGeck, "Zomb-Geck")
 			.Build()
 		);
 	}

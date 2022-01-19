@@ -16,12 +16,12 @@ public partial class GrimoraPlugin
 		};
 
 		NewCard.Add(CardBuilder.Builder
-			.AsNormalCard()
-			.WithAbilities(abilities)
-			.WithBaseAttackAndHealth(1, 1)
-			.WithEnergyCost(2)
-			.WithDescription("A skilled haunting ghost. Handle with caution.")
-			.WithNames(NamePoltergeist, "Poltergeist")
+			.SetAsNormalCard()
+			.SetAbilities(abilities)
+			.SetBaseAttackAndHealth(1, 1)
+			.SetEnergyCost(2)
+			.SetDescription("A skilled haunting ghost. Handle with caution.")
+			.SetNames(NamePoltergeist, "Poltergeist")
 			.Build()
 		);
 	}

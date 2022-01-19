@@ -16,12 +16,12 @@ public partial class GrimoraPlugin
 		};
 
 		NewCard.Add(CardBuilder.Builder
-				.AsRareCard()
-				.WithAbilities(abilities)
-				.WithBaseAttackAndHealth(0, 1)
-				.WithEnergyCost(4)
-				.WithNames(NameBoneLordsHorn, "Bone Lord's Horn")
-				.WithDescription("The Horn of the Bonelord, you do not want to find out what's inside.")
+				.SetAsRareCard()
+				.SetAbilities(abilities)
+				.SetBaseAttackAndHealth(0, 1)
+				.SetEnergyCost(4)
+				.SetNames(NameBoneLordsHorn, "Bone Lord's Horn")
+				.SetDescription("The Horn of the Bonelord, you do not want to find out what's inside.")
 				.Build(),
 			iceCubeId: new IceCubeIdentifier(NameBonePrince)
 		);

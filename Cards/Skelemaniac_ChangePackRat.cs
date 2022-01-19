@@ -11,12 +11,12 @@ public partial class GrimoraPlugin
 	private void AddAra_Skelemaniac()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.AsRareCard()
-			.WithAbilities(Ability.GuardDog)
-			.WithBaseAttackAndHealth(1, 3)
-			.WithBonesCost(4)
-			.WithDescription("A skeleton gone mad. At least it follows your command.")
-			.WithNames(NameSkelemaniac, DisplayNameSkelemaniac)
+			.SetAsRareCard()
+			.SetAbilities(Ability.GuardDog)
+			.SetBaseAttackAndHealth(1, 3)
+			.SetBoneCost(4)
+			.SetDescription("A skeleton gone mad. At least it follows your command.")
+			.SetNames(NameSkelemaniac, DisplayNameSkelemaniac)
 			.Build()
 		);
 	}

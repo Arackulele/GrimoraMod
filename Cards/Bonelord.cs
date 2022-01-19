@@ -10,13 +10,13 @@ public partial class GrimoraPlugin
 	private void AddAra_Bonelord()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.AsRareCard()
-			.WithAbilities(Ability.Deathtouch)
-			.WithBaseAttackAndHealth(5, 10)
-			.WithBonesCost(6)
-			.WithDescription("Lord of Bones, Lord of Bones, answer our call.")
-			.WithEnergyCost(6)
-			.WithNames(NameBonelord, "The Bone Lord")
+			.SetAsRareCard()
+			.SetAbilities(Ability.Deathtouch)
+			.SetBaseAttackAndHealth(5, 10)
+			.SetBoneCost(6)
+			.SetDescription("Lord of Bones, Lord of Bones, answer our call.")
+			.SetEnergyCost(6)
+			.SetNames(NameBonelord, "The Bone Lord")
 			.Build()
 		);
 	}

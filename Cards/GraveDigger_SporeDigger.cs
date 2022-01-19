@@ -11,13 +11,13 @@ public partial class GrimoraPlugin
 	private void AddAra_GraveDigger()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.AsNormalCard()
-			.WithAbilities(Ability.BoneDigger)
-			.WithBaseAttackAndHealth(0, 3)
-			.WithBonesCost(1)
-			.WithDescription(
+			.SetAsNormalCard()
+			.SetAbilities(Ability.BoneDigger)
+			.SetBaseAttackAndHealth(0, 3)
+			.SetBoneCost(1)
+			.SetDescription(
 				"He spends his time alone digging for bones in hopes of finding a treasure. Just like his grandpa.")
-			.WithNames(NameGraveDigger, "Gravedigger")
+			.SetNames(NameGraveDigger, "Gravedigger")
 			.Build()
 		);
 	}
@@ -31,13 +31,13 @@ public partial class GrimoraPlugin
 		};
 
 		NewCard.Add(CardBuilder.Builder
-			.AsRareCard()
-			.WithAbilities(abilities)
-			.WithBaseAttackAndHealth(0, 3)
-			.WithBonesCost(1)
-			.WithDescription("An excellent digger.")
-			.WithNames(NameSporeDigger, "Sporedigger")
-			.WithTraits(Trait.Fused)
+			.SetAsRareCard()
+			.SetAbilities(abilities)
+			.SetBaseAttackAndHealth(0, 3)
+			.SetBoneCost(1)
+			.SetDescription("An excellent digger.")
+			.SetNames(NameSporeDigger, "Sporedigger")
+			.SetTraits(Trait.Fused)
 			.Build()
 		);
 	}

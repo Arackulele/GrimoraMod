@@ -9,11 +9,11 @@ public partial class GrimoraPlugin
 	private void AddAra_Mummy()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.AsNormalCard()
-			.WithBaseAttackAndHealth(3, 3)
-			.WithBonesCost(8)
-			.WithDescription("The cycle of the Mummy Lord is never ending.")
-			.WithNames(NameMummy, "Mummy Lord")
+			.SetAsNormalCard()
+			.SetBaseAttackAndHealth(3, 3)
+			.SetBoneCost(8)
+			.SetDescription("The cycle of the Mummy Lord is never ending.")
+			.SetNames(NameMummy, "Mummy Lord")
 			.Build()
 		);
 	}

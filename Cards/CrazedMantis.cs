@@ -10,12 +10,12 @@ public partial class GrimoraPlugin
 	private void AddAra_CrazedMantis()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.AsNormalCard()
-			.WithAbilities(Ability.SplitStrike)
-			.WithBaseAttackAndHealth(1, 1)
-			.WithBonesCost(4)
-			.WithDescription("The poor mantis has gone insane.")
-			.WithNames(NameCrazedMantis, "Crazed Mantis")
+			.SetAsNormalCard()
+			.SetAbilities(Ability.SplitStrike)
+			.SetBaseAttackAndHealth(1, 1)
+			.SetBoneCost(4)
+			.SetDescription("The poor mantis has gone insane.")
+			.SetNames(NameCrazedMantis, "Crazed Mantis")
 			.Build()
 		);
 	}

@@ -16,10 +16,10 @@ public partial class GrimoraPlugin
 		};
 
 		NewCard.Add(CardBuilder.Builder
-			.WithAbilities(abilities)
-			.WithBaseAttackAndHealth(0, 1)
-			.WithBonesCost(2)
-			.WithNames(NameFlames, "Flames")
+			.SetAbilities(abilities)
+			.SetBaseAttackAndHealth(0, 1)
+			.SetBoneCost(2)
+			.SetNames(NameFlames, "Flames")
 			.Build()
 		);
 	}

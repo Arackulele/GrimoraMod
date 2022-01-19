@@ -10,12 +10,12 @@ public partial class GrimoraPlugin
 	private void AddAra_Bonepile()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.AsNormalCard()
-			.WithAbilities(Ability.QuadrupleBones)
-			.WithBaseAttackAndHealth(0, 1)
-			.WithBonesCost(1)
-			.WithNames(NameBonepile, "Bone Heap")
-			.WithDescription("An uninspiring pile of bones. You can have it.")
+			.SetAsNormalCard()
+			.SetAbilities(Ability.QuadrupleBones)
+			.SetBaseAttackAndHealth(0, 1)
+			.SetBoneCost(1)
+			.SetNames(NameBonepile, "Bone Heap")
+			.SetDescription("An uninspiring pile of bones. You can have it.")
 			.Build()
 		);
 	}
