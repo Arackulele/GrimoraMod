@@ -31,7 +31,7 @@ public class KayceeBossOpponent : BaseBossExt
 
 		yield return base.FaceZoomSequence();
 		yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
-			"Brrrr!Ive been freezing for ages! Lets turn up the Heat in a good fight!", -0.65f, 0.4f, Emotion.Neutral,
+			"Brrrr! I've been freezing for ages! Let's turn up the heat in a good fight!", -0.65f, 0.4f, Emotion.Neutral,
 			TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
 
 		ViewManager.Instance.SwitchToView(View.Default);

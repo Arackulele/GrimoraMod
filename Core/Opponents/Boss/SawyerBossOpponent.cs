@@ -85,7 +85,7 @@ public class SawyerBossOpponent : BaseBossExt
 
 			yield return base.FaceZoomSequence();
 			yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
-				"Please, i dont want to fight more, get it over with.", -0.65f, 0.4f, Emotion.Neutral,
+				"Please, I don't want to fight anymore! Get it over with!", -0.65f, 0.4f, Emotion.Neutral,
 				TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
 
 
@@ -113,7 +113,8 @@ public class SawyerBossOpponent : BaseBossExt
 
 	public override IEnumerator OutroSequence(bool wasDefeated)
 	{
-		yield return Singleton<TextDisplayer>.Instance.ShowUntilInput("Thanks for getting it over with, and dont return!",
+		yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
+			"Thanks for getting it over with, and don't ever return!",
 			-0.65f, 0.4f, Emotion.Neutral, TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
 		TableVisualEffectsManager.Instance.ResetTableColors();
 
@@ -122,7 +123,8 @@ public class SawyerBossOpponent : BaseBossExt
 
 		yield return base.FaceZoomSequence();
 		yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
-			"This area wont be easy, i asked Royal to do his best at making it impossible.", -0.65f, 0.4f, Emotion.Neutral,
+			"The next area won't be so easy. I asked Royal to do his best at making it impossible.", -0.65f, 0.4f,
+			Emotion.Neutral,
 			TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
 
 

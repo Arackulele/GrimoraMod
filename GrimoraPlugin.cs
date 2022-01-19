@@ -131,7 +131,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		List<string> cardsToResizeArtwork = new List<string>
 		{
-			"Amoeba", "Bat", "Maggots", "Rattler", "Vulture",
+			"Amoeba", "Maggots"
 		};
 
 		foreach (var cardName in cardsToResizeArtwork)

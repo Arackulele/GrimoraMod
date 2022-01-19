@@ -48,7 +48,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 		yield return base.FaceZoomSequence();
 		yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
-			"Var, i see you made it to me ship challenger! Ive been waiting for a worthy fight!", -0.65f, 0.4f,
+			"Var, I see you made it to me ship challenger! I've been waiting for a worthy fight!", -0.65f, 0.4f,
 			Emotion.Neutral, TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
 
 
@@ -142,7 +142,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 		yield return base.FaceZoomSequence();
 		yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
-			"Hello again! I am excited for you to see this last one. I put it together.Lets see if you can beat all odds and win.",
+			"Hello again! I am excited for you to see this last one. I put it together myself. Let's see if you can beat all odds and win.",
 			-0.65f, 0.4f, Emotion.Neutral, TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
 
 
