@@ -26,8 +26,6 @@ public class BaseGameFlowManagerPatches
 
 			AddDeckReviewSequencerToScene();
 
-			// ResizeArtworkForVanillaBoneCards();
-
 			ChangeStartDeckIfNotAlreadyChanged();
 
 			AddEnergyDrone();
@@ -44,8 +42,6 @@ public class BaseGameFlowManagerPatches
 			Quaternion.Euler(270f, 0f, -146.804f),
 			boardManager.transform
 		);
-
-		drone.Awake();
 	}
 
 	private static void ChangeStartDeckIfNotAlreadyChanged()
@@ -115,7 +111,7 @@ public class BaseGameFlowManagerPatches
 		RareCardChoicesSequencer sequencer = rareCardChoicesSelector.GetComponent<RareCardChoicesSequencer>();
 
 		// GrimoraPlugin.Log.LogDebug($"-> Setting RareCardChoicesSequencer choice generator to Part1RareChoiceGenerator");
-		sequencer.choiceGenerator = rareCardChoicesSelector.AddComponent<Part1RareChoiceGenerator>();
+		sequencer.choiceGenerator = rareCardChoicesSelector.AddComponent<GrimoraRareChoiceGenerator>();
 
 		// GrimoraPlugin.Log.LogDebug($"-> Setting RareCardChoicesSequencer selectableCardPrefab to SelectableCard_Grimora");
 		sequencer.selectableCardPrefab = PrefabGrimoraSelectableCard;
@@ -124,28 +120,6 @@ public class BaseGameFlowManagerPatches
 		specialNodeHandler.rareCardChoiceSequencer = sequencer;
 	}
 
-	private static void ResizeArtworkForVanillaBoneCards()
-	{
-		List<string> cardsToResizeArtwork = new List<string>
-		{
-			"Amoeba", "Bat", "Maggots", "Rattler", "Vulture",
-		};
-
-		var newPivot = new Vector2(0.5f, 0.65f);
-
-		CardLoader.AllData.ForEach(info =>
-		{
-			if (cardsToResizeArtwork.Contains(info.name))
-			{
-				Sprite spriteCopy = info.portraitTex;
-
-				// Log.LogDebug($"[{info.name}] Rect {spriteCopy.rect} Pivot [{spriteCopy.pivot}] PPU [{spriteCopy.pixelsPerUnit}]");
-				info.portraitTex = Sprite.Create(
-					spriteCopy.texture, spriteCopy.rect, newPivot, 125f
-				);
-			}
-		});
-	}
 
 	[HarmonyPostfix, HarmonyPatch(nameof(GameFlowManager.TransitionTo))]
 	public static IEnumerator PostfixGameLogicPatch(

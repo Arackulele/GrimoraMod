@@ -30,7 +30,7 @@ public class FlameStrafe : Strafe
 			"The warmth of the Embers shall enlighten nearby cards.";
 
 		return ApiUtils.CreateAbility<FlameStrafe>(
-			ImageUtils.LoadTextureFromFile("DropFlames"),
+			GrimoraPlugin.AllSpriteAssets.Single(spr => spr.name == "DropFlames").texture,
 			nameof(FlameStrafe),
 			rulebookDescription,
 			5

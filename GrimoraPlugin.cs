@@ -21,6 +21,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	private static Harmony _harmony;
 
 	public static UnityEngine.Object[] AllAssets;
+	public static UnityEngine.Sprite[] AllSpriteAssets;
 
 	public static readonly ConfigFile GrimoraConfigFile = new(
 		Path.Combine(Paths.ConfigPath, "grimora_mod_config.cfg"),
@@ -120,9 +121,38 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		#endregion
 
-		DisableAllActOneCardsFromAppearing();
+		ResizeArtworkForVanillaBoneCards();
+
 		// ChangePackRat();
 		// ChangeSquirrel();
+	}
+
+	private static void ResizeArtworkForVanillaBoneCards()
+	{
+		List<string> cardsToResizeArtwork = new List<string>
+		{
+			"Amoeba", "Bat", "Maggots", "Rattler", "Vulture",
+		};
+
+		foreach (var cardName in cardsToResizeArtwork)
+		{
+			CardInfo cardInfo = CardLoader.Clone(CardLoader.GetCardByName(cardName));
+			CardBuilder builder = CardBuilder.Builder
+				.SetAsNormalCard()
+				.SetAbilities(cardInfo.abilities)
+				.SetBaseAttackAndHealth(cardInfo.baseAttack, cardInfo.baseHealth)
+				.SetBoneCost(cardInfo.bonesCost)
+				.SetDescription(cardInfo.description)
+				.SetNames("ara_" + cardInfo.name, cardInfo.displayedName)
+				.SetTribes(cardInfo.tribes);
+
+			if (cardName == "Amoeba")
+			{
+				builder.SetAsRareCard();
+			}
+
+			NewCard.Add(builder.Build());
+		}
 	}
 
 	private void OnDestroy()
@@ -175,9 +205,17 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private static void LoadAssets()
 	{
+		Log.LogDebug($"Loading asset bundles");
 		string blockersFile = FileUtils.FindFileInPluginDir("GrimoraMod_Prefabs_Blockers");
-		AssetBundle bundle = AssetBundle.LoadFromFile(blockersFile);
-		AllAssets = bundle.LoadAllAssets();
+		string spritesFile = FileUtils.FindFileInPluginDir("grimoramod_all_assets.sprites");
+
+		AssetBundle blockerBundle = AssetBundle.LoadFromFile(blockersFile);
+		AssetBundle spritesBundle = AssetBundle.LoadFromFile(spritesFile);
+		// Log.LogDebug($"Sprites bundle {string.Join(",", spritesBundle.GetAllAssetNames())}");
+
+		AllAssets = blockerBundle.LoadAllAssets();
+		AllSpriteAssets = spritesBundle.LoadAllAssets<Sprite>();
+		// Log.LogDebug($"Sprites loaded {string.Join(",", AllSpriteAssets.Select(spr => spr.name))}");
 	}
 
 	private static void UnlockAllNecessaryEventsToPlay()
@@ -215,37 +253,5 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		Log.LogWarning($"Resetting Grimora Deck Data");
 		GrimoraSaveData.Data.Initialize();
-	}
-
-	private static void DisableAllActOneCardsFromAppearing()
-	{
-		List<string> cards = new List<string>
-		{
-			"Adder", "Alpha", "Amalgam", "Ant", "AntQueen",
-			"Bee", "Beaver", "Beehive", "Bloodhound", "Bullfrog",
-			"Cat", "Cockroach", "Coyote",
-			"Daus",
-			"Elk", "ElkCub",
-			"FieldMouse",
-			"Geck", "Goat", "Grizzly",
-			"Hrokkall",
-			"JerseyDevil",
-			"Kingfisher", "Kraken",
-			"Magpie", "Mantis", "MantisGod", "Mole", "MoleMan", "Moose", "Mothman_Stage1",
-			"Opossum", "Otter", "Ouroboros",
-			"PackRat", "Porcupine", "Pronghorn",
-			"RatKing", "Raven", "RavenEgg", "RingWorm",
-			"Shark", "Skink", "Skunk", "Snapper", "Snelk", "Sparrow", "SquidBell", "SquidCards", "SquidMirror",
-			"Urayuli", "Warren", "Wolf", "WolfCub",
-			"PeltGolden", "PeltHare", "PeltWolf",
-			"Stinkbug_Talking", "Stoat_Talking", "Wolf_Talking",
-			"!STATIC!GLITCH"
-		};
-
-		foreach (var card in cards)
-		{
-			List<CardMetaCategory> metaCategories = new List<CardMetaCategory>();
-			new CustomCard(card) { metaCategories = metaCategories, temple = CardTemple.NUM_TEMPLES };
-		}
 	}
 }
