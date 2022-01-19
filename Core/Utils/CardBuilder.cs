@@ -25,6 +25,17 @@ public class CardBuilder
 	{
 	}
 
+	internal CardBuilder SetTribes(Tribe tribes)
+	{
+		return SetTribes(new List<Tribe>() { tribes });
+	}
+
+	internal CardBuilder SetTribes(List<Tribe> tribes)
+	{
+		_cardInfo.tribes = tribes;
+		return this;
+	}
+
 	private CardBuilder SetPortrait(string cardName, Sprite ogCardArt = null)
 	{
 		if (ogCardArt is null)

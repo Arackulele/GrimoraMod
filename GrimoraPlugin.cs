@@ -121,9 +121,39 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		#endregion
 
+		ResizeArtworkForVanillaBoneCards();
+
 		DisableAllActOneCardsFromAppearing();
 		// ChangePackRat();
 		// ChangeSquirrel();
+	}
+
+	private static void ResizeArtworkForVanillaBoneCards()
+	{
+		List<string> cardsToResizeArtwork = new List<string>
+		{
+			"Amoeba", "Bat", "Maggots", "Rattler", "Vulture",
+		};
+
+		foreach (var cardName in cardsToResizeArtwork)
+		{
+			CardInfo cardInfo = CardLoader.Clone(CardLoader.GetCardByName(cardName));
+			CardBuilder builder = CardBuilder.Builder
+				.SetAsNormalCard()
+				.SetAbilities(cardInfo.abilities)
+				.SetBaseAttackAndHealth(cardInfo.baseAttack, cardInfo.baseHealth)
+				.SetBoneCost(cardInfo.bonesCost)
+				.SetDescription(cardInfo.description)
+				.SetNames("ara_" + cardInfo.name, cardInfo.displayedName)
+				.SetTribes(cardInfo.tribes);
+
+			if (cardName == "Amoeba")
+			{
+				builder.SetAsRareCard();
+			}
+
+			NewCard.Add(builder.Build());
+		}
 	}
 
 	private void OnDestroy()
@@ -176,8 +206,9 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private static void LoadAssets()
 	{
+		Log.LogDebug($"Loading asset bundles");
 		string blockersFile = FileUtils.FindFileInPluginDir("GrimoraMod_Prefabs_Blockers");
-		string spritesFile = FileUtils.FindFileInPluginDir("GrimoraMod_Sprites.sprites");
+		string spritesFile = FileUtils.FindFileInPluginDir("grimoramod_all_assets.sprites");
 
 		AssetBundle blockerBundle = AssetBundle.LoadFromFile(blockersFile);
 		AssetBundle spritesBundle = AssetBundle.LoadFromFile(spritesFile);
@@ -227,9 +258,10 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private static void DisableAllActOneCardsFromAppearing()
 	{
+		Log.LogDebug($"Disabling all act one cards from appearing");
 		List<string> cards = new List<string>
 		{
-			"Adder", "Alpha", "Amalgam", "Ant", "AntQueen",
+			"Adder", "Alpha", "Amalgam", "Amoeba", "Ant", "AntQueen",
 			"Bee", "Beaver", "Beehive", "Bloodhound", "Bullfrog",
 			"Cat", "Cockroach", "Coyote",
 			"Daus",
@@ -239,11 +271,12 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			"Hrokkall",
 			"JerseyDevil",
 			"Kingfisher", "Kraken",
-			"Magpie", "Mantis", "MantisGod", "Mole", "MoleMan", "Moose", "Mothman_Stage1",
+			"Maggots", "Magpie", "Mantis", "MantisGod", "Mole", "MoleMan", "Moose", "Mothman_Stage1",
 			"Opossum", "Otter", "Ouroboros",
 			"PackRat", "Porcupine", "Pronghorn",
-			"RatKing", "Raven", "RavenEgg", "RingWorm",
+			"RatKing", "Rattler", "Raven", "RavenEgg", "RingWorm",
 			"Shark", "Skink", "Skunk", "Snapper", "Snelk", "Sparrow", "SquidBell", "SquidCards", "SquidMirror",
+			"Vulture",
 			"Urayuli", "Warren", "Wolf", "WolfCub",
 			"PeltGolden", "PeltHare", "PeltWolf",
 			"Stinkbug_Talking", "Stoat_Talking", "Wolf_Talking",
