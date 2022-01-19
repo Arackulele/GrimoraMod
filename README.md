@@ -1,9 +1,11 @@
 # Grimora Mod
 
-- A giant Mod made by Kopie, Arackulele, xXxStoner420BongMasterxXx that builds upon the finale with Grimora's chessboard.
+- A giant Mod made by Kopie, Arackulele, xXxStoner420BongMasterxXx that builds upon the finale with Grimora's
+	chessboard.
 
-- **IMPORTANT**: Disable energy drone (but not energy refresh) in the API config!!!
-- **BEWARE**: THIS WILL UNLOCK CERTAIN STORY EVENTS IN ORDER FOR THE MOD TO WORK, WHICH ALSO MEANS UNLOCKING CERTAIN ACHIEVEMENTS!
+- **IMPORTANT**: **ENABLE ENERGY DRONE IN API CONFIG IN ORDER FOR IT TO SHOW UP**
+- **BEWARE**: THIS WILL UNLOCK CERTAIN STORY EVENTS IN ORDER FOR THE MOD TO WORK, WHICH ALSO MEANS UNLOCKING CERTAIN
+	ACHIEVEMENTS!
 - In the event you are starting from a brand new save, this mod will unlock all learned abilities, mechanics, and cards and some Story Events like the first tutorial battle, Bones, and a few others in order for this mod to work.
 - If you are not starting from a new save, this mod will check for certain story events and determine if it needs to unlock those.
 - I suggest restarting your game at least once if you haven't actually gotten to the finale.
@@ -44,7 +46,7 @@
 
 ### 2.3.3
 
-- Added energy drone! **ENABLE ENERGY DRONE IN API CONFIG IN ORDER FOR IT TO SHOW UP**
+- Added energy drone!
 
 - Added **Reset Deck** button to now reset your deck back to the starter deck in case deck viewing throws errors.
 
