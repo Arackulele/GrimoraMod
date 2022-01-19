@@ -123,7 +123,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		ResizeArtworkForVanillaBoneCards();
 
-		DisableAllActOneCardsFromAppearing();
 		// ChangePackRat();
 		// ChangeSquirrel();
 	}
@@ -254,39 +253,5 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		Log.LogWarning($"Resetting Grimora Deck Data");
 		GrimoraSaveData.Data.Initialize();
-	}
-
-	private static void DisableAllActOneCardsFromAppearing()
-	{
-		Log.LogDebug($"Disabling all act one cards from appearing");
-		List<string> cards = new List<string>
-		{
-			"Adder", "Alpha", "Amalgam", "Amoeba", "Ant", "AntQueen",
-			"Bat", "Bee", "Beaver", "Beehive", "Bloodhound", "Bullfrog",
-			"Cat", "Cockroach", "Coyote",
-			"Daus",
-			"Elk", "ElkCub",
-			"FieldMouse",
-			"Geck", "Goat", "Grizzly",
-			"Hrokkall",
-			"JerseyDevil",
-			"Kingfisher", "Kraken",
-			"Maggots", "Magpie", "Mantis", "MantisGod", "Mole", "MoleMan", "Moose", "Mothman_Stage1",
-			"Opossum", "Otter", "Ouroboros",
-			"PackRat", "Porcupine", "Pronghorn",
-			"RatKing", "Rattler", "Raven", "RavenEgg", "RingWorm",
-			"Shark", "Skink", "Skunk", "Snapper", "Snelk", "Sparrow", "SquidBell", "SquidCards", "SquidMirror",
-			"Vulture",
-			"Urayuli", "Warren", "Wolf", "WolfCub",
-			"PeltGolden", "PeltHare", "PeltWolf",
-			"Stinkbug_Talking", "Stoat_Talking", "Wolf_Talking",
-			"!STATIC!GLITCH"
-		};
-
-		foreach (var card in cards)
-		{
-			List<CardMetaCategory> metaCategories = new List<CardMetaCategory>();
-			new CustomCard(card) { metaCategories = metaCategories, temple = CardTemple.NUM_TEMPLES };
-		}
 	}
 }
