@@ -42,8 +42,6 @@ public class BaseGameFlowManagerPatches
 			Quaternion.Euler(270f, 0f, -146.804f),
 			boardManager.transform
 		);
-
-		drone.Awake();
 	}
 
 	private static void ChangeStartDeckIfNotAlreadyChanged()

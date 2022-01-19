@@ -33,7 +33,7 @@
 
 - Fixed GBC abilities like SkeletonStrafe (Skeleton Crew rulebook name) not appearing correctly.
 
-	- All abilities should now show up correctly, which includes the GBC abilities.
+  - All abilities should now show up correctly, which includes the GBC abilities.
 
 - Fixed sizing and scaling of card art to better fit inside gravestones.
 
@@ -44,7 +44,7 @@
 
 ### 2.3.3
 
-- Added energy drone! **STILL KEEP ENERGY DRONE DISABLED IN API CONFIG!**
+- Added energy drone! **ENABLE ENERGY DRONE IN API CONFIG IN ORDER FOR IT TO SHOW UP**
 
 - Added **Reset Deck** button to now reset your deck back to the starter deck in case deck viewing throws errors.
 
@@ -52,7 +52,7 @@
 
 	- Kaycee defeated = 2 bones
 	- Sawyer defeated = 5 bones
-  - Royal defeated = 10 bones
+	- Royal defeated = 10 bones
 
 - Updated project to net6.
 
