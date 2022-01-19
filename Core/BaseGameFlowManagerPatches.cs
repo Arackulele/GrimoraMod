@@ -26,8 +26,6 @@ public class BaseGameFlowManagerPatches
 
 			AddDeckReviewSequencerToScene();
 
-			// ResizeArtworkForVanillaBoneCards();
-
 			ChangeStartDeckIfNotAlreadyChanged();
 
 			AddEnergyDrone();
@@ -124,28 +122,6 @@ public class BaseGameFlowManagerPatches
 		specialNodeHandler.rareCardChoiceSequencer = sequencer;
 	}
 
-	private static void ResizeArtworkForVanillaBoneCards()
-	{
-		List<string> cardsToResizeArtwork = new List<string>
-		{
-			"Amoeba", "Bat", "Maggots", "Rattler", "Vulture",
-		};
-
-		var newPivot = new Vector2(0.5f, 0.65f);
-
-		CardLoader.AllData.ForEach(info =>
-		{
-			if (cardsToResizeArtwork.Contains(info.name))
-			{
-				Sprite spriteCopy = info.portraitTex;
-
-				// Log.LogDebug($"[{info.name}] Rect {spriteCopy.rect} Pivot [{spriteCopy.pivot}] PPU [{spriteCopy.pixelsPerUnit}]");
-				info.portraitTex = Sprite.Create(
-					spriteCopy.texture, spriteCopy.rect, newPivot, 125f
-				);
-			}
-		});
-	}
 
 	[HarmonyPostfix, HarmonyPatch(nameof(GameFlowManager.TransitionTo))]
 	public static IEnumerator PostfixGameLogicPatch(
