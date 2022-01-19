@@ -26,11 +26,32 @@ public class RuleBookControllerPatches
 				pageInfos.AddRange(__instance.bookInfo.ConstructPageData(category));
 			}
 
+			Log.LogDebug($"[RuleBookController.Start] About to start adding the 21 GBC only abilities");
+			List<int> abilitiesNoCategory = AbilitiesUtil.AllData
+				.Where(x => x.metaCategories.Count == 0)
+				.Select(x => (int)x.ability).ToList();
+			int min = abilitiesNoCategory.AsQueryable().Min();
+			int max = abilitiesNoCategory.AsQueryable().Max();
+			PageRangeInfo pageRange = __instance.bookInfo.pageRanges.Find(i => i.type == PageRangeType.Abilities);
+
+			bool DoAddPageFunc(int index) => abilitiesNoCategory.Contains(index);
+
+			pageInfos.AddRange(
+				__instance.bookInfo.ConstructPages(
+					pageRange,
+					max + 1,
+					min,
+					DoAddPageFunc,
+					__instance.bookInfo.FillAbilityPage,
+					Localization.Translate("APPENDIX XII, SUBSECTION I - GRIMORA ABILITIES {0}")
+				)
+			);
+
 			pageInfos = pageInfos
 				.GroupBy(i => i.ability)
 				.Select(i => i.First()).ToList();
 
-			Log.LogDebug($"[RuleBookController.Start] Setting pages of rulebook infos");
+			Log.LogDebug($"[RuleBookController.Start] Setting pages of rulebook infos. Total [{pageInfos.Count}]");
 			__instance.PageData = pageInfos;
 
 			// RuleBookController.Instance.PageData.ForEach(info => UnityExplorer.ExplorerCore.Log(info.ability));
