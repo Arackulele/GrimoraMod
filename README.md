@@ -23,6 +23,22 @@
 
 ## Update Notes
 
+### 2.4.0
+
+- Fixed camera view when third candle is being added in Grimora boss fight.
+
+- Fixed softlock during Grimora's final phase.
+
+- Changed CardBuilder methods to now be prefixed with `Set` instead of `With`.
+
+- Fixed GBC abilities like SkeletonStrafe (Skeleton Crew rulebook name) not appearing correctly.
+
+	- All abilities should now show up correctly, which includes the GBC abilities.
+
+- Fixed sizing and scaling of card art to better fit inside gravestones.
+
+	- Bonelord and Dead Hand still have scaling/portrait overlaps until fixed.
+
 ### 2.3.3
 
 - Added energy drone! **STILL KEEP ENERGY DRONE DISABLED IN API CONFIG!**
@@ -31,7 +47,7 @@
 
 - Corrected logic for adding bones to the start of combat once a boss has been defeated.
 
-  - Kaycee defeated = 2 bones
+	- Kaycee defeated = 2 bones
   - Sawyer defeated = 5 bones
   - Royal defeated = 10 bones
 
@@ -64,7 +80,7 @@
 
 - Added Deck Review board view!
 
-  - Still doesn't quite work right, expect bugs.
+	- If you are unable to click on a chess node after viewing your deck, try viewing your deck again.
 
 - Encounter blueprints reworked into own class.
 

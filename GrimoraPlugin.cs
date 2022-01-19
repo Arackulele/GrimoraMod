@@ -21,6 +21,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	private static Harmony _harmony;
 
 	public static UnityEngine.Object[] AllAssets;
+	public static UnityEngine.Sprite[] AllSpriteAssets;
 
 	public static readonly ConfigFile GrimoraConfigFile = new(
 		Path.Combine(Paths.ConfigPath, "grimora_mod_config.cfg"),
@@ -176,8 +177,15 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	private static void LoadAssets()
 	{
 		string blockersFile = FileUtils.FindFileInPluginDir("GrimoraMod_Prefabs_Blockers");
-		AssetBundle bundle = AssetBundle.LoadFromFile(blockersFile);
-		AllAssets = bundle.LoadAllAssets();
+		string spritesFile = FileUtils.FindFileInPluginDir("GrimoraMod_Sprites.sprites");
+
+		AssetBundle blockerBundle = AssetBundle.LoadFromFile(blockersFile);
+		AssetBundle spritesBundle = AssetBundle.LoadFromFile(spritesFile);
+		// Log.LogDebug($"Sprites bundle {string.Join(",", spritesBundle.GetAllAssetNames())}");
+
+		AllAssets = blockerBundle.LoadAllAssets();
+		AllSpriteAssets = spritesBundle.LoadAllAssets<Sprite>();
+		// Log.LogDebug($"Sprites loaded {string.Join(",", AllSpriteAssets.Select(spr => spr.name))}");
 	}
 
 	private static void UnlockAllNecessaryEventsToPlay()
