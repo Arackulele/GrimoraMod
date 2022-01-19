@@ -1,17 +1,22 @@
-﻿using DiskCardGame;
-using GrimoraMod.Properties;
+﻿using APIPlugin;
+using DiskCardGame;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
+	public const string NameCrazedMantis = "ara_CrazedMantis";
+
+	private void AddAra_CrazedMantis()
 	{
-		public const string NameCrazedMantis = "ara_CrazedMantis";
-		private void AddAra_CrazedMantis()
-		{
-			ApiUtils.Add(
-				NameCrazedMantis, "Crazed Mantis",
-				"The poor mantis has gone insane.", 0, 1,
-				1, 4, Resources.Mantis, Ability.SplitStrike, CardMetaCategory.ChoiceNode);
-		}
+		NewCard.Add(CardBuilder.Builder
+			.SetAsNormalCard()
+			.SetAbilities(Ability.SplitStrike)
+			.SetBaseAttackAndHealth(1, 1)
+			.SetBoneCost(4)
+			.SetDescription("The poor mantis has gone insane.")
+			.SetNames(NameCrazedMantis, "Crazed Mantis")
+			.Build()
+		);
 	}
 }

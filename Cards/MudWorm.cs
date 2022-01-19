@@ -1,18 +1,22 @@
-﻿using DiskCardGame;
-using GrimoraMod.Properties;
+﻿using APIPlugin;
+using DiskCardGame;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
-	{
+	public const string NameMudWorm = "ara_MudWorm";
 
-		public const string NameMudWorm = "ara_MudWorm";
-		
-		private void AddAra_RingWorm()
-		{
-			ApiUtils.Add(NameMudWorm, "Mud Worm",
-				"Like a true worm, loves to dig in the dirt.", 0, 2,
-				1, 5, Resources.RingWorm, Ability.BoneDigger, CardMetaCategory.ChoiceNode);
-		}
+	private void AddAra_RingWorm()
+	{
+		NewCard.Add(CardBuilder.Builder
+			.SetAsNormalCard()
+			.SetAbilities(Ability.BoneDigger)
+			.SetBaseAttackAndHealth(2, 1)
+			.SetBoneCost(5)
+			.SetDescription("Like a true worm, loves to dig in the dirt.")
+			.SetNames(NameMudWorm, "Mud Worm")
+			.Build()
+		);
 	}
 }

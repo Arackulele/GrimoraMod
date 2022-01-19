@@ -1,28 +1,28 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using APIPlugin;
 using DiskCardGame;
-using UnityEngine;
-using Resources = GrimoraMod.Properties.Resources;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
+	public const string NamePoltergeist = "ara_Poltergeist";
+
+	private void AddAra_Poltergeist()
 	{
-		public const string NamePoltergeist = "ara_Poltergeist";
-
-		private void AddAra_Poltergeist()
+		List<Ability> abilities = new List<Ability>
 		{
-			List<Ability> abilities = new List<Ability>
-			{
-				Ability.Submerge,
-				Ability.Flying
-			};
+			Ability.Flying,
+			Ability.Submerge
+		};
 
-			ApiUtils.Add(NamePoltergeist, "Poltergeist", 
-				"A skilled haunting ghost. Handle with caution.", 2,
-				1, 1, 0, 
-				Resources.Poltergeist, abilities, CardMetaCategory.ChoiceNode
-			);
-		}
+		NewCard.Add(CardBuilder.Builder
+			.SetAsNormalCard()
+			.SetAbilities(abilities)
+			.SetBaseAttackAndHealth(1, 1)
+			.SetEnergyCost(2)
+			.SetDescription("A skilled haunting ghost. Handle with caution.")
+			.SetNames(NamePoltergeist, "Poltergeist")
+			.Build()
+		);
 	}
 }

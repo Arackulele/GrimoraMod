@@ -1,14 +1,22 @@
-﻿using DiskCardGame;
-using GrimoraMod.Properties;
+﻿using APIPlugin;
+using DiskCardGame;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
+	public const string NameWyvern = "ara_Wyvern";
+
+	private void AddAra_Wyvern()
 	{
-		private void AddAra_Wyvern()
-		{
-			ApiUtils.Add("ara_Wyvern", "Wyvern",
-				"The Wyvern army approaches.", 0, 1, 1, 5, Resources.Wyvern, Ability.DrawCopy, CardMetaCategory.Rare);
-		}
+		NewCard.Add(CardBuilder.Builder
+			.SetAsRareCard()
+			.SetAbilities(Ability.DrawCopy)
+			.SetBaseAttackAndHealth(1, 1)
+			.SetBoneCost(5)
+			.SetDescription("The wyvern army approaches.")
+			.SetNames(NameWyvern, "Wyvern")
+			.Build()
+		);
 	}
 }

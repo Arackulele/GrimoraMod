@@ -1,18 +1,22 @@
-﻿using DiskCardGame;
-using GrimoraMod.Properties;
+﻿using APIPlugin;
+using DiskCardGame;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
-	{
-		public const string NameDeadHand = "ara_DeadHand";
+	public const string NameDeadHand = "ara_DeadHand";
 
-		private void AddAra_DeadHand()
-		{
-			ApiUtils.Add(
-				NameDeadHand, "Dead Hand",
-				"Cut off from an ancient God, the Dead Hand took on its own Life.", 0,
-				1, 1, 5, Resources.DeadHand, Ability.DrawNewHand, CardMetaCategory.ChoiceNode);
-		}
+	private void AddAra_DeadHand()
+	{
+		NewCard.Add(CardBuilder.Builder
+			.SetAsNormalCard()
+			.SetAbilities(Ability.DrawNewHand)
+			.SetBaseAttackAndHealth(1, 1)
+			.SetBoneCost(5)
+			.SetDescription("Cut off from an ancient God, the Dead Hand took on its own Life.")
+			.SetNames(NameDeadHand, "Dead Hand")
+			.Build()
+		);
 	}
 }

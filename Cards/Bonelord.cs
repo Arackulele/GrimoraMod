@@ -1,28 +1,23 @@
-﻿using System.Collections.Generic;
-using APIPlugin;
+﻿using APIPlugin;
 using DiskCardGame;
-using UnityEngine;
-using Resources = GrimoraMod.Properties.Resources;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
+	public const string NameBonelord = "ara_Bonelord";
+
+	private void AddAra_Bonelord()
 	{
-		public const string NameBonelord = "ara_Bonelord";
-
-		private void AddAra_Bonelord()
-		{
-			Texture2D decalTex = ImageUtils.LoadTextureFromResource(Resources.Energy6);
-
-			List<Texture> decals = new() { decalTex };
-
-			ApiUtils.Add(NameBonelord, "The Bone Lord", "Lord of Bones, Lord of Bones, answer our call.", 6,
-				5, 10, 6, Resources.BoneLord,
-				appearanceBehaviour: CardUtils.getRareAppearance,
-				ability: Ability.Deathtouch,
-				metaCategory: CardMetaCategory.Rare,
-				decals: decals
-			);
-		}
+		NewCard.Add(CardBuilder.Builder
+			.SetAsRareCard()
+			.SetAbilities(Ability.Deathtouch)
+			.SetBaseAttackAndHealth(5, 10)
+			.SetBoneCost(6)
+			.SetDescription("Lord of Bones, Lord of Bones, answer our call.")
+			.SetEnergyCost(6)
+			.SetNames(NameBonelord, "The Bone Lord")
+			.Build()
+		);
 	}
 }

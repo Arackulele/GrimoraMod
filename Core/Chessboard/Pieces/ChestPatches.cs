@@ -3,48 +3,47 @@ using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+[HarmonyPatch(typeof(ChessboardChestPiece))]
+public class ChestPatches
 {
-	[HarmonyPatch(typeof(ChessboardChestPiece))]
-	public class ChestPatches
+	[HarmonyPrefix, HarmonyPatch(nameof(ChessboardChestPiece.Start))]
+	public static void StartPrefix(ref ChessboardChestPiece __instance)
 	{
-		[HarmonyPrefix, HarmonyPatch(nameof(ChessboardChestPiece.Start))]
-		public static void StartPrefix(ref ChessboardChestPiece __instance)
+		// this position code exists only in ChessboardEnemyPiece, which is why we need a patch for it
+		__instance.gameObject.transform.position
+			= ChessboardNavGrid
+				.instance
+				.zones[__instance.gridXPos, __instance.gridYPos]
+				.transform
+				.position;
+	}
+
+	[HarmonyPostfix, HarmonyPatch(nameof(ChessboardChestPiece.OpenSequence))]
+	public static IEnumerator OpenSequencePostfix(IEnumerator enumerator, ChessboardChestPiece __instance)
+	{
+		if (!SaveManager.SaveFile.IsGrimora)
 		{
-			// this position code exists only in ChessboardEnemyPiece, which is why we need a patch for it
-			__instance.gameObject.transform.position
-				= ChessboardNavGrid
-					.instance
-					.zones[__instance.gridXPos, __instance.gridYPos]
-					.transform
-					.position;
+			yield return enumerator;
+			yield break;
 		}
 
-		[HarmonyPostfix, HarmonyPatch(nameof(ChessboardChestPiece.OpenSequence))]
-		public static IEnumerator OpenSequencePostfix(IEnumerator enumerator, ChessboardChestPiece __instance)
-		{
-			if (!SaveManager.SaveFile.IsGrimora)
-			{
-				yield return enumerator;
-				yield break;
-			}
+		GrimoraPlugin.Log.LogDebug($"[ChessboardChestPiece.OpenSequence] Piece [{__instance.name}]");
+		ChessboardMapExt.Instance.AddPieceToRemovedPiecesConfig(__instance.name);
 
-			GrimoraPlugin.Log.LogDebug($"[ChessboardChestPiece.OpenSequence] Piece [{__instance.name}]");
-			ChessboardMapExt.Instance.AddPieceToRemovedPiecesConfig(__instance.name);
+		MapNodeManager.Instance.SetAllNodesInteractable(false);
 
-			MapNodeManager.Instance.SetAllNodesInteractable(false);
+		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
 
-			ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+		PlayerMarker.Instance.Anim.Play("knock against", 0, 0f);
+		yield return new WaitForSeconds(0.05f);
 
-			PlayerMarker.Instance.Anim.Play("knock against", 0, 0f);
-			yield return new WaitForSeconds(0.05f);
+		__instance.anim.Play("open", 0, 0f);
+		yield return new WaitForSeconds(0.25f);
 
-			__instance.anim.Play("open", 0, 0f);
-			yield return new WaitForSeconds(0.25f);
+		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 
-			ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
-
-			GameFlowManager.Instance.TransitionToGameState(GameState.SpecialCardSequence, __instance.NodeData);
-		}
+		GameFlowManager.Instance.TransitionToGameState(GameState.SpecialCardSequence, __instance.NodeData);
 	}
 }

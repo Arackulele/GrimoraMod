@@ -1,21 +1,23 @@
 ﻿using APIPlugin;
 using DiskCardGame;
-using UnityEngine;
-using Resources = GrimoraMod.Properties.Resources;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
-	{
-		public const string NameDraugr = "ara_Draugr";
+	public const string NameDraugr = "ara_Draugr";
 
-		private void AddAra_Draugr()
-		{
-			ApiUtils.Add(NameDraugr, "Draugr",
-				"Hiding in a suit of armor, this skeleton won't last forever.", 0, 0,
-				1, 1,
-				Resources.Draugr,
-				Ability.IceCube, CardMetaCategory.ChoiceNode, iceCubeId: new IceCubeIdentifier("Skeleton"));
-		}
+	private void AddAra_Draugr()
+	{
+		NewCard.Add(CardBuilder.Builder
+				.SetAsNormalCard()
+				.SetAbilities(Ability.IceCube)
+				.SetBaseAttackAndHealth(0, 1)
+				.SetBoneCost(1)
+				.SetDescription("Hiding in a suit of armor, this skeleton won't last forever.")
+				.SetNames(NameDraugr, "Draugr")
+				.Build(),
+			iceCubeId: new IceCubeIdentifier("Skeleton")
+		);
 	}
 }

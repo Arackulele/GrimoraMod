@@ -1,25 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
+	public const string NameDrownedSoul = "ara_DrownedSoul";
+
+	private void AddAra_DrownedSoul()
 	{
-
-		public const string NameDrownedSoul = "ara_DrownedSoul";
-		
-		private void AddAra_DrownedSoul()
+		List<Ability> abilities = new List<Ability>
 		{
-			List<Ability> abilities = new List<Ability>
-			{
-				Ability.Deathtouch,
-				Ability.Submerge
-			};
+			Ability.Deathtouch,
+			Ability.Submerge
+		};
 
-			ApiUtils.Add(NameDrownedSoul, "Drowned Soul",
-				"Going into that well wasn't the best idea...", 0, 1,
-				1, 4, Resources.DrownedSoul, abilities, CardMetaCategory.ChoiceNode);
-		}
+		NewCard.Add(CardBuilder.Builder
+			.SetAsNormalCard()
+			.SetAbilities(abilities)
+			.SetBaseAttackAndHealth(1, 1)
+			.SetBoneCost(4)
+			.SetDescription("Going into that well wasn't the best idea...")
+			.SetNames(NameDrownedSoul, "Drowned Soul")
+			.Build()
+		);
 	}
 }

@@ -1,20 +1,22 @@
-﻿using DiskCardGame;
-using GrimoraMod.Properties;
+﻿using APIPlugin;
+using DiskCardGame;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
+	public const string NameBonepile = "ara_Bonepile";
+
+	private void AddAra_Bonepile()
 	{
-		
-		public const string NameBonepile = "ara_Bonepile";
-		
-		private void AddAra_Bonepile()
-		{
-
-
-			ApiUtils.Add(NameBonepile, "Bone Heap",
-				"An uninspiring pile of bones. You can have it.",
-				0, 0, 1, 1, Resources.BonePile, Ability.QuadrupleBones, metaCategory: CardMetaCategory.ChoiceNode);
-		}
+		NewCard.Add(CardBuilder.Builder
+			.SetAsNormalCard()
+			.SetAbilities(Ability.QuadrupleBones)
+			.SetBaseAttackAndHealth(0, 1)
+			.SetBoneCost(1)
+			.SetNames(NameBonepile, "Bone Heap")
+			.SetDescription("An uninspiring pile of bones. You can have it.")
+			.Build()
+		);
 	}
 }

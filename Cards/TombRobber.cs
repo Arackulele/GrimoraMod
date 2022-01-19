@@ -1,19 +1,21 @@
-﻿using DiskCardGame;
-using GrimoraMod.Properties;
+﻿using APIPlugin;
+using DiskCardGame;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
-	{
+	public const string NameTombRobber = "ara_TombRobber";
 
-		public const string NameTombRobber = "ara_TombRobber";
-		
-		private void AddAra_TombRobber()
-		{
-			ApiUtils.Add(
-				NameTombRobber, "Tomb Robber",
-				"Nothing... Nothing again... No treasure is left anymore.", 0, 0,
-				1, 0,  Resources.TombRobber, Ability.ExplodeOnDeath, CardMetaCategory.ChoiceNode);
-		}
+	private void AddAra_TombRobber()
+	{
+		NewCard.Add(CardBuilder.Builder
+			.SetAsNormalCard()
+			.SetAbilities(Ability.ExplodeOnDeath)
+			.SetBaseAttackAndHealth(0, 1)
+			.SetDescription("Nothing... Nothing again... No treasure is left anymore.")
+			.SetNames(NameTombRobber, "Tomb Robber")
+			.Build()
+		);
 	}
 }

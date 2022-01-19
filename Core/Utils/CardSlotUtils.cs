@@ -1,18 +1,16 @@
-﻿using System.Collections.Generic;
-using DiskCardGame;
+﻿using DiskCardGame;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public class CardSlotUtils
 {
-	public class CardSlotUtils
+	public static List<CardSlot> GetPlayerSlotsWithCards()
 	{
-		public static List<CardSlot> GetPlayerSlotsWithCards()
-		{
-			return BoardManager.Instance.PlayerSlotsCopy.FindAll(slot => slot.Card != null);
-		}
+		return BoardManager.Instance.PlayerSlotsCopy.FindAll(slot => slot.Card != null);
+	}
 
-		public static List<CardSlot> GetOpponentSlotsWithCards()
-		{
-			return BoardManager.Instance.OpponentSlotsCopy.FindAll(slot => slot.Card != null);
-		}
+	public static List<CardSlot> GetOpponentSlotsWithCards()
+	{
+		return BoardManager.Instance.OpponentSlotsCopy.FindAll(slot => slot.Card != null);
 	}
 }

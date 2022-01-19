@@ -1,27 +1,28 @@
-﻿using System.Collections.Generic;
-using APIPlugin;
+﻿using APIPlugin;
 using DiskCardGame;
-using UnityEngine;
-using Resources = GrimoraMod.Properties.Resources;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
+	public const string NameWendigo = "ara_Wendigo";
+
+	private void AddAra_Wendigo()
 	{
-		private void AddAra_Wendigo()
+		List<Ability> abilities = new List<Ability>
 		{
-			List<Ability> abilities = new List<Ability>
-			{
-				Ability.Strafe,
-				Ability.DebuffEnemy
-			};
+			Ability.DebuffEnemy,
+			Ability.Strafe
+		};
 
-			Texture2D defaultTex = ImageUtils.LoadTextureFromResource(Resources.Wendigo);
-
-			ApiUtils.Add("ara_Wendigo", "Wendigo",
-				"Described by some as the truest nightmare", 0, 2,
-				2, 5,
-				Resources.Wendigo, abilities, CardMetaCategory.Rare );
-		}
+		NewCard.Add(CardBuilder.Builder
+			.SetAsRareCard()
+			.SetAbilities(abilities)
+			.SetBaseAttackAndHealth(2, 2)
+			.SetBoneCost(5)
+			.SetDescription("A sense of dread consumes you as you realize you are not alone in these woods.")
+			.SetNames(NameWendigo, "Wendigo")
+			.Build()
+		);
 	}
 }

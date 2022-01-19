@@ -1,58 +1,45 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>disable</Nullable>
-    <IsPackable>false</IsPackable>
-    <LangVersion>latest</LangVersion>
-    <TargetFramework>net472</TargetFramework>
-    <AssemblyName>GrimoraMod</AssemblyName>
-    <RootNamespace>GrimoraMod</RootNamespace>
-  </PropertyGroup>
+	<PropertyGroup>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<IsPackable>false</IsPackable>
+		<TargetFramework>net472</TargetFramework>
+		<AssemblyName>GrimoraMod</AssemblyName>
+		<RootNamespace>GrimoraMod</RootNamespace>
+		<LangVersion>10</LangVersion>
+		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+	</PropertyGroup>
 
-  <!-- BepInEx dependencies -->
-  <ItemGroup>
-    <PackageReference Include="BepInEx.Analyzers" Version="1.0.7" PrivateAssets="all" IncludeAssets="all" />
-    <PackageReference Include="BepInEx.Core" Version="5.4.16" />
-    <PackageReference Include="Inscryption.GameLibs" Version="1.2.0-r.1" />
-    <PackageReference Include="SimpleJson" Version="0.38.0" />
-    <PackageReference Include="UnityEngine.Modules" Version="2019.4.24" IncludeAssets="compile" />
-  </ItemGroup>
+	<!-- BepInEx dependencies -->
+	<ItemGroup>
+		<PackageReference Include="BepInEx.Analyzers" Version="1.0.7" PrivateAssets="all" IncludeAssets="all" />
+		<PackageReference Include="BepInEx.Core" Version="5.4.16" />
+		<PackageReference Include="Inscryption.GameLibs" Version="1.2.0-r.1" />
+		<PackageReference Include="SimpleJson" Version="0.38.0" />
+		<PackageReference Include="System.Resources.Extensions" Version="6.0.0" />
+		<PackageReference Include="UnityEngine.Modules" Version="2019.4.24" IncludeAssets="compile" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="API">
-      <HintPath>lib\API.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
+	<ItemGroup>
+		<Reference Include="API">
+			<HintPath>lib\API.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<Target Name="CopyDLLs" AfterTargets="Build">
+		<Message Text="Executing CopyDLLs task" Importance="High" />
 
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+		<Copy Condition="Exists('C:\inscryption-mods\')" SourceFiles="$(TargetDir)$(ProjectName).dll" DestinationFolder="C:\inscryption-mods\Inscryption\profiles\Default\BepInEx\plugins\" />
+		<Copy Condition="Exists('C:\Program Files (x86)\Steam\steamapps\common\Inscryption\')" SourceFiles="$(TargetDir)$(ProjectName).dll" DestinationFolder="C:\Program Files (x86)\Steam\steamapps\common\Inscryption\BepInEx\plugins\" />
 
-  <Target Name="CopyDLLs" AfterTargets="Build">
-    <Message Text="Executing CopyDLLs task" Importance="High" />
+		<Message Text="Copied build files" Importance="High" />
+	</Target>
 
-    <Copy Condition="Exists('C:\inscryption-mods\')" SourceFiles="$(TargetDir)$(ProjectName).dll" DestinationFolder="C:\inscryption-mods\Inscryption\profiles\Default\BepInEx\plugins\" />
-    <Copy Condition="Exists('C:\Program Files (x86)\Steam\steamapps\common\Inscryption\')" SourceFiles="$(TargetDir)$(ProjectName).dll" DestinationFolder="C:\Program Files (x86)\Steam\steamapps\common\Inscryption\BepInEx\plugins\" />
-
-    <Message Text="Copied build files" Importance="High" />
-  </Target>
-
-  <!--<Target Name="ZipFiles" AfterTargets="Build">
-    <Exec Command="7z a -tzip SigilADay-JulianPerge.zip .\README.md .\manifest.json .\icon.png $(TargetDir)$(ProjectName).dll" />
-  </Target> -->
+	<Target Name="ZipFiles" AfterTargets="Build">
+		<Exec Command="7z a -tzip GrimoraMod.zip .\Artwork .\DataFiles .\README.md .\manifest.json .\icon.png $(TargetDir)$(ProjectName).dll" />
+	</Target>
 
 </Project>

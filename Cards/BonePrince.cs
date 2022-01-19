@@ -1,17 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using APIPlugin;
 using DiskCardGame;
-using GrimoraMod.Properties;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
-	{
-		public const string NameBonePrince = "ara_BonePrince";
+	public const string NameBonePrince = "ara_BonePrince";
 
-		private void AddAra_BonePrince()
-		{
-			ApiUtils.Add(NameBonePrince, "Bone Prince", "", 0, 2,
-				1, 1, Resources.BonePrince, new List<Ability>(), CardMetaCategory.GBCPlayable);
-		}
+	private void AddAra_BonePrince()
+	{
+		NewCard.Add(CardBuilder.Builder
+			.SetBaseAttackAndHealth(2, 1)
+			.SetBoneCost(1)
+			.SetNames(NameBonePrince, "Bone Prince")
+			.SetMetaCategories(CardMetaCategory.GBCPlayable)
+			.Build()
+		);
 	}
 }

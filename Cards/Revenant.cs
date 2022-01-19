@@ -1,18 +1,22 @@
-﻿using DiskCardGame;
-using GrimoraMod.Properties;
+﻿using APIPlugin;
+using DiskCardGame;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
-	{
+	public const string NameRevenant = "ara_Revenant";
 
-		public const string NameRevenant = "ara_Revenant";
-		
-		private void AddAra_Revenant()
-		{
-			ApiUtils.Add(NameRevenant, "Revenant",
-				"The Revenant, bringing the scythe of death.", 0, 3,
-				1, 3,  Resources.Revenant, Ability.Brittle, CardMetaCategory.ChoiceNode);
-		}
+	private void AddAra_Revenant()
+	{
+		NewCard.Add(CardBuilder.Builder
+			.SetAsNormalCard()
+			.SetAbilities(Ability.Brittle)
+			.SetBaseAttackAndHealth(3, 1)
+			.SetBoneCost(3)
+			.SetDescription("The Revenant, bringing the scythe of death.")
+			.SetNames(NameRevenant, "Revenant")
+			.Build()
+		);
 	}
 }

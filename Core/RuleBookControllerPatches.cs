@@ -1,49 +1,53 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using DiskCardGame;
+﻿using DiskCardGame;
 using HarmonyLib;
 using static GrimoraMod.GrimoraPlugin;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+[HarmonyPatch(typeof(RuleBookController))]
+public class RuleBookControllerPatches
 {
-	[HarmonyPatch(typeof(RuleBookController))]
-	public class RuleBookControllerPatches
+	[HarmonyPrefix, HarmonyPatch(nameof(RuleBookController.Start))]
+	public static bool PrefixAddRestOfAbilityMetaCategoriesPatch(ref RuleBookController __instance)
 	{
-		[HarmonyPrefix, HarmonyPatch(nameof(RuleBookController.Start))]
-		public static bool PrefixAddRestOfAbilityMetaCategoriesPatch(ref RuleBookController __instance)
+		if (SaveManager.SaveFile.IsGrimora && __instance.PageData is null)
 		{
-			if (SaveManager.SaveFile.IsGrimora && __instance.PageData is null)
-			{
-				List<AbilityMetaCategory> pagesToConstruct = new List<AbilityMetaCategory>()
-				{
-					AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part1Rulebook,
-					AbilityMetaCategory.GrimoraRulebook, AbilityMetaCategory.MagnificusRulebook,
-					AbilityMetaCategory.Part3Modular, AbilityMetaCategory.Part3Rulebook
-				};
+			List<RuleBookPageInfo> pageInfos = new List<RuleBookPageInfo>();
+			Log.LogDebug($"[RuleBookController.Start] About to start adding all rulebooks");
+			List<int> abilitiesNoCategory = AbilitiesUtil.AllData
+				.Select(x => (int)x.ability).ToList();
+			int min = abilitiesNoCategory.AsQueryable().Min();
+			int max = abilitiesNoCategory.AsQueryable().Max();
+			PageRangeInfo pageRange = __instance.bookInfo.pageRanges.Find(i => i.type == PageRangeType.Abilities);
 
-				List<RuleBookPageInfo> pageInfos = new List<RuleBookPageInfo>();
-				Log.LogDebug($"[RuleBookController.Start] About to start adding all rulebooks");
-				foreach (var category in pagesToConstruct)
-				{
-					pageInfos.AddRange(__instance.bookInfo.ConstructPageData(category));
-				}
+			bool DoAddPageFunc(int index) => abilitiesNoCategory.Contains(index);
 
-				pageInfos = pageInfos
-					.GroupBy(i => i.ability)
-					.Select(i => i.First()).ToList();
+			pageInfos.AddRange(
+				__instance.bookInfo.ConstructPages(
+					pageRange,
+					max + 1,
+					min,
+					DoAddPageFunc,
+					__instance.bookInfo.FillAbilityPage,
+					Localization.Translate("APPENDIX XII, SUBSECTION I - ABILITIES {0}")
+				)
+			);
 
-				Log.LogDebug($"[RuleBookController.Start] Setting pages of rulebook infos");
-				__instance.PageData = pageInfos;
+			pageInfos = pageInfos
+				.GroupBy(i => i.ability)
+				.Select(i => i.First()).ToList();
 
-				// RuleBookController.Instance.PageData.ForEach(info => UnityExplorer.ExplorerCore.Log(info.ability));
+			Log.LogDebug($"[RuleBookController.Start] Setting pages of rulebook infos. Total [{pageInfos.Count}]");
+			__instance.PageData = pageInfos;
 
-				// AbilitiesUtil.GetAbilities(true, categoryCriteria: AbilityMetaCategory.Part1Modular)
-				// 	.ForEach(ability => UnityExplorer.ExplorerCore.Log(ability));
+			// RuleBookController.Instance.PageData.ForEach(info => UnityExplorer.ExplorerCore.Log(info.ability));
 
-				return false;
-			}
+			// AbilitiesUtil.GetAbilities(true, categoryCriteria: AbilityMetaCategory.Part1Modular)
+			// 	.ForEach(ability => UnityExplorer.ExplorerCore.Log(ability));
 
-			return true;
+			return false;
 		}
+
+		return true;
 	}
 }

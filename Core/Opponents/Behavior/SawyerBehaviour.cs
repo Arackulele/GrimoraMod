@@ -1,15 +1,14 @@
 ﻿using System.Collections;
 using DiskCardGame;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public class SawyerBehaviour : BossBehaviour
 {
-	public class SawyerBehaviour : BossBehaviour
+	public IEnumerator OnOtherCardDie(CardSlot otherCard)
 	{
-		public IEnumerator OnOtherCardDie(CardSlot otherCard)
-		{
-			yield return BoardManager.Instance.CreateCardInSlot(
-				CardLoader.GetCardByName("Bonehound"), otherCard);
-			yield break;
-		}
+		yield return BoardManager.Instance.CreateCardInSlot(
+			CardLoader.GetCardByName("Bonehound"), otherCard);
+		yield break;
 	}
 }

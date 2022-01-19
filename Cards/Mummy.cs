@@ -1,20 +1,20 @@
-﻿using System.Collections.Generic;
-using DiskCardGame;
-using GrimoraMod.Properties;
+﻿using APIPlugin;
 
-namespace GrimoraMod
+namespace GrimoraMod;
+
+public partial class GrimoraPlugin
 {
-	public partial class GrimoraPlugin
-	{
+	public const string NameMummy = "ara_Mummy";
 
-		public const string NameMummy = "ara_Mummy";
-		
-		private void AddAra_Mummy()
-		{
-			ApiUtils.Add(
-				NameMummy, "Mummy Lord",
-				"The cycle of the Mummy Lord is never ending.", 0, 3, 3,
-				8, Resources.Mummy, new List<Ability>(), CardMetaCategory.ChoiceNode);
-		}
+	private void AddAra_Mummy()
+	{
+		NewCard.Add(CardBuilder.Builder
+			.SetAsNormalCard()
+			.SetBaseAttackAndHealth(3, 3)
+			.SetBoneCost(8)
+			.SetDescription("The cycle of the Mummy Lord is never ending.")
+			.SetNames(NameMummy, "Mummy Lord")
+			.Build()
+		);
 	}
 }

@@ -23,17 +23,36 @@
 
 ## Update Notes
 
+### 2.3.3
+
+- Added energy drone! **STILL KEEP ENERGY DRONE DISABLED IN API CONFIG!**
+
+- Added **Reset Deck** button to now reset your deck back to the starter deck in case deck viewing throws errors.
+
+- Corrected logic for adding bones to the start of combat once a boss has been defeated.
+
+  - Kaycee defeated = 2 bones
+  - Sawyer defeated = 5 bones
+  - Royal defeated = 10 bones
+
+- Updated project to net6.
+
+- Removed WithPortrait method call for cards to now load portraits based on names.
+
+- Had to undo Resource-based image loading as net6 threw a slew of errors at startup.
+  - Images are now loaded through files in the directory.
+
 ### 2.1.2
 
--Minor Patches and slightly changed Kaycees Mechanic
+- Minor patches and slightly changed Kaycee's mechanics.
 
 ### 2.1.1
 
--Flavor update
+- Flavor update.
 
--Added tons of new Dialogue
+- Added tons of new dialogue.
 
--Added reset run button (this only resets all data values in the config)
+- Added **Reset Run** button (this only resets all data values in the config, not your deck).
 
 ### 2.1.0
 
@@ -78,10 +97,6 @@
 ### Grimora's dialogue is unfinished and still the one from the finale and part 1 dialogue in some cases
 
 - This is a temporary problem and will be fixed soon.
-
-### Energy Cards don't work
-
-- Try enabling energy refresh in API config, that option may be unstable with this mod but should fix the issue until we implement a more proper solution.
 
 ### Black Square Sigils
 
