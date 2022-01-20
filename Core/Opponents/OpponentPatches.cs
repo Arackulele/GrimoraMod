@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using DiskCardGame;
+﻿using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
 
@@ -75,54 +74,8 @@ public class Part1BossOpponentPatches
 	}
 
 	[HarmonyPrefix, HarmonyPatch(nameof(Part1BossOpponent.BossDefeatedSequence))]
-	public static void Prefix(ref Part1BossOpponent __instance, out Part1BossOpponent __state)
+	public static bool Prefix()
 	{
-		__state = __instance;
-	}
-
-	[HarmonyPostfix, HarmonyPatch(nameof(Part1BossOpponent.BossDefeatedSequence))]
-	public static IEnumerator Postfix(IEnumerator enumerator, Part1BossOpponent __state)
-	{
-		if (SaveManager.saveFile.IsGrimora && __state is BaseBossExt bossExt)
-		{
-			GrimoraPlugin.Log.LogDebug($"[{__state.GetType()}] SaveFile is Grimora");
-
-			GrimoraPlugin.Log.LogDebug($"[{__state.GetType()}] Glitching mask");
-			GlitchOutAssetEffect.GlitchModel(
-				bossExt.Mask.transform,
-				true
-			);
-
-			GrimoraPlugin.Log.LogDebug($"[{__state.GetType()}] audio queue");
-			AudioController.Instance.PlaySound2D("glitch_error", MixerGroup.TableObjectsSFX);
-
-			GrimoraPlugin.Log.LogDebug($"[{__state.GetType()}] hiding skull");
-			GrimoraAnimationController.Instance.SetHeadTrigger("hide_skull");
-
-			GrimoraPlugin.Log.LogDebug($"[{__state.GetType()}] Destroying scenery");
-			__state.DestroyScenery();
-
-			GrimoraPlugin.Log.LogDebug($"[{__state.GetType()}] Set Scene Effects");
-			__state.SetSceneEffectsShown(false);
-
-			GrimoraPlugin.Log.LogDebug($"[{__state.GetType()}] Stopping audio");
-			AudioController.Instance.StopAllLoops();
-
-			yield return new WaitForSeconds(0.75f);
-
-			GrimoraPlugin.Log.LogDebug($"[{__state.GetType()}] CleanUpBossBehaviours");
-			__state.CleanUpBossBehaviours();
-
-			ViewManager.Instance.SwitchToView(View.Default, false, true);
-
-			GrimoraPlugin.Log.LogDebug($"Setting post battle special node to a rare code node data");
-			TurnManager.Instance.PostBattleSpecialNode = new ChooseRareCardNodeData();
-
-			yield break;
-		}
-		else
-		{
-			yield return enumerator;
-		}
+		return !SaveManager.SaveFile.IsGrimora;
 	}
 }

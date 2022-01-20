@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -44,9 +45,6 @@ public abstract class BaseBossExt : Part1BossOpponent
 		// Log.LogDebug($"[{GetType()}] Calling IntroSequence");
 		yield return base.IntroSequence(encounter);
 
-		// Log.LogDebug($"[{GetType()}] Calling ReplaceBlueprintCustom");
-		yield return ReplaceBlueprintCustom(BuildInitialBlueprint());
-
 		// Royal boss has a specific sequence to follow so that it flows easier
 		if (this is not RoyalBossOpponentExt && BossMasksByType.TryGetValue(OpponentType, out string prefabPath))
 		{
@@ -76,6 +74,43 @@ public abstract class BaseBossExt : Part1BossOpponent
 		if (wasDefeated)
 		{
 			SetBossDefeatedInConfig();
+
+			Log.LogDebug($"[{GetType()}] SaveFile is Grimora");
+
+			Log.LogDebug($"[{GetType()}] Glitching mask");
+			GlitchOutAssetEffect.GlitchModel(
+				Mask.transform,
+				true
+			);
+
+			Log.LogDebug($"[{GetType()}] audio queue");
+			AudioController.Instance.PlaySound2D("glitch_error", MixerGroup.TableObjectsSFX);
+
+			Log.LogDebug($"[{GetType()}] hiding skull");
+			GrimoraAnimationController.Instance.SetHeadTrigger("hide_skull");
+
+			Log.LogDebug($"[{GetType()}] Destroying scenery");
+			DestroyScenery();
+
+			Log.LogDebug($"[{GetType()}] Set Scene Effects");
+			SetSceneEffectsShown(false);
+
+			Log.LogDebug($"[{GetType()}] Stopping audio");
+			AudioController.Instance.StopAllLoops();
+
+			yield return new WaitForSeconds(0.75f);
+
+			Log.LogDebug($"[{GetType()}] CleanUpBossBehaviours");
+			CleanUpBossBehaviours();
+
+			ViewManager.Instance.SwitchToView(View.Default, false, true);
+
+			Log.LogDebug($"[{GetType()}] Resetting table colors");
+			TableVisualEffectsManager.Instance.ResetTableColors();
+			yield return new WaitForSeconds(0.25f);
+
+			Log.LogDebug($"Setting post battle special node to a rare code node data");
+			TurnManager.Instance.PostBattleSpecialNode = new ChooseRareCardNodeData();
 		}
 		else
 		{
@@ -88,23 +123,23 @@ public abstract class BaseBossExt : Part1BossOpponent
 		switch (this)
 		{
 			case KayceeBossOpponent:
-				GrimoraPlugin.ConfigKayceeFirstBossDead.Value = true;
+				ConfigKayceeFirstBossDead.Value = true;
 				break;
 			case SawyerBossOpponent:
-				GrimoraPlugin.ConfigSawyerSecondBossDead.Value = true;
+				ConfigSawyerSecondBossDead.Value = true;
 				break;
 			case RoyalBossOpponentExt:
-				GrimoraPlugin.ConfigRoyalThirdBossDead.Value = true;
+				ConfigRoyalThirdBossDead.Value = true;
 				break;
 			case GrimoraBossOpponentExt:
-				GrimoraPlugin.ConfigGrimoraBossDead.Value = true;
+				ConfigGrimoraBossDead.Value = true;
 				break;
 		}
 
 		var bossPiece = ChessboardMapExt.Instance.BossPiece;
 		ChessboardMapExt.Instance.BossDefeated = true;
 		ChessboardMapExt.Instance.AddPieceToRemovedPiecesConfig(bossPiece.name);
-		GrimoraPlugin.Log.LogDebug($"[BossDefeatedSequence][PostFix] Boss {GetType()} defeated.");
+		Log.LogDebug($"[BossDefeatedSequence][PostFix] Boss {GetType()} defeated.");
 	}
 
 	public IEnumerator ShowBossSkull()
@@ -127,6 +162,4 @@ public abstract class BaseBossExt : Part1BossOpponent
 		ReplaceAndAppendTurnPlan(plan);
 		yield return QueueNewCards();
 	}
-
-	public abstract EncounterBlueprintData BuildInitialBlueprint();
 }
