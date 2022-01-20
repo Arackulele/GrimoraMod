@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using UnityEngine;
-using static GrimoraMod.BlueprintUtils;
 using static GrimoraMod.GrimoraPlugin;
 using Object = UnityEngine.Object;
 
@@ -48,7 +47,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 		yield return new WaitForSeconds(1f);
 
 		yield return base.FaceZoomSequence();
-		yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
+		yield return TextDisplayer.Instance.ShowUntilInput(
 			"Var, I see you made it to me ship challenger! I've been waiting for a worthy fight!",
 			-0.65f,
 			0.4f,
@@ -117,58 +116,35 @@ public class RoyalBossOpponentExt : BaseBossExt
 		yield break;
 	}
 
-	public override EncounterBlueprintData BuildInitialBlueprint()
-	{
-		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
-		{
-			new() { bp_Skeleton },
-			new() { },
-			new() { bp_BonePrince },
-			new() { bp_Skeleton },
-			new() { },
-			new() { bp_GhostShip },
-			new() { },
-			new() { bp_Revenant },
-			new() { bp_BonePrince },
-			new() { bp_Revenant },
-			new() { },
-			new() { },
-			new() { bp_GhostShip },
-			new() { bp_BonePrince },
-			new() { },
-			new() { bp_BonePrince },
-			new() { },
-			new() { bp_Revenant }
-		};
-
-		return blueprint;
-	}
 
 	public override IEnumerator OutroSequence(bool wasDefeated)
 	{
 		if (wasDefeated)
 		{
-			yield return Singleton<TextDisplayer>.Instance.ShowThenClear(
+			yield return base.FaceZoomSequence();
+			yield return TextDisplayer.Instance.ShowUntilInput(
 				"I overestimated me skill, good luck challenger.",
-				1f,
+				-0.65f,
 				1f,
 				Emotion.Neutral,
 				TextDisplayer.LetterAnimation.Jitter,
 				DialogueEvent.Speaker.Single, null
 			);
+
 			// taken from Opponent patches as it makes more sense to glitch the cannons out once defeated
 			GrimoraAnimationController.Instance.SetHeadBool("face_disappointed", val: true);
 			GrimoraAnimationController.Instance.SetHeadBool("face_happy", val: false);
 			yield return new WaitForSeconds(0.5f);
+			ViewManager.Instance.SwitchToView(View.Default);
 			yield return cannons.GetComponent<CannonTableEffects>().GlitchOutCannons();
 
-			yield return new WaitForSeconds(1f);
-			TableVisualEffectsManager.Instance.ResetTableColors();
+			yield return new WaitForSeconds(0.5f);
 
 			yield return base.OutroSequence(true);
 
-			yield return base.FaceZoomSequence();
+			yield return new WaitForSeconds(0.05f);
+			ViewManager.Instance.SwitchToView(View.BossCloseup);
+			yield return new WaitForSeconds(0.05f);
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"Hello again! I am excited for you to see this last one. I put it together myself." +
 				"\nLet's see if you can beat all odds and win!",
@@ -181,8 +157,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 		}
 		else
 		{
-			yield return base.FaceZoomSequence();
-			Log.LogDebug($"Defeated player dialogue");
+			Log.LogDebug($"[{GetType()}] Defeated player dialogue");
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				DefeatedPlayerDialogue,
 				-0.65f,

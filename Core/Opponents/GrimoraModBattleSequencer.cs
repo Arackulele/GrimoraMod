@@ -111,7 +111,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			ViewManager.Instance.SwitchToView(View.Default, immediate: false, lockAfter: true);
 
 			yield return TextDisplayer.Instance.ShowThenClear(
-				"It is time to rest.", 0.5f, 0f, Emotion.Curious
+				"It is time to rest.", 1f, 0.5f, Emotion.Curious
 			);
 			yield return new WaitForSeconds(0.75f);
 			ViewManager.Instance.OffsetFOV(150f, 1.5f);
