@@ -3,6 +3,7 @@ using DiskCardGame;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
 using static GrimoraMod.GrimoraPlugin;
+using Object = UnityEngine.Object;
 
 namespace GrimoraMod;
 
@@ -16,7 +17,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 	public override Type Opponent => RoyalOpponent;
 
-	public override string DefeatedPlayerDialogue => "Arrg! Walk off a Plank yee dirty Scallywag!!";
+	public override string DefeatedPlayerDialogue => "Arrg! Walk off the plank yee dirty Scallywag!!!";
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
@@ -48,13 +49,21 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 		yield return base.FaceZoomSequence();
 		yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
-			"Var, I see you made it to me ship challenger! I've been waiting for a worthy fight!", -0.65f, 0.4f,
-			Emotion.Neutral, TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
+			"Var, I see you made it to me ship challenger! I've been waiting for a worthy fight!",
+			-0.65f,
+			0.4f,
+			Emotion.Neutral,
+			TextDisplayer.LetterAnimation.Jitter,
+			DialogueEvent.Speaker.Single, null, true
+		);
 
 
-		cannons = UnityEngine.Object.Instantiate(
+		cannons = Object.Instantiate(
 			ResourceBank.Get<GameObject>("Prefabs/Environment/TableEffects/CannonTableEffects")
 		);
+
+		ViewManager.Instance.SwitchToView(View.Default);
+
 		yield return new WaitForSeconds(2f);
 	}
 
@@ -79,8 +88,13 @@ public class RoyalBossOpponentExt : BaseBossExt
 	{
 		Log.LogDebug($"StartNewPhaseSequence started for RoyalBoss");
 		yield return base.FaceZoomSequence();
-		yield return Singleton<TextDisplayer>.Instance.ShowUntilInput("Yee be a tough nut to crack! Ready for Round 2?",
-			-0.65f, 0.4f, Emotion.Neutral, TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
+		yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
+			"Yee be a tough nut to crack!\nReady for Round 2?",
+			-0.65f,
+			0.4f,
+			Emotion.Neutral, TextDisplayer.LetterAnimation.Jitter,
+			DialogueEvent.Speaker.Single, null, true
+		);
 
 
 		var playerSlotsWithCards = CardSlotUtils.GetPlayerSlotsWithCards();
@@ -133,17 +147,66 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 	public override IEnumerator OutroSequence(bool wasDefeated)
 	{
-		yield return Singleton<TextDisplayer>.Instance.ShowUntilInput("I overestimated me skill, good luck challenger.",
-			-0.65f, 0.4f, Emotion.Neutral, TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
-		TableVisualEffectsManager.Instance.ResetTableColors();
+		if (wasDefeated)
+		{
+			yield return Singleton<TextDisplayer>.Instance.ShowThenClear(
+				"I overestimated me skill, good luck challenger.",
+				1f,
+				1f,
+				Emotion.Neutral,
+				TextDisplayer.LetterAnimation.Jitter,
+				DialogueEvent.Speaker.Single, null
+			);
+			// taken from Opponent patches as it makes more sense to glitch the cannons out once defeated
+			GrimoraAnimationController.Instance.SetHeadBool("face_disappointed", val: true);
+			GrimoraAnimationController.Instance.SetHeadBool("face_happy", val: false);
+			yield return new WaitForSeconds(0.5f);
+			yield return cannons.GetComponent<CannonTableEffects>().GlitchOutCannons();
 
-		yield return new WaitForSeconds(1f);
+			yield return new WaitForSeconds(1f);
+			TableVisualEffectsManager.Instance.ResetTableColors();
 
+			yield return base.OutroSequence(true);
 
-		yield return base.FaceZoomSequence();
-		yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
-			"Hello again! I am excited for you to see this last one. I put it together myself. Let's see if you can beat all odds and win.",
-			-0.65f, 0.4f, Emotion.Neutral, TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
+			yield return base.FaceZoomSequence();
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				"Hello again! I am excited for you to see this last one. I put it together myself." +
+				"\nLet's see if you can beat all odds and win!",
+				-0.65f,
+				0.4f,
+				Emotion.Neutral,
+				TextDisplayer.LetterAnimation.Jitter,
+				DialogueEvent.Speaker.Single, null, true
+			);
+		}
+		else
+		{
+			yield return base.FaceZoomSequence();
+			Log.LogDebug($"Defeated player dialogue");
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				DefeatedPlayerDialogue,
+				-0.65f,
+				0.4f,
+				Emotion.Neutral,
+				TextDisplayer.LetterAnimation.Jitter,
+				DialogueEvent.Speaker.Single, null, true
+			);
+
+			// Log.LogDebug($"Setting footstep sound to wood");
+			// FirstPersonController.Instance.SetFootstepSound(FirstPersonController.FootstepSound.Wood);
+			//
+			// for (int i = 0; i < 3; i++)
+			// {
+			// 	Log.LogDebug($"Playing footstep");
+			// 	AudioController.Instance.PlaySound3D("Footsteps_Wood", MixerGroup.TableObjectsSFX, base.gameObject.transform.position, 1f, 0f, null, null, new AudioParams.Randomization());
+			//
+			// 	Log.LogDebug($"Camera offset position");
+			// 	float zValue = -i - 3;
+			// 	ViewManager.Instance.OffsetPosition(new Vector3(0f, 0f, zValue), 1.5f);
+			// 	Log.LogDebug($"Waiting until next step");
+			// 	yield return new WaitForSeconds(1.5f);
+			// }
+		}
 
 
 		yield break;
