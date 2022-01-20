@@ -92,13 +92,13 @@ public class GrimoraChessboard
 			for (int i = 0; i < 7; i++)
 			{
 				PlaceChestPiece(i, 0);
+				PlaceEnemyPiece(0, i);
 			}
 		}
 		else
 		{
 			PlaceBlockerPieces();
 			PlaceChestPieces();
-			PlaceEnemyPieces();
 		}
 	}
 
@@ -191,6 +191,11 @@ public class GrimoraChessboard
 	{
 		// Log.LogDebug($"[SetupGamePieces] Creating blocker pieces for the board");
 		BlockerNodes.ForEach(node => CreateBlockerPiece(node.GridX, node.GridY));
+	}
+
+	public void PlaceBossPieceDev(string bossName, int x, int y)
+	{
+		CreateBossPiece(bossName, x, y);
 	}
 
 	public void PlaceBossPiece(string bossName)
