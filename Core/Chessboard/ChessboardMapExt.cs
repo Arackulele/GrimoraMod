@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using BepInEx.Configuration;
 using DiskCardGame;
 using Unity.Cloud.UserReporting.Plugin.SimpleJson;
 using UnityEngine;
@@ -255,7 +254,7 @@ public class ChessboardMapExt : ChessboardMap
 		dynamicElementsParent.gameObject.SetActive(true);
 
 		// for checking which nodes are active/inactive
-		RenameMapNodesWithGridCoords();
+		if (_enableDevMode) RenameMapNodesWithGridCoords();
 
 		UpdateActiveChessboard();
 
