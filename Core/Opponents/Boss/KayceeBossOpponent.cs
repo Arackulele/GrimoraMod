@@ -30,7 +30,7 @@ public class KayceeBossOpponent : BaseBossExt
 		yield return new WaitForSeconds(0.5f);
 
 		yield return base.FaceZoomSequence();
-		yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
+		yield return TextDisplayer.Instance.ShowUntilInput(
 			"Brrrr! I've been freezing for ages! Let's turn up the heat in a good fight!",
 			-0.65f,
 			0.4f,
@@ -87,7 +87,7 @@ public class KayceeBossOpponent : BaseBossExt
 	{
 		{
 			yield return base.FaceZoomSequence();
-			yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
+			yield return TextDisplayer.Instance.ShowUntilInput(
 				"I'm still not feeling Warmer!",
 				-0.65f,
 				0.4f,
@@ -117,7 +117,7 @@ public class KayceeBossOpponent : BaseBossExt
 		if (wasDefeated)
 		{
 			// before the mask gets put away
-			yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
+			yield return TextDisplayer.Instance.ShowUntilInput(
 				"Oh come on dude, I'm still Cold! Lets fight again soon!",
 				-0.65f,
 				0.4f,
@@ -130,7 +130,7 @@ public class KayceeBossOpponent : BaseBossExt
 			yield return base.OutroSequence(true);
 
 			yield return base.FaceZoomSequence();
-			yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
+			yield return TextDisplayer.Instance.ShowUntilInput(
 				"This next area was made by Sawyer, one of my Ghouls.\nHe says it is terrible.",
 				-0.65f,
 				0.4f,

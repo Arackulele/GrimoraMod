@@ -87,7 +87,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 	{
 		Log.LogDebug($"StartNewPhaseSequence started for RoyalBoss");
 		yield return base.FaceZoomSequence();
-		yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
+		yield return TextDisplayer.Instance.ShowUntilInput(
 			"Yee be a tough nut to crack!\nReady for Round 2?",
 			-0.65f,
 			0.4f,

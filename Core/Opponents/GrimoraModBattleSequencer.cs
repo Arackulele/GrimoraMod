@@ -99,7 +99,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			GlitchOutAssetEffect.GlitchModel(LifeManager.Instance.Scales3D.transform);
 			yield return new WaitForSeconds(0.75f);
 
-			// yield return (Singleton<GameFlowManager>.Instance as GrimoraGameFlowManager).EndSceneSequence();
+			// yield return (GameFlowManager.Instance as GrimoraGameFlowManager).EndSceneSequence();
 
 			Log.LogDebug($"[GameEnd] Glitching bone tokens");
 			(ResourcesManager.Instance as Part1ResourcesManager).GlitchOutBoneTokens();

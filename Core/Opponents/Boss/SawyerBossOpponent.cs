@@ -34,7 +34,7 @@ public class SawyerBossOpponent : BaseBossExt
 		yield return new WaitForSeconds(0.5f);
 
 		yield return base.FaceZoomSequence();
-		yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
+		yield return TextDisplayer.Instance.ShowUntilInput(
 			"Look away, Look away! If you want to fight, get it over quick!", -0.65f, 0.4f, Emotion.Neutral,
 			TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
 
@@ -63,7 +63,7 @@ public class SawyerBossOpponent : BaseBossExt
 			base.InstantiateBossBehaviour<SawyerBehaviour>();
 
 			yield return base.FaceZoomSequence();
-			yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
+			yield return TextDisplayer.Instance.ShowUntilInput(
 				"Please, I don't want to fight anymore! Get it over with!",
 				-0.65f,
 				0.4f,
@@ -99,7 +99,7 @@ public class SawyerBossOpponent : BaseBossExt
 	{
 		if (wasDefeated)
 		{
-			yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
+			yield return TextDisplayer.Instance.ShowUntilInput(
 				"Thanks for getting it over with, and don't ever return!",
 				-0.65f,
 				0.4f,
@@ -112,7 +112,7 @@ public class SawyerBossOpponent : BaseBossExt
 			yield return base.OutroSequence(true);
 
 			yield return base.FaceZoomSequence();
-			yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
+			yield return TextDisplayer.Instance.ShowUntilInput(
 				"The next area won't be so easy. I asked Royal to do his best at making it impossible.",
 				-0.65f,
 				0.4f,
