@@ -143,7 +143,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 				{
 					foreach (var playableCard in playerCardSlots.Select(slot => slot.Card))
 					{
-						TextDisplayer.Instance.ShowUntilInput(
+						yield return TextDisplayer.Instance.ShowUntilInput(
 							$"{playableCard.name}, I WILL MAKE YOU WEAK!",
 							letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
 						);
