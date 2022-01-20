@@ -89,7 +89,7 @@ public class GrimoraChessboard
 
 		if (ConfigDeveloperMode.Value)
 		{
-			for (int i = 0; i < 7; i++)
+			for (int i = 0; i < 8; i++)
 			{
 				PlaceChestPiece(i, 0);
 				PlaceEnemyPiece(0, i);
@@ -97,6 +97,7 @@ public class GrimoraChessboard
 		}
 		else
 		{
+			PlaceEnemyPieces();
 			PlaceBlockerPieces();
 			PlaceChestPieces();
 		}
