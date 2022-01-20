@@ -274,80 +274,76 @@ public class GrimoraChessboard
 
 		ChessboardPiece piece = GetPieceAtSpace(x, y);
 
-		if (ChessboardMapExt.Instance.RemovedPieces.Exists(c => piece is not null && c == piece.name))
+		if (piece is not null)
 		{
-			Log.LogDebug($"-> Skipping [{coordName}] as it already exists. Setting MapNode to active.");
-			piece.MapNode.SetActive(true);
+			Log.LogDebug($"[CreateChessPiece] Skipping x{x}y{y}, {piece.name} already exists");
+			return;
 		}
-		else
+
+		piece = UnityEngine.Object.Instantiate(prefab, ChessboardMapExt.Instance.dynamicElementsParent);
+		piece.gridXPos = x;
+		piece.gridYPos = y;
+		piece.saveId = x * 10 + y * 1000;
+
+		string nameTemp = piece.GetType().Name.Replace("Chessboard", "") + "_" + coordName;
+
+		switch (piece)
 		{
-			if (piece is null)
+			case ChessboardEnemyPiece enemyPiece:
 			{
-				piece = UnityEngine.Object.Instantiate(prefab, ChessboardMapExt.Instance.dynamicElementsParent);
-				piece.gridXPos = x;
-				piece.gridYPos = y;
-				piece.saveId = x * 10 + y * 1000;
+				enemyPiece.GoalPosX = x;
+				enemyPiece.GoalPosX = y;
 
-				string nameTemp = piece.GetType().Name.Replace("Chessboard", "") + "_" + coordName;
+				enemyPiece.specialEncounterId = id;
 
-				switch (piece)
+				if (!id.Equals("GrimoraModBattleSequencer"))
 				{
-					case ChessboardEnemyPiece enemyPiece:
+					Log.LogDebug($"[CreateChessPiece] id is not null, setting ActiveBossType");
+					nameTemp = nameTemp.Replace("Enemy", "Boss");
+					ActiveBossType = BaseBossExt.BossTypesByString.GetValueSafe(id);
+					enemyPiece.blueprint = BlueprintUtils.BossInitialBlueprints[id];
+				}
+				else
+				{
+					// Log.LogDebug($"[CreateChessPiece] id is null, getting blueprint");
+					enemyPiece.blueprint = GetBlueprint();
+				}
+
+				break;
+			}
+			case ChessboardBlockerPiece blockerPiece:
+			{
+				Mesh blockerMesh = GetActiveRegionBlockerMesh();
+				foreach (var meshFilter in blockerPiece.GetComponentsInChildren<MeshFilter>())
+				{
+					GameObject meshFilerObj = meshFilter.gameObject;
+					if (meshFilerObj.name != "Base")
 					{
-						enemyPiece.GoalPosX = x;
-						enemyPiece.GoalPosX = y;
-
-						enemyPiece.specialEncounterId = id;
-
-						if (!id.Equals("GrimoraModBattleSequencer"))
-						{
-							Log.LogDebug($"[CreateChessPiece] id is not null, setting ActiveBossType");
-							nameTemp = nameTemp.Replace("Enemy", "Boss");
-							ActiveBossType = BaseBossExt.BossTypesByString.GetValueSafe(id);
-						}
-						else
-						{
-							// Log.LogDebug($"[CreateChessPiece] id is null, getting blueprint");
-							enemyPiece.blueprint = GetBlueprint();
-						}
-
-						break;
+						UnityEngine.Object.Destroy(meshFilter);
 					}
-					case ChessboardBlockerPiece blockerPiece:
+					else
 					{
-						Mesh blockerMesh = GetActiveRegionBlockerMesh();
-						foreach (var meshFilter in blockerPiece.GetComponentsInChildren<MeshFilter>())
-						{
-							GameObject meshFilerObj = meshFilter.gameObject;
-							if (meshFilerObj.name != "Base")
-							{
-								UnityEngine.Object.Destroy(meshFilter);
-							}
-							else
-							{
-								// meshFilter59.mesh = (Pluginz.allAssets[2] as Mesh);
-								// .material.mainTexture = (Pluginz.allAssets[3] as Texture2D);
-								// .sharedMaterial.mainTexture = (Pluginz.allAssets[3] as Texture2D);
+						// meshFilter59.mesh = (Pluginz.allAssets[2] as Mesh);
+						// .material.mainTexture = (Pluginz.allAssets[3] as Texture2D);
+						// .sharedMaterial.mainTexture = (Pluginz.allAssets[3] as Texture2D);
 
-								meshFilter.mesh = blockerMesh;
-								// meshObj.GetComponent<MeshRenderer>().material.mainTexture = blockerMesh as Texture2D;
-								// meshObj.GetComponent<MeshRenderer>().sharedMaterial.mainTexture = allAssets[3] as Texture2D;
-								meshFilerObj.transform.localScale = new Vector3(0.08f, 0.08f, 0.08f);
-								meshFilerObj.transform.localPosition = new Vector3(0f, -0.0209f, 0f);
-							}
-						}
-
-						break;
+						meshFilter.mesh = blockerMesh;
+						// meshObj.GetComponent<MeshRenderer>().material.mainTexture = blockerMesh as Texture2D;
+						// meshObj.GetComponent<MeshRenderer>().sharedMaterial.mainTexture = allAssets[3] as Texture2D;
+						meshFilerObj.transform.localScale = new Vector3(0.08f, 0.08f, 0.08f);
+						meshFilerObj.transform.localPosition = new Vector3(0f, -0.0209f, 0f);
 					}
 				}
 
-				piece.name = nameTemp;
-
-				// GrimoraPlugin.Log.LogDebug($"[CreatingPiece] {piece.name}");
-				ChessboardMapExt.Instance.pieces.Add(piece);
+				break;
 			}
 		}
-	}
 
-	#endregion
+		piece.name = nameTemp;
+
+		// GrimoraPlugin.Log.LogDebug($"[CreatingPiece] {piece.name}");
+		ChessboardMapExt.Instance.pieces.Add(piece);
+	}
 }
+
+#endregion
