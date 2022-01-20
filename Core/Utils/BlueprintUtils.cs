@@ -174,8 +174,27 @@ public static class BlueprintUtils
 
 	#endregion
 
+	public static readonly Dictionary<string, EncounterBlueprintData> BossInitialBlueprints = new()
+	{
+		{
+			KayceeBossOpponent.SpecialId,
+			BuildKayceeBossInitialBlueprint()
+		},
+		{
+			SawyerBossOpponent.SpecialId,
+			BuildSawyerBossInitialBlueprint()
+		},
+		{
+			RoyalBossOpponentExt.SpecialId,
+			BuildRoyalBossInitialBlueprint()
+		},
+		{
+			GrimoraBossOpponentExt.SpecialId,
+			BuildGrimoraBossInitialBlueprint()
+		}
+	};
 
-	public static Dictionary<Opponent.Type, List<EncounterBlueprintData>> RegionWithBlueprints = new()
+	public static readonly Dictionary<Opponent.Type, List<EncounterBlueprintData>> RegionWithBlueprints = new()
 	{
 		{
 			BaseBossExt.KayceeOpponent,
@@ -235,6 +254,32 @@ public static class BlueprintUtils
 			new() { },
 			new() { bp_BonePrince },
 			new() { bp_Zombie }
+		};
+
+		return blueprint;
+	}
+
+	public static EncounterBlueprintData BuildKayceeBossInitialBlueprint()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Skeleton },
+			new() { bp_Zombie },
+			new() { bp_Draugr },
+			new() { bp_Skeleton },
+			new() { },
+			new() { bp_Skeleton },
+			new() { bp_Revenant },
+			new() { },
+			new() { bp_Skeleton, bp_Skeleton },
+			new() { bp_Skeleton, bp_Draugr },
+			new() { },
+			new() { },
+			new() { bp_Revenant },
+			new() { bp_Skeleton },
+			new() { bp_DrownedSoul },
+			new() { bp_Revenant }
 		};
 
 		return blueprint;
@@ -324,6 +369,34 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
+	public static EncounterBlueprintData BuildRoyalBossInitialBlueprint()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Skeleton },
+			new() { },
+			new() { bp_BonePrince },
+			new() { bp_Skeleton },
+			new() { },
+			new() { bp_GhostShip },
+			new() { },
+			new() { bp_Revenant },
+			new() { bp_BonePrince },
+			new() { bp_Revenant },
+			new() { },
+			new() { },
+			new() { bp_GhostShip },
+			new() { bp_BonePrince },
+			new() { },
+			new() { bp_BonePrince },
+			new() { },
+			new() { bp_Revenant }
+		};
+
+		return blueprint;
+	}
+
 	public static EncounterBlueprintData BuildRoyalBossRegionBlueprintOne()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
@@ -398,6 +471,29 @@ public static class BlueprintUtils
 			new() { bp_BoneSnapper }
 		};
 
+		return blueprint;
+	}
+
+	public static EncounterBlueprintData BuildGrimoraBossInitialBlueprint()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Zombie },
+			new() { bp_Obol },
+			new() { bp_Hydra },
+			new() { bp_FrankAndStein },
+			new() { bp_Family },
+			new() { },
+			new() { bp_Skeleton },
+			new() { },
+			new() { bp_Skeleton, bp_BoneSerpent },
+			new() { },
+			new() { bp_Revenant },
+			new() { },
+			new() { bp_Sarcophagus },
+			new() { bp_SkeletonMage }
+		};
 		return blueprint;
 	}
 
@@ -476,6 +572,29 @@ public static class BlueprintUtils
 			new() { bp_Skeleton, bp_Skeleton },
 			new() { },
 			new() { bp_Revenant, bp_Revenant, bp_Revenant, bp_Revenant },
+		};
+
+		return blueprint;
+	}
+
+	public static EncounterBlueprintData BuildSawyerBossInitialBlueprint()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Zombie },
+			new() { },
+			new() { bp_Skeleton, bp_BoneSerpent },
+			new() { },
+			new() { },
+			new() { bp_Sarcophagus, bp_BoneSerpent },
+			new() { },
+			new() { bp_Skeleton, bp_BoneSerpent },
+			new() { },
+			new() { bp_BoneSerpent },
+			new() { },
+			new() { bp_UndeadWolf },
+			new() { bp_BoneSerpent, bp_BoneSerpent }
 		};
 
 		return blueprint;

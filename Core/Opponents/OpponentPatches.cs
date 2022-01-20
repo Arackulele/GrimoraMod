@@ -48,7 +48,7 @@ public class OpponentPatches
 			opponent.AI = Activator.CreateInstance(CustomType.GetType("DiskCardGame", text)) as AI;
 			opponent.NumLives = opponent.StartingLives;
 			opponent.OpponentType = encounterData.opponentType;
-			opponent.TurnPlan = opponent.ModifyTurnPlan(encounterData.opponentTurnPlan);
+			opponent.TurnPlan = EncounterBuilder.BuildOpponentTurnPlan(encounterData.Blueprint, 0, false);
 			opponent.Blueprint = encounterData.Blueprint;
 			opponent.Difficulty = encounterData.Difficulty;
 			opponent.ExtraTurnsToSurrender = SeededRandom.Range(3, 4, SaveManager.SaveFile.GetCurrentRandomSeed());

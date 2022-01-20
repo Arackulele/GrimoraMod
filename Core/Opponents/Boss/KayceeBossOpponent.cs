@@ -2,6 +2,7 @@
 using DiskCardGame;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -13,14 +14,13 @@ public class KayceeBossOpponent : BaseBossExt
 
 	public override Type Opponent => KayceeOpponent;
 
-	public override string DefeatedPlayerDialogue => "Youuuuuuu, painnnfulllll deaaathhh awaiiitttsss youuuuuuu!";
+	public override string DefeatedPlayerDialogue => "Youuuuuuur, painnnfulllll deaaathhh awaiiitttsss youuuuuuu!";
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
 		AudioController.Instance.SetLoopAndPlay("gbc_battle_undead");
 		AudioController.Instance.SetLoopAndPlay("gbc_battle_undead", 1);
 		yield return new WaitForSeconds(0.5f);
-
 
 		ViewManager.Instance.SwitchToView(View.Default);
 		yield return new WaitForSeconds(1f);
@@ -31,8 +31,13 @@ public class KayceeBossOpponent : BaseBossExt
 
 		yield return base.FaceZoomSequence();
 		yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
-			"Brrrr! I've been freezing for ages! Let's turn up the heat in a good fight!", -0.65f, 0.4f, Emotion.Neutral,
-			TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
+			"Brrrr! I've been freezing for ages! Let's turn up the heat in a good fight!",
+			-0.65f,
+			0.4f,
+			Emotion.Neutral,
+			TextDisplayer.LetterAnimation.Jitter,
+			DialogueEvent.Speaker.Single, null, true
+		);
 
 		ViewManager.Instance.SwitchToView(View.Default);
 		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
@@ -51,32 +56,6 @@ public class KayceeBossOpponent : BaseBossExt
 			GameColors.Instance.brightBlue,
 			GameColors.Instance.brightBlue
 		);
-	}
-
-	public override EncounterBlueprintData BuildInitialBlueprint()
-	{
-		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
-		{
-			new() { bp_Skeleton },
-			new() { bp_Zombie },
-			new() { bp_Draugr },
-			new() { bp_Skeleton },
-			new() { },
-			new() { bp_Skeleton },
-			new() { bp_Revenant },
-			new() { },
-			new() { bp_Skeleton, bp_Skeleton },
-			new() { bp_Skeleton, bp_Draugr },
-			new() { },
-			new() { },
-			new() { bp_Revenant },
-			new() { bp_Skeleton },
-			new() { bp_DrownedSoul },
-			new() { bp_Revenant }
-		};
-
-		return blueprint;
 	}
 
 	public EncounterBlueprintData BuildNewPhaseBlueprint()
@@ -108,8 +87,14 @@ public class KayceeBossOpponent : BaseBossExt
 	{
 		{
 			yield return base.FaceZoomSequence();
-			yield return Singleton<TextDisplayer>.Instance.ShowUntilInput("Im still not feeling Warmer!", -0.65f, 0.4f,
-				Emotion.Neutral, TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
+			yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
+				"I'm still not feeling Warmer!",
+				-0.65f,
+				0.4f,
+				Emotion.Neutral,
+				TextDisplayer.LetterAnimation.Jitter,
+				DialogueEvent.Speaker.Single, null, true
+			);
 
 			yield return this.ClearBoard();
 			var playerSlotsWithCards = CardSlotUtils.GetPlayerSlotsWithCards();
@@ -129,17 +114,43 @@ public class KayceeBossOpponent : BaseBossExt
 
 	public override IEnumerator OutroSequence(bool wasDefeated)
 	{
-		yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
-			"Oh come on dude,Im still Cold! Lets fight again soon!", -0.65f, 0.4f, Emotion.Neutral,
-			TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
-		TableVisualEffectsManager.Instance.ResetTableColors();
+		if (wasDefeated)
+		{
+			// before the mask gets put away
+			yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
+				"Oh come on dude, I'm still Cold! Lets fight again soon!",
+				-0.65f,
+				0.4f,
+				Emotion.Neutral,
+				TextDisplayer.LetterAnimation.Jitter,
+				DialogueEvent.Speaker.Single, null, true
+			);
 
-		yield return new WaitForSeconds(1f);
+			// this will put the mask away
+			yield return base.OutroSequence(true);
 
-		yield return base.FaceZoomSequence();
-		yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
-			"This next Area was made by Sawyer, one of my Ghouls. He says it is terrible.", -0.65f, 0.4f, Emotion.Neutral,
-			TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
+			yield return base.FaceZoomSequence();
+			yield return Singleton<TextDisplayer>.Instance.ShowUntilInput(
+				"This next area was made by Sawyer, one of my Ghouls.\nHe says it is terrible.",
+				-0.65f,
+				0.4f,
+				Emotion.Neutral,
+				TextDisplayer.LetterAnimation.Jitter,
+				DialogueEvent.Speaker.Single, null, true
+			);
+		}
+		else
+		{
+			Log.LogDebug($"[{GetType()}] Defeated player dialogue");
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				DefeatedPlayerDialogue,
+				-0.65f,
+				0.4f,
+				Emotion.Neutral,
+				TextDisplayer.LetterAnimation.Jitter,
+				DialogueEvent.Speaker.Single, null, true
+			);
+		}
 
 
 		yield break;
