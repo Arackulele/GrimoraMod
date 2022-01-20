@@ -5,11 +5,9 @@ using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
-public class RoyalBossSequencer : Part1BossBattleSequencer
+public class RoyalBossSequencer : GrimoraModBossBattleSequencer
 {
 	public override Opponent.Type BossType => BaseBossExt.RoyalOpponent;
-
-	public override StoryEvent DefeatedStoryEvent => StoryEvent.TutorialRunCompleted;
 
 	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
 	{

@@ -236,7 +236,7 @@ public class GrimoraChessboard
 	private void CreateEnemyPiece(int x, int y)
 	{
 		// GrimoraPlugin.Log.LogDebug($"Space is not occupied, attempting to create enemy piece at x [{x}] y [{y}]");
-		CreateBaseEnemyPiece(PrefabEnemyPiece, x, y);
+		CreateBaseEnemyPiece(PrefabEnemyPiece, x, y, "GrimoraModBattleSequencer");
 	}
 
 	private void CreateBaseEnemyPiece(ChessboardPiece prefab, int x, int y, string id = "")
@@ -292,10 +292,11 @@ public class GrimoraChessboard
 						enemyPiece.GoalPosX = x;
 						enemyPiece.GoalPosX = y;
 
-						if (!string.IsNullOrEmpty(id))
+						enemyPiece.specialEncounterId = id;
+
+						if (!id.Equals("GrimoraModBattleSequencer"))
 						{
-							// Log.LogDebug($"[CreateChessPiece] id is not null, setting ActiveBossType");
-							enemyPiece.specialEncounterId = id;
+							Log.LogDebug($"[CreateChessPiece] id is not null, setting ActiveBossType");
 							nameTemp = nameTemp.Replace("Enemy", "Boss");
 							ActiveBossType = BaseBossExt.BossTypesByString.GetValueSafe(id);
 						}
