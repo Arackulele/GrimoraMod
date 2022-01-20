@@ -167,12 +167,6 @@ public class GrimoraChessboard
 
 	private static ChessboardPiece GetPieceAtSpace(int x, int y)
 	{
-		var chests = UnityEngine.Object.FindObjectsOfType<ChessboardChestPiece>();
-		foreach (var chest in chests)
-		{
-			chest.NodeData = new ChooseRareCardNodeData();
-		}
-
 		return ChessboardNavGrid.instance.zones[x, y].GetComponent<ChessboardMapNode>().OccupyingPiece;
 	}
 
