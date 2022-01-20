@@ -9,7 +9,7 @@ namespace GrimoraMod;
 
 public class ChessboardMapExt : ChessboardMap
 {
-	private readonly bool _enableDevMode = ConfigDeveloperMode.Value;
+	private static bool EnableDevMode => ConfigDeveloperMode.Value;
 	private GrimoraChessboard _activeChessboard;
 
 	private bool _toggleEncounterMenu;
@@ -111,7 +111,7 @@ public class ChessboardMapExt : ChessboardMap
 			ResetDeck();
 		}
 
-		if (_enableDevMode)
+		if (EnableDevMode)
 		{
 			_toggleEncounterMenu = GUI.Toggle(
 				new Rect(20, 100, 200, 20),
@@ -254,7 +254,7 @@ public class ChessboardMapExt : ChessboardMap
 		dynamicElementsParent.gameObject.SetActive(true);
 
 		// for checking which nodes are active/inactive
-		if (_enableDevMode) RenameMapNodesWithGridCoords();
+		if (EnableDevMode) RenameMapNodesWithGridCoords();
 
 		UpdateActiveChessboard();
 
@@ -285,7 +285,7 @@ public class ChessboardMapExt : ChessboardMap
 
 		if (ChangingRegion)
 		{
-			if (currentChessboardIndex++ == 4)
+			if (++currentChessboardIndex >= 4)
 			{
 				currentChessboardIndex = 0;
 			}
