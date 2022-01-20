@@ -3,11 +3,9 @@ using DiskCardGame;
 
 namespace GrimoraMod;
 
-public class SawyerBattleSequencer : Part1BossBattleSequencer
+public class SawyerBattleSequencer : GrimoraModBossBattleSequencer
 {
 	public override Opponent.Type BossType => BaseBossExt.SawyerOpponent;
-
-	public override StoryEvent DefeatedStoryEvent => StoryEvent.TutorialRunCompleted;
 
 	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
 	{

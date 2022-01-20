@@ -4,7 +4,7 @@ using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
-public class GrimoraBossSequencer : Part1BossBattleSequencer
+public class GrimoraBossSequencer : GrimoraModBossBattleSequencer
 {
 	public override Opponent.Type BossType => BaseBossExt.GrimoraOpponent;
 
