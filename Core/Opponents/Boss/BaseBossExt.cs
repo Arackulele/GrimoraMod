@@ -71,6 +71,42 @@ public abstract class BaseBossExt : Part1BossOpponent
 		}
 	}
 
+	public override IEnumerator OutroSequence(bool wasDefeated)
+	{
+		if (wasDefeated)
+		{
+			SetBossDefeatedInConfig();
+		}
+		else
+		{
+			yield return base.OutroSequence(false);
+		}
+	}
+
+	private void SetBossDefeatedInConfig()
+	{
+		switch (this)
+		{
+			case KayceeBossOpponent:
+				GrimoraPlugin.ConfigKayceeFirstBossDead.Value = true;
+				break;
+			case SawyerBossOpponent:
+				GrimoraPlugin.ConfigSawyerSecondBossDead.Value = true;
+				break;
+			case RoyalBossOpponentExt:
+				GrimoraPlugin.ConfigRoyalThirdBossDead.Value = true;
+				break;
+			case GrimoraBossOpponentExt:
+				GrimoraPlugin.ConfigGrimoraBossDead.Value = true;
+				break;
+		}
+
+		var bossPiece = ChessboardMapExt.Instance.BossPiece;
+		ChessboardMapExt.Instance.BossDefeated = true;
+		ChessboardMapExt.Instance.AddPieceToRemovedPiecesConfig(bossPiece.name);
+		GrimoraPlugin.Log.LogDebug($"[BossDefeatedSequence][PostFix] Boss {GetType()} defeated.");
+	}
+
 	public IEnumerator ShowBossSkull()
 	{
 		// Log.LogDebug($"[{GetType()}] Calling ShowBossSkull");
