@@ -57,8 +57,8 @@ public abstract class BaseBossExt : Part1BossOpponent
 			);
 
 			Mask.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
-			Mask.transform.localPosition = new Vector3(0, 0.19f, 0.065f);
-			Mask.transform.localRotation = Quaternion.Euler(0, 0, 260);
+			Mask.transform.localPosition = new Vector3(0.02f, 0.18f, 0.07f);
+			Mask.transform.localRotation = Quaternion.Euler(0, 0, 270);
 
 			// UnityEngine.Object.Destroy(RoyalBossSkull);
 			RoyalBossSkull.SetActive(false);
