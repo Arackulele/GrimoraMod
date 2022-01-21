@@ -105,6 +105,11 @@ public class ChessboardMapExt : ChessboardMap
 		else if (resetRunBtn)
 		{
 			ResetConfig();
+			ResetDeck();
+			StoryEventsData.EraseEvent(StoryEvent.GrimoraReachedTable);
+			SaveManager.SaveToFile();
+
+			LoadingScreenManager.LoadScene("finale_grimora");
 		}
 		else if (deckResetBtn)
 		{
