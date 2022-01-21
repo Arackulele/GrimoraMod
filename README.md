@@ -82,8 +82,7 @@
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Changed
   CardBuilder methods to now be prefixed with `Set` instead of `With`.
 
-- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Changed
-  CardBuilder methods to now be prefixed with `Set` instead of `With`.
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Updated logic for resetting run to now wipe the deck, reset the config, and start you back at the tombstones falling.
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Removed
   disabling act 1/2 cards from showing up as now the select card choices events now look for GrimoraMod specific cards.
