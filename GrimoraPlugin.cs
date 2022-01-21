@@ -207,7 +207,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		Log.LogDebug($"Loading asset bundles");
 		string blockersFile = FileUtils.FindFileInPluginDir("GrimoraMod_Prefabs_Blockers");
-		string spritesFile = FileUtils.FindFileInPluginDir("grimoramod_all_assets.sprites");
+		string spritesFile = FileUtils.FindFileInPluginDir("grimoramod_sprites");
 
 		AssetBundle blockerBundle = AssetBundle.LoadFromFile(blockersFile);
 		AssetBundle spritesBundle = AssetBundle.LoadFromFile(spritesFile);
