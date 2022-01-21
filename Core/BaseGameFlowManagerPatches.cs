@@ -43,9 +43,10 @@ public class BaseGameFlowManagerPatches
 			boardManager.transform
 		);
 
-		Color grimoraTextColor = new Color(0.412f, 1f, 0.627f);
+		Color grimoraTextColor = new Color(0.420f, 1f, 0.63f);
 		drone.name = "Grimora Resource Drone";
 		drone.baseCellColor = grimoraTextColor;
+		drone.highlightedCellColor = new Color(1, 1, 0.23f);
 
 		Log.LogDebug($"[AddEnergyDrone] Disabling animation");
 		Animator animator = drone.GetComponentInChildren<Animator>();
