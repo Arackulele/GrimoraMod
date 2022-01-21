@@ -65,6 +65,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		BindConfig();
 
+		// CheckIfApiConfigHasEnergyEnabled();
+
 		GrimoraConfigFile.SaveOnConfigSet = true;
 		ResetConfigDataIfGrimoraHasNotReachedTable();
 
@@ -125,6 +127,35 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		// ChangePackRat();
 		// ChangeSquirrel();
+	}
+
+	private void CheckIfApiConfigHasEnergyEnabled()
+	{
+		Log.LogDebug($"Checking if API config has energy enabled");
+		string configFileApi = "cyantist.inscryption.api.cfg";
+
+		string configFilePathApi = Path.Combine(Paths.ConfigPath, configFileApi);
+
+		var apiLines = File.ReadAllLines(configFilePathApi);
+		var newApiLines = new List<string>();
+		
+		foreach (string line in apiLines)
+		{
+			string tempLine = line;
+			Log.LogDebug($"Line is [{line}]");
+			if (tempLine.StartsWith("Energy Refresh"))
+			{
+				tempLine = "Energy Refresh = true";
+			} 
+			else if (tempLine.StartsWith("Energy Drone"))
+			{
+				tempLine = "Energy Drone = true";
+			}
+
+			newApiLines.Add(tempLine);
+		}
+
+		File.WriteAllLines(configFilePathApi, newApiLines);
 	}
 
 	private static void ResizeArtworkForVanillaBoneCards()
@@ -189,7 +220,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			PluginName,
 			"Enable Developer Mode",
 			false,
-			new ConfigDescription("Does not generate blocker or enemy pieces except boss. Chests fill first row.")
+			new ConfigDescription("Does not generate blocker pieces. Chests fill first row, enemy pieces fill first column.")
 		);
 
 		var list = ConfigCurrentRemovedPieces.Value.Split(',').ToList();

@@ -9,8 +9,21 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(GameFlowManager))]
 public class BaseGameFlowManagerPatches
 {
-	private static GameObject PrefabGrimoraSelectableCard =
+	private static readonly GameObject PrefabGrimoraSelectableCard =
 		ResourceBank.Get<GameObject>("Prefabs/Cards/SelectableCard_Grimora");
+
+	private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
+
+	private static GameObject SetupSelectableCard()
+	{
+		GameObject selectable = ResourceBank.Get<GameObject>("Prefabs/Cards/SelectableCard_Grimora");
+		RuntimeAnimatorController controller
+			= ResourceBank.Get<RuntimeAnimatorController>("Animation/Cards/PaperCards/Card");
+
+		selectable.GetComponent<Animator>().runtimeAnimatorController = controller;
+
+		return selectable;
+	}
 
 	[HarmonyPrefix, HarmonyPatch(nameof(GameFlowManager.Start))]
 	public static void PrefixStart(GameFlowManager __instance)
