@@ -9,6 +9,85 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 {
 	public static ChessboardEnemyPiece ActiveEnemyPiece;
 
+	public override IEnumerator PreCleanUp()
+	{
+		if (!TurnManager.Instance.PlayerIsWinner())
+		{
+			Log.LogDebug($"[GrimoraModBattleSequencer] Player did not win...");
+			AudioController.Instance.FadeOutLoop(3f, Array.Empty<int>());
+
+			ViewManager.Instance.SwitchToView(View.Default, false, true);
+
+			PlayerHand.Instance.PlayingLocked = true;
+
+			InteractionCursor.Instance.InteractionDisabled = true;
+
+			Log.LogDebug($"[GameEnd] Calling CardDrawPiles CleanUp...");
+			StartCoroutine(CardDrawPiles.Instance.CleanUp());
+
+			Log.LogDebug($"[GameEnd] Calling TurnManager CleanUp...");
+			StartCoroutine(TurnManager.Instance.Opponent.CleanUp());
+
+			yield return GlitchOutBoardAndHandCards();
+
+			PlayerHand.Instance.SetShown(false, false);
+
+			yield return new WaitForSeconds(0.75f);
+
+			Log.LogDebug($"[GameEnd] Setting rulebook controller to not shown");
+			RuleBookController.Instance.SetShown(shown: false);
+			Log.LogDebug($"[GameEnd] Setting TableRuleBook.Instance enabled to false");
+			TableRuleBook.Instance.enabled = false;
+			Log.LogDebug($"[GameEnd] Glitching rulebook");
+			GlitchOutAssetEffect.GlitchModel(TableRuleBook.Instance.transform, false, true);
+
+			yield return new WaitForSeconds(0.75f);
+
+			// yield return TextDisplayer.Instance.ShowUntilInput("Let the circle reset");
+
+			yield return TextDisplayer.Instance.PlayDialogueEvent(
+				"RoyalBossDeleted",
+				TextDisplayer.MessageAdvanceMode.Input
+			);
+			yield return new WaitForSeconds(0.5f);
+
+			InteractionCursor.Instance.InteractionDisabled = false;
+
+			Log.LogDebug($"[GameEnd] Glitching bell");
+			GlitchOutAssetEffect.GlitchModel(((BoardManager3D)BoardManager3D.Instance).Bell.transform);
+			yield return new WaitForSeconds(0.75f);
+			Log.LogDebug($"[GameEnd] Glitching scales");
+			GlitchOutAssetEffect.GlitchModel(LifeManager.Instance.Scales3D.transform);
+			yield return new WaitForSeconds(0.75f);
+
+			// yield return (GameFlowManager.Instance as GrimoraGameFlowManager).EndSceneSequence();
+
+			Log.LogDebug($"[GameEnd] Glitching bone tokens");
+			(ResourcesManager.Instance as Part1ResourcesManager).GlitchOutBoneTokens();
+			GlitchOutAssetEffect.GlitchModel(TableVisualEffectsManager.Instance.Table.transform);
+			yield return new WaitForSeconds(0.75f);
+
+			Log.LogDebug($"[GameEnd] Playing dialogue event");
+			yield return TextDisplayer.Instance.PlayDialogueEvent(
+				"GrimoraFinaleEnd",
+				TextDisplayer.MessageAdvanceMode.Input
+			);
+
+			Log.LogDebug($"[GameEnd] Switching to default view");
+			ViewManager.Instance.SwitchToView(View.Default, immediate: false, lockAfter: true);
+
+			Log.LogDebug($"[GameEnd] Time to rest");
+			yield return TextDisplayer.Instance.ShowThenClear(
+				"It is time to rest.", 1f, 0.5f, Emotion.Curious
+			);
+			yield return new WaitForSeconds(0.75f);
+			Log.LogDebug($"[GameEnd] offset fov");
+			ViewManager.Instance.OffsetFOV(150f, 1.5f);
+		}
+
+		yield break;
+	}
+
 	public override List<CardInfo> GetFixedOpeningHand()
 	{
 		Log.LogDebug($"Getting randomized list for starting hand");
@@ -55,73 +134,12 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		}
 		else
 		{
-			Log.LogDebug($"[ChessboardEnemyBattleSequencer.PreCleanUp][Postfix] Player did not win...");
-			AudioController.Instance.FadeOutLoop(3f, Array.Empty<int>());
-
-			ViewManager.Instance.SwitchToView(View.Default, false, true);
-
-			PlayerHand.Instance.PlayingLocked = true;
-
-			InteractionCursor.Instance.InteractionDisabled = true;
-
-			Log.LogDebug($"[GameEnd] Calling TurnManager CleanUp...");
-			yield return TurnManager.Instance.Opponent.CleanUp();
-
-			yield return GlitchOutBoardAndHandCards();
-
-			PlayerHand.Instance.SetShown(false, false);
-
-			yield return new WaitForSeconds(0.75f);
-
-			Log.LogDebug($"[GameEnd] Setting rulebook controller to not shown");
-			RuleBookController.Instance.SetShown(shown: false);
-			Log.LogDebug($"[GameEnd] Setting TableRuleBook.Instance enabled to false");
-			TableRuleBook.Instance.enabled = false;
-			Log.LogDebug($"[GameEnd] Glitching rulebook");
-			GlitchOutAssetEffect.GlitchModel(TableRuleBook.Instance.transform, false, true);
-
-			yield return new WaitForSeconds(0.75f);
-
-			// yield return TextDisplayer.Instance.ShowUntilInput("Let the circle reset");
-
-			yield return TextDisplayer.Instance.PlayDialogueEvent(
-				"RoyalBossDeleted",
-				TextDisplayer.MessageAdvanceMode.Input
-			);
-			yield return new WaitForSeconds(0.5f);
-
-			InteractionCursor.Instance.InteractionDisabled = false;
-
-			Log.LogDebug($"[GameEnd] Glitching bell");
-			GlitchOutAssetEffect.GlitchModel(((BoardManager3D)BoardManager3D.Instance).Bell.transform);
-			yield return new WaitForSeconds(0.75f);
-			Log.LogDebug($"[GameEnd] Glitching scales");
-			GlitchOutAssetEffect.GlitchModel(LifeManager.Instance.Scales3D.transform);
-			yield return new WaitForSeconds(0.75f);
-
-			// yield return (GameFlowManager.Instance as GrimoraGameFlowManager).EndSceneSequence();
-
-			Log.LogDebug($"[GameEnd] Glitching bone tokens");
-			(ResourcesManager.Instance as Part1ResourcesManager).GlitchOutBoneTokens();
-			GlitchOutAssetEffect.GlitchModel(TableVisualEffectsManager.Instance.Table.transform);
-			yield return new WaitForSeconds(0.75f);
-
-			yield return TextDisplayer.Instance.PlayDialogueEvent("GrimoraFinaleEnd",
-				TextDisplayer.MessageAdvanceMode.Input);
-			ViewManager.Instance.SwitchToView(View.Default, immediate: false, lockAfter: true);
-
-			yield return TextDisplayer.Instance.ShowThenClear(
-				"It is time to rest.", 1f, 0.5f, Emotion.Curious
-			);
-			yield return new WaitForSeconds(0.75f);
-			ViewManager.Instance.OffsetFOV(150f, 1.5f);
-
 			ResetRun();
 
 			yield return new WaitForSeconds(1.5f);
 
+			GrimoraPlugin.Log.LogDebug($"Starting finale_grimora");
 			LoadingScreenManager.LoadScene("finale_grimora");
-
 			yield break;
 		}
 	}
