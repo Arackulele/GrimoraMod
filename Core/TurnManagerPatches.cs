@@ -50,6 +50,13 @@ public class TurnManagerPatches
 		yield return enumerator;
 		int bonesToAdd = ChessboardMapExt.BonesToAdd;
 		Log.LogDebug($"[SetupPhase] Adding [{bonesToAdd}] bones");
-		yield return ResourcesManager.Instance.AddBones(bonesToAdd);
+		if (ConfigDeveloperMode.Value)
+		{
+			yield return ResourcesManager.Instance.AddBones(25);
+		}
+		else
+		{
+			yield return ResourcesManager.Instance.AddBones(bonesToAdd);
+		}
 	}
 }
