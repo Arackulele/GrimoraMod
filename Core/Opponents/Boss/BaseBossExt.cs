@@ -7,38 +7,65 @@ namespace GrimoraMod;
 
 public abstract class BaseBossExt : Part1BossOpponent
 {
-	public GameObject GrimoraRightHandBossSkull
+	public const string PrefabPathMasks = "Prefabs/Opponents/Leshy/Masks";
+	public const string PrefabPathRoyalBossSkull = "Prefabs/Opponents/Grimora/RoyalBossSkull";
+
+	private protected GameObject RoyalBossSkull => RightWrist.transform.GetChild(6).gameObject;
+	public GameObject RightWrist { get; } = GameObject.Find("Grimora_RightWrist");
+
+	public const Type KayceeOpponent = (Type)1001;
+	public const Type SawyerOpponent = (Type)1002;
+	public const Type RoyalOpponent = (Type)1003;
+	public const Type GrimoraOpponent = (Type)1004;
+
+	public static readonly Dictionary<string, Type> BossTypesByString = new()
 	{
-		get => GrimoraAnimationController.Instance.bossSkull;
-		set => GrimoraAnimationController.Instance.bossSkull = value;
-	}
+		{ SawyerBossOpponent.SpecialId, SawyerOpponent },
+		{ GrimoraBossOpponentExt.SpecialId, GrimoraOpponent },
+		{ KayceeBossOpponent.SpecialId, KayceeOpponent },
+		{ RoyalBossOpponentExt.SpecialId, RoyalOpponent }
+	};
 
-	public GameObject GrimoraRightWrist => GameObject.Find("Grimora_RightWrist");
-
-	private static readonly int ShowSkull = Animator.StringToHash("show_skull");
-	private static readonly int HideSkull = Animator.StringToHash("hide_skull");
+	public static readonly Dictionary<Type, string> BossMasksByType = new()
+	{
+		{ SawyerOpponent, $"{PrefabPathMasks}/MaskTrader" },
+		{ KayceeOpponent, $"{PrefabPathMasks}/MaskWoodcarver" },
+		{ RoyalOpponent, PrefabPathRoyalBossSkull }
+	};
 
 
 	public abstract StoryEvent EventForDefeat { get; }
 
+	public abstract Type Opponent { get; }
+
+	protected internal GameObject Mask { get; set; }
+
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
+		// Log.LogDebug($"[{GetType()}] Calling IntroSequence");
 		yield return base.IntroSequence(encounter);
 
 		// Royal boss has a specific sequence to follow so that it flows easier
-		if (BossHelper.BossMasksByType.TryGetValue(OpponentType, out GameObject skull))
+		if (this is not RoyalBossOpponentExt && BossMasksByType.TryGetValue(OpponentType, out string prefabPath))
 		{
-			Log.LogDebug($"[{GetType()}] Creating skull");
+			yield return ShowBossSkull();
 
-			GrimoraRightHandBossSkull = Instantiate(skull, GrimoraRightWrist.transform);
+			// Log.LogDebug($"[{GetType()}] Creating mask [{prefabPath}]");
+			Mask = (GameObject)Instantiate(
+				Resources.Load(prefabPath),
+				RightWrist.transform
+			);
 
-			var bossSkullTransform = GrimoraRightHandBossSkull.transform;
+			Mask.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
+			Mask.transform.localPosition = new Vector3(0.02f, 0.18f, 0.07f);
+			Mask.transform.localRotation = Quaternion.Euler(0, 0, 270);
 
-			bossSkullTransform.localPosition = new Vector3(-0.0044f, 0.18f, -0.042f);
-			bossSkullTransform.localRotation = Quaternion.Euler(85.85f, 227.76f, 262.77f);
-			bossSkullTransform.localScale = new Vector3(0.14f, 0.14f, 0.14f);
+			// UnityEngine.Object.Destroy(RoyalBossSkull);
+			RoyalBossSkull.SetActive(false);
+			yield return new WaitForSeconds(1f);
 
-			yield return ShowBossSkullFromHand();
+			AudioController.Instance.FadeOutLoop(0.75f);
+			RunState.CurrentMapRegion.FadeOutAmbientAudio();
 		}
 	}
 
@@ -47,30 +74,42 @@ public abstract class BaseBossExt : Part1BossOpponent
 		if (wasDefeated)
 		{
 			ConfigHelper.Instance.SetBossDefeatedInConfig(this);
-			if (ConfigHelper.Instance.BossesDefeated >= 4)
-			{
-				ConfigHelper.Instance.BossesDefeated = 0;
-			}
 
+			Log.LogDebug($"[{GetType()}] SaveFile is Grimora");
+
+			Log.LogDebug($"[{GetType()}] Glitching mask");
+			GlitchOutAssetEffect.GlitchModel(
+				Mask.transform,
+				true
+			);
+
+			Log.LogDebug($"[{GetType()}] audio queue");
 			AudioController.Instance.PlaySound2D("glitch_error", MixerGroup.TableObjectsSFX);
 
-			yield return HideRightHandBossSkull();
+			Log.LogDebug($"[{GetType()}] hiding skull");
+			GrimoraAnimationController.Instance.SetHeadTrigger("hide_skull");
 
+			Log.LogDebug($"[{GetType()}] Destroying scenery");
 			DestroyScenery();
 
+			Log.LogDebug($"[{GetType()}] Set Scene Effects");
 			SetSceneEffectsShown(false);
 
+			Log.LogDebug($"[{GetType()}] Stopping audio");
 			AudioController.Instance.StopAllLoops();
 
 			yield return new WaitForSeconds(0.75f);
 
+			Log.LogDebug($"[{GetType()}] CleanUpBossBehaviours");
 			CleanUpBossBehaviours();
 
 			ViewManager.Instance.SwitchToView(View.Default, false, true);
 
+			Log.LogDebug($"[{GetType()}] Resetting table colors");
 			TableVisualEffectsManager.Instance.ResetTableColors();
 			yield return new WaitForSeconds(0.25f);
 
+			Log.LogDebug($"Setting post battle special node to a rare code node data");
 			TurnManager.Instance.PostBattleSpecialNode = new ChooseRareCardNodeData();
 		}
 		else
@@ -79,31 +118,18 @@ public abstract class BaseBossExt : Part1BossOpponent
 		}
 	}
 
-	public IEnumerator ShowBossSkullFromHand()
+	public IEnumerator ShowBossSkull()
 	{
-		yield return new WaitForSeconds(0.1f);
+		// Log.LogDebug($"[{GetType()}] Calling ShowBossSkull");
 		GrimoraAnimationController.Instance.ShowBossSkull();
-		GrimoraAnimationController.Instance.headAnim.ResetTrigger(HideSkull);
+
+		// Log.LogDebug($"[{GetType()}] Setting Head Trigger");
 		GrimoraAnimationController.Instance.SetHeadTrigger("show_skull");
-		yield return new WaitForSeconds(0.05f);
 
-		ViewManager.Instance.SwitchToView(View.BossCloseup, false, true);
+		yield return new WaitForSeconds(0.25f);
+
+		ViewManager.Instance.SwitchToView(View.BossCloseup, immediate: false, lockAfter: true);
 	}
-
-	public IEnumerator HideRightHandBossSkull()
-	{
-		if (GrimoraRightHandBossSkull)
-		{
-			GrimoraAnimationController.Instance.GlitchOutBossSkull();
-			GrimoraAnimationController.Instance.headAnim.ResetTrigger(ShowSkull);
-			GrimoraAnimationController.Instance.SetHeadTrigger("hide_skull");
-			GrimoraRightHandBossSkull = null;
-		}
-
-		yield break;
-	}
-
-	public abstract void PlayTheme();
 
 	public virtual IEnumerator ReplaceBlueprintCustom(EncounterBlueprintData blueprintData)
 	{

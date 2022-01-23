@@ -1,159 +1,178 @@
-global using UnityObject = UnityEngine.Object;
-using System.Collections;
-using System.Reflection;
+using APIPlugin;
 using BepInEx;
 using BepInEx.Logging;
 using DiskCardGame;
 using HarmonyLib;
-using InscryptionAPI.Card;
-using InscryptionAPI.Helpers;
 using UnityEngine;
 
 namespace GrimoraMod;
 
-[BepInDependency(InscryptionAPI.InscryptionAPIPlugin.ModGUID)]
-[BepInPlugin(GUID, Name, Version)]
+[BepInDependency("cyantist.inscryption.api")]
+[BepInPlugin(PluginGuid, PluginName, PluginVersion)]
 public partial class GrimoraPlugin : BaseUnityPlugin
 {
-	public const string GUID = "arackulele.inscryption.grimoramod";
-	public const string Name = "GrimoraMod";
-	private const string Version = "2.8.3";
+	public const string PluginGuid = "arackulele.inscryption.grimoramod";
+	public const string PluginName = "GrimoraMod";
+	private const string PluginVersion = "2.4.0";
 
 	internal static ManualLogSource Log;
 
 	private static Harmony _harmony;
 
-	public static List<GameObject> AllPrefabs;
-	public static List<Material> AllMats;
-	public static List<RuntimeAnimatorController> AllControllers;
-	public static List<Sprite> AllSprites;
-	public static List<AudioClip> AllSounds;
-	public static List<Texture> AllAbilitiesTextures;
+	public static UnityEngine.Object[] AllAssets;
+	public static UnityEngine.Sprite[] AllSpriteAssets;
 
-	// Gets populated in CardBuilder.Build()
-	public static List<CardInfo> AllGrimoraModCards = new();
-	public static List<CardInfo> AllPlayableGrimoraModCards = new();
+
+	private static readonly List<StoryEvent> StoryEventsToBeCompleteBeforeStarting = new()
+	{
+		StoryEvent.BasicTutorialCompleted, StoryEvent.TutorialRunCompleted, StoryEvent.BonesTutorialCompleted,
+		StoryEvent.TutorialRun2Completed, StoryEvent.TutorialRun3Completed
+	};
+
 
 	private void Awake()
 	{
-		Log = Logger;
+		Log = base.Logger;
 
-		_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
+		LoadAssets();
+
+		ResetConfigDataIfGrimoraHasNotReachedTable();
+
+		UnlockAllNecessaryEventsToPlay();
+
+		_harmony = new Harmony(PluginGuid);
+		_harmony.PatchAll();
+
+		#region AddingAbilities
+
+		FlameStrafe.CreateFlameStrafe();
+
+		#endregion
+
+		#region AddingCards
+
+		AddAra_Bonepile();
+		AddAra_BonePrince();
+		AddAra_Bonelord();
+		AddAra_BonelordsHorn();
+		AddAra_BoneSerpent();
+		AddAra_CrazedMantis();
+		AddAra_DeadHand();
+		AddAra_DeadPets();
+		AddAra_Draugr();
+		AddAra_DrownedSoul();
+		AddAra_Ember_spirit();
+		AddAra_Family();
+		AddAra_Flames();
+		AddAra_Franknstein();
+		AddAra_GhostShip();
+		AddAra_GraveDigger();
+		AddAra_HeadlessHorseman();
+		AddAra_Hydra();
+		AddAra_Mummy();
+		AddAra_Necromancer();
+		AddAra_Obol();
+		AddAra_Poltergeist();
+		AddAra_Revenant();
+		AddAra_RingWorm();
+		AddAra_Sarcophagus();
+		AddAra_Skelemancer();
+		AddAra_Skelemaniac();
+		AddAra_SkeletonArmy();
+		AddAra_SkeletonMage();
+		AddAra_BoneSnapper();
+		AddAra_SporeDigger();
+		AddAra_TombRobber();
+		AddAra_UndeadWolf();
+		AddAra_Wendigo();
+		AddAra_Wyvern();
+		AddAra_ZombieGeck();
+		AddAra_Zombie();
+
+		#endregion
+
+		ResizeArtworkForVanillaBoneCards();
 
 		ConfigHelper.Instance.BindConfig();
+		ConfigHelper.Instance.GrimoraConfigFile.SaveOnConfigSet = true;
 
-		AllSprites = AssetUtils.LoadAssetBundle<Sprite>("grimoramod_sprites");
-		AllAbilitiesTextures = AssetUtils.LoadAssetBundle<Texture>("grimoramod_abilities");
+		// ChangePackRat();
+		// ChangeSquirrel();
 	}
 
-	// private IEnumerator HotReloadMenuCardAdd()
-	// {
-	// 	if (ConfigHelper.Instance.isHotReloadEnabled && SceneManager.GetActiveScene().name.Equals("Start"))
-	// 	{
-	// 		if (MenuController.Instance.cardRow.Find("MenuCard_Grimora").IsNull())
-	// 		{
-	// 			Log.LogDebug($"Hot reload menu button creation");
-	// 			MenuController.Instance.cards.Add(MenuControllerPatches.CreateButton(MenuController.Instance));
-	// 		}
-	// 	}
-	// }
-
-	private IEnumerator Start()
+	private static void ResizeArtworkForVanillaBoneCards()
 	{
-		yield return LoadEverything();
+		List<string> cardsToResizeArtwork = new List<string>
+		{
+			"Amoeba", "Maggots"
+		};
 
-		// yield return new WaitUntil(() => FindObjectOfType<StartScreenThemeSetter>());
-		// StartScreenPatches.SetBackgroundToGrimoraTheme(FindObjectOfType<StartScreenThemeSetter>());
-	}
+		foreach (var cardName in cardsToResizeArtwork)
+		{
+			CardInfo cardInfo = CardLoader.Clone(CardLoader.GetCardByName(cardName));
+			CardBuilder builder = CardBuilder.Builder
+				.SetAsNormalCard()
+				.SetAbilities(cardInfo.abilities)
+				.SetBaseAttackAndHealth(cardInfo.baseAttack, cardInfo.baseHealth)
+				.SetBoneCost(cardInfo.bonesCost)
+				.SetDescription(cardInfo.description)
+				.SetNames("ara_" + cardInfo.name, cardInfo.displayedName)
+				.SetTribes(cardInfo.tribes);
 
-	private IEnumerator LoadEverything()
-	{
-		yield return LoadAssetsAsync();
+			if (cardName == "Amoeba")
+			{
+				builder.SetAsRareCard();
+			}
 
-		LoadAbilitiesAndCards();
-	}
-
-	private void LoadAbilitiesAndCards()
-	{
-		Log.LogDebug($"Loading cards");
-
-		// What this does, is that every method that exists under this partial class, Grimora Plugin,
-		//	will be searched for and of the ones that start with 'Add_', will be invoked all at once after sorting by name.
-		// We sort by name so Abilities come first because abilities have their method name like 'Add_Ability_' while cards have 'Add_Card_'
-		var allAddMethods = AccessTools.GetDeclaredMethods(typeof(GrimoraPlugin))
-		 .Where(mi => mi.Name.StartsWith("Add_"))
-		 .ToList();
-		allAddMethods.Sort((mi, mi2) => string.Compare(mi.Name, mi2.Name, StringComparison.Ordinal));
-		allAddMethods.ForEach(mi => mi.Invoke(this, null));
-		// Log.LogInfo($"Adding [{allAddMethods.Count(mi => mi.Name.Contains("_Card_"))}] cards.");
-
-		AllGrimoraModCards.Sort((info, cardInfo) => string.Compare(info.name, cardInfo.name, StringComparison.Ordinal));
-		AllPlayableGrimoraModCards = AllGrimoraModCards.Where(info => info.metaCategories.Any()).ToList();
-
-		// change just the artwork of Starvation
-		CardInfo card = CardManager.BaseGameCards.CardByName("Starvation");
-		card.portraitTex = AllSprites.Single(sp => sp.name.Equals("Starvation"));
-		card.portraitTex.RegisterEmissionForSprite(AllSprites.Single(sp => sp.name.Equals("Starvation_emission")));
-
-		CardBuilder.Builder
-		 .SetAbilities(Ability.BoneDigger, Ability.SteelTrap, Haunter.ability)
-		 .SetBaseAttackAndHealth(0, 1)
-		 .SetNames($"{GUID}_TrapTest", "Trap Test", "Trap".GetCardInfo().portraitTex)
-		 .Build();
+			NewCard.Add(builder.Build());
+		}
 	}
 
 	private void OnDestroy()
 	{
-		AllAbilitiesTextures = null;
-		AllControllers = null;
-		AllMats = null;
-		AllPrefabs = null;
-		AllSprites = null;
-		AllSounds = null;
-		AllGrimoraModCards = new List<CardInfo>();
-		ConfigHelper.Instance.HandleHotReloadBefore();
-		Resources.UnloadUnusedAssets();
-		GrimoraModBattleSequencer.ActiveEnemyPiece = null;
 		_harmony?.UnpatchSelf();
 	}
 
-	public static void SpawnParticlesOnCard(PlayableCard target, Texture2D tex, bool reduceY = false)
+
+	private static void LoadAssets()
 	{
-		GravestoneCardAnimationController anim = target.Anim as GravestoneCardAnimationController;
-		GameObject gameObject = Instantiate<ParticleSystem>(anim.deathParticles).gameObject;
-		ParticleSystem particle = gameObject.GetComponent<ParticleSystem>();
-		particle.startColor = Color.white;
-		particle.GetComponent<ParticleSystemRenderer>().material =
-			new Material(particle.GetComponent<ParticleSystemRenderer>().material) { mainTexture = tex };
+		Log.LogDebug($"Loading asset bundles");
+		string blockersFile = FileUtils.FindFileInPluginDir("GrimoraMod_Prefabs_Blockers");
+		string spritesFile = FileUtils.FindFileInPluginDir("grimoramod_sprites");
 
-		ParticleSystem.MainModule mainMod = particle.main;
-		mainMod.startColor = new ParticleSystem.MinMaxGradient(Color.white);
-		gameObject.gameObject.SetActive(true);
-		gameObject.transform.position = anim.deathParticles.transform.position;
-		gameObject.transform.localScale = anim.deathParticles.transform.localScale;
-		gameObject.transform.rotation = anim.deathParticles.transform.rotation;
-		if (reduceY)
-		{
-			particle.transform.position = new Vector3(
-				particle.transform.position.x,
-				particle.transform.position.y - 0.1f,
-				particle.transform.position.z
-			);
-		}
+		AssetBundle blockerBundle = AssetBundle.LoadFromFile(blockersFile);
+		AssetBundle spritesBundle = AssetBundle.LoadFromFile(spritesFile);
+		// Log.LogDebug($"Sprites bundle {string.Join(",", spritesBundle.GetAllAssetNames())}");
 
-		Destroy(gameObject, 6f);
+		AllAssets = blockerBundle.LoadAllAssets();
+		AllSpriteAssets = spritesBundle.LoadAllAssets<Sprite>();
+		// Log.LogDebug($"Sprites loaded {string.Join(",", AllSpriteAssets.Select(spr => spr.name))}");
 	}
 
-	private IEnumerator LoadAssetsAsync()
+	private static void UnlockAllNecessaryEventsToPlay()
 	{
-		Log.LogInfo($"Loading asset bundles");
+		if (!StoryEventsToBeCompleteBeforeStarting.TrueForAll(StoryEventsData.EventCompleted))
+		{
+			Log.LogWarning($"You haven't completed a required event... Starting unlock process");
+			StoryEventsToBeCompleteBeforeStarting.ForEach(evt => StoryEventsData.SetEventCompleted(evt));
+			ProgressionData.UnlockAll();
+			SaveManager.SaveToFile();
+		}
+	}
 
-		yield return StartCoroutine(AssetUtils.LoadAssetBundleAsync<GameObject>("grimoramod_prefabs"));
+	private static void ResetConfigDataIfGrimoraHasNotReachedTable()
+	{
+		if (!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable))
+		{
+			Log.LogWarning($"Grimora has not reached the table yet, resetting values to false again.");
+			ConfigHelper.Instance.ResetConfig();
+		}
+	}
 
-		yield return StartCoroutine(AssetUtils.LoadAssetBundleAsync<AudioClip>("grimoramod_sounds"));
 
-		yield return AssetUtils.LoadAssetBundleAsync<RuntimeAnimatorController>("grimoramod_controller");
-
-		yield return AssetUtils.LoadAssetBundleAsync<Material>("grimoramod_mats");
+	public static void ResetDeck()
+	{
+		Log.LogWarning($"Resetting Grimora Deck Data");
+		GrimoraSaveData.Data.Initialize();
 	}
 }
