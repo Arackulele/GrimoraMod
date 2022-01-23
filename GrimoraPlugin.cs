@@ -189,7 +189,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			PluginName,
 			"Enable Developer Mode",
 			false,
-			new ConfigDescription("Does not generate blocker or enemy pieces except boss. Chests fill first row.")
+			new ConfigDescription("Does not generate blocker pieces. Chests fill first row, enemy pieces fill first column.")
 		);
 
 		var list = ConfigCurrentRemovedPieces.Value.Split(',').ToList();
@@ -207,7 +207,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		Log.LogDebug($"Loading asset bundles");
 		string blockersFile = FileUtils.FindFileInPluginDir("GrimoraMod_Prefabs_Blockers");
-		string spritesFile = FileUtils.FindFileInPluginDir("grimoramod_all_assets.sprites");
+		string spritesFile = FileUtils.FindFileInPluginDir("grimoramod_sprites");
 
 		AssetBundle blockerBundle = AssetBundle.LoadFromFile(blockersFile);
 		AssetBundle spritesBundle = AssetBundle.LoadFromFile(spritesFile);

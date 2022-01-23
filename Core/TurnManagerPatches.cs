@@ -1,36 +1,38 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
 [HarmonyPatch(typeof(TurnManager))]
 public class TurnManagerPatches
 {
-	private static readonly Dictionary<string, Type> BossBattleSequencers = new()
+	private static readonly Dictionary<string, Type> GrimoraModBattleSequencers = new()
 	{
 		{ SawyerBossOpponent.SpecialId, typeof(SawyerBattleSequencer) },
 		{ GrimoraBossOpponentExt.SpecialId, typeof(GrimoraBossSequencer) },
 		{ KayceeBossOpponent.SpecialId, typeof(KayceeBossSequencer) },
-		{ RoyalBossOpponentExt.SpecialId, typeof(RoyalBossSequencer) }
+		{ RoyalBossOpponentExt.SpecialId, typeof(RoyalBossSequencer) },
+		{ "GrimoraModBattleSequencer", typeof(GrimoraModBattleSequencer) }
 	};
 
 	[HarmonyPrefix, HarmonyPatch(nameof(TurnManager.UpdateSpecialSequencer))]
 	public static bool Prefix(ref TurnManager __instance, string specialBattleId)
 	{
-		GrimoraPlugin.Log.LogDebug($"[UpdateSpecialSequencer][Prefix] " +
-		                           $"SpecialBattleId [{specialBattleId}] " +
-		                           $"SaveFile is grimora? [{SaveManager.SaveFile.IsGrimora}]");
+		Log.LogDebug($"[UpdateSpecialSequencer][Prefix] " +
+		             $"SpecialBattleId [{specialBattleId}] " +
+		             $"SaveFile is grimora? [{SaveManager.SaveFile.IsGrimora}]");
 
 		UnityEngine.Object.Destroy(__instance.SpecialSequencer);
 		__instance.SpecialSequencer = null;
 
-		if (SaveManager.SaveFile.IsGrimora && BossBattleSequencers.ContainsKey(specialBattleId))
+		if (SaveManager.SaveFile.IsGrimora && GrimoraModBattleSequencers.ContainsKey(specialBattleId))
 		{
 			__instance.SpecialSequencer =
-				__instance.gameObject.AddComponent(BossBattleSequencers[specialBattleId]) as SpecialBattleSequencer;
+				__instance.gameObject.AddComponent(GrimoraModBattleSequencers[specialBattleId]) as SpecialBattleSequencer;
 
-			// GrimoraPlugin.Log.LogDebug($"[UpdateSpecialSequencer][Prefix] SpecialSequencer is [{__instance.SpecialSequencer}]");
+			Log.LogDebug($"[UpdateSpecialSequencer][Prefix] SpecialSequencer is [{__instance.SpecialSequencer}]");
 			return false;
 		}
 
@@ -47,7 +49,14 @@ public class TurnManagerPatches
 	{
 		yield return enumerator;
 		int bonesToAdd = ChessboardMapExt.BonesToAdd;
-		GrimoraPlugin.Log.LogDebug($"[SetupPhase] Adding [{bonesToAdd}] bones");
-		yield return ResourcesManager.Instance.AddBones(bonesToAdd);
+		Log.LogDebug($"[SetupPhase] Adding [{bonesToAdd}] bones");
+		if (ConfigDeveloperMode.Value)
+		{
+			yield return ResourcesManager.Instance.AddBones(25);
+		}
+		else
+		{
+			yield return ResourcesManager.Instance.AddBones(bonesToAdd);
+		}
 	}
 }

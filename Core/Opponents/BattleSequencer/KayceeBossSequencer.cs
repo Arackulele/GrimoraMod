@@ -3,11 +3,9 @@ using DiskCardGame;
 
 namespace GrimoraMod;
 
-public class KayceeBossSequencer : Part1BossBattleSequencer
+public class KayceeBossSequencer : GrimoraModBossBattleSequencer
 {
 	public override Opponent.Type BossType => BaseBossExt.KayceeOpponent;
-
-	public override StoryEvent DefeatedStoryEvent => StoryEvent.TutorialRunCompleted;
 
 	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
 	{

@@ -9,8 +9,21 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(GameFlowManager))]
 public class BaseGameFlowManagerPatches
 {
-	private static GameObject PrefabGrimoraSelectableCard =
+	private static readonly GameObject PrefabGrimoraSelectableCard =
 		ResourceBank.Get<GameObject>("Prefabs/Cards/SelectableCard_Grimora");
+
+	private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
+
+	private static GameObject SetupSelectableCard()
+	{
+		GameObject selectable = ResourceBank.Get<GameObject>("Prefabs/Cards/SelectableCard_Grimora");
+		RuntimeAnimatorController controller
+			= ResourceBank.Get<RuntimeAnimatorController>("Animation/Cards/PaperCards/Card");
+
+		selectable.GetComponent<Animator>().runtimeAnimatorController = controller;
+
+		return selectable;
+	}
 
 	[HarmonyPrefix, HarmonyPatch(nameof(GameFlowManager.Start))]
 	public static void PrefixStart(GameFlowManager __instance)
@@ -38,10 +51,40 @@ public class BaseGameFlowManagerPatches
 
 		ResourceDrone drone = UnityEngine.Object.Instantiate(
 			ResourceBank.Get<ResourceDrone>("Prefabs/CardBattle/ResourceModules"),
-			new Vector3(4.042f, 7.16f, 1.92f),
+			new Vector3(5.3f, 5.5f, 1.92f),
 			Quaternion.Euler(270f, 0f, -146.804f),
 			boardManager.transform
 		);
+
+		Color grimoraTextColor = new Color(0.420f, 1f, 0.63f);
+		drone.name = "Grimora Resource Drone";
+		drone.baseCellColor = grimoraTextColor;
+		drone.highlightedCellColor = new Color(1, 1, 0.23f);
+
+		Log.LogDebug($"[AddEnergyDrone] Disabling animation");
+		Animator animator = drone.GetComponentInChildren<Animator>();
+		animator.enabled = false;
+
+		Transform moduleEnergy = animator.transform.GetChild(0);
+		Log.LogDebug($"[AddEnergyDrone] Getting module energy and setting mesh to null");
+		moduleEnergy.gameObject.GetComponent<MeshFilter>().mesh = null;
+
+		int modulesChildren = moduleEnergy.childCount;
+		for (int i = 1; i < 7; i++)
+		{
+			Transform energyCell = moduleEnergy.GetChild(i);
+			Log.LogDebug($"[AddEnergyDrone] Energy cell [{energyCell.name}]");
+			energyCell.gameObject.GetComponent<MeshFilter>().mesh = null;
+			var energyCellCase = energyCell.GetChild(0);
+			energyCellCase.GetChild(0).GetComponent<MeshRenderer>().material.SetColor(EmissionColor, grimoraTextColor);
+			energyCellCase.GetChild(1).GetComponent<MeshFilter>().mesh = null;
+			energyCellCase.GetChild(2).GetComponent<MeshFilter>().mesh = null;
+		}
+
+		Log.LogDebug($"[AddEnergyDrone] Setting Connector inactive");
+		moduleEnergy.Find("Connector").gameObject.SetActive(false);
+		Log.LogDebug($"[AddEnergyDrone] Setting Propellers inactive");
+		moduleEnergy.Find("Propellers").gameObject.SetActive(false);
 	}
 
 	private static void ChangeStartDeckIfNotAlreadyChanged()

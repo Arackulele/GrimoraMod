@@ -59,29 +59,6 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		bossSkull.EnterHand();
 	}
 
-	public override EncounterBlueprintData BuildInitialBlueprint()
-	{
-		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
-		{
-			new() { bp_Zombie },
-			new() { bp_Obol },
-			new() { bp_Hydra },
-			new() { bp_FrankAndStein },
-			new() { bp_Family },
-			new() { },
-			new() { bp_Skeleton },
-			new() { },
-			new() { bp_Skeleton, bp_BoneSerpent },
-			new() { },
-			new() { bp_Revenant },
-			new() { },
-			new() { bp_Sarcophagus },
-			new() { bp_SkeletonMage }
-		};
-		return blueprint;
-	}
-
 	public override IEnumerator StartNewPhaseSequence()
 	{
 		switch (this.NumLives)
@@ -166,7 +143,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 				{
 					foreach (var playableCard in playerCardSlots.Select(slot => slot.Card))
 					{
-						TextDisplayer.Instance.ShowUntilInput(
+						yield return TextDisplayer.Instance.ShowUntilInput(
 							$"{playableCard.name}, I WILL MAKE YOU WEAK!",
 							letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
 						);

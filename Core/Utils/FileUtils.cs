@@ -1,9 +1,15 @@
-﻿using BepInEx;
+﻿using System.Reflection;
 
 namespace GrimoraMod;
 
 public static class FileUtils
 {
+	private static readonly string[] GrimoraPluginsDir = Directory.GetFiles(
+		Assembly.GetExecutingAssembly().Location.Replace("GrimoraMod.dll", ""),
+		"*",
+		SearchOption.AllDirectories
+	);
+
 	public static byte[] ReadFileAsBytes(string file)
 	{
 		return File.ReadAllBytes(FindFileInPluginDir(file));
@@ -11,6 +17,6 @@ public static class FileUtils
 
 	public static string FindFileInPluginDir(string file)
 	{
-		return Directory.GetFiles(Paths.PluginPath, file, SearchOption.AllDirectories)[0];
+		return GrimoraPluginsDir.Single(str => Path.GetFileName(str) == file);
 	}
 }

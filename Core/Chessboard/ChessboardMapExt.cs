@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using BepInEx.Configuration;
 using DiskCardGame;
 using Unity.Cloud.UserReporting.Plugin.SimpleJson;
 using UnityEngine;
@@ -10,7 +9,7 @@ namespace GrimoraMod;
 
 public class ChessboardMapExt : ChessboardMap
 {
-	private readonly bool _enableDevMode = ConfigDeveloperMode.Value;
+	private static bool EnableDevMode => ConfigDeveloperMode.Value;
 	private GrimoraChessboard _activeChessboard;
 
 	private bool _toggleEncounterMenu;
@@ -106,13 +105,18 @@ public class ChessboardMapExt : ChessboardMap
 		else if (resetRunBtn)
 		{
 			ResetConfig();
+			ResetDeck();
+			StoryEventsData.EraseEvent(StoryEvent.GrimoraReachedTable);
+			SaveManager.SaveToFile();
+
+			LoadingScreenManager.LoadScene("finale_grimora");
 		}
 		else if (deckResetBtn)
 		{
 			ResetDeck();
 		}
 
-		if (_enableDevMode)
+		if (EnableDevMode)
 		{
 			_toggleEncounterMenu = GUI.Toggle(
 				new Rect(20, 100, 200, 20),
@@ -255,7 +259,7 @@ public class ChessboardMapExt : ChessboardMap
 		dynamicElementsParent.gameObject.SetActive(true);
 
 		// for checking which nodes are active/inactive
-		RenameMapNodesWithGridCoords();
+		if (EnableDevMode) RenameMapNodesWithGridCoords();
 
 		UpdateActiveChessboard();
 
@@ -286,7 +290,7 @@ public class ChessboardMapExt : ChessboardMap
 
 		if (ChangingRegion)
 		{
-			if (currentChessboardIndex++ == 4)
+			if (++currentChessboardIndex >= 4)
 			{
 				currentChessboardIndex = 0;
 			}

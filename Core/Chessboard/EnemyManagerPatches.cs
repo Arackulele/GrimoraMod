@@ -18,7 +18,7 @@ public class EnemyManagerPatches
 	{
 		// this will correctly place the pieces back if they aren't defeated.
 		// e.g. from quitting mid match
-		EnemyBattleSequencerPatches.activeEnemyPiece = enemy;
+		GrimoraModBattleSequencer.ActiveEnemyPiece = enemy;
 
 		// __instance.enemyPieces.Remove(enemy);
 		// enemy.MapNode.OccupyingPiece = null;

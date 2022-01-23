@@ -1,14 +1,13 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
-public class GrimoraBossSequencer : Part1BossBattleSequencer
+public class GrimoraBossSequencer : GrimoraModBossBattleSequencer
 {
 	public override Opponent.Type BossType => BaseBossExt.GrimoraOpponent;
-
-	public override StoryEvent DefeatedStoryEvent => StoryEvent.TutorialRunCompleted;
 
 	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
 	{
@@ -16,6 +15,38 @@ public class GrimoraBossSequencer : Part1BossBattleSequencer
 		{
 			opponentType = BossType
 		};
+	}
+
+	public override IEnumerator GameEnd(bool playerWon)
+	{
+		if (playerWon)
+		{
+			if (!DialogueEventsData.EventIsPlayed("FinaleGrimoraBattleWon"))
+			{
+				Log.LogDebug($"FinaleGrimoraBattleWon has not played yet, playing now.");
+
+				ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+				yield return new WaitForSeconds(0.5f);
+				yield return TextDisplayer.Instance.PlayDialogueEvent(
+					"FinaleGrimoraBattleWon", TextDisplayer.MessageAdvanceMode.Input
+				);
+			}
+		}
+		else
+		{
+			yield return base.GameEnd(false);
+		}
+	}
+
+	public override IEnumerator PlayerUpkeep()
+	{
+		if (!DialogueEventsData.EventIsPlayed("FinaleGrimoraBattleStart"))
+		{
+			yield return new WaitForSeconds(0.5f);
+			yield return TextDisplayer.Instance.PlayDialogueEvent(
+				"FinaleGrimoraBattleStart", TextDisplayer.MessageAdvanceMode.Input
+			);
+		}
 	}
 
 	public override bool RespondsToOtherCardDie(
@@ -30,9 +61,11 @@ public class GrimoraBossSequencer : Part1BossBattleSequencer
 	)
 	{
 		Log.LogDebug($"[{GetType()}] Other Card [{card.Info.name}] is happening");
-		var opponentSlots = CardSlotUtils.GetOpponentSlotsWithCards();
-		Log.LogDebug($"[{GetType()}] Opponent Slots count [{opponentSlots.Capacity}]");
-		if (opponentSlots.Count > 0)
+		List<CardSlot> opponentQueuedSlots = BoardManager.Instance
+			.GetSlots(getPlayerSlots: false)
+			.FindAll((CardSlot x) => x.Card == null && !TurnManager.Instance.Opponent.QueuedSlots.Contains(x));
+		Log.LogDebug($"[{GetType()}] Opponent Slots count [{opponentQueuedSlots.Count}]");
+		if (opponentQueuedSlots.Count > 0)
 		{
 			ViewManager.Instance.SwitchToView(View.BossCloseup);
 			TextDisplayer.Instance.PlayDialogueEvent(
@@ -40,16 +73,12 @@ public class GrimoraBossSequencer : Part1BossBattleSequencer
 				TextDisplayer.MessageAdvanceMode.Input
 			);
 
-			BoardManager.Instance.QueueCardForSlot(
-				card,
-				opponentSlots[UnityEngine.Random.RandomRangeInt(0, opponentSlots.Count)]
-			);
+			CardSlot slot = opponentQueuedSlots[UnityEngine.Random.Range(0, opponentQueuedSlots.Count)];
+			yield return TurnManager.Instance.Opponent.QueueCard(card.Info, slot);
+			yield return new WaitForSeconds(0.5f);
 		}
 
-		yield return TurnManager.Instance.Opponent.QueueCard(
-			card.Info,
-			BoardManager.Instance.OpponentSlotsCopy[UnityEngine.Random.Range(0, 3)]
-		);
+		yield break;
 	}
 
 	public override bool RespondsToUpkeep(bool playerUpkeep)
