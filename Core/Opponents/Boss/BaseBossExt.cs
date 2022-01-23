@@ -73,7 +73,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 	{
 		if (wasDefeated)
 		{
-			SetBossDefeatedInConfig();
+			ConfigHelper.Instance.SetBossDefeatedInConfig(this);
 
 			Log.LogDebug($"[{GetType()}] SaveFile is Grimora");
 
@@ -116,30 +116,6 @@ public abstract class BaseBossExt : Part1BossOpponent
 		{
 			yield return base.OutroSequence(false);
 		}
-	}
-
-	private void SetBossDefeatedInConfig()
-	{
-		switch (this)
-		{
-			case KayceeBossOpponent:
-				ConfigKayceeFirstBossDead.Value = true;
-				break;
-			case SawyerBossOpponent:
-				ConfigSawyerSecondBossDead.Value = true;
-				break;
-			case RoyalBossOpponentExt:
-				ConfigRoyalThirdBossDead.Value = true;
-				break;
-			case GrimoraBossOpponentExt:
-				ConfigGrimoraBossDead.Value = true;
-				break;
-		}
-
-		var bossPiece = ChessboardMapExt.Instance.BossPiece;
-		ChessboardMapExt.Instance.BossDefeated = true;
-		ChessboardMapExt.Instance.AddPieceToRemovedPiecesConfig(bossPiece.name);
-		Log.LogDebug($"[BossDefeatedSequence][PostFix] Boss {GetType()} defeated.");
 	}
 
 	public IEnumerator ShowBossSkull()

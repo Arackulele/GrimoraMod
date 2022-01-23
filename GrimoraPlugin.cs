@@ -1,6 +1,5 @@
 using APIPlugin;
 using BepInEx;
-using BepInEx.Configuration;
 using BepInEx.Logging;
 using DiskCardGame;
 using HarmonyLib;
@@ -23,32 +22,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	public static UnityEngine.Object[] AllAssets;
 	public static UnityEngine.Sprite[] AllSpriteAssets;
 
-	public static readonly ConfigFile GrimoraConfigFile = new(
-		Path.Combine(Paths.ConfigPath, "grimora_mod_config.cfg"),
-		true
-	);
-
-	public const string StaticDefaultRemovedPiecesList =
-		"BossFigurine," +
-		"ChessboardChestPiece," +
-		"EnemyPiece_Skelemagus,EnemyPiece_Gravedigger," +
-		"Tombstone_North1," +
-		"Tombstone_Wall1,Tombstone_Wall2,Tombstone_Wall3,Tombstone_Wall4,Tombstone_Wall5," +
-		"Tombstone_South1,Tombstone_South2,Tombstone_South3,";
-
-	public static ConfigEntry<int> ConfigCurrentChessboardIndex;
-
-	public static ConfigEntry<bool> ConfigKayceeFirstBossDead;
-
-	public static ConfigEntry<bool> ConfigSawyerSecondBossDead;
-
-	public static ConfigEntry<bool> ConfigRoyalThirdBossDead;
-
-	public static ConfigEntry<bool> ConfigGrimoraBossDead;
-
-	public static ConfigEntry<bool> ConfigDeveloperMode;
-
-	public static ConfigEntry<string> ConfigCurrentRemovedPieces;
 
 	private static readonly List<StoryEvent> StoryEventsToBeCompleteBeforeStarting = new()
 	{
@@ -63,9 +36,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		LoadAssets();
 
-		BindConfig();
-
-		GrimoraConfigFile.SaveOnConfigSet = true;
 		ResetConfigDataIfGrimoraHasNotReachedTable();
 
 		UnlockAllNecessaryEventsToPlay();
@@ -123,6 +93,9 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		ResizeArtworkForVanillaBoneCards();
 
+		ConfigHelper.Instance.BindConfig();
+		ConfigHelper.Instance.GrimoraConfigFile.SaveOnConfigSet = true;
+
 		// ChangePackRat();
 		// ChangeSquirrel();
 	}
@@ -160,48 +133,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		_harmony?.UnpatchSelf();
 	}
 
-	private static void BindConfig()
-	{
-		ConfigCurrentChessboardIndex
-			= GrimoraConfigFile.Bind(PluginName, "Current chessboard layout index", 0);
-
-		ConfigKayceeFirstBossDead
-			= GrimoraConfigFile.Bind(PluginName, "Kaycee defeated?", false);
-
-		ConfigSawyerSecondBossDead
-			= GrimoraConfigFile.Bind(PluginName, "Sawyer defeated?", false);
-
-		ConfigRoyalThirdBossDead
-			= GrimoraConfigFile.Bind(PluginName, "Royal defeated?", false);
-
-		ConfigGrimoraBossDead
-			= GrimoraConfigFile.Bind(PluginName, "Grimora defeated?", false);
-
-		ConfigCurrentRemovedPieces = GrimoraConfigFile.Bind(
-			PluginName,
-			"Current Removed Pieces",
-			StaticDefaultRemovedPiecesList,
-			new ConfigDescription("Contains all the current removed pieces." +
-			                      "\nDo not alter this list unless you know what you are doing!")
-		);
-
-		ConfigDeveloperMode = GrimoraConfigFile.Bind(
-			PluginName,
-			"Enable Developer Mode",
-			false,
-			new ConfigDescription("Does not generate blocker pieces. Chests fill first row, enemy pieces fill first column.")
-		);
-
-		var list = ConfigCurrentRemovedPieces.Value.Split(',').ToList();
-		// this is so that for whatever reason the game map gets added to the removal list,
-		//	this will automatically remove those entries
-		if (list.Contains("ChessboardGameMap"))
-		{
-			list.RemoveAll(piece => piece.Equals("ChessboardGameMap"));
-		}
-
-		ConfigCurrentRemovedPieces.Value = string.Join(",", list.Distinct());
-	}
 
 	private static void LoadAssets()
 	{
@@ -234,20 +165,10 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		if (!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable))
 		{
 			Log.LogWarning($"Grimora has not reached the table yet, resetting values to false again.");
-			ResetConfig();
+			ConfigHelper.Instance.ResetConfig();
 		}
 	}
 
-	public static void ResetConfig()
-	{
-		Log.LogWarning($"Resetting Grimora Mod config");
-		ConfigKayceeFirstBossDead.Value = false;
-		ConfigSawyerSecondBossDead.Value = false;
-		ConfigRoyalThirdBossDead.Value = false;
-		ConfigGrimoraBossDead.Value = false;
-		ConfigCurrentRemovedPieces.Value = StaticDefaultRemovedPiecesList;
-		ConfigCurrentChessboardIndex.Value = 0;
-	}
 
 	public static void ResetDeck()
 	{

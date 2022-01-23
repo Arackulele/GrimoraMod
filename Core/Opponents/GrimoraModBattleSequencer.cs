@@ -130,7 +130,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		{
 			Log.LogDebug($"[GrimoraModBattleSequencer] " +
 			             $"Adding enemy [{ActiveEnemyPiece.name}] to config removed pieces");
-			ChessboardMapExt.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
+			ConfigHelper.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
 		}
 		else
 		{
@@ -167,7 +167,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 		GrimoraSaveData.Data.Initialize();
 		StoryEventsData.EraseEvent(StoryEvent.GrimoraReachedTable);
-		ResetConfig();
+		ConfigHelper.Instance.ResetConfig();
 
 		SaveManager.SaveToFile();
 	}

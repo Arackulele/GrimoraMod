@@ -9,52 +9,19 @@ namespace GrimoraMod;
 
 public class ChessboardMapExt : ChessboardMap
 {
-	private static bool EnableDevMode => ConfigDeveloperMode.Value;
-	private GrimoraChessboard _activeChessboard;
-
-	private bool _toggleEncounterMenu;
-
-	private readonly string[] _buttonNames =
-	{
-		"Win Round", "Lose Round",
-		"Place Chest"
-	};
+	public GrimoraChessboard ActiveChessboard { get; private set; }
 
 	private List<GrimoraChessboard> _chessboards;
 
+	private DebugHelper _debugHelper;
+
 	public new static ChessboardMapExt Instance => GameMap.Instance as ChessboardMapExt;
 
-	public List<string> RemovedPieces => ConfigCurrentRemovedPieces.Value.Split(',').Distinct().ToList();
-
-	public ChessboardEnemyPiece BossPiece => _activeChessboard.BossPiece;
+	public ChessboardEnemyPiece BossPiece => ActiveChessboard.BossPiece;
 
 	internal bool ChangingRegion { get; private set; }
 
 	public bool BossDefeated { get; protected internal set; }
-
-	public static int BonesToAdd
-	{
-		get
-		{
-			int bonesToAdd = 0;
-			if (ConfigKayceeFirstBossDead.Value)
-			{
-				bonesToAdd += 2;
-			}
-
-			if (ConfigSawyerSecondBossDead.Value)
-			{
-				bonesToAdd += 3;
-			}
-
-			if (ConfigRoyalThirdBossDead.Value)
-			{
-				bonesToAdd += 5;
-			}
-
-			return bonesToAdd;
-		}
-	}
 
 	private List<GrimoraChessboard> Chessboards
 	{
@@ -71,6 +38,7 @@ public class ChessboardMapExt : ChessboardMap
 		ViewManager instance = ViewManager.Instance;
 		instance.ViewChanged = (Action<View, View>)Delegate
 			.Combine(instance.ViewChanged, new Action<View, View>(OnViewChanged));
+		_debugHelper = gameObject.AddComponent<DebugHelper>();
 	}
 
 	private void OnGUI()
@@ -104,7 +72,7 @@ public class ChessboardMapExt : ChessboardMap
 		}
 		else if (resetRunBtn)
 		{
-			ResetConfig();
+			ConfigHelper.Instance.ResetConfig();
 			ResetDeck();
 			StoryEventsData.EraseEvent(StoryEvent.GrimoraReachedTable);
 			SaveManager.SaveToFile();
@@ -114,45 +82,6 @@ public class ChessboardMapExt : ChessboardMap
 		else if (deckResetBtn)
 		{
 			ResetDeck();
-		}
-
-		if (EnableDevMode)
-		{
-			_toggleEncounterMenu = GUI.Toggle(
-				new Rect(20, 100, 200, 20),
-				_toggleEncounterMenu,
-				"Debug Tools"
-			);
-
-			if (!_toggleEncounterMenu) return;
-
-			int selectedButton = GUI.SelectionGrid(
-				new Rect(25, 150, 300, 100),
-				-1,
-				_buttonNames,
-				2
-			);
-
-			if (selectedButton >= 0)
-			{
-				// Log.LogDebug($"[OnGUI] Calling button [{selectedButton}]");
-				switch (_buttonNames[selectedButton])
-				{
-					case "Win Round":
-						LifeManager.Instance.StartCoroutine(
-							LifeManager.Instance.ShowDamageSequence(10, 1, false)
-						);
-						break;
-					case "Lose Round":
-						LifeManager.Instance.StartCoroutine(
-							LifeManager.Instance.ShowDamageSequence(10, 1, true)
-						);
-						break;
-					case "Place Chest":
-						Instance._activeChessboard.PlaceChestPiece(0, 0);
-						break;
-				}
-			}
 		}
 	}
 
@@ -232,7 +161,7 @@ public class ChessboardMapExt : ChessboardMap
 		});
 
 		// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Clearing removedPiecesConfig");
-		ConfigCurrentRemovedPieces.Value = "";
+		ConfigHelper.Instance.CurrentRemovedPieces.Value = "";
 	}
 
 	public override IEnumerator UnrollingSequence(float unrollSpeed)
@@ -259,15 +188,15 @@ public class ChessboardMapExt : ChessboardMap
 		dynamicElementsParent.gameObject.SetActive(true);
 
 		// for checking which nodes are active/inactive
-		if (EnableDevMode) RenameMapNodesWithGridCoords();
+		if (ConfigHelper.IsDevModeEnabled) RenameMapNodesWithGridCoords();
 
 		UpdateActiveChessboard();
 
-		_activeChessboard.SetupBoard();
+		ActiveChessboard.SetupBoard();
 
 		yield return HandleActivatingChessPieces();
 
-		_activeChessboard.UpdatePlayerMarkerPosition(ChangingRegion);
+		ActiveChessboard.UpdatePlayerMarkerPosition(ChangingRegion);
 
 		if (!DialogueEventsData.EventIsPlayed("FinaleGrimoraMapShown"))
 		{
@@ -285,7 +214,7 @@ public class ChessboardMapExt : ChessboardMap
 
 	private void UpdateActiveChessboard()
 	{
-		int currentChessboardIndex = ConfigCurrentChessboardIndex.Value;
+		int currentChessboardIndex = ConfigHelper.Instance.CurrentChessboardIndex.Value;
 		Log.LogDebug($"[HandleChessboardSetup] Before setting chess board idx [{currentChessboardIndex}]");
 
 		if (ChangingRegion)
@@ -295,21 +224,17 @@ public class ChessboardMapExt : ChessboardMap
 				currentChessboardIndex = 0;
 			}
 
-			ConfigCurrentChessboardIndex.Value = currentChessboardIndex;
+			ConfigHelper.Instance.CurrentChessboardIndex.Value = currentChessboardIndex;
 			Log.LogDebug($"[HandleChessboardSetup] -> Setting new chessboard idx [{currentChessboardIndex}]");
-			_activeChessboard = Chessboards[currentChessboardIndex];
+			ActiveChessboard = Chessboards[currentChessboardIndex];
 
-			_activeChessboard.SetSavePositions();
+			ActiveChessboard.SetSavePositions();
 		}
 
-		Log.LogDebug($"[HandleChessboardSetup] Chessboard [{_activeChessboard}] Chessboards [{Chessboards.Count}]");
-		_activeChessboard ??= Chessboards[currentChessboardIndex];
+		Log.LogDebug($"[HandleChessboardSetup] Chessboard [{ActiveChessboard}] Chessboards [{Chessboards.Count}]");
+		ActiveChessboard ??= Chessboards[currentChessboardIndex];
 	}
 
-	public void AddPieceToRemovedPiecesConfig(string pieceName)
-	{
-		ConfigCurrentRemovedPieces.Value += "," + pieceName + ",";
-	}
 
 	private static void SetAllNodesActive()
 	{
@@ -326,10 +251,10 @@ public class ChessboardMapExt : ChessboardMap
 		// GrimoraPlugin.Log.LogDebug($"[HandleActivatingChessPieces] active pieces before setting if active " +
 		//                            $"[{string.Join(",", activePieces.Select(_ => _.name))}]");
 
-		var removedList = RemovedPieces;
+		var removedList = ConfigHelper.RemovedPiecesList;
 
-		Log.LogDebug($"[SetupGamePieces] " +
-		             $" Current removed list before {ConfigCurrentRemovedPieces.Value}");
+		// Log.LogDebug($"[SetupGamePieces] " +
+		//              $" Current removed list before {ConfigHelper.Instance.CurrentRemovedPieces.Value}");
 
 		// pieces will contain the pieces just placed
 		var activePieces = Instance.pieces
