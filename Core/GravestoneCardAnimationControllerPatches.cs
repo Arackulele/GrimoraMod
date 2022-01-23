@@ -8,8 +8,12 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(GravestoneCardAnimationController))]
 public class GravestoneCardAnimationControllerPatches
 {
-	[HarmonyPatch(nameof(GravestoneCardAnimationController.PlayAttackAnimation))]
-	public static bool Prefix(ref GravestoneCardAnimationController __instance, bool attackPlayer, CardSlot targetSlot)
+	[HarmonyPrefix, HarmonyPatch(nameof(GravestoneCardAnimationController.PlayAttackAnimation))]
+	public static bool CorrectSkeletonArmDirection(
+		ref GravestoneCardAnimationController __instance,
+		bool attackPlayer,
+		CardSlot targetSlot
+	)
 	{
 		Log.LogDebug($"[Controller] Attacks player? [{attackPlayer}] TargetSlot is [{targetSlot.Index}]");
 		__instance.Anim.Play("shake", 0, 0f);
@@ -57,6 +61,18 @@ public class GravestoneCardAnimationControllerPatches
 			new AudioParams.Pitch(AudioParams.Pitch.Variation.Small),
 			new AudioParams.Repetition(0.05f));
 
+		return false;
+	}
+
+	[HarmonyPrefix, HarmonyPatch(nameof(GravestoneCardAnimationController.PlayDeathAnimation))]
+	public static bool PrefixDeathAnim(ref GravestoneCardAnimationController __instance, bool playSound = true)
+	{
+		if (__instance.PlayableCard is not null)
+		{
+			return true;
+		}
+
+		__instance.PlayGlitchOutAnimation();
 		return false;
 	}
 }
