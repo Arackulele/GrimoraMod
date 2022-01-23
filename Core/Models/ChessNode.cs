@@ -51,11 +51,36 @@ public class ChessNode
 
 	public string GetCoords()
 	{
-		return $"{_index}_{_row.Index}";
+		return $"x{_index}_y{_row.Index}";
 	}
 
 	public override string ToString()
 	{
-		return IsPath ? "Path" : "isBlocker";
+		if (IsPath)
+		{
+			return $"IsPath_{GetCoords()}";
+		}
+
+		if (IsBlocker)
+		{
+			return $"IsBlocker_{GetCoords()}";
+		}
+
+		if (isChest)
+		{
+			return $"IsChest_{GetCoords()}";
+		}
+
+		if (isEnemy)
+		{
+			return $"IsEnemy_{GetCoords()}";
+		}
+
+		if (isBoss)
+		{
+			return $"IsBoss_{GetCoords()}";
+		}
+
+		return $"IsPlayer_{GetCoords()}";
 	}
 }
