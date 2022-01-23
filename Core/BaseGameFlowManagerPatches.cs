@@ -9,8 +9,13 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(GameFlowManager))]
 public class BaseGameFlowManagerPatches
 {
-	private static readonly GameObject PrefabGrimoraSelectableCard =
+	public static readonly GameObject PrefabGrimoraSelectableCard =
 		ResourceBank.Get<GameObject>("Prefabs/Cards/SelectableCard_Grimora");
+
+	public static readonly GameObject PrefabGrimoraCardBack =
+		ResourceBank.Get<GameObject>("Prefabs/Cards/CardBack_Grimora");
+
+	public static SpecialNodeHandler SpecialNodeHandler;
 
 	private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
 
@@ -33,6 +38,8 @@ public class BaseGameFlowManagerPatches
 		             $" Board Already exists? [{boardObj is not null}]");
 		if (SaveManager.SaveFile.IsGrimora && boardObj is not null)
 		{
+			SpecialNodeHandler = UnityEngine.Object.FindObjectOfType<SpecialNodeHandler>();
+
 			ChangeChessboardToExtendedClass();
 
 			AddRareCardSequencerToScene();
@@ -42,6 +49,68 @@ public class BaseGameFlowManagerPatches
 			ChangeStartDeckIfNotAlreadyChanged();
 
 			AddEnergyDrone();
+
+			AddCardRemoveSequencer();
+		}
+	}
+
+	private static void AddCardRemoveSequencer()
+	{
+		// TODO: This will work, but it doesn't show the boon art correctly.
+
+		Log.LogDebug($"Creating card remove sequencer");
+		GameObject cardRemoveSequencerObj = UnityEngine.Object.Instantiate(
+			ResourceBank.Get<GameObject>("Prefabs/SpecialNodeSequences/CardRemoveSequencer"),
+			SpecialNodeHandler.transform
+		);
+
+		var oldRemoveSequencer = cardRemoveSequencerObj.GetComponent<CardRemoveSequencer>();
+
+		Log.LogDebug($"Adding new card remove sequencer component");
+		var cardRemoveSequencer = cardRemoveSequencerObj.gameObject.AddComponent<GrimoraCardRemoveSequencer>();
+
+		Log.LogDebug($"Setting prefabs");
+		cardRemoveSequencer.gamepadGrid = oldRemoveSequencer.gamepadGrid;
+		cardRemoveSequencer.selectableCardPrefab = PrefabGrimoraSelectableCard;
+		cardRemoveSequencer.confirmStone = oldRemoveSequencer.confirmStone;
+		cardRemoveSequencer.sacrificeSlot = oldRemoveSequencer.sacrificeSlot;
+		cardRemoveSequencer.sacrificeSlot.cardSelector.selectableCardPrefab = PrefabGrimoraSelectableCard;
+		cardRemoveSequencer.sacrificeSlot.pile.cardbackPrefab = PrefabGrimoraCardBack;
+		cardRemoveSequencer.skullEyes = oldRemoveSequencer.skullEyes;
+		cardRemoveSequencer.stoneCircleAnim = oldRemoveSequencer.stoneCircleAnim;
+
+		cardRemoveSequencer.GetComponentInChildren<SelectableCardArray>().selectableCardPrefab =
+			PrefabGrimoraSelectableCard;
+
+		Log.LogDebug($"Setting card backs");
+		cardRemoveSequencer.deckPile = oldRemoveSequencer.deckPile;
+		cardRemoveSequencer.deckPile.cardbackPrefab = PrefabGrimoraCardBack;
+
+		Log.LogDebug($"Destroying old sequencer");
+		UnityEngine.Object.Destroy(oldRemoveSequencer);
+
+		SpecialNodeHandler.cardRemoveSequencer = cardRemoveSequencer;
+
+		// TODO: HOW DO WE GET THOSE DECALS TO SHOW UP
+		CardDisplayer3D displayer3D = ResourceBank.Get<CardDisplayer3D>("Prefabs/Cards/CardElements");
+
+		CardDisplayer3D graveDisplayer = UnityEngine.Object.FindObjectOfType<CardDisplayer3D>();
+
+		BoonIconInteractable cardAbilityIcons = UnityEngine.Object.Instantiate(
+			ResourceBank.Get<BoonIconInteractable>("Prefabs/Cards/CardSurfaceInteraction/BoonIcon"),
+			graveDisplayer.GetComponentInChildren<CardAbilityIcons>().transform
+		);
+		graveDisplayer.GetComponentInChildren<CardAbilityIcons>().boonIcon = cardAbilityIcons;
+
+		GameObject cardDecals = UnityEngine.Object.Instantiate(
+			displayer3D.transform.GetChild(9).gameObject,
+			graveDisplayer.transform, true
+		);
+
+		graveDisplayer.decalRenderers.Clear();
+		for (int i = 0; i < cardDecals.transform.childCount; i++)
+		{
+			graveDisplayer.decalRenderers.Add(cardDecals.transform.GetChild(i).GetComponent<MeshRenderer>());
 		}
 	}
 
@@ -142,16 +211,15 @@ public class BaseGameFlowManagerPatches
 
 	private static void AddRareCardSequencerToScene()
 	{
-		SpecialNodeHandler specialNodeHandler = UnityEngine.Object.FindObjectOfType<SpecialNodeHandler>();
-
 		// GrimoraPlugin.Log.LogDebug($"Creating RareCardChoiceSelector");
 
 		GameObject rareCardChoicesSelector = UnityEngine.Object.Instantiate(
 			ResourceBank.Get<GameObject>("Prefabs/SpecialNodeSequences/RareCardChoiceSelector"),
-			specialNodeHandler.transform
+			SpecialNodeHandler.transform
 		);
 
 		RareCardChoicesSequencer sequencer = rareCardChoicesSelector.GetComponent<RareCardChoicesSequencer>();
+		sequencer.deckPile.cardbackPrefab = PrefabGrimoraCardBack;
 
 		// GrimoraPlugin.Log.LogDebug($"-> Setting RareCardChoicesSequencer choice generator to Part1RareChoiceGenerator");
 		sequencer.choiceGenerator = rareCardChoicesSelector.AddComponent<GrimoraRareChoiceGenerator>();
@@ -160,7 +228,7 @@ public class BaseGameFlowManagerPatches
 		sequencer.selectableCardPrefab = PrefabGrimoraSelectableCard;
 
 		// GrimoraPlugin.Log.LogDebug($"-> Setting SpecialNodeHandler rareCardChoiceSequencer to sequencer");
-		specialNodeHandler.rareCardChoiceSequencer = sequencer;
+		SpecialNodeHandler.rareCardChoiceSequencer = sequencer;
 	}
 
 
