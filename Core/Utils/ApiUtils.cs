@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using APIPlugin;
 using DiskCardGame;
 using UnityEngine;
@@ -10,11 +10,12 @@ namespace GrimoraMod
 		#region AbilityUtils
 
 		public static AbilityInfo CreateInfoWithDefaultSettings(
-			string rulebookName, string rulebookDescription, int powerLevel = 0
+			string rulebookName, string rulebookDescription, bool activated, int powerLevel = 0
 		)
 		{
 			AbilityInfo info = ScriptableObject.CreateInstance<AbilityInfo>();
 			info.powerLevel = powerLevel;
+			info.activated = activated;
 			info.rulebookName = rulebookName;
 			info.rulebookDescription = rulebookDescription;
 			info.metaCategories = new List<AbilityMetaCategory>()
@@ -29,7 +30,8 @@ namespace GrimoraMod
 			byte[] texture,
 			string rulebookName,
 			string rulebookDescription,
-			int powerLevel = 0
+			int powerLevel = 0,
+			bool activated = false
 		) where T : AbilityBehaviour
 		{
 			return CreateAbility<T>(
@@ -44,11 +46,12 @@ namespace GrimoraMod
 			Texture texture,
 			string rulebookName,
 			string rulebookDescription,
-			int powerLevel = 0
+			int powerLevel = 0,
+			bool activated = false
 		) where T : AbilityBehaviour
 		{
 			return CreateAbility<T>(
-				CreateInfoWithDefaultSettings(rulebookName, rulebookDescription, powerLevel),
+				CreateInfoWithDefaultSettings(rulebookName, rulebookDescription, activated, powerLevel),
 				texture
 			);
 		}
@@ -68,6 +71,7 @@ namespace GrimoraMod
 			FieldInfo field = type.GetField("ability",
 				BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance
 			);
+			bool activated = false;
 			// GrimoraPlugin.Log.LogDebug($"Setting static field [{field.Name}] for [{type}] with value [{newAbility.ability}]");
 			field.SetValue(null, newAbility.ability);
 

@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -29,17 +29,17 @@ public static class BlueprintUtils
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_BoneSerpent = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameBoneSerpent)
+		card = CardLoader.GetCardByName(GrimoraPlugin.NamePlagueDoctor)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_BoneSnapper = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameBoneSnapper)
+		card = CardLoader.GetCardByName(GrimoraPlugin.NameArmoredZombie)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_CrazedMantis = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameCrazedMantis)
+		card = CardLoader.GetCardByName(GrimoraPlugin.NameSummoner)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_DeadHand = new()
@@ -160,11 +160,6 @@ public static class BlueprintUtils
 	public static readonly EncounterBlueprintData.CardBlueprint bp_TombRobber = new()
 	{
 		card = CardLoader.GetCardByName(GrimoraPlugin.NameTombRobber)
-	};
-
-	public static readonly EncounterBlueprintData.CardBlueprint bp_UndeadWolf = new()
-	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameUndeadWolf)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Zombie = new()
@@ -529,10 +524,10 @@ public static class BlueprintUtils
 			new() { bp_Mummy },
 			new() { bp_TombRobber },
 			new() { bp_TombRobber },
-			new() { bp_UndeadWolf },
+			new() { bp_DeadPets },
 			new() { bp_TombRobber },
 			new() { bp_Mummy },
-			new() { bp_UndeadWolf },
+			new() { bp_DeadPets },
 		};
 
 		return blueprint;
@@ -593,7 +588,7 @@ public static class BlueprintUtils
 			new() { },
 			new() { bp_BoneSerpent },
 			new() { },
-			new() { bp_UndeadWolf },
+			new() { bp_DeadPets, bp_DeadPets },
 			new() { bp_BoneSerpent, bp_BoneSerpent }
 		};
 

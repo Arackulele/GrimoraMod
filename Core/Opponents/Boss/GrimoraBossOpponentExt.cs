@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
@@ -22,15 +22,15 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		Color brightBlue = GameColors.Instance.brightBlue;
 		brightBlue.a = 0.5f;
 		TableVisualEffectsManager.Instance.ChangeTableColors(
-			GameColors.Instance.darkFuschia,
-			GameColors.Instance.lightPurple,
-			GameColors.Instance.darkBlue,
-			GameColors.Instance.darkBlue,
-			GameColors.Instance.darkFuschia,
-			GameColors.Instance.fuschia,
-			GameColors.Instance.darkFuschia,
-			GameColors.Instance.darkFuschia,
-			GameColors.Instance.fuschia
+			GameColors.Instance.darkPurple,
+			GameColors.Instance.purple,
+			GameColors.Instance.purple,
+			GameColors.Instance.darkPurple,
+			GameColors.Instance.darkPurple,
+			GameColors.Instance.purple,
+			GameColors.Instance.purple,
+			GameColors.Instance.darkPurple,
+			GameColors.Instance.purple
 		);
 	}
 

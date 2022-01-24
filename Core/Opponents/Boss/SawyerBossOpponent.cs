@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
@@ -71,22 +71,33 @@ public class SawyerBossOpponent : BaseBossExt
 				TextDisplayer.LetterAnimation.Jitter,
 				DialogueEvent.Speaker.Single, null, true
 			);
+			yield return this.ClearBoard();
+			var playerSlotsWithCards = CardSlotUtils.GetPlayerSlotsWithCards();
+			foreach (var playerSlot in playerSlotsWithCards)
+			{
+				// card.SetIsOpponentCard();
+				// card.transform.eulerAngles += new Vector3(0f, 0f, -180f);
+				yield return BoardManager.Instance.CreateCardInSlot(
+					CardLoader.GetCardByName("ara_Obol"), playerSlot.opposingSlot, 0.25f
+				);
+			}
 
 
 			var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 			blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 			{
-				new() { bp_Skeleton },
+				new() {  },
 				new() { bp_BoneSerpent },
 				new() { },
 				new() { bp_BoneSerpent },
 				new() { },
-				new() { bp_UndeadWolf },
+				new() { bp_Bonehound },
+				new() { },
 				new() { },
 				new() { bp_BoneSerpent },
 				new() { bp_BoneSerpent },
 				new() { },
-				new() { bp_UndeadWolf },
+				new() { bp_Sarcophagus },
 				new() { bp_BoneSerpent, bp_BoneSerpent }
 			};
 

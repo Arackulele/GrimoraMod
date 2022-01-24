@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -30,9 +30,8 @@ public class RoyalBossSequencer : GrimoraModBossBattleSequencer
 		{
 			var playableCard = playerSlotsWithCards[UnityEngine.Random.Range(0, playerSlotsWithCards.Count)].Card;
 			Log.LogDebug($"[{GetType()}] About to assign ExplodeOnDeath to [{playableCard.Info.name}]");
-
 			playableCard.AddTemporaryMod(new CardModificationInfo(Ability.ExplodeOnDeath));
-			playableCard.TakeDamage(1, null);
+			yield return playableCard.TakeDamage(1, null);
 			playableCard.Anim.StrongNegationEffect();
 			yield return new WaitForSeconds(1f);
 		}
