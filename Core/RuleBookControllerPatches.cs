@@ -4,11 +4,11 @@ using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
-[HarmonyPatch]
+[HarmonyPatch(typeof(RuleBookController))]
 public class RuleBookControllerPatches
 {
-	[HarmonyPostfix, HarmonyPatch(typeof(RuleBookController), nameof(RuleBookController.Start))]
-	public static void PrefixAddRestOfAbilityMetaCategoriesPatch(ref RuleBookController __instance)
+	[HarmonyPostfix, HarmonyPatch(nameof(RuleBookController.Start))]
+	public static void AddAllAbilitiesPatch(ref RuleBookController __instance)
 	{
 		if (SaveManager.SaveFile.IsGrimora)
 		{
