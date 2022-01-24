@@ -1,4 +1,4 @@
-﻿using APIPlugin;
+using APIPlugin;
 using DiskCardGame;
 
 namespace GrimoraMod;
@@ -19,7 +19,8 @@ public partial class GrimoraPlugin
 				.SetAsRareCard()
 				.SetAbilities(abilities)
 				.SetBaseAttackAndHealth(0, 1)
-				.SetEnergyCost(4)
+				.SetBoneCost(3)
+				.SetEnergyCost(2)
 				.SetNames(NameBoneLordsHorn, "Bone Lord's Horn")
 				.SetDescription("The Horn of the Bonelord, you do not want to find out what's inside.")
 				.Build(),

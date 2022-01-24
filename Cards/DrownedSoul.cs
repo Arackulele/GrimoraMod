@@ -1,4 +1,4 @@
-﻿using APIPlugin;
+using APIPlugin;
 using DiskCardGame;
 
 namespace GrimoraMod;
@@ -19,7 +19,7 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetAbilities(abilities)
 			.SetBaseAttackAndHealth(1, 1)
-			.SetBoneCost(4)
+			.SetEnergyCost(5)
 			.SetDescription("Going into that well wasn't the best idea...")
 			.SetNames(NameDrownedSoul, "Drowned Soul")
 			.Build()

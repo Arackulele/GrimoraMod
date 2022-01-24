@@ -1,4 +1,4 @@
-﻿using APIPlugin;
+using APIPlugin;
 using DiskCardGame;
 
 namespace GrimoraMod;
@@ -19,7 +19,7 @@ public partial class GrimoraPlugin
 			.SetAsRareCard()
 			.SetAbilities(abilities)
 			.SetBaseAttackAndHealth(1, 1)
-			.SetBoneCost(4)
+			.SetBoneCost(5)
 			.SetDescription("Described by some as the truest nightmare.")
 			.SetNames(NameHydra, "Hydra")
 			.Build()

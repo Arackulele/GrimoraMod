@@ -1,4 +1,4 @@
-﻿using APIPlugin;
+using APIPlugin;
 using DiskCardGame;
 
 namespace GrimoraMod;
@@ -18,8 +18,8 @@ public partial class GrimoraPlugin
 		NewCard.Add(CardBuilder.Builder
 			.SetAsRareCard()
 			.SetAbilities(abilities)
-			.SetBaseAttackAndHealth(4, 3)
-			.SetBoneCost(9)
+			.SetBaseAttackAndHealth(5, 5)
+			.SetBoneCost(13)
 			.SetDescription("The apocalypse is soon.")
 			.SetNames(NameHeadlessHorseman, "Headless Horseman")
 			.Build()

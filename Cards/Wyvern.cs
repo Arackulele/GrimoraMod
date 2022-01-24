@@ -1,4 +1,4 @@
-﻿using APIPlugin;
+using APIPlugin;
 using DiskCardGame;
 
 namespace GrimoraMod;
@@ -11,10 +11,10 @@ public partial class GrimoraPlugin
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsRareCard()
-			.SetAbilities(Ability.DrawCopy)
+			.SetAbilities(PayEnergyForWyvern.ability)
 			.SetBaseAttackAndHealth(1, 1)
-			.SetBoneCost(5)
-			.SetDescription("The wyvern army approaches.")
+			.SetBoneCost(4)
+			.SetDescription("A Skeletal Beast, it calls in more of its kind.")
 			.SetNames(NameWyvern, "Wyvern")
 			.Build()
 		);

@@ -1,4 +1,4 @@
-﻿using APIPlugin;
+using APIPlugin;
 using DiskCardGame;
 
 namespace GrimoraMod;
@@ -19,7 +19,7 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetAbilities(abilities)
 			.SetBaseAttackAndHealth(1, 1)
-			.SetEnergyCost(2)
+			.SetEnergyCost(3)
 			.SetDescription("A skilled haunting ghost. Handle with caution.")
 			.SetNames(NamePoltergeist, "Poltergeist")
 			.Build()
