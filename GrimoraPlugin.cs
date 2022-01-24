@@ -75,7 +75,10 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		#region AddingAbilities
 
+		BoneLordsReign.CreateBoneLordsReign();
 		FlameStrafe.CreateFlameStrafe();
+		PayBonesForSkeleton.CreatePayBonesForSkeleton();
+		PayEnergyForWyvern.CreatePayEnergyForWyvern();
 
 		#endregion
 
