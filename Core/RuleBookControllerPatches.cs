@@ -4,17 +4,19 @@ using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
-[HarmonyPatch(typeof(RuleBookController))]
+[HarmonyPatch]
 public class RuleBookControllerPatches
 {
-	[HarmonyPrefix, HarmonyPatch(nameof(RuleBookController.Start))]
-	public static bool PrefixAddRestOfAbilityMetaCategoriesPatch(ref RuleBookController __instance)
+	[HarmonyPostfix, HarmonyPatch(typeof(RuleBookController), nameof(RuleBookController.Start))]
+	public static void PrefixAddRestOfAbilityMetaCategoriesPatch(ref RuleBookController __instance)
 	{
-		if (SaveManager.SaveFile.IsGrimora && __instance.PageData is null)
+		if (SaveManager.SaveFile.IsGrimora)
 		{
 			List<RuleBookPageInfo> pageInfos = new List<RuleBookPageInfo>();
 			Log.LogDebug($"[RuleBookController.Start] About to start adding all rulebooks");
 			List<int> abilitiesNoCategory = AbilitiesUtil.AllData
+				// this is needed because Sinkhole and another ability will throw IndexOutOfBounds exceptions
+				.Where(info => !string.IsNullOrEmpty(info.LocalizedRulebookDescription))
 				.Select(x => (int)x.ability).ToList();
 			int min = abilitiesNoCategory.AsQueryable().Min();
 			int max = abilitiesNoCategory.AsQueryable().Max();
@@ -44,10 +46,6 @@ public class RuleBookControllerPatches
 
 			// AbilitiesUtil.GetAbilities(true, categoryCriteria: AbilityMetaCategory.Part1Modular)
 			// 	.ForEach(ability => UnityExplorer.ExplorerCore.Log(ability));
-
-			return false;
 		}
-
-		return true;
 	}
 }
