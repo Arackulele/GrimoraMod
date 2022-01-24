@@ -81,6 +81,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		#region AddingCards
 
+		AddAra_ArmoredZombie();
 		AddAra_Bonepile();
 		AddAra_BonePrince();
 		AddAra_Bonelord();
@@ -100,6 +101,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AddAra_Mummy();
 		AddAra_Necromancer();
 		AddAra_Obol();
+		AddAra_PlagueDoctor();
 		AddAra_Poltergeist();
 		AddAra_Revenant();
 		AddAra_RingWorm();
@@ -108,6 +110,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AddAra_SkeletonArmy();
 		AddAra_SkeletonMage();
 		AddAra_SporeDigger();
+		AddAra_Summoner();
 		AddAra_TombRobber();
 		AddAra_Wendigo();
 		AddAra_Wyvern();

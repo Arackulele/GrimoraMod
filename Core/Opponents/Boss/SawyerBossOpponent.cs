@@ -86,19 +86,19 @@ public class SawyerBossOpponent : BaseBossExt
 			var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 			blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 			{
-				new() {  },
-				new() { bp_BoneSerpent },
 				new() { },
-				new() { bp_BoneSerpent },
+				new() { bp_PlagueDoctor },
+				new() { },
+				new() { bp_PlagueDoctor },
 				new() { },
 				new() { bp_Bonehound },
 				new() { },
 				new() { },
-				new() { bp_BoneSerpent },
-				new() { bp_BoneSerpent },
+				new() { bp_PlagueDoctor },
+				new() { bp_PlagueDoctor },
 				new() { },
 				new() { bp_Sarcophagus },
-				new() { bp_BoneSerpent, bp_BoneSerpent }
+				new() { bp_PlagueDoctor, bp_PlagueDoctor }
 			};
 
 			yield return ReplaceBlueprintCustom(blueprint);
