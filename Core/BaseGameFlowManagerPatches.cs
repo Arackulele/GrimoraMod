@@ -17,6 +17,8 @@ public class BaseGameFlowManagerPatches
 
 	public static SpecialNodeHandler SpecialNodeHandler;
 
+	public static HammerItemSlot HammerItemSlot;
+
 	private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
 
 	private static GameObject SetupSelectableCard()
@@ -40,6 +42,8 @@ public class BaseGameFlowManagerPatches
 		{
 			SpecialNodeHandler = UnityEngine.Object.FindObjectOfType<SpecialNodeHandler>();
 
+			AddHammer();
+
 			ChangeChessboardToExtendedClass();
 
 			AddRareCardSequencerToScene();
@@ -52,6 +56,17 @@ public class BaseGameFlowManagerPatches
 
 			AddCardRemoveSequencer();
 		}
+	}
+
+	private static void AddHammer()
+	{
+		Log.LogDebug($"Creating hammer");
+		HammerItemSlot = UnityEngine.Object.Instantiate(
+			ResourceBank.Get<Part3ItemsManager>("Prefabs/Items/ItemsManager_Part3"),
+			new Vector3(-2.69f, 5.82f, -0.48f),
+			Quaternion.Euler(270f, 315f, 0f),
+			UnityEngine.Object.FindObjectOfType<GrimoraItemsManager>().transform
+		).hammerSlot;
 	}
 
 	private static void AddCardRemoveSequencer()
