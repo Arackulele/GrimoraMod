@@ -1,6 +1,7 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -36,7 +37,7 @@ public class OpponentPatches
 				opponent = gameObject.AddComponent<FinaleGrimoraOpponent>();
 			}
 
-			GrimoraPlugin.Log.LogDebug($"[SpawnOpponent] Spawning opponent [{opponent}]");
+			Log.LogDebug($"[SpawnOpponent] Spawning opponent [{opponent}]");
 
 			string text = encounterData.aiId;
 			if (string.IsNullOrEmpty(text))
@@ -53,7 +54,11 @@ public class OpponentPatches
 			opponent.ExtraTurnsToSurrender = SeededRandom.Range(3, 4, SaveManager.SaveFile.GetCurrentRandomSeed());
 			__result = opponent;
 
-			GrimoraPlugin.Log.LogDebug($"[Opponent.SpawnOpponent] Opponent result [{__result}]");
+			Log.LogDebug($"[Opponent.SpawnOpponent] Opponent result [{__result}]");
+
+			Log.LogDebug($"Transforming hammer");
+			BaseGameFlowManagerPatches.HammerItemSlot.transform.eulerAngles = new Vector3(270f, 315f, 0f);
+			BaseGameFlowManagerPatches.HammerItemSlot.transform.position = new Vector3(-2.69f, 5.82f, -0.48f);
 			return false;
 		}
 
