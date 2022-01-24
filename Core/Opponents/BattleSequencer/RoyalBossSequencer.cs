@@ -35,7 +35,11 @@ public class RoyalBossSequencer : GrimoraModBossBattleSequencer
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				$"YARRRR, I WILL ENJOY THE KABOOM OF [c:bR]{playableCard.Info.displayedName}[c:]", 1f, 0.5f, Emotion.Anger
 			);
-			playableCard.AddTemporaryMod(new CardModificationInfo(Ability.ExplodeOnDeath));
+			if (!playableCard.TemporaryMods.Exists(mod => mod.abilities.Contains(Ability.ExplodeOnDeath)))
+			{
+				playableCard.AddTemporaryMod(new CardModificationInfo(Ability.ExplodeOnDeath));
+			}
+
 			playableCard.Anim.StrongNegationEffect();
 			yield return new WaitForSeconds(0.25f);
 			yield return playableCard.TakeDamage(1, null);
