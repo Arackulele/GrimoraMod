@@ -77,11 +77,14 @@ public abstract class BaseBossExt : Part1BossOpponent
 
 			Log.LogDebug($"[{GetType()}] SaveFile is Grimora");
 
-			Log.LogDebug($"[{GetType()}] Glitching mask");
-			GlitchOutAssetEffect.GlitchModel(
-				Mask.transform,
-				true
-			);
+			if (Mask is not null)
+			{
+				Log.LogDebug($"[{GetType()}] Glitching mask");
+				GlitchOutAssetEffect.GlitchModel(
+					Mask.transform,
+					true
+				);
+			}
 
 			Log.LogDebug($"[{GetType()}] audio queue");
 			AudioController.Instance.PlaySound2D("glitch_error", MixerGroup.TableObjectsSFX);
