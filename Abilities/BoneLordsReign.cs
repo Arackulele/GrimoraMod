@@ -1,6 +1,7 @@
 using System.Collections;
 using APIPlugin;
 using DiskCardGame;
+using UnityEngine;
 
 namespace GrimoraMod;
 
@@ -10,23 +11,36 @@ public class BoneLordsReign : AbilityBehaviour
 
 	public override Ability Ability => ability;
 
+	public bool playedOnBoard = false;
 
 	public override bool RespondsToResolveOnBoard()
 	{
 		return true;
 	}
+
 	public override IEnumerator OnResolveOnBoard()
 	{
-	yield return base.PreSuccessfulTriggerSequence();
-		foreach (CardSlot cardSlot in Singleton<BoardManager>.Instance.opponentSlots)
-			if (cardSlot.Card != null)
+		var playerSlotsWithCards = CardSlotUtils.GetPlayerSlotsWithCards();
+		if (playerSlotsWithCards.Count > 0 && !playedOnBoard)
+		{
+			yield return base.PreSuccessfulTriggerSequence();
+			ViewManager.Instance.SwitchToView(View.Board);
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				"DID YOU REALLY THINK THE BONELORD WOULD LET YOU OFF THAT EASILY?!"
+			);
+			foreach (var cardSlot in playerSlotsWithCards)
 			{
-				Card.AddTemporaryMod(new CardModificationInfo(1 - Card.Attack, 0));
-				Card.Anim.StrongNegationEffect();
+				cardSlot.Card.Anim.StrongNegationEffect();
+				cardSlot.Card.AddTemporaryMod(new CardModificationInfo(1 - Card.Attack, 0));
+				cardSlot.Card.Anim.StrongNegationEffect();
+				yield return new WaitForSeconds(0.1f);
 			}
+
+			playedOnBoard = true;
+		}
 	}
 
-		public static NewAbility CreateBoneLordsReign()
+	public static NewAbility CreateBoneLordsReign()
 	{
 		const string rulebookDescription =
 			"Whenever [creature] gets played, all enemies Power is set to 1. " +
