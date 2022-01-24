@@ -12,6 +12,8 @@ public class BaseGameFlowManagerPatches
 	private static readonly GameObject PrefabGrimoraSelectableCard =
 		ResourceBank.Get<GameObject>("Prefabs/Cards/SelectableCard_Grimora");
 
+	public static HammerItemSlot HammerItemSlot;
+
 	private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
 
 	private static GameObject SetupSelectableCard()
@@ -33,6 +35,8 @@ public class BaseGameFlowManagerPatches
 		             $" Board Already exists? [{boardObj is not null}]");
 		if (SaveManager.SaveFile.IsGrimora && boardObj is not null)
 		{
+			AddHammer();
+
 			ChangeChessboardToExtendedClass();
 
 			AddRareCardSequencerToScene();
@@ -43,6 +47,17 @@ public class BaseGameFlowManagerPatches
 
 			AddEnergyDrone();
 		}
+	}
+
+	private static void AddHammer()
+	{
+		Log.LogDebug($"Creating hammer");
+		HammerItemSlot = UnityEngine.Object.Instantiate(
+			ResourceBank.Get<Part3ItemsManager>("Prefabs/Items/ItemsManager_Part3"),
+			new Vector3(-2.69f, 5.82f, -0.48f),
+			Quaternion.Euler(270f, 315f, 0f),
+			UnityEngine.Object.FindObjectOfType<GrimoraItemsManager>().transform
+		).hammerSlot;
 	}
 
 	private static void AddEnergyDrone()
