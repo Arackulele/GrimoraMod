@@ -1,7 +1,6 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
-using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -15,18 +14,18 @@ public class GravestoneCardAnimationControllerPatches
 		CardSlot targetSlot
 	)
 	{
-		Log.LogDebug($"[Controller] Attacks player? [{attackPlayer}] TargetSlot is [{targetSlot.Index}]");
+		// Log.LogDebug($"[Controller] Attacks player? [{attackPlayer}] TargetSlot is [{targetSlot.Index}]");
 		__instance.Anim.Play("shake", 0, 0f);
 		__instance.armAnim.gameObject.SetActive(value: true);
 
 		Quaternion currentRotation = __instance.armAnim.transform.rotation;
 		bool isPlayerSideBeingAttacked = targetSlot.IsPlayerSlot;
 
-		Log.LogDebug($"[Controller] Current rotation is [{currentRotation}]");
+		// Log.LogDebug($"[Controller] Current rotation is [{currentRotation}]");
 
 		int num = (targetSlot.Index - __instance.PlayableCard.Slot.Index) *
 		          (__instance.PlayableCard.Slot.IsPlayerSlot ? 1 : -1);
-		Log.LogDebug($"Num is [{num}]");
+		// Log.LogDebug($"Num is [{num}]");
 
 		// float newY = 0f;
 		if (isPlayerSideBeingAttacked)
