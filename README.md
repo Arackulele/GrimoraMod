@@ -1,32 +1,37 @@
 # Grimora Mod
 
-- A giant Mod made by Kopie, Arackulele, xXxStoner420BongMasterxXx that builds upon the finale with Grimora's
+- A giant Mod made by Kopie, Arackulele, and xXxStoner420BongMasterxXx that builds upon the finale with Grimora's
   chessboard.
 
+- **MOST IMPORTANT**: **!!!THIS IS A BETA AND IS NOT BUG FREE!!!**
 - **IMPORTANT**: **ENABLE ENERGY DRONE IN API CONFIG IN ORDER FOR IT TO SHOW UP**
-- **BEWARE**: THIS WILL UNLOCK CERTAIN STORY EVENTS IN ORDER FOR THE MOD TO WORK, WHICH ALSO MEANS UNLOCKING CERTAIN
-  ACHIEVEMENTS!
+- **BEWARE**:
+
+  - THIS WILL UNLOCK CERTAIN STORY EVENTS IN ORDER FOR THE MOD TO WORK, WHICH ALSO MEANS UNLOCKING CERTAIN ACHIEVEMENTS!
+  - THIS MOD HAS NOT BEEN TESTED WITH KAYCEE'S MOD!
+
 - In the event you are starting from a brand new save, this mod will unlock all learned abilities, mechanics, and cards
   and some Story Events like the first tutorial battle, Bones, and a few others in order for this mod to work.
 - If you are not starting from a new save, this mod will check for certain story events and determine if it needs to unlock those.
 - I suggest restarting your game at least once if you haven't actually gotten to the finale.
-- The most important, !!!THIS IS A BETA AND IS NOT BUG FREE!!!
 
-- This mod is not tested with KC mod and we cannot guarantee it will work on that version of the game
+## Known Issues
 
-## Special thanks to
+### Grimora's dialogue is unfinished and still the one from the finale and part 1 dialogue in some cases
 
-- LavaErrorDoggo for making a lot of the Artwork
+- Ongoing process to add new dialogue.
 
-- YisusWhy for the epic Bone Lord Artwork
+### Current save file is already at the finale with Grimora
 
-- JulianMods (xXxStoner420BongMasterxXx) for refactoring the code.
-
-- Morrígan/crow_system#3539, Comrade Alpaca#0292, TheGreenDigi#8672, Plot#6972 for extensive beta testing v2.1
-
-- Draconis17#3692 for the new energy cells game object!
+- Make a backup of your save, then delete it. Having your current save already at the finale will break the mod.
 
 ## Update Notes
+
+### 2.4.1
+
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed softlock after defeating Grimora for the first time.
+
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed Bone Lord weakening himself instead of the player.
 
 ### 2.4.0
 
@@ -217,8 +222,18 @@
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed
   Blueprints
 
-## Known Issues
+## Special thanks to
 
-### Grimora's dialogue is unfinished and still the one from the finale and part 1 dialogue in some cases
+- LavaErrorDoggo for making a lot of the Artwork
 
-- This is a temporary problem and will be fixed soon.
+- YisusWhy for the epic Bone Lord Artwork
+
+- JulianMods (xXxStoner420BongMasterxXx) for refactoring the code.
+
+- Morrígan/crow_system#3539, Comrade Alpaca#0292, TheGreenDigi#8672, Plot#6972 for extensive beta testing v2.1
+
+- Bt Y#0895 for currently working on Artwork for the mod
+
+- Kopie for being a former developer.
+
+- Draconis17#3692 for the new energy cells game object!
