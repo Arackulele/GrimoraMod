@@ -85,8 +85,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AddAra_BonePrince();
 		AddAra_Bonelord();
 		AddAra_BonelordsHorn();
-		AddAra_BoneSerpent();
-		AddAra_CrazedMantis();
 		AddAra_DeadHand();
 		AddAra_DeadPets();
 		AddAra_Draugr();
@@ -107,13 +105,10 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AddAra_RingWorm();
 		AddAra_Sarcophagus();
 		AddAra_Skelemancer();
-		AddAra_Skelemaniac();
 		AddAra_SkeletonArmy();
 		AddAra_SkeletonMage();
-		AddAra_BoneSnapper();
 		AddAra_SporeDigger();
 		AddAra_TombRobber();
-		AddAra_UndeadWolf();
 		AddAra_Wendigo();
 		AddAra_Wyvern();
 		AddAra_ZombieGeck();
