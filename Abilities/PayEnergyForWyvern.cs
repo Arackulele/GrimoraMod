@@ -1,6 +1,7 @@
 using System.Collections;
 using APIPlugin;
 using DiskCardGame;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -13,19 +14,19 @@ public class PayEnergyForWyvern : ActivatedAbilityBehaviour
 
 	public override IEnumerator Activate()
 	{
-		yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(CardLoader.GetCardByName("ara_Wyvern"), 0.25f);
+		yield return CardSpawner.Instance.SpawnCardToHand(CardLoader.GetCardByName(NameWyvern), 0.25f);
 		yield break;
 	}
 
 	public static NewAbility CreatePayEnergyForWyvern()
 		{
 		const string rulebookDescription =
-			"Pay 3 Energy for [creature] to summon a Wyvern in your Hand. " +
-			"More Wyverns, wyverns everywhere.";
+			"Pay 3 Energy for [creature] to summon a Wyvern in your hand. " +
+			"More wyverns. Wyverns everywhere.";
 
 		return ApiUtils.CreateAbility<PayEnergyForWyvern>(
-			GrimoraPlugin.AllSpriteAssets.Single(spr => spr.name == "PayBonesForWyvern").texture,
-			nameof(PayEnergyForWyvern),
+			AllSpriteAssets.Single(spr => spr.name == "PayBonesForWyvern").texture,
+			"Pay Energy For Wyvern",
 			rulebookDescription,
 		5,
 		activated: true

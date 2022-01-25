@@ -2,6 +2,7 @@ using System.Collections;
 using APIPlugin;
 using DiskCardGame;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -11,22 +12,20 @@ public class BoneLordsReign : AbilityBehaviour
 
 	public override Ability Ability => ability;
 
-	public bool playedOnBoard = false;
-
-	public override bool RespondsToResolveOnBoard()
+	public override bool RespondsToPlayFromHand()
 	{
 		return true;
 	}
 
-	public override IEnumerator OnResolveOnBoard()
+	public override IEnumerator OnPlayFromHand()
 	{
 		var playerSlotsWithCards = CardSlotUtils.GetPlayerSlotsWithCards();
-		if (playerSlotsWithCards.Count > 0 && !playedOnBoard)
+		if (playerSlotsWithCards.Count > 0)
 		{
 			yield return base.PreSuccessfulTriggerSequence();
 			ViewManager.Instance.SwitchToView(View.Board);
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"DID YOU REALLY THINK THE BONELORD WOULD LET YOU OFF THAT EASILY?!"
+				"DID YOU REALLY THINK THE BONE LORD WOULD LET YOU OFF THAT EASILY?!"
 			);
 			foreach (var cardSlot in playerSlotsWithCards)
 			{
@@ -35,8 +34,6 @@ public class BoneLordsReign : AbilityBehaviour
 				cardSlot.Card.Anim.StrongNegationEffect();
 				yield return new WaitForSeconds(0.1f);
 			}
-
-			playedOnBoard = true;
 		}
 	}
 
@@ -47,8 +44,8 @@ public class BoneLordsReign : AbilityBehaviour
 			"When the Bone Lord appears, every Creature will fall.";
 
 		return ApiUtils.CreateAbility<BoneLordsReign>(
-			GrimoraPlugin.AllSpriteAssets.Single(spr => spr.name == "BoneLordsReign").texture,
-			nameof(BoneLordsReign),
+			AllSpriteAssets.Single(spr => spr.name == "BoneLordsReign").texture,
+			"Bone Lord's Reign",
 			rulebookDescription,
 			5
 		);

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using APIPlugin;
 using DiskCardGame;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -17,7 +18,7 @@ public class FlameStrafe : Strafe
 		{
 			yield return BoardManager
 				.Instance
-				.CreateCardInSlot(CardLoader.GetCardByName(GrimoraPlugin.NameFlames), cardSlot);
+				.CreateCardInSlot(CardLoader.GetCardByName(NameFlames), cardSlot);
 		}
 
 		yield break;
@@ -30,8 +31,8 @@ public class FlameStrafe : Strafe
 			"The warmth of the Embers shall enlighten nearby cards.";
 
 		return ApiUtils.CreateAbility<FlameStrafe>(
-			GrimoraPlugin.AllSpriteAssets.Single(spr => spr.name == "DropFlames").texture,
-			nameof(FlameStrafe),
+			AllSpriteAssets.Single(spr => spr.name == "DropFlames").texture,
+			"Flame Strafe",
 			rulebookDescription,
 			5
 		);

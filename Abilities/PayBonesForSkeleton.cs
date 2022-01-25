@@ -12,19 +12,19 @@ public class PayBonesForSkeleton : ActivatedAbilityBehaviour
 	public override int BonesCost => 2;
 	public override IEnumerator Activate()
 	{
-		yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(CardLoader.GetCardByName("Skeleton"), 0.25f);
+		yield return CardSpawner.Instance.SpawnCardToHand(CardLoader.GetCardByName("Skeleton"), 0.25f);
 		yield break;
 	}
 
 	public static NewAbility CreatePayBonesForSkeleton()
 		{
 		const string rulebookDescription =
-			"Pay 2 Bones for [creature] to summon a Skeleton in your Hand " +
+			"Pay 2 Bones for [creature] to summon a Skeleton in your hand. " +
 			"Rise, Army, RIIISE.";
 
 		return ApiUtils.CreateAbility<PayBonesForSkeleton>(
 			GrimoraPlugin.AllSpriteAssets.Single(spr => spr.name == "PayBonesForSkeleton").texture,
-			nameof(PayBonesForSkeleton),
+			"Pay Bones For Skeleton",
 			rulebookDescription,
 		5,
 		activated: true
