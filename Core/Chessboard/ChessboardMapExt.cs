@@ -261,6 +261,13 @@ public class ChessboardMapExt : ChessboardMap
 		// for checking which nodes are active/inactive
 		if (EnableDevMode) RenameMapNodesWithGridCoords();
 
+		// if the boss piece exists in the removed pieces,
+		// this means the game didn't complete clearing the board for changing the region
+		if (Instance.RemovedPieces.Exists(piece => piece.Contains("Boss")))
+		{
+			ClearBoardForChangingRegion();
+		}
+		
 		UpdateActiveChessboard();
 
 		_activeChessboard.SetupBoard();
