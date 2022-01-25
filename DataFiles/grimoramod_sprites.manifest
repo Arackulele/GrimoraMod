@@ -1,0 +1,70 @@
+ManifestFileVersion: 0
+CRC: 155583295
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 4947afd75a1382010938c3321ba1633b
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: c90fc19e2679e5295d10bd00f33cb4c3
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Art_testing/Elk.png
+- Assets/Art_testing/Wendigo.png
+- Assets/Art_testing/Sarcophagus.png
+- Assets/Art_testing/Franknstein.png
+- Assets/Art_testing/DeadPets.png
+- Assets/Art_testing/MudWorm.png
+- Assets/Art_testing/Boneseed.png
+- Assets/Art_testing/Flames.png
+- Assets/Art_testing/UndeadWolf.png
+- Assets/Art_testing/Skeleton.png
+- Assets/Art_testing/GhostShip.png
+- Assets/Art_testing/MenuCard.png
+- Assets/Art_testing/DrownedSoul.png
+- Assets/Art_testing/DropFlames.png
+- Assets/Art_testing/Ember_Spirit.png
+- Assets/Art_testing/PayBonesForSkeleton.png
+- Assets/Art_testing/ZombieGeck.png
+- Assets/Art_testing/DeadHand.png
+- Assets/Art_testing/Bonelord.png
+- Assets/Art_testing/PlagueDoctor.png
+- Assets/Art_testing/Mummy.png
+- Assets/Art_testing/ArmoredZombie.png
+- Assets/Art_testing/Obol.png
+- Assets/Art_testing/Summoner.png
+- Assets/Art_testing/Family.png
+- Assets/Art_testing/SkeletonArmy.png
+- Assets/Art_testing/Skelemancer.png
+- Assets/Art_testing/Gravedigger.png
+- Assets/Art_testing/Zombie.png
+- Assets/Art_testing/Sporedigger.png
+- Assets/Art_testing/Background.png
+- Assets/Art_testing/Revenant.png
+- Assets/Art_testing/ghoul.png
+- Assets/Art_testing/BonelordsHorn.png
+- Assets/Art_testing/BonePrince.png
+- Assets/Art_testing/SkeletonMage.png
+- Assets/Art_testing/PayBonesForWyvern.png
+- Assets/Art_testing/Maggots.png
+- Assets/Art_testing/BoneLordsReign.png
+- Assets/Art_testing/Wyvern.png
+- Assets/Art_testing/Draugr.png
+- Assets/Art_testing/Bonepile.png
+- Assets/Art_testing/HeadlessHorseman.png
+- Assets/Art_testing/BoneSerpent.png
+- Assets/Art_testing/Skelemaniac.png
+- Assets/Art_testing/Necromancer.png
+- Assets/Art_testing/CrazedMantis.png
+- Assets/Art_testing/TombRobber.png
+- Assets/Art_testing/Poltergeist.png
+- Assets/Art_testing/BoneSnapper.png
+- Assets/Art_testing/Amoeba.png
+- Assets/Art_testing/Hydra.png
+Dependencies: []
