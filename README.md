@@ -33,7 +33,9 @@
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed Bone Lord weakening himself instead of the player.
 
-- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed issue where if a player would close the game during the rare card choice sequence after defeating a boss, the new boss does not spawn and there isn't a way to go into the next region without closing the game and removing the boss piece from the config file removed pieces entry.
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed issue where if a player would close the game during the rare card choice sequence after defeating a boss, the new boss does not spawn and there isn't a way to go into the next region without closing the game and removing the boss piece from the removed pieces entry in the config file.
+
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed scaling on Plague Doctor and Summoner art.
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Tweaked Grimora's second phase to no longer give a card +1 attack if it had zero.
 

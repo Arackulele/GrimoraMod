@@ -14,7 +14,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 {
 	public const string PluginGuid = "arackulele.inscryption.grimoramod";
 	public const string PluginName = "GrimoraMod";
-	private const string PluginVersion = "2.4.0";
+	private const string PluginVersion = "2.4.1";
 
 	internal static ManualLogSource Log;
 
