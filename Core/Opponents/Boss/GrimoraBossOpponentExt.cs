@@ -141,21 +141,25 @@ public class GrimoraBossOpponentExt : BaseBossExt
 				var playerCardSlots = CardSlotUtils.GetPlayerSlotsWithCards();
 				if (playerCardSlots.Count > 0)
 				{
-					foreach (var playableCard in playerCardSlots.Select(slot => slot.Card))
-					{
-						yield return TextDisplayer.Instance.ShowUntilInput(
-							$"{playableCard.name}, I WILL MAKE YOU WEAK!",
-							letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
-						);
+					yield return TextDisplayer.Instance.ShowUntilInput(
+						"I WILL MAKE YOU WEAK!",
+						letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
+					);
 
-						playableCard.AddTemporaryMod(
-							new CardModificationInfo(
-								-playableCard.Attack + 1,
-								-playableCard.Health + 1)
-						);
+					ViewManager.Instance.SwitchToView(View.Board);
+					
+					foreach (var playableCard in playerCardSlots
+						         .Select(slot => slot.Card)
+						         .Where(card => card.Health > 1))
+					{
+						int attack = playableCard.Attack == 0 ? 0 : -playableCard.Attack + 1;
+						playableCard.AddTemporaryMod(new CardModificationInfo(attack, -playableCard.Health + 1));
 						playableCard.Anim.StrongNegationEffect();
-						yield return new WaitForSeconds(0.05f);
+						yield return new WaitForSeconds(0.25f);
+						playableCard.Anim.StrongNegationEffect();
 					}
+
+					yield return new WaitForSeconds(0.75f);
 				}
 
 
