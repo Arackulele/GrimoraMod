@@ -42,7 +42,9 @@ public class CardBuilder
 		{
 			cardName = cardName.Replace("ara_", "");
 			// Log.LogDebug($"Looking in AllSprites for [{cardName}]");
-			_cardInfo.portraitTex = AllSpriteAssets.Single(spr => spr.name == cardName);
+			_cardInfo.portraitTex = AllSpriteAssets.Single(
+				spr => string.Equals(spr.name, cardName, StringComparison.OrdinalIgnoreCase)
+			);
 		}
 		else
 		{
