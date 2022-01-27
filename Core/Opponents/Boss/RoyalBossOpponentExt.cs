@@ -34,7 +34,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 		Log.LogDebug($"[{GetType()}] Setting RoyalBossSkull [{RoyalBossSkull}]");
 		RoyalBossSkull.SetActive(true);
 
-		yield return base.ShowBossSkull();
+		yield return ShowBossSkull();
 
 		Log.LogDebug($"[{GetType()}] Creating royal mask if not null");
 		Mask = RoyalBossSkull;
