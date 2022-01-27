@@ -91,7 +91,7 @@ public class GrimoraChessboard
 		{
 			for (int i = 0; i < 8; i++)
 			{
-				PlaceChestPiece(i, 0);
+				PlaceChestPiece(i, 0, new CardRemoveNodeData());
 				PlaceEnemyPiece(0, i);
 			}
 		}
@@ -198,9 +198,9 @@ public class GrimoraChessboard
 		CreateBossPiece(bossName, BossNode.GridX, BossNode.GridY);
 	}
 
-	public void PlaceChestPiece(int x, int y)
+	public ChessboardChestPiece PlaceChestPiece(int x, int y, SpecialNodeData specialNodeData = null)
 	{
-		CreateChestPiece(x, y);
+		return CreateChestPiece(x, y, specialNodeData);
 	}
 
 	public void PlaceChestPieces()
@@ -263,7 +263,11 @@ public class GrimoraChessboard
 		return meshObj;
 	}
 
-	private void CreateChessPiece(ChessboardPiece prefab, int x, int y, string id = "")
+	private T CreateChessPiece<T>(
+		ChessboardPiece prefab,
+		int x, int y,
+		string id = "",
+		SpecialNodeData specialNodeData = null) where T : ChessboardPiece
 	{
 		string coordName = $"x[{x}]y[{y}]";
 
@@ -332,6 +336,13 @@ public class GrimoraChessboard
 
 				break;
 			}
+			case ChessboardChestPiece chestPiece:
+				if (specialNodeData is not null)
+				{
+					chestPiece.NodeData = specialNodeData;
+				}
+
+				break;
 		}
 
 		piece.name = nameTemp;
