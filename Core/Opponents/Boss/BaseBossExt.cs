@@ -121,31 +121,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 		}
 	}
 
-	private void SetBossDefeatedInConfig()
-	{
-		switch (this)
-		{
-			case KayceeBossOpponent:
-				ConfigKayceeFirstBossDead.Value = true;
-				break;
-			case SawyerBossOpponent:
-				ConfigSawyerSecondBossDead.Value = true;
-				break;
-			case RoyalBossOpponentExt:
-				ConfigRoyalThirdBossDead.Value = true;
-				break;
-			case GrimoraBossOpponentExt:
-				ConfigGrimoraBossDead.Value = true;
-				break;
-		}
-
-		var bossPiece = ChessboardMapExt.Instance.BossPiece;
-		ChessboardMapExt.Instance.BossDefeated = true;
-		ChessboardMapExt.Instance.AddPieceToRemovedPiecesConfig(bossPiece.name);
-		Log.LogDebug($"[BossDefeatedSequence][PostFix] Boss {GetType()} defeated.");
-	}
-
-	public IEnumerator ShowBossSkull()
+	public static IEnumerator ShowBossSkull()
 	{
 		// Log.LogDebug($"[{GetType()}] Calling ShowBossSkull");
 		GrimoraAnimationController.Instance.ShowBossSkull();
