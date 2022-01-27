@@ -110,9 +110,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		#endregion
 
 		ResizeArtworkForVanillaBoneCards();
-
-		// ChangePackRat();
-		// ChangeSquirrel();
 	}
 
 	private static void ResizeArtworkForVanillaBoneCards()
@@ -151,14 +148,21 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	private static void LoadAssets()
 	{
 		Log.LogDebug($"Loading asset bundles");
-		string blockersFile = FileUtils.FindFileInPluginDir("GrimoraMod_Prefabs_Blockers");
-		string spritesFile = FileUtils.FindFileInPluginDir("grimoramod_sprites");
-
-		AssetBundle blockerBundle = AssetBundle.LoadFromFile(blockersFile);
-		AssetBundle spritesBundle = AssetBundle.LoadFromFile(spritesFile);
-		// Log.LogDebug($"Sprites bundle {string.Join(",", spritesBundle.GetAllAssetNames())}");
+		
+		AssetBundle abilityBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_abilities"));
+		AssetBundle blockerBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("GrimoraMod_Prefabs_Blockers"));
+		AssetBundle spritesBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_sprites"));
+		// BundlePrefab = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_prefabs"));
+		
+		// BundlePrefab = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("prefab-testing"));
+		// Log.LogDebug($"{string.Join(",", BundlePrefab.GetAllAssetNames())}");
+		
 
 		AllAssets = blockerBundle.LoadAllAssets();
+		
+		AllAbilityAssets = abilityBundle.LoadAllAssets<Texture>();
+		// Log.LogDebug($"Abilities textures loaded {string.Join(",", AllAbilityAssets.Select(_ => _.name))}");
+		
 		AllSpriteAssets = spritesBundle.LoadAllAssets<Sprite>();
 		// Log.LogDebug($"Sprites loaded {string.Join(",", AllSpriteAssets.Select(spr => spr.name))}");
 	}
@@ -172,31 +176,5 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			ProgressionData.UnlockAll();
 			SaveManager.SaveToFile();
 		}
-	}
-
-	private static void ResetConfigDataIfGrimoraHasNotReachedTable()
-	{
-		if (!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable))
-		{
-			Log.LogWarning($"Grimora has not reached the table yet, resetting values to false again.");
-			ResetConfig();
-		}
-	}
-
-	public static void ResetConfig()
-	{
-		Log.LogWarning($"Resetting Grimora Mod config");
-		ConfigKayceeFirstBossDead.Value = false;
-		ConfigSawyerSecondBossDead.Value = false;
-		ConfigRoyalThirdBossDead.Value = false;
-		ConfigGrimoraBossDead.Value = false;
-		ConfigCurrentRemovedPieces.Value = StaticDefaultRemovedPiecesList;
-		ConfigCurrentChessboardIndex.Value = 0;
-	}
-
-	public static void ResetDeck()
-	{
-		Log.LogWarning($"Resetting Grimora Deck Data");
-		GrimoraSaveData.Data.Initialize();
 	}
 }
