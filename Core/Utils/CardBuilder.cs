@@ -1,5 +1,6 @@
 ﻿using APIPlugin;
 using DiskCardGame;
+using HarmonyLib;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -44,6 +45,12 @@ public class CardBuilder
 			// Log.LogDebug($"Looking in AllSprites for [{cardName}]");
 			_cardInfo.portraitTex = AllSpriteAssets.Single(
 				spr => string.Equals(spr.name, cardName, StringComparison.OrdinalIgnoreCase)
+			);
+
+			// TODO: refactor when API 2.0 comes out
+			AllSpriteAssets.DoIf(
+				_ => _.name.Equals(cardName + "_emission", StringComparison.OrdinalIgnoreCase),
+				delegate(Sprite sprite) { NewCard.emissions.Add(cardName, sprite); }
 			);
 		}
 		else
