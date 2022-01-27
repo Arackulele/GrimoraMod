@@ -62,6 +62,8 @@ public class ChessboardMapExt : ChessboardMap
 		ViewManager instance = ViewManager.Instance;
 		instance.ViewChanged = (Action<View, View>)Delegate
 			.Combine(instance.ViewChanged, new Action<View, View>(OnViewChanged));
+
+		gameObject.AddComponent<DebugHelper>();
 	}
 
 	private void OnGUI()

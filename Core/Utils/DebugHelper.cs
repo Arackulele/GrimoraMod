@@ -1,0 +1,165 @@
+﻿using APIPlugin;
+using DiskCardGame;
+using HarmonyLib;
+using Sirenix.Utilities;
+using UnityEngine;
+
+namespace GrimoraMod;
+
+public class DebugHelper : ManagedBehaviour
+{
+	private bool _toggleDebugTools;
+
+	private readonly string[] _btnTools =
+	{
+		"Win Round", "Lose Round", 
+		"Add All Grimora Cards", "Clear Deck"
+	};
+
+	private bool _toggleDebugChests;
+	
+	private readonly string[] _btnChests =
+	{
+		"Card Remove", "Card Choice", "Rare Card Choice"
+	};
+
+	private bool _toggleDebug;
+	
+	private readonly string[] _btnDebug =
+	{
+		"Win Round", "Lose Round"
+	};
+
+	private bool _toggleEnemies;
+	private readonly string[] _btnEnemies =
+	{
+		"Place Enemies"
+	};
+	
+	private void OnGUI()
+	{
+		if (!ConfigHelper.Instance.isDevModeEnabled)
+		{
+			return;
+		}
+
+		_toggleDebugTools = GUI.Toggle(
+			new Rect(20, 60, 100, 20),
+			_toggleDebugTools,
+			"Debug Tools"
+		);
+		
+		_toggleDebugChests = GUI.Toggle(
+			new Rect(20, 140, 100, 20),
+			_toggleDebugChests,
+			"Debug Chests"
+		);
+
+		_toggleEnemies = GUI.Toggle(
+			new Rect(20, 220, 100, 20),
+			_toggleEnemies,
+			"Debug Enemies"
+		);
+		
+		if (_toggleDebugTools)
+		{
+			int selectedButton = GUI.SelectionGrid(
+				new Rect(25, 80, 300, 40),
+				-1,
+				_btnTools,
+				2
+			);
+
+			if (selectedButton >= 0)
+			{
+				// Log.LogDebug($"[OnGUI] Calling button [{selectedButton}]");
+				switch (_btnTools[selectedButton])
+				{
+					case "Win Round":
+						LifeManager.Instance.StartCoroutine(
+							LifeManager.Instance.ShowDamageSequence(10, 1, false)
+						);
+						break;
+					case "Lose Round":
+						LifeManager.Instance.StartCoroutine(
+							LifeManager.Instance.ShowDamageSequence(10, 1, true)
+						);
+						break;
+					case "Add All Grimora Cards":
+						GrimoraSaveData.Data.deck.Cards.Clear();
+						GrimoraSaveData.Data.deck.Cards.AddRange(
+							NewCard.cards.FindAll(card => card.name.StartsWith("ara_"))
+						);
+						SaveManager.SaveToFile();
+						break;
+					case "Clear Deck":
+						GrimoraSaveData.Data.deck.Cards.Clear();
+						SaveManager.SaveToFile();
+						break;
+				}
+			}
+		}
+
+		if (_toggleDebugChests)
+		{
+			int selectedButton = GUI.SelectionGrid(
+				new Rect(25, 200, 300, 200),
+				-1,
+				_btnChests,
+				2
+			);
+
+			if (selectedButton >= 0)
+			{
+				SpecialNodeData specialNode = new CardChoicesNodeData();
+				switch (_btnChests[selectedButton])
+				{
+					case "Card Remove":
+						specialNode = new CardRemoveNodeData();
+						break;
+					case "Rare Card Choice":
+						specialNode = new ChooseRareCardNodeData();
+						break;
+				}
+				
+				ChessboardChestPiece[] chests = UnityEngine.Object.FindObjectsOfType<ChessboardChestPiece>();
+
+				if (chests.IsNullOrEmpty())
+				{
+					for (int i = 0; i < 8; i++)
+					{
+						ChessboardMapExt.Instance.ActiveChessboard.PlaceChestPiece(i, 0, specialNode);
+					}
+				}
+				else
+				{
+					foreach (var chest in chests)
+					{
+						chest.NodeData = specialNode;
+					}
+				}
+			}
+		}
+
+		if (_toggleEnemies)
+		{
+			int selectedButton = GUI.SelectionGrid(
+				new Rect(25, 280, 300, 200),
+				-1,
+				_btnEnemies,
+				2
+			);
+
+			if (selectedButton >= 0)
+			{
+				var copy = ConfigHelper.Instance.RemovedPieces;
+				copy.RemoveAll(piece => piece.Contains("Enemy"));
+				ConfigHelper.Instance._configCurrentRemovedPieces.Value = copy.Join();
+				for (int i = 0; i < 8; i++)
+				{
+					ChessboardMapExt.Instance.ActiveChessboard.PlaceEnemyPiece(0, i);
+				}
+			}
+		}
+	}
+}
