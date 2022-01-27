@@ -17,9 +17,7 @@ public class ChessboardMapExt : ChessboardMap
 
 	public ChessboardEnemyPiece BossPiece => ActiveChessboard.BossPiece;
 
-	public ChessboardEnemyPiece BossPiece => _activeChessboard.BossPiece;
-
-	internal bool ChangingRegion { get; private set; }
+	private bool ChangingRegion { get; set; }
 
 	public bool BossDefeated { get; protected internal set; }
 
@@ -216,14 +214,14 @@ public class ChessboardMapExt : ChessboardMap
 		{
 			ClearBoardForChangingRegion();
 		}
-		
+
 		UpdateActiveChessboard();
 
-		_activeChessboard.SetupBoard();
+		ActiveChessboard.SetupBoard();
 
 		yield return HandleActivatingChessPieces();
 
-		_activeChessboard.UpdatePlayerMarkerPosition(ChangingRegion);
+		ActiveChessboard.UpdatePlayerMarkerPosition(ChangingRegion);
 
 		if (!DialogueEventsData.EventIsPlayed("FinaleGrimoraMapShown"))
 		{
@@ -253,19 +251,15 @@ public class ChessboardMapExt : ChessboardMap
 
 			ConfigHelper.Instance.CurrentChessboardIndex = currentChessboardIndex;
 			Log.LogDebug($"[HandleChessboardSetup] -> Setting new chessboard idx [{currentChessboardIndex}]");
-			_activeChessboard = Chessboards[currentChessboardIndex];
+			ActiveChessboard = Chessboards[currentChessboardIndex];
 
-			_activeChessboard.SetSavePositions();
+			ActiveChessboard.SetSavePositions();
 		}
 
-		Log.LogDebug($"[HandleChessboardSetup] Chessboard [{_activeChessboard}] Chessboards [{Chessboards.Count}]");
-		_activeChessboard ??= Chessboards[currentChessboardIndex];
+		Log.LogDebug($"[HandleChessboardSetup] Chessboard [{ActiveChessboard}] Chessboards [{Chessboards.Count}]");
+		ActiveChessboard ??= Chessboards[currentChessboardIndex];
 	}
 
-	public void AddPieceToRemovedPiecesConfig(string pieceName)
-	{
-		ConfigCurrentRemovedPieces.Value += "," + pieceName + ",";
-	}
 
 	private static void SetAllNodesActive()
 	{
