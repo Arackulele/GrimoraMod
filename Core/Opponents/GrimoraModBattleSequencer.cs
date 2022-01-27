@@ -83,6 +83,10 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			yield return new WaitForSeconds(0.75f);
 			Log.LogDebug($"[GameEnd] offset fov");
 			ViewManager.Instance.OffsetFOV(150f, 1.5f);
+
+			Log.LogDebug($"[GameEnd] Resetting running");
+			yield return new WaitForSeconds(1f);
+			ConfigHelper.ResetRun();
 		}
 
 		yield break;
@@ -130,18 +134,10 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		{
 			Log.LogDebug($"[GrimoraModBattleSequencer] " +
 			             $"Adding enemy [{ActiveEnemyPiece.name}] to config removed pieces");
-			ChessboardMapExt.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
+			ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
 		}
-		else
-		{
-			ResetRun();
 
-			yield return new WaitForSeconds(1.5f);
-
-			GrimoraPlugin.Log.LogDebug($"Starting finale_grimora");
-			LoadingScreenManager.LoadScene("finale_grimora");
-			yield break;
-		}
+		yield break;
 	}
 
 	private IEnumerator GlitchOutBoardAndHandCards()
@@ -161,18 +157,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		}
 	}
 
-	private static void ResetRun()
-	{
-		Log.LogDebug($"[ResetRun] Resetting run");
-
-		GrimoraSaveData.Data.Initialize();
-		StoryEventsData.EraseEvent(StoryEvent.GrimoraReachedTable);
-		ResetConfig();
-
-		SaveManager.SaveToFile();
-	}
-
-	private void GlitchOutCard(PlayableCard c)
+	private static void GlitchOutCard(Card c)
 	{
 		(c.Anim as GravestoneCardAnimationController).PlayGlitchOutAnimation();
 		UnityEngine.Object.Destroy(c.gameObject, 0.25f);
