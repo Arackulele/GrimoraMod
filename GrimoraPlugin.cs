@@ -20,6 +20,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private static Harmony _harmony;
 
+	public static AssetBundle BundlePrefab;
 	public static UnityEngine.Object[] AllAssets;
 	public static UnityEngine.Sprite[] AllSpriteAssets;
 	public static UnityEngine.Texture[] AllAbilityAssets;

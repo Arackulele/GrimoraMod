@@ -46,7 +46,41 @@ public class BaseGameFlowManagerPatches
 			ChangeStartDeckIfNotAlreadyChanged();
 
 			AddEnergyDrone();
+
+			// AddCustomEnergy();
 		}
+	}
+
+	// ONLY USE THIS IF YOU COMPILED THE ASSET BUNDLE WITH A VERSION OF UNITY THAT IS NOT 2019.4.24F
+	public static void FixShaders(GameObject go)
+	{
+		// Reset shader if this object has a MeshRenderer
+		if (go.GetComponent<MeshRenderer>() != null)
+		{
+			go.GetComponent<MeshRenderer>().material.shader = Shader.Find("Standard");
+		}
+
+		// Do the same for all child game objects
+		for (int i = 0; i < go.transform.childCount; i++)
+		{
+			FixShaders(go.transform.GetChild(i).gameObject);
+		}
+	}
+
+	private static void AddCustomEnergy()
+	{
+		Log.LogDebug($"Starting load of custom energy object");
+		var prefab = BundlePrefab.LoadAssetWithSubAssets("Hexalantern")[0];
+
+		Log.LogDebug($"Creating custom energy object [{prefab}]");
+		GameObject energyObj = (GameObject)UnityEngine.Object.Instantiate(
+			prefab,
+			new Vector3(-2.69f, 5.82f, -0.48f),
+			Quaternion.Euler(0, 0, 0f),
+			UnityEngine.Object.FindObjectOfType<BoardManager3D>().transform
+		);
+
+		// FixShaders(energyObj);
 	}
 
 	private static void AddHammer()
