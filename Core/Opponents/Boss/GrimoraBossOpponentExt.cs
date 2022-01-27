@@ -1,7 +1,7 @@
 using System.Collections;
 using DiskCardGame;
+using Sirenix.Utilities;
 using UnityEngine;
-using static GrimoraMod.BlueprintUtils;
 
 namespace GrimoraMod;
 
@@ -67,33 +67,18 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			{
 				GrimoraPlugin.Log.LogDebug($"[GrimoraBoss] Clearing board");
 				yield return base.ClearBoard();
+
 				GrimoraPlugin.Log.LogDebug($"[GrimoraBoss] Clearing queue");
 				yield return base.ClearQueue();
 
 				yield return new WaitForSeconds(0.5f);
 
-				var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-				blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
-				{
-					new() { bp_Skeleton },
-					new() { bp_Bonelord },
-					new() { },
-					new() { },
-					new() { bp_Draugr, bp_Draugr, bp_Draugr },
-					new() { },
-					new() { bp_Bonehound, bp_Bonehound },
-					new() { },
-					new() { bp_Bonehound },
-					new() { },
-					new() { },
-					new() { bp_GhostShip },
-					new() { bp_GhostShip }
-				};
-
 				var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
 
 				yield return TextDisplayer.Instance.ShowUntilInput("LET THE BONE LORD COMMETH!",
 					letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
+
+				ViewManager.Instance.SwitchToView(View.Board);
 
 				yield return BoardManager.Instance.CreateCardInSlot(
 					CardLoader.GetCardByName(GrimoraPlugin.NameBonelord), oppSlots[2], 0.2f
@@ -102,8 +87,10 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 				oppSlots.RemoveAt(2);
 
-				yield return TextDisplayer.Instance.ShowUntilInput("RISE MY ARMY! RIIIIIIIIIISE!",
-					letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					"RISE MY ARMY! RIIIIIIIIIISE!",
+					letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
+				);
 
 				foreach (CardSlot cardSlot in oppSlots)
 				{
@@ -114,32 +101,20 @@ public class GrimoraBossOpponentExt : BaseBossExt
 					yield return new WaitForSeconds(0.25f);
 				}
 
+				ViewManager.Instance.SwitchToView(View.Default);
+
 				break;
 			}
 			case 2:
 			{
+				GrimoraPlugin.Log.LogDebug($"[GrimoraBoss] Clearing board");
 				yield return base.ClearBoard();
 
-				var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-				blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
-				{
-					new() { bp_Sporedigger },
-					new() { bp_Poltergeist },
-					new() { },
-					new() { },
-					new() { bp_Draugr, bp_Draugr, bp_Draugr },
-					new() { },
-					new() { bp_Bonehound, bp_Bonehound },
-					new() { },
-					new() { bp_Bonehound },
-					new() { },
-					new() { },
-					new() { bp_GhostShip },
-					new() { bp_GhostShip },
-				};
+				GrimoraPlugin.Log.LogDebug($"[GrimoraBoss] Clearing queue");
+				yield return base.ClearQueue();
 
 				var playerCardSlots = CardSlotUtils.GetPlayerSlotsWithCards();
-				if (playerCardSlots.Count > 0)
+				if (!playerCardSlots.IsNullOrEmpty())
 				{
 					yield return TextDisplayer.Instance.ShowUntilInput(
 						"I WILL MAKE YOU WEAK!",
@@ -147,7 +122,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 					);
 
 					ViewManager.Instance.SwitchToView(View.Board);
-					
+
 					foreach (var playableCard in playerCardSlots
 						         .Select(slot => slot.Card)
 						         .Where(card => card.Health > 1))
@@ -161,7 +136,6 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 					yield return new WaitForSeconds(0.75f);
 				}
-
 
 				break;
 			}
