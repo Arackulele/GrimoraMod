@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -65,7 +66,7 @@ public class GrimoraBossSequencer : GrimoraModBossBattleSequencer
 			.GetSlots(getPlayerSlots: false)
 			.FindAll((CardSlot x) => x.Card == null && !TurnManager.Instance.Opponent.QueuedSlots.Contains(x));
 		Log.LogDebug($"[{GetType()}] Opponent Slots count [{opponentQueuedSlots.Count}]");
-		if (opponentQueuedSlots.Count > 0)
+		if (!opponentQueuedSlots.IsNullOrEmpty())
 		{
 			ViewManager.Instance.SwitchToView(View.BossCloseup);
 			TextDisplayer.Instance.PlayDialogueEvent(
