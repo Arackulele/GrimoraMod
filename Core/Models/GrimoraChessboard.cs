@@ -166,14 +166,19 @@ public class GrimoraChessboard
 
 	#region HelperMethods
 
-	private static ChessboardPiece GetPieceAtSpace(int x, int y)
+	public static ChessboardMapNode GetNodeAtSpace(int x, int y)
 	{
-		return ChessboardNavGrid.instance.zones[x, y].GetComponent<ChessboardMapNode>().OccupyingPiece;
+		return ChessboardNavGrid.instance.zones[x, y].GetComponent<ChessboardMapNode>();
+	}
+
+	public static ChessboardPiece GetPieceAtSpace(int x, int y)
+	{
+		return GetNodeAtSpace(x, y).OccupyingPiece;
 	}
 
 	private EncounterBlueprintData GetBlueprint()
 	{
-		Log.LogDebug($"[GetBlueprint] ActiveBoss [{ActiveBossType}]");
+		// Log.LogDebug($"[GetBlueprint] ActiveBoss [{ActiveBossType}]");
 		var blueprints = BlueprintUtils.RegionWithBlueprints[ActiveBossType];
 		return blueprints[UnityEngine.Random.RandomRangeInt(0, blueprints.Count)];
 	}
@@ -182,20 +187,20 @@ public class GrimoraChessboard
 
 	#region PlacingPieces
 
-	public void PlaceBlockerPieces()
+	public List<ChessboardBlockerPiece> PlaceBlockerPieces()
 	{
 		// Log.LogDebug($"[SetupGamePieces] Creating blocker pieces for the board");
-		BlockerNodes.ForEach(node => CreateBlockerPiece(node.GridX, node.GridY));
+		return BlockerNodes.Select(node => CreateBlockerPiece(node.GridX, node.GridY)).ToList();
 	}
 
-	public void PlaceBossPieceDev(string bossName, int x, int y)
+	public ChessboardEnemyPiece PlaceBossPieceDev(string bossName, int x, int y)
 	{
-		CreateBossPiece(bossName, x, y);
+		return CreateBossPiece(bossName, x, y);
 	}
 
-	public void PlaceBossPiece(string bossName)
+	public ChessboardEnemyPiece PlaceBossPiece(string bossName)
 	{
-		CreateBossPiece(bossName, BossNode.GridX, BossNode.GridY);
+		return CreateBossPiece(bossName, BossNode.GridX, BossNode.GridY);
 	}
 
 	public ChessboardChestPiece PlaceChestPiece(int x, int y, SpecialNodeData specialNodeData = null)
@@ -203,52 +208,52 @@ public class GrimoraChessboard
 		return CreateChestPiece(x, y, specialNodeData);
 	}
 
-	public void PlaceChestPieces()
+	public List<ChessboardChestPiece> PlaceChestPieces()
 	{
-		ChestNodes.ForEach(node => CreateChestPiece(node.GridX, node.GridY));
+		return ChestNodes.Select(node => CreateChestPiece(node.GridX, node.GridY)).ToList();
 	}
 
-	public void PlaceEnemyPiece(int x, int y)
+	public ChessboardEnemyPiece PlaceEnemyPiece(int x, int y)
 	{
-		CreateEnemyPiece(x, y);
+		return CreateEnemyPiece(x, y);
 	}
 
-	public void PlaceEnemyPieces()
+	public List<ChessboardEnemyPiece> PlaceEnemyPieces()
 	{
-		EnemyNodes.ForEach(node => CreateEnemyPiece(node.GridX, node.GridY));
+		return EnemyNodes.Select(node => CreateEnemyPiece(node.GridX, node.GridY)).ToList();
 	}
 
 	#endregion
 
 	#region CreatePieces
 
-	private void CreateBossPiece(string id, int x, int y)
+	private ChessboardEnemyPiece CreateBossPiece(string id, int x, int y)
 	{
-		CreateBaseEnemyPiece(PrefabBossPiece, x, y, id);
+		return CreateBaseEnemyPiece(PrefabBossPiece, x, y, id);
 	}
 
-	private void CreateChestPiece(int x, int y)
+	private ChessboardChestPiece CreateChestPiece(int x, int y, SpecialNodeData specialNodeData = null)
 	{
 		// GrimoraPlugin.Log.LogDebug($"Attempting to create chest piece at x [{x}] y [{y}]");
-		CreateChessPiece(PrefabChestPiece, x, y);
+		return CreateChessPiece<ChessboardChestPiece>(PrefabChestPiece, x, y, specialNodeData: specialNodeData);
 	}
 
-	private void CreateEnemyPiece(int x, int y)
+	private ChessboardEnemyPiece CreateEnemyPiece(int x, int y)
 	{
 		// GrimoraPlugin.Log.LogDebug($"Space is not occupied, attempting to create enemy piece at x [{x}] y [{y}]");
-		CreateBaseEnemyPiece(PrefabEnemyPiece, x, y, "GrimoraModBattleSequencer");
+		return CreateBaseEnemyPiece(PrefabEnemyPiece, x, y, "GrimoraModBattleSequencer");
 	}
 
-	private void CreateBaseEnemyPiece(ChessboardPiece prefab, int x, int y, string id = "")
+	private ChessboardEnemyPiece CreateBaseEnemyPiece(ChessboardPiece prefab, int x, int y, string id = "")
 	{
 		// GrimoraPlugin.Log.LogDebug($"Space is not occupied, attempting to create enemy piece at x [{x}] y [{y}]");
-		CreateChessPiece(prefab, x, y, id);
+		return CreateChessPiece<ChessboardEnemyPiece>(prefab, x, y, id);
 	}
 
-	private void CreateBlockerPiece(int x, int y)
+	private ChessboardBlockerPiece CreateBlockerPiece(int x, int y)
 	{
 		// GrimoraPlugin.Log.LogDebug($"Attempting to create blocker piece at x [{x}] y [{y}]");
-		CreateChessPiece(PrefabTombstone, x, y);
+		return CreateChessPiece<ChessboardBlockerPiece>(PrefabTombstone, x, y);
 	}
 
 	public Mesh GetActiveRegionBlockerMesh()
@@ -275,8 +280,8 @@ public class GrimoraChessboard
 
 		if (piece is not null)
 		{
-			Log.LogDebug($"[CreateChessPiece] Skipping x{x}y{y}, {piece.name} already exists");
-			return;
+			Log.LogDebug($"[CreateChessPiece<{typeof(T).Name}>] Skipping x{x}y{y}, {piece.name} already exists");
+			return piece as T;
 		}
 
 		piece = UnityEngine.Object.Instantiate(prefab, ChessboardMapExt.Instance.dynamicElementsParent);
@@ -297,9 +302,9 @@ public class GrimoraChessboard
 
 				if (!id.Equals("GrimoraModBattleSequencer"))
 				{
-					Log.LogDebug($"[CreateChessPiece] id is not null, setting ActiveBossType");
 					nameTemp = nameTemp.Replace("Enemy", "Boss");
 					ActiveBossType = BaseBossExt.BossTypesByString.GetValueSafe(id);
+					Log.LogDebug($"[CreateChessPiece] id is not null, setting ActiveBossType to [{ActiveBossType}]]");
 					enemyPiece.blueprint = BlueprintUtils.BossInitialBlueprints[id];
 				}
 				else
@@ -347,8 +352,10 @@ public class GrimoraChessboard
 
 		piece.name = nameTemp;
 
-		// GrimoraPlugin.Log.LogDebug($"[CreatingPiece] {piece.name}");
+		// Log.LogDebug($"[CreatingPiece] {piece.name}");
 		ChessboardMapExt.Instance.pieces.Add(piece);
+		ChessboardNavGrid.instance.zones[x, y].GetComponent<ChessboardMapNode>().OccupyingPiece = piece;
+		return piece as T;
 	}
 }
 
