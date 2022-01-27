@@ -17,6 +17,7 @@ public static class FileUtils
 
 	public static string FindFileInPluginDir(string file)
 	{
+		GrimoraPlugin.Log.LogDebug($"Looking for file [{file}]");
 		return GrimoraPluginsDir.Single(str => Path.GetFileName(str) == file);
 	}
 }
