@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -228,7 +229,7 @@ public class BaseGameFlowManagerPatches
 		if (SaveManager.SaveFile.IsGrimora)
 		{
 			bool isBossDefeated = ChessboardMapExt.Instance.BossDefeated;
-			bool piecesExist = ChessboardMapExt.Instance.pieces.Count > 0;
+			bool piecesExist = !ChessboardMapExt.Instance.pieces.IsNullOrEmpty();
 
 			// GrimoraPlugin.Log.LogDebug($"[TransitionTo] IsBossDefeated [{isBossDefeated}] Pieces exist [{piecesExist}]");
 
