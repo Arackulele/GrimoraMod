@@ -1,6 +1,5 @@
 using APIPlugin;
 using BepInEx;
-using BepInEx.Configuration;
 using BepInEx.Logging;
 using DiskCardGame;
 using HarmonyLib;
@@ -48,13 +47,13 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		#region AddingAbilities
 
-		AlternatingStrike.Create();		// Bt Y#0895
-		AreaOfEffectStrike.Create();	// Bt Y#0895
-		Erratic.Create();							// Bt Y#0895
-		InvertedStrike.Create();			// Bt Y#0895
-		Possessive.Create();					// Bt Y#0895
-		SkinCrawler.Create();					// Bt Y#0895
-		
+		AlternatingStrike.Create(); // Bt Y#0895
+		AreaOfEffectStrike.Create(); // Bt Y#0895
+		Erratic.Create(); // Bt Y#0895
+		InvertedStrike.Create(); // Bt Y#0895
+		Possessive.Create(); // Bt Y#0895
+		SkinCrawler.Create(); // Bt Y#0895
+
 		BoneLordsReign.Create();
 		FlameStrafe.Create();
 		PayBonesForSkeleton.Create();
@@ -69,18 +68,18 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AddAra_BonePrince();
 		AddAra_Bonelord();
 		AddAra_BonelordsHorn();
-		AddAra_BooHag();					// Bt Y#0895
-		AddAra_DanseMacabre();		// Bt Y#0895
+		AddAra_BooHag(); // Bt Y#0895
+		AddAra_DanseMacabre(); // Bt Y#0895
 		AddAra_DeadHand();
 		AddAra_DeadPets();
 		AddAra_Draugr();
 		AddAra_DrownedSoul();
-		AddAra_Dybbuk();					// Bt Y#0895
+		AddAra_Dybbuk(); // Bt Y#0895
 		AddAra_Ember_spirit();
 		AddAra_Family();
 		AddAra_Flames();
 		AddAra_Franknstein();
-		AddAra_Giant();						// Bt Y#0895
+		AddAra_Giant(); // Bt Y#0895
 		AddAra_GhostShip();
 		AddAra_GraveDigger();
 		AddAra_HeadlessHorseman();
@@ -90,13 +89,13 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AddAra_Obol();
 		AddAra_PlagueDoctor();
 		AddAra_Poltergeist();
-		AddAra_Project();					// Bt Y#0895
+		AddAra_Project(); // Bt Y#0895
 		AddAra_Revenant();
 		AddAra_RingWorm();
-		AddAra_Ripper();					// Bt Y#0895
+		AddAra_Ripper(); // Bt Y#0895
 		AddAra_Sarcophagus();
-		AddAra_Silbon();					// Bt Y#0895
-		AddAra_ScreamingSkull();	// Bt Y#0895
+		AddAra_Silbon(); // Bt Y#0895
+		AddAra_ScreamingSkull(); // Bt Y#0895
 		AddAra_Skelemancer();
 		AddAra_SkeletonArmy();
 		AddAra_SkeletonMage();
@@ -149,21 +148,21 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	private static void LoadAssets()
 	{
 		Log.LogDebug($"Loading asset bundles");
-		
+
 		AssetBundle abilityBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_abilities"));
 		AssetBundle blockerBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("GrimoraMod_Prefabs_Blockers"));
 		AssetBundle spritesBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_sprites"));
 		// BundlePrefab = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_prefabs"));
-		
+
 		// BundlePrefab = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("prefab-testing"));
 		// Log.LogDebug($"{string.Join(",", BundlePrefab.GetAllAssetNames())}");
-		
+
 
 		AllAssets = blockerBundle.LoadAllAssets();
-		
+
 		AllAbilityAssets = abilityBundle.LoadAllAssets<Texture>();
 		// Log.LogDebug($"Abilities textures loaded {string.Join(",", AllAbilityAssets.Select(_ => _.name))}");
-		
+
 		AllSpriteAssets = spritesBundle.LoadAllAssets<Sprite>();
 		// Log.LogDebug($"Sprites loaded {string.Join(",", AllSpriteAssets.Select(spr => spr.name))}");
 	}
