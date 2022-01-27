@@ -61,14 +61,18 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AddAra_BonePrince();
 		AddAra_Bonelord();
 		AddAra_BonelordsHorn();
+		AddAra_BooHag();					// Bt Y#0895
+		AddAra_DanseMacabre();		// Bt Y#0895
 		AddAra_DeadHand();
 		AddAra_DeadPets();
 		AddAra_Draugr();
 		AddAra_DrownedSoul();
+		AddAra_Dybbuk();					// Bt Y#0895
 		AddAra_Ember_spirit();
 		AddAra_Family();
 		AddAra_Flames();
 		AddAra_Franknstein();
+		AddAra_Giant();						// Bt Y#0895
 		AddAra_GhostShip();
 		AddAra_GraveDigger();
 		AddAra_HeadlessHorseman();
@@ -78,9 +82,13 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AddAra_Obol();
 		AddAra_PlagueDoctor();
 		AddAra_Poltergeist();
+		AddAra_Project();					// Bt Y#0895
 		AddAra_Revenant();
 		AddAra_RingWorm();
+		AddAra_Ripper();					// Bt Y#0895
 		AddAra_Sarcophagus();
+		AddAra_Silbon();					// Bt Y#0895
+		AddAra_ScreamingSkull();	// Bt Y#0895
 		AddAra_Skelemancer();
 		AddAra_SkeletonArmy();
 		AddAra_SkeletonMage();
