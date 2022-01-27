@@ -149,6 +149,17 @@ public class CardBuilder
 		return SetAbilities(new List<Ability>() { ability });
 	}
 
+	internal CardBuilder SetAbilities(Ability ability1, Ability ability2)
+	{
+		return SetAbilities(new List<Ability>() { ability1, ability2 });
+	}
+
+	internal CardBuilder SetAbilities(Ability ability1, Ability ability2, Ability ability3)
+	{
+		return SetAbilities(new List<Ability>() { ability1, ability2, ability3 });
+	}
+
+
 	internal CardBuilder SetAbilities(List<Ability> abilities)
 	{
 		_cardInfo.abilities = abilities;
