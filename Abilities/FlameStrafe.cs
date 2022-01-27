@@ -24,17 +24,12 @@ public class FlameStrafe : Strafe
 		yield break;
 	}
 
-	public static NewAbility CreateFlameStrafe()
+	public static NewAbility Create()
 	{
 		const string rulebookDescription =
 			"Whenever [creature] moves, it leaves a trail of Embers. " +
 			"The warmth of the Embers shall enlighten nearby cards.";
 
-		return ApiUtils.CreateAbility<FlameStrafe>(
-			AllSpriteAssets.Single(spr => spr.name == "DropFlames").texture,
-			"Flame Strafe",
-			rulebookDescription,
-			5
-		);
+		return ApiUtils.CreateAbility<FlameStrafe>(rulebookDescription);
 	}
 }

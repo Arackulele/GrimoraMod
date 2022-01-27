@@ -1,14 +1,14 @@
 using System.Reflection;
 using APIPlugin;
 using DiskCardGame;
+using Sirenix.Utilities;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod
 {
 	public static class ApiUtils
 	{
-		#region AbilityUtils
-
 		public static AbilityInfo CreateInfoWithDefaultSettings(
 			string rulebookName, string rulebookDescription, bool activated, int powerLevel = 0
 		)
@@ -16,7 +16,10 @@ namespace GrimoraMod
 			AbilityInfo info = ScriptableObject.CreateInstance<AbilityInfo>();
 			info.powerLevel = powerLevel;
 			info.activated = activated;
-			info.rulebookName = rulebookName;
+			// Pascal split will make names like "AreaOfEffectStrike" => "Area Of Effect Strike" 
+			// "Possessive" => "Possessive" 
+			info.rulebookName = rulebookName.SplitPascalCase();
+			Log.LogDebug($"[CreateAbility] Rulebook name is [{info.rulebookName}]");
 			info.rulebookDescription = rulebookDescription;
 			info.metaCategories = new List<AbilityMetaCategory>()
 			{
@@ -27,29 +30,13 @@ namespace GrimoraMod
 		}
 
 		public static NewAbility CreateAbility<T>(
-			byte[] texture,
-			string rulebookName,
 			string rulebookDescription,
+			string rulebookName = null,
 			int powerLevel = 0,
 			bool activated = false
 		) where T : AbilityBehaviour
 		{
-			return CreateAbility<T>(
-				ImageUtils.LoadTextureFromBytes(texture),
-				rulebookName,
-				rulebookDescription,
-				powerLevel
-			);
-		}
-
-		public static NewAbility CreateAbility<T>(
-			Texture texture,
-			string rulebookName,
-			string rulebookDescription,
-			int powerLevel = 0,
-			bool activated = false
-		) where T : AbilityBehaviour
-		{
+			rulebookName ??= typeof(T).Name;
 			return CreateAbility<T>(
 				CreateInfoWithDefaultSettings(rulebookName, rulebookDescription, activated, powerLevel),
 				texture
@@ -71,7 +58,6 @@ namespace GrimoraMod
 			FieldInfo field = type.GetField("ability",
 				BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance
 			);
-			bool activated = false;
 			// GrimoraPlugin.Log.LogDebug($"Setting static field [{field.Name}] for [{type}] with value [{newAbility.ability}]");
 			field.SetValue(null, newAbility.ability);
 
@@ -80,9 +66,7 @@ namespace GrimoraMod
 
 		public static AbilityIdentifier GetAbilityId(string rulebookName)
 		{
-			return AbilityIdentifier.GetID("grimora_test", rulebookName);
+			return AbilityIdentifier.GetID(PluginGuid, rulebookName);
 		}
-
-		#endregion
 	}
 }

@@ -18,18 +18,12 @@ public class PayEnergyForWyvern : ActivatedAbilityBehaviour
 		yield break;
 	}
 
-	public static NewAbility CreatePayEnergyForWyvern()
-		{
+	public static NewAbility Create()
+	{
 		const string rulebookDescription =
 			"Pay 3 Energy for [creature] to summon a Wyvern in your hand. " +
 			"More wyverns. Wyverns everywhere.";
 
-		return ApiUtils.CreateAbility<PayEnergyForWyvern>(
-			AllSpriteAssets.Single(spr => spr.name == "PayBonesForWyvern").texture,
-			"Pay Energy For Wyvern",
-			rulebookDescription,
-		5,
-		activated: true
-		);
+		return ApiUtils.CreateAbility<PayEnergyForWyvern>(rulebookDescription, activated: true);
 	}
 }

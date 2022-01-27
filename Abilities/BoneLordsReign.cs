@@ -1,6 +1,7 @@
 using System.Collections;
 using APIPlugin;
 using DiskCardGame;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -20,7 +21,7 @@ public class BoneLordsReign : AbilityBehaviour
 	public override IEnumerator OnPlayFromHand()
 	{
 		var playerSlotsWithCards = CardSlotUtils.GetPlayerSlotsWithCards();
-		if (playerSlotsWithCards.Count > 0)
+		if (!playerSlotsWithCards.IsNullOrEmpty())
 		{
 			yield return base.PreSuccessfulTriggerSequence();
 			ViewManager.Instance.SwitchToView(View.Board);
@@ -37,17 +38,14 @@ public class BoneLordsReign : AbilityBehaviour
 		}
 	}
 
-	public static NewAbility CreateBoneLordsReign()
+	public static NewAbility Create()
 	{
 		const string rulebookDescription =
 			"Whenever [creature] gets played, all enemies Power is set to 1. " +
 			"When the Bone Lord appears, every Creature will fall.";
 
 		return ApiUtils.CreateAbility<BoneLordsReign>(
-			AllSpriteAssets.Single(spr => spr.name == "BoneLordsReign").texture,
-			"Bone Lord's Reign",
-			rulebookDescription,
-			5
+			rulebookDescription, "Bone Lord's Reign"
 		);
 	}
 }
