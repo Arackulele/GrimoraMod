@@ -73,7 +73,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 	{
 		if (wasDefeated)
 		{
-			SetBossDefeatedInConfig();
+			ConfigHelper.Instance.SetBossDefeatedInConfig(this);
 
 			Log.LogDebug($"[{GetType()}] SaveFile is Grimora");
 

@@ -66,17 +66,17 @@ public class GrimoraChessboard
 
 	public void SetupBoard()
 	{
-		if (ConfigRoyalThirdBossDead.Value)
+		if (ConfigHelper.Instance.isRoyalDead)
 		{
 			Log.LogDebug($"[SetupGamePieces] Royal defeated");
 			PlaceBossPiece(GrimoraBossOpponentExt.SpecialId);
 		}
-		else if (ConfigSawyerSecondBossDead.Value)
+		else if (ConfigHelper.Instance.isSawyerDead)
 		{
 			Log.LogDebug($"[SetupGamePieces] Sawyer defeated");
 			PlaceBossPiece(RoyalBossOpponentExt.SpecialId);
 		}
-		else if (ConfigKayceeFirstBossDead.Value)
+		else if (ConfigHelper.Instance.isKayceeDead)
 		{
 			Log.LogDebug($"[SetupGamePieces] Kaycee defeated");
 			PlaceBossPiece(SawyerBossOpponent.SpecialId);
@@ -87,7 +87,7 @@ public class GrimoraChessboard
 			PlaceBossPiece(KayceeBossOpponent.SpecialId);
 		}
 
-		if (ConfigDeveloperMode.Value)
+		if (ConfigHelper.Instance.isDevModeEnabled)
 		{
 			for (int i = 0; i < 8; i++)
 			{
