@@ -30,7 +30,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 	{
 		{ SawyerOpponent, $"{PrefabPathMasks}/MaskTrader" },
 		{ KayceeOpponent, $"{PrefabPathMasks}/MaskWoodcarver" },
-		{ RoyalOpponent, PrefabPathRoyalBossSkull }
+		// { RoyalOpponent, PrefabPathRoyalBossSkull }
 	};
 
 
@@ -46,7 +46,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 		yield return base.IntroSequence(encounter);
 
 		// Royal boss has a specific sequence to follow so that it flows easier
-		if (this is not RoyalBossOpponentExt && BossMasksByType.TryGetValue(OpponentType, out string prefabPath))
+		if (BossMasksByType.TryGetValue(OpponentType, out string prefabPath))
 		{
 			yield return ShowBossSkull();
 
