@@ -32,21 +32,21 @@ public class BaseGameFlowManagerPatches
 	public static void PrefixStart(GameFlowManager __instance)
 	{
 		GameObject boardObj = GameObject.Find("ChessboardGameMap");
-		Log.LogDebug($"[GameFlowManager.Start] Instance is [{__instance.GetType()}]" +
-		             $" Board Already exists? [{boardObj is not null}]");
+		// Log.LogDebug($"[GameFlowManager.Start] Instance is [{__instance.GetType()}]" +
+		//              $" Board Already exists? [{boardObj is not null}]");
 		if (SaveManager.SaveFile.IsGrimora && boardObj is not null)
 		{
 			AddHammer();
 
-			ChangeChessboardToExtendedClass();
+			AddDeckReviewSequencerToScene();
+
+			AddEnergyDrone();
 
 			AddRareCardSequencerToScene();
 
-			AddDeckReviewSequencerToScene();
+			ChangeChessboardToExtendedClass();
 
 			ChangeStartDeckIfNotAlreadyChanged();
-
-			AddEnergyDrone();
 
 			// AddCustomEnergy();
 		}
@@ -107,23 +107,23 @@ public class BaseGameFlowManagerPatches
 		);
 
 		Color grimoraTextColor = new Color(0.420f, 1f, 0.63f);
-		drone.name = "Grimora Resource Drone";
+		drone.name = "Grimora Resource Modules";
 		drone.baseCellColor = grimoraTextColor;
 		drone.highlightedCellColor = new Color(1, 1, 0.23f);
 
-		Log.LogDebug($"[AddEnergyDrone] Disabling animation");
+		// Log.LogDebug($"[AddEnergyDrone] Disabling animation");
 		Animator animator = drone.GetComponentInChildren<Animator>();
 		animator.enabled = false;
 
 		Transform moduleEnergy = animator.transform.GetChild(0);
-		Log.LogDebug($"[AddEnergyDrone] Getting module energy and setting mesh to null");
+		// Log.LogDebug($"[AddEnergyDrone] Getting module energy and setting mesh to null");
 		moduleEnergy.gameObject.GetComponent<MeshFilter>().mesh = null;
 
 		int modulesChildren = moduleEnergy.childCount;
 		for (int i = 1; i < 7; i++)
 		{
 			Transform energyCell = moduleEnergy.GetChild(i);
-			Log.LogDebug($"[AddEnergyDrone] Energy cell [{energyCell.name}]");
+			// Log.LogDebug($"[AddEnergyDrone] Energy cell [{energyCell.name}]");
 			energyCell.gameObject.GetComponent<MeshFilter>().mesh = null;
 			var energyCellCase = energyCell.GetChild(0);
 			energyCellCase.GetChild(0).GetComponent<MeshRenderer>().material.SetColor(EmissionColor, grimoraTextColor);
@@ -131,9 +131,9 @@ public class BaseGameFlowManagerPatches
 			energyCellCase.GetChild(2).GetComponent<MeshFilter>().mesh = null;
 		}
 
-		Log.LogDebug($"[AddEnergyDrone] Setting Connector inactive");
+		// Log.LogDebug($"[AddEnergyDrone] Setting Connector inactive");
 		moduleEnergy.Find("Connector").gameObject.SetActive(false);
-		Log.LogDebug($"[AddEnergyDrone] Setting Propellers inactive");
+		// Log.LogDebug($"[AddEnergyDrone] Setting Propellers inactive");
 		moduleEnergy.Find("Propellers").gameObject.SetActive(false);
 	}
 
@@ -166,8 +166,8 @@ public class BaseGameFlowManagerPatches
 		UnityEngine.Object.Destroy(boardComp);
 
 		var initialStartingPieces = UnityEngine.Object.FindObjectsOfType<ChessboardPiece>();
-		Log.LogDebug($"[ChangeChessboardToExtendedClass] Resetting initial pieces" +
-		             $" {string.Join(", ", initialStartingPieces.Select(_ => _.name))}");
+		// Log.LogDebug($"[ChangeChessboardToExtendedClass] Resetting initial pieces" +
+		//              $" {string.Join(", ", initialStartingPieces.Select(_ => _.name))}");
 
 		foreach (var piece in initialStartingPieces)
 		{
