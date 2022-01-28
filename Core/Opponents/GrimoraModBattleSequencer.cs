@@ -53,11 +53,20 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 			InteractionCursor.Instance.InteractionDisabled = false;
 
+			Log.LogDebug($"[GameEnd] Glitching Resource Energy");
+			GlitchOutAssetEffect.GlitchModel(BaseGameFlowManagerPatches.ResourceEnergy.transform);
+			yield return new WaitForSeconds(0.75f);
+
 			Log.LogDebug($"[GameEnd] Glitching bell");
 			GlitchOutAssetEffect.GlitchModel(((BoardManager3D)BoardManager3D.Instance).Bell.transform);
 			yield return new WaitForSeconds(0.75f);
+
 			Log.LogDebug($"[GameEnd] Glitching scales");
 			GlitchOutAssetEffect.GlitchModel(LifeManager.Instance.Scales3D.transform);
+			yield return new WaitForSeconds(0.75f);
+
+			Log.LogDebug($"[GameEnd] Glitching hammer");
+			GlitchOutAssetEffect.GlitchModel(BaseGameFlowManagerPatches.HammerItemSlot.transform);
 			yield return new WaitForSeconds(0.75f);
 
 			// yield return (GameFlowManager.Instance as GrimoraGameFlowManager).EndSceneSequence();
@@ -78,7 +87,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 			Log.LogDebug($"[GameEnd] Time to rest");
 			yield return TextDisplayer.Instance.ShowThenClear(
-				"It is time to rest.", 1f, 0.5f, Emotion.Curious
+				"It is time to rest.", 2f, 0f, Emotion.Curious
 			);
 			yield return new WaitForSeconds(0.75f);
 			Log.LogDebug($"[GameEnd] offset fov");

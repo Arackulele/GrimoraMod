@@ -15,6 +15,8 @@ public class BaseGameFlowManagerPatches
 
 	public static HammerItemSlot HammerItemSlot;
 
+	public static ResourceDrone ResourceEnergy;
+
 	private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
 
 	private static GameObject SetupSelectableCard()
@@ -99,7 +101,7 @@ public class BaseGameFlowManagerPatches
 	{
 		BoardManager3D boardManager = UnityEngine.Object.FindObjectOfType<BoardManager3D>();
 
-		ResourceDrone drone = UnityEngine.Object.Instantiate(
+		ResourceEnergy = UnityEngine.Object.Instantiate(
 			ResourceBank.Get<ResourceDrone>("Prefabs/CardBattle/ResourceModules"),
 			new Vector3(5.3f, 5.5f, 1.92f),
 			Quaternion.Euler(270f, 0f, -146.804f),
@@ -107,12 +109,12 @@ public class BaseGameFlowManagerPatches
 		);
 
 		Color grimoraTextColor = new Color(0.420f, 1f, 0.63f);
-		drone.name = "Grimora Resource Modules";
-		drone.baseCellColor = grimoraTextColor;
-		drone.highlightedCellColor = new Color(1, 1, 0.23f);
+		ResourceEnergy.name = "Grimora Resource Modules";
+		ResourceEnergy.baseCellColor = grimoraTextColor;
+		ResourceEnergy.highlightedCellColor = new Color(1, 1, 0.23f);
 
 		// Log.LogDebug($"[AddEnergyDrone] Disabling animation");
-		Animator animator = drone.GetComponentInChildren<Animator>();
+		Animator animator = ResourceEnergy.GetComponentInChildren<Animator>();
 		animator.enabled = false;
 
 		Transform moduleEnergy = animator.transform.GetChild(0);
