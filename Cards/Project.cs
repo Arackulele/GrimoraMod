@@ -11,9 +11,9 @@ public partial class GrimoraPlugin
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(Ability.Brittle)
+			.SetAbilities(Ability.TriStrike)
 			.SetBaseAttackAndHealth(1, 1)
-			.SetBoneCost(3)
+			.SetBoneCost(8)
 			.SetNames(NameProject, "Project")
 			// .SetDescription("A vicious pile of bones. You can have it...")
 			.Build()
