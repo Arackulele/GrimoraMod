@@ -1,26 +1,26 @@
 ManifestFileVersion: 0
-		CRC: 2419219802
-		Hashes:
-		AssetFileHash:
-		serializedVersion: 2
-		Hash: ac7742e704cd162f005f50401181ba45
-		TypeTreeHash:
-		serializedVersion: 2
-		Hash: 7859cd501ea75098bcf7e53f1b477c26
-		HashAppended: 0
-		ClassTypes:
-		- Class: 28
-		Script: {instanceID: 0}
-		SerializeReferenceClassIdentifiers: []
-		Assets:
-		- Assets/Art_testing/ability_InvertedStrike.png
-		- Assets/Art_testing/ability_FlameStrafe.png
-		- Assets/Art_testing/ability_PayBonesForSkeleton.png
-		- Assets/Art_testing/ability_AlternatingStrike.png
-		- Assets/Art_testing/ability_PayEnergyForWyvern.png
-		- Assets/Art_testing/ability_BoneLordsReign.png
-		- Assets/Art_testing/ability_SkinCrawler.png
-		- Assets/Art_testing/ability_Possessive.png
-		- Assets/Art_testing/ability_Erratic.png
-		- Assets/Art_testing/ability_AreaOfEffectStrike.png
-		Dependencies: []
+CRC: 350443899
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 7d4fdb552629e71cd61df1abe975d9ec
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 7859cd501ea75098bcf7e53f1b477c26
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Art_testing/Abilities/ability_InvertedStrike.png
+- Assets/Art_testing/Abilities/ability_FlameStrafe.png
+- Assets/Art_testing/Abilities/ability_PayBonesForSkeleton.png
+- Assets/Art_testing/Abilities/ability_AlternatingStrike.png
+- Assets/Art_testing/Abilities/ability_PayEnergyForWyvern.png
+- Assets/Art_testing/Abilities/ability_BoneLordsReign.png
+- Assets/Art_testing/Abilities/ability_SkinCrawler.png
+- Assets/Art_testing/Abilities/ability_Possessive.png
+- Assets/Art_testing/Abilities/ability_Erratic.png
+- Assets/Art_testing/Abilities/ability_AreaOfEffectStrike.png
+Dependencies: []
