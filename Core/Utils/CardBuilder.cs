@@ -49,7 +49,8 @@ public class CardBuilder
 
 			// TODO: refactor when API 2.0 comes out
 			AllSpriteAssets.DoIf(
-				_ => _.name.Equals(cardName + "_emission", StringComparison.OrdinalIgnoreCase),
+				_ => !NewCard.emissions.ContainsKey(cardName) 
+				     && _.name.Equals(cardName + "_emission", StringComparison.OrdinalIgnoreCase),
 				delegate(Sprite sprite) { NewCard.emissions.Add(cardName, sprite); }
 			);
 		}
