@@ -51,13 +51,13 @@ public class DebugHelper : ManagedBehaviour
 		);
 		
 		_toggleDebugChests = GUI.Toggle(
-			new Rect(20, 140, 100, 20),
+			new Rect(20, 180, 100, 20),
 			_toggleDebugChests,
 			"Debug Chests"
 		);
 
 		_toggleEnemies = GUI.Toggle(
-			new Rect(20, 220, 100, 20),
+			new Rect(20, 300, 100, 20),
 			_toggleEnemies,
 			"Debug Enemies"
 		);
@@ -148,7 +148,7 @@ public class DebugHelper : ManagedBehaviour
 		if (_toggleEnemies)
 		{
 			int selectedButton = GUI.SelectionGrid(
-				new Rect(25, 280, 300, 40),
+				new Rect(25, 320, 300, 40),
 				-1,
 				_btnEnemies,
 				2
