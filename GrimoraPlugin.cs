@@ -39,14 +39,13 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		Log = base.Logger;
 
+		_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), PluginGuid);
+
 		LoadAssets();
 
 		ConfigHelper.Instance.BindConfig();
 
 		UnlockAllNecessaryEventsToPlay();
-
-		_harmony = new Harmony(PluginGuid);
-		_harmony.PatchAll();
 
 		#region AddingAbilities
 
@@ -115,6 +114,11 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		ResizeArtworkForVanillaBoneCards();
 	}
 
+	private void OnDestroy()
+	{
+		_harmony?.UnpatchSelf();
+	}
+
 	private static void ResizeArtworkForVanillaBoneCards()
 	{
 		List<string> cardsToResizeArtwork = new List<string>
@@ -143,10 +147,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		}
 	}
 
-	private void OnDestroy()
-	{
-		_harmony?.UnpatchSelf();
-	}
 
 	private static void LoadAssets()
 	{
@@ -160,14 +160,24 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		// BundlePrefab = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("prefab-testing"));
 		// Log.LogDebug($"{string.Join(",", BundlePrefab.GetAllAssetNames())}");
 
-
 		AllAssets = blockerBundle.LoadAllAssets();
+		blockerBundle.Unload(false);
 
 		AllAbilityAssets = abilityBundle.LoadAllAssets<Texture>();
-		// Log.LogDebug($"Abilities textures loaded {string.Join(",", AllAbilityAssets.Select(_ => _.name))}");
+		abilityBundle.Unload(false);
 
 		AllSpriteAssets = spritesBundle.LoadAllAssets<Sprite>();
+		spritesBundle.Unload(false);
+
+		// Log.LogDebug($"Abilities textures loaded {string.Join(",", AllAbilityAssets.Select(_ => _.name))}");
 		// Log.LogDebug($"Sprites loaded {string.Join(",", AllSpriteAssets.Select(spr => spr.name))}");
+		// try
+		// {
+		// }
+		// catch (Exception e)
+		// {
+		// 	Log.LogWarning($"Asset bundles already exist");
+		// }
 	}
 
 	private static void UnlockAllNecessaryEventsToPlay()

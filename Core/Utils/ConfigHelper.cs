@@ -1,6 +1,8 @@
-﻿using BepInEx;
+﻿using APIPlugin;
+using BepInEx;
 using BepInEx.Configuration;
 using DiskCardGame;
+using Sirenix.Utilities;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -51,6 +53,8 @@ public class ConfigHelper
 
 	public bool isDevModeEnabled => _configDeveloperMode.Value;
 
+	private ConfigEntry<bool> _configHotReloadEnabled;
+	
 	protected internal ConfigEntry<string> _configCurrentRemovedPieces;
 
 	public List<string> RemovedPieces => _configCurrentRemovedPieces.Value.Split(',').Distinct().ToList();
@@ -86,6 +90,13 @@ public class ConfigHelper
 			false,
 			new ConfigDescription("Does not generate blocker pieces. Chests fill first row, enemy pieces fill first column.")
 		);
+		
+		_configHotReloadEnabled = GrimoraConfigFile.Bind(
+			PluginName,
+			"Enable Hot Reload",
+			true,
+			new ConfigDescription("If the dll is placed in BepInEx/scripts, this will allow running certain commands that should only ever be ran to re-add abilities/cards back in the game correctly.")
+		);
 
 		var list = _configCurrentRemovedPieces.Value.Split(',').ToList();
 		// this is so that for whatever reason the game map gets added to the removal list,
@@ -100,6 +111,32 @@ public class ConfigHelper
 		GrimoraConfigFile.SaveOnConfigSet = true;
 
 		ResetConfigDataIfGrimoraHasNotReachedTable();
+
+		if (_configHotReloadEnabled.Value)
+		{
+			NewAbility.abilities.RemoveAll(ab => ab.id.ToString().StartsWith(PluginGuid));
+
+			if (!CardLoader.allData.IsNullOrEmpty())
+			{
+				Log.LogDebug($"All data is not null, concatting GrimoraMod cards");
+				CardLoader.allData = CardLoader.allData.Concat(
+						NewCard.cards.Where(card => card.name.StartsWith("ara_"))
+					)
+					.Distinct()
+					.ToList();
+			}
+
+			if (!AbilitiesUtil.allData.IsNullOrEmpty())
+			{
+				Log.LogDebug($"All data is not null, concatting GrimoraMod abilities");
+				AbilitiesUtil.allData.RemoveAll(info => (int)info.ability > 99);
+				AbilitiesUtil.allData = AbilitiesUtil.allData
+					.Concat(
+						NewAbility.abilities.Where(ab => ab.id.ToString().StartsWith(PluginGuid)).Select(_ => _.info)
+					)
+					.ToList();
+			}
+		}
 	}
 
 	public static void ResetRun()
