@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetAbilities(Ability.Brittle)
 			.SetBaseAttackAndHealth(6, 6)
-			.SetBoneCost(10)
+			.SetBoneCost(12)
 			.SetNames(NameRipper, "Ripper")
 			// .SetDescription("A vicious pile of bones. You can have it...")
 			.Build()

@@ -18,7 +18,7 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetAbilities(AreaOfEffectStrike.ability)
 			.SetBaseAttackAndHealth(1, 1)
-			.SetBoneCost(6)
+			.SetBoneCost(8)
 			// .SetDescription("Going into that well wasn't the best idea...")
 			.SetNames(NameScreamingSkull, "Screaming Skull")
 			.Build()

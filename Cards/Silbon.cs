@@ -16,7 +16,7 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetAbilities(InvertedStrike.ability, Ability.Strafe)
 			.SetBaseAttackAndHealth(3, 2)
-			.SetBoneCost(5)
+			.SetBoneCost(7)
 			// .SetDescription("Going into that well wasn't the best idea...")
 			.SetNames(NameSilbon, "Silbon")
 			.Build()
