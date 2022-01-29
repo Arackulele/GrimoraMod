@@ -100,7 +100,6 @@ public class SkinCrawler : AbilityBehaviour
 			base.Card.Slot = toRightSlot.Card.Slot;
 
 			hidingUnderCard = toRightSlot.Card;
-			// base.gameObject.SetActive(false);}
 		}
 	}
 
