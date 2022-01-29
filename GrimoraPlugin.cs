@@ -1,8 +1,11 @@
+global using Object = UnityEngine.Object;
+using System.Reflection;
 using APIPlugin;
 using BepInEx;
 using BepInEx.Logging;
 using DiskCardGame;
 using HarmonyLib;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace GrimoraMod;

@@ -2,7 +2,6 @@ using System.Collections;
 using DiskCardGame;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
-using Object = UnityEngine.Object;
 
 namespace GrimoraMod;
 
@@ -23,7 +22,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 		// Log.LogDebug($"[{GetType()}] Calling base IntroSequence, this creates and sets the candle skull");
 		yield return base.IntroSequence(encounter);
 
-		GrimoraAnimationController.Instance.SetHeadBool("face_happy", val: true);
+		GrimoraAnimationController.Instance.SetHeadBool("face_happy", true);
 		yield return TextDisplayer.Instance.PlayDialogueEvent(
 			"RoyalBossPreIntro",
 			TextDisplayer.MessageAdvanceMode.Input
@@ -132,8 +131,8 @@ public class RoyalBossOpponentExt : BaseBossExt
 			);
 
 			// taken from Opponent patches as it makes more sense to glitch the cannons out once defeated
-			GrimoraAnimationController.Instance.SetHeadBool("face_disappointed", val: true);
-			GrimoraAnimationController.Instance.SetHeadBool("face_happy", val: false);
+			GrimoraAnimationController.Instance.SetHeadBool("face_disappointed", true);
+			GrimoraAnimationController.Instance.SetHeadBool("face_happy", false);
 			yield return new WaitForSeconds(0.5f);
 			ViewManager.Instance.SwitchToView(View.Default);
 			yield return cannons.GetComponent<CannonTableEffects>().GlitchOutCannons();

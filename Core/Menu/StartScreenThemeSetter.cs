@@ -3,7 +3,6 @@ using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
-using Object = UnityEngine.Object;
 
 namespace GrimoraMod;
 
