@@ -1,11 +1,12 @@
 ﻿using System.Reflection;
+using BepInEx;
 
 namespace GrimoraMod;
 
 public static class FileUtils
 {
 	private static readonly string[] GrimoraPluginsDir = Directory.GetFiles(
-		Assembly.GetExecutingAssembly().Location.Replace("GrimoraMod.dll", ""),
+		Path.Combine(Paths.BepInExRootPath, "plugins/Arackulele-GrimoraMod"),
 		"*",
 		SearchOption.AllDirectories
 	);
