@@ -13,7 +13,8 @@ public class DebugHelper : ManagedBehaviour
 	private readonly string[] _btnTools =
 	{
 		"Win Round", "Lose Round", 
-		"Add All Grimora Cards", "Clear Deck"
+		"Add All Grimora Cards", "Clear Deck",
+		"Add Bones"
 	};
 
 	private bool _toggleDebugChests;
@@ -64,7 +65,7 @@ public class DebugHelper : ManagedBehaviour
 		if (_toggleDebugTools)
 		{
 			int selectedButton = GUI.SelectionGrid(
-				new Rect(25, 80, 300, 40),
+				new Rect(25, 80, 300, 60),
 				-1,
 				_btnTools,
 				2
@@ -96,6 +97,9 @@ public class DebugHelper : ManagedBehaviour
 						GrimoraSaveData.Data.deck.Cards.Clear();
 						SaveManager.SaveToFile();
 						break;
+					case "Add Bones":
+						ResourcesManager.Instance.StartCoroutine(ResourcesManager.Instance.AddBones(25));
+						break;
 				}
 			}
 		}
@@ -103,7 +107,7 @@ public class DebugHelper : ManagedBehaviour
 		if (_toggleDebugChests)
 		{
 			int selectedButton = GUI.SelectionGrid(
-				new Rect(25, 200, 300, 200),
+				new Rect(25, 200, 300, 40),
 				-1,
 				_btnChests,
 				2
@@ -144,7 +148,7 @@ public class DebugHelper : ManagedBehaviour
 		if (_toggleEnemies)
 		{
 			int selectedButton = GUI.SelectionGrid(
-				new Rect(25, 280, 300, 200),
+				new Rect(25, 280, 300, 40),
 				-1,
 				_btnEnemies,
 				2
