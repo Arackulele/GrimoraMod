@@ -359,6 +359,7 @@ public class ChessboardMapExt : ChessboardMap
 					// MapNodeManager.Instance.SetAllNodesInteractable(true);
 					// Log.LogDebug($"[OnViewChanged] PlayerMarker transform {PlayerMarker.Instance.transform}");
 					MapNodeManager.Instance.FindAndSetActiveNodeInteractable();
+					ChessboardNavGrid.instance.SetPlayerAdjacentNodesActive();
 				}
 
 				break;
