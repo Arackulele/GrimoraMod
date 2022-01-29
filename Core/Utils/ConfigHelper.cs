@@ -122,6 +122,7 @@ public class ConfigHelper
 			if (!CardLoader.allData.IsNullOrEmpty())
 			{
 				Log.LogDebug($"All data is not null, concatting GrimoraMod cards");
+				CardLoader.allData.RemoveAll(info => info.name.StartsWith("ara_"));
 				CardLoader.allData = CardLoader.allData.Concat(
 						NewCard.cards.Where(card => card.name.StartsWith("ara_"))
 					)
@@ -132,7 +133,7 @@ public class ConfigHelper
 			if (!AbilitiesUtil.allData.IsNullOrEmpty())
 			{
 				Log.LogDebug($"All data is not null, concatting GrimoraMod abilities");
-				AbilitiesUtil.allData.RemoveAll(info => (int)info.ability > 99);
+				AbilitiesUtil.allData.RemoveAll(info => NewAbility.abilities.Exists(na => na.ability == info.ability));
 				AbilitiesUtil.allData = AbilitiesUtil.allData
 					.Concat(
 						NewAbility.abilities.Where(ab => ab.id.ToString().StartsWith(PluginGuid)).Select(_ => _.info)
