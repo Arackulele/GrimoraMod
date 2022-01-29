@@ -160,6 +160,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		// BundlePrefab = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("prefab-testing"));
 		// Log.LogDebug($"{string.Join(",", BundlePrefab.GetAllAssetNames())}");
 
+		Log.LogDebug($"Loading assets into static vars");
 		AllAssets = blockerBundle.LoadAllAssets();
 		blockerBundle.Unload(false);
 
