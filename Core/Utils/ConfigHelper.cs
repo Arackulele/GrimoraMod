@@ -54,7 +54,9 @@ public class ConfigHelper
 	public bool isDevModeEnabled => _configDeveloperMode.Value;
 
 	private ConfigEntry<bool> _configHotReloadEnabled;
-	
+
+	public bool issHotReloadEnabled => _configHotReloadEnabled.Value;
+
 	protected internal ConfigEntry<string> _configCurrentRemovedPieces;
 
 	public List<string> RemovedPieces => _configCurrentRemovedPieces.Value.Split(',').Distinct().ToList();
@@ -90,12 +92,13 @@ public class ConfigHelper
 			false,
 			new ConfigDescription("Does not generate blocker pieces. Chests fill first row, enemy pieces fill first column.")
 		);
-		
+
 		_configHotReloadEnabled = GrimoraConfigFile.Bind(
 			PluginName,
 			"Enable Hot Reload",
-			true,
-			new ConfigDescription("If the dll is placed in BepInEx/scripts, this will allow running certain commands that should only ever be ran to re-add abilities/cards back in the game correctly.")
+			false,
+			new ConfigDescription(
+				"If the dll is placed in BepInEx/scripts, this will allow running certain commands that should only ever be ran to re-add abilities/cards back in the game correctly.")
 		);
 
 		var list = _configCurrentRemovedPieces.Value.Split(',').ToList();
@@ -181,7 +184,7 @@ public class ConfigHelper
 	{
 		_configCurrentRemovedPieces.Value += "," + pieceName + ",";
 	}
-	
+
 	public void SetBossDefeatedInConfig(BaseBossExt boss)
 	{
 		switch (boss)
