@@ -66,7 +66,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		#region AddingCards
 
 		AddAra_ArmoredZombie();
-		AddAra_Bonepile();
+		AddAra_Bonepile(); // Bt Y#0895		
 		AddAra_BonePrince();
 		AddAra_Bonelord();
 		AddAra_BonelordsHorn();
@@ -88,7 +88,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AddAra_Hydra();
 		AddAra_Mummy();
 		AddAra_Necromancer();
-		AddAra_Obol();
+		AddAra_Obol(); // Bt Y#0895
 		AddAra_PlagueDoctor();
 		AddAra_Poltergeist();
 		AddAra_Project(); // Bt Y#0895
