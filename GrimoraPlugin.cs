@@ -117,6 +117,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	private void OnDestroy()
 	{
 		_harmony?.UnpatchSelf();
+		GrimoraModBattleSequencer.ActiveEnemyPiece = null;
 	}
 
 	private static void ResizeArtworkForVanillaBoneCards()
