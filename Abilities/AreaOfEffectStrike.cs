@@ -13,6 +13,30 @@ public class AreaOfEffectStrike : AbilityBehaviour
 	public static Ability ability;
 	public override Ability Ability => ability;
 
+	public int damageDoneToPlayer = 0;
+
+	public override bool RespondsToSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
+	{
+		return attacker.Slot == base.Card.Slot && slot.IsPlayerSlot && slot.Card is null;
+	}
+
+	public override IEnumerator OnSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
+	{
+		damageDoneToPlayer += base.Card.Attack;
+		yield break;
+	}
+
+	public override bool RespondsToUpkeep(bool playerUpkeep)
+	{
+		return playerUpkeep && damageDoneToPlayer > 0;
+	}
+
+	public override IEnumerator OnUpkeep(bool playerUpkeep)
+	{
+		damageDoneToPlayer = 0;
+		yield break;
+	}
+
 	public static NewAbility Create()
 	{
 		const string rulebookDescription =
@@ -61,6 +85,27 @@ public class PatchesForAreaOfEffectStrike
 		{
 			// Log.LogDebug($"[PlayableCardHasTriStrikePatches] Has area of effect strike ability");
 			__result = true;
+		}
+	}
+
+	[HarmonyPostfix, HarmonyPatch(typeof(CombatPhaseManager), nameof(CombatPhaseManager.SlotAttackSequence))]
+	public static IEnumerator MinusDamageDealtThisPhase(
+		IEnumerator enumerator, 
+		CombatPhaseManager __instance,
+		CardSlot slot
+	)
+	{
+		yield return enumerator;
+		
+		if (slot.Card is not null && slot.Card.HasAbility(AreaOfEffectStrike.ability))
+		{
+			int dmgDoneToPlayer = slot.Card.GetComponent<AreaOfEffectStrike>().damageDoneToPlayer;
+			Log.LogDebug($"[SlotAttackSequence] Dealing [{dmgDoneToPlayer}] to player");
+			yield return LifeManager.Instance.ShowDamageSequence(
+				dmgDoneToPlayer, dmgDoneToPlayer, true, 0.2f
+			);
+			
+			__instance.DamageDealtThisPhase -= dmgDoneToPlayer;
 		}
 	}
 }
