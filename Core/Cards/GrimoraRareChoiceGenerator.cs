@@ -10,7 +10,7 @@ public class GrimoraRareChoiceGenerator : CardChoiceGenerator
 	{
 		List<CardChoice> list = new List<CardChoice>();
 
-		var randomizedChoices = CardLoader.AllData
+		var randomizedChoices = CardLoader.allData
 			.FindAll(info => info.name.StartsWith("ara_") && info.metaCategories.Contains(CardMetaCategory.Rare))
 			.Select(card => new CardChoice { CardInfo = card })
 			.ToArray()
