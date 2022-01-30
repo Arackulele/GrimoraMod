@@ -132,6 +132,9 @@ public class DebugHelper : ManagedBehaviour
 				{
 					for (int i = 0; i < 8; i++)
 					{
+						var copy = ConfigHelper.Instance.RemovedPieces;
+						copy.RemoveAll(piece => piece.Contains("Chest"));
+						ConfigHelper.Instance._configCurrentRemovedPieces.Value = copy.Join();
 						ChessboardMapExt.Instance.ActiveChessboard.PlaceChestPiece(i, 0, specialNode);
 					}
 				}
