@@ -61,6 +61,8 @@ public class BaseGameFlowManagerPatches
 
 			AddEnergyDrone();
 
+			AddHammer();
+
 			AddRareCardSequencerToScene();
 
 			ChangeChessboardToExtendedClass();
@@ -207,16 +209,37 @@ public class BaseGameFlowManagerPatches
 
 	internal static void AddHammer()
 	{
-		Log.LogDebug($"Creating hammer");
 
-		if (Object.FindObjectOfType<HammerItemSlot>() is null)
+		GameObject managerObj = Object.FindObjectOfType<GrimoraItemsManager>().gameObject;
+		GrimoraItemsManager currentItemsManager = managerObj.GetComponent<GrimoraItemsManager>();
+		
+		GrimoraItemsManagerExt ext = managerObj.GetComponent<GrimoraItemsManagerExt>();
+
+		if (ext is null)
 		{
-			HammerItemSlot hammerSlot = Object.Instantiate(
+			Log.LogDebug($"Creating hammer and GrimoraItemsManagerExt");
+			
+			ext = managerObj.AddComponent<GrimoraItemsManagerExt>();
+			ext.consumableSlots = currentItemsManager.consumableSlots;
+			
+			Part3ItemsManager part3ItemsManager = Object.Instantiate(
 				ResourceBank.Get<Part3ItemsManager>("Prefabs/Items/ItemsManager_Part3"),
 				new Vector3(-2.69f, 5.82f, -0.48f),
-				Quaternion.Euler(270f, 315f, 0f),
-				Object.FindObjectOfType<GrimoraItemsManager>().transform
-			).hammerSlot;
+				Quaternion.Euler(270f, 315f, 0f)
+			);
+
+			ext.HammerSlot = part3ItemsManager.hammerSlot;
+			
+			part3ItemsManager.hammerSlot.transform.SetParent(ext.transform);
+			
+			Log.LogDebug($"Destroying old part3ItemsManager");
+			Object.Destroy(part3ItemsManager);
+		}
+
+		if (GameObject.Find("ItemsManager_Part3(Clone)"))
+		{
+			Log.LogDebug($"Destroying existing part3ItemsManager");
+			Object.Destroy(GameObject.Find("ItemsManager_Part3(Clone)"));
 		}
 	}
 

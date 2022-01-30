@@ -66,7 +66,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			yield return new WaitForSeconds(0.75f);
 
 			Log.LogDebug($"[GameEnd] Glitching hammer");
-			GlitchOutAssetEffect.GlitchModel(Part3ItemsManager.Instance.hammerSlot.transform);
+			GlitchOutAssetEffect.GlitchModel(GrimoraItemsManagerExt.Instance.HammerSlot.transform);
 			yield return new WaitForSeconds(0.75f);
 
 			// yield return (GameFlowManager.Instance as GrimoraGameFlowManager).EndSceneSequence();

@@ -57,14 +57,14 @@ public class OpponentPatches
 			Log.LogDebug($"[Opponent.SpawnOpponent] Opponent result [{__result}]");
 
 			Log.LogDebug($"Transforming hammer");
-			if (Part3ItemsManager.Instance.hammerSlot is null)
+			if (GrimoraItemsManagerExt.Instance.HammerSlot is null)
 			{
 				BaseGameFlowManagerPatches.AddHammer();
 			}
 			else
 			{
-				Part3ItemsManager.Instance.hammerSlot.transform.eulerAngles = new Vector3(270f, 315f, 0f);
-				Part3ItemsManager.Instance.hammerSlot.transform.position = new Vector3(-2.69f, 5.82f, -0.48f);
+				GrimoraItemsManagerExt.Instance.HammerSlot.transform.eulerAngles = new Vector3(270f, 315f, 0f);
+				GrimoraItemsManagerExt.Instance.HammerSlot.transform.position = new Vector3(-2.69f, 5.82f, -0.48f);
 			}
 
 
