@@ -37,11 +37,19 @@ public class PatchesForAreaOfEffectStrike
 		if (__instance.HasAbility(AreaOfEffectStrike.ability))
 		{
 			// Log.LogDebug($"[GetOpposingSlotsPatch] Adding adj slots from [{__instance.Slot.Index}]");
-			var adjSlots = BoardManager.Instance.GetAdjacentSlots(__instance.Slot);
+			var toLeftSlot = BoardManager.Instance.GetAdjacent(__instance.Slot, true);
+			var toRightSlot = BoardManager.Instance.GetAdjacent(__instance.Slot, false);
+			
 			// insert at beginning
-			__result.Insert(0, adjSlots[0]);
+			if(toLeftSlot is not null)
+			{
+				__result.Insert(0, toLeftSlot);
+			}
 			// insert at end
-			__result.Insert(__result.Count, adjSlots[1]);
+			if(toRightSlot is not null)
+			{
+				__result.Insert(__result.Count, toRightSlot);
+			}
 		}
 	}
 
