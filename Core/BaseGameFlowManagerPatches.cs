@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using GrimoraMod.Consumables;
 using HarmonyLib;
 using Sirenix.Serialization;
 using Sirenix.Utilities;
@@ -55,7 +56,7 @@ public class BaseGameFlowManagerPatches
 		//              $" Board Already exists? [{boardObj is not null}]");
 		if (SaveManager.SaveFile.IsGrimora && ChessboardGameMap is not null)
 		{
-			AddHammer();
+			AddCardRemoveSequencer();
 
 			AddDeckReviewSequencerToScene();
 
