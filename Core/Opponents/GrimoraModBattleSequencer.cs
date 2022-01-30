@@ -54,7 +54,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			InteractionCursor.Instance.InteractionDisabled = false;
 
 			Log.LogDebug($"[GameEnd] Glitching Resource Energy");
-			GlitchOutAssetEffect.GlitchModel(BaseGameFlowManagerPatches.ResourceEnergy.transform);
+			GlitchOutAssetEffect.GlitchModel(ResourceDrone.Instance.transform);
 			yield return new WaitForSeconds(0.75f);
 
 			Log.LogDebug($"[GameEnd] Glitching bell");
@@ -66,7 +66,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			yield return new WaitForSeconds(0.75f);
 
 			Log.LogDebug($"[GameEnd] Glitching hammer");
-			GlitchOutAssetEffect.GlitchModel(BaseGameFlowManagerPatches.HammerItemSlot.transform);
+			GlitchOutAssetEffect.GlitchModel(Part3ItemsManager.Instance.hammerSlot.transform);
 			yield return new WaitForSeconds(0.75f);
 
 			// yield return (GameFlowManager.Instance as GrimoraGameFlowManager).EndSceneSequence();
