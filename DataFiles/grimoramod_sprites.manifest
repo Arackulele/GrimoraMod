@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 309120268
+CRC: 2425010022
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 7752ed8d248caae8c7790ee1c597ed27
+    Hash: 63b6286a96a8b08092911d0fbd8dd1f9
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -33,6 +33,7 @@ Assets:
 - Assets/Art_testing/Cards/DanseMacabre_emission.png
 - Assets/Art_testing/Cards/Skeleton.png
 - Assets/Art_testing/Cards/GhostShip.png
+- Assets/Art_testing/Cards/Draugr_emission.png
 - Assets/Art_testing/MenuCard.png
 - Assets/Art_testing/Cards/Bonepile_emission.png
 - Assets/Art_testing/Cards/DrownedSoul.png
