@@ -222,16 +222,18 @@ public class BaseGameFlowManagerPatches
 			
 			ext = managerObj.AddComponent<GrimoraItemsManagerExt>();
 			ext.consumableSlots = currentItemsManager.consumableSlots;
-			
+
 			Part3ItemsManager part3ItemsManager = Object.Instantiate(
-				ResourceBank.Get<Part3ItemsManager>("Prefabs/Items/ItemsManager_Part3"),
-				new Vector3(-2.69f, 5.82f, -0.48f),
-				Quaternion.Euler(270f, 315f, 0f)
+				ResourceBank.Get<Part3ItemsManager>("Prefabs/Items/ItemsManager_Part3")
 			);
 
+			part3ItemsManager.hammerSlot.transform.SetParent(ext.transform);
+			
 			ext.HammerSlot = part3ItemsManager.hammerSlot;
 			
-			part3ItemsManager.hammerSlot.transform.SetParent(ext.transform);
+			float xVal = Harmony.HasAnyPatches("julianperge.inscryption.act1.increaseCardSlots") ? -8.75f : -7.5f;
+			ext.HammerSlot.gameObject.transform.localPosition = new Vector3(xVal, 0.81f, -0.48f);
+			ext.HammerSlot.gameObject.transform.rotation = Quaternion.Euler(270f, 315f, 0f);
 			
 			Log.LogDebug($"Destroying old part3ItemsManager");
 			Object.Destroy(part3ItemsManager);
