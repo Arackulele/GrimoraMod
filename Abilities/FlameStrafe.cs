@@ -11,7 +11,6 @@ public class FlameStrafe : Strafe
 
 	public override Ability Ability => ability;
 
-	// Token: 0x06001419 RID: 5145 RVA: 0x000444BC File Offset: 0x000426BC
 	public override IEnumerator PostSuccessfulMoveSequence(CardSlot cardSlot)
 	{
 		if (cardSlot.Card == null)

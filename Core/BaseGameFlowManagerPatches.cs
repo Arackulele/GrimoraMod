@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using Sirenix.Serialization;
 using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -13,9 +14,8 @@ public class BaseGameFlowManagerPatches
 	private static readonly GameObject PrefabGrimoraSelectableCard =
 		ResourceBank.Get<GameObject>("Prefabs/Cards/SelectableCard_Grimora");
 
-	public static HammerItemSlot HammerItemSlot;
-
-	public static ResourceDrone ResourceEnergy;
+	private static readonly GameObject PrefabGrimoraPlayableCard =
+		ResourceBank.Get<GameObject>("Prefabs/Cards/PlayableCard_Grimora");
 
 	private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
 
@@ -33,6 +33,17 @@ public class BaseGameFlowManagerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(GameFlowManager.Start))]
 	public static void PrefixStart(GameFlowManager __instance)
 	{
+		// GameObject giantPrefab = ResourceBank.Get<GameObject>("Prefabs/Cards/PlayableCard_Grimora");
+		// giantPrefab.name += "_Giant";
+		//
+		// giantPrefab.GetComponent<Animator>().runtimeAnimatorController 
+		// 	= ResourceBank.Get<GameObject>("Prefabs/Cards/PlayableCard_Giant")
+		// 		.GetComponent<Animator>().runtimeAnimatorController;
+
+		// giantPrefab.transform.GetChild(0).GetChild(0).GetChild(0).localPosition = new Vector3(-0.65f, 1.25f, 0f);
+		// giantPrefab.transform.GetChild(0).GetChild(0).GetChild(0).localScale = new Vector3(1f, 1.175f, 0.2f);
+		CardSpawner.Instance.giantPlayableCardPrefab = PrefabGrimoraPlayableCard;
+
 		GameObject boardObj = GameObject.Find("ChessboardGameMap");
 		// Log.LogDebug($"[GameFlowManager.Start] Instance is [{__instance.GetType()}]" +
 		//              $" Board Already exists? [{boardObj is not null}]");
@@ -72,39 +83,43 @@ public class BaseGameFlowManagerPatches
 
 	private static void AddCustomEnergy()
 	{
-		Log.LogDebug($"Starting load of custom energy object");
-		var prefab = BundlePrefab.LoadAssetWithSubAssets("Hexalantern")[0];
-
-		Log.LogDebug($"Creating custom energy object [{prefab}]");
-		GameObject energyObj = (GameObject)UnityEngine.Object.Instantiate(
-			prefab,
-			new Vector3(-2.69f, 5.82f, -0.48f),
-			Quaternion.Euler(0, 0, 0f),
-			UnityEngine.Object.FindObjectOfType<BoardManager3D>().transform
-		);
+		// Log.LogDebug($"Starting load of custom energy object");
+		// var prefab = AllPrefabAssets.LoadAssetWithSubAssets("Hexalantern")[0];
+		//
+		// Log.LogDebug($"Creating custom energy object [{prefab}]");
+		// GameObject energyObj = (GameObject)Object.Instantiate(
+		// 	prefab,
+		// 	new Vector3(-2.69f, 5.82f, -0.48f),
+		// 	Quaternion.Euler(0, 0, 0f),
+		// 	Object.FindObjectOfType<BoardManager3D>().transform
+		// );
 
 		// FixShaders(energyObj);
 	}
 
-	private static void AddHammer()
+	internal static void AddHammer()
 	{
 		Log.LogDebug($"Creating hammer");
 
-		HammerItemSlot ??= UnityEngine.Object.Instantiate(
-			ResourceBank.Get<Part3ItemsManager>("Prefabs/Items/ItemsManager_Part3"),
-			new Vector3(-2.69f, 5.82f, -0.48f),
-			Quaternion.Euler(270f, 315f, 0f),
-			UnityEngine.Object.FindObjectOfType<GrimoraItemsManager>().transform
-		).hammerSlot;
+		if (Object.FindObjectOfType<HammerItemSlot>() is null)
+		{
+			HammerItemSlot hammerSlot = Object.Instantiate(
+				ResourceBank.Get<Part3ItemsManager>("Prefabs/Items/ItemsManager_Part3"),
+				new Vector3(-2.69f, 5.82f, -0.48f),
+				Quaternion.Euler(270f, 315f, 0f),
+				Object.FindObjectOfType<GrimoraItemsManager>().transform
+			).hammerSlot;
+		}
 	}
 
 	private static void AddEnergyDrone()
 	{
-		BoardManager3D boardManager = UnityEngine.Object.FindObjectOfType<BoardManager3D>();
+		BoardManager3D boardManager = Object.FindObjectOfType<BoardManager3D>();
+		ResourceDrone resourceEnergy = Object.FindObjectOfType<ResourceDrone>();
 
-		if (boardManager is not null && ResourceEnergy is null)
+		if (boardManager is not null && resourceEnergy is null)
 		{
-			ResourceEnergy = UnityEngine.Object.Instantiate(
+			resourceEnergy = Object.Instantiate(
 				ResourceBank.Get<ResourceDrone>("Prefabs/CardBattle/ResourceModules"),
 				new Vector3(5.3f, 5.5f, 1.92f),
 				Quaternion.Euler(270f, 0f, -146.804f),
@@ -112,12 +127,12 @@ public class BaseGameFlowManagerPatches
 			);
 
 			Color grimoraTextColor = new Color(0.420f, 1f, 0.63f);
-			ResourceEnergy.name = "Grimora Resource Modules";
-			ResourceEnergy.baseCellColor = grimoraTextColor;
-			ResourceEnergy.highlightedCellColor = new Color(1, 1, 0.23f);
+			resourceEnergy.name = "Grimora Resource Modules";
+			resourceEnergy.baseCellColor = grimoraTextColor;
+			resourceEnergy.highlightedCellColor = new Color(1, 1, 0.23f);
 
 			// Log.LogDebug($"[AddEnergyDrone] Disabling animation");
-			Animator animator = ResourceEnergy.GetComponentInChildren<Animator>();
+			Animator animator = resourceEnergy.GetComponentInChildren<Animator>();
 			animator.enabled = false;
 
 			Transform moduleEnergy = animator.transform.GetChild(0);
@@ -174,9 +189,9 @@ public class BaseGameFlowManagerPatches
 			ext.defaultPosition = boardComp.defaultPosition;
 
 			// GrimoraPlugin.Log.LogDebug($"Destroying old chessboard component");
-			UnityEngine.Object.Destroy(boardComp);
+			Object.Destroy(boardComp);
 
-			var initialStartingPieces = UnityEngine.Object.FindObjectsOfType<ChessboardPiece>();
+			var initialStartingPieces = Object.FindObjectsOfType<ChessboardPiece>();
 			// Log.LogDebug($"[ChangeChessboardToExtendedClass] Resetting initial pieces" +
 			//              $" {string.Join(", ", initialStartingPieces.Select(_ => _.name))}");
 
@@ -185,14 +200,14 @@ public class BaseGameFlowManagerPatches
 				ext.pieces.Remove(piece);
 				piece.MapNode.OccupyingPiece = null;
 				piece.gameObject.SetActive(false);
-				UnityEngine.Object.Destroy(piece.gameObject);
+				Object.Destroy(piece.gameObject);
 			}
 		}
 	}
 
 	private static void AddDeckReviewSequencerToScene()
 	{
-		DeckReviewSequencer deckReviewSequencer = UnityEngine.Object.FindObjectOfType<DeckReviewSequencer>();
+		DeckReviewSequencer deckReviewSequencer = Object.FindObjectOfType<DeckReviewSequencer>();
 
 		if (deckReviewSequencer is not null)
 		{
@@ -204,27 +219,30 @@ public class BaseGameFlowManagerPatches
 
 	private static void AddRareCardSequencerToScene()
 	{
-		SpecialNodeHandler specialNodeHandler = UnityEngine.Object.FindObjectOfType<SpecialNodeHandler>();
+		SpecialNodeHandler specialNodeHandler = Object.FindObjectOfType<SpecialNodeHandler>();
 
 		// GrimoraPlugin.Log.LogDebug($"Creating RareCardChoiceSelector");
 
 		if (specialNodeHandler is not null)
 		{
-			GameObject rareCardChoicesSelector = UnityEngine.Object.Instantiate(
-				ResourceBank.Get<GameObject>("Prefabs/SpecialNodeSequences/RareCardChoiceSelector"),
-				specialNodeHandler.transform
-			);
+			if (specialNodeHandler.rareCardChoiceSequencer is null)
+			{
+				GameObject rareCardChoicesSelector = Object.Instantiate(
+					ResourceBank.Get<GameObject>("Prefabs/SpecialNodeSequences/RareCardChoiceSelector"),
+					specialNodeHandler.transform
+				);
 
-			RareCardChoicesSequencer sequencer = rareCardChoicesSelector.GetComponent<RareCardChoicesSequencer>();
+				RareCardChoicesSequencer sequencer = rareCardChoicesSelector.GetComponent<RareCardChoicesSequencer>();
 
-			// GrimoraPlugin.Log.LogDebug($"-> Setting RareCardChoicesSequencer choice generator to Part1RareChoiceGenerator");
-			sequencer.choiceGenerator = rareCardChoicesSelector.AddComponent<GrimoraRareChoiceGenerator>();
+				// GrimoraPlugin.Log.LogDebug($"-> Setting RareCardChoicesSequencer choice generator to Part1RareChoiceGenerator");
+				sequencer.choiceGenerator = rareCardChoicesSelector.AddComponent<GrimoraRareChoiceGenerator>();
 
-			// GrimoraPlugin.Log.LogDebug($"-> Setting RareCardChoicesSequencer selectableCardPrefab to SelectableCard_Grimora");
-			sequencer.selectableCardPrefab = PrefabGrimoraSelectableCard;
+				// GrimoraPlugin.Log.LogDebug($"-> Setting RareCardChoicesSequencer selectableCardPrefab to SelectableCard_Grimora");
+				sequencer.selectableCardPrefab = PrefabGrimoraSelectableCard;
 
-			// GrimoraPlugin.Log.LogDebug($"-> Setting SpecialNodeHandler rareCardChoiceSequencer to sequencer");
-			specialNodeHandler.rareCardChoiceSequencer = sequencer;
+				// GrimoraPlugin.Log.LogDebug($"-> Setting SpecialNodeHandler rareCardChoiceSequencer to sequencer");
+				specialNodeHandler.rareCardChoiceSequencer = sequencer;
+			}
 		}
 	}
 
@@ -239,14 +257,16 @@ public class BaseGameFlowManagerPatches
 		bool unlockViewAfterTransition = true
 	)
 	{
-		// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] Current state is [{__instance.CurrentGameState}]");
+		Log.LogDebug($"[GameFlowManager.TransitionTo] Current state is [{__instance.CurrentGameState}]");
 
 		if (SaveManager.SaveFile.IsGrimora)
 		{
+			Log.LogDebug($"[TransitionTo] Getting bosses defeated");
 			bool isBossDefeated = ChessboardMapExt.Instance.BossDefeated;
+			Log.LogDebug($"[TransitionTo] Getting existing pieces");
 			bool piecesExist = !ChessboardMapExt.Instance.pieces.IsNullOrEmpty();
 
-			// GrimoraPlugin.Log.LogDebug($"[TransitionTo] IsBossDefeated [{isBossDefeated}] Pieces exist [{piecesExist}]");
+			Log.LogDebug($"[TransitionTo] IsBossDefeated [{isBossDefeated}] Pieces exist [{piecesExist}]");
 
 			// FOR ENUMS IN POSTFIX CALLS, THE OPERATOR TO USE IS 'IS' NOT '==' 
 			// CORRECT  : gameState is GameState.Map
