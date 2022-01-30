@@ -91,7 +91,7 @@ public class GrimoraChessboard
 		{
 			for (int i = 0; i < 8; i++)
 			{
-				PlaceChestPiece(i, 0, new CardRemoveNodeData());
+				PlaceChestPiece(i, 0, new CardChoicesNodeData());
 				PlaceEnemyPiece(0, i);
 			}
 		}
