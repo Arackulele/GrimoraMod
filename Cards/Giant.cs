@@ -1,5 +1,8 @@
-﻿using APIPlugin;
+﻿using System.Collections;
+using APIPlugin;
 using DiskCardGame;
+using HarmonyLib;
+using UnityEngine;
 
 namespace GrimoraMod;
 
@@ -15,6 +18,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(2, 7)
 			.SetBoneCost(15)
 			.SetNames(NameGiant, "Giant")
+			.SetTraits(Trait.Giant)
 			// .SetDescription("A vicious pile of bones. You can have it...")
 			.Build()
 		);
