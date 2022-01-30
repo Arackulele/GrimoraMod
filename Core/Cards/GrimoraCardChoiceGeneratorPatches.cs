@@ -11,7 +11,7 @@ public class PlaceAllActOneChoicesToGrimora
 	{
 		var cardsToAdd = new List<CardChoice>();
 
-		var randomizedChoices = CardLoader.AllData
+		var randomizedChoices = CardLoader.allData
 			.FindAll(info => info.name.StartsWith("ara_") && info.metaCategories.Contains(CardMetaCategory.ChoiceNode))
 			.Select(card => new CardChoice { CardInfo = card })
 			.ToArray()

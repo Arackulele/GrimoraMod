@@ -1,9 +1,11 @@
+global using Object = UnityEngine.Object;
+using System.Reflection;
 using APIPlugin;
 using BepInEx;
-using BepInEx.Configuration;
 using BepInEx.Logging;
 using DiskCardGame;
 using HarmonyLib;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -14,41 +16,17 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 {
 	public const string PluginGuid = "arackulele.inscryption.grimoramod";
 	public const string PluginName = "GrimoraMod";
-	private const string PluginVersion = "2.4.0";
+	private const string PluginVersion = "2.4.1";
 
 	internal static ManualLogSource Log;
 
 	private static Harmony _harmony;
 
+	public static UnityEngine.GameObject[] AllPrefabAssets;
 	public static UnityEngine.Object[] AllAssets;
 	public static UnityEngine.Sprite[] AllSpriteAssets;
+	public static UnityEngine.Texture[] AllAbilityAssets;
 
-	public static readonly ConfigFile GrimoraConfigFile = new(
-		Path.Combine(Paths.ConfigPath, "grimora_mod_config.cfg"),
-		true
-	);
-
-	public const string StaticDefaultRemovedPiecesList =
-		"BossFigurine," +
-		"ChessboardChestPiece," +
-		"EnemyPiece_Skelemagus,EnemyPiece_Gravedigger," +
-		"Tombstone_North1," +
-		"Tombstone_Wall1,Tombstone_Wall2,Tombstone_Wall3,Tombstone_Wall4,Tombstone_Wall5," +
-		"Tombstone_South1,Tombstone_South2,Tombstone_South3,";
-
-	public static ConfigEntry<int> ConfigCurrentChessboardIndex;
-
-	public static ConfigEntry<bool> ConfigKayceeFirstBossDead;
-
-	public static ConfigEntry<bool> ConfigSawyerSecondBossDead;
-
-	public static ConfigEntry<bool> ConfigRoyalThirdBossDead;
-
-	public static ConfigEntry<bool> ConfigGrimoraBossDead;
-
-	public static ConfigEntry<bool> ConfigDeveloperMode;
-
-	public static ConfigEntry<string> ConfigCurrentRemovedPieces;
 
 	private static readonly List<StoryEvent> StoryEventsToBeCompleteBeforeStarting = new()
 	{
@@ -61,54 +39,65 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		Log = base.Logger;
 
+		_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), PluginGuid);
+
 		LoadAssets();
 
-		BindConfig();
-
-		GrimoraConfigFile.SaveOnConfigSet = true;
-		ResetConfigDataIfGrimoraHasNotReachedTable();
+		ConfigHelper.Instance.BindConfig();
 
 		UnlockAllNecessaryEventsToPlay();
 
-		_harmony = new Harmony(PluginGuid);
-		_harmony.PatchAll();
-
 		#region AddingAbilities
 
-		BoneLordsReign.CreateBoneLordsReign();
-		FlameStrafe.CreateFlameStrafe();
-		PayBonesForSkeleton.CreatePayBonesForSkeleton();
-		PayEnergyForWyvern.CreatePayEnergyForWyvern();
+		AlternatingStrike.Create(); // Bt Y#0895
+		AreaOfEffectStrike.Create(); // Bt Y#0895
+		Erratic.Create(); // Bt Y#0895
+		InvertedStrike.Create(); // Bt Y#0895
+		Possessive.Create(); // Bt Y#0895
+		SkinCrawler.Create(); // Bt Y#0895
+
+		BoneLordsReign.Create();
+		FlameStrafe.Create();
+		PayBonesForSkeleton.Create();
+		PayEnergyForWyvern.Create();
 
 		#endregion
 
 		#region AddingCards
 
 		AddAra_ArmoredZombie();
-		AddAra_Bonepile();
+		AddAra_Bonepile(); // Bt Y#0895		
 		AddAra_BonePrince();
 		AddAra_Bonelord();
 		AddAra_BonelordsHorn();
+		AddAra_BooHag(); // Bt Y#0895
+		AddAra_DanseMacabre(); // Bt Y#0895
 		AddAra_DeadHand();
 		AddAra_DeadPets();
 		AddAra_Draugr();
 		AddAra_DrownedSoul();
+		AddAra_Dybbuk(); // Bt Y#0895
 		AddAra_Ember_spirit();
 		AddAra_Family();
 		AddAra_Flames();
 		AddAra_Franknstein();
+		AddAra_Giant(); // Bt Y#0895
 		AddAra_GhostShip();
 		AddAra_GraveDigger();
 		AddAra_HeadlessHorseman();
 		AddAra_Hydra();
 		AddAra_Mummy();
 		AddAra_Necromancer();
-		AddAra_Obol();
+		AddAra_Obol(); // Bt Y#0895
 		AddAra_PlagueDoctor();
 		AddAra_Poltergeist();
+		AddAra_Project(); // Bt Y#0895
 		AddAra_Revenant();
 		AddAra_RingWorm();
+		AddAra_Ripper(); // Bt Y#0895
 		AddAra_Sarcophagus();
+		AddAra_Silbon(); // Bt Y#0895
+		AddAra_ScreamingSkull(); // Bt Y#0895
 		AddAra_Skelemancer();
 		AddAra_SkeletonArmy();
 		AddAra_SkeletonMage();
@@ -123,9 +112,12 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		#endregion
 
 		ResizeArtworkForVanillaBoneCards();
+	}
 
-		// ChangePackRat();
-		// ChangeSquirrel();
+	private void OnDestroy()
+	{
+		_harmony?.UnpatchSelf();
+		GrimoraModBattleSequencer.ActiveEnemyPiece = null;
 	}
 
 	private static void ResizeArtworkForVanillaBoneCards()
@@ -156,67 +148,41 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		}
 	}
 
-	private void OnDestroy()
-	{
-		_harmony?.UnpatchSelf();
-	}
-
-	private static void BindConfig()
-	{
-		ConfigCurrentChessboardIndex
-			= GrimoraConfigFile.Bind(PluginName, "Current chessboard layout index", 0);
-
-		ConfigKayceeFirstBossDead
-			= GrimoraConfigFile.Bind(PluginName, "Kaycee defeated?", false);
-
-		ConfigSawyerSecondBossDead
-			= GrimoraConfigFile.Bind(PluginName, "Sawyer defeated?", false);
-
-		ConfigRoyalThirdBossDead
-			= GrimoraConfigFile.Bind(PluginName, "Royal defeated?", false);
-
-		ConfigGrimoraBossDead
-			= GrimoraConfigFile.Bind(PluginName, "Grimora defeated?", false);
-
-		ConfigCurrentRemovedPieces = GrimoraConfigFile.Bind(
-			PluginName,
-			"Current Removed Pieces",
-			StaticDefaultRemovedPiecesList,
-			new ConfigDescription("Contains all the current removed pieces." +
-			                      "\nDo not alter this list unless you know what you are doing!")
-		);
-
-		ConfigDeveloperMode = GrimoraConfigFile.Bind(
-			PluginName,
-			"Enable Developer Mode",
-			false,
-			new ConfigDescription("Does not generate blocker pieces. Chests fill first row, enemy pieces fill first column.")
-		);
-
-		var list = ConfigCurrentRemovedPieces.Value.Split(',').ToList();
-		// this is so that for whatever reason the game map gets added to the removal list,
-		//	this will automatically remove those entries
-		if (list.Contains("ChessboardGameMap"))
-		{
-			list.RemoveAll(piece => piece.Equals("ChessboardGameMap"));
-		}
-
-		ConfigCurrentRemovedPieces.Value = string.Join(",", list.Distinct());
-	}
 
 	private static void LoadAssets()
 	{
 		Log.LogDebug($"Loading asset bundles");
-		string blockersFile = FileUtils.FindFileInPluginDir("GrimoraMod_Prefabs_Blockers");
-		string spritesFile = FileUtils.FindFileInPluginDir("grimoramod_sprites");
 
-		AssetBundle blockerBundle = AssetBundle.LoadFromFile(blockersFile);
-		AssetBundle spritesBundle = AssetBundle.LoadFromFile(spritesFile);
-		// Log.LogDebug($"Sprites bundle {string.Join(",", spritesBundle.GetAllAssetNames())}");
+		AssetBundle abilityBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_abilities"));
+		AssetBundle blockerBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("GrimoraMod_Prefabs_Blockers"));
+		AssetBundle spritesBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_sprites"));
+		// AssetBundle prefabsBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_prefabs"));
 
+		// BundlePrefab = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("prefab-testing"));
+		// Log.LogDebug($"{string.Join(",", BundlePrefab.GetAllAssetNames())}");
+
+		Log.LogDebug($"Loading assets into static vars");
 		AllAssets = blockerBundle.LoadAllAssets();
+		blockerBundle.Unload(false);
+
+		AllAbilityAssets = abilityBundle.LoadAllAssets<Texture>();
+		abilityBundle.Unload(false);
+
+		// AllPrefabAssets = prefabsBundle.LoadAllAssets<GameObject>();
+		// prefabsBundle.Unload(false);
+		
 		AllSpriteAssets = spritesBundle.LoadAllAssets<Sprite>();
+		spritesBundle.Unload(false);
+
+		// Log.LogDebug($"Abilities textures loaded {string.Join(",", AllAbilityAssets.Select(_ => _.name))}");
 		// Log.LogDebug($"Sprites loaded {string.Join(",", AllSpriteAssets.Select(spr => spr.name))}");
+		// try
+		// {
+		// }
+		// catch (Exception e)
+		// {
+		// 	Log.LogWarning($"Asset bundles already exist");
+		// }
 	}
 
 	private static void UnlockAllNecessaryEventsToPlay()
@@ -228,31 +194,5 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			ProgressionData.UnlockAll();
 			SaveManager.SaveToFile();
 		}
-	}
-
-	private static void ResetConfigDataIfGrimoraHasNotReachedTable()
-	{
-		if (!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable))
-		{
-			Log.LogWarning($"Grimora has not reached the table yet, resetting values to false again.");
-			ResetConfig();
-		}
-	}
-
-	public static void ResetConfig()
-	{
-		Log.LogWarning($"Resetting Grimora Mod config");
-		ConfigKayceeFirstBossDead.Value = false;
-		ConfigSawyerSecondBossDead.Value = false;
-		ConfigRoyalThirdBossDead.Value = false;
-		ConfigGrimoraBossDead.Value = false;
-		ConfigCurrentRemovedPieces.Value = StaticDefaultRemovedPiecesList;
-		ConfigCurrentChessboardIndex.Value = 0;
-	}
-
-	public static void ResetDeck()
-	{
-		Log.LogWarning($"Resetting Grimora Deck Data");
-		GrimoraSaveData.Data.Initialize();
 	}
 }

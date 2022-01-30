@@ -30,7 +30,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 	{
 		{ SawyerOpponent, $"{PrefabPathMasks}/MaskTrader" },
 		{ KayceeOpponent, $"{PrefabPathMasks}/MaskWoodcarver" },
-		{ RoyalOpponent, PrefabPathRoyalBossSkull }
+		// { RoyalOpponent, PrefabPathRoyalBossSkull }
 	};
 
 
@@ -46,7 +46,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 		yield return base.IntroSequence(encounter);
 
 		// Royal boss has a specific sequence to follow so that it flows easier
-		if (this is not RoyalBossOpponentExt && BossMasksByType.TryGetValue(OpponentType, out string prefabPath))
+		if (BossMasksByType.TryGetValue(OpponentType, out string prefabPath))
 		{
 			yield return ShowBossSkull();
 
@@ -73,15 +73,18 @@ public abstract class BaseBossExt : Part1BossOpponent
 	{
 		if (wasDefeated)
 		{
-			SetBossDefeatedInConfig();
+			ConfigHelper.Instance.SetBossDefeatedInConfig(this);
 
 			Log.LogDebug($"[{GetType()}] SaveFile is Grimora");
 
-			Log.LogDebug($"[{GetType()}] Glitching mask");
-			GlitchOutAssetEffect.GlitchModel(
-				Mask.transform,
-				true
-			);
+			if (Mask is not null)
+			{
+				Log.LogDebug($"[{GetType()}] Glitching mask");
+				GlitchOutAssetEffect.GlitchModel(
+					Mask.transform,
+					true
+				);
+			}
 
 			Log.LogDebug($"[{GetType()}] audio queue");
 			AudioController.Instance.PlaySound2D("glitch_error", MixerGroup.TableObjectsSFX);
@@ -118,31 +121,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 		}
 	}
 
-	private void SetBossDefeatedInConfig()
-	{
-		switch (this)
-		{
-			case KayceeBossOpponent:
-				ConfigKayceeFirstBossDead.Value = true;
-				break;
-			case SawyerBossOpponent:
-				ConfigSawyerSecondBossDead.Value = true;
-				break;
-			case RoyalBossOpponentExt:
-				ConfigRoyalThirdBossDead.Value = true;
-				break;
-			case GrimoraBossOpponentExt:
-				ConfigGrimoraBossDead.Value = true;
-				break;
-		}
-
-		var bossPiece = ChessboardMapExt.Instance.BossPiece;
-		ChessboardMapExt.Instance.BossDefeated = true;
-		ChessboardMapExt.Instance.AddPieceToRemovedPiecesConfig(bossPiece.name);
-		Log.LogDebug($"[BossDefeatedSequence][PostFix] Boss {GetType()} defeated.");
-	}
-
-	public IEnumerator ShowBossSkull()
+	public static IEnumerator ShowBossSkull()
 	{
 		// Log.LogDebug($"[{GetType()}] Calling ShowBossSkull");
 		GrimoraAnimationController.Instance.ShowBossSkull();

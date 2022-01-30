@@ -53,11 +53,20 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 			InteractionCursor.Instance.InteractionDisabled = false;
 
+			Log.LogDebug($"[GameEnd] Glitching Resource Energy");
+			GlitchOutAssetEffect.GlitchModel(ResourceDrone.Instance.transform);
+			yield return new WaitForSeconds(0.75f);
+
 			Log.LogDebug($"[GameEnd] Glitching bell");
 			GlitchOutAssetEffect.GlitchModel(((BoardManager3D)BoardManager3D.Instance).Bell.transform);
 			yield return new WaitForSeconds(0.75f);
+
 			Log.LogDebug($"[GameEnd] Glitching scales");
 			GlitchOutAssetEffect.GlitchModel(LifeManager.Instance.Scales3D.transform);
+			yield return new WaitForSeconds(0.75f);
+
+			Log.LogDebug($"[GameEnd] Glitching hammer");
+			GlitchOutAssetEffect.GlitchModel(GrimoraItemsManagerExt.Instance.HammerSlot.transform);
 			yield return new WaitForSeconds(0.75f);
 
 			// yield return (GameFlowManager.Instance as GrimoraGameFlowManager).EndSceneSequence();
@@ -78,11 +87,15 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 			Log.LogDebug($"[GameEnd] Time to rest");
 			yield return TextDisplayer.Instance.ShowThenClear(
-				"It is time to rest.", 1f, 0.5f, Emotion.Curious
+				"It is time to rest.", 2f, 0f, Emotion.Curious
 			);
 			yield return new WaitForSeconds(0.75f);
 			Log.LogDebug($"[GameEnd] offset fov");
 			ViewManager.Instance.OffsetFOV(150f, 1.5f);
+
+			Log.LogDebug($"[GameEnd] Resetting running");
+			yield return new WaitForSeconds(1f);
+			ConfigHelper.ResetRun();
 		}
 
 		yield break;
@@ -130,18 +143,10 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		{
 			Log.LogDebug($"[GrimoraModBattleSequencer] " +
 			             $"Adding enemy [{ActiveEnemyPiece.name}] to config removed pieces");
-			ChessboardMapExt.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
+			ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
 		}
-		else
-		{
-			ResetRun();
 
-			yield return new WaitForSeconds(1.5f);
-
-			GrimoraPlugin.Log.LogDebug($"Starting finale_grimora");
-			LoadingScreenManager.LoadScene("finale_grimora");
-			yield break;
-		}
+		yield break;
 	}
 
 	private IEnumerator GlitchOutBoardAndHandCards()
@@ -161,18 +166,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		}
 	}
 
-	private static void ResetRun()
-	{
-		Log.LogDebug($"[ResetRun] Resetting run");
-
-		GrimoraSaveData.Data.Initialize();
-		StoryEventsData.EraseEvent(StoryEvent.GrimoraReachedTable);
-		ResetConfig();
-
-		SaveManager.SaveToFile();
-	}
-
-	private void GlitchOutCard(PlayableCard c)
+	private static void GlitchOutCard(Card c)
 	{
 		(c.Anim as GravestoneCardAnimationController).PlayGlitchOutAnimation();
 		UnityEngine.Object.Destroy(c.gameObject, 0.25f);

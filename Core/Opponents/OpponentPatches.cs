@@ -56,9 +56,6 @@ public class OpponentPatches
 
 			Log.LogDebug($"[Opponent.SpawnOpponent] Opponent result [{__result}]");
 
-			Log.LogDebug($"Transforming hammer");
-			BaseGameFlowManagerPatches.HammerItemSlot.transform.eulerAngles = new Vector3(270f, 315f, 0f);
-			BaseGameFlowManagerPatches.HammerItemSlot.transform.position = new Vector3(-2.69f, 5.82f, -0.48f);
 			return false;
 		}
 

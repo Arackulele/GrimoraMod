@@ -17,7 +17,7 @@ public partial class GrimoraPlugin
 				.SetDescription("Hiding in a suit of armor, this skeleton won't last forever.")
 				.SetNames(NameDraugr, "Draugr")
 				.Build(),
-			iceCubeId: new IceCubeIdentifier("Skeleton")
+			iceCubeId: new IceCubeIdentifier(NameSkeleton)
 		);
 	}
 }

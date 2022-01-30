@@ -1,5 +1,6 @@
 ﻿using APIPlugin;
 using DiskCardGame;
+using HarmonyLib;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -42,7 +43,16 @@ public class CardBuilder
 		{
 			cardName = cardName.Replace("ara_", "");
 			// Log.LogDebug($"Looking in AllSprites for [{cardName}]");
-			_cardInfo.portraitTex = AllSpriteAssets.Single(spr => spr.name == cardName);
+			_cardInfo.portraitTex = AllSpriteAssets.Single(
+				spr => string.Equals(spr.name, cardName, StringComparison.OrdinalIgnoreCase)
+			);
+
+			// TODO: refactor when API 2.0 comes out
+			AllSpriteAssets.DoIf(
+				_ => !NewCard.emissions.ContainsKey(cardName)
+				     && _.name.Equals(cardName + "_emission", StringComparison.OrdinalIgnoreCase),
+				delegate(Sprite sprite) { NewCard.emissions.Add(cardName, sprite); }
+			);
 		}
 		else
 		{
@@ -140,9 +150,35 @@ public class CardBuilder
 		return SetAbilities(new List<Ability>() { ability });
 	}
 
+	internal CardBuilder SetAbilities(Ability ability1, Ability ability2)
+	{
+		return SetAbilities(new List<Ability>() { ability1, ability2 });
+	}
+
+	internal CardBuilder SetAbilities(Ability ability1, Ability ability2, Ability ability3)
+	{
+		return SetAbilities(new List<Ability>() { ability1, ability2, ability3 });
+	}
+
 	internal CardBuilder SetAbilities(List<Ability> abilities)
 	{
 		_cardInfo.abilities = abilities;
+		return this;
+	}
+
+	internal CardBuilder SetAbilities(SpecialTriggeredAbility ability)
+	{
+		return SetAbilities(new List<SpecialTriggeredAbility>() { ability });
+	}
+
+	internal CardBuilder SetAbilities(SpecialTriggeredAbility ability1, SpecialTriggeredAbility ability2)
+	{
+		return SetAbilities(new List<SpecialTriggeredAbility>() { ability1, ability2 });
+	}
+
+	internal CardBuilder SetAbilities(List<SpecialTriggeredAbility> abilities)
+	{
+		_cardInfo.specialAbilities = abilities;
 		return this;
 	}
 

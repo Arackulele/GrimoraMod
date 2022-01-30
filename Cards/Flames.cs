@@ -9,14 +9,8 @@ public partial class GrimoraPlugin
 
 	private void AddAra_Flames()
 	{
-		List<Ability> abilities = new List<Ability>
-		{
-			Ability.BuffNeighbours,
-			Ability.Brittle
-		};
-
 		NewCard.Add(CardBuilder.Builder
-			.SetAbilities(abilities)
+			.SetAbilities(Ability.Brittle, Ability.BuffNeighbours)
 			.SetBaseAttackAndHealth(0, 1)
 			.SetBoneCost(2)
 			.SetNames(NameFlames, "Flames")

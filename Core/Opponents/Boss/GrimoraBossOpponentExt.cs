@@ -1,7 +1,8 @@
 using System.Collections;
 using DiskCardGame;
+using Sirenix.Utilities;
 using UnityEngine;
-using static GrimoraMod.BlueprintUtils;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -42,8 +43,10 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		SetSceneEffectsShownGrimora();
 
-		yield return TextDisplayer.Instance.PlayDialogueEvent("LeshyBossIntro1",
-			TextDisplayer.MessageAdvanceMode.Input);
+		yield return TextDisplayer.Instance.PlayDialogueEvent(
+			"LeshyBossIntro1",
+			TextDisplayer.MessageAdvanceMode.Input
+		);
 		yield return new WaitForSeconds(0.75f);
 
 		// Log.LogDebug($"[{GetType()}] Calling base IntroSequence, this creates and sets the candle skull");
@@ -52,118 +55,131 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		ViewManager.Instance.SwitchToView(View.BossSkull, immediate: false, lockAfter: true);
 
 		yield return new WaitForSeconds(0.25f);
-		yield return TextDisplayer.Instance.PlayDialogueEvent("LeshyBossAddCandle",
-			TextDisplayer.MessageAdvanceMode.Input);
+		yield return TextDisplayer.Instance.PlayDialogueEvent(
+			"LeshyBossAddCandle",
+			TextDisplayer.MessageAdvanceMode.Input
+		);
 		yield return new WaitForSeconds(0.4f);
 
+		Log.LogDebug($"Calling bossSkull.EnterHand();");
 		bossSkull.EnterHand();
+
+		yield return new WaitForSeconds(2f);
+		ViewManager.Instance.SwitchToView(View.Default, lockAfter: false);
 	}
 
 	public override IEnumerator StartNewPhaseSequence()
 	{
+		base.TurnPlan.Clear();
+
+		Log.LogDebug($"[GrimoraBoss] Clearing board");
+		yield return base.ClearBoard();
+
+		Log.LogDebug($"[GrimoraBoss] Clearing queue");
+		yield return base.ClearQueue();
+
+		yield return new WaitForSeconds(0.5f);
+
 		switch (this.NumLives)
 		{
 			case 1:
 			{
-				GrimoraPlugin.Log.LogDebug($"[GrimoraBoss] Clearing board");
-				yield return base.ClearBoard();
-				GrimoraPlugin.Log.LogDebug($"[GrimoraBoss] Clearing queue");
-				yield return base.ClearQueue();
-
-				yield return new WaitForSeconds(0.5f);
-
-				var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-				blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
-				{
-					new() { bp_Skeleton },
-					new() { bp_Bonelord },
-					new() { },
-					new() { },
-					new() { bp_Draugr, bp_Draugr, bp_Draugr },
-					new() { },
-					new() { bp_Bonehound, bp_Bonehound },
-					new() { },
-					new() { bp_Bonehound },
-					new() { },
-					new() { },
-					new() { bp_GhostShip },
-					new() { bp_GhostShip }
-				};
-
-				var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
-
-				yield return TextDisplayer.Instance.ShowUntilInput("LET THE BONE LORD COMMETH!",
-					letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
-
-				yield return BoardManager.Instance.CreateCardInSlot(
-					CardLoader.GetCardByName(GrimoraPlugin.NameBonelord), oppSlots[2], 0.2f
-				);
-				yield return new WaitForSeconds(0.25f);
-
-				oppSlots.RemoveAt(2);
-
-				yield return TextDisplayer.Instance.ShowUntilInput("RISE MY ARMY! RIIIIIIIIIISE!",
-					letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
-
-				foreach (CardSlot cardSlot in oppSlots)
-				{
-					yield return BoardManager.Instance.CreateCardInSlot(
-						CardLoader.GetCardByName(GrimoraPlugin.NameSkeletonArmy), cardSlot, 0.2f
-					);
-
-					yield return new WaitForSeconds(0.25f);
-				}
-
+				yield return StartBoneLordPhase();
 				break;
 			}
 			case 2:
 			{
-				yield return base.ClearBoard();
+				yield return StartPlayerCardWeakeningPhase();
 
-				var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-				blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
-				{
-					new() { bp_Sporedigger },
-					new() { bp_Poltergeist },
-					new() { },
-					new() { },
-					new() { bp_Draugr, bp_Draugr, bp_Draugr },
-					new() { },
-					new() { bp_Bonehound, bp_Bonehound },
-					new() { },
-					new() { bp_Bonehound },
-					new() { },
-					new() { },
-					new() { bp_GhostShip },
-					new() { bp_GhostShip },
-				};
-
-				var playerCardSlots = CardSlotUtils.GetPlayerSlotsWithCards();
-				if (playerCardSlots.Count > 0)
-				{
-					foreach (var playableCard in playerCardSlots.Select(slot => slot.Card))
-					{
-						yield return TextDisplayer.Instance.ShowUntilInput(
-							$"{playableCard.name}, I WILL MAKE YOU WEAK!",
-							letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
-						);
-
-						playableCard.AddTemporaryMod(
-							new CardModificationInfo(
-								-playableCard.Attack + 1,
-								-playableCard.Health + 1)
-						);
-						playableCard.Anim.StrongNegationEffect();
-						yield return new WaitForSeconds(0.05f);
-					}
-				}
-
+				yield return StartSpawningGiantsPhase();
 
 				break;
 			}
 		}
 
+		ViewManager.Instance.SwitchToView(View.Default, false, false);
 
 		yield break;
+	}
+
+	private static IEnumerator StartPlayerCardWeakeningPhase()
+	{
+		var playerCardsThatAreValidToWeaken
+			= CardSlotUtils
+				.GetPlayerSlotsWithCards()
+				.Where(slot => slot.Card.Health > 1)
+				.Select(slot => slot.Card)
+				.ToList();
+		if (!playerCardsThatAreValidToWeaken.IsNullOrEmpty())
+		{
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				"I WILL MAKE YOU WEAK!",
+				letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
+			);
+
+			ViewManager.Instance.SwitchToView(View.Board);
+
+			foreach (var playableCard in playerCardsThatAreValidToWeaken)
+			{
+				int attack = playableCard.Attack == 0 ? 0 : -playableCard.Attack + 1;
+				playableCard.AddTemporaryMod(new CardModificationInfo(attack, -playableCard.Health + 1));
+				playableCard.Anim.StrongNegationEffect();
+				yield return new WaitForSeconds(0.25f);
+				playableCard.Anim.StrongNegationEffect();
+			}
+
+			yield return new WaitForSeconds(0.75f);
+		}
+	}
+
+	private static IEnumerator StartSpawningGiantsPhase()
+	{
+		var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
+
+		yield return TextDisplayer.Instance.ShowUntilInput(
+			"BEHOLD, MY LATEST CREATIONS! THE GIANTS!",
+			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
+		);
+
+		ViewManager.Instance.SwitchToView(View.OpponentQueue, immediate: false, lockAfter: true);
+
+		foreach (var slot in oppSlots)
+		{
+			yield return BoardManager.Instance.CreateCardInSlot(
+				CardLoader.GetCardByName(NameGiant), slot, 0.2f
+			);
+			yield return new WaitForSeconds(0.3f);
+		}
+	}
+
+	public IEnumerator StartBoneLordPhase()
+	{
+		var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
+
+		yield return TextDisplayer.Instance.ShowUntilInput("LET THE BONE LORD COMMETH!",
+			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
+
+		ViewManager.Instance.SwitchToView(View.Board);
+
+		yield return BoardManager.Instance.CreateCardInSlot(
+			CardLoader.GetCardByName(NameBonelord), oppSlots[2], 0.2f
+		);
+		yield return new WaitForSeconds(0.25f);
+
+		oppSlots.RemoveAt(2);
+
+		yield return TextDisplayer.Instance.ShowUntilInput(
+			"RISE MY ARMY! RIIIIIIIIIISE!",
+			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
+		);
+
+		foreach (CardSlot cardSlot in oppSlots)
+		{
+			yield return BoardManager.Instance.CreateCardInSlot(
+				CardLoader.GetCardByName(NameSkeletonArmy), cardSlot, 0.2f
+			);
+
+			yield return new WaitForSeconds(0.25f);
+		}
 	}
 }
