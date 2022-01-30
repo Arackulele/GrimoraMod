@@ -17,7 +17,14 @@ public class BaseGameFlowManagerPatches
 	private static readonly GameObject PrefabGrimoraPlayableCard =
 		ResourceBank.Get<GameObject>("Prefabs/Cards/PlayableCard_Grimora");
 
+	private static readonly GameObject PrefabGrimoraCardBack =
+		ResourceBank.Get<GameObject>("Prefabs/Cards/CardBack_Grimora");
+
 	private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
+
+	private static GameObject ChessboardGameMap => GameObject.Find("ChessboardGameMap");
+	
+	private static SpecialNodeHandler SpecialNodeHandler => Object.FindObjectOfType<SpecialNodeHandler>();
 
 	private static GameObject SetupSelectableCard()
 	{
@@ -44,10 +51,9 @@ public class BaseGameFlowManagerPatches
 		// giantPrefab.transform.GetChild(0).GetChild(0).GetChild(0).localScale = new Vector3(1f, 1.175f, 0.2f);
 		CardSpawner.Instance.giantPlayableCardPrefab = PrefabGrimoraPlayableCard;
 
-		GameObject boardObj = GameObject.Find("ChessboardGameMap");
 		// Log.LogDebug($"[GameFlowManager.Start] Instance is [{__instance.GetType()}]" +
 		//              $" Board Already exists? [{boardObj is not null}]");
-		if (SaveManager.SaveFile.IsGrimora && boardObj is not null)
+		if (SaveManager.SaveFile.IsGrimora && ChessboardGameMap is not null)
 		{
 			AddHammer();
 
@@ -61,8 +67,50 @@ public class BaseGameFlowManagerPatches
 
 			ChangeStartDeckIfNotAlreadyChanged();
 
+			// AddBoonLordBoonConsumable();
+
 			// AddCustomEnergy();
 		}
+	}
+
+	public static void AddBoonLordBoonConsumable()
+	{
+		Log.LogDebug($"Adding Boon Lord Consumable");
+		GameObject ramSkull = UnityEngine.Object.Instantiate(
+			ResourceBank.Get<GameObject>("Art/Assets3D/NodeSequences/GoatSkull/RamSkull_NoHorn"),
+			new Vector3(4.59f, 4.8f, 0),
+			Quaternion.Euler(270, 235, 0)
+		);
+		Log.LogDebug($"Setting consumable name");
+		ramSkull.name = "BoneLordBoon_Consumable";
+		Log.LogDebug($"Setting consumable scale");
+		ramSkull.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
+
+		Log.LogDebug($"Setting runtime controller");
+		ramSkull.AddComponent<Animator>().runtimeAnimatorController =
+			ResourceBank.Get<RuntimeAnimatorController>("Animation/Items/ItemAnim");
+		
+		Log.LogDebug($"Adding BoneLordSkull class");
+		ramSkull.AddComponent<BoneLordSkull>();
+
+		Log.LogDebug($"Creating scriptable object");
+		ConsumableItemData itemData = ScriptableObject.CreateInstance<ConsumableItemData>();
+		itemData.notRandomlyGiven = true;
+		itemData.powerLevel = 1;
+		itemData.rulebookCategory = AbilityMetaCategory.Part1Modular;
+		itemData.rulebookName = "Bone Lord Boon of Bones";
+		itemData.rulebookDescription = "How gracious of the Bone Lord to give you 8 starting bones.";
+		itemData.rulebookSprite = Sprite.Create(Rect.zero, Vector2.zero, float.Epsilon);
+		itemData.regionSpecific = false;
+
+		if (!ItemsUtil.allData.Exists(x => (x as ConsumableItemData).rulebookName == itemData.rulebookName))
+		{
+			Log.LogDebug($"Adding consumable in ItemsUtil.allData");
+			ItemsUtil.allData.Add(itemData);
+		}
+		
+		// Log.LogDebug($"Updating items");
+		// GrimoraItemsManagerExt.Instance.UpdateItems();
 	}
 
 	// ONLY USE THIS IF YOU COMPILED THE ASSET BUNDLE WITH A VERSION OF UNITY THAT IS NOT 2019.4.24F
@@ -95,6 +143,66 @@ public class BaseGameFlowManagerPatches
 		// );
 
 		// FixShaders(energyObj);
+	}
+
+	private static void AddCardRemoveSequencer()
+	{
+		// TODO: This will work, but it doesn't show the boon art correctly.
+
+		Log.LogDebug($"Creating card remove sequencer");
+		GameObject cardRemoveSequencerObj = UnityEngine.Object.Instantiate(
+			ResourceBank.Get<GameObject>("Prefabs/SpecialNodeSequences/CardRemoveSequencer"),
+			SpecialNodeHandler.transform
+		);
+
+		var oldRemoveSequencer = cardRemoveSequencerObj.GetComponent<CardRemoveSequencer>();
+
+		Log.LogDebug($"Adding new card remove sequencer component");
+		var cardRemoveSequencer = cardRemoveSequencerObj.gameObject.AddComponent<GrimoraCardRemoveSequencer>();
+
+		Log.LogDebug($"Setting prefabs");
+		cardRemoveSequencer.gamepadGrid = oldRemoveSequencer.gamepadGrid;
+		cardRemoveSequencer.selectableCardPrefab = PrefabGrimoraSelectableCard;
+		cardRemoveSequencer.confirmStone = oldRemoveSequencer.confirmStone;
+		cardRemoveSequencer.sacrificeSlot = oldRemoveSequencer.sacrificeSlot;
+		cardRemoveSequencer.sacrificeSlot.cardSelector.selectableCardPrefab = PrefabGrimoraSelectableCard;
+		cardRemoveSequencer.sacrificeSlot.pile.cardbackPrefab = PrefabGrimoraCardBack;
+		cardRemoveSequencer.skullEyes = oldRemoveSequencer.skullEyes;
+		cardRemoveSequencer.stoneCircleAnim = oldRemoveSequencer.stoneCircleAnim;
+
+		cardRemoveSequencer.GetComponentInChildren<SelectableCardArray>().selectableCardPrefab =
+			PrefabGrimoraSelectableCard;
+
+		Log.LogDebug($"Setting card backs");
+		cardRemoveSequencer.deckPile = oldRemoveSequencer.deckPile;
+		cardRemoveSequencer.deckPile.cardbackPrefab = PrefabGrimoraCardBack;
+
+		Log.LogDebug($"Destroying old sequencer");
+		UnityEngine.Object.Destroy(oldRemoveSequencer);
+
+		SpecialNodeHandler.cardRemoveSequencer = cardRemoveSequencer;
+
+		// TODO: HOW DO WE GET THOSE DECALS TO SHOW UP
+		CardDisplayer3D displayer3D = ResourceBank.Get<CardDisplayer3D>("Prefabs/Cards/CardElements");
+
+		CardDisplayer3D graveDisplayer = UnityEngine.Object.FindObjectOfType<CardDisplayer3D>();
+
+		BoonIconInteractable cardAbilityIcons = UnityEngine.Object.Instantiate(
+			ResourceBank.Get<BoonIconInteractable>("Prefabs/Cards/CardSurfaceInteraction/BoonIcon"),
+			graveDisplayer.GetComponentInChildren<CardAbilityIcons>().transform
+		);
+		graveDisplayer.GetComponentInChildren<CardAbilityIcons>().boonIcon = cardAbilityIcons;
+
+		GameObject cardDecals = UnityEngine.Object.Instantiate(
+			displayer3D.transform.GetChild(9).gameObject,
+			graveDisplayer.transform, true
+		);
+
+		graveDisplayer.decalRenderers.Clear();
+		for (int i = 0; i < cardDecals.transform.childCount; i++)
+		{
+			graveDisplayer.decalRenderers.Add(cardDecals.transform.GetChild(i).GetComponent<MeshRenderer>());
+		}
 	}
 
 	internal static void AddHammer()
