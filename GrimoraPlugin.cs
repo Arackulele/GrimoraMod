@@ -22,7 +22,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private static Harmony _harmony;
 
-	public static AssetBundle BundlePrefab;
+	public static UnityEngine.GameObject[] AllPrefabAssets;
 	public static UnityEngine.Object[] AllAssets;
 	public static UnityEngine.Sprite[] AllSpriteAssets;
 	public static UnityEngine.Texture[] AllAbilityAssets;
@@ -156,7 +156,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AssetBundle abilityBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_abilities"));
 		AssetBundle blockerBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("GrimoraMod_Prefabs_Blockers"));
 		AssetBundle spritesBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_sprites"));
-		// BundlePrefab = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_prefabs"));
+		AssetBundle prefabsBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_prefabs"));
 
 		// BundlePrefab = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("prefab-testing"));
 		// Log.LogDebug($"{string.Join(",", BundlePrefab.GetAllAssetNames())}");
@@ -168,6 +168,9 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AllAbilityAssets = abilityBundle.LoadAllAssets<Texture>();
 		abilityBundle.Unload(false);
 
+		AllPrefabAssets = prefabsBundle.LoadAllAssets<GameObject>();
+		prefabsBundle.Unload(false);
+		
 		AllSpriteAssets = spritesBundle.LoadAllAssets<Sprite>();
 		spritesBundle.Unload(false);
 
