@@ -2,6 +2,7 @@ using System.Collections;
 using DiskCardGame;
 using Sirenix.Utilities;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -42,8 +43,10 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		SetSceneEffectsShownGrimora();
 
-		yield return TextDisplayer.Instance.PlayDialogueEvent("LeshyBossIntro1",
-			TextDisplayer.MessageAdvanceMode.Input);
+		yield return TextDisplayer.Instance.PlayDialogueEvent(
+			"LeshyBossIntro1",
+			TextDisplayer.MessageAdvanceMode.Input
+		);
 		yield return new WaitForSeconds(0.75f);
 
 		// Log.LogDebug($"[{GetType()}] Calling base IntroSequence, this creates and sets the candle skull");
@@ -52,11 +55,17 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		ViewManager.Instance.SwitchToView(View.BossSkull, immediate: false, lockAfter: true);
 
 		yield return new WaitForSeconds(0.25f);
-		yield return TextDisplayer.Instance.PlayDialogueEvent("LeshyBossAddCandle",
-			TextDisplayer.MessageAdvanceMode.Input);
+		yield return TextDisplayer.Instance.PlayDialogueEvent(
+			"LeshyBossAddCandle",
+			TextDisplayer.MessageAdvanceMode.Input
+		);
 		yield return new WaitForSeconds(0.4f);
 
+		Log.LogDebug($"Calling bossSkull.EnterHand();");
 		bossSkull.EnterHand();
+
+		yield return new WaitForSeconds(2f);
+		ViewManager.Instance.SwitchToView(View.Default, lockAfter: false);
 	}
 
 	public override IEnumerator StartNewPhaseSequence()
@@ -65,10 +74,10 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		{
 			case 1:
 			{
-				GrimoraPlugin.Log.LogDebug($"[GrimoraBoss] Clearing board");
+				Log.LogDebug($"[GrimoraBoss] Clearing board");
 				yield return base.ClearBoard();
 
-				GrimoraPlugin.Log.LogDebug($"[GrimoraBoss] Clearing queue");
+				Log.LogDebug($"[GrimoraBoss] Clearing queue");
 				yield return base.ClearQueue();
 
 				yield return new WaitForSeconds(0.5f);
@@ -81,7 +90,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 				ViewManager.Instance.SwitchToView(View.Board);
 
 				yield return BoardManager.Instance.CreateCardInSlot(
-					CardLoader.GetCardByName(GrimoraPlugin.NameBonelord), oppSlots[2], 0.2f
+					CardLoader.GetCardByName(NameBonelord), oppSlots[2], 0.2f
 				);
 				yield return new WaitForSeconds(0.25f);
 
@@ -95,7 +104,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 				foreach (CardSlot cardSlot in oppSlots)
 				{
 					yield return BoardManager.Instance.CreateCardInSlot(
-						CardLoader.GetCardByName(GrimoraPlugin.NameSkeletonArmy), cardSlot, 0.2f
+						CardLoader.GetCardByName(NameSkeletonArmy), cardSlot, 0.2f
 					);
 
 					yield return new WaitForSeconds(0.25f);
@@ -107,10 +116,10 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			}
 			case 2:
 			{
-				GrimoraPlugin.Log.LogDebug($"[GrimoraBoss] Clearing board");
+				Log.LogDebug($"[GrimoraBoss] Clearing board");
 				yield return base.ClearBoard();
 
-				GrimoraPlugin.Log.LogDebug($"[GrimoraBoss] Clearing queue");
+				Log.LogDebug($"[GrimoraBoss] Clearing queue");
 				yield return base.ClearQueue();
 
 				var playerCardSlots = CardSlotUtils.GetPlayerSlotsWithCards();
@@ -136,6 +145,26 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 					yield return new WaitForSeconds(0.75f);
 				}
+				
+				var oppCardSlots = BoardManager.Instance.OpponentSlotsCopy;
+					
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					"BEHOLD, MY LATEST CREATIONS! THE TWIN GIANTS!",
+					letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
+				);
+					
+				ViewManager.Instance.SwitchToView(View.OpponentQueue, immediate: false, lockAfter: true);
+					
+				foreach (var i in new List<int>() {1,3})
+				{
+					yield return BoardManager.Instance.CreateCardInSlot(
+						CardLoader.GetCardByName(NameGiant), oppCardSlots[i], 0.2f
+					);
+				}
+
+				yield return new WaitForSeconds(0.25f);
+					
+				ViewManager.Instance.SwitchToView(View.Default, immediate: false, lockAfter: true);
 
 				break;
 			}
