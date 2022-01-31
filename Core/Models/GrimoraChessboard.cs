@@ -379,12 +379,14 @@ public class GrimoraChessboard
 				break;
 			}
 			case ChessboardChestPiece chestPiece:
+			{
 				if (specialNodeData is not null)
 				{
 					chestPiece.NodeData = specialNodeData;
 				}
 
 				break;
+			}
 		}
 
 		piece.name = nameTemp;
@@ -394,6 +396,6 @@ public class GrimoraChessboard
 		ChessboardNavGrid.instance.zones[x, y].GetComponent<ChessboardMapNode>().OccupyingPiece = piece;
 		return piece as T;
 	}
-}
 
-#endregion
+	#endregion
+}
