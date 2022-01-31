@@ -168,9 +168,18 @@ public class CardBuilder
 
 	internal CardBuilder SetIceCube(string iceCubeName)
 	{
+		CardInfo cardToLoad = null;
+		try
+		{
+			cardToLoad = CardLoader.GetCardByName(iceCubeName);
+		}
+		catch (Exception e)
+		{
+			cardToLoad = NewCard.cards.Single(_ => _.name.Equals(iceCubeName));
+		}
 		_cardInfo.iceCubeParams = new()
 		{
-			creatureWithin = CardLoader.GetCardByName(iceCubeName)
+			creatureWithin = cardToLoad
 		};
 
 		return this;
@@ -178,10 +187,20 @@ public class CardBuilder
 
 	internal CardBuilder SetEvolve(string evolveInto, int numberOfTurns)
 	{
+		CardInfo cardToLoad = null;
+		try
+		{
+			cardToLoad = CardLoader.GetCardByName(evolveInto);
+		}
+		catch (Exception e)
+		{
+			cardToLoad = NewCard.cards.Single(_ => _.name.Equals(evolveInto));
+		}
+		
 		_cardInfo.evolveParams = new()
 		{
 			turnsToEvolve = numberOfTurns,
-			evolution = CardLoader.GetCardByName(evolveInto)
+			evolution = cardToLoad
 		};
 		return this;
 	}
