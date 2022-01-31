@@ -109,4 +109,16 @@ public class GravestoneCardAnimationControllerPatches
 				: Quaternion.Euler(0, 270, 90); // left of the opponent slot
 		}
 	}
+
+	[HarmonyPrefix, HarmonyPatch(nameof(GravestoneCardAnimationController.PlayDeathAnimation))]
+	public static bool Prefix(GravestoneCardAnimationController __instance, bool playSound = true)
+	{
+		if (__instance.PlayableCard is not null)
+		{
+			return true;
+		}
+
+		__instance.PlayGlitchOutAnimation();
+		return false;
+	}
 }
