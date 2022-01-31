@@ -166,7 +166,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			CardInfo cardInfo = CardLoader.Clone(CardLoader.GetCardByName(cardName));
 			CardBuilder builder = CardBuilder.Builder
 				.SetAsNormalCard()
-				.SetAbilities(cardInfo.abilities)
+				.SetAbilities(cardInfo.abilities.ToArray())
 				.SetBaseAttackAndHealth(cardInfo.baseAttack, cardInfo.baseHealth)
 				.SetBoneCost(cardInfo.bonesCost)
 				.SetDescription(cardInfo.description)
