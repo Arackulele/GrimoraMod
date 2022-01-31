@@ -11,6 +11,7 @@ public class GrimoraChessboard
 	public readonly List<ChessNode> BlockerNodes;
 	public readonly ChessNode BossNode;
 	public readonly List<ChessNode> ChestNodes;
+	public readonly List<ChessNode> CardRemovalNodes;
 	public readonly List<ChessNode> EnemyNodes;
 	public readonly List<ChessNode> OpenPathNodes;
 	public readonly ChessNode PlayerNode;
@@ -24,10 +25,11 @@ public class GrimoraChessboard
 
 	public GrimoraChessboard(IEnumerable<List<int>> board, int indexInList)
 	{
-		this.Rows = board.Select((_board, idx) => new ChessRow(_board, idx)).ToList();
+		this.Rows = board.Select((boardList, idx) => new ChessRow(boardList, idx)).ToList();
 		this.BlockerNodes = GetBlockerNodes();
 		this.BossNode = GetBossNode();
 		this.ChestNodes = GetChestNodes();
+		this.CardRemovalNodes = GetCardRemovalNodes();
 		this.EnemyNodes = GetEnemyNodes();
 		this.OpenPathNodes = GetOpenPathNodes();
 		this.PlayerNode = GetPlayerNode();
@@ -57,6 +59,11 @@ public class GrimoraChessboard
 	private ChessNode GetBossNode()
 	{
 		return Rows.SelectMany(row => row.GetNodesOfType(4)).Single();
+	}
+	
+	private List<ChessNode> GetCardRemovalNodes()
+	{
+		return Rows.SelectMany(row => row.GetNodesOfType(5)).ToList();
 	}
 
 	public ChessNode GetPlayerNode()
