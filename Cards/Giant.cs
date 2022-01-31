@@ -23,7 +23,7 @@ public partial class GrimoraPlugin
 			.SetTraits(Trait.Giant)
 			// .SetDescription("A vicious pile of bones. You can have it...")
 			.Build()
-			// , specialAbilitiesIdsParam: new List<SpecialAbilityIdentifier> { sbIds.id }
+			, specialAbilitiesIdsParam: new List<SpecialAbilityIdentifier> { sbIds.id }
 		);
 	}
 }
@@ -62,14 +62,11 @@ public class GrimoraGiant : SpecialCardBehaviour
 	}
 }
 
-// [HarmonyPatch]
+[HarmonyPatch]
 public class ModifyLocalPositionsOfTableObjects
 {
 	[HarmonyPostfix,
-	 HarmonyPatch(
-		 typeof(BoardManager3D),
-		 nameof(BoardManager3D.TransitionAndResolveCreatedCard)
-	 )
+	 HarmonyPatch(typeof(BoardManager3D), nameof(BoardManager3D.TransitionAndResolveCreatedCard))
 	]
 	public static IEnumerator ChangeScaleOfMoonCardToFitAcrossAllSlots(
 		IEnumerator enumerator, PlayableCard card, CardSlot slot,
@@ -77,14 +74,15 @@ public class ModifyLocalPositionsOfTableObjects
 	{
 		if (SaveManager.SaveFile.IsGrimora && card.Info.HasTrait(Trait.Giant))
 		{
-			// GrimoraPlugin.Log.LogDebug($"Setting new scaling and position of Giant");
+			GrimoraPlugin.Log.LogDebug($"Setting new scaling and position of [{card.Info.name}]");
 			// Card -> RotatingParent -> TombstoneParent -> Cardbase_StatsLayer
 			// UnityEngine.GameObject cardBase = __result.transform.GetChild(0).GetChild(0).GetChild(0).gameObject;
 
-			card.transform.GetChild(0).GetChild(0).GetChild(0).localPosition = new Vector3(-0.65f, 1.25f, 0f);
+			card.transform.GetChild(0).localPosition = new Vector3(-0.7f, 1.25f, 0f);
 			// GrimoraPlugin.Log.LogDebug($"Successfully set new localPosition for the giant");
 
-			card.transform.GetChild(0).GetChild(0).GetChild(0).localScale = new UnityEngine.Vector3(1.4f, 1.25f, 0.2f);
+			card.GetComponentInChildren<GravestoneRenderStatsLayer>()
+					.transform.localScale = new UnityEngine.Vector3(1.4f, 1.25f, 0.2f);
 			// GrimoraPlugin.Log.LogDebug($"Successfully set new scaling for the giant");
 		}
 
