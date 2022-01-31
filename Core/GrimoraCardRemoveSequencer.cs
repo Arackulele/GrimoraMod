@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using Pixelplacement;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 using Random = UnityEngine.Random;
@@ -214,209 +215,78 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 	{
 		float rngValue = Random.value;
 
-		CardInfo cardThatWillHaveEffectApplied = null;
+		CardInfo cardThatWillHaveEffectApplied = BoonsUtil.CreateCardForBoon(BoonData.Type.StartingBones);
 		switch (rngValue)
 		{
 			// decrease entire deck by 1
 			case <= 0.005f:
 			{
 				// grimora_deck_decrease_cost
-				var cardsWithoutMod = GetCardsWithoutMod("grimora_deck_decrease_cost");
-
-				if (cardsWithoutMod.Count != 0)
-				{
-					cardsWithoutMod.ForEach(info => info.mods.Add(new CardModificationInfo()
-						{ bonesCostAdjustment = -1, singletonId = "grimora_deck_decrease_cost" }));
-
-					StartCoroutine(TextDisplayer.Instance.ShowUntilInput(
-						$"... WHAT? WHY DID YOU DO THAT BONE LORD?! [c:bR]DECREASING THE COST OF THE ENTIRE DECK?![c:] YOU FOOL!",
-						-0.65f,
-						0.4f,
-						Emotion.Anger,
-						TextDisplayer.LetterAnimation.WavyJitter
-					));
-				}
-				else
-				{
-					StartCoroutine(TextDisplayer.Instance.ShowUntilInput(
-						$"THAT'S UNFORTUNATE. YOU WERE SUPPOSED TO HAVE YOUR ENTIRE DECK DECREASED, BUT IT LOOKS LIKE THE BONE LORD HAS ALREADY GIFTED YOU THAT. BEGONE!",
-						-0.65f,
-						0.4f,
-						Emotion.Anger,
-						TextDisplayer.LetterAnimation.WavyJitter
-					));
-				}
+				cardThatWillHaveEffectApplied = ApplyEffectToCard(
+					"grimora_deck_bones_decrease",
+					$"... WHAT? WHY DID YOU DO THAT BONE LORD?! [c:bR]DECREASING THE COST OF THE ENTIRE DECK?![c:] YOU FOOL!",
+					$"THAT'S UNFORTUNATE. YOU WERE SUPPOSED TO HAVE YOUR ENTIRE DECK DECREASED, BUT IT LOOKS LIKE THE BONE LORD HAS ALREADY GIFTED YOU THAT. BEGONE!",
+					false
+				);
 
 				break;
 			}
 			// increase entire deck by 1
 			case <= 0.01f:
 			{
-				var cardsWithoutMod = GetCardsWithoutMod("grimora_deck_increase_cost");
-
-				if (cardsWithoutMod.Count != 0)
-				{
-					cardsWithoutMod.ForEach(info => info.mods.Add(new CardModificationInfo()
-						{ bonesCostAdjustment = 1, singletonId = "grimora_deck_increase_cost" }));
-
-					StartCoroutine(TextDisplayer.Instance.ShowUntilInput(
-						$"OH MY, THE BONE LORD SEEMS TO HAVE NO EMPATHY TODAY. [c:bR]INCREASING THE COST OF YOUR ENTIRE DECK BY 1[c:], I AM QUITE CURIOUS HOW YOU'LL SURVIVE NOW.",
-						-0.65f,
-						0.4f,
-						Emotion.Neutral,
-						TextDisplayer.LetterAnimation.WavyJitter
-					));
-				}
-				else
-				{
-					StartCoroutine(TextDisplayer.Instance.ShowUntilInput(
-						$"YOU'RE QUITE LUCKY. THE BONE LORD [c:bR]WANTED[c:] TO INCREASE YOUR ENTIRE DECK BY 1, BUT I FELT THAT WAS A BIT HARSH SINCE IT ALREADY HAS HAPPENED. YOU BEST THANK ME.",
-						-0.65f,
-						0.4f,
-						Emotion.Neutral,
-						TextDisplayer.LetterAnimation.WavyJitter
-					));
-				}
+				cardThatWillHaveEffectApplied = ApplyEffectToCard(
+					"grimora_deck_bones_increase",
+					$"OH MY, THE BONE LORD SEEMS TO HAVE NO EMPATHY TODAY. [c:bR]INCREASING THE COST OF YOUR ENTIRE DECK BY 1[c:], I AM QUITE CURIOUS HOW YOU'LL SURVIVE NOW.",
+					$"YOU'RE QUITE LUCKY. THE BONE LORD [c:bR]WANTED[c:] TO INCREASE YOUR ENTIRE DECK BY 1, BUT I FELT THAT WAS A BIT HARSH SINCE IT ALREADY HAS HAPPENED. YOU BEST THANK ME.",
+					false
+				);
 
 				break;
 			}
 			// bone increase = 9%~
 			case <= 0.10f:
 			{
-				var cardsWithoutMod = GetCardsWithoutMod("grimora_bones_increase");
-
-				if (cardsWithoutMod.Count != 0)
-				{
-					var chosenCard = cardsWithoutMod[0];
-					cardThatWillHaveEffectApplied = chosenCard;
-
-					chosenCard.mods.Add(
-						new CardModificationInfo() { bonesCostAdjustment = 1, singletonId = "grimora_bones_increase" }
-					);
-
-					StartCoroutine(TextDisplayer.Instance.ShowUntilInput(
-						$"I hope this doesn't hurt too much. [c:bR]{chosenCard.displayedName}[c:] cost has increased!",
-						-0.65f,
-						0.4f,
-						Emotion.Neutral,
-						TextDisplayer.LetterAnimation.WavyJitter
-					));
-				}
-				else
-				{
-					StartCoroutine(TextDisplayer.Instance.ShowUntilInput(
-						$"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]INCREASE THEIR BONE COST[c:], HOW SAD. NOW PLEASE LEAVE.",
-						-0.65f,
-						0.4f,
-						Emotion.Neutral,
-						TextDisplayer.LetterAnimation.WavyJitter
-					));
-				}
+				cardThatWillHaveEffectApplied = ApplyEffectToCard(
+					"grimora_card_bones_increase",
+					$"I hope this doesn't hurt too much. [c:bR]{0}[c:] cost has increased!",
+					$"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]INCREASE THEIR BONE COST[c:], HOW SAD. NOW PLEASE LEAVE."
+				);
 
 				break;
 			}
 			// bone reduce = 20% of the time
 			case <= 0.30f:
 			{
-				var cardsWithoutMod = GetCardsWithoutMod("grimora_bones_reduce", info => info.BonesCost > 0);
-
-				if (cardsWithoutMod.Count != 0)
-				{
-					var chosenCard = cardsWithoutMod[0];
-					cardThatWillHaveEffectApplied = chosenCard;
-
-					chosenCard.mods.Add(
-						new CardModificationInfo() { bonesCostAdjustment = -1, singletonId = "grimora_bones_reduce" }
-					);
-
-					StartCoroutine(TextDisplayer.Instance.ShowUntilInput(
-						$"Oh dear, it looks like [c:bR]{chosenCard.displayedName}[c:] cost has decreased!",
-						-0.65f,
-						0.4f,
-						Emotion.Neutral,
-						TextDisplayer.LetterAnimation.WavyJitter
-					));
-				} 
-				else
-				{
-					StartCoroutine(TextDisplayer.Instance.ShowUntilInput(
-						$"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]REDUCE THEIR BONE COST[c:], HOW SAD. NOW PLEASE LEAVE.",
-						-0.65f,
-						0.4f,
-						Emotion.Neutral,
-						TextDisplayer.LetterAnimation.WavyJitter
-					));
-				}
+				cardThatWillHaveEffectApplied = ApplyEffectToCard(
+					"grimora_card_bones_decrease",
+					$"Oh dear, it looks like [c:bR]{0}[c:] cost has decreased!",
+					$"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]REDUCE THEIR BONE COST[c:], HOW SAD. NOW PLEASE LEAVE.",
+					cardInfoPredicate: info => info.BonesCost > 0
+				);
 
 				break;
 			}
 			// card gains 1 HP = 10%?
 			case <= 40f:
 			{
-				var cardsWithoutMod = GetCardsWithoutMod("grimora_health_increase", info => info.Health > 0);
-
-				if (cardsWithoutMod.Count != 0)
-				{
-					var chosenCard = cardsWithoutMod[0];
-					cardThatWillHaveEffectApplied = chosenCard;
-
-					chosenCard.mods.Add(
-						new CardModificationInfo() { healthAdjustment = 1, singletonId = "grimora_health_increase" }
-					);
-
-					StartCoroutine(TextDisplayer.Instance.ShowUntilInput(
-						$"The Bone Lord has been generous. [c:bR]{chosenCard.displayedName}[c:] base health has increased!",
-						-0.65f,
-						0.4f,
-						Emotion.Neutral,
-						TextDisplayer.LetterAnimation.WavyJitter
-					));
-				}
-				else
-				{
-					StartCoroutine(TextDisplayer.Instance.ShowUntilInput(
-						$"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]GAIN HP[c:], HOW SAD. NOW PLEASE LEAVE.",
-						-0.65f,
-						0.4f,
-						Emotion.Neutral,
-						TextDisplayer.LetterAnimation.WavyJitter
-					));
-				}
+				cardThatWillHaveEffectApplied = ApplyEffectToCard(
+					"grimora_card_health_increase",
+					$"The Bone Lord has been generous. [c:bR]{0}[c:] base health has increased!",
+					$"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]GAIN HP[c:], HOW SAD. NOW PLEASE LEAVE.",
+					cardInfoPredicate: info => info.Health > 0
+				);
 
 				break;
 			}
 			// card loses 1 HP = 10%?
 			case <= 50f:
 			{
-				var cardsWithoutMod = GetCardsWithoutMod("grimora_health_decrease", info => info.Health > 1);
-
-				if (cardsWithoutMod.Count != 0)
-				{
-					var chosenCard = cardsWithoutMod[0];
-					cardThatWillHaveEffectApplied = chosenCard;
-
-					chosenCard.mods.Add(
-						new CardModificationInfo() { healthAdjustment = -1, singletonId = "grimora_health_decrease" }
-					);
-
-					StartCoroutine(TextDisplayer.Instance.ShowUntilInput(
-						$"Be glad the Bone Lord doesn't take more. [c:bR]{chosenCard.displayedName}[c:] base health has decreased!",
-						-0.65f,
-						0.4f,
-						Emotion.Neutral,
-						TextDisplayer.LetterAnimation.WavyJitter
-					));
-				}
-				else
-				{
-					StartCoroutine(TextDisplayer.Instance.ShowUntilInput(
-						$"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]LOSE HP[c:], HOW SAD. NOW PLEASE LEAVE.",
-						-0.65f,
-						0.4f,
-						Emotion.Neutral,
-						TextDisplayer.LetterAnimation.WavyJitter
-					));
-				}
+				cardThatWillHaveEffectApplied = ApplyEffectToCard(
+					"grimora_card_health_decrease",
+					$"Be glad the Bone Lord doesn't take more. [c:bR]{0}[c:] base health has decreased!",
+					$"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]LOSE HP[c:], HOW SAD. NOW PLEASE LEAVE.",
+					cardInfoPredicate: info => info.Health > 1
+				);
 
 				break;
 			}
@@ -424,16 +294,85 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 		GrimoraSaveData.Data.deck.UpdateModDictionary();
 
-		return cardThatWillHaveEffectApplied ??= BoonsUtil.CreateCardForBoon(BoonData.Type.StartingBones);
+		return cardThatWillHaveEffectApplied;
 	}
 
-	private List<CardInfo> GetCardsWithoutMod(string singletonId, Predicate<CardInfo> cardInfoPredicate = null)
+	private static List<CardInfo> GetCardsWithoutMod(string singletonId, Predicate<CardInfo> cardInfoPredicate = null)
 	{
 		return GrimoraSaveData.Data.deck.Cards
 			.Where(info => (cardInfoPredicate is null || cardInfoPredicate.Invoke(info))
 			               && !info.mods.Exists(mod => mod.singletonId == singletonId))
 			.Randomize()
 			.ToList();
+	}
+
+	private CardModificationInfo GetModInfoFromSingletonId(string singletonId)
+	{
+		string[] splitSingleton = singletonId.Split('_');
+		string whatToApplyTo = splitSingleton[2];
+		string whetherIncreaseOrDecrease = splitSingleton[3];
+		var modificationInfo = new CardModificationInfo();
+
+		int howMuchToAdjust = whetherIncreaseOrDecrease.Equals("increase") ? 1 : -1;
+
+		if (whatToApplyTo.Equals("health"))
+		{
+			modificationInfo.healthAdjustment = howMuchToAdjust;
+		}
+		else
+		{
+			modificationInfo.bonesCostAdjustment = howMuchToAdjust;
+		}
+
+		return modificationInfo;
+	}
+
+	private CardInfo ApplyEffectToCard(
+		string singletonId,
+		string dialogueOnAtLeastOneCard,
+		string dialogueNoCardsChosen,
+		bool isForSingleCard = true,
+		Predicate<CardInfo> cardInfoPredicate = null
+	)
+	{
+		var modificationInfo = GetModInfoFromSingletonId(singletonId);
+
+		List<CardInfo> cards = GetCardsWithoutMod(singletonId, cardInfoPredicate);
+
+		CardInfo cardToReturn = BoonsUtil.CreateCardForBoon(BoonData.Type.StartingBones);
+		if (cards.IsNullOrEmpty())
+		{
+			StartCoroutine(TextDisplayer.Instance.ShowUntilInput(
+				dialogueNoCardsChosen,
+				-0.65f,
+				0.4f,
+				Emotion.Neutral,
+				TextDisplayer.LetterAnimation.WavyJitter
+			));
+		}
+		else
+		{
+			if (isForSingleCard)
+			{
+				cardToReturn = cards[0];
+				cardToReturn.mods.Add(modificationInfo);
+				dialogueOnAtLeastOneCard = dialogueOnAtLeastOneCard.Replace("{0}", $"{cardToReturn.displayedName}");
+			}
+			else
+			{
+				cards.ForEach(info => info.mods.Add(modificationInfo));
+			}
+
+			StartCoroutine(TextDisplayer.Instance.ShowUntilInput(
+				dialogueOnAtLeastOneCard,
+				-0.65f,
+				0.4f,
+				Emotion.Neutral,
+				TextDisplayer.LetterAnimation.WavyJitter
+			));
+		}
+
+		return cardToReturn;
 	}
 
 	private new void OnSlotSelected(MainInputInteractable slot)
@@ -445,7 +384,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		(slot as SelectCardFromDeckSlot).SelectFromCards(GetValidCards(), OnSelectionEnded, false);
 	}
 
-	private new List<CardInfo> GetValidCards()
+	private new static List<CardInfo> GetValidCards()
 	{
 		return new List<CardInfo>(GrimoraSaveData.Data.deck.Cards);
 	}
