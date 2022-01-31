@@ -31,7 +31,7 @@ public class Erratic : Strafe
 		CardSlot destination = movingLeft ? toLeft : toRight;
 		Log.LogDebug($"[Erratic] Moving from slot [{base.Card.Slot.Index}] to slot [{destination.Index}]");
 		yield return StartCoroutine(MoveToSlot(destination, true));
-		if (destination is not null)
+		if (destination != null)
 		{
 			yield return PreSuccessfulTriggerSequence();
 			yield return LearnAbility();
