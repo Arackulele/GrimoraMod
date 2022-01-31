@@ -321,19 +321,22 @@ public class BaseGameFlowManagerPatches
 
 			ext = ChessboardMap.Instance.gameObject.AddComponent<ChessboardMapExt>();
 
+			Log.LogDebug($"[ChangeChessboardToExtendedClass] Transferring over fields to new extension class");
 			ext.dynamicElementsParent = boardComp.dynamicElementsParent;
 			ext.mapAnim = boardComp.mapAnim;
 			ext.navGrid = boardComp.navGrid;
 			ext.pieces = new List<ChessboardPiece>();
 			ext.defaultPosition = boardComp.defaultPosition;
 
-			// GrimoraPlugin.Log.LogDebug($"Destroying old chessboard component");
+			Log.LogDebug($"[ChangeChessboardToExtendedClass] Destroying old chessboard component");
 			Object.Destroy(boardComp);
 
+			Log.LogDebug($"[ChangeChessboardToExtendedClass] Getting initial starting pieces");
 			var initialStartingPieces = Object.FindObjectsOfType<ChessboardPiece>();
 			// Log.LogDebug($"[ChangeChessboardToExtendedClass] Resetting initial pieces" +
 			//              $" {string.Join(", ", initialStartingPieces.Select(_ => _.name))}");
 
+			Log.LogDebug($"[ChangeChessboardToExtendedClass] Destroying initial pieces");
 			foreach (var piece in initialStartingPieces)
 			{
 				ext.pieces.Remove(piece);
