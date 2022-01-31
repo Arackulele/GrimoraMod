@@ -12,13 +12,13 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(GameFlowManager))]
 public class BaseGameFlowManagerPatches
 {
-	private static readonly GameObject PrefabGrimoraSelectableCard =
+	private static GameObject PrefabGrimoraSelectableCard =>
 		ResourceBank.Get<GameObject>("Prefabs/Cards/SelectableCard_Grimora");
 
-	private static readonly GameObject PrefabGrimoraPlayableCard =
+	private static GameObject PrefabGrimoraPlayableCard =>
 		ResourceBank.Get<GameObject>("Prefabs/Cards/PlayableCard_Grimora");
 
-	private static readonly GameObject PrefabGrimoraCardBack =
+	private static GameObject PrefabGrimoraCardBack =>
 		ResourceBank.Get<GameObject>("Prefabs/Cards/CardBack_Grimora");
 
 	private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
