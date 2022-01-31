@@ -8,7 +8,7 @@ using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
-// [HarmonyPatch(typeof(RareCardBackground), nameof(RareCardBackground.ApplyAppearance))]
+// [HarmonyPatch]
 public class CardAppearanceBehaviourPatch
 {
 	public static Texture2D GravestoneGold = GravestoneTexture();
@@ -22,13 +22,29 @@ public class CardAppearanceBehaviourPatch
 		return texture;
 	}
 
-	[HarmonyPrefix]
+	[HarmonyPrefix, HarmonyPatch(typeof(RareCardBackground), nameof(RareCardBackground.ApplyAppearance))]
 	public static bool CorrectBehaviourForGrimora(ref RareCardBackground __instance)
 	{
 		if (!SaveManager.SaveFile.IsGrimora)
 		{
 			return true;
 		}
+
+		var renderer = __instance.Card.GetComponentInChildren<GravestoneRenderStatsLayer>();
+		renderer.Material.SetTexture(Albedo, GravestoneGold);
+		Log.LogDebug($"[RareCardBackground] {renderer} Set new gravestone layer for rare cards");
+
+		return false;
+	}
+
+	[HarmonyPrefix, HarmonyPatch(typeof(GiantAnimatedPortrait), nameof(GiantAnimatedPortrait.ApplyAppearance))]
+	public static bool GiantTesting(GiantAnimatedPortrait __instance)
+	{
+		if (!SaveManager.SaveFile.IsGrimora)
+		{
+			return true;
+		}
+		__instance.ApplyAppearance();
 
 		var renderer = __instance.Card.GetComponentInChildren<GravestoneRenderStatsLayer>();
 		renderer.Material.SetTexture(Albedo, GravestoneGold);
