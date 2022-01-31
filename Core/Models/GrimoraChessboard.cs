@@ -194,6 +194,7 @@ public class GrimoraChessboard
 
 	public static ChessboardPiece GetPieceAtSpace(int x, int y)
 	{
+		// Log.LogDebug($"[GetPieceAtSpace] Getting piece at space x{x}y{y}");
 		return GetNodeAtSpace(x, y).OccupyingPiece;
 	}
 
@@ -341,7 +342,7 @@ public class GrimoraChessboard
 				{
 					nameTemp = nameTemp.Replace("Enemy", "Boss");
 					ActiveBossType = BaseBossExt.BossTypesByString.GetValueSafe(id);
-					Log.LogDebug($"[CreateChessPiece] id is not null, setting ActiveBossType to [{ActiveBossType}]]");
+					Log.LogDebug($"[CreateChessPiece] id is not null, setting ActiveBossType to [{id}]");
 					enemyPiece.blueprint = BlueprintUtils.BossInitialBlueprints[id];
 				}
 				else
