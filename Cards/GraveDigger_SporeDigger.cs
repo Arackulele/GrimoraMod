@@ -26,15 +26,9 @@ public partial class GrimoraPlugin
 
 	private void AddAra_SporeDigger()
 	{
-		List<Ability> abilities = new List<Ability>
-		{
-			Ability.BoneDigger,
-			Ability.BoneDigger
-		};
-
 		NewCard.Add(CardBuilder.Builder
 			.SetAsRareCard()
-			.SetAbilities(abilities)
+			.SetAbilities(Ability.BoneDigger, Ability.BoneDigger)
 			.SetBaseAttackAndHealth(0, 3)
 			.SetBoneCost(1)
 			.SetDescription("An excellent digger.")
