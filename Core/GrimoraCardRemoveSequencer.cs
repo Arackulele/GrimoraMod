@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using HarmonyLib;
 using Pixelplacement;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -224,8 +225,8 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 				// grimora_deck_decrease_cost
 				cardThatWillHaveEffectApplied = ApplyEffectToCard(
 					"grimora_deck_bones_decrease",
-					$"... WHAT? WHY DID YOU DO THAT BONE LORD?! [c:bR]DECREASING THE COST OF THE ENTIRE DECK?![c:] YOU FOOL!",
-					$"THAT'S UNFORTUNATE. YOU WERE SUPPOSED TO HAVE YOUR ENTIRE DECK DECREASED, BUT IT LOOKS LIKE THE BONE LORD HAS ALREADY GIFTED YOU THAT. BEGONE!",
+					"... WHAT? WHY DID YOU DO THAT BONE LORD?! [c:bR]DECREASING THE COST OF THE ENTIRE DECK?![c:] YOU FOOL!",
+					"THAT'S UNFORTUNATE. YOU WERE SUPPOSED TO HAVE YOUR ENTIRE DECK DECREASED, BUT IT LOOKS LIKE THE BONE LORD HAS ALREADY GIFTED YOU THAT. BEGONE!",
 					false
 				);
 
@@ -236,8 +237,8 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			{
 				cardThatWillHaveEffectApplied = ApplyEffectToCard(
 					"grimora_deck_bones_increase",
-					$"OH MY, THE BONE LORD SEEMS TO HAVE NO EMPATHY TODAY. [c:bR]INCREASING THE COST OF YOUR ENTIRE DECK BY 1[c:], I AM QUITE CURIOUS HOW YOU'LL SURVIVE NOW.",
-					$"YOU'RE QUITE LUCKY. THE BONE LORD [c:bR]WANTED[c:] TO INCREASE YOUR ENTIRE DECK BY 1, BUT I FELT THAT WAS A BIT HARSH SINCE IT ALREADY HAS HAPPENED. YOU BEST THANK ME.",
+					"OH MY, THE BONE LORD SEEMS TO HAVE NO EMPATHY TODAY. [c:bR]INCREASING THE COST OF YOUR ENTIRE DECK BY 1[c:], I AM QUITE CURIOUS HOW YOU'LL SURVIVE NOW.",
+					"YOU'RE QUITE LUCKY. THE BONE LORD [c:bR]WANTED[c:] TO INCREASE YOUR ENTIRE DECK BY 1, BUT I FELT THAT WAS A BIT HARSH SINCE IT ALREADY HAS HAPPENED. YOU BEST THANK ME.",
 					false
 				);
 
@@ -248,8 +249,8 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			{
 				cardThatWillHaveEffectApplied = ApplyEffectToCard(
 					"grimora_card_bones_increase",
-					$"I hope this doesn't hurt too much. [c:bR]{0}[c:] cost has increased!",
-					$"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]INCREASE THEIR BONE COST[c:], HOW SAD. NOW PLEASE LEAVE."
+					"I hope this doesn't hurt too much. [c:bR]{0}[c:] cost has increased!",
+					"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]INCREASE THEIR BONE COST[c:], HOW SAD. NOW PLEASE LEAVE."
 				);
 
 				break;
@@ -259,8 +260,8 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			{
 				cardThatWillHaveEffectApplied = ApplyEffectToCard(
 					"grimora_card_bones_decrease",
-					$"Oh dear, it looks like [c:bR]{0}[c:] cost has decreased!",
-					$"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]REDUCE THEIR BONE COST[c:], HOW SAD. NOW PLEASE LEAVE.",
+					"Oh dear, it looks like [c:bR]{0}[c:] cost has decreased!",
+					"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]REDUCE THEIR BONE COST[c:], HOW SAD. NOW PLEASE LEAVE.",
 					cardInfoPredicate: info => info.BonesCost > 0
 				);
 
@@ -271,8 +272,8 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			{
 				cardThatWillHaveEffectApplied = ApplyEffectToCard(
 					"grimora_card_health_increase",
-					$"The Bone Lord has been generous. [c:bR]{0}[c:] base health has increased!",
-					$"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]GAIN HP[c:], HOW SAD. NOW PLEASE LEAVE.",
+					"The Bone Lord has been generous. [c:bR]{0}[c:] base health has increased!",
+					"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]GAIN HP[c:], HOW SAD. NOW PLEASE LEAVE.",
 					cardInfoPredicate: info => info.Health > 0
 				);
 
@@ -283,8 +284,8 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			{
 				cardThatWillHaveEffectApplied = ApplyEffectToCard(
 					"grimora_card_health_decrease",
-					$"Be glad the Bone Lord doesn't take more. [c:bR]{0}[c:] base health has decreased!",
-					$"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]LOSE HP[c:], HOW SAD. NOW PLEASE LEAVE.",
+					"Be glad the Bone Lord doesn't take more. [c:bR]{0}[c:] base health has decreased!",
+					"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]LOSE HP[c:], HOW SAD. NOW PLEASE LEAVE.",
 					cardInfoPredicate: info => info.Health > 1
 				);
 
@@ -297,7 +298,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		return cardThatWillHaveEffectApplied;
 	}
 
-	private static List<CardInfo> GetCardsWithoutMod(string singletonId, Predicate<CardInfo> cardInfoPredicate = null)
+	private List<CardInfo> GetCardsWithoutMod(string singletonId, Predicate<CardInfo> cardInfoPredicate = null)
 	{
 		return GrimoraSaveData.Data.deck.Cards
 			.Where(info => (cardInfoPredicate is null || cardInfoPredicate.Invoke(info))
@@ -384,7 +385,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		(slot as SelectCardFromDeckSlot).SelectFromCards(GetValidCards(), OnSelectionEnded, false);
 	}
 
-	private new static List<CardInfo> GetValidCards()
+	private new List<CardInfo> GetValidCards()
 	{
 		return new List<CardInfo>(GrimoraSaveData.Data.deck.Cards);
 	}
