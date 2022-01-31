@@ -3,6 +3,7 @@ using BepInEx;
 using BepInEx.Configuration;
 using DiskCardGame;
 using Sirenix.Utilities;
+using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -143,6 +144,14 @@ public class ConfigHelper
 						NewAbility.abilities.Where(ab => ab.id.ToString().StartsWith(PluginGuid)).Select(_ => _.info)
 					)
 					.ToList();
+			}
+
+			GameObject cardRow = GameObject.Find("CardRow");
+			if (cardRow is not null && cardRow.transform.Find("MenuCard_Grimora") is null)
+			{
+				StartScreenThemeSetterPatches.AddGrimoraModMenuCardButton(
+					Object.FindObjectOfType<StartScreenThemeSetter>()
+				);
 			}
 		}
 	}
