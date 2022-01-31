@@ -411,11 +411,18 @@ public class BaseGameFlowManagerPatches
 			$"GameState [{gameState}]"
 		);
 
-		// This is required because Unity takes a second to update
-		while (ChessboardMapExt.Instance is null)
+		if(ChessboardMapExt.Instance is null)
 		{
-			Log.LogDebug($"[TransitionTo] Waiting until MapExt is no longer null");
-			yield return new WaitForSeconds(0.25f);
+			// This is required because Unity takes a second to update
+			while (ChessboardMapExt.Instance is null)
+			{
+				Log.LogDebug($"[TransitionTo] Waiting until MapExt is no longer null");
+				yield return new WaitForSeconds(0.25f);
+			}
+
+			// we just want to run this once, not each time the transition happens
+			Log.LogDebug($"[TransitionTo] Calling SetAnimActiveIfInactive()");
+			ChessboardMapExt.Instance.SetAnimActiveIfInactive();
 		}
 
 		Log.LogDebug($"[TransitionTo] Getting bosses defeated");

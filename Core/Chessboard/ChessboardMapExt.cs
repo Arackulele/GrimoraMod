@@ -17,6 +17,15 @@ public class ChessboardMapExt : ChessboardMap
 
 	public new static ChessboardMapExt Instance => GameMap.Instance as ChessboardMapExt;
 
+	public void SetAnimActiveIfInactive()
+	{
+		GameObject anim = Instance.gameObject.transform.GetChild(0).gameObject;
+		if (!anim.activeInHierarchy)
+		{
+			anim.SetActive(true);
+		}
+	}
+
 	public ChessboardEnemyPiece BossPiece => ActiveChessboard.BossPiece;
 
 	private bool ChangingRegion { get; set; }
