@@ -175,16 +175,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		AllSpriteAssets = spritesBundle.LoadAllAssets<Sprite>();
 		spritesBundle.Unload(false);
-
-		// Log.LogDebug($"Abilities textures loaded {string.Join(",", AllAbilityAssets.Select(_ => _.name))}");
-		// Log.LogDebug($"Sprites loaded {string.Join(",", AllSpriteAssets.Select(spr => spr.name))}");
-		// try
-		// {
-		// }
-		// catch (Exception e)
-		// {
-		// 	Log.LogWarning($"Asset bundles already exist");
-		// }
 	}
 
 	private static void UnlockAllNecessaryEventsToPlay()
