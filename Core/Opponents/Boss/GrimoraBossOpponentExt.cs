@@ -144,7 +144,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		ViewManager.Instance.SwitchToView(View.OpponentQueue, immediate: false, lockAfter: true);
 
 		CardInfo modifiedGiant = CardLoader.GetCardByName(NameGiant);
-		modifiedGiant.abilities = new List<Ability>() { Ability.AllStrike };
+		modifiedGiant.abilities = new List<Ability>() { Ability.AllStrike, Ability.Reach };
 		modifiedGiant.specialAbilities.Add(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility);
 
 		yield return BoardManager.Instance.CreateCardInSlot(modifiedGiant, oppSlots[1], 0.2f);
