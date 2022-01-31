@@ -55,7 +55,7 @@ public class BaseGameFlowManagerPatches
 
 		// giantPrefab.transform.GetChild(0).GetChild(0).GetChild(0).localPosition = new Vector3(-0.65f, 1.25f, 0f);
 		// giantPrefab.transform.GetChild(0).GetChild(0).GetChild(0).localScale = new Vector3(1f, 1.175f, 0.2f);
-		// CardSpawner.Instance.giantPlayableCardPrefab = PrefabGrimoraPlayableCardGiant;
+		CardSpawner.Instance.giantPlayableCardPrefab = PrefabGrimoraPlayableCard;
 
 
 		AddCardRemoveSequencer();
