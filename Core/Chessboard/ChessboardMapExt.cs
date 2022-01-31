@@ -53,6 +53,24 @@ public class ChessboardMapExt : ChessboardMap
 			return _chessboards;
 		}
 	}
+	
+	public void LoadData()
+	{
+		if (_chessboards == null)
+		{
+			Log.LogDebug($"[ChessboardMapExt] Loading json boards");
+			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("GrimoraChessboardsStatic.json"));
+
+			_chessboards = ParseJson(
+				SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString)
+			);
+		}
+	}
+
+	private static List<GrimoraChessboard> ParseJson(IEnumerable<List<List<int>>> chessboardsFromJson)
+	{
+		return chessboardsFromJson.Select((board, idx) => new GrimoraChessboard(board, idx)).ToList();
+	}
 
 	private void Start()
 	{
@@ -101,24 +119,6 @@ public class ChessboardMapExt : ChessboardMap
 		{
 			ConfigHelper.ResetDeck();
 		}
-	}
-
-	public void LoadData()
-	{
-		if (_chessboards == null)
-		{
-			Log.LogDebug($"[ChessboardMapExt] Loading json boards");
-			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("GrimoraChessboardsStatic.json"));
-
-			_chessboards = ParseJson(
-				SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString)
-			);
-		}
-	}
-
-	private static List<GrimoraChessboard> ParseJson(IEnumerable<List<List<int>>> chessboardsFromJson)
-	{
-		return chessboardsFromJson.Select((board, idx) => new GrimoraChessboard(board, idx)).ToList();
 	}
 
 	public IEnumerator CompleteRegionSequence()
