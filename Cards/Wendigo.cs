@@ -9,15 +9,9 @@ public partial class GrimoraPlugin
 
 	private void AddAra_Wendigo()
 	{
-		List<Ability> abilities = new List<Ability>
-		{
-			Ability.DebuffEnemy,
-			Ability.Strafe
-		};
-
 		NewCard.Add(CardBuilder.Builder
 			.SetAsRareCard()
-			.SetAbilities(abilities)
+			.SetAbilities(Ability.DebuffEnemy, Ability.Strafe)
 			.SetBaseAttackAndHealth(2, 2)
 			.SetBoneCost(5)
 			.SetDescription("A sense of dread consumes you as you realize you are not alone in these woods.")

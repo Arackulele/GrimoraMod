@@ -120,7 +120,7 @@ public class CardBuilder
 
 	internal CardBuilder SetAsNormalCard()
 	{
-		return SetMetaCategories(CardUtils.getNormalCardMetadata);
+		return SetMetaCategories(CardMetaCategory.ChoiceNode, CardMetaCategory.TraderOffer);
 	}
 
 	internal CardBuilder SetAsRareCard()
@@ -134,62 +134,69 @@ public class CardBuilder
 		return this;
 	}
 
-	internal CardBuilder SetMetaCategories(CardMetaCategory category)
+	internal CardBuilder SetMetaCategories(params CardMetaCategory[] categories)
 	{
-		return SetMetaCategories(new List<CardMetaCategory>() { category });
-	}
+		_cardInfo.metaCategories = _cardInfo.metaCategories ?? new();
+		foreach (var app in categories)
+			if (!_cardInfo.metaCategories.Contains(app))
+				_cardInfo.metaCategories.Add(app);
 
-	internal CardBuilder SetMetaCategories(List<CardMetaCategory> categories)
-	{
-		_cardInfo.metaCategories = categories;
 		return this;
 	}
 
-	internal CardBuilder SetAbilities(Ability ability)
+	internal CardBuilder SetAbilities(params Ability[] abilities)
 	{
-		return SetAbilities(new List<Ability>() { ability });
-	}
+		_cardInfo.abilities = _cardInfo.abilities ?? new();
+		_cardInfo.abilities.AddRange(abilities);
 
-	internal CardBuilder SetAbilities(Ability ability1, Ability ability2)
-	{
-		return SetAbilities(new List<Ability>() { ability1, ability2 });
-	}
-
-	internal CardBuilder SetAbilities(Ability ability1, Ability ability2, Ability ability3)
-	{
-		return SetAbilities(new List<Ability>() { ability1, ability2, ability3 });
-	}
-
-	internal CardBuilder SetAbilities(List<Ability> abilities)
-	{
-		_cardInfo.abilities = abilities;
 		return this;
 	}
 
-	internal CardBuilder SetAbilities(SpecialTriggeredAbility ability)
+	internal CardBuilder SetAbilities(params SpecialTriggeredAbility[] specialTriggeredAbilities)
 	{
-		return SetAbilities(new List<SpecialTriggeredAbility>() { ability });
-	}
+		_cardInfo.specialAbilities = _cardInfo.specialAbilities ?? new();
+		foreach (var ability in specialTriggeredAbilities)
+		{
+			if (!_cardInfo.specialAbilities.Contains(ability))
+			{
+				_cardInfo.specialAbilities.Add(ability);
+			}
+		}
 
-	internal CardBuilder SetAbilities(SpecialTriggeredAbility ability1, SpecialTriggeredAbility ability2)
-	{
-		return SetAbilities(new List<SpecialTriggeredAbility>() { ability1, ability2 });
-	}
-
-	internal CardBuilder SetAbilities(List<SpecialTriggeredAbility> abilities)
-	{
-		_cardInfo.specialAbilities = abilities;
 		return this;
 	}
 
-	internal CardBuilder SetTraits(Trait trait)
+	internal CardBuilder SetIceCube(string iceCubeName)
 	{
-		return SetTraits(new List<Trait>() { trait });
+		_cardInfo.iceCubeParams = new()
+		{
+			creatureWithin = CardLoader.GetCardByName(iceCubeName)
+		};
+
+		return this;
 	}
 
-	internal CardBuilder SetTraits(List<Trait> traits)
+	internal CardBuilder SetEvolve(string evolveInto, int numberOfTurns)
 	{
-		_cardInfo.traits = traits;
+		_cardInfo.evolveParams = new()
+		{
+			turnsToEvolve = numberOfTurns,
+			evolution = CardLoader.GetCardByName(evolveInto)
+		};
+		return this;
+	}
+
+	internal CardBuilder SetTraits(params Trait[] traits)
+	{
+		_cardInfo.traits = _cardInfo.traits ?? new();
+		foreach (var trait in traits)
+		{
+			if (!_cardInfo.traits.Contains(trait))
+			{
+				_cardInfo.traits.Add(trait);
+			}
+		}
+
 		return this;
 	}
 
