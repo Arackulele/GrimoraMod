@@ -36,13 +36,18 @@ public static class FileUtils
 		Log.LogDebug($"[CheckIfDirectoriesNeededExist] Both directories exist! Continuing loading rest of mod.");
 	}
 
-	public static byte[] ReadFileAsBytes(string file)
+	public static byte[] ReadFileAsBytes(string file, bool isPng = false)
 	{
-		return File.ReadAllBytes(FindFileInPluginDir(file));
+		return File.ReadAllBytes(FindFileInPluginDir(file, isPng));
 	}
 
-	public static string FindFileInPluginDir(string file)
+	public static string FindFileInPluginDir(string file, bool isPng = false)
 	{
+		if (isPng && !file.EndsWith(".png"))
+		{
+			file += ".png";
+		}
+		
 		Log.LogDebug($"Looking for file [{file}]");
 		try
 		{
