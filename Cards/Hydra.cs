@@ -9,15 +9,9 @@ public partial class GrimoraPlugin
 
 	private void AddAra_Hydra()
 	{
-		List<Ability> abilities = new List<Ability>
-		{
-			Ability.DrawCopyOnDeath,
-			Ability.TriStrike
-		};
-
 		NewCard.Add(CardBuilder.Builder
 			.SetAsRareCard()
-			.SetAbilities(abilities)
+			.SetAbilities(Ability.DrawCopyOnDeath, Ability.TriStrike)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(5)
 			.SetDescription("Described by some as the truest nightmare.")
