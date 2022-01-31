@@ -15,7 +15,7 @@ public static class FileUtils
 	private static string GetDir()
 	{
 		return ConfigHelper.Instance.isHotReloadEnabled
-			? Path.Combine(Paths.BepInExRootPath, "plugins/Arackulele-GrimoraMod")
+			? Path.Combine(Paths.BepInExRootPath, "plugins", "Arackulele-GrimoraMod")
 			: Assembly.GetExecutingAssembly().Location.Replace("GrimoraMod.dll", "");
 	}
 
