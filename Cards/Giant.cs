@@ -3,6 +3,7 @@ using APIPlugin;
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -74,15 +75,15 @@ public class ModifyLocalPositionsOfTableObjects
 	{
 		if (SaveManager.SaveFile.IsGrimora && card.Info.HasTrait(Trait.Giant))
 		{
-			GrimoraPlugin.Log.LogDebug($"Setting new scaling and position of [{card.Info.name}]");
+			Log.LogDebug($"Setting new scaling and position of [{card.Info.name}]");
 			// Card -> RotatingParent -> TombstoneParent -> Cardbase_StatsLayer
-			// UnityEngine.GameObject cardBase = __result.transform.GetChild(0).GetChild(0).GetChild(0).gameObject;
-
-			card.transform.GetChild(0).localPosition = new Vector3(-0.7f, 1.25f, 0f);
+			UnityEngine.Transform rotatingParent = card.transform.GetChild(0);
+			Log.LogDebug($"Transforming [{rotatingParent.name}]");
+			
+			rotatingParent.localPosition = new Vector3(-0.7f, 1.05f, 0f);
 			// GrimoraPlugin.Log.LogDebug($"Successfully set new localPosition for the giant");
 
-			card.GetComponentInChildren<GravestoneRenderStatsLayer>()
-					.transform.localScale = new UnityEngine.Vector3(1.4f, 1.25f, 0.2f);
+			rotatingParent.localScale = new UnityEngine.Vector3(2.1f, 2.1f, 1f);
 			// GrimoraPlugin.Log.LogDebug($"Successfully set new scaling for the giant");
 		}
 
