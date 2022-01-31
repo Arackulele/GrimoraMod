@@ -152,18 +152,26 @@ public class BaseGameFlowManagerPatches
 	{
 		// TODO: This will work, but it doesn't show the boon art correctly.
 
-		Log.LogDebug($"Creating card remove sequencer");
+		if (SpecialNodeHandler is null || SpecialNodeHandler.cardRemoveSequencer is not null)
+		{
+			return;
+		}
+		
+		Log.LogDebug($"[AddCardRemoveSequencer] Creating card remove sequencer");
 		GameObject cardRemoveSequencerObj = UnityEngine.Object.Instantiate(
 			ResourceBank.Get<GameObject>("Prefabs/SpecialNodeSequences/CardRemoveSequencer"),
 			SpecialNodeHandler.transform
 		);
+		cardRemoveSequencerObj.name = cardRemoveSequencerObj.name.Replace("(Clone)", "_Grimora"); 
 
+		Log.LogDebug($"[AddCardRemoveSequencer] Adding new card remove sequencer component");
+		SpecialNodeHandler.cardRemoveSequencer = cardRemoveSequencerObj.AddComponent<GrimoraCardRemoveSequencer>();
+		
 		var oldRemoveSequencer = cardRemoveSequencerObj.GetComponent<CardRemoveSequencer>();
-
-		Log.LogDebug($"Adding new card remove sequencer component");
-		var cardRemoveSequencer = cardRemoveSequencerObj.gameObject.AddComponent<GrimoraCardRemoveSequencer>();
-
-		Log.LogDebug($"Setting prefabs");
+		
+		var cardRemoveSequencer = SpecialNodeHandler.cardRemoveSequencer;
+		
+		Log.LogDebug($"[AddCardRemoveSequencer] Setting prefabs");
 		cardRemoveSequencer.gamepadGrid = oldRemoveSequencer.gamepadGrid;
 		cardRemoveSequencer.selectableCardPrefab = PrefabGrimoraSelectableCard;
 		cardRemoveSequencer.confirmStone = oldRemoveSequencer.confirmStone;
@@ -173,14 +181,13 @@ public class BaseGameFlowManagerPatches
 		cardRemoveSequencer.skullEyes = oldRemoveSequencer.skullEyes;
 		cardRemoveSequencer.stoneCircleAnim = oldRemoveSequencer.stoneCircleAnim;
 
-		cardRemoveSequencer.GetComponentInChildren<SelectableCardArray>().selectableCardPrefab =
-			PrefabGrimoraSelectableCard;
+		cardRemoveSequencer.GetComponentInChildren<SelectableCardArray>().selectableCardPrefab = PrefabGrimoraSelectableCard;
 
-		Log.LogDebug($"Setting card backs");
+		Log.LogDebug($"[AddCardRemoveSequencer] Setting card backs");
 		cardRemoveSequencer.deckPile = oldRemoveSequencer.deckPile;
 		cardRemoveSequencer.deckPile.cardbackPrefab = PrefabGrimoraCardBack;
 
-		Log.LogDebug($"Destroying old sequencer");
+		Log.LogDebug($"[AddCardRemoveSequencer] Destroying old sequencer");
 		UnityEngine.Object.Destroy(oldRemoveSequencer);
 
 		SpecialNodeHandler.cardRemoveSequencer = cardRemoveSequencer;
@@ -206,11 +213,12 @@ public class BaseGameFlowManagerPatches
 		{
 			graveDisplayer.decalRenderers.Add(cardDecals.transform.GetChild(i).GetComponent<MeshRenderer>());
 		}
+		
+		Log.LogDebug($"[AddCardRemoveSequencer] Finished adding AddCardRemoveSequencer");
 	}
 
 	internal static void AddHammer()
 	{
-
 		GameObject managerObj = Object.FindObjectOfType<GrimoraItemsManager>().gameObject;
 		GrimoraItemsManager currentItemsManager = managerObj.GetComponent<GrimoraItemsManager>();
 		
@@ -353,31 +361,29 @@ public class BaseGameFlowManagerPatches
 
 	private static void AddRareCardSequencerToScene()
 	{
-		SpecialNodeHandler specialNodeHandler = Object.FindObjectOfType<SpecialNodeHandler>();
-
 		// GrimoraPlugin.Log.LogDebug($"Creating RareCardChoiceSelector");
 
-		if (specialNodeHandler is not null)
+		if (SpecialNodeHandler is null || SpecialNodeHandler.rareCardChoiceSequencer is not null)
 		{
-			if (specialNodeHandler.rareCardChoiceSequencer is null)
-			{
-				GameObject rareCardChoicesSelector = Object.Instantiate(
-					ResourceBank.Get<GameObject>("Prefabs/SpecialNodeSequences/RareCardChoiceSelector"),
-					specialNodeHandler.transform
-				);
-
-				RareCardChoicesSequencer sequencer = rareCardChoicesSelector.GetComponent<RareCardChoicesSequencer>();
-
-				// GrimoraPlugin.Log.LogDebug($"-> Setting RareCardChoicesSequencer choice generator to Part1RareChoiceGenerator");
-				sequencer.choiceGenerator = rareCardChoicesSelector.AddComponent<GrimoraRareChoiceGenerator>();
-
-				// GrimoraPlugin.Log.LogDebug($"-> Setting RareCardChoicesSequencer selectableCardPrefab to SelectableCard_Grimora");
-				sequencer.selectableCardPrefab = PrefabGrimoraSelectableCard;
-
-				// GrimoraPlugin.Log.LogDebug($"-> Setting SpecialNodeHandler rareCardChoiceSequencer to sequencer");
-				specialNodeHandler.rareCardChoiceSequencer = sequencer;
-			}
+			return;
 		}
+
+		GameObject rareCardChoicesSelector = Object.Instantiate(
+			ResourceBank.Get<GameObject>("Prefabs/SpecialNodeSequences/RareCardChoiceSelector"),
+			SpecialNodeHandler.transform
+		);
+		rareCardChoicesSelector.name = rareCardChoicesSelector.name.Replace("(Clone)", "_Grimora");
+
+		RareCardChoicesSequencer sequencer = rareCardChoicesSelector.GetComponent<RareCardChoicesSequencer>();
+
+		// GrimoraPlugin.Log.LogDebug($"-> Setting RareCardChoicesSequencer choice generator to Part1RareChoiceGenerator");
+		sequencer.choiceGenerator = rareCardChoicesSelector.AddComponent<GrimoraRareChoiceGenerator>();
+
+		// GrimoraPlugin.Log.LogDebug($"-> Setting RareCardChoicesSequencer selectableCardPrefab to SelectableCard_Grimora");
+		sequencer.selectableCardPrefab = PrefabGrimoraSelectableCard;
+
+		// GrimoraPlugin.Log.LogDebug($"-> Setting SpecialNodeHandler rareCardChoiceSequencer to sequencer");
+		SpecialNodeHandler.rareCardChoiceSequencer = sequencer;
 	}
 
 
@@ -413,11 +419,11 @@ public class BaseGameFlowManagerPatches
 			}
 			else
 			{
-				// GrimoraPlugin.Log.LogDebug($"[TransitionTo] yield return the enumerator inside SaveFile");
+				GrimoraPlugin.Log.LogDebug($"[TransitionTo] yield return the enumerator inside SaveFile");
 				yield return enumerator;
 			}
 
-			// GrimoraPlugin.Log.LogDebug($"[TransitionTo] yield breaking");
+			GrimoraPlugin.Log.LogDebug($"[TransitionTo] yield breaking");
 			yield break;
 		}
 
