@@ -42,7 +42,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), PluginGuid);
 
 		ConfigHelper.Instance.BindConfig();
-		
+
 		LoadAssets();
 
 		UnlockAllNecessaryEventsToPlay();
@@ -151,6 +151,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private static void LoadAssets()
 	{
+		FileUtils.CheckIfDirectoriesNeededExist();
+
 		Log.LogDebug($"Loading asset bundles");
 
 		AssetBundle abilityBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_abilities"));
@@ -170,7 +172,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		// AllPrefabAssets = prefabsBundle.LoadAllAssets<GameObject>();
 		// prefabsBundle.Unload(false);
-		
+
 		AllSpriteAssets = spritesBundle.LoadAllAssets<Sprite>();
 		spritesBundle.Unload(false);
 
