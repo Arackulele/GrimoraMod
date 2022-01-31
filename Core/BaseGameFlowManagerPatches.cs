@@ -310,16 +310,16 @@ public class BaseGameFlowManagerPatches
 
 	private static void ChangeChessboardToExtendedClass()
 	{
-		// Log.LogDebug($"[ChangeChessboardToExtendedClass] Adding MapExt to ChessboardMapGameObject");
-		GameObject boardObj = GameObject.Find("ChessboardGameMap");
-		ChessboardMapExt ext = boardObj.gameObject.GetComponent<ChessboardMapExt>();
+		ChessboardMapExt ext = ChessboardMap.Instance.gameObject.GetComponent<ChessboardMapExt>();
+
+		Log.LogDebug($"[ChangeChessboardToExtendedClass] Adding MapExt to ChessboardMapGameObject");
 
 		if (ext is null)
 		{
 			Log.LogDebug($"[ChangeChessboardToExtendedClass] ChessboardMapExt is null");
-			ChessboardMap boardComp = boardObj.GetComponent<ChessboardMap>();
+			ChessboardMap boardComp = ChessboardMap.Instance.gameObject.GetComponent<ChessboardMap>();
 
-			ext = boardObj.gameObject.AddComponent<ChessboardMapExt>();
+			ext = ChessboardMap.Instance.gameObject.AddComponent<ChessboardMapExt>();
 
 			ext.dynamicElementsParent = boardComp.dynamicElementsParent;
 			ext.mapAnim = boardComp.mapAnim;
