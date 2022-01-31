@@ -137,19 +137,23 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
 
 		yield return TextDisplayer.Instance.ShowUntilInput(
-			"BEHOLD, MY LATEST CREATIONS! THE GIANTS!",
+			"BEHOLD, MY LATEST CREATIONS! THE TWIN GIANTS!",
 			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
 		);
 
 		ViewManager.Instance.SwitchToView(View.OpponentQueue, immediate: false, lockAfter: true);
 
-		foreach (var slot in oppSlots)
-		{
-			yield return BoardManager.Instance.CreateCardInSlot(
-				CardLoader.GetCardByName(NameGiant), slot, 0.2f
-			);
-			yield return new WaitForSeconds(0.3f);
-		}
+
+		CardInfo modifiedGiant = CardLoader.GetCardByName(NameGiant);
+		modifiedGiant.abilities = new List<Ability>() { Ability.AllStrike };
+		modifiedGiant.specialAbilities.Add(GrimoraGiant.SpecialTriggeredAbility);
+		
+
+		yield return BoardManager.Instance.CreateCardInSlot(modifiedGiant, oppSlots[1], 0.2f);
+		yield return new WaitForSeconds(0.5f);
+		yield return BoardManager.Instance.CreateCardInSlot(modifiedGiant, oppSlots[3], 0.2f);
+		yield return new WaitForSeconds(0.5f);
+		
 	}
 
 	public IEnumerator StartBoneLordPhase()
