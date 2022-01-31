@@ -55,7 +55,7 @@ public class ConfigHelper
 
 	private ConfigEntry<bool> _configHotReloadEnabled;
 
-	public bool issHotReloadEnabled => _configHotReloadEnabled.Value;
+	public bool isHotReloadEnabled => _configHotReloadEnabled.Value;
 
 	protected internal ConfigEntry<string> _configCurrentRemovedPieces;
 
