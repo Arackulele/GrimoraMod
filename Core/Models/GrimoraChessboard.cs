@@ -60,7 +60,7 @@ public class GrimoraChessboard
 	{
 		return Rows.SelectMany(row => row.GetNodesOfType(4)).Single();
 	}
-	
+
 	private List<ChessNode> GetCardRemovalNodes()
 	{
 		return Rows.SelectMany(row => row.GetNodesOfType(5)).ToList();
@@ -100,6 +100,7 @@ public class GrimoraChessboard
 			{
 				PlaceChestPiece(i, 0, new CardChoicesNodeData());
 				PlaceEnemyPiece(0, i);
+				PlaceCardRemovePiece(7, i);
 			}
 		}
 		else
@@ -225,6 +226,16 @@ public class GrimoraChessboard
 		return CreateEnemyPiece(x, y);
 	}
 
+	public List<ChessboardCardRemovePiece> PlaceCardRemovePieces()
+	{
+		return CardRemovalNodes.Select(node => CreateCardRemovePiece(node.GridX, node.GridY)).ToList();
+	}
+
+	public ChessboardCardRemovePiece PlaceCardRemovePiece(int x, int y)
+	{
+		return CreateCardRemovePiece(x, y);
+	}
+
 	public List<ChessboardEnemyPiece> PlaceEnemyPieces()
 	{
 		return EnemyNodes.Select(node => CreateEnemyPiece(node.GridX, node.GridY)).ToList();
@@ -237,6 +248,12 @@ public class GrimoraChessboard
 	private ChessboardEnemyPiece CreateBossPiece(string id, int x, int y)
 	{
 		return CreateBaseEnemyPiece(PrefabBossPiece, x, y, id);
+	}
+
+	private ChessboardCardRemovePiece CreateCardRemovePiece(int x, int y, SpecialNodeData specialNodeData = null)
+	{
+		// GrimoraPlugin.Log.LogDebug($"Attempting to create chest piece at x [{x}] y [{y}]");
+		return CreateChessPiece<ChessboardCardRemovePiece>(PrefabCardRemovePiece, x, y, specialNodeData: specialNodeData);
 	}
 
 	private ChessboardChestPiece CreateChestPiece(int x, int y, SpecialNodeData specialNodeData = null)
