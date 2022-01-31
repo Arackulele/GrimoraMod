@@ -170,6 +170,19 @@ public class GrimoraChessboard
 	public static ChessboardChestPiece PrefabChestPiece =>
 		ResourceBank.Get<ChessboardChestPiece>($"{PrefabPath}/ChessboardChestPiece");
 
+	public static readonly ChessboardCardRemovePiece PrefabCardRemovePiece = CreateCardRemovePiece();
+
+	public static ChessboardCardRemovePiece CreateCardRemovePiece()
+	{
+		GameObject knife = ResourceBank.Get<GameObject>($"Prefabs/SpecialNodeSequences/SkinningKnife");
+		knife.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+		Vector3 vLocalPosition = knife.transform.localPosition;
+		knife.transform.localPosition = new Vector3(vLocalPosition.x, 1.4f, vLocalPosition.z);
+		ChessboardCardRemovePiece piece = knife.AddComponent<ChessboardCardRemovePiece>();
+		piece.anim = PrefabChestPiece.anim;
+		return piece;
+	}
+
 	#endregion
 
 	#region HelperMethods
