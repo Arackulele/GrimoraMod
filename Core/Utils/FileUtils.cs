@@ -13,7 +13,7 @@ public static class FileUtils
 	{
 		return ConfigHelper.Instance.isHotReloadEnabled 
 			? Path.Combine(Paths.BepInExRootPath, "plugins/Arackulele-GrimoraMod")
-			: Paths.PluginPath.Replace("GrimoraMod.dll", "");
+			: Assembly.GetExecutingAssembly().Location.Replace("GrimoraMod.dll", "");
 	}
 
 	public static byte[] ReadFileAsBytes(string file)
