@@ -23,10 +23,6 @@ public class BaseGameFlowManagerPatches
 
 	private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
 
-	private static GameObject ChessboardGameMap => GameObject.Find("ChessboardGameMap");
-	
-	private static SpecialNodeHandler SpecialNodeHandler => Object.FindObjectOfType<SpecialNodeHandler>();
-
 	private static GameObject SetupSelectableCard()
 	{
 		GameObject selectable = ResourceBank.Get<GameObject>("Prefabs/Cards/SelectableCard_Grimora");
@@ -41,6 +37,10 @@ public class BaseGameFlowManagerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(GameFlowManager.Start))]
 	public static void PrefixStart(GameFlowManager __instance)
 	{
+		if (!SaveManager.SaveFile.IsGrimora)
+		{
+			return;
+		}
 		// GameObject giantPrefab = ResourceBank.Get<GameObject>("Prefabs/Cards/PlayableCard_Grimora");
 		// giantPrefab.name += "_Giant";
 		//
@@ -52,34 +52,31 @@ public class BaseGameFlowManagerPatches
 		// giantPrefab.transform.GetChild(0).GetChild(0).GetChild(0).localScale = new Vector3(1f, 1.175f, 0.2f);
 		CardSpawner.Instance.giantPlayableCardPrefab = PrefabGrimoraPlayableCard;
 
-		// Log.LogDebug($"[GameFlowManager.Start] Instance is [{__instance.GetType()}]" +
-		//              $" Board Already exists? [{boardObj is not null}]");
-		if (SaveManager.SaveFile.IsGrimora && ChessboardGameMap is not null)
-		{
-			AddCardRemoveSequencer();
+		Log.LogDebug($"[GameFlowManager.Start] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");
 
-			AddDeckReviewSequencerToScene();
+		AddCardRemoveSequencer();
 
-			AddEnergyDrone();
+		AddDeckReviewSequencerToScene();
 
-			AddHammer();
+		AddEnergyDrone();
 
-			AddRareCardSequencerToScene();
+		AddHammer();
 
-			ChangeChessboardToExtendedClass();
+		AddRareCardSequencerToScene();
 
-			ChangeStartDeckIfNotAlreadyChanged();
+		ChangeChessboardToExtendedClass();
 
-			// AddBoonLordBoonConsumable();
+		ChangeStartDeckIfNotAlreadyChanged();
 
-			// AddCustomEnergy();
-		}
+		// AddBoonLordBoonConsumable();
+
+		// AddCustomEnergy();
 	}
 
 	public static void AddBoonLordBoonConsumable()
 	{
 		Log.LogDebug($"Adding Boon Lord Consumable");
-		GameObject ramSkull = UnityEngine.Object.Instantiate(
+		GameObject ramSkull = Object.Instantiate(
 			ResourceBank.Get<GameObject>("Art/Assets3D/NodeSequences/GoatSkull/RamSkull_NoHorn"),
 			new Vector3(4.59f, 4.8f, 0),
 			Quaternion.Euler(270, 235, 0)
@@ -92,7 +89,7 @@ public class BaseGameFlowManagerPatches
 		Log.LogDebug($"Setting runtime controller");
 		ramSkull.AddComponent<Animator>().runtimeAnimatorController =
 			ResourceBank.Get<RuntimeAnimatorController>("Animation/Items/ItemAnim");
-		
+
 		Log.LogDebug($"Adding BoneLordSkull class");
 		ramSkull.AddComponent<BoneLordSkull>();
 
@@ -111,7 +108,7 @@ public class BaseGameFlowManagerPatches
 			Log.LogDebug($"Adding consumable in ItemsUtil.allData");
 			ItemsUtil.allData.Add(itemData);
 		}
-		
+
 		// Log.LogDebug($"Updating items");
 		// GrimoraItemsManagerExt.Instance.UpdateItems();
 	}
@@ -152,15 +149,15 @@ public class BaseGameFlowManagerPatches
 	{
 		// TODO: This will work, but it doesn't show the boon art correctly.
 
-		if (SpecialNodeHandler is null || SpecialNodeHandler.cardRemoveSequencer is not null)
+		if (SpecialNodeHandler.Instance is null || SpecialNodeHandler.Instance.cardRemoveSequencer is not null)
 		{
 			return;
 		}
-		
+
 		Log.LogDebug($"[AddCardRemoveSequencer] Creating card remove sequencer");
 		GameObject cardRemoveSequencerObj = UnityEngine.Object.Instantiate(
 			ResourceBank.Get<GameObject>("Prefabs/SpecialNodeSequences/CardRemoveSequencer"),
-			SpecialNodeHandler.transform
+			SpecialNodeHandler.Instance.transform
 		);
 		cardRemoveSequencerObj.name = cardRemoveSequencerObj.name.Replace("(Clone)", "_Grimora"); 
 
@@ -213,22 +210,22 @@ public class BaseGameFlowManagerPatches
 		{
 			graveDisplayer.decalRenderers.Add(cardDecals.transform.GetChild(i).GetComponent<MeshRenderer>());
 		}
-		
+
+		SpecialNodeHandler.Instance.cardRemoveSequencer = cardRemoveSequencer;
 		Log.LogDebug($"[AddCardRemoveSequencer] Finished adding AddCardRemoveSequencer");
 	}
 
 	internal static void AddHammer()
 	{
-		GameObject managerObj = Object.FindObjectOfType<GrimoraItemsManager>().gameObject;
-		GrimoraItemsManager currentItemsManager = managerObj.GetComponent<GrimoraItemsManager>();
-		
-		GrimoraItemsManagerExt ext = managerObj.GetComponent<GrimoraItemsManagerExt>();
+		GrimoraItemsManager currentItemsManager = GrimoraItemsManager.Instance.GetComponent<GrimoraItemsManager>();
+
+		GrimoraItemsManagerExt ext = GrimoraItemsManager.Instance.GetComponent<GrimoraItemsManagerExt>();
 
 		if (ext is null)
 		{
-			Log.LogDebug($"Creating hammer and GrimoraItemsManagerExt");
-			
-			ext = managerObj.AddComponent<GrimoraItemsManagerExt>();
+			Log.LogDebug($"[AddHammer] Creating hammer and GrimoraItemsManagerExt");
+
+			ext = GrimoraItemsManager.Instance.gameObject.AddComponent<GrimoraItemsManagerExt>();
 			ext.consumableSlots = currentItemsManager.consumableSlots;
 
 			Part3ItemsManager part3ItemsManager = Object.Instantiate(
@@ -236,36 +233,37 @@ public class BaseGameFlowManagerPatches
 			);
 
 			part3ItemsManager.hammerSlot.transform.SetParent(ext.transform);
-			
+
 			ext.HammerSlot = part3ItemsManager.hammerSlot;
-			
+
 			float xVal = Harmony.HasAnyPatches("julianperge.inscryption.act1.increaseCardSlots") ? -8.75f : -7.5f;
 			ext.HammerSlot.gameObject.transform.localPosition = new Vector3(xVal, 0.81f, -0.48f);
 			ext.HammerSlot.gameObject.transform.rotation = Quaternion.Euler(270f, 315f, 0f);
-			
-			Log.LogDebug($"Destroying old part3ItemsManager");
+
+			Log.LogDebug($"[AddHammer] Destroying old part3ItemsManager");
 			Object.Destroy(part3ItemsManager);
 		}
 
 		if (GameObject.Find("ItemsManager_Part3(Clone)"))
 		{
-			Log.LogDebug($"Destroying existing part3ItemsManager");
+			Log.LogDebug($"[AddHammer] Destroying existing part3ItemsManager");
 			Object.Destroy(GameObject.Find("ItemsManager_Part3(Clone)"));
 		}
+
+		Log.LogDebug($"[AddHammer] Finished adding hammer");
 	}
 
 	private static void AddEnergyDrone()
 	{
-		BoardManager3D boardManager = Object.FindObjectOfType<BoardManager3D>();
 		ResourceDrone resourceEnergy = Object.FindObjectOfType<ResourceDrone>();
 
-		if (boardManager is not null && resourceEnergy is null)
+		if (BoardManager3D.Instance is not null && resourceEnergy is null)
 		{
 			resourceEnergy = Object.Instantiate(
 				ResourceBank.Get<ResourceDrone>("Prefabs/CardBattle/ResourceModules"),
 				new Vector3(5.3f, 5.5f, 1.92f),
 				Quaternion.Euler(270f, 0f, -146.804f),
-				boardManager.transform
+				BoardManager3D.Instance.gameObject.transform
 			);
 
 			Color grimoraTextColor = new Color(0.420f, 1f, 0.63f);
@@ -320,6 +318,7 @@ public class BaseGameFlowManagerPatches
 
 		if (ext is null)
 		{
+			Log.LogDebug($"[ChangeChessboardToExtendedClass] ChessboardMapExt is null");
 			ChessboardMap boardComp = boardObj.GetComponent<ChessboardMap>();
 
 			ext = boardObj.gameObject.AddComponent<ChessboardMapExt>();
@@ -345,17 +344,18 @@ public class BaseGameFlowManagerPatches
 				Object.Destroy(piece.gameObject);
 			}
 		}
+
+		Log.LogDebug($"[ChangeChessboardToExtendedClass] Finished adding ChessboardMapExt");
 	}
 
 	private static void AddDeckReviewSequencerToScene()
 	{
-		DeckReviewSequencer deckReviewSequencer = Object.FindObjectOfType<DeckReviewSequencer>();
-
-		if (deckReviewSequencer is not null)
+		if (DeckReviewSequencer.Instance is not null)
 		{
 			// DeckReviewSequencer reviewSequencer = deckReviewSequencerObj.GetComponent<DeckReviewSequencer>();
-			SelectableCardArray cardArray = deckReviewSequencer.GetComponentInChildren<SelectableCardArray>();
+			SelectableCardArray cardArray = DeckReviewSequencer.Instance.GetComponentInChildren<SelectableCardArray>();
 			cardArray.selectableCardPrefab = PrefabGrimoraSelectableCard;
+			Log.LogDebug($"[AddRareCardSequencerToScene] Creating new rare choice generator");
 		}
 	}
 
@@ -363,14 +363,15 @@ public class BaseGameFlowManagerPatches
 	{
 		// GrimoraPlugin.Log.LogDebug($"Creating RareCardChoiceSelector");
 
-		if (SpecialNodeHandler is null || SpecialNodeHandler.rareCardChoiceSequencer is not null)
+		if (SpecialNodeHandler.Instance is null || SpecialNodeHandler.Instance.rareCardChoiceSequencer is not null)
 		{
 			return;
 		}
 
+		Log.LogDebug($"[AddRareCardSequencerToScene] Creating new rare choice generator");
 		GameObject rareCardChoicesSelector = Object.Instantiate(
 			ResourceBank.Get<GameObject>("Prefabs/SpecialNodeSequences/RareCardChoiceSelector"),
-			SpecialNodeHandler.transform
+			SpecialNodeHandler.Instance.transform
 		);
 		rareCardChoicesSelector.name = rareCardChoicesSelector.name.Replace("(Clone)", "_Grimora");
 
@@ -383,9 +384,9 @@ public class BaseGameFlowManagerPatches
 		sequencer.selectableCardPrefab = PrefabGrimoraSelectableCard;
 
 		// GrimoraPlugin.Log.LogDebug($"-> Setting SpecialNodeHandler rareCardChoiceSequencer to sequencer");
-		SpecialNodeHandler.rareCardChoiceSequencer = sequencer;
+		SpecialNodeHandler.Instance.rareCardChoiceSequencer = sequencer;
+		Log.LogDebug($"[AddRareCardSequencerToScene] Finished adding GrimoraRareChoiceGenerator");
 	}
-
 
 	[HarmonyPostfix, HarmonyPatch(nameof(GameFlowManager.TransitionTo))]
 	public static IEnumerator PostfixGameLogicPatch(
@@ -421,7 +422,7 @@ public class BaseGameFlowManagerPatches
 		Log.LogDebug($"[TransitionTo] Getting existing pieces");
 		bool piecesExist = !ChessboardMapExt.Instance.pieces.IsNullOrEmpty();
 
-			Log.LogDebug($"[TransitionTo] IsBossDefeated [{isBossDefeated}] Pieces exist [{piecesExist}]");
+		Log.LogDebug($"[TransitionTo] IsBossDefeated [{isBossDefeated}] Pieces exist [{piecesExist}]");
 
 		// FOR ENUMS IN POSTFIX CALLS, THE OPERATOR TO USE IS 'IS' NOT '==' 
 		// CORRECT  : gameState is GameState.Map
