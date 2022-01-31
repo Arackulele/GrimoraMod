@@ -397,38 +397,45 @@ public class BaseGameFlowManagerPatches
 		bool unlockViewAfterTransition = true
 	)
 	{
-		Log.LogDebug($"[GameFlowManager.TransitionTo] Current state is [{__instance.CurrentGameState}]");
-
-		if (SaveManager.SaveFile.IsGrimora)
+		if (!SaveManager.SaveFile.IsGrimora || gameState is not GameState.Map)
 		{
-			Log.LogDebug($"[TransitionTo] Getting bosses defeated");
-			bool isBossDefeated = ChessboardMapExt.Instance.BossDefeated;
-			Log.LogDebug($"[TransitionTo] Getting existing pieces");
-			bool piecesExist = !ChessboardMapExt.Instance.pieces.IsNullOrEmpty();
-
-			Log.LogDebug($"[TransitionTo] IsBossDefeated [{isBossDefeated}] Pieces exist [{piecesExist}]");
-
-			// FOR ENUMS IN POSTFIX CALLS, THE OPERATOR TO USE IS 'IS' NOT '==' 
-			// CORRECT  : gameState is GameState.Map
-			// INCORRECT: gameState == GameState.Map
-			if (gameState is GameState.Map && piecesExist && isBossDefeated)
-			{
-				yield return ChessboardMapExt.Instance.CompleteRegionSequence();
-
-				__instance.CurrentGameState = gameState;
-			}
-			else
-			{
-				GrimoraPlugin.Log.LogDebug($"[TransitionTo] yield return the enumerator inside SaveFile");
-				yield return enumerator;
-			}
-
-			GrimoraPlugin.Log.LogDebug($"[TransitionTo] yield breaking");
+			yield return enumerator;
 			yield break;
 		}
 
-		// GrimoraPlugin.Log.LogDebug($"[GameFlowManager.TransitionTo] GameState is [{gameState}]");
-		// GrimoraPlugin.Log.LogDebug($"[TransitionTo] yield return the enumerator");
-		yield return enumerator;
+		Log.LogDebug(
+			$"[GameFlowManager.TransitionTo] Instance {__instance} " +
+			$"Current state is [{__instance.CurrentGameState}] " +
+			$"GameState [{gameState}]"
+		);
+
+		// This is required because Unity takes a second to update
+		while (ChessboardMapExt.Instance is null)
+		{
+			Log.LogDebug($"[TransitionTo] Waiting until MapExt is no longer null");
+			yield return new WaitForSeconds(0.25f);
+		}
+
+		Log.LogDebug($"[TransitionTo] Getting bosses defeated");
+		bool isBossDefeated = ChessboardMapExt.Instance.BossDefeated;
+		Log.LogDebug($"[TransitionTo] Getting existing pieces");
+		bool piecesExist = !ChessboardMapExt.Instance.pieces.IsNullOrEmpty();
+
+			Log.LogDebug($"[TransitionTo] IsBossDefeated [{isBossDefeated}] Pieces exist [{piecesExist}]");
+
+		// FOR ENUMS IN POSTFIX CALLS, THE OPERATOR TO USE IS 'IS' NOT '==' 
+		// CORRECT  : gameState is GameState.Map
+		// INCORRECT: gameState == GameState.Map
+		if (piecesExist && isBossDefeated)
+		{
+			yield return ChessboardMapExt.Instance.CompleteRegionSequence();
+
+			__instance.CurrentGameState = gameState;
+		}
+		else
+		{
+			Log.LogDebug($"[TransitionTo] Returning enumerator since pieces dont exist and/or boss has not been defeated");
+			yield return enumerator;
+		}
 	}
 }
