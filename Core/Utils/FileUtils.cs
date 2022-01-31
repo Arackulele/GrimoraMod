@@ -6,10 +6,15 @@ namespace GrimoraMod;
 public static class FileUtils
 {
 	private static readonly string[] GrimoraPluginsDir = Directory.GetFiles(
-		Path.Combine(Paths.BepInExRootPath, "plugins/Arackulele-GrimoraMod"),
-		"*",
-		SearchOption.AllDirectories
+		GetDir(), "*", SearchOption.AllDirectories
 	);
+
+	private static string GetDir()
+	{
+		return ConfigHelper.Instance.isHotReloadEnabled 
+			? Path.Combine(Paths.BepInExRootPath, "plugins/Arackulele-GrimoraMod")
+			: Assembly.GetExecutingAssembly().Location.Replace("GrimoraMod.dll", "");
+	}
 
 	public static byte[] ReadFileAsBytes(string file)
 	{

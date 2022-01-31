@@ -41,9 +41,9 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), PluginGuid);
 
-		LoadAssets();
-
 		ConfigHelper.Instance.BindConfig();
+		
+		LoadAssets();
 
 		UnlockAllNecessaryEventsToPlay();
 
