@@ -38,28 +38,6 @@ public class GrimoraGiant : SpecialCardBehaviour
 		return new NewSpecialAbility(typeof(GrimoraGiant), sId);
 	}
 
-	public override bool RespondsToSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
-	{
-		return attacker.Slot.opposingSlot.Card == base.PlayableCard;
-	}
-
-	public override IEnumerator OnSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
-	{
-		if (attacker.HasAbility(Ability.Deathtouch))
-		{
-			Log.LogDebug($"Adding death shield for [{base.PlayableCard.Info.name}]");
-			base.PlayableCard.AddTemporaryMod(new CardModificationInfo()
-			{
-				abilities = new List<Ability>()
-				{
-					Ability.DeathShield
-				}
-			});
-		}
-
-		yield break;
-	}
-
 	public override bool RespondsToResolveOnBoard()
 	{
 		return true;
@@ -95,7 +73,9 @@ public class ModifyLocalPositionsOfTableObjects
 		IEnumerator enumerator, PlayableCard card, CardSlot slot,
 		float transitionLength, bool resolveTriggers = true)
 	{
-		if (SaveManager.SaveFile.IsGrimora && card.Info.HasTrait(Trait.Giant))
+		if (SaveManager.SaveFile.IsGrimora 
+		    && card.Info.HasTrait(Trait.Giant) 
+		    && card.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility))
 		{
 			Log.LogDebug($"Setting new scaling and position of [{card.Info.name}]");
 			// Card -> RotatingParent -> TombstoneParent -> Cardbase_StatsLayer
@@ -112,6 +92,17 @@ public class ModifyLocalPositionsOfTableObjects
 		yield return enumerator;
 	}
 }
+
+[HarmonyPatch]
+public class KayceeModLogicForDeathTouchPrevention
+{
+	[HarmonyPostfix, HarmonyPatch(typeof(Deathtouch), nameof(Deathtouch.RespondsToDealDamage))]
+	public static void AddLogicForDeathTouchToNotKillGiants(int amount, PlayableCard target, ref bool __result)
+	{
+		__result = __result && !target.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility);
+	}
+}
+
 
 [HarmonyPatch]
 public class CorrectLogicForAllStrikeAbility
