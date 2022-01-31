@@ -9,6 +9,8 @@ namespace GrimoraMod;
 
 public class ChessboardMapExt : ChessboardMap
 {
+	public List<ChessboardPiece> ActivePieces => pieces;
+	
 	public GrimoraChessboard ActiveChessboard { get; set; }
 
 	private List<GrimoraChessboard> _chessboards;
@@ -72,13 +74,14 @@ public class ChessboardMapExt : ChessboardMap
 		return chessboardsFromJson.Select((board, idx) => new GrimoraChessboard(board, idx)).ToList();
 	}
 
-	private void Start()
+	private void Awake()
 	{
-		// GrimoraPlugin.Log.LogDebug($"[MapExt] Setting on view changed");
+		Log.LogDebug($"[MapExt] Setting on view changed");
 		ViewManager instance = ViewManager.Instance;
 		instance.ViewChanged = (Action<View, View>)Delegate
 			.Combine(instance.ViewChanged, new Action<View, View>(OnViewChanged));
 
+		Log.LogDebug($"[MapExt] Adding debug helper");
 		gameObject.AddComponent<DebugHelper>();
 	}
 
@@ -186,7 +189,7 @@ public class ChessboardMapExt : ChessboardMap
 	{
 		TableRuleBook.Instance.SetOnBoard(false);
 
-		// Log.LogDebug($"[ChessboardMap.UnrollingSequence] Setting each piece game object active to false");
+		Log.LogDebug($"[UnrollingSequence] Setting each piece game object active to false");
 		Instance.pieces.ForEach(delegate(ChessboardPiece x) { x.gameObject.SetActive(false); });
 		// yield return new WaitForSeconds(0.5f);
 
