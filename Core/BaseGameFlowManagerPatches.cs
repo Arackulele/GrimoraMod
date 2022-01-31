@@ -155,19 +155,17 @@ public class BaseGameFlowManagerPatches
 		}
 
 		Log.LogDebug($"[AddCardRemoveSequencer] Creating card remove sequencer");
-		GameObject cardRemoveSequencerObj = UnityEngine.Object.Instantiate(
+		GameObject cardRemoveSequencerObj = Object.Instantiate(
 			ResourceBank.Get<GameObject>("Prefabs/SpecialNodeSequences/CardRemoveSequencer"),
 			SpecialNodeHandler.Instance.transform
 		);
-		cardRemoveSequencerObj.name = cardRemoveSequencerObj.name.Replace("(Clone)", "_Grimora"); 
+		cardRemoveSequencerObj.name = cardRemoveSequencerObj.name.Replace("(Clone)", "_Grimora");
+
+		var oldRemoveSequencer = cardRemoveSequencerObj.GetComponent<CardRemoveSequencer>();
 
 		Log.LogDebug($"[AddCardRemoveSequencer] Adding new card remove sequencer component");
-		SpecialNodeHandler.cardRemoveSequencer = cardRemoveSequencerObj.AddComponent<GrimoraCardRemoveSequencer>();
-		
-		var oldRemoveSequencer = cardRemoveSequencerObj.GetComponent<CardRemoveSequencer>();
-		
-		var cardRemoveSequencer = SpecialNodeHandler.cardRemoveSequencer;
-		
+		var cardRemoveSequencer = cardRemoveSequencerObj.AddComponent<GrimoraCardRemoveSequencer>();
+
 		Log.LogDebug($"[AddCardRemoveSequencer] Setting prefabs");
 		cardRemoveSequencer.gamepadGrid = oldRemoveSequencer.gamepadGrid;
 		cardRemoveSequencer.selectableCardPrefab = PrefabGrimoraSelectableCard;
@@ -178,29 +176,29 @@ public class BaseGameFlowManagerPatches
 		cardRemoveSequencer.skullEyes = oldRemoveSequencer.skullEyes;
 		cardRemoveSequencer.stoneCircleAnim = oldRemoveSequencer.stoneCircleAnim;
 
-		cardRemoveSequencer.GetComponentInChildren<SelectableCardArray>().selectableCardPrefab = PrefabGrimoraSelectableCard;
+		cardRemoveSequencer.GetComponentInChildren<SelectableCardArray>().selectableCardPrefab =
+			PrefabGrimoraSelectableCard;
 
 		Log.LogDebug($"[AddCardRemoveSequencer] Setting card backs");
 		cardRemoveSequencer.deckPile = oldRemoveSequencer.deckPile;
 		cardRemoveSequencer.deckPile.cardbackPrefab = PrefabGrimoraCardBack;
 
 		Log.LogDebug($"[AddCardRemoveSequencer] Destroying old sequencer");
-		UnityEngine.Object.Destroy(oldRemoveSequencer);
+		Object.Destroy(oldRemoveSequencer);
 
-		SpecialNodeHandler.cardRemoveSequencer = cardRemoveSequencer;
 
 		// TODO: HOW DO WE GET THOSE DECALS TO SHOW UP
 		CardDisplayer3D displayer3D = ResourceBank.Get<CardDisplayer3D>("Prefabs/Cards/CardElements");
 
-		CardDisplayer3D graveDisplayer = UnityEngine.Object.FindObjectOfType<CardDisplayer3D>();
+		CardDisplayer3D graveDisplayer = Object.FindObjectOfType<CardDisplayer3D>();
 
-		BoonIconInteractable cardAbilityIcons = UnityEngine.Object.Instantiate(
+		BoonIconInteractable cardAbilityIcons = Object.Instantiate(
 			ResourceBank.Get<BoonIconInteractable>("Prefabs/Cards/CardSurfaceInteraction/BoonIcon"),
 			graveDisplayer.GetComponentInChildren<CardAbilityIcons>().transform
 		);
 		graveDisplayer.GetComponentInChildren<CardAbilityIcons>().boonIcon = cardAbilityIcons;
 
-		GameObject cardDecals = UnityEngine.Object.Instantiate(
+		GameObject cardDecals = Object.Instantiate(
 			displayer3D.transform.GetChild(9).gameObject,
 			graveDisplayer.transform, true
 		);
