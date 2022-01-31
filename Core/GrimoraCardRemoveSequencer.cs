@@ -390,3 +390,23 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		return new List<CardInfo>(GrimoraSaveData.Data.deck.Cards);
 	}
 }
+
+
+[HarmonyPatch(typeof(SpecialNodeHandler), nameof(SpecialNodeHandler.StartSpecialNodeSequence))]
+public class CardRemoveSequencerPatches
+{
+
+	[HarmonyPrefix]
+	public static bool CastToGrimoraCardRemoveSequencer(SpecialNodeHandler __instance, ref SpecialNodeData nodeData)
+	{
+		if (!SaveManager.SaveFile.IsGrimora || nodeData is not CardRemoveNodeData)
+		{
+			return true;
+		}
+		
+		// We have to cast it, otherwise it tries to call the base version of it
+		__instance.StartCoroutine((__instance.cardRemoveSequencer as GrimoraCardRemoveSequencer).RemoveSequence());
+		return false;
+	}
+	
+}
