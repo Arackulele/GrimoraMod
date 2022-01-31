@@ -79,7 +79,7 @@ public class ModifyLocalPositionsOfTableObjects
 			// Card -> RotatingParent -> TombstoneParent -> Cardbase_StatsLayer
 			UnityEngine.Transform rotatingParent = card.transform.GetChild(0);
 			Log.LogDebug($"Transforming [{rotatingParent.name}]");
-			
+
 			rotatingParent.localPosition = new Vector3(-0.7f, 1.05f, 0f);
 			// GrimoraPlugin.Log.LogDebug($"Successfully set new localPosition for the giant");
 
@@ -88,5 +88,25 @@ public class ModifyLocalPositionsOfTableObjects
 		}
 
 		yield return enumerator;
+	}
+}
+
+[HarmonyPatch]
+public class CorrectLogicForAllStrikeAbility
+{
+	[HarmonyPostfix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetOpposingSlots))]
+	public static void FixSlotsToAttackForGiantAllStrike(PlayableCard __instance, ref List<CardSlot> __result)
+	{
+		if (__instance.Info.HasTrait(Trait.Giant)
+		    && __instance.HasAbility(Ability.AllStrike)
+		    && __instance.Info.SpecialAbilities.Contains(GrimoraGiant.SpecialTriggeredAbility))
+		{
+			List<CardSlot> slotsToTarget = __instance.OpponentCard
+				? BoardManager.Instance.PlayerSlotsCopy
+				: BoardManager.Instance.OpponentSlotsCopy;
+
+			__result = new List<CardSlot>(slotsToTarget.Where(slot => slot.opposingSlot.Card == __instance));
+			Log.LogDebug($"[AllStrikePatch] Opposing slots is now [{string.Join(",", __result.Select(_ => _.Index))}]");
+		}
 	}
 }
