@@ -8,6 +8,8 @@ namespace GrimoraMod;
 
 public class GrimoraBossSequencer : GrimoraModBossBattleSequencer
 {
+	private bool playedDeathTouchDialogue;
+
 	public override Opponent.Type BossType => BaseBossExt.GrimoraOpponent;
 
 	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
@@ -36,6 +38,25 @@ public class GrimoraBossSequencer : GrimoraModBossBattleSequencer
 		else
 		{
 			yield return base.GameEnd(false);
+		}
+	}
+
+	public override IEnumerator OpponentUpkeep()
+	{
+		if (!playedDeathTouchDialogue &&
+		    BoardManager.Instance.GetSlots(getPlayerSlots: true)
+			    .Exists((CardSlot x) => x.Card != null && x.Card.HasAbility(Ability.Deathtouch))
+		    && BoardManager.Instance.GetSlots(getPlayerSlots: false)
+			    .Exists((CardSlot x) =>
+				    x.Card != null && x.Card.Info.SpecialAbilities.Contains(GrimoraGiant.SpecialTriggeredAbility))
+		   )
+		{
+			yield return new WaitForSeconds(0.5f);
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				"DEATH TOUCH WON'T HELP YOU HERE DEAR." +
+				"\nI MADE THESE GIANTS SPECIAL, IMMUNE TO QUITE A FEW DIFFERENT TRICKS!"
+			);
+			playedDeathTouchDialogue = true;
 		}
 	}
 
