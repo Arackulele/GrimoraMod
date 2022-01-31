@@ -112,6 +112,14 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		#endregion
 
 		ResizeArtworkForVanillaBoneCards();
+		
+		GameObject cardRow = GameObject.Find("CardRow");
+		if (cardRow is not null && cardRow.transform.Find("MenuCard_Grimora") is null)
+		{
+			StartScreenThemeSetterPatches.AddGrimoraModMenuCardButton(
+				Object.FindObjectOfType<StartScreenThemeSetter>()
+			);
+		}
 	}
 
 	private void OnDestroy()
