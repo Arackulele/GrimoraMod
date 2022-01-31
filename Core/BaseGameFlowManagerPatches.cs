@@ -32,11 +32,9 @@ public class BaseGameFlowManagerPatches
 		prefabGiant.GetComponent<PlayableCard>().SetEnabled(false);
 		prefabGiant.name += "_Giant";
 
-		prefabGiant.transform.GetChild(0).localPosition = new Vector3(-0.7f, 1.25f, 0f);
-		
-		var renderStatsLayer = prefabGiant.GetComponentInChildren<GravestoneRenderStatsLayer>();
-		renderStatsLayer.transform.localScale = new Vector3(1.4f, 1.25f, 0.2f);
-			
+		prefabGiant.transform.localPosition = new Vector3(-0.7f, 1.25f, 0f);
+		prefabGiant.transform.localScale = new Vector3(1.4f, 1.25f, 0.2f);
+
 		return prefabGiant;
 	}
 
