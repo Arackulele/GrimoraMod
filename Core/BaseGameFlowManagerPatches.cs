@@ -18,20 +18,26 @@ public class BaseGameFlowManagerPatches
 	private static GameObject PrefabGrimoraPlayableCard =>
 		ResourceBank.Get<GameObject>("Prefabs/Cards/PlayableCard_Grimora");
 
+	// private static GameObject PrefabGrimoraPlayableCardGiant = CreatePrefabGrimoraPlayableCardGiant();
+	
 	private static GameObject PrefabGrimoraCardBack =>
 		ResourceBank.Get<GameObject>("Prefabs/Cards/CardBack_Grimora");
 
 	private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
 
-	private static GameObject SetupSelectableCard()
+	private static GameObject CreatePrefabGrimoraPlayableCardGiant()
 	{
-		GameObject selectable = ResourceBank.Get<GameObject>("Prefabs/Cards/SelectableCard_Grimora");
-		RuntimeAnimatorController controller
-			= ResourceBank.Get<RuntimeAnimatorController>("Animation/Cards/PaperCards/Card");
+		GameObject prefabGiant = CopyPrefab(new GameObject(),PrefabGrimoraPlayableCard);
+		Log.LogDebug($"Setting PlayableCard component to not enabled");
+		prefabGiant.GetComponent<PlayableCard>().SetEnabled(false);
+		prefabGiant.name += "_Giant";
 
-		selectable.GetComponent<Animator>().runtimeAnimatorController = controller;
-
-		return selectable;
+		prefabGiant.transform.GetChild(0).localPosition = new Vector3(-0.7f, 1.25f, 0f);
+		
+		var renderStatsLayer = prefabGiant.GetComponentInChildren<GravestoneRenderStatsLayer>();
+		renderStatsLayer.transform.localScale = new Vector3(1.4f, 1.25f, 0.2f);
+			
+		return prefabGiant;
 	}
 
 	[HarmonyPrefix, HarmonyPatch(nameof(GameFlowManager.Start))]
@@ -41,18 +47,16 @@ public class BaseGameFlowManagerPatches
 		{
 			return;
 		}
-		// GameObject giantPrefab = ResourceBank.Get<GameObject>("Prefabs/Cards/PlayableCard_Grimora");
-		// giantPrefab.name += "_Giant";
-		//
+		Log.LogDebug($"[GameFlowManager.Start] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");
+
 		// giantPrefab.GetComponent<Animator>().runtimeAnimatorController 
 		// 	= ResourceBank.Get<GameObject>("Prefabs/Cards/PlayableCard_Giant")
 		// 		.GetComponent<Animator>().runtimeAnimatorController;
 
 		// giantPrefab.transform.GetChild(0).GetChild(0).GetChild(0).localPosition = new Vector3(-0.65f, 1.25f, 0f);
 		// giantPrefab.transform.GetChild(0).GetChild(0).GetChild(0).localScale = new Vector3(1f, 1.175f, 0.2f);
-		CardSpawner.Instance.giantPlayableCardPrefab = PrefabGrimoraPlayableCard;
+		// CardSpawner.Instance.giantPlayableCardPrefab = PrefabGrimoraPlayableCardGiant;
 
-		Log.LogDebug($"[GameFlowManager.Start] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");
 
 		AddCardRemoveSequencer();
 
@@ -127,6 +131,31 @@ public class BaseGameFlowManagerPatches
 		{
 			FixShaders(go.transform.GetChild(i).gameObject);
 		}
+	}
+	
+	public static GameObject CopyPrefab(GameObject gameObject, GameObject prefabToCopy)
+	{
+		gameObject.name = prefabToCopy.name;
+		Log.LogDebug($"Getting components of [{prefabToCopy.name}]");
+		Component[] components = prefabToCopy.GetComponents<Component>().Where(cmp => cmp.GetType() != typeof(UnityEngine.Transform)).ToArray();
+		foreach (var component in components)
+		{
+			if (gameObject.GetComponent(component.GetType()) == null)
+			{
+				Log.LogDebug($"-> Adding component [{component.GetType()}]");
+				Component attachedComp = gameObject.AddComponent(component.GetType());
+				attachedComp.name = component.name;
+			}
+		}
+		// Do the same for all child game objects
+		for (int i = 0; i < prefabToCopy.transform.childCount; i++)
+		{
+			GameObject newGameObj = new GameObject();
+			newGameObj.transform.SetParent(gameObject.transform);
+			CopyPrefab(newGameObj, prefabToCopy.transform.GetChild(i).gameObject);
+		}
+
+		return gameObject;
 	}
 
 	private static void AddCustomEnergy()
