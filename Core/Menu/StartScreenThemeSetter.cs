@@ -10,7 +10,7 @@ namespace GrimoraMod;
 public class StartScreenThemeSetterPatches
 {
 	[HarmonyPrefix, HarmonyPatch(nameof(StartScreenThemeSetter.Start))]
-	public static void Prefix(StartScreenThemeSetter __instance)
+	public static void AddGrimoraModMenuCardButton(StartScreenThemeSetter __instance)
 	{
 		var grimoraTheme = __instance.themes[0];
 		if (ColorUtility.TryParseHtmlString("0F2623", out var color))
