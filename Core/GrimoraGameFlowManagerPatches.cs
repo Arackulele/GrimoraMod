@@ -105,7 +105,7 @@ public class GrimoraGameFlowManagerPatches
 		else
 		{
 			Log.LogDebug(
-				$"[SceneSpecificInitialization] GrimoraReachedTable is true, playing finalegrimora_ambience");
+				$"[SceneSpecificInitialization] GrimoraReachedTable is true.");
 			AudioController.Instance.SetLoopAndPlay("finalegrimora_ambience");
 			if (GameMap.Instance != null)
 			{
