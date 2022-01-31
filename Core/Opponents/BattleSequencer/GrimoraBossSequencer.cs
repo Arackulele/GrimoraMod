@@ -48,7 +48,7 @@ public class GrimoraBossSequencer : GrimoraModBossBattleSequencer
 			    .Exists((CardSlot x) => x.Card != null && x.Card.HasAbility(Ability.Deathtouch))
 		    && BoardManager.Instance.GetSlots(getPlayerSlots: false)
 			    .Exists((CardSlot x) =>
-				    x.Card != null && x.Card.Info.SpecialAbilities.Contains(GrimoraGiant.SpecialTriggeredAbility))
+				    x.Card != null && x.Card.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility))
 		   )
 		{
 			yield return new WaitForSeconds(0.5f);
