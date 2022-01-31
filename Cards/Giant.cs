@@ -13,8 +13,6 @@ public partial class GrimoraPlugin
 
 	private void AddAra_Giant()
 	{
-		var sbIds = GrimoraGiant.Create();
-
 		NewCard.Add(CardBuilder.Builder
 				.SetAsNormalCard()
 				.SetAbilities(Ability.QuadrupleBones, Ability.SplitStrike)
@@ -31,11 +29,35 @@ public partial class GrimoraPlugin
 
 public class GrimoraGiant : SpecialCardBehaviour
 {
+	public static readonly NewSpecialAbility NewSpecialAbility = Create();
+
 	public static NewSpecialAbility Create()
 	{
-		var sId = SpecialAbilityIdentifier.GetID(GrimoraPlugin.PluginGuid, "!GRIMORA_GIANT");
+		var sId = SpecialAbilityIdentifier.GetID(PluginGuid, "!GRIMORA_GIANT");
 
 		return new NewSpecialAbility(typeof(GrimoraGiant), sId);
+	}
+
+	public override bool RespondsToSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
+	{
+		return attacker.Slot.opposingSlot.Card == base.PlayableCard;
+	}
+
+	public override IEnumerator OnSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
+	{
+		if (attacker.HasAbility(Ability.Deathtouch))
+		{
+			Log.LogDebug($"Adding death shield for [{base.PlayableCard.Info.name}]");
+			base.PlayableCard.AddTemporaryMod(new CardModificationInfo()
+			{
+				abilities = new List<Ability>()
+				{
+					Ability.DeathShield
+				}
+			});
+		}
+
+		yield break;
 	}
 
 	public override bool RespondsToResolveOnBoard()
@@ -99,7 +121,7 @@ public class CorrectLogicForAllStrikeAbility
 	{
 		if (__instance.Info.HasTrait(Trait.Giant)
 		    && __instance.HasAbility(Ability.AllStrike)
-		    && __instance.Info.SpecialAbilities.Contains(GrimoraGiant.SpecialTriggeredAbility))
+		    && __instance.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility))
 		{
 			List<CardSlot> slotsToTarget = __instance.OpponentCard
 				? BoardManager.Instance.PlayerSlotsCopy
