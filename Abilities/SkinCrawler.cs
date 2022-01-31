@@ -77,9 +77,6 @@ public class SkinCrawler : AbilityBehaviour
 			// rotate on z-axis, as if you rotated your hand holding the card counter-clockwise
 			// Tween.Rotate(toRightTransform, new Vector3(0f, 0f, 0f), Space.World, 0.1f, 0f, Tween.EaseInOut);
 
-			// GameObject gameObject = Object.Instantiate(ResourceBank.Get<GameObject>("Prefabs/Cards/SpecificCardModels/CardPack"));
-
-
 			// Vector3 positionFurtherAwayFromBaseCard = toRightSlotTransform.position + Vector3.forward * 8f;
 			// set starting position 
 			// base.Card.transform.position = positionFurtherAwayFromBaseCard;
@@ -167,8 +164,9 @@ public class SkinCrawler : AbilityBehaviour
 	public static NewAbility Create()
 	{
 		const string rulebookDescription =
-			"At the end of the owner's turn, [creature] will move in the direction inscribed in the sigil and, if possible," +
-			" hide under the card providing a +1 buff";
+			"When [creature] resolves, if possible, " +
+			"will hide under an adjacent card providing a +1 buff. " +
+			"Otherwise, it perishes. Cards on the left take priority.";
 
 		return ApiUtils.CreateAbility<SkinCrawler>(rulebookDescription);
 	}
