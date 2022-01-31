@@ -109,6 +109,8 @@ public class GrimoraGameFlowManagerPatches
 			AudioController.Instance.SetLoopAndPlay("finalegrimora_ambience");
 			if (GameMap.Instance != null)
 			{
+				// this is so that it looks a little cleaner when entering for the first time
+				ChessboardMap.Instance.gameObject.transform.GetChild(0).gameObject.SetActive(false);
 				// GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Setting CurrentGameState to GameState.Map");
 				__instance.CurrentGameState = GameState.Map;
 				// Log.LogDebug($"[SceneSpecificInitialization] Transitioning to GameState.Map");
