@@ -35,6 +35,32 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	};
 
 
+	public static void SpawnParticlesOnCard(PlayableCard target, Texture2D tex, bool reduceY = false)
+	{
+		GravestoneCardAnimationController anim = target.Anim as GravestoneCardAnimationController;
+		GameObject gameObject = UnityEngine.Object.Instantiate<ParticleSystem>(anim.deathParticles).gameObject;
+		ParticleSystem particle = gameObject.GetComponent<ParticleSystem>();
+		particle.startColor = Color.white;
+		particle.GetComponent<ParticleSystemRenderer>().material =
+			new Material(particle.GetComponent<ParticleSystemRenderer>().material) { mainTexture = tex };
+
+		ParticleSystem.MainModule mainMod = particle.main;
+		mainMod.startColor = new ParticleSystem.MinMaxGradient(Color.white);
+		gameObject.gameObject.SetActive(true);
+		gameObject.transform.position = anim.deathParticles.transform.position;
+		gameObject.transform.localScale = anim.deathParticles.transform.localScale;
+		gameObject.transform.rotation = anim.deathParticles.transform.rotation;
+		if (reduceY)
+		{
+			particle.transform.position = new Vector3(
+				particle.transform.position.x,
+				particle.transform.position.y - 0.1f,
+				particle.transform.position.z);
+		}
+
+		UnityEngine.Object.Destroy(gameObject, 6f);
+	}
+
 	private void Awake()
 	{
 		Log = base.Logger;

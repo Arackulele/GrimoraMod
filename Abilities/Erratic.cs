@@ -41,8 +41,7 @@ public class Erratic : Strafe
 
 	public static NewAbility Create()
 	{
-		const string rulebookDescription =
-			"At the end of the owner's turn, [creature] will move in a random direction.";
+		const string rulebookDescription = "At the end of the owner's turn, [creature] will move in a random direction.";
 
 		return ApiUtils.CreateAbility<Erratic>(rulebookDescription);
 	}
