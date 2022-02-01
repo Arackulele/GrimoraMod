@@ -459,9 +459,7 @@ public class BaseGameFlowManagerPatches
 
 		Log.LogDebug($"[TransitionTo] IsBossDefeated [{isBossDefeated}] Pieces exist [{piecesExist}]");
 
-		// FOR ENUMS IN POSTFIX CALLS, THE OPERATOR TO USE IS 'IS' NOT '==' 
-		// CORRECT  : gameState is GameState.Map
-		// INCORRECT: gameState == GameState.Map
+		// FOR ENUMS IN POSTFIX CALLS, 'IS', 'IS NOT' is the same as '==' and '!=' respectively, despite what the IDE says
 		if (piecesExist && isBossDefeated)
 		{
 			yield return ChessboardMapExt.Instance.CompleteRegionSequence();
