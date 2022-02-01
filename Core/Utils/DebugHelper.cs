@@ -135,7 +135,9 @@ public class DebugHelper : ManagedBehaviour
 						var copy = ConfigHelper.Instance.RemovedPieces;
 						copy.RemoveAll(piece => piece.Contains("Chest"));
 						ConfigHelper.Instance._configCurrentRemovedPieces.Value = copy.Join();
-						ChessboardMapExt.Instance.ActiveChessboard.PlaceChestPiece(i, 0, specialNode);
+						ChessboardMapExt.Instance
+							.ActiveChessboard
+							.PlacePiece<ChessboardChestPiece>(i, 0, specialNodeData: specialNode);
 					}
 				}
 				else
@@ -164,7 +166,7 @@ public class DebugHelper : ManagedBehaviour
 				ConfigHelper.Instance._configCurrentRemovedPieces.Value = copy.Join();
 				for (int i = 0; i < 8; i++)
 				{
-					ChessboardMapExt.Instance.ActiveChessboard.PlaceEnemyPiece(0, i);
+					ChessboardMapExt.Instance.ActiveChessboard.PlacePiece<ChessboardEnemyPiece>(0, i);
 				}
 			}
 		}
