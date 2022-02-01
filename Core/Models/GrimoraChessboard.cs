@@ -16,6 +16,17 @@ public class GrimoraChessboard
 	public readonly List<ChessNode> OpenPathNodes;
 	public readonly ChessNode PlayerNode;
 
+	private static readonly Dictionary<Type, ChessboardPiece> PiecePrefabByType = new()
+	{
+		{ typeof(ChessboardBlockerPiece), PrefabTombstone },
+		{ typeof(ChessboardBoneyardPiece), PrefabBoneyardPiece },
+		{ typeof(ChessboardCardRemovePiece), PrefabCardRemovePiece },
+		{ typeof(ChessboardChestPiece), PrefabChestPiece },
+		{ typeof(ChessboardElectricChairPiece), PrefabElectricChairPiece },
+		{ typeof(ChessboardEnemyPiece), PrefabEnemyPiece },
+		{ typeof(ChessboardGoatEyePiece), PrefabGoatEyePiece },
+	};
+
 	protected internal ChessboardEnemyPiece BossPiece =>
 		GetPieceAtSpace(BossNode.GridX, BossNode.GridY) as ChessboardEnemyPiece;
 
@@ -98,16 +109,16 @@ public class GrimoraChessboard
 		{
 			for (int i = 0; i < 8; i++)
 			{
-				PlaceChestPiece(i, 0, new CardChoicesNodeData());
-				PlaceEnemyPiece(0, i);
-				PlaceCardRemovePiece(7, i);
+				PlacePiece<ChessboardChestPiece>(i, 0, specialNodeData: new CardChoicesNodeData());
+				PlacePiece<ChessboardEnemyPiece>(0, i);
+				PlacePiece<ChessboardCardRemovePiece>(7, i);
 			}
 		}
 		else
 		{
-			PlaceEnemyPieces();
-			PlaceBlockerPieces();
-			PlaceChestPieces();
+			PlacePieces<ChessboardEnemyPiece>();
+			PlacePieces<ChessboardBlockerPiece>();
+			PlacePieces<ChessboardCardRemovePiece>();
 		}
 	}
 
@@ -150,41 +161,6 @@ public class GrimoraChessboard
 		GrimoraSaveData.Data.gridY = GetPlayerNode().GridY;
 	}
 
-	#region Prefabs
-
-	public const string PrefabPath = "Prefabs/Map/ChessboardMap";
-
-	public static Mesh MeshFilterBlockerIceBlock => AllAssets[8] as Mesh;
-	public static Mesh MeshFilterBlockerBones => AllAssets[5] as Mesh;
-	public static Mesh MeshFilterBlockerBarrels => AllAssets[2] as Mesh;
-
-	public static ChessboardBlockerPiece PrefabTombstone =>
-		ResourceBank.Get<ChessboardBlockerPiece>($"{PrefabPath}/Chessboard_Tombstone_1");
-
-	public static ChessboardEnemyPiece PrefabEnemyPiece =>
-		ResourceBank.Get<ChessboardEnemyPiece>($"{PrefabPath}/ChessboardEnemyPiece");
-
-	public static ChessboardEnemyPiece PrefabBossPiece =>
-		ResourceBank.Get<ChessboardEnemyPiece>($"{PrefabPath}/BossFigurine");
-
-	public static ChessboardChestPiece PrefabChestPiece =>
-		ResourceBank.Get<ChessboardChestPiece>($"{PrefabPath}/ChessboardChestPiece");
-
-	public static readonly ChessboardCardRemovePiece PrefabCardRemovePiece = CreateCardRemovePiece();
-
-	public static ChessboardCardRemovePiece CreateCardRemovePiece()
-	{
-		GameObject knife = ResourceBank.Get<GameObject>($"Prefabs/SpecialNodeSequences/SkinningKnife");
-		knife.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
-		Vector3 vLocalPosition = knife.transform.localPosition;
-		knife.transform.localPosition = new Vector3(vLocalPosition.x, 1.4f, vLocalPosition.z);
-		ChessboardCardRemovePiece piece = knife.AddComponent<ChessboardCardRemovePiece>();
-		piece.anim = PrefabChestPiece.anim;
-		return piece;
-	}
-
-	#endregion
-
 	#region HelperMethods
 
 	public static ChessboardMapNode GetNodeAtSpace(int x, int y)
@@ -209,90 +185,46 @@ public class GrimoraChessboard
 
 	#region PlacingPieces
 
-	public List<ChessboardBlockerPiece> PlaceBlockerPieces()
+	public ChessboardEnemyPiece PlaceBossPieceDev(int x, int y, string bossName)
 	{
-		// Log.LogDebug($"[SetupGamePieces] Creating blocker pieces for the board");
-		return BlockerNodes.Select(node => CreateBlockerPiece(node.GridX, node.GridY)).ToList();
-	}
-
-	public ChessboardEnemyPiece PlaceBossPieceDev(string bossName, int x, int y)
-	{
-		return CreateBossPiece(bossName, x, y);
+		return PlacePiece<ChessboardEnemyPiece>(x, y, bossName);
 	}
 
 	public ChessboardEnemyPiece PlaceBossPiece(string bossName)
 	{
-		return CreateBossPiece(bossName, BossNode.GridX, BossNode.GridY);
+		return CreateChessPiece<ChessboardEnemyPiece>(PrefabBossPiece, BossNode.GridX, BossNode.GridY, bossName);
 	}
 
-	public ChessboardChestPiece PlaceChestPiece(int x, int y, SpecialNodeData specialNodeData = null)
+	public T PlacePiece<T>(int x, int y, string id = "", SpecialNodeData specialNodeData = null) where T : ChessboardPiece
 	{
-		return CreateChestPiece(x, y, specialNodeData);
+		PiecePrefabByType.TryGetValue(typeof(T), out ChessboardPiece prefabToUse);
+
+		return CreateChessPiece<T>(prefabToUse, x, y, id, specialNodeData);
 	}
 
-	public List<ChessboardChestPiece> PlaceChestPieces()
+	public List<T> PlacePieces<T>() where T : ChessboardPiece
 	{
-		return ChestNodes.Select(node => CreateChestPiece(node.GridX, node.GridY)).ToList();
-	}
+		Type type = typeof(T);
+		List<ChessNode> nodes = BlockerNodes;
+		if (type == typeof(ChessboardEnemyPiece))
+		{
+			nodes = EnemyNodes;
+		}
+		else if (type == typeof(ChessboardChestPiece))
+		{
+			nodes = ChestNodes;
+		}
+		else if (type == typeof(ChessboardCardRemovePiece))
+		{
+			nodes = CardRemovalNodes;
+		}
 
-	public ChessboardEnemyPiece PlaceEnemyPiece(int x, int y)
-	{
-		return CreateEnemyPiece(x, y);
-	}
-
-	public List<ChessboardCardRemovePiece> PlaceCardRemovePieces()
-	{
-		return CardRemovalNodes.Select(node => CreateCardRemovePiece(node.GridX, node.GridY)).ToList();
-	}
-
-	public ChessboardCardRemovePiece PlaceCardRemovePiece(int x, int y)
-	{
-		return CreateCardRemovePiece(x, y);
-	}
-
-	public List<ChessboardEnemyPiece> PlaceEnemyPieces()
-	{
-		return EnemyNodes.Select(node => CreateEnemyPiece(node.GridX, node.GridY)).ToList();
+		return nodes.Select(node => PlacePiece<T>(node.GridX, node.GridY)).ToList();
 	}
 
 	#endregion
 
 	#region CreatePieces
-
-	private ChessboardEnemyPiece CreateBossPiece(string id, int x, int y)
-	{
-		return CreateBaseEnemyPiece(PrefabBossPiece, x, y, id);
-	}
-
-	private ChessboardCardRemovePiece CreateCardRemovePiece(int x, int y, SpecialNodeData specialNodeData = null)
-	{
-		// GrimoraPlugin.Log.LogDebug($"Attempting to create chest piece at x [{x}] y [{y}]");
-		return CreateChessPiece<ChessboardCardRemovePiece>(PrefabCardRemovePiece, x, y, specialNodeData: specialNodeData);
-	}
-
-	private ChessboardChestPiece CreateChestPiece(int x, int y, SpecialNodeData specialNodeData = null)
-	{
-		// GrimoraPlugin.Log.LogDebug($"Attempting to create chest piece at x [{x}] y [{y}]");
-		return CreateChessPiece<ChessboardChestPiece>(PrefabChestPiece, x, y, specialNodeData: specialNodeData);
-	}
-
-	private ChessboardEnemyPiece CreateEnemyPiece(int x, int y)
-	{
-		// GrimoraPlugin.Log.LogDebug($"Space is not occupied, attempting to create enemy piece at x [{x}] y [{y}]");
-		return CreateBaseEnemyPiece(PrefabEnemyPiece, x, y, "GrimoraModBattleSequencer");
-	}
-
-	private ChessboardEnemyPiece CreateBaseEnemyPiece(ChessboardPiece prefab, int x, int y, string id = "")
-	{
-		// GrimoraPlugin.Log.LogDebug($"Space is not occupied, attempting to create enemy piece at x [{x}] y [{y}]");
-		return CreateChessPiece<ChessboardEnemyPiece>(prefab, x, y, id);
-	}
-
-	private ChessboardBlockerPiece CreateBlockerPiece(int x, int y)
-	{
-		// GrimoraPlugin.Log.LogDebug($"Attempting to create blocker piece at x [{x}] y [{y}]");
-		return CreateChessPiece<ChessboardBlockerPiece>(PrefabTombstone, x, y);
-	}
 
 	public Mesh GetActiveRegionBlockerMesh()
 	{
