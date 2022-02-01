@@ -7,6 +7,75 @@ namespace GrimoraMod;
 
 public class GrimoraChessboard
 {
+	#region Prefabs
+
+	public const string PrefabPath = "Prefabs/Map/ChessboardMap";
+
+	public static Mesh MeshFilterBlockerIceBlock => AllAssets[8] as Mesh;
+	public static Mesh MeshFilterBlockerBones => AllAssets[5] as Mesh;
+	public static Mesh MeshFilterBlockerBarrels => AllAssets[2] as Mesh;
+
+	public static ChessboardBlockerPiece PrefabTombstone =>
+		ResourceBank.Get<ChessboardBlockerPiece>($"{PrefabPath}/Chessboard_Tombstone_1");
+
+	public static ChessboardEnemyPiece PrefabEnemyPiece =>
+		ResourceBank.Get<ChessboardEnemyPiece>($"{PrefabPath}/ChessboardEnemyPiece");
+
+	public static ChessboardEnemyPiece PrefabBossPiece =>
+		ResourceBank.Get<ChessboardEnemyPiece>($"{PrefabPath}/BossFigurine");
+
+	public static ChessboardChestPiece PrefabChestPiece =>
+		ResourceBank.Get<ChessboardChestPiece>($"{PrefabPath}/ChessboardChestPiece");
+
+	public static ChessboardBoneyardPiece PrefabBoneyardPiece = CreateCustomPrefabPiece<ChessboardBoneyardPiece>();
+
+	public static ChessboardCardRemovePiece PrefabCardRemovePiece = CreateCustomPrefabPiece<ChessboardCardRemovePiece>();
+
+	public static ChessboardElectricChairPiece PrefabElectricChairPiece
+		= CreateCustomPrefabPiece<ChessboardElectricChairPiece>();
+
+	public static ChessboardGoatEyePiece PrefabGoatEyePiece = CreateCustomPrefabPiece<ChessboardGoatEyePiece>();
+
+	// TODO: Refactor scaledValue and ResourceBank call into Dictionary tu?
+	public static T CreateCustomPrefabPiece<T>() where T : ChessboardPiece
+	{
+		GameObject gameObj = null;
+		float scaledValue = 1.25f;
+
+		if (typeof(T) == typeof(ChessboardBoneyardPiece))
+		{
+			gameObj = ResourceBank.Get<GameObject>($"Resources/Art/Assets3D/PlayerAvatar/gravedigger/GravediggerFin");
+		}
+		else if (typeof(T) == typeof(ChessboardCardRemovePiece))
+		{
+			gameObj = ResourceBank.Get<GameObject>($"Prefabs/SpecialNodeSequences/SkinningKnife");
+			scaledValue = 0.25f;
+		}
+		else if (typeof(T) == typeof(ChessboardElectricChairPiece))
+		{
+			gameObj = ResourceBank.Get<GameObject>($"Resources/Art/Assets3D/MiscLowPolySpace/SM_Bld_Bridge_Chair_Captain_01");
+			scaledValue = 0.5f;
+		}
+		else if (typeof(T) == typeof(ChessboardGoatEyePiece))
+		{
+			gameObj = ResourceBank.Get<GameObject>($"Prefabs/SpecialNodeSequences/EyeBall");
+			Material goatEyeMat = ResourceBank.Get<Material>("Resources/Art/Materials/Eyeball_Goat");
+			gameObj.GetComponent<MeshRenderer>().material = goatEyeMat;
+			gameObj.GetComponent<MeshRenderer>().sharedMaterial = goatEyeMat;
+			scaledValue = 0.4f;
+		}
+
+		gameObj.transform.localScale = new Vector3(scaledValue, scaledValue, scaledValue);
+		Vector3 vLocalPosition = gameObj.transform.localPosition;
+		gameObj.transform.localPosition = new Vector3(vLocalPosition.x, 1.4f, vLocalPosition.z);
+
+		T piece = gameObj.AddComponent<T>();
+		piece.anim = PrefabChestPiece.anim;
+		return piece;
+	}
+
+	#endregion
+
 	public readonly int indexInList;
 	public readonly List<ChessNode> BlockerNodes;
 	public readonly ChessNode BossNode;
