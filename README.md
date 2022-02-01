@@ -56,7 +56,7 @@
 - **Erratic** - At the end of the owner's turn, [creature] will move in a random direction.
 - **Inverted Strike** - [creature] will strike the opposing slot as if the board was flipped. A card in the far left slot will attack the opposing far right slot.
 - **Possessive** - [creature] cannot be attacked from the opposing slot. The opposing slot instead attacks one of it's adjacent slots if possible.
-- **Skin Crawler** - [creature] resolves, if possible, hide under an adjacent card providing a +1 buff. Otherwise, it dies. Cards on the left take priority.
+- **Skin Crawler** - When [creature] resolves, if possible, will hide under an adjacent card providing a +1 buff. Otherwise, it perishes. Cards on the left take priority.
 
 - ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added more logic to make the skeleton arm attack animation work for both player and opponent sides.
 
