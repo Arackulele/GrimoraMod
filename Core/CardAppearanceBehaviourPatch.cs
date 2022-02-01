@@ -12,7 +12,7 @@ namespace GrimoraMod;
 public class CardAppearanceBehaviourPatch
 {
 	public static Texture2D GravestoneGold = GravestoneTexture();
-	private static readonly int Albedo = Shader.PropertyToID("_Albedo");
+	public static readonly int Albedo = Shader.PropertyToID("_Albedo");
 
 	internal static Texture2D GravestoneTexture()
 	{
