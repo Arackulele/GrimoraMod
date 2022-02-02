@@ -110,6 +110,13 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			.Randomize()
 			.ToList();
 
+		if (randomizedChoices.Count < 3)
+		{
+			Log.LogWarning($"...How did you get fewer than 3 cards in your deck?!");
+			var skeleton = CardLoader.GetCardByName("Skeleton");
+			randomizedChoices.AddRange(new[] { skeleton, skeleton });
+		}
+
 		while (cardsToAdd.Count < 3)
 		{
 			int seed = GenerateRandomSeed(randomizedChoices);
