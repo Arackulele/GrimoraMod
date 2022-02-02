@@ -22,10 +22,10 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private static Harmony _harmony;
 
-	public static UnityEngine.GameObject[] AllPrefabAssets;
-	public static UnityEngine.Object[] AllAssets;
-	public static UnityEngine.Sprite[] AllSpriteAssets;
-	public static UnityEngine.Texture[] AllAbilityAssets;
+	public static GameObject[] AllPrefabAssets;
+	public static Object[] AllAssets;
+	public static Sprite[] AllSpriteAssets;
+	public static Texture[] AllAbilityAssets;
 
 
 	private static readonly List<StoryEvent> StoryEventsToBeCompleteBeforeStarting = new()
@@ -38,7 +38,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	public static void SpawnParticlesOnCard(PlayableCard target, Texture2D tex, bool reduceY = false)
 	{
 		GravestoneCardAnimationController anim = target.Anim as GravestoneCardAnimationController;
-		GameObject gameObject = UnityEngine.Object.Instantiate<ParticleSystem>(anim.deathParticles).gameObject;
+		GameObject gameObject = Instantiate<ParticleSystem>(anim.deathParticles).gameObject;
 		ParticleSystem particle = gameObject.GetComponent<ParticleSystem>();
 		particle.startColor = Color.white;
 		particle.GetComponent<ParticleSystemRenderer>().material =
@@ -58,12 +58,12 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 				particle.transform.position.z);
 		}
 
-		UnityEngine.Object.Destroy(gameObject, 6f);
+		Destroy(gameObject, 6f);
 	}
 
 	private void Awake()
 	{
-		Log = base.Logger;
+		Log = Logger;
 
 		_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), PluginGuid);
 
@@ -139,12 +139,15 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		ResizeArtworkForVanillaBoneCards();
 		
-		GameObject cardRow = GameObject.Find("CardRow");
-		if (cardRow is not null && cardRow.transform.Find("MenuCard_Grimora") is null)
+		if(ConfigHelper.Instance.isDevModeEnabled)
 		{
-			StartScreenThemeSetterPatches.AddGrimoraModMenuCardButton(
-				Object.FindObjectOfType<StartScreenThemeSetter>()
-			);
+			GameObject cardRow = GameObject.Find("CardRow");
+			if (cardRow is not null && cardRow.transform.Find("MenuCard_Grimora") is null)
+			{
+				StartScreenThemeSetterPatches.AddGrimoraModMenuCardButton(
+					FindObjectOfType<StartScreenThemeSetter>()
+				);
+			}
 		}
 	}
 
@@ -152,6 +155,20 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		_harmony?.UnpatchSelf();
 		GrimoraModBattleSequencer.ActiveEnemyPiece = null;
+		PrefabPieceHelper._prefabBoneyardPiece = null;
+		PrefabPieceHelper._prefabCardRemovePiece = null;
+		PrefabPieceHelper._prefabElectricChairPiece = null;
+		PrefabPieceHelper._prefabGoatEyePiece = null;
+		
+		FindObjectsOfType<ChessboardPiece>().ForEach(_ => Destroy(_.gameObject));
+		Destroy(FindObjectOfType<GrimoraModBattleSequencer>());
+		Destroy(FindObjectOfType<GrimoraModBossBattleSequencer>());
+		Destroy(ChessboardMapExt.Instance);
+		Destroy(FindObjectOfType<GrimoraCardRemoveSequencer>());
+		Destroy(FindObjectOfType<BoonIconInteractable>());
+		Destroy(ResourceDrone.Instance);
+		Destroy(DeckReviewSequencer.Instance);
+		Destroy(FindObjectOfType<GrimoraRareChoiceGenerator>());
 	}
 
 	private static void ResizeArtworkForVanillaBoneCards()
@@ -192,7 +209,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AssetBundle abilityBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_abilities"));
 		AssetBundle blockerBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("GrimoraMod_Prefabs_Blockers"));
 		AssetBundle spritesBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_sprites"));
-		// AssetBundle prefabsBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_prefabs"));
+		AssetBundle prefabsBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_prefabs"));
 
 		// BundlePrefab = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("prefab-testing"));
 		// Log.LogDebug($"{string.Join(",", BundlePrefab.GetAllAssetNames())}");
@@ -204,8 +221,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AllAbilityAssets = abilityBundle.LoadAllAssets<Texture>();
 		abilityBundle.Unload(false);
 
-		// AllPrefabAssets = prefabsBundle.LoadAllAssets<GameObject>();
-		// prefabsBundle.Unload(false);
+		AllPrefabAssets = prefabsBundle.LoadAllAssets<GameObject>();
+		prefabsBundle.Unload(false);
 
 		AllSpriteAssets = spritesBundle.LoadAllAssets<Sprite>();
 		spritesBundle.Unload(false);
