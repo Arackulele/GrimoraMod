@@ -75,7 +75,7 @@ public class SkinCrawler : AbilityBehaviour
 			Vector3 cardRot = cardToPick.transform.rotation.eulerAngles;
 
 			// rotate on z-axis, as if you rotated your hand holding the card counter-clockwise
-			// Tween.Rotate(toRightTransform, new Vector3(0f, 0f, 0f), Space.World, 0.1f, 0f, Tween.EaseInOut);
+			// Tween.Rotate(toRightTransform, new Vector3(0f, 0f, 25f), Space.World, 0.1f, 0f, Tween.EaseInOut);
 
 			// Vector3 positionFurtherAwayFromBaseCard = toRightSlotTransform.position + Vector3.forward * 8f;
 			// set starting position 
