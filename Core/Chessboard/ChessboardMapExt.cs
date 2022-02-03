@@ -48,11 +48,15 @@ public class ChessboardMapExt : ChessboardMap
 		if (_chessboards == null)
 		{
 			Log.LogDebug($"[ChessboardMapExt] Loading json boards");
-			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("GrimoraChessboardsStatic.json"));
+			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir(
+				ConfigHelper.Instance.isDevModeEnabled ? "GrimoraChessboardDevMode.json" : "GrimoraChessboardsStatic.json"
+			));
 
+			// Log.LogDebug($"[ChessboardMapExt] Parsing json");
 			_chessboards = ParseJson(
 				SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString)
 			);
+			// Log.LogDebug($"[ChessboardMapExt] Finished loading chessboard json file");
 		}
 	}
 
