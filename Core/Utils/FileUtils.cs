@@ -53,7 +53,7 @@ public static class FileUtils
 		{
 			return FilesToSearch.Single(str => Path.GetFileName(str) == file);
 		}
-		catch (InvalidOperationException e)
+		catch (Exception e)
 		{
 			Log.LogError($"Unable to find file [{Path.GetFileName(file)}] in directory [{GrimoraPluginsDir}] ! " +
 			             $"Are you sure you have both Artwork and DataFiles in this directory?");
