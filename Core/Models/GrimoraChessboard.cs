@@ -14,7 +14,7 @@ public class GrimoraChessboard
 		return new Dictionary<Type, Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>>
 		{
 			{
-				typeof(ChessboardBlockerPiece),
+				typeof(ChessboardBlockerPieceExt),
 				new Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>(
 					GetBlockerNodes,
 					() => null
@@ -338,7 +338,7 @@ public class GrimoraChessboard
 
 		piece.name = nameTemp;
 
-		// Log.LogDebug($"[CreatingPiece] {piece.name}");
+		// Log.LogDebug($"[CreateChessPiece] {piece.name}");
 		ChessboardMapExt.Instance.pieces.Add(piece);
 		// ChessboardNavGrid.instance.zones[x, y].GetComponent<ChessboardMapNode>().OccupyingPiece = piece;
 		return piece as T;
