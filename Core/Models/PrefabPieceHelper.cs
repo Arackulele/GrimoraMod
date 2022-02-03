@@ -36,7 +36,7 @@ public class PrefabPieceHelper : ManagedBehaviour
 
 	internal readonly ChessboardGoatEyePiece PrefabGoatEyePiece;
 
-	public readonly Dictionary<Type, Tuple<float, Func<GameObject>, Func<ChessboardPiece>>> PieceSetupByType;
+	public readonly Dictionary<Type, Tuple<float, GameObject, Func<ChessboardPiece>>> PieceSetupByType;
 
 	public PrefabPieceHelper()
 	{
@@ -88,71 +88,71 @@ public class PrefabPieceHelper : ManagedBehaviour
 	/// Item3: GameObject			 -> Object to use when creating the custom prefab piece.
 	/// Item4: ChessboardPiece -> The prefab to use 
 	/// </summary>
-	private Dictionary<Type, Tuple<float, Func<GameObject>, Func<ChessboardPiece>>> BuildDictionary()
+	private Dictionary<Type, Tuple<float, GameObject, Func<ChessboardPiece>>> BuildDictionary()
 	{
 		Log.LogDebug($"[PrefabPieceHelper] Building dictionary");
-		return new Dictionary<Type, Tuple<float, Func<GameObject>, Func<ChessboardPiece>>>()
+		return new Dictionary<Type, Tuple<float, GameObject, Func<ChessboardPiece>>>()
 		{
 			{
 				typeof(ChessboardBlockerPieceExt),
-				new Tuple<float, Func<GameObject>, Func<ChessboardPiece>>(
+				new Tuple<float, GameObject, Func<ChessboardPiece>>(
 					0f,
-					GetActiveRegionBlockerPiece,
+					GetActiveRegionBlockerPiece().gameObject,
 					() => PrefabBlockerPiece
 				)
 			},
 			{
 				typeof(ChessboardBoneyardPiece),
-				new Tuple<float, Func<GameObject>, Func<ChessboardPiece>>(
+				new Tuple<float, GameObject, Func<ChessboardPiece>>(
 					1.25f,
-					() => ResourceBank.Get<GameObject>($"{PathPrefabArt3D}/PlayerAvatar/gravedigger/GravediggerFin"),
+					ResourceBank.Get<GameObject>($"{PathPrefabArt3D}/PlayerAvatar/gravedigger/GravediggerFin"),
 					() => PrefabBoneyardPiece
 				)
 			},
 			{
-				typeof(ChessboardCardRemovePiece), new Tuple<float, Func<GameObject>, Func<ChessboardPiece>>(
+				typeof(ChessboardCardRemovePiece), new Tuple<float, GameObject, Func<ChessboardPiece>>(
 					0.25f,
-					() => ResourceBank.Get<GameObject>($"{PathPrefabSpecialNodes}/SkinningKnife"),
+					ResourceBank.Get<GameObject>($"{PathPrefabSpecialNodes}/SkinningKnife"),
 					() => PrefabCardRemovePiece
 				)
 			},
 			{
-				typeof(ChessboardChestPiece), new Tuple<float, Func<GameObject>, Func<ChessboardPiece>>(
+				typeof(ChessboardChestPiece), new Tuple<float, GameObject, Func<ChessboardPiece>>(
 					1f,
-					() => ResourceBank.Get<ChessboardChestPiece>($"{PathPrefabChessboardMap}/ChessboardChestPiece").gameObject,
+					ResourceBank.Get<ChessboardChestPiece>($"{PathPrefabChessboardMap}/ChessboardChestPiece").gameObject,
 					() => PrefabChestPiece
 				)
 			},
 			{
-				typeof(ChessboardElectricChairPiece), new Tuple<float, Func<GameObject>, Func<ChessboardPiece>>(
+				typeof(ChessboardElectricChairPiece), new Tuple<float, GameObject, Func<ChessboardPiece>>(
 					18f,
-					() => AllPrefabAssets.Single(go => go.name.Equals("SpecialNode_ElectricChair")),
+					AllPrefabAssets.Single(go => go.name.Equals("SpecialNode_ElectricChair")),
 					() => PrefabElectricChairPiece
 				)
 			},
 			{
-				typeof(ChessboardEnemyPiece), new Tuple<float, Func<GameObject>, Func<ChessboardPiece>>(
+				typeof(ChessboardEnemyPiece), new Tuple<float, GameObject, Func<ChessboardPiece>>(
 					1f,
-					() => ResourceBank.Get<ChessboardEnemyPiece>($"{PathPrefabChessboardMap}/ChessboardEnemyPiece").gameObject,
+					ResourceBank.Get<ChessboardEnemyPiece>($"{PathPrefabChessboardMap}/ChessboardEnemyPiece").gameObject,
 					() => PrefabEnemyPiece
 				)
 			},
 			{
-				typeof(ChessboardGoatEyePiece), new Tuple<float, Func<GameObject>, Func<ChessboardPiece>>(
+				typeof(ChessboardGoatEyePiece), new Tuple<float, GameObject, Func<ChessboardPiece>>(
 					0.4f,
-					() => ResourceBank.Get<GameObject>($"{PathPrefabSpecialNodes}/EyeBall"),
+					ResourceBank.Get<GameObject>($"{PathPrefabSpecialNodes}/EyeBall"),
 					() => PrefabGoatEyePiece
 				)
 			}
 		};
 	}
 
-	internal T CreateCustomPrefabPiece<T>() where T : ChessboardPiece
+	private T CreateCustomPrefabPiece<T>() where T : ChessboardPiece
 	{
 		Log.LogDebug($"[CreateCustomPrefabPiece] Creating custom piece [{typeof(T)}]");
-		if (PieceSetupByType.TryGetValue(typeof(T), out Tuple<float, Func<GameObject>, Func<ChessboardPiece>> tuple))
+		if (PieceSetupByType.TryGetValue(typeof(T), out Tuple<float, GameObject, Func<ChessboardPiece>> tuple))
 		{
-			GameObject gameObj = tuple.Item2.Invoke();
+			GameObject gameObj = tuple.Item2;
 
 			if (typeof(T) == typeof(ChessboardBlockerPieceExt))
 			{
