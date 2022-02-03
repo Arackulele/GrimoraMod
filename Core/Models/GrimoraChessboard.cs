@@ -186,9 +186,11 @@ public class GrimoraChessboard
 	public T PlacePiece<T>(int x, int y, string id = "", SpecialNodeData specialNodeData = null) where T : ChessboardPiece
 	{
 		// out ChessboardPiece prefabToUse
-		PiecePrefabByType.TryGetValue(typeof(T), out Tuple<float, GameObject, ChessboardPiece> tuple);
+		ChessboardMapExt.Instance.PrefabPieceHelper
+			.PieceSetupByType
+			.TryGetValue(typeof(T), out Tuple<float, Func<GameObject>, Func<ChessboardPiece>> tuple);
 
-		return CreateChessPiece<T>(tuple.Item3, x, y, id, specialNodeData);
+		return CreateChessPiece<T>(tuple.Item3.Invoke(), x, y, id, specialNodeData);
 	}
 
 	public List<T> PlacePieces<T>() where T : ChessboardPiece
