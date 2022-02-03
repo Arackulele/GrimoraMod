@@ -114,7 +114,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		{
 			Log.LogWarning($"...How did you get fewer than 3 cards in your deck?!");
 			var skeleton = CardLoader.GetCardByName("Skeleton");
-			randomizedChoices.AddRange(new[] { skeleton, skeleton });
+			cardsToAdd.AddRange(new[] { skeleton, skeleton });
 		}
 
 		while (cardsToAdd.Count < 3)
