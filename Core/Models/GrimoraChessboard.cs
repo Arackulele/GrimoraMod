@@ -176,9 +176,11 @@ public class GrimoraChessboard
 		return PlacePiece<ChessboardEnemyPiece>(x, y, bossName);
 	}
 
-	public ChessboardEnemyPiece PlaceBossPiece(string bossName)
+	public ChessboardBossPiece PlaceBossPiece(string bossName)
 	{
-		return CreateChessPiece<ChessboardEnemyPiece>(PrefabBossPiece, BossNode.GridX, BossNode.GridY, bossName);
+		return CreateChessPiece<ChessboardBossPiece>(
+			ChessboardMapExt.Instance.PrefabPieceHelper.PrefabBossPiece, BossNode.GridX, BossNode.GridY, bossName
+		);
 	}
 
 	public T PlacePiece<T>(int x, int y, string id = "", SpecialNodeData specialNodeData = null) where T : ChessboardPiece
