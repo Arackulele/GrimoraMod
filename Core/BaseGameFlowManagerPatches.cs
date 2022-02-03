@@ -19,7 +19,7 @@ public class BaseGameFlowManagerPatches
 		ResourceBank.Get<GameObject>("Prefabs/Cards/PlayableCard_Grimora");
 
 	// private static GameObject PrefabGrimoraPlayableCardGiant = CreatePrefabGrimoraPlayableCardGiant();
-	
+
 	private static GameObject PrefabGrimoraCardBack =>
 		ResourceBank.Get<GameObject>("Prefabs/Cards/CardBack_Grimora");
 
@@ -27,7 +27,7 @@ public class BaseGameFlowManagerPatches
 
 	private static GameObject CreatePrefabGrimoraPlayableCardGiant()
 	{
-		GameObject prefabGiant = CopyPrefab(new GameObject(),PrefabGrimoraPlayableCard);
+		GameObject prefabGiant = CopyPrefab(new GameObject(), PrefabGrimoraPlayableCard);
 		Log.LogDebug($"Setting PlayableCard component to not enabled");
 		prefabGiant.GetComponent<PlayableCard>().SetEnabled(false);
 		prefabGiant.name += "_Giant";
@@ -45,6 +45,7 @@ public class BaseGameFlowManagerPatches
 		{
 			return;
 		}
+
 		Log.LogDebug($"[GameFlowManager.Start] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");
 
 		// giantPrefab.GetComponent<Animator>().runtimeAnimatorController 
@@ -54,7 +55,6 @@ public class BaseGameFlowManagerPatches
 		// giantPrefab.transform.GetChild(0).GetChild(0).GetChild(0).localPosition = new Vector3(-0.65f, 1.25f, 0f);
 		// giantPrefab.transform.GetChild(0).GetChild(0).GetChild(0).localScale = new Vector3(1f, 1.175f, 0.2f);
 		CardSpawner.Instance.giantPlayableCardPrefab = PrefabGrimoraPlayableCard;
-
 
 		AddCardRemoveSequencer();
 
@@ -130,12 +130,13 @@ public class BaseGameFlowManagerPatches
 			FixShaders(go.transform.GetChild(i).gameObject);
 		}
 	}
-	
+
 	public static GameObject CopyPrefab(GameObject gameObject, GameObject prefabToCopy)
 	{
 		gameObject.name = prefabToCopy.name;
 		Log.LogDebug($"Getting components of [{prefabToCopy.name}]");
-		Component[] components = prefabToCopy.GetComponents<Component>().Where(cmp => cmp.GetType() != typeof(UnityEngine.Transform)).ToArray();
+		Component[] components = prefabToCopy.GetComponents<Component>()
+			.Where(cmp => cmp.GetType() != typeof(UnityEngine.Transform)).ToArray();
 		foreach (var component in components)
 		{
 			if (gameObject.GetComponent(component.GetType()) == null)
@@ -145,6 +146,7 @@ public class BaseGameFlowManagerPatches
 				attachedComp.name = component.name;
 			}
 		}
+
 		// Do the same for all child game objects
 		for (int i = 0; i < prefabToCopy.transform.childCount; i++)
 		{
@@ -438,7 +440,7 @@ public class BaseGameFlowManagerPatches
 			$"GameState [{gameState}]"
 		);
 
-		if(ChessboardMapExt.Instance is null)
+		if (ChessboardMapExt.Instance is null)
 		{
 			// This is required because Unity takes a second to update
 			while (ChessboardMapExt.Instance is null)
