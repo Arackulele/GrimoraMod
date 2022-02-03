@@ -22,7 +22,17 @@ public class ChessboardPieceExt : ChessboardPiece
 		{
 			base.transform.localScale = new Vector3(newScale, newScale, newScale);
 		}
-		ChessboardNavGrid.instance.zones[gridXPos, gridYPos].GetComponent<ChessboardMapNode>().OccupyingPiece = this;
+
+		if (base.GetType() == typeof(ChessboardBlockerPieceExt))
+		{
+			ChessboardNavGrid.instance.zones[gridXPos, gridYPos]
+				.GetComponent<ChessboardMapNode>()
+				.gameObject.SetActive(false);
+		}
+		else
+		{
+			ChessboardNavGrid.instance.zones[gridXPos, gridYPos].GetComponent<ChessboardMapNode>().OccupyingPiece = this;
+		}
 		base.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
 	}
 }
