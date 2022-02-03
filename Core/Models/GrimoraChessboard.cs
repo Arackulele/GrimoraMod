@@ -264,31 +264,28 @@ public class GrimoraChessboard
 	public T PlacePiece<T>(int x, int y, string id = "", SpecialNodeData specialNodeData = null) where T : ChessboardPiece
 	{
 		// out ChessboardPiece prefabToUse
-		ChessboardMapExt.Instance.PrefabPieceHelper
-			.PieceSetupByType
-			.TryGetValue(typeof(T), out Tuple<float, Func<GameObject>, Func<ChessboardPiece>> tuple);
+		if (!ChessboardMapExt.Instance.PrefabPieceHelper
+			    .PieceSetupByType
+			    .TryGetValue(typeof(T), out Tuple<float, Func<GameObject>, Func<ChessboardPiece>> tuple))
+		{
+			throw new Exception($"Unable to find piece of type [{typeof(T)}] in PieceSetupByType!");
+		}
 
 		return CreateChessPiece<T>(tuple.Item3.Invoke(), x, y, id, specialNodeData);
 	}
 
 	public List<T> PlacePieces<T>() where T : ChessboardPiece
 	{
-		Type type = typeof(T);
-		List<ChessNode> nodes = BlockerNodes;
-		if (type == typeof(ChessboardEnemyPiece))
+		if (!_nodesByPieceType.TryGetValue(typeof(T), out Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>> tuple))
 		{
-			nodes = EnemyNodes;
-		}
-		else if (type == typeof(ChessboardChestPiece))
-		{
-			nodes = ChestNodes;
-		}
-		else if (type == typeof(ChessboardCardRemovePiece))
-		{
-			nodes = CardRemovalNodes;
+			throw new Exception($"Unable to find piece of type [{typeof(T)}] in _nodesByPieceType!");
 		}
 
-		return nodes.Select(node => PlacePiece<T>(node.GridX, node.GridY)).ToList();
+		List<ChessNode> nodes = tuple.Item1.Invoke();
+		SpecialNodeData specialNodeData = tuple.Item2.Invoke();
+
+		return nodes.Select(node => PlacePiece<T>(node.GridX, node.GridY, specialNodeData: specialNodeData)).ToList();
+
 	}
 
 	#endregion
