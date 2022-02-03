@@ -44,7 +44,6 @@ public class PrefabPieceHelper : ManagedBehaviour
 		PrefabChestPiece = ResourceBank.Get<ChessboardChestPiece>($"{PathPrefabChessboardMap}/ChessboardChestPiece");
 		PrefabEnemyPiece = ResourceBank.Get<ChessboardEnemyPiece>($"{PathPrefabChessboardMap}/ChessboardEnemyPiece");
 
-		Log.LogDebug($"[PrefabPieceHelper] Before building dictionary");
 		PieceSetupByType = BuildDictionary();
 		PrefabBlockerPiece = CreateCustomPrefabPiece<ChessboardBlockerPieceExt>();
 		PrefabBoneyardPiece = CreateCustomPrefabPiece<ChessboardBoneyardPiece>();
