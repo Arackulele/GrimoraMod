@@ -9,13 +9,7 @@ public class GrimoraChessboard
 {
 
 	public readonly int indexInList;
-	public readonly List<ChessNode> BlockerNodes;
 	public readonly ChessNode BossNode;
-	public readonly List<ChessNode> ChestNodes;
-	public readonly List<ChessNode> CardRemovalNodes;
-	public readonly List<ChessNode> EnemyNodes;
-	public readonly List<ChessNode> OpenPathNodes;
-	public readonly ChessNode PlayerNode;
 
 	protected internal ChessboardEnemyPiece BossPiece =>
 		GetPieceAtSpace(BossNode.GridX, BossNode.GridY) as ChessboardEnemyPiece;
@@ -29,13 +23,7 @@ public class GrimoraChessboard
 	public GrimoraChessboard(IEnumerable<List<int>> board, int indexInList)
 	{
 		this.Rows = board.Select((boardList, idx) => new ChessRow(boardList, idx)).ToList();
-		this.BlockerNodes = GetBlockerNodes();
 		this.BossNode = GetBossNode();
-		this.ChestNodes = GetChestNodes();
-		this.CardRemovalNodes = GetCardRemovalNodes();
-		this.EnemyNodes = GetEnemyNodes();
-		this.OpenPathNodes = GetOpenPathNodes();
-		this.PlayerNode = GetPlayerNode();
 		this.indexInList = indexInList;
 	}
 
