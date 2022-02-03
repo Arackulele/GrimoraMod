@@ -25,19 +25,6 @@ public class BaseGameFlowManagerPatches
 
 	private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
 
-	private static GameObject CreatePrefabGrimoraPlayableCardGiant()
-	{
-		GameObject prefabGiant = CopyPrefab(new GameObject(), PrefabGrimoraPlayableCard);
-		Log.LogDebug($"Setting PlayableCard component to not enabled");
-		prefabGiant.GetComponent<PlayableCard>().SetEnabled(false);
-		prefabGiant.name += "_Giant";
-
-		prefabGiant.transform.localPosition = new Vector3(-0.7f, 1.25f, 0f);
-		prefabGiant.transform.localScale = new Vector3(1.4f, 1.25f, 0.2f);
-
-		return prefabGiant;
-	}
-
 	[HarmonyPrefix, HarmonyPatch(nameof(GameFlowManager.Start))]
 	public static void PrefixStart(GameFlowManager __instance)
 	{
@@ -113,49 +100,6 @@ public class BaseGameFlowManagerPatches
 
 		// Log.LogDebug($"Updating items");
 		// GrimoraItemsManagerExt.Instance.UpdateItems();
-	}
-
-	// ONLY USE THIS IF YOU COMPILED THE ASSET BUNDLE WITH A VERSION OF UNITY THAT IS NOT 2019.4.24F
-	public static void FixShaders(GameObject go)
-	{
-		// Reset shader if this object has a MeshRenderer
-		if (go.GetComponent<MeshRenderer>() != null)
-		{
-			go.GetComponent<MeshRenderer>().material.shader = Shader.Find("Standard");
-		}
-
-		// Do the same for all child game objects
-		for (int i = 0; i < go.transform.childCount; i++)
-		{
-			FixShaders(go.transform.GetChild(i).gameObject);
-		}
-	}
-
-	public static GameObject CopyPrefab(GameObject gameObject, GameObject prefabToCopy)
-	{
-		gameObject.name = prefabToCopy.name;
-		Log.LogDebug($"Getting components of [{prefabToCopy.name}]");
-		Component[] components = prefabToCopy.GetComponents<Component>()
-			.Where(cmp => cmp.GetType() != typeof(UnityEngine.Transform)).ToArray();
-		foreach (var component in components)
-		{
-			if (gameObject.GetComponent(component.GetType()) == null)
-			{
-				Log.LogDebug($"-> Adding component [{component.GetType()}]");
-				Component attachedComp = gameObject.AddComponent(component.GetType());
-				attachedComp.name = component.name;
-			}
-		}
-
-		// Do the same for all child game objects
-		for (int i = 0; i < prefabToCopy.transform.childCount; i++)
-		{
-			GameObject newGameObj = new GameObject();
-			newGameObj.transform.SetParent(gameObject.transform);
-			CopyPrefab(newGameObj, prefabToCopy.transform.GetChild(i).gameObject);
-		}
-
-		return gameObject;
 	}
 
 	private static void AddCustomEnergy()
