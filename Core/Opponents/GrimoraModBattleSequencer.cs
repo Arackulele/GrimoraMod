@@ -13,7 +13,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 	{
 		if (!TurnManager.Instance.PlayerIsWinner())
 		{
-			Log.LogDebug($"[GrimoraModBattleSequencer] Player did not win...");
+			Log.LogDebug($"[PreCleanUp] Player did not win...");
 			AudioController.Instance.FadeOutLoop(3f, Array.Empty<int>());
 
 			ViewManager.Instance.SwitchToView(View.Default, false, true);
@@ -22,23 +22,23 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 			InteractionCursor.Instance.InteractionDisabled = true;
 
-			Log.LogDebug($"[GameEnd] Calling CardDrawPiles CleanUp...");
+			Log.LogDebug($"[PreCleanUp] Calling CardDrawPiles CleanUp...");
 			StartCoroutine(CardDrawPiles.Instance.CleanUp());
 
-			Log.LogDebug($"[GameEnd] Calling TurnManager CleanUp...");
+			Log.LogDebug($"[PreCleanUp] Calling TurnManager CleanUp...");
 			StartCoroutine(TurnManager.Instance.Opponent.CleanUp());
 
 			yield return GlitchOutBoardAndHandCards();
 
-			PlayerHand.Instance.SetShown(false, false);
+			PlayerHand.Instance.SetShown(false);
 
 			yield return new WaitForSeconds(0.75f);
 
-			Log.LogDebug($"[GameEnd] Setting rulebook controller to not shown");
+			Log.LogDebug($"[PreCleanUp] Setting rulebook controller to not shown");
 			RuleBookController.Instance.SetShown(shown: false);
-			Log.LogDebug($"[GameEnd] Setting TableRuleBook.Instance enabled to false");
+			Log.LogDebug($"[PreCleanUp] Setting TableRuleBook.Instance enabled to false");
 			TableRuleBook.Instance.enabled = false;
-			Log.LogDebug($"[GameEnd] Glitching rulebook");
+			Log.LogDebug($"[PreCleanUp] Glitching rulebook");
 			GlitchOutAssetEffect.GlitchModel(TableRuleBook.Instance.transform, false, true);
 
 			yield return new WaitForSeconds(0.75f);
@@ -66,7 +66,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			yield return new WaitForSeconds(0.75f);
 
 			Log.LogDebug($"[GameEnd] Glitching hammer");
-			GlitchOutAssetEffect.GlitchModel(GrimoraItemsManagerExt.Instance.HammerSlot.transform);
+			GlitchOutAssetEffect.GlitchModel(GrimoraItemsManagerExt.Instance.hammerSlot.transform);
 			yield return new WaitForSeconds(0.75f);
 
 			// yield return (GameFlowManager.Instance as GrimoraGameFlowManager).EndSceneSequence();
@@ -103,7 +103,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 	public override List<CardInfo> GetFixedOpeningHand()
 	{
-		Log.LogDebug($"Getting randomized list for starting hand");
+		Log.LogDebug($"[GetFixedOpeningHand] Getting randomized list for starting hand");
 		var cardsToAdd = new List<CardInfo>();
 		var randomizedChoices = GrimoraSaveData.Data.deck.Cards
 			.ToArray()
@@ -112,7 +112,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 		if (randomizedChoices.Count < 3)
 		{
-			Log.LogWarning($"...How did you get fewer than 3 cards in your deck?!");
+			Log.LogWarning($"[GetFixedOpeningHand] ...How did you get fewer than 3 cards in your deck?!");
 			var skeleton = CardLoader.GetCardByName("Skeleton");
 			cardsToAdd.AddRange(new[] { skeleton, skeleton });
 		}
@@ -127,7 +127,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 				choice = randomizedChoices[GenerateRandomSeed(randomizedChoices)];
 			}
 
-			Log.LogDebug($"Adding random card choice [{choice.name}] to opening hand");
+			Log.LogDebug($"[GetFixedOpeningHand] Adding random card choice [{choice.name}] to opening hand");
 			cardsToAdd.Add(choice);
 		}
 
@@ -176,6 +176,6 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 	private static void GlitchOutCard(Card c)
 	{
 		(c.Anim as GravestoneCardAnimationController).PlayGlitchOutAnimation();
-		UnityEngine.Object.Destroy(c.gameObject, 0.25f);
+		Destroy(c.gameObject, 0.25f);
 	}
 }
