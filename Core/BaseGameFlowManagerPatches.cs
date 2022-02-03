@@ -199,26 +199,26 @@ public class BaseGameFlowManagerPatches
 			ext = GrimoraItemsManager.Instance.gameObject.AddComponent<GrimoraItemsManagerExt>();
 			ext.consumableSlots = currentItemsManager.consumableSlots;
 
-			Part3ItemsManager part3ItemsManager = Object.Instantiate(
-				ResourceBank.Get<Part3ItemsManager>("Prefabs/Items/ItemsManager_Part3")
+			Log.LogDebug($"[AddHammer] Destroying old manager");
+			Object.Destroy(currentItemsManager);
+
+			Part3ItemsManager part3ItemsManager = Object.Instantiate(ResourceBank.Get<Part3ItemsManager>(
+					"Prefabs/Items/ItemsManager_Part3"),
+				ext.transform,
+				true
 			);
 
-			part3ItemsManager.hammerSlot.transform.SetParent(ext.transform);
-
-			ext.HammerSlot = part3ItemsManager.hammerSlot;
+			ext.hammerSlot = part3ItemsManager.hammerSlot;
 
 			float xVal = Harmony.HasAnyPatches("julianperge.inscryption.act1.increaseCardSlots") ? -8.75f : -7.5f;
-			ext.HammerSlot.gameObject.transform.localPosition = new Vector3(xVal, 0.81f, -0.48f);
-			ext.HammerSlot.gameObject.transform.rotation = Quaternion.Euler(270f, 315f, 0f);
-
-			Log.LogDebug($"[AddHammer] Destroying old part3ItemsManager");
-			Object.Destroy(part3ItemsManager);
+			ext.hammerSlot.gameObject.transform.localPosition = new Vector3(xVal, 0.81f, -0.48f);
+			ext.hammerSlot.gameObject.transform.rotation = Quaternion.Euler(270f, 315f, 0f);
 		}
 
-		if (GameObject.Find("ItemsManager_Part3(Clone)"))
+		if (Object.FindObjectOfType<Part3ItemsManager>() is not null)
 		{
 			Log.LogDebug($"[AddHammer] Destroying existing part3ItemsManager");
-			Object.Destroy(GameObject.Find("ItemsManager_Part3(Clone)"));
+			Object.Destroy(Object.FindObjectOfType<Part3ItemsManager>().gameObject);
 		}
 
 		Log.LogDebug($"[AddHammer] Finished adding hammer");
