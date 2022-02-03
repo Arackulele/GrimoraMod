@@ -18,12 +18,20 @@ public abstract class BaseBossExt : Part1BossOpponent
 	public const Type RoyalOpponent = (Type)1003;
 	public const Type GrimoraOpponent = (Type)1004;
 
-	public static readonly Dictionary<string, Type> BossTypesByString = new()
+	public static readonly Dictionary<int, Tuple<Opponent.Type, string>> BossByIndex = new()
 	{
-		{ SawyerBossOpponent.SpecialId, SawyerOpponent },
-		{ GrimoraBossOpponentExt.SpecialId, GrimoraOpponent },
-		{ KayceeBossOpponent.SpecialId, KayceeOpponent },
-		{ RoyalBossOpponentExt.SpecialId, RoyalOpponent }
+		{ 0, new Tuple<Type, string>(KayceeOpponent, KayceeBossOpponent.SpecialId) },
+		{ 1, new Tuple<Type, string>(SawyerOpponent, SawyerBossOpponent.SpecialId) },
+		{ 2, new Tuple<Type, string>(RoyalOpponent, RoyalBossOpponentExt.SpecialId) },
+		{ 3, new Tuple<Type, string>(GrimoraOpponent, GrimoraBossOpponentExt.SpecialId) }
+	};
+	
+	public static readonly Dictionary<string, Tuple<Opponent.Type, int>> BossBySpecialId = new()
+	{
+		{ KayceeBossOpponent.SpecialId, new Tuple<Type, int>(KayceeOpponent, 0) },
+		{ SawyerBossOpponent.SpecialId, new Tuple<Type, int>(SawyerOpponent, 1) },
+		{ RoyalBossOpponentExt.SpecialId, new Tuple<Type, int>(RoyalOpponent, 2) },
+		{ GrimoraBossOpponentExt.SpecialId, new Tuple<Type, int>(GrimoraOpponent, 3) }
 	};
 
 	public static readonly Dictionary<Type, string> BossMasksByType = new()
