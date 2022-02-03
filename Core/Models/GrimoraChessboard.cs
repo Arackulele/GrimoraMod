@@ -79,42 +79,14 @@ public class GrimoraChessboard
 
 	public void SetupBoard()
 	{
-		if (ConfigHelper.Instance.isRoyalDead)
-		{
-			Log.LogDebug($"[SetupGamePieces] Royal defeated");
-			PlaceBossPiece(GrimoraBossOpponentExt.SpecialId);
-		}
-		else if (ConfigHelper.Instance.isSawyerDead)
-		{
-			Log.LogDebug($"[SetupGamePieces] Sawyer defeated");
-			PlaceBossPiece(RoyalBossOpponentExt.SpecialId);
-		}
-		else if (ConfigHelper.Instance.isKayceeDead)
-		{
-			Log.LogDebug($"[SetupGamePieces] Kaycee defeated");
-			PlaceBossPiece(SawyerBossOpponent.SpecialId);
-		}
-		else
-		{
-			Log.LogDebug($"[SetupGamePieces] No bosses defeated yet, creating Kaycee");
-			PlaceBossPiece(KayceeBossOpponent.SpecialId);
-		}
-
-		if (ConfigHelper.Instance.isDevModeEnabled)
-		{
-			for (int i = 0; i < 8; i++)
-			{
-				PlacePiece<ChessboardChestPiece>(i, 0, specialNodeData: new CardChoicesNodeData());
-				PlacePiece<ChessboardEnemyPiece>(0, i);
-				PlacePiece<ChessboardCardRemovePiece>(7, i);
-			}
-		}
-		else
-		{
-			PlacePieces<ChessboardEnemyPiece>();
-			PlacePieces<ChessboardBlockerPiece>();
-			PlacePieces<ChessboardCardRemovePiece>();
-		}
+		PlaceBossPiece(GetBossSpecialIdForRegion());
+		PlacePieces<ChessboardBlockerPiece>();
+		PlacePieces<ChessboardBoneyardPiece>();
+		PlacePieces<ChessboardCardRemovePiece>();
+		PlacePieces<ChessboardChestPiece>();
+		PlacePieces<ChessboardElectricChairPiece>();
+		PlacePieces<ChessboardEnemyPiece>();
+		PlacePieces<ChessboardGoatEyePiece>();
 	}
 
 	public void UpdatePlayerMarkerPosition(bool changingRegion)
