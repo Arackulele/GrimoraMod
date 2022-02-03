@@ -6,7 +6,7 @@ using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
-public class PrefabPieceHelper
+public class PrefabPieceHelper : ManagedBehaviour
 {
 	private readonly Dictionary<int, Func<GameObject>> _bossByIndex = new()
 	{
