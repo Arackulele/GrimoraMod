@@ -291,6 +291,7 @@ public class BaseGameFlowManagerPatches
 		{
 			Log.LogDebug($"[ChangeChessboardToExtendedClass] ChessboardMapExt is null");
 			ChessboardMap boardComp = ChessboardMap.Instance.gameObject.GetComponent<ChessboardMap>();
+			boardComp.pieces.Clear();
 
 			ext = ChessboardMap.Instance.gameObject.AddComponent<ChessboardMapExt>();
 
@@ -303,23 +304,22 @@ public class BaseGameFlowManagerPatches
 
 			Log.LogDebug($"[ChangeChessboardToExtendedClass] Destroying old chessboard component");
 			Object.Destroy(boardComp);
-
-			Log.LogDebug($"[ChangeChessboardToExtendedClass] Getting initial starting pieces");
-			var initialStartingPieces = Object.FindObjectsOfType<ChessboardPiece>();
-			// Log.LogDebug($"[ChangeChessboardToExtendedClass] Resetting initial pieces" +
-			//              $" {string.Join(", ", initialStartingPieces.Select(_ => _.name))}");
-
-			Log.LogDebug($"[ChangeChessboardToExtendedClass] Destroying initial pieces");
-			foreach (var piece in initialStartingPieces)
-			{
-				ext.pieces.Remove(piece);
-				piece.MapNode.OccupyingPiece = null;
-				piece.gameObject.SetActive(false);
-				Object.Destroy(piece.gameObject);
-			}
 		}
 
 		Log.LogDebug($"[ChangeChessboardToExtendedClass] Finished adding ChessboardMapExt");
+
+		Log.LogDebug($"[ChangeChessboardToExtendedClass] Getting initial starting pieces");
+		var initialStartingPieces = Object.FindObjectsOfType<ChessboardPiece>();
+		Log.LogDebug($"[ChangeChessboardToExtendedClass] Resetting initial pieces" +
+		             $" {string.Join(", ", initialStartingPieces.Select(_ => _.name))}");
+
+		Log.LogDebug($"[ChangeChessboardToExtendedClass] Destroying initial pieces");
+		foreach (var piece in initialStartingPieces)
+		{
+			piece.MapNode.OccupyingPiece = null;
+			piece.gameObject.SetActive(false);
+			Object.Destroy(piece.gameObject);
+		}
 	}
 
 	private static void AddDeckReviewSequencerToScene()
