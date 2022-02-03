@@ -259,7 +259,7 @@ public class GrimoraChessboard
 		// out ChessboardPiece prefabToUse
 		if (!ChessboardMapExt.Instance.PrefabPieceHelper
 			    .PieceSetupByType
-			    .TryGetValue(typeof(T), out Tuple<float, Func<GameObject>, Func<ChessboardPiece>> tuple))
+			    .TryGetValue(typeof(T), out Tuple<float, GameObject, Func<ChessboardPiece>> tuple))
 		{
 			throw new Exception($"Unable to find piece of type [{typeof(T)}] in PieceSetupByType!");
 		}
