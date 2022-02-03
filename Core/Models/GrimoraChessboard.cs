@@ -88,6 +88,25 @@ public class GrimoraChessboard
 		PlacePieces<ChessboardEnemyPiece>();
 		PlacePieces<ChessboardGoatEyePiece>();
 	}
+	
+	public static string GetBossSpecialIdForRegion()
+	{
+		switch (ConfigHelper.Instance.BossesDefeated)
+		{
+			case 1:
+				Log.LogDebug($"[GetBossSpecialIdForRegion] Kaycee defeated");
+				return SawyerBossOpponent.SpecialId;
+			case 2:
+				Log.LogDebug($"[GetBossSpecialIdForRegion] Sawyer defeated");
+				return RoyalBossOpponentExt.SpecialId;
+			case 3:
+				Log.LogDebug($"[GetBossSpecialIdForRegion] Royal defeated");
+				return GrimoraBossOpponentExt.SpecialId;
+			default:
+				Log.LogDebug($"[GetBossSpecialIdForRegion] No bosses defeated yet, creating Kaycee");
+				return KayceeBossOpponent.SpecialId;
+		}
+	}
 
 	public void UpdatePlayerMarkerPosition(bool changingRegion)
 	{
