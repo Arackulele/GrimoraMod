@@ -154,10 +154,12 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private void OnDestroy()
 	{
+		Resources.UnloadUnusedAssets();
 		_harmony?.UnpatchSelf();
 		GrimoraModBattleSequencer.ActiveEnemyPiece = null;
 
 		FindObjectsOfType<ChessboardPiece>().ForEach(_ => Destroy(_.gameObject));
+		Destroy(FindObjectOfType<PrefabPieceHelper>());
 		Destroy(FindObjectOfType<DebugHelper>());
 		Destroy(FindObjectOfType<GrimoraModBattleSequencer>());
 		Destroy(FindObjectOfType<GrimoraModBossBattleSequencer>());
@@ -167,6 +169,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Destroy(ResourceDrone.Instance);
 		Destroy(DeckReviewSequencer.Instance);
 		Destroy(FindObjectOfType<GrimoraRareChoiceGenerator>());
+		Destroy(FindObjectOfType<SpecialNodeHandler>());
 	}
 
 	private static void ResizeArtworkForVanillaBoneCards()
