@@ -110,14 +110,6 @@ public class PrefabPieceHelper
 				)
 			},
 			{
-				typeof(ChessboardBossPiece),
-				new Tuple<float, Func<GameObject>, Func<ChessboardPiece>>(
-					1f,
-					() => ResourceBank.Get<ChessboardEnemyPiece>($"{PathPrefabChessboardMap}/BossFigurine").gameObject,
-					() => PrefabBossPiece
-				)
-			},
-			{
 				typeof(ChessboardCardRemovePiece), new Tuple<float, Func<GameObject>, Func<ChessboardPiece>>(
 					0.25f,
 					() => ResourceBank.Get<GameObject>($"{PathPrefabSpecialNodes}/SkinningKnife"),

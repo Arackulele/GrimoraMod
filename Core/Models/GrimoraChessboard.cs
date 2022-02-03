@@ -28,13 +28,6 @@ public class GrimoraChessboard
 				)
 			},
 			{
-				typeof(ChessboardBossPiece),
-				new Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>(
-					() => new List<ChessNode>() { GetBossNode() },
-					() => null // todo: change later after impl
-				)
-			},
-			{
 				typeof(ChessboardCardRemovePiece),
 				new Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>(
 					GetCardRemovalNodes,
@@ -254,9 +247,9 @@ public class GrimoraChessboard
 		return PlacePiece<ChessboardEnemyPiece>(x, y, bossName);
 	}
 
-	public ChessboardBossPiece PlaceBossPiece(string bossName)
+	public ChessboardEnemyPiece PlaceBossPiece(string bossName)
 	{
-		return CreateChessPiece<ChessboardBossPiece>(
+		return CreateChessPiece<ChessboardEnemyPiece>(
 			ChessboardMapExt.Instance.PrefabPieceHelper.PrefabBossPiece, BossNode.GridX, BossNode.GridY, bossName
 		);
 	}
@@ -316,17 +309,22 @@ public class GrimoraChessboard
 
 		switch (piece)
 		{
-			case ChessboardBossPiece bossPiece:
-				ActiveBossType = _bossBySpecialId.GetValueSafe(id);
-				// Log.LogDebug($"[CreateChessPiece] id is not null, setting ActiveBossType to [{id}]");
-				bossPiece.blueprint = BlueprintUtils.BossInitialBlueprints[id];
-				break;
 			case ChessboardEnemyPiece enemyPiece:
 			{
 				enemyPiece.GoalPosX = x;
 				enemyPiece.GoalPosX = y;
-				enemyPiece.blueprint = GetBlueprint();
-				enemyPiece.specialEncounterId = "GrimoraModBattleSequencer";
+				if (prefab.name.Contains("Boss"))
+				{
+					Log.LogDebug($"[CreateChessPiece] Setting ActiveBossType to [{id}]");
+					nameTemp = nameTemp.Replace("Enemy", "Boss");
+					ActiveBossType = _bossBySpecialId.GetValueSafe(id);
+					enemyPiece.blueprint = BlueprintUtils.BossInitialBlueprints[id];
+				}
+				else
+				{
+					enemyPiece.blueprint = GetBlueprint();
+					enemyPiece.specialEncounterId = "GrimoraModBattleSequencer";
+				}
 				break;
 			}
 		}
