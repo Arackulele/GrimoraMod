@@ -7,8 +7,12 @@ using static GrimoraMod.GrimoraPlugin;
 // This class is literally just meant to be able to view the deck review sequencer
 namespace GrimoraMod;
 
-public class ChessboardMapExt : ChessboardMap
+public class ChessboardMapExt : GameMap
 {
+	[SerializeField] internal NavigationGrid navGrid;
+
+	[SerializeField] internal List<ChessboardPiece> pieces;
+
 	internal PrefabPieceHelper PrefabPieceHelper;
 
 	public List<ChessboardPiece> ActivePieces => pieces;
@@ -70,8 +74,6 @@ public class ChessboardMapExt : ChessboardMap
 
 	private void Awake()
 	{
-		PrefabPieceHelper = new PrefabPieceHelper();
-
 		Log.LogDebug($"[MapExt] Setting on view changed");
 		ViewManager instance = ViewManager.Instance;
 		instance.ViewChanged = (Action<View, View>)Delegate
@@ -79,6 +81,9 @@ public class ChessboardMapExt : ChessboardMap
 
 		Log.LogDebug($"[MapExt] Adding debug helper");
 		gameObject.AddComponent<DebugHelper>();
+
+		Log.LogDebug($"[MapExt] Adding prefab piece helper");
+		PrefabPieceHelper = gameObject.AddComponent<PrefabPieceHelper>();
 	}
 
 	private void OnGUI()
@@ -387,5 +392,26 @@ public class ChessboardMapExt : ChessboardMap
 				}
 			}
 		}
+	}
+
+	public override IEnumerator RerollingSequence()
+	{
+		foreach (var piece in pieces.Where(piece => piece.gameObject.activeInHierarchy))
+		{
+			piece.Hide();
+			yield return new WaitForSeconds(0.005f);
+		}
+		PlayerMarker.Instance.Hide();
+		CameraEffects.Instance.TweenFogAlpha(0f, 0.15f);
+		yield return new WaitForSeconds(0.15f);
+		TableVisualEffectsManager.Instance.SetFogPlaneShown(shown: false);
+		CameraEffects.Instance.SetFogEnabled(fogEnabled: false);
+		mapAnim.Play("exit", 0, 0f);
+		dynamicElementsParent.gameObject.SetActive(value: false);
+	}
+
+	public override void OnHideMapImmediate()
+	{
+		mapAnim.Play("exit", 0, 1f);
 	}
 }
