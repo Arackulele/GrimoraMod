@@ -7,6 +7,78 @@ namespace GrimoraMod;
 
 public class GrimoraChessboard
 {
+	private readonly Dictionary<System.Type, Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>> _nodesByPieceType;
+
+	private Dictionary<Type, Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>> BuildDictionary()
+	{
+		return new Dictionary<Type, Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>>
+		{
+			{
+				typeof(ChessboardBlockerPiece),
+				new Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>(
+					GetBlockerNodes,
+					() => null
+				)
+			},
+			{
+				typeof(ChessboardBoneyardPiece),
+				new Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>(
+					GetBoneyardNodes,
+					() => null // todo: change later after impl
+				)
+			},
+			{
+				typeof(ChessboardBossPiece),
+				new Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>(
+					() => new List<ChessNode>() { GetBossNode() },
+					() => null // todo: change later after impl
+				)
+			},
+			{
+				typeof(ChessboardCardRemovePiece),
+				new Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>(
+					GetCardRemovalNodes,
+					() => new CardRemoveNodeData()
+				)
+			},
+			{
+				typeof(ChessboardChestPiece),
+				new Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>(
+					GetCardRemovalNodes,
+					() => new CardChoicesNodeData()
+				)
+			},
+			{
+				typeof(ChessboardElectricChairPiece),
+				new Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>(
+					GetElectricChairNodes,
+					() => null // todo: impl after
+				)
+			},
+			{
+				typeof(ChessboardEnemyPiece),
+				new Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>(
+					GetEnemyNodes,
+					() => null // todo: impl after
+				)
+			},
+			{
+				typeof(ChessboardGoatEyePiece),
+				new Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>(
+					GetGoatEyeNodes,
+					() => null // todo: impl after
+				)
+			}
+		};
+	}
+	
+	private readonly Dictionary<string, Opponent.Type> _bossBySpecialId = new()
+	{
+		{ KayceeBossOpponent.SpecialId, BaseBossExt.KayceeOpponent },
+		{ SawyerBossOpponent.SpecialId, BaseBossExt.SawyerOpponent },
+		{ RoyalBossOpponentExt.SpecialId, BaseBossExt.RoyalOpponent },
+		{ GrimoraBossOpponentExt.SpecialId, BaseBossExt.GrimoraOpponent }
+	};
 
 	public readonly int indexInList;
 	public readonly ChessNode BossNode;
