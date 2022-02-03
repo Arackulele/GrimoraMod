@@ -5,14 +5,17 @@ using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
-public class ChessboardCardRemovePiece : ChessboardPiece
+public class ChessboardCardRemovePiece : ChessboardPieceExt
 {
-	
-	private void Start()
+	public ChessboardCardRemovePiece()
+	{
+		newYPosition = 1.4f;
+		newScale = 0.25f;
+	}
+
+	private void Awake()
 	{
 		base.NodeData = new CardRemoveNodeData();
-		base.transform.position = ChessboardNavGrid.instance.zones[gridXPos, gridYPos].transform.position;
-		ChessboardNavGrid.instance.zones[gridXPos, gridYPos].GetComponent<ChessboardMapNode>().OccupyingPiece = this;
 	}
 
 	public override void OnPlayerInteracted()
