@@ -71,7 +71,7 @@ public class GrimoraChessboard
 			}
 		};
 	}
-	
+
 	private readonly Dictionary<string, Opponent.Type> _bossBySpecialId = new()
 	{
 		{ KayceeBossOpponent.SpecialId, BaseBossExt.KayceeOpponent },
@@ -285,24 +285,11 @@ public class GrimoraChessboard
 		SpecialNodeData specialNodeData = tuple.Item2.Invoke();
 
 		return nodes.Select(node => PlacePiece<T>(node.GridX, node.GridY, specialNodeData: specialNodeData)).ToList();
-
 	}
 
 	#endregion
 
 	#region CreatePieces
-
-	public Mesh GetActiveRegionBlockerMesh()
-	{
-		Mesh meshObj = ActiveBossType switch
-		{
-			BaseBossExt.SawyerOpponent => MeshFilterBlockerBones,
-			BaseBossExt.RoyalOpponent => MeshFilterBlockerBarrels,
-			_ => MeshFilterBlockerIceBlock
-		};
-
-		return meshObj;
-	}
 
 	private T CreateChessPiece<T>(
 		ChessboardPiece prefab,
@@ -314,13 +301,13 @@ public class GrimoraChessboard
 
 		ChessboardPiece piece = GetPieceAtSpace(x, y);
 
-		if (piece is not null)
+		if (piece is not null && ChessboardMapExt.Instance.PieceExistsInActivePieces.Invoke(piece))
 		{
 			Log.LogDebug($"[CreateChessPiece<{typeof(T).Name}>] Skipping x{x}y{y}, {piece.name} already exists");
 			return piece as T;
 		}
 
-		piece = UnityEngine.Object.Instantiate(prefab, ChessboardMapExt.Instance.dynamicElementsParent);
+		piece = Object.Instantiate(prefab, ChessboardMapExt.Instance.dynamicElementsParent);
 		piece.gridXPos = x;
 		piece.gridYPos = y;
 
