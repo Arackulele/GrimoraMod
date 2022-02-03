@@ -139,7 +139,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		ResizeArtworkForVanillaBoneCards();
 		
-		if(ConfigHelper.Instance.isDevModeEnabled)
+		if(ConfigHelper.Instance.isHotReloadEnabled)
 		{
 			GameObject cardRow = GameObject.Find("CardRow");
 			if (cardRow is not null && cardRow.transform.Find("MenuCard_Grimora") is null)
@@ -149,17 +149,15 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 				);
 			}
 		}
+
+		ConfigHelper.Instance.HandleHotReloadAfter();
 	}
 
 	private void OnDestroy()
 	{
 		_harmony?.UnpatchSelf();
 		GrimoraModBattleSequencer.ActiveEnemyPiece = null;
-		PrefabPieceHelper._prefabBoneyardPiece = null;
-		PrefabPieceHelper._prefabCardRemovePiece = null;
-		PrefabPieceHelper._prefabElectricChairPiece = null;
-		PrefabPieceHelper._prefabGoatEyePiece = null;
-		
+
 		FindObjectsOfType<ChessboardPiece>().ForEach(_ => Destroy(_.gameObject));
 		Destroy(FindObjectOfType<GrimoraModBattleSequencer>());
 		Destroy(FindObjectOfType<GrimoraModBossBattleSequencer>());
