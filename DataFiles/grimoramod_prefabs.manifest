@@ -1,0 +1,43 @@
+ManifestFileVersion: 0
+CRC: 532942842
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 83679129555977981d30b83a840dc90b
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: a07dd2c4fccee9d11ba6fd26a085f098
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
+- Class: 135
+  Script: {instanceID: 0}
+- Class: 136
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/GrimoraMod/Blocker_Ice_Kaycee.prefab
+- Assets/GrimoraMod/ElectricChairStone.prefab
+- Assets/GrimoraMod/Blocker_Bones_Sawyer.prefab
+- Assets/Prefabs/Hexalantern.prefab
+- Assets/GrimoraMod/Blocker_Barrel_Royal.prefab
+Dependencies: []
