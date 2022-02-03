@@ -94,10 +94,13 @@ public class GrimoraChessboard
 
 	public GrimoraChessboard(IEnumerable<List<int>> board, int indexInList)
 	{
-		this.Rows = board.Select((boardList, idx) => new ChessRow(boardList, idx)).ToList();
-		this.BossNode = GetBossNode();
+		Rows = board.Select((boardList, idx) => new ChessRow(boardList, idx)).ToList();
+		BossNode = GetBossNode();
 		this.indexInList = indexInList;
+		_nodesByPieceType = BuildDictionary();
 	}
+
+	#region Getters
 
 	public List<ChessNode> GetOpenPathNodes()
 	{
@@ -149,18 +152,6 @@ public class GrimoraChessboard
 		return Rows.SelectMany(row => row.GetNodesOfType(9)).Single();
 	}
 
-	public void SetupBoard()
-	{
-		PlaceBossPiece(GetBossSpecialIdForRegion());
-		PlacePieces<ChessboardBlockerPiece>();
-		PlacePieces<ChessboardBoneyardPiece>();
-		PlacePieces<ChessboardCardRemovePiece>();
-		PlacePieces<ChessboardChestPiece>();
-		PlacePieces<ChessboardElectricChairPiece>();
-		PlacePieces<ChessboardEnemyPiece>();
-		PlacePieces<ChessboardGoatEyePiece>();
-	}
-	
 	public static string GetBossSpecialIdForRegion()
 	{
 		switch (ConfigHelper.Instance.BossesDefeated)
@@ -178,6 +169,21 @@ public class GrimoraChessboard
 				Log.LogDebug($"[GetBossSpecialIdForRegion] No bosses defeated yet, creating Kaycee");
 				return KayceeBossOpponent.SpecialId;
 		}
+	}
+
+	#endregion
+
+
+	public void SetupBoard()
+	{
+		PlaceBossPiece(GetBossSpecialIdForRegion());
+		PlacePieces<ChessboardBlockerPiece>();
+		PlacePieces<ChessboardBoneyardPiece>();
+		PlacePieces<ChessboardCardRemovePiece>();
+		PlacePieces<ChessboardChestPiece>();
+		PlacePieces<ChessboardElectricChairPiece>();
+		PlacePieces<ChessboardEnemyPiece>();
+		PlacePieces<ChessboardGoatEyePiece>();
 	}
 
 	public void UpdatePlayerMarkerPosition(bool changingRegion)
