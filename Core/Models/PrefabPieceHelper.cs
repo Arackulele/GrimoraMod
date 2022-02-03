@@ -13,7 +13,7 @@ public class PrefabPieceHelper
 		{ 0, () => AllPrefabAssets.Single(pb => pb.name.Equals("Blocker_Kaycee")) },
 		{ 1, () => AllPrefabAssets.Single(pb => pb.name.Equals("Blocker_Sawyer")) },
 		{ 2, () => AllPrefabAssets.Single(pb => pb.name.Equals("Blocker_Royal")) },
-		{ 2, () => AllPrefabAssets.Single(pb => pb.name.Equals("Blocker_Grimora")) },
+		{ 3, () => AllPrefabAssets.Single(pb => pb.name.Equals("Blocker_Grimora")) },
 	};
 	
 	public const string PathPrefabChessboardMap = "Prefabs/Map/ChessboardMap";
