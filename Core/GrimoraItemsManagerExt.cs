@@ -3,9 +3,10 @@ using UnityEngine;
 
 namespace GrimoraMod;
 
-public class GrimoraItemsManagerExt : GrimoraItemsManager
+public class GrimoraItemsManagerExt : ItemsManager
 {
-	internal HammerItemSlot HammerSlot;
+	[SerializeField]
+	internal HammerItemSlot hammerSlot;
 	
 	public new static GrimoraItemsManagerExt Instance => ItemsManager.Instance as GrimoraItemsManagerExt;
 	
@@ -13,11 +14,11 @@ public class GrimoraItemsManagerExt : GrimoraItemsManager
 
 	public override void OnBattleStart()
 	{
-		HammerSlot.InitializeHammer();
+		hammerSlot.InitializeHammer();
 	}
 
 	public override void OnBattleEnd()
 	{
-		HammerSlot.CleanupHammer();
+		hammerSlot.CleanupHammer();
 	}
 }
