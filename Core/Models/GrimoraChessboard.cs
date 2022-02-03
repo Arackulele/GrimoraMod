@@ -293,48 +293,18 @@ public class GrimoraChessboard
 
 				break;
 			}
-			case ChessboardBlockerPiece blockerPiece:
-			{
-				Mesh blockerMesh = GetActiveRegionBlockerMesh();
-				foreach (var meshFilter in blockerPiece.GetComponentsInChildren<MeshFilter>())
-				{
-					GameObject meshFilerObj = meshFilter.gameObject;
-					if (meshFilerObj.name != "Base")
-					{
-						UnityEngine.Object.Destroy(meshFilter);
-					}
-					else
-					{
-						// meshFilter59.mesh = (Pluginz.allAssets[2] as Mesh);
-						// .material.mainTexture = (Pluginz.allAssets[3] as Texture2D);
-						// .sharedMaterial.mainTexture = (Pluginz.allAssets[3] as Texture2D);
+		}
 
-						meshFilter.mesh = blockerMesh;
-						// meshObj.GetComponent<MeshRenderer>().material.mainTexture = blockerMesh as Texture2D;
-						// meshObj.GetComponent<MeshRenderer>().sharedMaterial.mainTexture = allAssets[3] as Texture2D;
-						meshFilerObj.transform.localScale = new Vector3(0.08f, 0.08f, 0.08f);
-						meshFilerObj.transform.localPosition = new Vector3(0f, -0.0209f, 0f);
-					}
-				}
-
-				break;
-			}
-			case ChessboardChestPiece chestPiece:
-			{
-				if (specialNodeData is not null)
-				{
-					chestPiece.NodeData = specialNodeData;
-				}
-
-				break;
-			}
+		if (specialNodeData is not null)
+		{
+			piece.NodeData = specialNodeData;
 		}
 
 		piece.name = nameTemp;
 
 		// Log.LogDebug($"[CreatingPiece] {piece.name}");
 		ChessboardMapExt.Instance.pieces.Add(piece);
-		ChessboardNavGrid.instance.zones[x, y].GetComponent<ChessboardMapNode>().OccupyingPiece = piece;
+		// ChessboardNavGrid.instance.zones[x, y].GetComponent<ChessboardMapNode>().OccupyingPiece = piece;
 		return piece as T;
 	}
 
