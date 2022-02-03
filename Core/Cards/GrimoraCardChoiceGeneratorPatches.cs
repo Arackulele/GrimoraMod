@@ -1,10 +1,11 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
 [HarmonyPatch(typeof(GrimoraCardChoiceGenerator))]
-public class PlaceAllActOneChoicesToGrimora
+public class OnlyAllowGrimoraModCardsInNormalCardChoices
 {
 	[HarmonyPrefix, HarmonyPatch(nameof(GrimoraCardChoiceGenerator.GenerateChoices))]
 	public static bool Prefix(ref List<CardChoice> __result, ref int randomSeed)
@@ -18,7 +19,7 @@ public class PlaceAllActOneChoicesToGrimora
 			.Randomize()
 			.ToList();
 
-		GrimoraPlugin.Log.LogDebug($"[GenerateChoices] random cards are " +
+		Log.LogDebug($"[GenerateChoices] Random cards are " +
 		                           $"{string.Join(",", randomizedChoices.Select(cc => cc.info.name))}");
 
 		while (cardsToAdd.Count < 3)
@@ -30,6 +31,7 @@ public class PlaceAllActOneChoicesToGrimora
 			}
 
 			cardsToAdd.Add(choice);
+			Log.LogDebug($"[GenerateChoices] Adding random card choice [{choice.info.name}] to opening hand");
 		}
 
 		__result = cardsToAdd;
