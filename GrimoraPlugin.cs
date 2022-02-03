@@ -158,6 +158,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		GrimoraModBattleSequencer.ActiveEnemyPiece = null;
 
 		FindObjectsOfType<ChessboardPiece>().ForEach(_ => Destroy(_.gameObject));
+		Destroy(FindObjectOfType<DebugHelper>());
 		Destroy(FindObjectOfType<GrimoraModBattleSequencer>());
 		Destroy(FindObjectOfType<GrimoraModBossBattleSequencer>());
 		Destroy(ChessboardMapExt.Instance);
