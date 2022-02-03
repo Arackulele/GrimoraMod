@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 532942842
+CRC: 164870190
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 83679129555977981d30b83a840dc90b
+    Hash: feca127a8804389734c27ba557ae045b
   TypeTreeHash:
     serializedVersion: 2
     Hash: a07dd2c4fccee9d11ba6fd26a085f098
@@ -35,9 +35,10 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/GrimoraMod/Blocker_Ice_Kaycee.prefab
-- Assets/GrimoraMod/ElectricChairStone.prefab
-- Assets/GrimoraMod/Blocker_Bones_Sawyer.prefab
+- Assets/GrimoraMod/Blocker_Kaycee.prefab
+- Assets/GrimoraMod/Blocker_Sawyer.prefab
 - Assets/Prefabs/Hexalantern.prefab
-- Assets/GrimoraMod/Blocker_Barrel_Royal.prefab
+- Assets/GrimoraMod/Blocker_Grimora.prefab
+- Assets/GrimoraMod/SpecialNode_ElectricChair.prefab
+- Assets/GrimoraMod/Blocker_Royal.prefab
 Dependencies: []
