@@ -126,7 +126,7 @@ public class PrefabPieceHelper
 			{
 				typeof(ChessboardElectricChairPiece), new Tuple<float, Func<GameObject>, Func<ChessboardPiece>>(
 					18f,
-					() => AllPrefabAssets.Single(go => go.name.Equals("ElectricChairStone")),
+					() => AllPrefabAssets.Single(go => go.name.Equals("SpecialNode_ElectricChair")),
 					() => PrefabElectricChairPiece
 				)
 			},
