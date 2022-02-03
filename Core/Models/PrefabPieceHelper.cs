@@ -52,17 +52,26 @@ public class PrefabPieceHelper
 		PrefabGoatEyePiece = CreateCustomPrefabPiece<ChessboardGoatEyePiece>();
 	}
 
-	public static GameObject GetActiveRegionBlockerPiece()
+	public GameObject GetActiveRegionBlockerPiece()
 	{
 		int bossesDead = ConfigHelper.Instance.BossesDefeated;
-		Opponent.Type oppType = BaseBossExt.BossByIndex.GetValueSafe(bossesDead).Item1; 
-		Log.LogDebug($"[GetActiveRegionBlockerPiece] Getting region piece, bosses defeated [{bossesDead}] Opp {oppType}");
-		return oppType switch
-			{
-				BaseBossExt.SawyerOpponent => AllPrefabAssets.Single(pb => pb.name.Contains("Sawyer")),
-				BaseBossExt.RoyalOpponent => AllPrefabAssets.Single(pb => pb.name.Contains("Royal")),
-				_ => AllPrefabAssets.Single(pb => pb.name.Contains("Kaycee")),
-			};
+		GameObject blocker = _bossByIndex.GetValueSafe(bossesDead).Invoke();
+		// the reason for doing this is because the materials are massive if in our own asset bundle, 5MB+ total
+		// so lets just use the already existing material in the game
+		if (bossesDead == 2)
+		{
+			// barrel
+			blocker.GetComponent<MeshRenderer>().material =
+				ResourceBank.Get<Material>($"{PathPrefabArt3D}/GameTable/Tombstones/Tombstone_1");
+		}
+		else if (bossesDead == 3)
+		{
+			// low-poly skull
+			blocker.GetComponent<MeshRenderer>().material =
+				ResourceBank.Get<Material>($"{PathPrefabArt3D}/misc/AncientRuins/AncientRuins_StonePath");
+		}
+
+		return blocker;
 	}
 
 	public void ChangeBlockerPieceForRegion()
