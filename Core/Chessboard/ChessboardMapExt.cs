@@ -32,30 +32,6 @@ public class ChessboardMapExt : ChessboardMap
 
 	public bool BossDefeated { get; protected internal set; }
 
-	public static int BonesToAdd
-	{
-		get
-		{
-			int bonesToAdd = 0;
-			if (ConfigHelper.Instance.isKayceeDead)
-			{
-				bonesToAdd += 2;
-			}
-
-			if (ConfigHelper.Instance.isSawyerDead)
-			{
-				bonesToAdd += 3;
-			}
-
-			if (ConfigHelper.Instance.isRoyalDead)
-			{
-				bonesToAdd += 5;
-			}
-
-			return bonesToAdd;
-		}
-	}
-
 	private List<GrimoraChessboard> Chessboards
 	{
 		get
