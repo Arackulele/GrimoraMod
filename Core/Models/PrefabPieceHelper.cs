@@ -64,7 +64,7 @@ public class PrefabPieceHelper : ManagedBehaviour
 		{
 			// barrel
 			blocker.GetComponent<MeshRenderer>().material =
-				ResourceBank.Get<Material>($"{PathPrefabArt3D}/GameTable/Tombstones/Tombstone_1");
+				ResourceBank.Get<Material>($"{PathPrefabArt3D}/nodesequences/woodenbox/WoodenBox_Wood");
 		}
 		else if (bossesDead == 3)
 		{
