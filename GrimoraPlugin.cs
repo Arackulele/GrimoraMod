@@ -23,7 +23,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	private static Harmony _harmony;
 
 	public static GameObject[] AllPrefabAssets;
-	public static Object[] AllAssets;
 	public static Sprite[] AllSpriteAssets;
 	public static Texture[] AllAbilityAssets;
 
@@ -205,7 +204,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Log.LogDebug($"Loading asset bundles");
 
 		AssetBundle abilityBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_abilities"));
-		AssetBundle blockerBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("GrimoraMod_Prefabs_Blockers"));
 		AssetBundle spritesBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_sprites"));
 		AssetBundle prefabsBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_prefabs"));
 
@@ -213,9 +211,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		// Log.LogDebug($"{string.Join(",", BundlePrefab.GetAllAssetNames())}");
 
 		Log.LogDebug($"Loading assets into static vars");
-		AllAssets = blockerBundle.LoadAllAssets();
-		blockerBundle.Unload(false);
-
 		AllAbilityAssets = abilityBundle.LoadAllAssets<Texture>();
 		abilityBundle.Unload(false);
 
