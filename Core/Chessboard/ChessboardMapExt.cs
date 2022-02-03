@@ -13,6 +13,9 @@ public class ChessboardMapExt : ChessboardMap
 
 	public List<ChessboardPiece> ActivePieces => pieces;
 
+	public readonly Predicate<ChessboardPiece> PieceExistsInActivePieces
+		= piece => Instance.pieces.Exists(active => active.gridXPos == piece.gridXPos && active.gridYPos == piece.gridYPos);
+	
 	public GrimoraChessboard ActiveChessboard { get; set; }
 
 	private List<GrimoraChessboard> _chessboards;
