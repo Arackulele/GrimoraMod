@@ -30,16 +30,25 @@ public class GoatEyePatch
 			// Log.LogDebug($"[GoatEyePatch] Rotating [{goatEyePiece}]");
 			TurnToFacePoint(goatEyePiece.gameObject, playerPos, 0.1f);
 		}
+
+		if (ConfigHelper.Instance.BossesDefeated == 3)
+		{
+			foreach (var blocker in Object.FindObjectsOfType<ChessboardBlockerPieceExt>())
+			{
+				TurnToFacePoint(blocker.gameObject, playerPos, 0.1f);
+			}
+		}
 	}
-	
+
 	public static void TurnToFacePoint(GameObject gameObject, Vector3 point, float time)
 	{
 		if (gameObject.activeSelf)
 		{
+			float yRotation = gameObject.GetComponent<ChessboardBlockerPieceExt>() ? 180f : 90f;
 			Quaternion rotation = gameObject.transform.rotation;
 			gameObject.transform.LookAt(point);
 			Quaternion rotation2 = gameObject.transform.rotation;
-			rotation2.eulerAngles = new Vector3(0f, rotation2.eulerAngles.y - 90f, 0f);
+			rotation2.eulerAngles = new Vector3(0f, rotation2.eulerAngles.y - yRotation, 0f);
 			gameObject.transform.rotation = rotation;
 			Tween.Rotation(gameObject.transform, rotation2, time, 0f, Tween.EaseInOut);
 		}
