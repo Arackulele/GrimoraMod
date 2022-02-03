@@ -95,7 +95,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 			Log.LogDebug($"[GameEnd] Resetting running");
 			yield return new WaitForSeconds(1f);
-			ConfigHelper.ResetRun();
+			ConfigHelper.Instance.ResetRun();
 		}
 
 		yield break;

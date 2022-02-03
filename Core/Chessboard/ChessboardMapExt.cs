@@ -109,7 +109,7 @@ public class ChessboardMapExt : ChessboardMap
 		}
 		else if (resetRunBtn)
 		{
-			ConfigHelper.ResetRun();
+			ConfigHelper.Instance.ResetRun();
 		}
 		else if (deckResetBtn)
 		{
