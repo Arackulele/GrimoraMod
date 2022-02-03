@@ -20,7 +20,7 @@ public class PrefabPieceHelper
 	public const string PathPrefabSpecialNodes = "Prefabs/SpecialNodeSequences";
 	public const string PathPrefabArt3D = "Art/Assets3D";
 
-	internal ChessboardBlockerPiece PrefabBlockerPiece;
+	internal ChessboardBlockerPieceExt PrefabBlockerPiece;
 
 	internal readonly ChessboardEnemyPiece PrefabEnemyPiece;
 
@@ -44,8 +44,9 @@ public class PrefabPieceHelper
 		PrefabChestPiece = ResourceBank.Get<ChessboardChestPiece>($"{PathPrefabChessboardMap}/ChessboardChestPiece");
 		PrefabEnemyPiece = ResourceBank.Get<ChessboardEnemyPiece>($"{PathPrefabChessboardMap}/ChessboardEnemyPiece");
 
+		Log.LogDebug($"[PrefabPieceHelper] Before building dictionary");
 		PieceSetupByType = BuildDictionary();
-		PrefabBlockerPiece = CreateCustomPrefabPiece<ChessboardBlockerPiece>();
+		PrefabBlockerPiece = CreateCustomPrefabPiece<ChessboardBlockerPieceExt>();
 		PrefabBoneyardPiece = CreateCustomPrefabPiece<ChessboardBoneyardPiece>();
 		PrefabCardRemovePiece = CreateCustomPrefabPiece<ChessboardCardRemovePiece>();
 		PrefabElectricChairPiece = CreateCustomPrefabPiece<ChessboardElectricChairPiece>();
@@ -54,6 +55,7 @@ public class PrefabPieceHelper
 
 	public GameObject GetActiveRegionBlockerPiece()
 	{
+		Log.LogDebug($"[GetActiveRegionBlockerPiece] Getting active region blocker piece");
 		int bossesDead = ConfigHelper.Instance.BossesDefeated;
 		GameObject blocker = _bossByIndex.GetValueSafe(bossesDead).Invoke();
 		// the reason for doing this is because the materials are massive if in our own asset bundle, 5MB+ total
@@ -77,7 +79,7 @@ public class PrefabPieceHelper
 	public void ChangeBlockerPieceForRegion()
 	{
 		Log.LogDebug($"[ChangeBlockerPieceForRegion] Changing prefab for blocker piece");
-		PrefabBlockerPiece = CreateCustomPrefabPiece<ChessboardBlockerPiece>();
+		PrefabBlockerPiece = CreateCustomPrefabPiece<ChessboardBlockerPieceExt>();
 	}
 
 	// TODO: not sure if a tuple is what I need?
@@ -88,10 +90,11 @@ public class PrefabPieceHelper
 	/// </summary>
 	private Dictionary<Type, Tuple<float, Func<GameObject>, Func<ChessboardPiece>>> BuildDictionary()
 	{
+		Log.LogDebug($"[PrefabPieceHelper] Building dictionary");
 		return new Dictionary<Type, Tuple<float, Func<GameObject>, Func<ChessboardPiece>>>()
 		{
 			{
-				typeof(ChessboardBlockerPiece),
+				typeof(ChessboardBlockerPieceExt),
 				new Tuple<float, Func<GameObject>, Func<ChessboardPiece>>(
 					0f,
 					GetActiveRegionBlockerPiece,
@@ -157,11 +160,9 @@ public class PrefabPieceHelper
 		Log.LogDebug($"[CreateCustomPrefabPiece] Creating custom piece [{typeof(T)}]");
 		if (PieceSetupByType.TryGetValue(typeof(T), out Tuple<float, Func<GameObject>, Func<ChessboardPiece>> tuple))
 		{
-			Log.LogDebug($"[CreateCustomPrefabPiece] Tuple [{tuple}]");
-			float scaledValue = tuple.Item1;
 			GameObject gameObj = tuple.Item2.Invoke();
 
-			if (typeof(T) == typeof(ChessboardBlockerPiece))
+			if (typeof(T) == typeof(ChessboardBlockerPieceExt))
 			{
 				// Log.LogDebug($"[CreateCustomPrefabPiece] Grabbed scale [{scaledValue}] and GO [{gameObj}]");
 				gameObj = GetActiveRegionBlockerPiece();
@@ -173,15 +174,6 @@ public class PrefabPieceHelper
 				gameObj.GetComponent<MeshRenderer>().sharedMaterial = goatEyeMat;
 				gameObj.GetComponent<Rigidbody>().useGravity = false;
 			}
-
-			// Log.LogDebug($"[CreateCustomPrefabPiece] Setting localScale");
-
-			// Vector3 vLocalPosition = gameObj.transform.localPosition;
-			// gameObj.transform.localPosition = new Vector3(
-			// 	vLocalPosition.x,
-			// 	tuple.Item2 < 0.1f ? vLocalPosition.y : tuple.Item2,
-			// 	vLocalPosition.z
-			// );
 
 			T piece = gameObj.AddComponent<T>();
 			// this is just so any anim that would play doesn't throw an exception
