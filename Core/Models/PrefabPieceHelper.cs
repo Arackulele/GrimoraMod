@@ -8,9 +8,17 @@ namespace GrimoraMod;
 
 public class PrefabPieceHelper
 {
-	public const string PrefabPath = "Prefabs/Map/ChessboardMap";
-	public const string PrefabPathSpecialNodes = "Prefabs/SpecialNodeSequences";
-	public const string PrefabPathArt3D = "Art/Assets3D";
+	private readonly Dictionary<int, Func<GameObject>> _bossByIndex = new()
+	{
+		{ 0, () => AllPrefabAssets.Single(pb => pb.name.Equals("Blocker_Kaycee")) },
+		{ 1, () => AllPrefabAssets.Single(pb => pb.name.Equals("Blocker_Sawyer")) },
+		{ 2, () => AllPrefabAssets.Single(pb => pb.name.Equals("Blocker_Royal")) },
+		{ 2, () => AllPrefabAssets.Single(pb => pb.name.Equals("Blocker_Grimora")) },
+	};
+	
+	public const string PathPrefabChessboardMap = "Prefabs/Map/ChessboardMap";
+	public const string PathPrefabSpecialNodes = "Prefabs/SpecialNodeSequences";
+	public const string PathPrefabArt3D = "Art/Assets3D";
 
 	internal ChessboardBlockerPiece PrefabBlockerPiece;
 
@@ -32,9 +40,9 @@ public class PrefabPieceHelper
 
 	public PrefabPieceHelper()
 	{
-		PrefabBossPiece = ResourceBank.Get<ChessboardEnemyPiece>($"{PrefabPath}/BossFigurine");
-		PrefabChestPiece = ResourceBank.Get<ChessboardChestPiece>($"{PrefabPath}/ChessboardChestPiece");
-		PrefabEnemyPiece = ResourceBank.Get<ChessboardEnemyPiece>($"{PrefabPath}/ChessboardEnemyPiece");
+		PrefabBossPiece = ResourceBank.Get<ChessboardEnemyPiece>($"{PathPrefabChessboardMap}/BossFigurine");
+		PrefabChestPiece = ResourceBank.Get<ChessboardChestPiece>($"{PathPrefabChessboardMap}/ChessboardChestPiece");
+		PrefabEnemyPiece = ResourceBank.Get<ChessboardEnemyPiece>($"{PathPrefabChessboardMap}/ChessboardEnemyPiece");
 
 		PieceSetupByType = BuildDictionary();
 		PrefabBlockerPiece = CreateCustomPrefabPiece<ChessboardBlockerPiece>();
@@ -85,7 +93,7 @@ public class PrefabPieceHelper
 				typeof(ChessboardBoneyardPiece),
 				new Tuple<float, Func<GameObject>, Func<ChessboardPiece>>(
 					1.25f,
-					() => ResourceBank.Get<GameObject>($"{PrefabPathArt3D}/PlayerAvatar/gravedigger/GravediggerFin"),
+					() => ResourceBank.Get<GameObject>($"{PathPrefabArt3D}/PlayerAvatar/gravedigger/GravediggerFin"),
 					() => PrefabBoneyardPiece
 				)
 			},
@@ -93,21 +101,21 @@ public class PrefabPieceHelper
 				typeof(ChessboardBossPiece),
 				new Tuple<float, Func<GameObject>, Func<ChessboardPiece>>(
 					1f,
-					() => ResourceBank.Get<ChessboardEnemyPiece>($"{PrefabPath}/BossFigurine").gameObject,
+					() => ResourceBank.Get<ChessboardEnemyPiece>($"{PathPrefabChessboardMap}/BossFigurine").gameObject,
 					() => PrefabBossPiece
 				)
 			},
 			{
 				typeof(ChessboardCardRemovePiece), new Tuple<float, Func<GameObject>, Func<ChessboardPiece>>(
 					0.25f,
-					() => ResourceBank.Get<GameObject>($"{PrefabPathSpecialNodes}/SkinningKnife"),
+					() => ResourceBank.Get<GameObject>($"{PathPrefabSpecialNodes}/SkinningKnife"),
 					() => PrefabCardRemovePiece
 				)
 			},
 			{
 				typeof(ChessboardChestPiece), new Tuple<float, Func<GameObject>, Func<ChessboardPiece>>(
 					1f,
-					() => ResourceBank.Get<ChessboardChestPiece>($"{PrefabPath}/ChessboardChestPiece").gameObject,
+					() => ResourceBank.Get<ChessboardChestPiece>($"{PathPrefabChessboardMap}/ChessboardChestPiece").gameObject,
 					() => PrefabChestPiece
 				)
 			},
@@ -121,17 +129,17 @@ public class PrefabPieceHelper
 			{
 				typeof(ChessboardEnemyPiece), new Tuple<float, Func<GameObject>, Func<ChessboardPiece>>(
 					1f,
-					() => ResourceBank.Get<ChessboardEnemyPiece>($"{PrefabPath}/ChessboardEnemyPiece").gameObject,
+					() => ResourceBank.Get<ChessboardEnemyPiece>($"{PathPrefabChessboardMap}/ChessboardEnemyPiece").gameObject,
 					() => PrefabEnemyPiece
 				)
 			},
 			{
 				typeof(ChessboardGoatEyePiece), new Tuple<float, Func<GameObject>, Func<ChessboardPiece>>(
 					0.4f,
-					() => ResourceBank.Get<GameObject>($"{PrefabPathSpecialNodes}/EyeBall"),
+					() => ResourceBank.Get<GameObject>($"{PathPrefabSpecialNodes}/EyeBall"),
 					() => PrefabGoatEyePiece
 				)
-			},
+			}
 		};
 	}
 
