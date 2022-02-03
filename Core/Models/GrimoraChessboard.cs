@@ -7,103 +7,6 @@ namespace GrimoraMod;
 
 public class GrimoraChessboard
 {
-	#region Prefabs
-
-	public const string PrefabPath = "Prefabs/Map/ChessboardMap";
-	public const string PrefabPathSpecialNodes = "Prefabs/SpecialNodeSequences";
-	public const string PrefabPathArt3D = "Resources/Art/Assets3D";
-
-	public static Mesh MeshFilterBlockerIceBlock => AllAssets[8] as Mesh;
-	public static Mesh MeshFilterBlockerBones => AllAssets[5] as Mesh;
-	public static Mesh MeshFilterBlockerBarrels => AllAssets[2] as Mesh;
-
-	public static ChessboardBlockerPiece PrefabTombstone =>
-		ResourceBank.Get<ChessboardBlockerPiece>($"{PrefabPath}/Chessboard_Tombstone_1");
-
-	public static ChessboardEnemyPiece PrefabEnemyPiece =>
-		ResourceBank.Get<ChessboardEnemyPiece>($"{PrefabPath}/ChessboardEnemyPiece");
-
-	public static ChessboardEnemyPiece PrefabBossPiece =>
-		ResourceBank.Get<ChessboardEnemyPiece>($"{PrefabPath}/BossFigurine");
-
-	public static ChessboardChestPiece PrefabChestPiece =>
-		ResourceBank.Get<ChessboardChestPiece>($"{PrefabPath}/ChessboardChestPiece");
-
-	public static readonly ChessboardBoneyardPiece PrefabBoneyardPiece =
-		CreateCustomPrefabPiece<ChessboardBoneyardPiece>();
-
-	public static readonly ChessboardCardRemovePiece PrefabCardRemovePiece =
-		CreateCustomPrefabPiece<ChessboardCardRemovePiece>();
-
-	public static readonly ChessboardElectricChairPiece PrefabElectricChairPiece
-		= CreateCustomPrefabPiece<ChessboardElectricChairPiece>();
-
-	public static readonly ChessboardGoatEyePiece PrefabGoatEyePiece = CreateCustomPrefabPiece<ChessboardGoatEyePiece>();
-
-	// TODO: Refactor scaledValue and ResourceBank call into Dictionary tuple?
-	public static T CreateCustomPrefabPiece<T>() where T : ChessboardPiece
-	{
-		PiecePrefabByType.TryGetValue(typeof(T), out Tuple<float, GameObject, ChessboardPiece> tuple);
-		float scaledValue = tuple.Item1;
-		GameObject gameObj = tuple.Item2;
-
-		if (typeof(T) == typeof(ChessboardGoatEyePiece))
-		{
-			Material goatEyeMat = ResourceBank.Get<Material>("Resources/Art/Materials/Eyeball_Goat");
-			gameObj.GetComponent<MeshRenderer>().material = goatEyeMat;
-			gameObj.GetComponent<MeshRenderer>().sharedMaterial = goatEyeMat;
-		}
-
-		gameObj.transform.localScale = new Vector3(scaledValue, scaledValue, scaledValue);
-
-		Vector3 vLocalPosition = gameObj.transform.localPosition;
-		gameObj.transform.localPosition = new Vector3(vLocalPosition.x, 1.4f, vLocalPosition.z);
-
-		T piece = gameObj.AddComponent<T>();
-		piece.anim = PrefabChestPiece.anim;
-		return piece;
-	}
-
-	#endregion
-
-	// TODO: not sure if a tuple is what I need?
-	/// <summary>
-	/// Item1: Scaled value -> value to set the localscale too
-	/// </summary>
-	private static readonly Dictionary<Type, Tuple<float, GameObject, ChessboardPiece>> PiecePrefabByType = new()
-	{
-		{
-			typeof(ChessboardBlockerPiece),
-			new Tuple<float, GameObject, ChessboardPiece>(1f, null, PrefabTombstone)
-		},
-		{
-			typeof(ChessboardBoneyardPiece),
-			new Tuple<float, GameObject, ChessboardPiece>(
-				1.25f, ResourceBank.Get<GameObject>($"{PrefabPathArt3D}/PlayerAvatar/gravedigger/GravediggerFin"),
-				PrefabBoneyardPiece)
-		},
-		{
-			typeof(ChessboardCardRemovePiece), new Tuple<float, GameObject, ChessboardPiece>(
-				0.25f, ResourceBank.Get<GameObject>($"{PrefabPathSpecialNodes}/SkinningKnife"), PrefabCardRemovePiece)
-		},
-		{
-			typeof(ChessboardChestPiece),
-			new Tuple<float, GameObject, ChessboardPiece>(1f, PrefabChestPiece.gameObject, PrefabChestPiece)
-		},
-		{
-			typeof(ChessboardElectricChairPiece), new Tuple<float, GameObject, ChessboardPiece>(
-				0.5f, ResourceBank.Get<GameObject>($"{PrefabPathArt3D}/MiscLowPolySpace/SM_Bld_Bridge_Chair_Captain_01"),
-				PrefabElectricChairPiece)
-		},
-		{
-			typeof(ChessboardEnemyPiece), new Tuple<float, GameObject, ChessboardPiece>(
-				1f, PrefabEnemyPiece.gameObject, PrefabEnemyPiece)
-		},
-		{
-			typeof(ChessboardGoatEyePiece), new Tuple<float, GameObject, ChessboardPiece>(
-				0.4f, ResourceBank.Get<GameObject>($"{PrefabPathSpecialNodes}/EyeBall"), PrefabGoatEyePiece)
-		},
-	};
 
 	public readonly int indexInList;
 	public readonly List<ChessNode> BlockerNodes;
@@ -119,7 +22,9 @@ public class GrimoraChessboard
 
 	public readonly List<ChessRow> Rows;
 
+
 	public Opponent.Type ActiveBossType;
+
 
 	public GrimoraChessboard(IEnumerable<List<int>> board, int indexInList)
 	{

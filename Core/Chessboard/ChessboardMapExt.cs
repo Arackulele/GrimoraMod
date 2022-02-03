@@ -9,8 +9,10 @@ namespace GrimoraMod;
 
 public class ChessboardMapExt : ChessboardMap
 {
+	internal PrefabPieceHelper PrefabPieceHelper;
+
 	public List<ChessboardPiece> ActivePieces => pieces;
-	
+
 	public GrimoraChessboard ActiveChessboard { get; set; }
 
 	private List<GrimoraChessboard> _chessboards;
@@ -40,7 +42,7 @@ public class ChessboardMapExt : ChessboardMap
 			return _chessboards;
 		}
 	}
-	
+
 	public void LoadData()
 	{
 		if (_chessboards == null)
@@ -61,6 +63,8 @@ public class ChessboardMapExt : ChessboardMap
 
 	private void Awake()
 	{
+		PrefabPieceHelper = new PrefabPieceHelper();
+
 		Log.LogDebug($"[MapExt] Setting on view changed");
 		ViewManager instance = ViewManager.Instance;
 		instance.ViewChanged = (Action<View, View>)Delegate
@@ -111,6 +115,7 @@ public class ChessboardMapExt : ChessboardMap
 
 	public IEnumerator CompleteRegionSequence()
 	{
+		PrefabPieceHelper.ChangeBlockerPieceForRegion();
 		ViewManager.Instance.Controller.SwitchToControlMode(ViewController.ControlMode.Map);
 		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
 
