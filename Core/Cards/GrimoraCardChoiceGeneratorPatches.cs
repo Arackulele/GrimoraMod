@@ -23,9 +23,13 @@ public class PlaceAllActOneChoicesToGrimora
 
 		while (cardsToAdd.Count < 3)
 		{
-			cardsToAdd.Add(
-				randomizedChoices[SeededRandom.Range(0, randomizedChoices.Count, randomSeed++)]
-			);
+			var choice = randomizedChoices[SeededRandom.Range(0, randomizedChoices.Count, randomSeed++)];
+			while (cardsToAdd.Contains(choice))
+			{
+				choice = randomizedChoices[SeededRandom.Range(0, randomizedChoices.Count, randomSeed++)];
+			}
+
+			cardsToAdd.Add(choice);
 		}
 
 		__result = cardsToAdd;
