@@ -34,21 +34,16 @@ public class ConfigHelper
 		set => _configCurrentChessboardIndex.Value = value;
 	}
 
-	private ConfigEntry<bool> _configKayceeFirstBossDead;
+	private ConfigEntry<int> _configBossesDefeated;
+	public int BossesDefeated => _configBossesDefeated.Value;
 
-	public bool isKayceeDead => _configKayceeFirstBossDead.Value;
+	public bool isKayceeDead => BossesDefeated == 1;
 
-	private ConfigEntry<bool> _configSawyerSecondBossDead;
+	public bool isSawyerDead => BossesDefeated == 2;
 
-	public bool isSawyerDead => _configSawyerSecondBossDead.Value;
+	public bool isRoyalDead => BossesDefeated == 3;
 
-	private ConfigEntry<bool> _configRoyalThirdBossDead;
-
-	public bool isRoyalDead => _configRoyalThirdBossDead.Value;
-
-	private ConfigEntry<bool> _configGrimoraBossDead;
-
-	public bool isGrimoraDead => _configGrimoraBossDead.Value;
+	public bool isGrimoraDead => BossesDefeated == 4;
 
 	private ConfigEntry<bool> _configDeveloperMode;
 
@@ -69,17 +64,8 @@ public class ConfigHelper
 		_configCurrentChessboardIndex
 			= GrimoraConfigFile.Bind(PluginName, "Current chessboard layout index", 0);
 
-		_configKayceeFirstBossDead
-			= GrimoraConfigFile.Bind(PluginName, "Kaycee defeated?", false);
-
-		_configSawyerSecondBossDead
-			= GrimoraConfigFile.Bind(PluginName, "Sawyer defeated?", false);
-
-		_configRoyalThirdBossDead
-			= GrimoraConfigFile.Bind(PluginName, "Royal defeated?", false);
-
-		_configGrimoraBossDead
-			= GrimoraConfigFile.Bind(PluginName, "Grimora defeated?", false);
+		_configBossesDefeated
+			= GrimoraConfigFile.Bind(PluginName, "Number of bosses defeated", 0);
 
 		_configCurrentRemovedPieces = GrimoraConfigFile.Bind(
 			PluginName,
@@ -142,10 +128,7 @@ public class ConfigHelper
 	internal void ResetConfig()
 	{
 		Log.LogWarning($"Resetting Grimora Mod config");
-		_configKayceeFirstBossDead.Value = false;
-		_configSawyerSecondBossDead.Value = false;
-		_configRoyalThirdBossDead.Value = false;
-		_configGrimoraBossDead.Value = false;
+		_configBossesDefeated.Value = 0;
 		_configCurrentRemovedPieces.Value = StaticDefaultRemovedPiecesList;
 		_configCurrentChessboardIndex.Value = 0;
 	}
@@ -166,25 +149,17 @@ public class ConfigHelper
 
 	public void SetBossDefeatedInConfig(BaseBossExt boss)
 	{
-		switch (boss)
+		_configBossesDefeated.Value = boss switch
 		{
-			case KayceeBossOpponent:
-				_configKayceeFirstBossDead.Value = true;
-				break;
-			case SawyerBossOpponent:
-				_configSawyerSecondBossDead.Value = true;
-				break;
-			case RoyalBossOpponentExt:
-				_configRoyalThirdBossDead.Value = true;
-				break;
-			case GrimoraBossOpponentExt:
-				_configGrimoraBossDead.Value = true;
-				break;
-		}
+			KayceeBossOpponent => 1,
+			SawyerBossOpponent => 2,
+			RoyalBossOpponentExt => 3,
+			GrimoraBossOpponentExt => 4
+		};
 
 		var bossPiece = ChessboardMapExt.Instance.BossPiece;
 		ChessboardMapExt.Instance.BossDefeated = true;
-		Instance.AddPieceToRemovedPiecesConfig(bossPiece.name);
+		AddPieceToRemovedPiecesConfig(bossPiece.name);
 		Log.LogDebug($"[SetBossDefeatedInConfig] Boss {bossPiece} defeated.");
 	}
 }
