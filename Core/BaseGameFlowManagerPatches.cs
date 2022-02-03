@@ -435,7 +435,7 @@ public class BaseGameFlowManagerPatches
 		}
 
 		Log.LogDebug(
-			$"[GameFlowManager.TransitionTo] Instance {__instance} " +
+			$"[TransitionTo] Instance {__instance.name} " +
 			$"Current state is [{__instance.CurrentGameState}] " +
 			$"GameState [{gameState}]"
 		);
