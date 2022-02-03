@@ -170,7 +170,7 @@ public class GrimoraChessboard
 	public void SetupBoard()
 	{
 		PlaceBossPiece(GetBossSpecialIdForRegion());
-		PlacePieces<ChessboardBlockerPiece>();
+		PlacePieces<ChessboardBlockerPieceExt>();
 		PlacePieces<ChessboardBoneyardPiece>();
 		PlacePieces<ChessboardCardRemovePiece>();
 		PlacePieces<ChessboardChestPiece>();
