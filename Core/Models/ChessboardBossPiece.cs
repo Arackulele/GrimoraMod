@@ -1,6 +1,7 @@
-﻿namespace GrimoraMod;
+﻿using DiskCardGame;
 
-public class ChessboardBossPiece : ChessboardPieceExt
+namespace GrimoraMod;
+
+public class ChessboardBossPiece : ChessboardEnemyPiece
 {
-	
 }

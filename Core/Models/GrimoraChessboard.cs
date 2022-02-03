@@ -329,26 +329,17 @@ public class GrimoraChessboard
 
 		switch (piece)
 		{
+			case ChessboardBossPiece bossPiece:
+				ActiveBossType = _bossBySpecialId.GetValueSafe(id);
+				// Log.LogDebug($"[CreateChessPiece] id is not null, setting ActiveBossType to [{id}]");
+				bossPiece.blueprint = BlueprintUtils.BossInitialBlueprints[id];
+				break;
 			case ChessboardEnemyPiece enemyPiece:
 			{
 				enemyPiece.GoalPosX = x;
 				enemyPiece.GoalPosX = y;
-
-				enemyPiece.specialEncounterId = id;
-
-				if (!id.Equals("GrimoraModBattleSequencer"))
-				{
-					nameTemp = nameTemp.Replace("Enemy", "Boss");
-					ActiveBossType = BaseBossExt.BossTypesByString.GetValueSafe(id);
-					Log.LogDebug($"[CreateChessPiece] id is not null, setting ActiveBossType to [{id}]");
-					enemyPiece.blueprint = BlueprintUtils.BossInitialBlueprints[id];
-				}
-				else
-				{
-					// Log.LogDebug($"[CreateChessPiece] id is null, getting blueprint");
-					enemyPiece.blueprint = GetBlueprint();
-				}
-
+				enemyPiece.blueprint = GetBlueprint();
+				enemyPiece.specialEncounterId = "GrimoraModBattleSequencer";
 				break;
 			}
 		}
