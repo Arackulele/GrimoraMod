@@ -98,7 +98,7 @@ public class GrimoraGameFlowManagerPatches
 			);
 
 			// Log.LogDebug($"[SceneSpecificInitialization] RevealGrimoraSequence");
-			__instance.StartCoroutine((GameFlowManager.Instance as GrimoraGameFlowManager).RevealGrimoraSequence());
+			__instance.StartCoroutine(((GrimoraGameFlowManager)GameFlowManager.Instance).RevealGrimoraSequence());
 
 			SaveManager.SaveToFile();
 		}

@@ -382,7 +382,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		sacrificeSlot.SetEnabled(enabled: false);
 		sacrificeSlot.ShowState(HighlightedInteractable.State.NonInteractable);
 		confirmStone.Exit();
-		(slot as SelectCardFromDeckSlot).SelectFromCards(GetValidCards(), OnSelectionEnded, false);
+		((SelectCardFromDeckSlot)slot).SelectFromCards(GetValidCards(), OnSelectionEnded, false);
 	}
 
 	private new List<CardInfo> GetValidCards()
@@ -405,7 +405,7 @@ public class CardRemoveSequencerPatches
 		}
 		
 		// We have to cast it, otherwise it tries to call the base version of it
-		__instance.StartCoroutine((__instance.cardRemoveSequencer as GrimoraCardRemoveSequencer).RemoveSequence());
+		__instance.StartCoroutine(((GrimoraCardRemoveSequencer)__instance.cardRemoveSequencer).RemoveSequence());
 		return false;
 	}
 	

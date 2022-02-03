@@ -148,8 +148,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 	{
 		if (playerWon)
 		{
-			Log.LogDebug($"[GrimoraModBattleSequencer] " +
-			             $"Adding enemy [{ActiveEnemyPiece.name}] to config removed pieces");
+			Log.LogDebug($"[GrimoraModBattleSequencer Adding enemy to config [{ActiveEnemyPiece.name}]");
 			ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
 		}
 
@@ -158,7 +157,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 	private IEnumerator GlitchOutBoardAndHandCards()
 	{
-		yield return (BoardManager.Instance as BoardManager3D).HideSlots();
+		yield return ((BoardManager3D)BoardManager.Instance).HideSlots();
 		foreach (PlayableCard c in BoardManager.Instance.CardsOnBoard)
 		{
 			GlitchOutCard(c);
@@ -175,7 +174,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 	private static void GlitchOutCard(Card c)
 	{
-		(c.Anim as GravestoneCardAnimationController).PlayGlitchOutAnimation();
+		((GravestoneCardAnimationController)c.Anim).PlayGlitchOutAnimation();
 		Destroy(c.gameObject, 0.25f);
 	}
 }
