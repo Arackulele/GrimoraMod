@@ -4,6 +4,9 @@ public class ChessboardBlockerPieceExt : ChessboardPieceExt
 {
 	public ChessboardBlockerPieceExt()
 	{
-		newYPosition = 1.25f;
+		if (ConfigHelper.Instance.BossesDefeated == 3)
+		{
+			newYPosition = 1.25f;
+		}
 	}
 }
