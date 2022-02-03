@@ -28,7 +28,7 @@ public class ChessboardMapExt : GameMap
 
 	public void SetAnimActiveIfInactive()
 	{
-		GameObject anim = Instance.gameObject.transform.GetChild(0).gameObject;
+		GameObject anim = gameObject.transform.GetChild(0).gameObject;
 		if (!anim.activeInHierarchy)
 		{
 			anim.SetActive(true);
@@ -133,25 +133,20 @@ public class ChessboardMapExt : GameMap
 
 		SaveManager.SaveToFile();
 
-		Instance.BossDefeated = false;
+		BossDefeated = false;
 
 		Log.LogDebug($"[CompleteRegionSequence] Starting CompleteRegionSequence");
 		ChangingRegion = true;
 
 		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
 		yield return new WaitForSeconds(0.8f);
-		// yield return TextDisplayer.Instance.PlayDialogueEvent("RegionNext", TextDisplayer.MessageAdvanceMode.Input);
 
 		ViewManager.Instance.SwitchToView(View.MapDefault);
 		yield return new WaitForSeconds(0.25f);
 
 		RunState.CurrentMapRegion.FadeInAmbientAudio();
 
-
 		MapNodeManager.Instance.SetAllNodesInteractable(false);
-		// yield return ShowMapSequence(0.25f);
-
-		// yield return TextDisplayer.Instance.PlayDialogueEvent("Region" + RunState.CurrentMapRegion.name, TextDisplayer.MessageAdvanceMode.Input);
 
 		// Log.LogDebug($"[CompleteRegionSequence] Looping audio");
 		AudioController.Instance.SetLoopAndPlay("finalegrimora_ambience");
@@ -171,10 +166,10 @@ public class ChessboardMapExt : GameMap
 		Log.LogDebug($"[CompleteRegionSequence] No longer ChangingRegion");
 	}
 
-	private static void ClearBoardForChangingRegion()
+	private void ClearBoardForChangingRegion()
 	{
 		Log.LogDebug($"[CompleteRegionSequence] Clearing and destroying pieces");
-		Instance.pieces.RemoveAll(delegate(ChessboardPiece piece)
+		pieces.RemoveAll(delegate(ChessboardPiece piece)
 		{
 			// piece.gameObject.SetActive(false);
 			piece.MapNode.OccupyingPiece = null;
@@ -192,7 +187,7 @@ public class ChessboardMapExt : GameMap
 		TableRuleBook.Instance.SetOnBoard(false);
 
 		Log.LogDebug($"[UnrollingSequence] Setting each piece game object active to false");
-		Instance.pieces.ForEach(delegate(ChessboardPiece x) { x.gameObject.SetActive(false); });
+		pieces.ForEach(delegate(ChessboardPiece x) { x.gameObject.SetActive(false); });
 		// yield return new WaitForSeconds(0.5f);
 
 		UpdateVisuals();
@@ -284,11 +279,11 @@ public class ChessboardMapExt : GameMap
 		var removedList = ConfigHelper.Instance.RemovedPieces;
 
 		// pieces will contain the pieces just placed
-		var activePieces = Instance.pieces
+		var activePieces = pieces
 			.Where(p => !removedList.Contains(p.name))
 			.ToList();
 
-		Instance.pieces.RemoveAll(delegate(ChessboardPiece piece)
+		pieces.RemoveAll(delegate(ChessboardPiece piece)
 		{
 			bool toRemove = false;
 			if (activePieces.Contains(piece))
@@ -318,7 +313,7 @@ public class ChessboardMapExt : GameMap
 
 	private IEnumerator ShowPiecesThatAreActive()
 	{
-		foreach (var piece in Instance.pieces.Where(piece => piece.gameObject.activeInHierarchy))
+		foreach (var piece in pieces.Where(piece => piece.gameObject.activeInHierarchy))
 		{
 			// GrimoraPlugin.Log.LogDebug($"-> Piece [{piece.name}] saveId [{piece.saveId}] is active in hierarchy, calling Show method");
 			piece.Show();
@@ -362,7 +357,6 @@ public class ChessboardMapExt : GameMap
 				{
 					// GrimoraPlugin.Log.LogDebug($"[OnViewChanged] SetAllNodesInteractable true");
 					// MapNodeManager.Instance.SetAllNodesInteractable(true);
-					// Log.LogDebug($"[OnViewChanged] PlayerMarker transform {PlayerMarker.Instance.transform}");
 					MapNodeManager.Instance.FindAndSetActiveNodeInteractable();
 					ChessboardNavGrid.instance.SetPlayerAdjacentNodesActive();
 				}
