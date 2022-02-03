@@ -111,7 +111,7 @@ public class ConfigHelper
 	{
 		Log.LogDebug($"[ResetRun] Resetting run");
 
-		Instance.ResetConfig();
+		ResetConfig();
 		ResetDeck();
 		StoryEventsData.EraseEvent(StoryEvent.GrimoraReachedTable);
 		SaveManager.SaveToFile();
@@ -133,12 +133,12 @@ public class ConfigHelper
 		_configCurrentChessboardIndex.Value = 0;
 	}
 
-	private static void ResetConfigDataIfGrimoraHasNotReachedTable()
+	private void ResetConfigDataIfGrimoraHasNotReachedTable()
 	{
 		if (!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable))
 		{
 			Log.LogWarning($"Grimora has not reached the table yet, resetting values to false again.");
-			Instance.ResetConfig();
+			ResetConfig();
 		}
 	}
 
