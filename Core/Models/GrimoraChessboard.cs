@@ -322,9 +322,11 @@ public class GrimoraChessboard
 				}
 				else
 				{
+					id = "GrimoraModBattleSequencer";
 					enemyPiece.blueprint = GetBlueprint();
-					enemyPiece.specialEncounterId = "GrimoraModBattleSequencer";
 				}
+				
+				enemyPiece.specialEncounterId = id;
 				break;
 			}
 		}
