@@ -2,7 +2,6 @@
 using DiskCardGame;
 using GrimoraMod.Consumables;
 using HarmonyLib;
-using Sirenix.Serialization;
 using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -85,7 +84,7 @@ public class BaseGameFlowManagerPatches
 		itemData.rulebookSprite = Sprite.Create(Rect.zero, Vector2.zero, float.Epsilon);
 		itemData.regionSpecific = false;
 
-		if (!ItemsUtil.allData.Exists(x => (x as ConsumableItemData).rulebookName == itemData.rulebookName))
+		if (!ItemsUtil.allData.Exists(x => ((ConsumableItemData)x).rulebookName == itemData.rulebookName))
 		{
 			Log.LogDebug($"Adding consumable in ItemsUtil.allData");
 			ItemsUtil.allData.Add(itemData);
