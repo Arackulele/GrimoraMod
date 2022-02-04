@@ -104,8 +104,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		var cardsToAdd = new List<CardInfo>();
 		var randomizedChoices = RandomUtils.GenerateRandomChoicesOfCategory(
 			GrimoraSaveData.Data.deck.Cards,
-			GenerateRandomSeed(GrimoraSaveData.Data.deck.Cards),
-			CardMetaCategory.NUM_CATEGORIES
+			GenerateRandomSeed(GrimoraSaveData.Data.deck.Cards)
 		);
 
 		if (randomizedChoices.Count < 3)
@@ -132,7 +131,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 	{
 		if (playerWon)
 		{
-			Log.LogDebug($"[GrimoraModBattleSequencer Adding enemy to config [{ActiveEnemyPiece.name}]");
+			// Log.LogDebug($"[GrimoraModBattleSequencer Adding enemy to config [{ActiveEnemyPiece.name}]");
 			ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
 		}
 

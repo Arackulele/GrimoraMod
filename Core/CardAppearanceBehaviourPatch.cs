@@ -110,7 +110,7 @@ public class ChangeLogicInCardAbilityIcons
 		return false;
 	}
 
-	// [HarmonyPrefix, HarmonyPatch(nameof(CardAbilityIcons.UpdateAbilityIcons))]
+	[HarmonyPrefix, HarmonyPatch(nameof(CardAbilityIcons.UpdateAbilityIcons))]
 	public static bool PrefixTest(
 		CardAbilityIcons __instance,
 		CardInfo info,

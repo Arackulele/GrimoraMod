@@ -52,7 +52,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 			Mask.transform.localPosition = new Vector3(0.02f, 0.18f, 0.07f);
 			Mask.transform.localRotation = Quaternion.Euler(0, 0, 270);
 
-			// UnityEngine.Object.Destroy(RoyalBossSkull);
+			// Object.Destroy(RoyalBossSkull);
 			RoyalBossSkull.SetActive(false);
 			yield return new WaitForSeconds(1f);
 

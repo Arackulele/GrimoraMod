@@ -20,23 +20,27 @@ public class TurnManagerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(TurnManager.UpdateSpecialSequencer))]
 	public static bool Prefix(ref TurnManager __instance, string specialBattleId)
 	{
+		if (!SaveManager.SaveFile.IsGrimora)
+		{
+			return true;
+		}
+
 		Log.LogDebug($"[UpdateSpecialSequencer][Prefix] " +
 		             $"SpecialBattleId [{specialBattleId}] " +
 		             $"SaveFile is grimora? [{SaveManager.SaveFile.IsGrimora}]");
 
-		UnityEngine.Object.Destroy(__instance.SpecialSequencer);
+		Object.Destroy(__instance.SpecialSequencer);
 		__instance.SpecialSequencer = null;
 
-		if (SaveManager.SaveFile.IsGrimora && GrimoraModBattleSequencers.ContainsKey(specialBattleId))
+		if (GrimoraModBattleSequencers.ContainsKey(specialBattleId))
 		{
 			__instance.SpecialSequencer =
 				__instance.gameObject.AddComponent(GrimoraModBattleSequencers[specialBattleId]) as SpecialBattleSequencer;
 
 			Log.LogDebug($"[UpdateSpecialSequencer][Prefix] SpecialSequencer is [{__instance.SpecialSequencer}]");
-			return false;
 		}
 
-		return true;
+		return false;
 	}
 
 

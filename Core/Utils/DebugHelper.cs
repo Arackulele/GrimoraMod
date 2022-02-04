@@ -126,7 +126,7 @@ public class DebugHelper : ManagedBehaviour
 						break;
 				}
 				
-				ChessboardChestPiece[] chests = UnityEngine.Object.FindObjectsOfType<ChessboardChestPiece>();
+				ChessboardChestPiece[] chests = FindObjectsOfType<ChessboardChestPiece>();
 
 				if (chests.IsNullOrEmpty())
 				{

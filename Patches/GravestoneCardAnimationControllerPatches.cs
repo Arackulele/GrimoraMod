@@ -102,12 +102,10 @@ public class GravestoneCardAnimationControllerPatches
 				? Quaternion.Euler(0, 270, 90) // left of the player card slot	
 				: Quaternion.Euler(0, 90, 270); // right of the player card slot
 		}
-		else
-		{
-			return numToDetermineRotation == -1
-				? Quaternion.Euler(0, 90, 270) // right of the opponent slot
-				: Quaternion.Euler(0, 270, 90); // left of the opponent slot
-		}
+
+		return numToDetermineRotation == -1
+			? Quaternion.Euler(0, 90, 270) // right of the opponent slot
+			: Quaternion.Euler(0, 270, 90); // left of the opponent slot
 	}
 
 	[HarmonyPrefix, HarmonyPatch(nameof(GravestoneCardAnimationController.PlayDeathAnimation))]
