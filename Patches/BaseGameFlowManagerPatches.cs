@@ -33,14 +33,7 @@ public class BaseGameFlowManagerPatches
 			return;
 		}
 
-		Log.LogDebug($"[GameFlowManager.Start] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");
-
-		// giantPrefab.GetComponent<Animator>().runtimeAnimatorController 
-		// 	= ResourceBank.Get<GameObject>("Prefabs/Cards/PlayableCard_Giant")
-		// 		.GetComponent<Animator>().runtimeAnimatorController;
-
-		// giantPrefab.transform.GetChild(0).GetChild(0).GetChild(0).localPosition = new Vector3(-0.65f, 1.25f, 0f);
-		// giantPrefab.transform.GetChild(0).GetChild(0).GetChild(0).localScale = new Vector3(1f, 1.175f, 0.2f);
+		Log.LogDebug($"[GameFlowManager] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");
 		CardSpawner.Instance.giantPlayableCardPrefab = PrefabGrimoraPlayableCard;
 
 		AddCardRemoveSequencer();
