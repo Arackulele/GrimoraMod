@@ -30,16 +30,13 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 			yield return GlitchOutBoardAndHandCards();
 
-			PlayerHand.Instance.SetShown(false);
-
-			yield return new WaitForSeconds(0.75f);
-
+			
 			Log.LogDebug($"[PreCleanUp] Setting rulebook controller to not shown");
 			RuleBookController.Instance.SetShown(shown: false);
 			Log.LogDebug($"[PreCleanUp] Setting TableRuleBook.Instance enabled to false");
 			TableRuleBook.Instance.enabled = false;
 			Log.LogDebug($"[PreCleanUp] Glitching rulebook");
-			GlitchOutAssetEffect.GlitchModel(TableRuleBook.Instance.transform, false, true);
+			GlitchOutAssetEffect.GlitchModel(TableRuleBook.Instance.transform);
 
 			yield return new WaitForSeconds(0.75f);
 
@@ -93,7 +90,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			Log.LogDebug($"[GameEnd] offset fov");
 			ViewManager.Instance.OffsetFOV(150f, 1.5f);
 
-			Log.LogDebug($"[GameEnd] Resetting running");
+			Log.LogDebug($"[GameEnd] Resetting run");
 			yield return new WaitForSeconds(1f);
 			ConfigHelper.Instance.ResetRun();
 		}
@@ -157,6 +154,10 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			GlitchOutCard(c2);
 			yield return new WaitForSeconds(0.1f);
 		}
+		
+		PlayerHand.Instance.SetShown(false);
+
+		yield return new WaitForSeconds(0.75f);
 	}
 
 	private static void GlitchOutCard(Card c)
