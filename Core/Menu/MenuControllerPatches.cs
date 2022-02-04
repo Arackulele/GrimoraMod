@@ -25,11 +25,11 @@ public class MenuControllerPatches
 	{
 		if (SaveManager.SaveFile.IsGrimora && card.MenuAction == MenuAction.ReturnToStartMenu)
 		{
-			GrimoraPlugin.Log.LogDebug($"[MenuController.OnCardReachedSlot] saving before exiting");
+			GrimoraPlugin.Log.LogDebug($"[MenuController.OnCardReachedSlot] Saving before exiting");
 			SaveManager.SaveToFile();
+			Object.Destroy(Object.FindObjectOfType<PrefabPieceHelper>());
 		}
-
-		if (card.titleText == "Start Grimora Mod")
+		else if (card.titleText == "Start Grimora Mod")
 		{
 			// GrimoraPlugin.Log.LogDebug($"[MenuController.OnCardReachedSlot] Card.titleText is 'Start Grimora Mod'");
 			__instance.DoingCardTransition = false;

@@ -11,9 +11,9 @@ public partial class GrimoraPlugin
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(Ability.Sharp)
-			.SetBaseAttackAndHealth(0, 6)
-			.SetEnergyCost(3)
+			.SetAbilities(Ability.Reach, Ability.Sharp)
+			.SetBaseAttackAndHealth(0, 3)
+			.SetBoneCost(3)
 			.SetDescription("Going into that well wasn't the best idea...")
 			.SetNames(NameObol, "Ancient Obol")
 			.Build()

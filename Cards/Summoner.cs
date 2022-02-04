@@ -1,21 +1,21 @@
-﻿using APIPlugin;
+using APIPlugin;
 using DiskCardGame;
 
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameCrazedMantis = "ara_CrazedMantis";
+	public const string NameSummoner = "ara_Summoner";
 
-	private void AddAra_CrazedMantis()
+	private void AddAra_Summoner()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()
 			.SetAbilities(Ability.SplitStrike)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(4)
-			.SetDescription("The poor mantis has gone insane.")
-			.SetNames(NameCrazedMantis, "Crazed Mantis")
+			.SetDescription("This Skeleton learned Necromancy just to not fall in one Strike.")
+			.SetNames(NameSummoner, "Summoner")
 			.Build()
 		);
 	}

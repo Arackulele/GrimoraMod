@@ -7,54 +7,39 @@ using static GrimoraMod.GrimoraPlugin;
 // This class is literally just meant to be able to view the deck review sequencer
 namespace GrimoraMod;
 
-public class ChessboardMapExt : ChessboardMap
+public class ChessboardMapExt : GameMap
 {
-	private static bool EnableDevMode => ConfigDeveloperMode.Value;
-	private GrimoraChessboard _activeChessboard;
+	[SerializeField] internal NavigationGrid navGrid;
 
-	private bool _toggleEncounterMenu;
+	[SerializeField] internal List<ChessboardPiece> pieces;
 
-	private readonly string[] _buttonNames =
-	{
-		"Win Round", "Lose Round",
-		"Place Chest"
-	};
+	internal PrefabPieceHelper PrefabPieceHelper;
+
+	public List<ChessboardPiece> ActivePieces => pieces;
+
+	public readonly Predicate<ChessboardPiece> PieceExistsInActivePieces
+		= piece => Instance.pieces.Exists(active => active.gridXPos == piece.gridXPos && active.gridYPos == piece.gridYPos);
+	
+	public GrimoraChessboard ActiveChessboard { get; set; }
 
 	private List<GrimoraChessboard> _chessboards;
 
 	public new static ChessboardMapExt Instance => GameMap.Instance as ChessboardMapExt;
 
-	public List<string> RemovedPieces => ConfigCurrentRemovedPieces.Value.Split(',').Distinct().ToList();
-
-	public ChessboardEnemyPiece BossPiece => _activeChessboard.BossPiece;
-
-	internal bool ChangingRegion { get; private set; }
-
-	public bool BossDefeated { get; protected internal set; }
-
-	public static int BonesToAdd
+	public void SetAnimActiveIfInactive()
 	{
-		get
+		GameObject anim = gameObject.transform.GetChild(0).gameObject;
+		if (!anim.activeInHierarchy)
 		{
-			int bonesToAdd = 0;
-			if (ConfigKayceeFirstBossDead.Value)
-			{
-				bonesToAdd += 2;
-			}
-
-			if (ConfigSawyerSecondBossDead.Value)
-			{
-				bonesToAdd += 3;
-			}
-
-			if (ConfigRoyalThirdBossDead.Value)
-			{
-				bonesToAdd += 5;
-			}
-
-			return bonesToAdd;
+			anim.SetActive(true);
 		}
 	}
+
+	public ChessboardEnemyPiece BossPiece => ActiveChessboard.BossPiece;
+
+	private bool ChangingRegion { get; set; }
+
+	public bool BossDefeated { get; protected internal set; }
 
 	private List<GrimoraChessboard> Chessboards
 	{
@@ -65,12 +50,40 @@ public class ChessboardMapExt : ChessboardMap
 		}
 	}
 
-	private void Start()
+	public void LoadData()
 	{
-		// GrimoraPlugin.Log.LogDebug($"[MapExt] Setting on view changed");
+		if (_chessboards == null)
+		{
+			Log.LogDebug($"[ChessboardMapExt] Loading json boards");
+			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir(
+				ConfigHelper.Instance.isDevModeEnabled ? "GrimoraChessboardDevMode.json" : "GrimoraChessboardsStatic.json"
+			));
+
+			// Log.LogDebug($"[ChessboardMapExt] Parsing json");
+			_chessboards = ParseJson(
+				SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString)
+			);
+			// Log.LogDebug($"[ChessboardMapExt] Finished loading chessboard json file");
+		}
+	}
+
+	private static List<GrimoraChessboard> ParseJson(IEnumerable<List<List<int>>> chessboardsFromJson)
+	{
+		return chessboardsFromJson.Select((board, idx) => new GrimoraChessboard(board, idx)).ToList();
+	}
+
+	private void Awake()
+	{
+		Log.LogDebug($"[MapExt] Setting on view changed");
 		ViewManager instance = ViewManager.Instance;
 		instance.ViewChanged = (Action<View, View>)Delegate
 			.Combine(instance.ViewChanged, new Action<View, View>(OnViewChanged));
+
+		Log.LogDebug($"[MapExt] Adding debug helper");
+		gameObject.AddComponent<DebugHelper>();
+
+		Log.LogDebug($"[MapExt] Adding prefab piece helper");
+		PrefabPieceHelper = gameObject.AddComponent<PrefabPieceHelper>();
 	}
 
 	private void OnGUI()
@@ -104,102 +117,36 @@ public class ChessboardMapExt : ChessboardMap
 		}
 		else if (resetRunBtn)
 		{
-			ResetConfig();
-			ResetDeck();
-			StoryEventsData.EraseEvent(StoryEvent.GrimoraReachedTable);
-			SaveManager.SaveToFile();
-
-			LoadingScreenManager.LoadScene("finale_grimora");
+			ConfigHelper.Instance.ResetRun();
 		}
 		else if (deckResetBtn)
 		{
-			ResetDeck();
+			ConfigHelper.ResetDeck();
 		}
-
-		if (EnableDevMode)
-		{
-			_toggleEncounterMenu = GUI.Toggle(
-				new Rect(20, 100, 200, 20),
-				_toggleEncounterMenu,
-				"Debug Tools"
-			);
-
-			if (!_toggleEncounterMenu) return;
-
-			int selectedButton = GUI.SelectionGrid(
-				new Rect(25, 150, 300, 100),
-				-1,
-				_buttonNames,
-				2
-			);
-
-			if (selectedButton >= 0)
-			{
-				// Log.LogDebug($"[OnGUI] Calling button [{selectedButton}]");
-				switch (_buttonNames[selectedButton])
-				{
-					case "Win Round":
-						LifeManager.Instance.StartCoroutine(
-							LifeManager.Instance.ShowDamageSequence(10, 1, false)
-						);
-						break;
-					case "Lose Round":
-						LifeManager.Instance.StartCoroutine(
-							LifeManager.Instance.ShowDamageSequence(10, 1, true)
-						);
-						break;
-					case "Place Chest":
-						Instance._activeChessboard.PlaceChestPiece(0, 0);
-						break;
-				}
-			}
-		}
-	}
-
-	public void LoadData()
-	{
-		if (_chessboards == null)
-		{
-			Log.LogDebug($"[ChessboardMapExt] Loading json boards");
-			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("GrimoraChessboardsStatic.json"));
-
-			_chessboards = ParseJson(
-				SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString)
-			);
-		}
-	}
-
-	private static List<GrimoraChessboard> ParseJson(IEnumerable<List<List<int>>> chessboardsFromJson)
-	{
-		return chessboardsFromJson.Select((board, idx) => new GrimoraChessboard(board, idx)).ToList();
 	}
 
 	public IEnumerator CompleteRegionSequence()
 	{
+		PrefabPieceHelper.ChangeBlockerPieceForRegion();
 		ViewManager.Instance.Controller.SwitchToControlMode(ViewController.ControlMode.Map);
 		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
 
 		SaveManager.SaveToFile();
 
-		Instance.BossDefeated = false;
+		BossDefeated = false;
 
 		Log.LogDebug($"[CompleteRegionSequence] Starting CompleteRegionSequence");
 		ChangingRegion = true;
 
 		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
 		yield return new WaitForSeconds(0.8f);
-		// yield return TextDisplayer.Instance.PlayDialogueEvent("RegionNext", TextDisplayer.MessageAdvanceMode.Input);
 
 		ViewManager.Instance.SwitchToView(View.MapDefault);
 		yield return new WaitForSeconds(0.25f);
 
 		RunState.CurrentMapRegion.FadeInAmbientAudio();
 
-
 		MapNodeManager.Instance.SetAllNodesInteractable(false);
-		// yield return ShowMapSequence(0.25f);
-
-		// yield return TextDisplayer.Instance.PlayDialogueEvent("Region" + RunState.CurrentMapRegion.name, TextDisplayer.MessageAdvanceMode.Input);
 
 		// Log.LogDebug($"[CompleteRegionSequence] Looping audio");
 		AudioController.Instance.SetLoopAndPlay("finalegrimora_ambience");
@@ -219,10 +166,10 @@ public class ChessboardMapExt : ChessboardMap
 		Log.LogDebug($"[CompleteRegionSequence] No longer ChangingRegion");
 	}
 
-	private static void ClearBoardForChangingRegion()
+	private void ClearBoardForChangingRegion()
 	{
 		Log.LogDebug($"[CompleteRegionSequence] Clearing and destroying pieces");
-		Instance.pieces.RemoveAll(delegate(ChessboardPiece piece)
+		pieces.RemoveAll(delegate(ChessboardPiece piece)
 		{
 			// piece.gameObject.SetActive(false);
 			piece.MapNode.OccupyingPiece = null;
@@ -232,15 +179,15 @@ public class ChessboardMapExt : ChessboardMap
 		});
 
 		// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Clearing removedPiecesConfig");
-		ConfigCurrentRemovedPieces.Value = "";
+		ConfigHelper.Instance._configCurrentRemovedPieces.Value = "";
 	}
 
 	public override IEnumerator UnrollingSequence(float unrollSpeed)
 	{
 		TableRuleBook.Instance.SetOnBoard(false);
 
-		// Log.LogDebug($"[ChessboardMap.UnrollingSequence] Setting each piece game object active to false");
-		Instance.pieces.ForEach(delegate(ChessboardPiece x) { x.gameObject.SetActive(false); });
+		Log.LogDebug($"[UnrollingSequence] Setting each piece game object active to false");
+		pieces.ForEach(delegate(ChessboardPiece x) { x.gameObject.SetActive(false); });
 		// yield return new WaitForSeconds(0.5f);
 
 		UpdateVisuals();
@@ -259,15 +206,22 @@ public class ChessboardMapExt : ChessboardMap
 		dynamicElementsParent.gameObject.SetActive(true);
 
 		// for checking which nodes are active/inactive
-		if (EnableDevMode) RenameMapNodesWithGridCoords();
+		if (ConfigHelper.Instance.isDevModeEnabled) RenameMapNodesWithGridCoords();
+
+		// if the boss piece exists in the removed pieces,
+		// this means the game didn't complete clearing the board for changing the region
+		if (ConfigHelper.Instance.RemovedPieces.Exists(piece => piece.Contains("Boss")))
+		{
+			ClearBoardForChangingRegion();
+		}
 
 		UpdateActiveChessboard();
 
-		_activeChessboard.SetupBoard();
+		ActiveChessboard.SetupBoard();
 
 		yield return HandleActivatingChessPieces();
 
-		_activeChessboard.UpdatePlayerMarkerPosition(ChangingRegion);
+		ActiveChessboard.UpdatePlayerMarkerPosition(ChangingRegion);
 
 		if (!DialogueEventsData.EventIsPlayed("FinaleGrimoraMapShown"))
 		{
@@ -285,7 +239,7 @@ public class ChessboardMapExt : ChessboardMap
 
 	private void UpdateActiveChessboard()
 	{
-		int currentChessboardIndex = ConfigCurrentChessboardIndex.Value;
+		int currentChessboardIndex = ConfigHelper.Instance.CurrentChessboardIndex;
 		Log.LogDebug($"[HandleChessboardSetup] Before setting chess board idx [{currentChessboardIndex}]");
 
 		if (ChangingRegion)
@@ -295,21 +249,17 @@ public class ChessboardMapExt : ChessboardMap
 				currentChessboardIndex = 0;
 			}
 
-			ConfigCurrentChessboardIndex.Value = currentChessboardIndex;
+			ConfigHelper.Instance.CurrentChessboardIndex = currentChessboardIndex;
 			Log.LogDebug($"[HandleChessboardSetup] -> Setting new chessboard idx [{currentChessboardIndex}]");
-			_activeChessboard = Chessboards[currentChessboardIndex];
+			ActiveChessboard = Chessboards[currentChessboardIndex];
 
-			_activeChessboard.SetSavePositions();
+			ActiveChessboard.SetSavePositions();
 		}
 
-		Log.LogDebug($"[HandleChessboardSetup] Chessboard [{_activeChessboard}] Chessboards [{Chessboards.Count}]");
-		_activeChessboard ??= Chessboards[currentChessboardIndex];
+		Log.LogDebug($"[HandleChessboardSetup] Chessboard [{ActiveChessboard}] Chessboards [{Chessboards.Count}]");
+		ActiveChessboard ??= Chessboards[currentChessboardIndex];
 	}
 
-	public void AddPieceToRemovedPiecesConfig(string pieceName)
-	{
-		ConfigCurrentRemovedPieces.Value += "," + pieceName + ",";
-	}
 
 	private static void SetAllNodesActive()
 	{
@@ -326,17 +276,14 @@ public class ChessboardMapExt : ChessboardMap
 		// GrimoraPlugin.Log.LogDebug($"[HandleActivatingChessPieces] active pieces before setting if active " +
 		//                            $"[{string.Join(",", activePieces.Select(_ => _.name))}]");
 
-		var removedList = RemovedPieces;
-
-		Log.LogDebug($"[SetupGamePieces] " +
-		             $" Current removed list before {ConfigCurrentRemovedPieces.Value}");
+		var removedList = ConfigHelper.Instance.RemovedPieces;
 
 		// pieces will contain the pieces just placed
-		var activePieces = Instance.pieces
+		var activePieces = pieces
 			.Where(p => !removedList.Contains(p.name))
 			.ToList();
 
-		Instance.pieces.RemoveAll(delegate(ChessboardPiece piece)
+		pieces.RemoveAll(delegate(ChessboardPiece piece)
 		{
 			bool toRemove = false;
 			if (activePieces.Contains(piece))
@@ -366,7 +313,7 @@ public class ChessboardMapExt : ChessboardMap
 
 	private IEnumerator ShowPiecesThatAreActive()
 	{
-		foreach (var piece in Instance.pieces.Where(piece => piece.gameObject.activeInHierarchy))
+		foreach (var piece in pieces.Where(piece => piece.gameObject.activeInHierarchy))
 		{
 			// GrimoraPlugin.Log.LogDebug($"-> Piece [{piece.name}] saveId [{piece.saveId}] is active in hierarchy, calling Show method");
 			piece.Show();
@@ -410,8 +357,8 @@ public class ChessboardMapExt : ChessboardMap
 				{
 					// GrimoraPlugin.Log.LogDebug($"[OnViewChanged] SetAllNodesInteractable true");
 					// MapNodeManager.Instance.SetAllNodesInteractable(true);
-					// Log.LogDebug($"[OnViewChanged] PlayerMarker transform {PlayerMarker.Instance.transform}");
 					MapNodeManager.Instance.FindAndSetActiveNodeInteractable();
+					ChessboardNavGrid.instance.SetPlayerAdjacentNodesActive();
 				}
 
 				break;
@@ -439,5 +386,26 @@ public class ChessboardMapExt : ChessboardMap
 				}
 			}
 		}
+	}
+
+	public override IEnumerator RerollingSequence()
+	{
+		foreach (var piece in pieces.Where(piece => piece.gameObject.activeInHierarchy))
+		{
+			piece.Hide();
+			yield return new WaitForSeconds(0.005f);
+		}
+		PlayerMarker.Instance.Hide();
+		CameraEffects.Instance.TweenFogAlpha(0f, 0.15f);
+		yield return new WaitForSeconds(0.15f);
+		TableVisualEffectsManager.Instance.SetFogPlaneShown(shown: false);
+		CameraEffects.Instance.SetFogEnabled(fogEnabled: false);
+		mapAnim.Play("exit", 0, 0f);
+		dynamicElementsParent.gameObject.SetActive(value: false);
+	}
+
+	public override void OnHideMapImmediate()
+	{
+		mapAnim.Play("exit", 0, 1f);
 	}
 }

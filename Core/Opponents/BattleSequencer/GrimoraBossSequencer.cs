@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -7,6 +8,10 @@ namespace GrimoraMod;
 
 public class GrimoraBossSequencer : GrimoraModBossBattleSequencer
 {
+	private readonly RandomEx _rng = new();
+	
+	private bool playedDeathTouchDialogue;
+
 	public override Opponent.Type BossType => BaseBossExt.GrimoraOpponent;
 
 	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
@@ -38,6 +43,25 @@ public class GrimoraBossSequencer : GrimoraModBossBattleSequencer
 		}
 	}
 
+	public override IEnumerator OpponentUpkeep()
+	{
+		if (!playedDeathTouchDialogue &&
+		    BoardManager.Instance.GetSlots(getPlayerSlots: true)
+			    .Exists((CardSlot x) => x.Card != null && x.Card.HasAbility(Ability.Deathtouch))
+		    && BoardManager.Instance.GetSlots(getPlayerSlots: false)
+			    .Exists((CardSlot x) =>
+				    x.Card != null && x.Card.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility))
+		   )
+		{
+			yield return new WaitForSeconds(0.5f);
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				"DEATH TOUCH WON'T HELP YOU HERE DEAR." +
+				"\nI MADE THESE GIANTS SPECIAL, IMMUNE TO QUITE A FEW DIFFERENT TRICKS!"
+			);
+			playedDeathTouchDialogue = true;
+		}
+	}
+
 	public override IEnumerator PlayerUpkeep()
 	{
 		if (!DialogueEventsData.EventIsPlayed("FinaleGrimoraBattleStart"))
@@ -65,7 +89,7 @@ public class GrimoraBossSequencer : GrimoraModBossBattleSequencer
 			.GetSlots(getPlayerSlots: false)
 			.FindAll((CardSlot x) => x.Card == null && !TurnManager.Instance.Opponent.QueuedSlots.Contains(x));
 		Log.LogDebug($"[{GetType()}] Opponent Slots count [{opponentQueuedSlots.Count}]");
-		if (opponentQueuedSlots.Count > 0)
+		if (!opponentQueuedSlots.IsNullOrEmpty())
 		{
 			ViewManager.Instance.SwitchToView(View.BossCloseup);
 			TextDisplayer.Instance.PlayDialogueEvent(
@@ -88,8 +112,7 @@ public class GrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
-		RandomEx rnd = new RandomEx();
-		if (rnd.NextBoolean())
+		if (_rng.NextBoolean())
 		{
 			TextDisplayer.Instance.ShowUntilInput("Only a few more turns before I can bring my army back...",
 				letterAnimation: TextDisplayer.LetterAnimation.None);

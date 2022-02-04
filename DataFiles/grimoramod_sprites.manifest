@@ -1,0 +1,86 @@
+ManifestFileVersion: 0
+CRC: 2832519733
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 61a37aeb589bad6ea435c57b6dca4e87
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: c90fc19e2679e5295d10bd00f33cb4c3
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/GrimoraMod/Cards/Elk.png
+- Assets/GrimoraMod/Cards/Wendigo.png
+- Assets/GrimoraMod/Cards/Dybbuk_emission.png
+- Assets/GrimoraMod/Cards/Obol_emission.png
+- Assets/GrimoraMod/Cards/Dybbuk.png
+- Assets/GrimoraMod/Cards/Sarcophagus.png
+- Assets/GrimoraMod/Cards/Franknstein.png
+- Assets/GrimoraMod/Cards/DeadPets.png
+- Assets/GrimoraMod/Cards/Silbon_emission.png
+- Assets/GrimoraMod/Cards/MudWorm.png
+- Assets/GrimoraMod/Cards/Boneseed.png
+- Assets/GrimoraMod/Cards/Flames.png
+- Assets/GrimoraMod/Cards/UndeadWolf.png
+- Assets/GrimoraMod/Cards/Giant_emission.png
+- Assets/GrimoraMod/Cards/ScreamingSkull.png
+- Assets/GrimoraMod/Cards/DanseMacabre_emission.png
+- Assets/GrimoraMod/Cards/Skeleton.png
+- Assets/GrimoraMod/Cards/GhostShip.png
+- Assets/GrimoraMod/Cards/Draugr_emission.png
+- Assets/GrimoraMod/MenuCard.png
+- Assets/GrimoraMod/Cards/Bonepile_emission.png
+- Assets/GrimoraMod/Cards/DrownedSoul.png
+- Assets/GrimoraMod/Cards/Ember_Spirit.png
+- Assets/GrimoraMod/Cards/BooHag_emission.png
+- Assets/GrimoraMod/Cards/ZombieGeck.png
+- Assets/GrimoraMod/Cards/DeadHand.png
+- Assets/GrimoraMod/Cards/Ripper_emission.png
+- Assets/GrimoraMod/Cards/Bonelord.png
+- Assets/GrimoraMod/Cards/DanseMacabre.png
+- Assets/GrimoraMod/Cards/PlagueDoctor.png
+- Assets/GrimoraMod/Cards/Obol.png
+- Assets/GrimoraMod/Cards/Mummy.png
+- Assets/GrimoraMod/Cards/ArmoredZombie.png
+- Assets/GrimoraMod/Cards/Summoner.png
+- Assets/GrimoraMod/Cards/Family.png
+- Assets/GrimoraMod/Cards/SkeletonArmy.png
+- Assets/GrimoraMod/Cards/Skelemancer.png
+- Assets/GrimoraMod/Cards/Necromancer_emission.png
+- Assets/GrimoraMod/Cards/Gravedigger.png
+- Assets/GrimoraMod/Cards/Zombie.png
+- Assets/GrimoraMod/Cards/Sporedigger.png
+- Assets/GrimoraMod/Background.png
+- Assets/GrimoraMod/Cards/Revenant.png
+- Assets/GrimoraMod/Cards/Giant.png
+- Assets/GrimoraMod/Cards/ghoul.png
+- Assets/GrimoraMod/Cards/BonelordsHorn.png
+- Assets/GrimoraMod/Cards/BonePrince.png
+- Assets/GrimoraMod/Cards/SkeletonMage.png
+- Assets/GrimoraMod/Cards/Project_emission.png
+- Assets/GrimoraMod/Cards/Maggots.png
+- Assets/GrimoraMod/Cards/Project.png
+- Assets/GrimoraMod/Cards/Wyvern.png
+- Assets/GrimoraMod/Cards/Draugr.png
+- Assets/GrimoraMod/Cards/HeadlessHorseman.png
+- Assets/GrimoraMod/Cards/BoneSerpent.png
+- Assets/GrimoraMod/Cards/Ripper.png
+- Assets/GrimoraMod/Cards/BooHag.png
+- Assets/GrimoraMod/Cards/Bonepile.png
+- Assets/GrimoraMod/Cards/Skelemaniac.png
+- Assets/GrimoraMod/Cards/Necromancer.png
+- Assets/GrimoraMod/Cards/CrazedMantis.png
+- Assets/GrimoraMod/Cards/TombRobber.png
+- Assets/GrimoraMod/Cards/Poltergeist.png
+- Assets/GrimoraMod/Cards/ScreamingSkull_emission.png
+- Assets/GrimoraMod/Cards/BoneSnapper.png
+- Assets/GrimoraMod/Cards/Amoeba.png
+- Assets/GrimoraMod/Cards/Hydra.png
+- Assets/GrimoraMod/Cards/Silbon.png
+Dependencies: []

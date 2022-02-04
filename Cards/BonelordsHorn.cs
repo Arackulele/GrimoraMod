@@ -1,4 +1,4 @@
-﻿using APIPlugin;
+using APIPlugin;
 using DiskCardGame;
 
 namespace GrimoraMod;
@@ -9,21 +9,16 @@ public partial class GrimoraPlugin
 
 	private void AddAra_BonelordsHorn()
 	{
-		List<Ability> abilities = new List<Ability>
-		{
-			Ability.QuadrupleBones,
-			Ability.IceCube
-		};
-
 		NewCard.Add(CardBuilder.Builder
-				.SetAsRareCard()
-				.SetAbilities(abilities)
-				.SetBaseAttackAndHealth(0, 1)
-				.SetEnergyCost(4)
-				.SetNames(NameBoneLordsHorn, "Bone Lord's Horn")
-				.SetDescription("The Horn of the Bonelord, you do not want to find out what's inside.")
-				.Build(),
-			iceCubeId: new IceCubeIdentifier(NameBonePrince)
+			.SetAsRareCard()
+			.SetAbilities(Ability.IceCube, Ability.QuadrupleBones)
+			.SetBaseAttackAndHealth(0, 1)
+			.SetBoneCost(3)
+			.SetEnergyCost(2)
+			.SetIceCube(NameBonePrince)
+			.SetNames(NameBoneLordsHorn, "Bone Lord's Horn")
+			.SetDescription("The Horn of the Bonelord, you do not want to find out what's inside.")
+			.Build()
 		);
 	}
 }

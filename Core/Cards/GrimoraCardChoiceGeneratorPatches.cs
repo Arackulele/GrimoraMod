@@ -1,34 +1,16 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
 [HarmonyPatch(typeof(GrimoraCardChoiceGenerator))]
-public class PlaceAllActOneChoicesToGrimora
+public class OnlyAllowGrimoraModCardsInNormalCardChoices
 {
 	[HarmonyPrefix, HarmonyPatch(nameof(GrimoraCardChoiceGenerator.GenerateChoices))]
 	public static bool Prefix(ref List<CardChoice> __result, ref int randomSeed)
 	{
-		var cardsToAdd = new List<CardChoice>();
-
-		var randomizedChoices = CardLoader.AllData
-			.FindAll(info => info.name.StartsWith("ara_") && info.metaCategories.Contains(CardMetaCategory.ChoiceNode))
-			.Select(card => new CardChoice { CardInfo = card })
-			.ToArray()
-			.Randomize()
-			.ToList();
-
-		GrimoraPlugin.Log.LogDebug($"[GenerateChoices] random cards are " +
-		                           $"{string.Join(",", randomizedChoices.Select(cc => cc.info.name))}");
-
-		while (cardsToAdd.Count < 3)
-		{
-			cardsToAdd.Add(
-				randomizedChoices[SeededRandom.Range(0, randomizedChoices.Count, randomSeed++)]
-			);
-		}
-
-		__result = cardsToAdd;
+		__result = RandomUtils.GenerateRandomChoicesOfCategory(CardLoader.allData, randomSeed, CardMetaCategory.ChoiceNode);
 		return false;
 	}
 }

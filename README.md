@@ -1,32 +1,104 @@
 # Grimora Mod
 
-- A giant Mod made by Kopie, Arackulele, xXxStoner420BongMasterxXx that builds upon the finale with Grimora's
+- A giant Mod made by Kopie, Arackulele, and xXxStoner420BongMasterxXx that builds upon the finale with Grimora's
   chessboard.
 
+- **MOST IMPORTANT**: **!!!THIS IS A BETA AND IS NOT BUG FREE!!!**
 - **IMPORTANT**: **ENABLE ENERGY DRONE IN API CONFIG IN ORDER FOR IT TO SHOW UP**
-- **BEWARE**: THIS WILL UNLOCK CERTAIN STORY EVENTS IN ORDER FOR THE MOD TO WORK, WHICH ALSO MEANS UNLOCKING CERTAIN
-  ACHIEVEMENTS!
+- **BEWARE**:
+
+  - THIS WILL UNLOCK CERTAIN STORY EVENTS IN ORDER FOR THE MOD TO WORK, WHICH ALSO MEANS UNLOCKING CERTAIN ACHIEVEMENTS!
+  - THIS MOD HAS NOT BEEN TESTED WITH KAYCEE'S MOD!
+
 - In the event you are starting from a brand new save, this mod will unlock all learned abilities, mechanics, and cards
   and some Story Events like the first tutorial battle, Bones, and a few others in order for this mod to work.
 - If you are not starting from a new save, this mod will check for certain story events and determine if it needs to unlock those.
 - I suggest restarting your game at least once if you haven't actually gotten to the finale.
-- The most important, !!!THIS IS A BETA AND IS NOT BUG FREE!!!
 
-- This mod is not tested with KC mod and we cannot guarantee it will work on that version of the game
+## Known Issues
 
-## Special thanks to
+### Grimora's dialogue is unfinished and still the one from the finale and part 1 dialogue in some cases
 
-- LavaErrorDoggo for making a lot of the Artwork
+- Ongoing process to add new dialogue.
 
-- YisusWhy for the epic Bone Lord Artwork
+### Current save file is already at the finale with Grimora
 
-- JulianMods (xXxStoner420BongMasterxXx) for refactoring the code.
-
-- Morrígan/crow_system#3539, Comrade Alpaca#0292, TheGreenDigi#8672, Plot#6972 for extensive beta testing v2.1
-
-- Draconis17#3692 for the new energy cells game object!
+- Make a backup of your save, then delete it. Having your current save already at the finale will break the mod.
 
 ## Update Notes
+
+### 2.4.1
+
+- ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added multiple cards from `Bt Y#0895`, included with artwork!
+
+#### Cards
+
+- **Boo Hag** - 1,1 - <img align="center" src="https://tinyurl.com/2p86btxk"><img align="center" src="https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_5.png"> Sigils: Skin Crawler.
+
+- **Danse Macabre** - 3,3 - <img align="center" src="https://tinyurl.com/2p86btxk"><img align="center" src="https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_8.png"> Sigils: Alternating Strike, Erratic.
+
+- **Dybbuk** - 0,1 - <img align="center" src="https://tinyurl.com/2p86btxk"><img align="center" src="https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_6.png"> Sigils: Possessive.
+
+- **Giant** - 2,7 - <img align="center" src="https://tinyurl.com/2p86btxk"><img align="center" src="https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_1.png"><img align="center" src="https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_5.png"> Sigils: Bone King, Bifurcated Strike.
+
+- **Project** - 1,1 - <img align="center" src="https://tinyurl.com/2p86btxk"><img align="center" src="https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_8.png"> Sigils: Trifurcated Strike.
+
+- **Ripper** - 6,6 - <img align="center" src="https://tinyurl.com/2p86btxk"><img align="center" src="https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_1.png"><img align="center" src="https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_2.png"> Sigils: Brittle.
+
+- **Screaming Skull** - 1,1 - <img align="center" src="https://tinyurl.com/2p86btxk"><img align="center" src="https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_8.png"> Sigils: Area Of Effect Strike.
+
+- **Silbon** - 3,2 - <img align="center" src="https://tinyurl.com/2p86btxk"><img align="center" src="https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_7.png"> Sigils: Inverted Strike, Sprinter.
+
+#### Sigils
+
+- **Alternating Strike** - [creature] will alternate between striking the opposing space to the left and right from it.
+- **Area Of Effect Strike** - [creature] will strike it's adjacent slots, and each opposing space to the left, right, and center of it.
+- **Erratic** - At the end of the owner's turn, [creature] will move in a random direction.
+- **Inverted Strike** - [creature] will strike the opposing slot as if the board was flipped. A card in the far left slot will attack the opposing far right slot.
+- **Possessive** - [creature] cannot be attacked from the opposing slot. The opposing slot instead attacks one of it's adjacent slots if possible.
+- **Skin Crawler** - When [creature] resolves, if possible, will hide under an adjacent card providing a +1 buff. Otherwise, it perishes. Cards on the left take priority.
+
+- ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added more logic to make the skeleton arm attack animation work for both player and opponent sides.
+
+- ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png)
+
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed NPE in GameEnd method for `GrimoraModBattleSequencer` to now correctly reset the run if the player has lost with no NPE.
+
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png)
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Moved config logic and setup to own ConfigHelper class.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Updated Start patch for chests to now only set the NodeData type if it is null. This is so chests can placed with a specific node type.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Added DebugHelper class for debug related tools.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Changed ApiUtils creation of abilities to now set the rulebook name based on the type passed in, or as an optional param for setting a specific name.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Multiple classes cleaned up and reformatted for easier reading.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Renamed `CreateInsertAbilityNameHere` to just `Create`
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Added emission sprites to Sprite bundle, and logic to add emission sprites to `NewCard.emissions`.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Added extra builder methods for setting abilities.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Modified build command in project to include artwork folder.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png)
+
+### 2.4.1
+
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed softlock after defeating Grimora for the first time.
+
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed Bone Lord weakening himself instead of the player.
+
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed issue where if a player would close the game during the rare card choice sequence after defeating a boss, the new boss does not spawn and there isn't a way to go into the next region without closing the game and removing the boss piece from the removed pieces entry in the config file.
+
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed scaling on Plague Doctor and Summoner art.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Tweaked Grimora's second phase to no longer give a card +1 attack if it had zero.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Updated ability rulebook names to have spaces.
 
 ### 2.4.0
 
@@ -217,8 +289,18 @@
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed
   Blueprints
 
-## Known Issues
+## Special thanks to
 
-### Grimora's dialogue is unfinished and still the one from the finale and part 1 dialogue in some cases
+- LavaErrorDoggo for making a lot of the Artwork
 
-- This is a temporary problem and will be fixed soon.
+- YisusWhy for the epic Bone Lord Artwork
+
+- JulianMods (xXxStoner420BongMasterxXx) for refactoring the code.
+
+- Morrígan/crow_system#3539, Comrade Alpaca#0292, TheGreenDigi#8672, Plot#6972 for extensive beta testing v2.1
+
+- Bt Y#0895 for currently working on Artwork for the mod
+
+- Kopie for being a former developer.
+
+- Draconis17#3692 for the new energy cells game object!

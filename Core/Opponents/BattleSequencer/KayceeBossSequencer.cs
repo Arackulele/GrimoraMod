@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using Sirenix.Utilities;
+using UnityEngine;
 
 namespace GrimoraMod;
 
@@ -24,26 +26,30 @@ public class KayceeBossSequencer : GrimoraModBossBattleSequencer
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
-		var playerSlotsWithCards = CardSlotUtils.GetPlayerSlotsWithCards();
-		if (playerSlotsWithCards.Capacity > 0)
+		var playerCardsWithAttacks
+			= CardSlotUtils.GetPlayerSlotsWithCards()
+				.Select(slot => slot.Card)
+				.Where(card => card.Attack > 0)
+				.ToList();
+
+		freezeCounter++;
+		if (!playerCardsWithAttacks.IsNullOrEmpty())
 		{
-			if (++freezeCounter == 3)
+			if (freezeCounter >= 3)
 			{
 				StartCoroutine(TextDisplayer.Instance.ShowUntilInput("Freeze!"));
-				foreach (var card in playerSlotsWithCards.Select(slot => slot.Card))
+				foreach (var card in playerCardsWithAttacks)
 				{
 					card.Anim.StrongNegationEffect();
 					card.Anim.StrongNegationEffect();
-					card.Anim.StrongNegationEffect();
-					card.Anim.StrongNegationEffect();
-					card.Anim.StrongNegationEffect();
 					card.AddTemporaryMod(new CardModificationInfo(1 - card.Attack, 0));
+					card.Anim.StrongNegationEffect();
+					card.Anim.StrongNegationEffect();
+					yield return new WaitForSeconds(0.05f);
 
 					freezeCounter = 0;
 				}
 			}
 		}
-
-		yield break;
 	}
 }

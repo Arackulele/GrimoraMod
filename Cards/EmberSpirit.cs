@@ -1,4 +1,4 @@
-﻿using APIPlugin;
+using APIPlugin;
 
 namespace GrimoraMod;
 
@@ -12,9 +12,8 @@ public partial class GrimoraPlugin
 			.SetAsRareCard()
 			.SetAbilities(FlameStrafe.ability)
 			.SetBaseAttackAndHealth(1, 3)
-			.SetBoneCost(3)
 			.SetDescription("A trickster spirit fleeing and leaving behind its flames.")
-			.SetEnergyCost(3)
+			.SetEnergyCost(6)
 			.SetNames(NameEmberSpirit, "Spirit of Ember")
 			.Build()
 		);

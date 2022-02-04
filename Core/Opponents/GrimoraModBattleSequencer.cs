@@ -13,7 +13,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 	{
 		if (!TurnManager.Instance.PlayerIsWinner())
 		{
-			Log.LogDebug($"[GrimoraModBattleSequencer] Player did not win...");
+			Log.LogDebug($"[PreCleanUp] Player did not win...");
 			AudioController.Instance.FadeOutLoop(3f, Array.Empty<int>());
 
 			ViewManager.Instance.SwitchToView(View.Default, false, true);
@@ -22,24 +22,21 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 			InteractionCursor.Instance.InteractionDisabled = true;
 
-			Log.LogDebug($"[GameEnd] Calling CardDrawPiles CleanUp...");
+			Log.LogDebug($"[PreCleanUp] Calling CardDrawPiles CleanUp...");
 			StartCoroutine(CardDrawPiles.Instance.CleanUp());
 
-			Log.LogDebug($"[GameEnd] Calling TurnManager CleanUp...");
+			Log.LogDebug($"[PreCleanUp] Calling TurnManager CleanUp...");
 			StartCoroutine(TurnManager.Instance.Opponent.CleanUp());
 
 			yield return GlitchOutBoardAndHandCards();
 
-			PlayerHand.Instance.SetShown(false, false);
-
-			yield return new WaitForSeconds(0.75f);
-
-			Log.LogDebug($"[GameEnd] Setting rulebook controller to not shown");
+			
+			Log.LogDebug($"[PreCleanUp] Setting rulebook controller to not shown");
 			RuleBookController.Instance.SetShown(shown: false);
-			Log.LogDebug($"[GameEnd] Setting TableRuleBook.Instance enabled to false");
+			Log.LogDebug($"[PreCleanUp] Setting TableRuleBook.Instance enabled to false");
 			TableRuleBook.Instance.enabled = false;
-			Log.LogDebug($"[GameEnd] Glitching rulebook");
-			GlitchOutAssetEffect.GlitchModel(TableRuleBook.Instance.transform, false, true);
+			Log.LogDebug($"[PreCleanUp] Glitching rulebook");
+			GlitchOutAssetEffect.GlitchModel(TableRuleBook.Instance.transform);
 
 			yield return new WaitForSeconds(0.75f);
 
@@ -53,11 +50,20 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 			InteractionCursor.Instance.InteractionDisabled = false;
 
+			Log.LogDebug($"[GameEnd] Glitching Resource Energy");
+			GlitchOutAssetEffect.GlitchModel(ResourceDrone.Instance.transform);
+			yield return new WaitForSeconds(0.75f);
+
 			Log.LogDebug($"[GameEnd] Glitching bell");
 			GlitchOutAssetEffect.GlitchModel(((BoardManager3D)BoardManager3D.Instance).Bell.transform);
 			yield return new WaitForSeconds(0.75f);
+
 			Log.LogDebug($"[GameEnd] Glitching scales");
 			GlitchOutAssetEffect.GlitchModel(LifeManager.Instance.Scales3D.transform);
+			yield return new WaitForSeconds(0.75f);
+
+			Log.LogDebug($"[GameEnd] Glitching hammer");
+			GlitchOutAssetEffect.GlitchModel(GrimoraItemsManagerExt.Instance.hammerSlot.transform);
 			yield return new WaitForSeconds(0.75f);
 
 			// yield return (GameFlowManager.Instance as GrimoraGameFlowManager).EndSceneSequence();
@@ -78,11 +84,15 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 			Log.LogDebug($"[GameEnd] Time to rest");
 			yield return TextDisplayer.Instance.ShowThenClear(
-				"It is time to rest.", 1f, 0.5f, Emotion.Curious
+				"It is time to rest.", 2f, 0f, Emotion.Curious
 			);
 			yield return new WaitForSeconds(0.75f);
 			Log.LogDebug($"[GameEnd] offset fov");
 			ViewManager.Instance.OffsetFOV(150f, 1.5f);
+
+			Log.LogDebug($"[GameEnd] Resetting run");
+			yield return new WaitForSeconds(1f);
+			ConfigHelper.Instance.ResetRun();
 		}
 
 		yield break;
@@ -90,36 +100,30 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 	public override List<CardInfo> GetFixedOpeningHand()
 	{
-		Log.LogDebug($"Getting randomized list for starting hand");
+		Log.LogDebug($"[GetFixedOpeningHand] Getting randomized list for starting hand");
 		var cardsToAdd = new List<CardInfo>();
-		var randomizedChoices = GrimoraSaveData.Data.deck.Cards
-			.ToArray()
-			.Randomize()
-			.ToList();
+		var randomizedChoices = RandomUtils.GenerateRandomChoicesOfCategory(
+			GrimoraSaveData.Data.deck.Cards,
+			GenerateRandomSeed(GrimoraSaveData.Data.deck.Cards),
+			CardMetaCategory.NUM_CATEGORIES
+		);
 
-		while (cardsToAdd.Count < 3)
+		if (randomizedChoices.Count < 3)
 		{
-			int seed = GenerateRandomSeed(randomizedChoices);
-
-			var choice = randomizedChoices[seed];
-			while (cardsToAdd.Contains(choice))
-			{
-				choice = randomizedChoices[GenerateRandomSeed(randomizedChoices)];
-			}
-
-			Log.LogDebug($"Adding random card choice [{choice.name}] to opening hand");
-			cardsToAdd.Add(choice);
+			Log.LogWarning($"[GetFixedOpeningHand] ...How did you get fewer than 3 cards in your deck?!");
+			var skeleton = CardLoader.GetCardByName("Skeleton");
+			cardsToAdd.AddRange(new[] { skeleton, skeleton });
 		}
 
 		return cardsToAdd;
 	}
 
-	private static int GenerateRandomSeed(IReadOnlyCollection<CardInfo> randomizedChoices)
+	private static int GenerateRandomSeed(IReadOnlyCollection<CardInfo> cardInfos)
 	{
 		int seedRng = UnityEngine.Random.RandomRangeInt(int.MinValue, int.MaxValue);
 		return SeededRandom.Range(
 			0,
-			randomizedChoices.Count,
+			cardInfos.Count,
 			seedRng
 		);
 	}
@@ -128,25 +132,16 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 	{
 		if (playerWon)
 		{
-			Log.LogDebug($"[GrimoraModBattleSequencer] " +
-			             $"Adding enemy [{ActiveEnemyPiece.name}] to config removed pieces");
-			ChessboardMapExt.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
+			Log.LogDebug($"[GrimoraModBattleSequencer Adding enemy to config [{ActiveEnemyPiece.name}]");
+			ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
 		}
-		else
-		{
-			ResetRun();
 
-			yield return new WaitForSeconds(1.5f);
-
-			GrimoraPlugin.Log.LogDebug($"Starting finale_grimora");
-			LoadingScreenManager.LoadScene("finale_grimora");
-			yield break;
-		}
+		yield break;
 	}
 
 	private IEnumerator GlitchOutBoardAndHandCards()
 	{
-		yield return (BoardManager.Instance as BoardManager3D).HideSlots();
+		yield return ((BoardManager3D)BoardManager.Instance).HideSlots();
 		foreach (PlayableCard c in BoardManager.Instance.CardsOnBoard)
 		{
 			GlitchOutCard(c);
@@ -159,22 +154,15 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			GlitchOutCard(c2);
 			yield return new WaitForSeconds(0.1f);
 		}
+		
+		PlayerHand.Instance.SetShown(false);
+
+		yield return new WaitForSeconds(0.75f);
 	}
 
-	private static void ResetRun()
+	private static void GlitchOutCard(Card c)
 	{
-		Log.LogDebug($"[ResetRun] Resetting run");
-
-		GrimoraSaveData.Data.Initialize();
-		StoryEventsData.EraseEvent(StoryEvent.GrimoraReachedTable);
-		ResetConfig();
-
-		SaveManager.SaveToFile();
-	}
-
-	private void GlitchOutCard(PlayableCard c)
-	{
-		(c.Anim as GravestoneCardAnimationController).PlayGlitchOutAnimation();
-		UnityEngine.Object.Destroy(c.gameObject, 0.25f);
+		((GravestoneCardAnimationController)c.Anim).PlayGlitchOutAnimation();
+		Destroy(c.gameObject, 0.25f);
 	}
 }

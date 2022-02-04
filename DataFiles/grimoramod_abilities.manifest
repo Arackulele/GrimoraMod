@@ -1,0 +1,26 @@
+ManifestFileVersion: 0
+CRC: 342744562
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 23d5827f432966c2cfef3928736a415c
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 7859cd501ea75098bcf7e53f1b477c26
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/GrimoraMod/Abilities/ability_InvertedStrike.png
+- Assets/GrimoraMod/Abilities/ability_FlameStrafe.png
+- Assets/GrimoraMod/Abilities/ability_PayBonesForSkeleton.png
+- Assets/GrimoraMod/Abilities/ability_AlternatingStrike.png
+- Assets/GrimoraMod/Abilities/ability_PayEnergyForWyvern.png
+- Assets/GrimoraMod/Abilities/ability_BoneLordsReign.png
+- Assets/GrimoraMod/Abilities/ability_SkinCrawler.png
+- Assets/GrimoraMod/Abilities/ability_Possessive.png
+- Assets/GrimoraMod/Abilities/ability_Erratic.png
+- Assets/GrimoraMod/Abilities/ability_AreaOfEffectStrike.png
+Dependencies: []

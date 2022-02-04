@@ -20,9 +20,7 @@ public class EnemyManagerPatches
 		// e.g. from quitting mid match
 		GrimoraModBattleSequencer.ActiveEnemyPiece = enemy;
 
-		// __instance.enemyPieces.Remove(enemy);
-		// enemy.MapNode.OccupyingPiece = null;
-		MapNodeManager.Instance.SetAllNodesInteractable(nodesInteractable: false);
+		MapNodeManager.Instance.SetAllNodesInteractable(false);
 		__instance.StartCoroutine(__instance.StartCombatSequence(enemy, playerStarted));
 
 		return false;

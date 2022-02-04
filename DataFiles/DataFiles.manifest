@@ -1,0 +1,16 @@
+ManifestFileVersion: 0
+CRC: 1441389666
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: grimoramod_sprites
+      Dependencies: {}
+    Info_1:
+      Name: grimoramod_prefabs
+      Dependencies: {}
+    Info_2:
+      Name: grimoramod_mats
+      Dependencies: {}
+    Info_3:
+      Name: grimoramod_abilities
+      Dependencies: {}

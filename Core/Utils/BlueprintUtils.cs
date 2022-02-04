@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -27,19 +27,19 @@ public static class BlueprintUtils
 		card = CardLoader.GetCardByName(GrimoraPlugin.NameBonePrince)
 	};
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_BoneSerpent = new()
+	public static readonly EncounterBlueprintData.CardBlueprint bp_PlagueDoctor = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameBoneSerpent)
+		card = CardLoader.GetCardByName(GrimoraPlugin.NamePlagueDoctor)
 	};
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_BoneSnapper = new()
+	public static readonly EncounterBlueprintData.CardBlueprint bp_ArmoredZombie = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameBoneSnapper)
+		card = CardLoader.GetCardByName(GrimoraPlugin.NameArmoredZombie)
 	};
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_CrazedMantis = new()
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Summoner = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameCrazedMantis)
+		card = CardLoader.GetCardByName(GrimoraPlugin.NameSummoner)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_DeadHand = new()
@@ -160,11 +160,6 @@ public static class BlueprintUtils
 	public static readonly EncounterBlueprintData.CardBlueprint bp_TombRobber = new()
 	{
 		card = CardLoader.GetCardByName(GrimoraPlugin.NameTombRobber)
-	};
-
-	public static readonly EncounterBlueprintData.CardBlueprint bp_UndeadWolf = new()
-	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameUndeadWolf)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Zombie = new()
@@ -323,12 +318,12 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_Draugr },
-			new() { bp_CrazedMantis },
+			new() { bp_Summoner },
 			new() { },
 			new() { bp_Draugr },
 			new() { bp_Skeleton },
 			new() { },
-			new() { bp_CrazedMantis }
+			new() { bp_Summoner }
 		};
 
 		return blueprint;
@@ -460,15 +455,15 @@ public static class BlueprintUtils
 		{
 			new(),
 			new() { bp_Zombie },
-			new() { bp_BoneSnapper },
+			new() { bp_ArmoredZombie },
 			new() { bp_Zombie },
-			new() { bp_BoneSnapper },
+			new() { bp_ArmoredZombie },
 			new() { bp_Zombie, bp_Zombie },
 			new() { bp_DrownedSoul },
 			new(),
 			new(),
-			new() { bp_BoneSnapper },
-			new() { bp_BoneSnapper }
+			new() { bp_ArmoredZombie },
+			new() { bp_ArmoredZombie }
 		};
 
 		return blueprint;
@@ -487,7 +482,7 @@ public static class BlueprintUtils
 			new() { },
 			new() { bp_Skeleton },
 			new() { },
-			new() { bp_Skeleton, bp_BoneSerpent },
+			new() { bp_Skeleton, bp_PlagueDoctor },
 			new() { },
 			new() { bp_Revenant },
 			new() { },
@@ -529,10 +524,10 @@ public static class BlueprintUtils
 			new() { bp_Mummy },
 			new() { bp_TombRobber },
 			new() { bp_TombRobber },
-			new() { bp_UndeadWolf },
+			new() { bp_DeadPets },
 			new() { bp_TombRobber },
 			new() { bp_Mummy },
-			new() { bp_UndeadWolf },
+			new() { bp_DeadPets },
 		};
 
 		return blueprint;
@@ -584,17 +579,17 @@ public static class BlueprintUtils
 		{
 			new() { bp_Zombie },
 			new() { },
-			new() { bp_Skeleton, bp_BoneSerpent },
+			new() { bp_Skeleton, bp_PlagueDoctor },
 			new() { },
 			new() { },
-			new() { bp_Sarcophagus, bp_BoneSerpent },
+			new() { bp_Sarcophagus, bp_PlagueDoctor },
 			new() { },
-			new() { bp_Skeleton, bp_BoneSerpent },
+			new() { bp_Skeleton, bp_PlagueDoctor },
 			new() { },
-			new() { bp_BoneSerpent },
+			new() { bp_PlagueDoctor },
 			new() { },
-			new() { bp_UndeadWolf },
-			new() { bp_BoneSerpent, bp_BoneSerpent }
+			new() { bp_DeadPets, bp_DeadPets },
+			new() { bp_PlagueDoctor, bp_PlagueDoctor }
 		};
 
 		return blueprint;
@@ -625,10 +620,10 @@ public static class BlueprintUtils
 			new() { bp_Bonehound },
 			new() { bp_Revenant },
 			new() { },
-			new() { bp_BoneSerpent },
+			new() { bp_PlagueDoctor },
 			new() { },
 			new() { },
-			new() { bp_BoneSerpent },
+			new() { bp_PlagueDoctor },
 			new() { bp_Bonehound }
 		};
 

@@ -1,4 +1,4 @@
-﻿using APIPlugin;
+using APIPlugin;
 using DiskCardGame;
 
 namespace GrimoraMod;
@@ -11,10 +11,9 @@ public partial class GrimoraPlugin
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(Ability.SkeletonStrafe)
-			.SetBaseAttackAndHealth(2, 4)
-			.SetBoneCost(2)
-			.SetEnergyCost(4)
+			.SetAbilities(PayBonesForSkeleton.ability)
+			.SetBaseAttackAndHealth(1, 3)
+			.SetBoneCost(5)
 			.SetDescription("The skeleton army, boons of the Bone Lord")
 			.SetNames(NameSkeletonArmy, "Skeleton Army")
 			.Build()

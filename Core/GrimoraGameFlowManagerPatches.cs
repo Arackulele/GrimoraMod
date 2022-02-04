@@ -98,17 +98,19 @@ public class GrimoraGameFlowManagerPatches
 			);
 
 			// Log.LogDebug($"[SceneSpecificInitialization] RevealGrimoraSequence");
-			__instance.StartCoroutine((GameFlowManager.Instance as GrimoraGameFlowManager).RevealGrimoraSequence());
+			__instance.StartCoroutine(((GrimoraGameFlowManager)GameFlowManager.Instance).RevealGrimoraSequence());
 
 			SaveManager.SaveToFile();
 		}
 		else
 		{
 			Log.LogDebug(
-				$"[SceneSpecificInitialization] GrimoraReachedTable is true, playing finalegrimora_ambience");
+				$"[SceneSpecificInitialization] GrimoraReachedTable is true.");
 			AudioController.Instance.SetLoopAndPlay("finalegrimora_ambience");
 			if (GameMap.Instance != null)
 			{
+				// this is so that it looks a little cleaner when entering for the first time
+				ChessboardMap.Instance.gameObject.transform.GetChild(0).gameObject.SetActive(false);
 				// GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Setting CurrentGameState to GameState.Map");
 				__instance.CurrentGameState = GameState.Map;
 				// Log.LogDebug($"[SceneSpecificInitialization] Transitioning to GameState.Map");
