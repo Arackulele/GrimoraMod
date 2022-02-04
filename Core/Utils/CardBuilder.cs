@@ -1,7 +1,6 @@
 ﻿using APIPlugin;
 using DiskCardGame;
 using HarmonyLib;
-using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -29,7 +28,7 @@ public class CardBuilder
 
 	internal CardBuilder SetTribes(params Tribe[] tribes)
 	{
-		_cardInfo.tribes ??= new();
+		_cardInfo.tribes ??= new List<Tribe>();
 		tribes.DoIf(tribe => !_cardInfo.tribes.Contains(tribe), tribe => _cardInfo.tribes.Add(tribe));
 		return this;
 	}
@@ -41,7 +40,7 @@ public class CardBuilder
 			cardName = cardName.Replace("ara_", "");
 			// Log.LogDebug($"Looking in AllSprites for [{cardName}]");
 			_cardInfo.portraitTex = AllSpriteAssets.Single(
-				spr => string.Equals(spr.name, cardName, StringComparison.OrdinalIgnoreCase)
+				spr => spr.name.Equals(cardName, StringComparison.OrdinalIgnoreCase)
 			);
 
 			// TODO: refactor when API 2.0 comes out
@@ -121,7 +120,7 @@ public class CardBuilder
 
 	internal CardBuilder SetMetaCategories(params CardMetaCategory[] categories)
 	{
-		_cardInfo.metaCategories ??= new();
+		_cardInfo.metaCategories ??= new List<CardMetaCategory>();
 		categories.DoIf(
 			category => !_cardInfo.metaCategories.Contains(category),
 			category => _cardInfo.metaCategories.Add(category)
@@ -131,7 +130,7 @@ public class CardBuilder
 
 	internal CardBuilder SetAbilities(params Ability[] abilities)
 	{
-		_cardInfo.abilities ??= new();
+		_cardInfo.abilities ??= new List<Ability>();
 		_cardInfo.abilities.AddRange(abilities);
 
 		return this;
@@ -139,7 +138,7 @@ public class CardBuilder
 
 	internal CardBuilder SetAbilities(params SpecialTriggeredAbility[] specialTriggeredAbilities)
 	{
-		_cardInfo.specialAbilities ??= new();
+		_cardInfo.specialAbilities ??= new List<SpecialTriggeredAbility>();
 		specialTriggeredAbilities.DoIf(
 			tribe => !_cardInfo.specialAbilities.Contains(tribe),
 			tribe => _cardInfo.specialAbilities.Add(tribe)
@@ -160,7 +159,7 @@ public class CardBuilder
 			cardToLoad = NewCard.cards.Single(_ => _.name.Equals(iceCubeName));
 		}
 
-		_cardInfo.iceCubeParams = new()
+		_cardInfo.iceCubeParams = new IceCubeParams
 		{
 			creatureWithin = cardToLoad
 		};
@@ -180,7 +179,7 @@ public class CardBuilder
 			cardToLoad = NewCard.cards.Single(_ => _.name.Equals(evolveInto));
 		}
 
-		_cardInfo.evolveParams = new()
+		_cardInfo.evolveParams = new EvolveParams
 		{
 			turnsToEvolve = numberOfTurns,
 			evolution = cardToLoad
@@ -190,7 +189,7 @@ public class CardBuilder
 
 	internal CardBuilder SetTraits(params Trait[] traits)
 	{
-		_cardInfo.traits ??= new();
+		_cardInfo.traits ??= new List<Trait>();
 		traits.DoIf(trait => !_cardInfo.traits.Contains(trait), trait => _cardInfo.traits.Add(trait));
 
 		return this;
@@ -198,7 +197,7 @@ public class CardBuilder
 
 	internal CardBuilder SetDecals(params Texture[] decals)
 	{
-		_cardInfo.decals ??= new();
+		_cardInfo.decals ??= new List<Texture>();
 		_cardInfo.decals = decals.ToList();
 		return this;
 	}
