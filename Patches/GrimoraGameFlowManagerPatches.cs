@@ -20,7 +20,7 @@ public class GrimoraGameFlowManagerPatches
 		if (FinaleDeletionWindowManager.instance != null)
 		{
 			// GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Destroying FinaleDeletionWindowManager as it exists");
-			UnityEngine.Object.Destroy(FinaleDeletionWindowManager.instance.gameObject);
+			Object.Destroy(FinaleDeletionWindowManager.instance.gameObject);
 		}
 
 		ViewManager.Instance.SwitchToView(View.Default, immediate: true);
@@ -41,38 +41,13 @@ public class GrimoraGameFlowManagerPatches
 			// Log.LogDebug($"[SceneSpecificInitialization] Transitioning to FirstPerson3D");
 			__instance.StartCoroutine(__instance.TransitionTo(GameState.FirstPerson3D, null, immediate: true));
 
-			// Log.LogDebug($"[SceneSpecificInitialization] Setting ExplorableAreaManager lights active");
-			CryptManager.Instance.HangingLight.gameObject.SetActive(setLightsActive);
-			CryptManager.Instance.HandLight.gameObject.SetActive(setLightsActive);
-
-			// Log.LogDebug($"[SceneSpecificInitialization] Setting gameTableCandlesParent active");
-			__instance.gameTableCandlesParent.SetActive(setLightsActive);
-
-			Transform tableTransform = __instance.gameTableCandlesParent.transform;
-			int childCountTable = tableTransform.childCount;
-			for (int i = 0; i < childCountTable; i++)
-			{
-				var candle = tableTransform.GetChild(i).gameObject;
-				// Log.LogDebug($"[SceneSpecificInitialization] Setting cryptLight [{candle.name}] active");
-				candle.SetActive(true);
-				candle.GetComponentInChildren<Animator>().Play("candle_light");
-			}
-
-			Transform cryptLightsTransform = CryptManager.Instance.transform.Find("Lights");
-			int cryptLightsCount = cryptLightsTransform.childCount;
-			for (int i = 0; i < cryptLightsCount; i++)
-			{
-				// Log.LogDebug($"[SceneSpecificInitialization] Setting cryptLight [{cryptLightsTransform.GetChild(i).gameObject.name}] active");
-				cryptLightsTransform.GetChild(i).gameObject.SetActive(true);
-			}
-
-			__instance.gravestoneNavZone.SetActive(setLightsActive);
+			SetLightsActive(__instance);
 
 			__instance.StartCoroutine(__instance.StartSceneSequence());
 
 			// Log.LogDebug($"[SceneSpecificInitialization] Tombstones falling");
 			CryptEpitaphSlotInteractable cryptEpitaphSlotInteractable =
-				UnityEngine.Object.FindObjectOfType<CryptEpitaphSlotInteractable>();
+				Object.FindObjectOfType<CryptEpitaphSlotInteractable>();
 
 			AudioController.Instance.PlaySound3D(
 				"giant_stones_falling",
@@ -104,8 +79,7 @@ public class GrimoraGameFlowManagerPatches
 		}
 		else
 		{
-			Log.LogDebug(
-				$"[SceneSpecificInitialization] GrimoraReachedTable is true.");
+			Log.LogDebug($"[SceneSpecificInitialization] GrimoraReachedTable is true.");
 			AudioController.Instance.SetLoopAndPlay("finalegrimora_ambience");
 			if (GameMap.Instance != null)
 			{
@@ -119,5 +93,35 @@ public class GrimoraGameFlowManagerPatches
 		}
 
 		return false;
+	}
+
+	private static void SetLightsActive(GrimoraGameFlowManager __instance)
+	{
+		// Log.LogDebug($"[SceneSpecificInitialization] Setting ExplorableAreaManager lights active");
+		CryptManager.Instance.HangingLight.gameObject.SetActive(true);
+		CryptManager.Instance.HandLight.gameObject.SetActive(true);
+
+		// Log.LogDebug($"[SceneSpecificInitialization] Setting gameTableCandlesParent active");
+		__instance.gameTableCandlesParent.SetActive(true);
+
+		Transform tableTransform = __instance.gameTableCandlesParent.transform;
+		int childCountTable = tableTransform.childCount;
+		for (int i = 0; i < childCountTable; i++)
+		{
+			var candle = tableTransform.GetChild(i).gameObject;
+			// Log.LogDebug($"[SceneSpecificInitialization] Setting cryptLight [{candle.name}] active");
+			candle.SetActive(true);
+			candle.GetComponentInChildren<Animator>().Play("candle_light");
+		}
+
+		Transform cryptLightsTransform = CryptManager.Instance.transform.Find("Lights");
+		int cryptLightsCount = cryptLightsTransform.childCount;
+		for (int i = 0; i < cryptLightsCount; i++)
+		{
+			// Log.LogDebug($"[SceneSpecificInitialization] Setting cryptLight [{cryptLightsTransform.GetChild(i).gameObject.name}] active");
+			cryptLightsTransform.GetChild(i).gameObject.SetActive(true);
+		}
+
+		__instance.gravestoneNavZone.SetActive(true);
 	}
 }

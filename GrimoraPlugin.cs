@@ -181,7 +181,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		foreach (var cardName in cardsToResizeArtwork)
 		{
-			CardInfo cardInfo = CardLoader.Clone(CardLoader.GetCardByName(cardName));
+			CardInfo cardInfo = CardLoader.GetCardByName(cardName);
 			CardBuilder builder = CardBuilder.Builder
 				.SetAsNormalCard()
 				.SetAbilities(cardInfo.abilities.ToArray())
@@ -189,7 +189,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 				.SetBoneCost(cardInfo.bonesCost)
 				.SetDescription(cardInfo.description)
 				.SetNames("ara_" + cardInfo.name, cardInfo.displayedName)
-				.SetTribes(cardInfo.tribes);
+				.SetTribes(cardInfo.tribes.ToArray());
 
 			if (cardName == "Amoeba")
 			{

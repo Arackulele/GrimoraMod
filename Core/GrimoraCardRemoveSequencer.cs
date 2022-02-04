@@ -117,14 +117,9 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			Log.LogDebug($"boon card game object is now active");
 			boonCard.gameObject.SetActive(value: true);
 
-			if (sacrificedInfo.HasTrait(Trait.Goat))
-			{
-				boonCard.SetInfo(BoonsUtil.CreateCardForBoon(BoonData.Type.StartingBones));
-			}
-			else
-			{
-				boonCard.SetInfo(randomCard);
-			}
+			boonCard.SetInfo(sacrificedInfo.HasTrait(Trait.Goat)
+				? BoonsUtil.CreateCardForBoon(BoonData.Type.StartingBones)
+				: randomCard);
 
 			Log.LogDebug($"boon card is now inactive");
 			boonCard.SetEnabled(enabled: false);
@@ -223,7 +218,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			case <= 0.005f:
 			{
 				// grimora_deck_decrease_cost
-				cardThatWillHaveEffectApplied = ApplyEffectToCard(
+				cardThatWillHaveEffectApplied = ApplyEffectToCards(
 					"grimora_deck_bones_decrease",
 					"... WHAT? WHY DID YOU DO THAT BONE LORD?! [c:bR]DECREASING THE COST OF THE ENTIRE DECK?![c:] YOU FOOL!",
 					"THAT'S UNFORTUNATE. YOU WERE SUPPOSED TO HAVE YOUR ENTIRE DECK DECREASED, BUT IT LOOKS LIKE THE BONE LORD HAS ALREADY GIFTED YOU THAT. BEGONE!",
@@ -235,7 +230,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			// increase entire deck by 1
 			case <= 0.01f:
 			{
-				cardThatWillHaveEffectApplied = ApplyEffectToCard(
+				cardThatWillHaveEffectApplied = ApplyEffectToCards(
 					"grimora_deck_bones_increase",
 					"OH MY, THE BONE LORD HAS NO EMPATHY TODAY. [c:bR]INCREASING THE COST OF YOUR ENTIRE DECK BY 1[c:], I AM QUITE CURIOUS HOW YOU'LL SURVIVE NOW.",
 					"YOU'RE QUITE LUCKY. THE BONE LORD [c:bR]WANTED[c:] TO INCREASE YOUR ENTIRE DECK BY 1, BUT I FELT THAT WAS A BIT HARSH SINCE IT ALREADY HAS HAPPENED. YOU BEST THANK ME.",
@@ -247,7 +242,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			// bone increase = 9%~
 			case <= 0.10f:
 			{
-				cardThatWillHaveEffectApplied = ApplyEffectToCard(
+				cardThatWillHaveEffectApplied = ApplyEffectToCards(
 					"grimora_card_bones_increase",
 					"I hope this doesn't hurt too much. [c:bR]{0}[c:] cost has increased!",
 					"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]INCREASE THEIR BONE COST[c:], HOW SAD. NOW PLEASE LEAVE."
@@ -258,7 +253,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			// bone reduce = 20% of the time
 			case <= 0.30f:
 			{
-				cardThatWillHaveEffectApplied = ApplyEffectToCard(
+				cardThatWillHaveEffectApplied = ApplyEffectToCards(
 					"grimora_card_bones_decrease",
 					"Oh dear, it looks like [c:bR]{0}[c:] cost has decreased!",
 					"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]REDUCE THEIR BONE COST[c:], HOW SAD. NOW PLEASE LEAVE.",
@@ -270,7 +265,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			// card gains 1 HP = 10%?
 			case <= 40f:
 			{
-				cardThatWillHaveEffectApplied = ApplyEffectToCard(
+				cardThatWillHaveEffectApplied = ApplyEffectToCards(
 					"grimora_card_health_increase",
 					"The Bone Lord has been generous. [c:bR]{0}[c:] base health has increased!",
 					"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]GAIN HP[c:], HOW SAD. NOW PLEASE LEAVE.",
@@ -282,7 +277,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			// card loses 1 HP = 10%?
 			case <= 50f:
 			{
-				cardThatWillHaveEffectApplied = ApplyEffectToCard(
+				cardThatWillHaveEffectApplied = ApplyEffectToCards(
 					"grimora_card_health_decrease",
 					"Be glad the Bone Lord doesn't take more. [c:bR]{0}[c:] base health has decreased!",
 					"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]LOSE HP[c:], HOW SAD. NOW PLEASE LEAVE.",
@@ -328,7 +323,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		return modificationInfo;
 	}
 
-	private CardInfo ApplyEffectToCard(
+	private CardInfo ApplyEffectToCards(
 		string singletonId,
 		string dialogueOnAtLeastOneCard,
 		string dialogueNoCardsChosen,
