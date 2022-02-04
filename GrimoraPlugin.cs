@@ -158,18 +158,18 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		_harmony?.UnpatchSelf();
 		GrimoraModBattleSequencer.ActiveEnemyPiece = null;
 
-		FindObjectsOfType<ChessboardPiece>().ForEach(_ => Destroy(_.gameObject));
+		Destroy(ChessboardMapExt.Instance);
+		Destroy(DeckReviewSequencer.Instance);
+		Destroy(ResourceDrone.Instance);
 		Destroy(FindObjectOfType<PrefabPieceHelper>());
 		Destroy(FindObjectOfType<DebugHelper>());
 		Destroy(FindObjectOfType<GrimoraModBattleSequencer>());
 		Destroy(FindObjectOfType<GrimoraModBossBattleSequencer>());
-		Destroy(ChessboardMapExt.Instance);
 		Destroy(FindObjectOfType<GrimoraCardRemoveSequencer>());
 		Destroy(FindObjectOfType<BoonIconInteractable>());
-		Destroy(ResourceDrone.Instance);
-		Destroy(DeckReviewSequencer.Instance);
 		Destroy(FindObjectOfType<GrimoraRareChoiceGenerator>());
 		Destroy(FindObjectOfType<SpecialNodeHandler>());
+		FindObjectsOfType<ChessboardPiece>().ForEach(_ => Destroy(_.gameObject));
 	}
 
 	private static void ResizeArtworkForVanillaBoneCards()
