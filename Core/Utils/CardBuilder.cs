@@ -1,6 +1,7 @@
 ﻿using APIPlugin;
 using DiskCardGame;
 using HarmonyLib;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -26,14 +27,10 @@ public class CardBuilder
 	{
 	}
 
-	internal CardBuilder SetTribes(Tribe tribes)
+	internal CardBuilder SetTribes(params Tribe[] tribes)
 	{
-		return SetTribes(new List<Tribe>() { tribes });
-	}
-
-	internal CardBuilder SetTribes(List<Tribe> tribes)
-	{
-		_cardInfo.tribes = tribes;
+		_cardInfo.tribes ??= new();
+		tribes.DoIf(tribe => !_cardInfo.tribes.Contains(tribe), tribe => _cardInfo.tribes.Add(tribe));
 		return this;
 	}
 
@@ -77,28 +74,16 @@ public class CardBuilder
 	internal CardBuilder SetEnergyCost(int energyCost)
 	{
 		_cardInfo.energyCost = energyCost;
-		List<Texture> energyDecal = new();
-		switch (energyCost)
+		Texture energyDecal = energyCost switch
 		{
-			case 1:
-				energyDecal.Add(ImageUtils.Energy1);
-				break;
-			case 2:
-				energyDecal.Add(ImageUtils.Energy2);
-				break;
-			case 3:
-				energyDecal.Add(ImageUtils.Energy3);
-				break;
-			case 4:
-				energyDecal.Add(ImageUtils.Energy4);
-				break;
-			case 5:
-				energyDecal.Add(ImageUtils.Energy5);
-				break;
-			case 6:
-				energyDecal.Add(ImageUtils.Energy6);
-				break;
-		}
+			1 => ImageUtils.Energy1,
+			2 => ImageUtils.Energy2,
+			3 => ImageUtils.Energy3,
+			4 => ImageUtils.Energy4,
+			5 => ImageUtils.Energy5,
+			6 => ImageUtils.Energy6,
+			_ => null
+		};
 
 		return SetDecals(energyDecal);
 	}
@@ -136,17 +121,17 @@ public class CardBuilder
 
 	internal CardBuilder SetMetaCategories(params CardMetaCategory[] categories)
 	{
-		_cardInfo.metaCategories = _cardInfo.metaCategories ?? new();
-		foreach (var app in categories)
-			if (!_cardInfo.metaCategories.Contains(app))
-				_cardInfo.metaCategories.Add(app);
-
+		_cardInfo.metaCategories ??= new();
+		categories.DoIf(
+			category => !_cardInfo.metaCategories.Contains(category),
+			category => _cardInfo.metaCategories.Add(category)
+		);
 		return this;
 	}
 
 	internal CardBuilder SetAbilities(params Ability[] abilities)
 	{
-		_cardInfo.abilities = _cardInfo.abilities ?? new();
+		_cardInfo.abilities ??= new();
 		_cardInfo.abilities.AddRange(abilities);
 
 		return this;
@@ -154,14 +139,11 @@ public class CardBuilder
 
 	internal CardBuilder SetAbilities(params SpecialTriggeredAbility[] specialTriggeredAbilities)
 	{
-		_cardInfo.specialAbilities = _cardInfo.specialAbilities ?? new();
-		foreach (var ability in specialTriggeredAbilities)
-		{
-			if (!_cardInfo.specialAbilities.Contains(ability))
-			{
-				_cardInfo.specialAbilities.Add(ability);
-			}
-		}
+		_cardInfo.specialAbilities ??= new();
+		specialTriggeredAbilities.DoIf(
+			tribe => !_cardInfo.specialAbilities.Contains(tribe),
+			tribe => _cardInfo.specialAbilities.Add(tribe)
+		);
 
 		return this;
 	}
@@ -177,6 +159,7 @@ public class CardBuilder
 		{
 			cardToLoad = NewCard.cards.Single(_ => _.name.Equals(iceCubeName));
 		}
+
 		_cardInfo.iceCubeParams = new()
 		{
 			creatureWithin = cardToLoad
@@ -196,7 +179,7 @@ public class CardBuilder
 		{
 			cardToLoad = NewCard.cards.Single(_ => _.name.Equals(evolveInto));
 		}
-		
+
 		_cardInfo.evolveParams = new()
 		{
 			turnsToEvolve = numberOfTurns,
@@ -207,26 +190,16 @@ public class CardBuilder
 
 	internal CardBuilder SetTraits(params Trait[] traits)
 	{
-		_cardInfo.traits = _cardInfo.traits ?? new();
-		foreach (var trait in traits)
-		{
-			if (!_cardInfo.traits.Contains(trait))
-			{
-				_cardInfo.traits.Add(trait);
-			}
-		}
+		_cardInfo.traits ??= new();
+		traits.DoIf(trait => !_cardInfo.traits.Contains(trait), trait => _cardInfo.traits.Add(trait));
 
 		return this;
 	}
 
-	internal CardBuilder SetDecals(Texture decal)
+	internal CardBuilder SetDecals(params Texture[] decals)
 	{
-		return SetDecals(new List<Texture>() { decal });
-	}
-
-	internal CardBuilder SetDecals(List<Texture> decals)
-	{
-		_cardInfo.decals = decals;
+		_cardInfo.decals ??= new();
+		_cardInfo.decals = decals.ToList();
 		return this;
 	}
 }
