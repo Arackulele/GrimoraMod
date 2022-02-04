@@ -27,44 +27,88 @@
 
 ## Update Notes
 
-### 2.4.1
+### 2.5.0
+
+#### Feature
+
+- ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added 3 new special node pieces!
+  - Boneyard: Bury one of your cards to give it Brittle and halve it's bone cost rounded up. 9 bones becomes 5 for example.
+  - Card Removal: Remove a card for a special effect to another card (or maybe your entire deck?!)
+  - Electric Chair: Give one of your cards a random positive sigil.
+  - Goat Eye: Remove your eye...
+
+- ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Grimora phase 2 redone to be more difficult.
+
+- ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Grimora has a new set of blocker pieces!
+
+- ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added more logic to make the skeleton arm attack animation work for both player and opponent sides.
 
 - ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added multiple cards from `Bt Y#0895`, included with artwork!
 
 #### Cards
 
-- **Boo Hag** - 1,1 - <img align="center" src="https://tinyurl.com/2p86btxk"><img align="center" src="https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_5.png"> Sigils: Skin Crawler.
+- **Boo Hag** - 1,1 - ![cost_bone](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone.png)![cost_bone_5](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_5.png) Sigils: Skin Crawler.
 
-- **Danse Macabre** - 3,3 - <img align="center" src="https://tinyurl.com/2p86btxk"><img align="center" src="https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_8.png"> Sigils: Alternating Strike, Erratic.
+- **Danse Macabre** - 3,3 - ![cost_bone](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone.png)![cost_bone_8](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_8.png) Sigils: Alternating Strike, Erratic.
 
-- **Dybbuk** - 0,1 - <img align="center" src="https://tinyurl.com/2p86btxk"><img align="center" src="https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_6.png"> Sigils: Possessive.
+- **Dybbuk** - 0,1 - ![cost_bone](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone.png)![cost_bone_6](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_6.png) Sigils: Possessive.
 
-- **Giant** - 2,7 - <img align="center" src="https://tinyurl.com/2p86btxk"><img align="center" src="https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_1.png"><img align="center" src="https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_5.png"> Sigils: Bone King, Bifurcated Strike.
+- **Giant** - 2,7 - ![cost_bone](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone.png)![cost_bone_1](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_1.png)![cost_bone_5](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_5.png) Sigils: Bone King, Bifurcated Strike.
 
-- **Project** - 1,1 - <img align="center" src="https://tinyurl.com/2p86btxk"><img align="center" src="https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_8.png"> Sigils: Trifurcated Strike.
+- **Project** - 1,1 - ![cost_bone](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone.png)![cost_bone_8](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_8.png) Sigils: Trifurcated Strike.
 
-- **Ripper** - 6,6 - <img align="center" src="https://tinyurl.com/2p86btxk"><img align="center" src="https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_1.png"><img align="center" src="https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_2.png"> Sigils: Brittle.
+- **Ripper** - 6,6 - ![cost_bone](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone.png)![cost_bone_1](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_1.png)![cost_bone_2](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_2.png) Sigils: Brittle.
 
-- **Screaming Skull** - 1,1 - <img align="center" src="https://tinyurl.com/2p86btxk"><img align="center" src="https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_8.png"> Sigils: Area Of Effect Strike.
+- **Screaming Skull** - 1,1 - ![cost_bone](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone.png)![cost_bone_6](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_6.png) Sigils: Area Of Effect Strike.
 
-- **Silbon** - 3,2 - <img align="center" src="https://tinyurl.com/2p86btxk"><img align="center" src="https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_7.png"> Sigils: Inverted Strike, Sprinter.
+- **Silbon** - 3,2 - ![cost_bone](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone.png)![cost_bone_7](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_7.png) Sigils: Inverted Strike, Sprinter.
 
 #### Sigils
 
-- **Alternating Strike** - [creature] will alternate between striking the opposing space to the left and right from it.
+- **Alternating Strike** - [creature] alternates between striking the opposing space to the left and right from it.
 - **Area Of Effect Strike** - [creature] will strike it's adjacent slots, and each opposing space to the left, right, and center of it.
 - **Erratic** - At the end of the owner's turn, [creature] will move in a random direction.
 - **Inverted Strike** - [creature] will strike the opposing slot as if the board was flipped. A card in the far left slot will attack the opposing far right slot.
 - **Possessive** - [creature] cannot be attacked from the opposing slot. The opposing slot instead attacks one of it's adjacent slots if possible.
 - **Skin Crawler** - When [creature] resolves, if possible, will hide under an adjacent card providing a +1 buff. Otherwise, it perishes. Cards on the left take priority.
 
-- ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added more logic to make the skeleton arm attack animation work for both player and opponent sides.
+#### Bugfix
 
-- ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png)
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed possible infinite loop if the player would have fewer than 3 cards in their deck when starting a battle.
+
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Set cardbacks to gravestones in Rare Card choice. Before it was the default paper cardbacks from Act 1.
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed NPE in GameEnd method for `GrimoraModBattleSequencer` to now correctly reset the run if the player has lost with no NPE.
 
-- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png)
+#### Refactor
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Added PrefabPieceHlper class for ease of creating new chessboard pieces using generics.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Changed `Object.Find` calls to use `.Instance` calls where necessary. This is because `.Instance` will automatically give me the object I need to destroy/check.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Removed patch for `ChessboardMap` as the `UnrollingSequence` will never be called as it replaced by the extension class `ChessboardMapExt`.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Deactive beginning animation for original `ChessboardMap` class in the scene so the transition looks cleaner.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Updated `CardBuilder` to mimic API2.0 until kmod is officially released.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Removed power level in creation of ability as it was never used.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Replaced config entries for each boss to just `BossesDefeated`.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Added thrown exceptions in `FileUtils` to check if the `Artwork` and `DataFiles` folder exists.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Removed unused fields in `GrimoraChessboard` as the getters are the only ones used.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Cleaned up `SetupBoard` in `GrimoraChessboard` to use `PlacePieces<T>` generic method.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Added `Resources.UnloadUnusedAssets()` in `OnDestroy()` method as I think it was causing a lot of memory issues without it. Still not sure...
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Added `RandomUtils` class for having a method that will return a list of 3 random choices given a metacategory and list of cards.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Cleaned up a bunch of comments.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Moved patches to Patches directory. This is to keep patches in their own directory to easily differentiate what is custom class and what is a modifciation of an existing class.
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Moved config logic and setup to own ConfigHelper class.
 
@@ -72,7 +116,7 @@
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Added DebugHelper class for debug related tools.
 
-- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Changed ApiUtils creation of abilities to now set the rulebook name based on the type passed in, or as an optional param for setting a specific name.
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Changed ApiUtils creation of abilities to now set the rulebook name based on the type passed in, or as an optional param for setting a specific name. This just means less keystrokes when creating abilities.
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Multiple classes cleaned up and reformatted for easier reading.
 
@@ -84,7 +128,7 @@
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Modified build command in project to include artwork folder.
 
-- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png)
+
 
 ### 2.4.1
 
