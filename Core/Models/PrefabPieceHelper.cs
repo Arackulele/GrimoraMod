@@ -148,30 +148,29 @@ public class PrefabPieceHelper : ManagedBehaviour
 	private T CreateCustomPrefabPiece<T>() where T : ChessboardPiece
 	{
 		Log.LogDebug($"[CreateCustomPrefabPiece] Creating custom piece [{typeof(T)}]");
-		if (PieceSetupByType.TryGetValue(typeof(T), out Tuple<float, GameObject, Func<ChessboardPiece>> tuple))
+		if (!PieceSetupByType.TryGetValue(typeof(T), out Tuple<float, GameObject, Func<ChessboardPiece>> tuple))
 		{
-			GameObject gameObj = tuple.Item2;
-
-			if (typeof(T) == typeof(ChessboardBlockerPieceExt))
-			{
-				// Log.LogDebug($"[CreateCustomPrefabPiece] Grabbed scale [{scaledValue}] and GO [{gameObj}]");
-				gameObj = GetActiveRegionBlockerPiece();
-			}
-			else if (typeof(T) == typeof(ChessboardGoatEyePiece))
-			{
-				Material goatEyeMat = ResourceBank.Get<Material>("Art/Materials/Eyeball_Goat");
-				gameObj.GetComponent<MeshRenderer>().material = goatEyeMat;
-				gameObj.GetComponent<MeshRenderer>().sharedMaterial = goatEyeMat;
-				gameObj.GetComponent<Rigidbody>().useGravity = false;
-			}
-
-			T piece = gameObj.AddComponent<T>();
-			// this is just so any anim that would play doesn't throw an exception
-			piece.anim = PrefabEnemyPiece.anim;
-			return piece;
+			throw new Exception($"[CreateCustomPrefabPiece] Failed to create [{typeof(T)}] as it does not exist in the dictionary!");
 		}
 
-		Log.LogError($"[CreateCustomPrefabPiece] Failed to create [{typeof(T)}]");
-		return null;
+		GameObject gameObj = tuple.Item2;
+
+		if (typeof(T) == typeof(ChessboardBlockerPieceExt))
+		{
+			// Log.LogDebug($"[CreateCustomPrefabPiece] Grabbed scale [{scaledValue}] and GO [{gameObj}]");
+			gameObj = GetActiveRegionBlockerPiece();
+		}
+		else if (typeof(T) == typeof(ChessboardGoatEyePiece))
+		{
+			Material goatEyeMat = ResourceBank.Get<Material>("Art/Materials/Eyeball_Goat");
+			gameObj.GetComponent<MeshRenderer>().material = goatEyeMat;
+			gameObj.GetComponent<MeshRenderer>().sharedMaterial = goatEyeMat;
+			gameObj.GetComponent<Rigidbody>().useGravity = false;
+		}
+
+		T piece = gameObj.AddComponent<T>();
+		// this is just so any anim that would play doesn't throw an exception
+		piece.anim = PrefabEnemyPiece.anim;
+		return piece;
 	}
 }
