@@ -105,10 +105,11 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 	{
 		Log.LogDebug($"[GetFixedOpeningHand] Getting randomized list for starting hand");
 		var cardsToAdd = new List<CardInfo>();
-		var randomizedChoices = GrimoraSaveData.Data.deck.Cards
-			.ToArray()
-			.Randomize()
-			.ToList();
+		var randomizedChoices = RandomUtils.GenerateRandomChoicesOfCategory(
+			GrimoraSaveData.Data.deck.Cards,
+			GenerateRandomSeed(GrimoraSaveData.Data.deck.Cards),
+			CardMetaCategory.NUM_CATEGORIES
+		);
 
 		if (randomizedChoices.Count < 3)
 		{
@@ -117,29 +118,15 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			cardsToAdd.AddRange(new[] { skeleton, skeleton });
 		}
 
-		while (cardsToAdd.Count < 3)
-		{
-			int seed = GenerateRandomSeed(randomizedChoices);
-
-			var choice = randomizedChoices[seed];
-			while (cardsToAdd.Contains(choice))
-			{
-				choice = randomizedChoices[GenerateRandomSeed(randomizedChoices)];
-			}
-
-			Log.LogDebug($"[GetFixedOpeningHand] Adding random card choice [{choice.name}] to opening hand");
-			cardsToAdd.Add(choice);
-		}
-
 		return cardsToAdd;
 	}
 
-	private static int GenerateRandomSeed(IReadOnlyCollection<CardInfo> randomizedChoices)
+	private static int GenerateRandomSeed(IReadOnlyCollection<CardInfo> cardInfos)
 	{
 		int seedRng = UnityEngine.Random.RandomRangeInt(int.MinValue, int.MaxValue);
 		return SeededRandom.Range(
 			0,
-			randomizedChoices.Count,
+			cardInfos.Count,
 			seedRng
 		);
 	}

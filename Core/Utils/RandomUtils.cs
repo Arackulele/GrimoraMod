@@ -5,23 +5,24 @@ namespace GrimoraMod;
 
 public static class RandomUtils
 {
-	private static int MAX_CHOICES = 3;
+	private const int MaxChoices = 3;
 
 	public static List<CardChoice> GenerateRandomChoicesOfCategory(
+		IEnumerable<CardInfo> cards,
 		int seed,
-		CardMetaCategory category = CardMetaCategory.ChoiceNode
+		CardMetaCategory category = CardMetaCategory.NUM_CATEGORIES
 	)
 	{
 		List<CardChoice> cardChoices = new List<CardChoice>();
 
-		var randomizedChoices = CardLoader.allData
-			.FindAll(info => info.name.StartsWith("ara_") && info.metaCategories.Contains(category))
+		var randomizedChoices = new List<CardInfo>(cards)
+			.FindAll(info => info.name.StartsWith("ara_") && (category == CardMetaCategory.NUM_CATEGORIES || info.metaCategories.Contains(category)))
 			.Select(card => new CardChoice { CardInfo = card })
 			.ToArray()
 			.Randomize()
 			.ToList();
 
-		while (cardChoices.Count < MAX_CHOICES)
+		while (cardChoices.Count < MaxChoices)
 		{
 			var choice = randomizedChoices[SeededRandom.Range(0, randomizedChoices.Count, seed++)];
 			if (cardChoices.Contains(choice))
@@ -34,9 +35,9 @@ public static class RandomUtils
 				Log.LogDebug($"[GenerateChoices] Adding random card choice [{choice.info.name}] to opening hand");
 			}
 		}
-		
+
 		Log.LogDebug($"[GrimoraRareChoiceGenerator] Selected random cards are " +
-		                           $"{string.Join(",", cardChoices.Select(cc => cc.info.name))}");
+		             $"{string.Join(",", cardChoices.Select(cc => cc.info.name))}");
 
 		return cardChoices;
 	}
