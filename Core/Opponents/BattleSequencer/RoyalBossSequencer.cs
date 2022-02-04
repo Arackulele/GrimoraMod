@@ -8,6 +8,8 @@ namespace GrimoraMod;
 
 public class RoyalBossSequencer : GrimoraModBossBattleSequencer
 {
+	private readonly RandomEx _rng = new ();
+
 	public override Opponent.Type BossType => BaseBossExt.RoyalOpponent;
 
 	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
@@ -25,9 +27,8 @@ public class RoyalBossSequencer : GrimoraModBossBattleSequencer
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
-		RandomEx rnd = new RandomEx();
 		var playerSlotsWithCards = CardSlotUtils.GetPlayerSlotsWithCards();
-		if (!playerSlotsWithCards.IsNullOrEmpty() && rnd.NextBoolean())
+		if (!playerSlotsWithCards.IsNullOrEmpty() && _rng.NextBoolean())
 		{
 			var playableCard = playerSlotsWithCards[UnityEngine.Random.Range(0, playerSlotsWithCards.Count)].Card;
 			Log.LogDebug($"[{GetType()}] About to assign ExplodeOnDeath to [{playableCard.Info.name}]");

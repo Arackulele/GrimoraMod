@@ -10,6 +10,8 @@ public class Erratic : Strafe
 	public static Ability ability;
 	public override Ability Ability => ability;
 
+	private readonly RandomEx _rng = new();
+
 	public override IEnumerator DoStrafe(CardSlot toLeft, CardSlot toRight)
 	{
 		bool toLeftIsValid = toLeft is not null && toLeft.Card is null;
@@ -25,7 +27,7 @@ public class Erratic : Strafe
 		else
 		{
 			// means that both adj-slots are valid for moving to
-			movingLeft = new RandomEx().NextBoolean();
+			movingLeft = _rng.NextBoolean();
 		}
 
 		CardSlot destination = movingLeft ? toLeft : toRight;
