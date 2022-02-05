@@ -18,7 +18,7 @@ public class StartScreenThemeSetterPatches
 			grimoraTheme.fillColor = color;
 		}
 
-		grimoraTheme.bgSpriteWide = AllSpriteAssets.Single(spr => spr.name == "Background");
+		grimoraTheme.bgSpriteWide = AllSprites.Single(spr => spr.name == "Background");
 
 		grimoraTheme.triggeringEvent = StoryEvent.PlayerDeletedArchivistFile;
 		__instance.themes.Add(grimoraTheme);
@@ -44,7 +44,7 @@ public class StartScreenThemeSetterPatches
 			cardRow.transform
 		);
 
-		menuCardGrimora.GetComponent<SpriteRenderer>().sprite = AllSpriteAssets.Single(spr => spr.name == "MenuCard");
+		menuCardGrimora.GetComponent<SpriteRenderer>().sprite = AllSprites.Single(spr => spr.name == "MenuCard");
 
 		menuCardGrimora.name = "MenuCard_Grimora";
 
