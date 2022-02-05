@@ -22,9 +22,10 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private static Harmony _harmony;
 
-	public static GameObject[] AllPrefabAssets;
-	public static Sprite[] AllSpriteAssets;
-	public static Texture[] AllAbilityAssets;
+	public static GameObject[] AllPrefabs;
+	public static Sprite[] AllSprites;
+	public static Texture[] AllAbilityTextures;
+	public static Material[] AllMats;
 
 
 	private static readonly List<StoryEvent> StoryEventsToBeCompleteBeforeStarting = new()
@@ -208,20 +209,25 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Log.LogDebug($"Loading asset bundles");
 
 		AssetBundle abilityBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_abilities"));
+		AssetBundle matsBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_mats"));
 		AssetBundle spritesBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_sprites"));
 		AssetBundle prefabsBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_prefabs"));
 
+		
 		// BundlePrefab = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("prefab-testing"));
-		// Log.LogDebug($"{string.Join(",", BundlePrefab.GetAllAssetNames())}");
 
 		Log.LogDebug($"Loading assets into static vars");
-		AllAbilityAssets = abilityBundle.LoadAllAssets<Texture>();
+		AllAbilityTextures = abilityBundle.LoadAllAssets<Texture>();
 		abilityBundle.Unload(false);
 
-		AllPrefabAssets = prefabsBundle.LoadAllAssets<GameObject>();
+		AllMats = matsBundle.LoadAllAssets<Material>();
+		matsBundle.Unload(false);
+		
+		AllPrefabs = prefabsBundle.LoadAllAssets<GameObject>();
+		Log.LogDebug($"{string.Join(",", AllPrefabs.Select(_ => _.name))}");
 		prefabsBundle.Unload(false);
 
-		AllSpriteAssets = spritesBundle.LoadAllAssets<Sprite>();
+		AllSprites = spritesBundle.LoadAllAssets<Sprite>();
 		spritesBundle.Unload(false);
 	}
 

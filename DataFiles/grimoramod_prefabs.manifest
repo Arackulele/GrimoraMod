@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 164870190
+CRC: 2316851382
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: feca127a8804389734c27ba557ae045b
+    Hash: cd5c3c2192cd44f1995a2223eff56025
   TypeTreeHash:
     serializedVersion: 2
-    Hash: a07dd2c4fccee9d11ba6fd26a085f098
+    Hash: f675c8e5873dcf2f0ed97cbea1e09c0b
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -25,6 +25,8 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 48
   Script: {instanceID: 0}
+- Class: 54
+  Script: {instanceID: 0}
 - Class: 65
   Script: {instanceID: 0}
 - Class: 108
@@ -36,6 +38,7 @@ ClassTypes:
 SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/GrimoraMod/Blocker_Kaycee.prefab
+- Assets/GrimoraMod/BoneyardBurialGrave.obj
 - Assets/GrimoraMod/Blocker_Sawyer.prefab
 - Assets/Prefabs/Hexalantern.prefab
 - Assets/GrimoraMod/Blocker_Grimora.prefab

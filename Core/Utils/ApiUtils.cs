@@ -38,7 +38,7 @@ namespace GrimoraMod
 			rulebookName ??= typeof(T).Name;
 			return CreateAbility<T>(
 				CreateInfoWithDefaultSettings(rulebookName, rulebookDescription, activated),
-				AllAbilityAssets.Single(
+				AllAbilityTextures.Single(
 					t => t.name.Equals("ability_" + typeof(T).Name, StringComparison.OrdinalIgnoreCase)
 				)
 			);

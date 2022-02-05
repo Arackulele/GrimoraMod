@@ -39,12 +39,12 @@ public class CardBuilder
 		{
 			cardName = cardName.Replace("ara_", "");
 			// Log.LogDebug($"Looking in AllSprites for [{cardName}]");
-			_cardInfo.portraitTex = AllSpriteAssets.Single(
+			_cardInfo.portraitTex = AllSprites.Single(
 				spr => spr.name.Equals(cardName, StringComparison.OrdinalIgnoreCase)
 			);
 
 			// TODO: refactor when API 2.0 comes out
-			AllSpriteAssets.DoIf(
+			AllSprites.DoIf(
 				_ => !NewCard.emissions.ContainsKey(cardName)
 				     && _.name.Equals(cardName + "_emission", StringComparison.OrdinalIgnoreCase),
 				delegate(Sprite sprite) { NewCard.emissions.Add(cardName, sprite); }
