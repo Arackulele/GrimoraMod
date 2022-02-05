@@ -250,14 +250,14 @@ public class GrimoraChessboard
 	public ChessboardEnemyPiece PlaceBossPiece(string bossName)
 	{
 		return CreateChessPiece<ChessboardEnemyPiece>(
-			ChessboardMapExt.Instance.PrefabPieceHelper.PrefabBossPiece, BossNode.GridX, BossNode.GridY, bossName
+			ChessboardMapExt.Instance.PrefabChessboardPieceHelper.PrefabBossPiece, BossNode.GridX, BossNode.GridY, bossName
 		);
 	}
 
 	public T PlacePiece<T>(int x, int y, string id = "", SpecialNodeData specialNodeData = null) where T : ChessboardPiece
 	{
 		// out ChessboardPiece prefabToUse
-		if (!ChessboardMapExt.Instance.PrefabPieceHelper
+		if (!ChessboardMapExt.Instance.PrefabChessboardPieceHelper
 			    .PieceSetupByType
 			    .TryGetValue(typeof(T), out Tuple<float, GameObject, Func<ChessboardPiece>> tuple))
 		{
