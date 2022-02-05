@@ -4,7 +4,6 @@ using Unity.Cloud.UserReporting.Plugin.SimpleJson;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
-// This class is literally just meant to be able to view the deck review sequencer
 namespace GrimoraMod;
 
 public class ChessboardMapExt : GameMap
@@ -13,13 +12,13 @@ public class ChessboardMapExt : GameMap
 
 	[SerializeField] internal List<ChessboardPiece> pieces;
 
-	internal PrefabPieceHelper PrefabPieceHelper;
+	internal PrefabChessboardPieceHelper PrefabChessboardPieceHelper;
 
 	public List<ChessboardPiece> ActivePieces => pieces;
 
 	public readonly Predicate<ChessboardPiece> PieceExistsInActivePieces
 		= piece => Instance.pieces.Exists(active => active.gridXPos == piece.gridXPos && active.gridYPos == piece.gridYPos);
-	
+
 	public GrimoraChessboard ActiveChessboard { get; set; }
 
 	private List<GrimoraChessboard> _chessboards;
@@ -83,7 +82,7 @@ public class ChessboardMapExt : GameMap
 		gameObject.AddComponent<DebugHelper>();
 
 		Log.LogDebug($"[MapExt] Adding prefab piece helper");
-		PrefabPieceHelper = gameObject.AddComponent<PrefabPieceHelper>();
+		PrefabChessboardPieceHelper = gameObject.AddComponent<PrefabChessboardPieceHelper>();
 	}
 
 	private void OnGUI()
@@ -127,7 +126,7 @@ public class ChessboardMapExt : GameMap
 
 	public IEnumerator CompleteRegionSequence()
 	{
-		PrefabPieceHelper.ChangeBlockerPieceForRegion();
+		PrefabChessboardPieceHelper.ChangeBlockerPieceForRegion();
 		ViewManager.Instance.Controller.SwitchToControlMode(ViewController.ControlMode.Map);
 		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
 
@@ -371,7 +370,7 @@ public class ChessboardMapExt : GameMap
 		if (string.Equals(
 			    navGrid.zones[0, 0].name,
 			    "ChessBoardMapNode",
-			    StringComparison.InvariantCultureIgnoreCase)
+			    StringComparison.OrdinalIgnoreCase)
 		   )
 		{
 			// GrimoraPlugin.Log.LogDebug($"ChessboardMap.UnrollingSequence] Renaming all map nodes");
@@ -382,7 +381,7 @@ public class ChessboardMapExt : GameMap
 				for (var i1 = 0; i1 < zones.GetLength(1); i1++)
 				{
 					var obj = ChessboardNavGrid.instance.zones[i, i1].GetComponent<ChessboardMapNode>();
-					obj.name = $"ChessboardMapNode_x[{i}]y[{i1}]";
+					obj.name = $"ChessboardMapNode_x{i}y{i1}";
 				}
 			}
 		}
@@ -395,6 +394,7 @@ public class ChessboardMapExt : GameMap
 			piece.Hide();
 			yield return new WaitForSeconds(0.005f);
 		}
+
 		PlayerMarker.Instance.Hide();
 		CameraEffects.Instance.TweenFogAlpha(0f, 0.15f);
 		yield return new WaitForSeconds(0.15f);
