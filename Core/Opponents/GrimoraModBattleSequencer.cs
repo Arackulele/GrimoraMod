@@ -103,8 +103,8 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		Log.LogDebug($"[GetFixedOpeningHand] Getting randomized list for starting hand");
 		var cardsToAdd = new List<CardInfo>();
 		var randomizedChoices = RandomUtils.GenerateRandomChoicesOfCategory(
-			GrimoraSaveData.Data.deck.Cards,
-			GenerateRandomSeed(GrimoraSaveData.Data.deck.Cards)
+			GrimoraSaveUtil.DeckList,
+			GenerateRandomSeed(GrimoraSaveUtil.DeckList)
 		);
 
 		if (randomizedChoices.Count < 3)
