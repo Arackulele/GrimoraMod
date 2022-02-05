@@ -27,7 +27,8 @@ public class MenuControllerPatches
 		{
 			GrimoraPlugin.Log.LogDebug($"[MenuController.OnCardReachedSlot] Saving before exiting");
 			SaveManager.SaveToFile();
-			Object.Destroy(Object.FindObjectOfType<PrefabPieceHelper>());
+			Object.Destroy(Object.FindObjectOfType<PrefabChessboardPieceHelper>());
+			Object.Destroy(Object.FindObjectOfType<PrefabConstants>());
 		}
 		else if (card.titleText == "Start Grimora Mod")
 		{
