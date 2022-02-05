@@ -87,14 +87,14 @@ public class DebugHelper : ManagedBehaviour
 						);
 						break;
 					case "Add All Grimora Cards":
-						GrimoraSaveData.Data.deck.Cards.Clear();
-						GrimoraSaveData.Data.deck.Cards.AddRange(
+						GrimoraSaveUtil.ClearDeck();
+						GrimoraSaveUtil.DeckList.AddRange(
 							NewCard.cards.FindAll(card => card.name.StartsWith("ara_"))
 						);
 						SaveManager.SaveToFile();
 						break;
 					case "Clear Deck":
-						GrimoraSaveData.Data.deck.Cards.Clear();
+						GrimoraSaveUtil.ClearDeck();
 						SaveManager.SaveToFile();
 						break;
 					case "Add Bones":

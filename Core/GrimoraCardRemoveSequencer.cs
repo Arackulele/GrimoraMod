@@ -23,9 +23,6 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		Log.LogDebug($"Setting rulebook on board");
 		TableRuleBook.Instance.SetOnBoard(onBoard: true);
 
-		// ParticleSystem.EmissionModule dustEmission = dustParticles.emission;
-		// dustEmission.rateOverTime = new ParticleSystem.MinMaxCurve(10f, 10f);
-
 		ViewManager.Instance.Controller.SwitchToControlMode(ViewController.ControlMode.CardMerging);
 		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
 		yield return new WaitForSeconds(0.3f);
@@ -35,7 +32,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		yield return new WaitForSeconds(0.5f);
 
 		Log.LogDebug($"Spawning cards");
-		yield return deckPile.SpawnCards(GrimoraSaveData.Data.deck.Cards.Count, 0.5f);
+		yield return deckPile.SpawnCards(GrimoraSaveUtil.DeckList.Count, 0.5f);
 		ViewManager.Instance.SwitchToView(View.CardMergeSlots);
 
 		ExplorableAreaManager.Instance.TweenHangingLightColors(
@@ -85,7 +82,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		CardInfo sacrificedInfo = sacrificeSlot.Card.Info;
 
 		Log.LogDebug($"Removing card from deck");
-		GrimoraSaveData.Data.deck.RemoveCard(sacrificedInfo);
+		GrimoraSaveUtil.RemoveCard(sacrificedInfo);
 
 		Log.LogDebug($"Playing death animation");
 		sacrificeSlot.Card.Anim.PlayDeathAnimation(playSound: false);
@@ -288,14 +285,14 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			}
 		}
 
-		GrimoraSaveData.Data.deck.UpdateModDictionary();
+		GrimoraSaveUtil.DeckInfo.UpdateModDictionary();
 
 		return cardThatWillHaveEffectApplied;
 	}
 
 	private List<CardInfo> GetCardsWithoutMod(string singletonId, Predicate<CardInfo> cardInfoPredicate = null)
 	{
-		return GrimoraSaveData.Data.deck.Cards
+		return GrimoraSaveUtil.DeckList
 			.Where(info => (cardInfoPredicate is null || cardInfoPredicate.Invoke(info))
 			               && !info.mods.Exists(mod => mod.singletonId == singletonId))
 			.Randomize()
@@ -377,7 +374,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		sacrificeSlot.SetEnabled(enabled: false);
 		sacrificeSlot.ShowState(HighlightedInteractable.State.NonInteractable);
 		confirmStone.Exit();
-		((SelectCardFromDeckSlot)slot).SelectFromCards(GetValidCards(), OnSelectionEnded, false);
+		((SelectCardFromDeckSlot)slot).SelectFromCards(GrimoraSaveUtil.DeckListCopy, OnSelectionEnded, false);
 	}
 
 	private new List<CardInfo> GetValidCards()
