@@ -1,4 +1,5 @@
-﻿using DiskCardGame;
+﻿using System.Collections;
+using DiskCardGame;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -34,5 +35,27 @@ public class ChessboardPieceExt : ChessboardPiece
 			ChessboardNavGrid.instance.zones[gridXPos, gridYPos].GetComponent<ChessboardMapNode>().OccupyingPiece = this;
 		}
 		base.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+	}
+	
+	public override void OnPlayerInteracted()
+	{
+		StartCoroutine(StartSpecialNodeSequence());
+	}
+
+	private IEnumerator StartSpecialNodeSequence()
+	{
+		GrimoraPlugin.Log.LogDebug($"[StartSpecialNodeSequence] Piece [{base.name}] Node [{GetType()}]");
+		ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(base.name);
+
+		MapNodeManager.Instance.SetAllNodesInteractable(false);
+
+		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+
+		PlayerMarker.Instance.Anim.Play("knock against", 0, 0f);
+		yield return new WaitForSeconds(0.05f);
+		
+		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+
+		GameFlowManager.Instance.TransitionToGameState(GameState.SpecialCardSequence, base.NodeData);
 	}
 }
