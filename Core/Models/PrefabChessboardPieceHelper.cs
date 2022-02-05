@@ -5,20 +5,16 @@ using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
-public class PrefabPieceHelper : ManagedBehaviour
+public class PrefabChessboardPieceHelper : ManagedBehaviour
 {
 	private readonly Dictionary<int, Func<GameObject>> _bossByIndex = new()
 	{
-		{ 0, () => AllPrefabAssets.Single(pb => pb.name.Equals("Blocker_Kaycee")) },
-		{ 1, () => AllPrefabAssets.Single(pb => pb.name.Equals("Blocker_Sawyer")) },
-		{ 2, () => AllPrefabAssets.Single(pb => pb.name.Equals("Blocker_Royal")) },
-		{ 3, () => AllPrefabAssets.Single(pb => pb.name.Equals("Blocker_Grimora")) },
+		{ 0, () => AllPrefabs.Single(pb => pb.name.Equals("Blocker_Kaycee")) },
+		{ 1, () => AllPrefabs.Single(pb => pb.name.Equals("Blocker_Sawyer")) },
+		{ 2, () => AllPrefabs.Single(pb => pb.name.Equals("Blocker_Royal")) },
+		{ 3, () => AllPrefabs.Single(pb => pb.name.Equals("Blocker_Grimora")) },
 	};
 	
-	public const string PathPrefabChessboardMap = "Prefabs/Map/ChessboardMap";
-	public const string PathPrefabSpecialNodes = "Prefabs/SpecialNodeSequences";
-	public const string PathPrefabArt3D = "Art/Assets3D";
-
 	internal ChessboardBlockerPieceExt PrefabBlockerPiece;
 
 	internal readonly ChessboardEnemyPiece PrefabEnemyPiece;
@@ -37,15 +33,16 @@ public class PrefabPieceHelper : ManagedBehaviour
 
 	public readonly Dictionary<Type, Tuple<float, GameObject, Func<ChessboardPiece>>> PieceSetupByType;
 
-	public PrefabPieceHelper()
+	public PrefabChessboardPieceHelper()
 	{
-		PrefabBossPiece = ResourceBank.Get<ChessboardEnemyPiece>($"{PathPrefabChessboardMap}/BossFigurine");
-		PrefabChestPiece = ResourceBank.Get<ChessboardChestPiece>($"{PathPrefabChessboardMap}/ChessboardChestPiece");
-		PrefabEnemyPiece = ResourceBank.Get<ChessboardEnemyPiece>($"{PathPrefabChessboardMap}/ChessboardEnemyPiece");
+		PrefabBossPiece = PrefabConstants.Instance.BossPiece;
+		PrefabChestPiece = PrefabConstants.Instance.ChestPiece;
+		PrefabEnemyPiece = PrefabConstants.Instance.EnemyPiece;
 
 		PieceSetupByType = BuildDictionary();
 		PrefabBlockerPiece = CreateCustomPrefabPiece<ChessboardBlockerPieceExt>();
 		PrefabBoneyardPiece = CreateCustomPrefabPiece<ChessboardBoneyardPiece>();
+		Log.LogDebug($"PrefabBoneyardPiece [{PrefabBoneyardPiece.GetHashCode()}]");
 		PrefabCardRemovePiece = CreateCustomPrefabPiece<ChessboardCardRemovePiece>();
 		PrefabElectricChairPiece = CreateCustomPrefabPiece<ChessboardElectricChairPiece>();
 		PrefabGoatEyePiece = CreateCustomPrefabPiece<ChessboardGoatEyePiece>();
@@ -53,24 +50,21 @@ public class PrefabPieceHelper : ManagedBehaviour
 
 	public GameObject GetActiveRegionBlockerPiece()
 	{
-		Log.LogDebug($"[GetActiveRegionBlockerPiece] Getting active region blocker piece");
+		Log.LogDebug($"[GetActiveRegionBlockerPiece] Getting active region blocker piece [{AllPrefabs.Length}]");
 		int bossesDead = ConfigHelper.Instance.BossesDefeated;
+		Log.LogDebug($"[GetActiveRegionBlockerPiece] Bosses dead [{bossesDead}]");
 		GameObject blocker = _bossByIndex.GetValueSafe(bossesDead).Invoke();
-		// the reason for doing this is because the materials are massive if in our own asset bundle, 5MB+ total
-		// so lets just use the already existing material in the game
-		if (bossesDead == 2)
+		Log.LogDebug($"[GetActiveRegionBlockerPiece] Blocker [{blocker}] Changing material [{blocker.GetComponentInChildren<MeshRenderer>()}]");
+		blocker.GetComponentInChildren<MeshRenderer>().material = bossesDead switch
 		{
-			// barrel
-			blocker.GetComponent<MeshRenderer>().material =
-				ResourceBank.Get<Material>($"{PathPrefabArt3D}/nodesequences/woodenbox/WoodenBox_Wood");
-		}
-		else if (bossesDead == 3)
-		{
-			// low-poly skull
-			blocker.GetComponent<MeshRenderer>().material =
-				ResourceBank.Get<Material>($"{PathPrefabArt3D}/misc/AncientRuins/AncientRuins_StonePath");
-		}
-
+			// the reason for doing this is because the materials are massive if in our own asset bundle, 5MB+ total
+			// so lets just use the already existing material in the game
+			2 => PrefabConstants.Instance.WoodenBoxMaterial,
+			3 => PrefabConstants.Instance.AncientStonesMaterial,
+			_ => blocker.GetComponentInChildren<MeshRenderer>().material
+		};
+		
+		Log.LogDebug($"[GetActiveRegionBlockerPiece] Returning blocker");
 		return blocker;
 	}
 
@@ -103,7 +97,7 @@ public class PrefabPieceHelper : ManagedBehaviour
 				typeof(ChessboardBoneyardPiece),
 				new Tuple<float, GameObject, Func<ChessboardPiece>>(
 					1.25f,
-					ResourceBank.Get<GameObject>($"{PathPrefabArt3D}/PlayerAvatar/gravedigger/GravediggerFin"),
+					PrefabConstants.Instance.GraveDiggerFigurine.gameObject,
 					() => PrefabBoneyardPiece
 				)
 			},
@@ -117,28 +111,28 @@ public class PrefabPieceHelper : ManagedBehaviour
 			{
 				typeof(ChessboardChestPiece), new Tuple<float, GameObject, Func<ChessboardPiece>>(
 					1f,
-					ResourceBank.Get<ChessboardChestPiece>($"{PathPrefabChessboardMap}/ChessboardChestPiece").gameObject,
+					PrefabConstants.Instance.ChestPiece.gameObject,
 					() => PrefabChestPiece
 				)
 			},
 			{
 				typeof(ChessboardElectricChairPiece), new Tuple<float, GameObject, Func<ChessboardPiece>>(
 					18f,
-					AllPrefabAssets.Single(go => go.name.Equals("SpecialNode_ElectricChair")),
+					AllPrefabs.Single(go => go.name.Equals("SpecialNode_ElectricChair")),
 					() => PrefabElectricChairPiece
 				)
 			},
 			{
 				typeof(ChessboardEnemyPiece), new Tuple<float, GameObject, Func<ChessboardPiece>>(
 					1f,
-					ResourceBank.Get<ChessboardEnemyPiece>($"{PathPrefabChessboardMap}/ChessboardEnemyPiece").gameObject,
+					PrefabConstants.Instance.EnemyPiece.gameObject,
 					() => PrefabEnemyPiece
 				)
 			},
 			{
 				typeof(ChessboardGoatEyePiece), new Tuple<float, GameObject, Func<ChessboardPiece>>(
 					0.4f,
-					ResourceBank.Get<GameObject>($"{PathPrefabSpecialNodes}/EyeBall"),
+					PrefabConstants.Instance.GoatEye,
 					() => PrefabGoatEyePiece
 				)
 			}
