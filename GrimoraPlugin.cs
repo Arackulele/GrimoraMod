@@ -162,13 +162,15 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Destroy(ChessboardMapExt.Instance);
 		Destroy(DeckReviewSequencer.Instance);
 		Destroy(ResourceDrone.Instance);
-		Destroy(FindObjectOfType<PrefabPieceHelper>());
+		Destroy(FindObjectOfType<BoneyardBurialSequencer>());
+		Destroy(FindObjectOfType<PrefabChessboardPieceHelper>());
 		Destroy(FindObjectOfType<DebugHelper>());
 		Destroy(FindObjectOfType<GrimoraModBattleSequencer>());
 		Destroy(FindObjectOfType<GrimoraModBossBattleSequencer>());
 		Destroy(FindObjectOfType<GrimoraCardRemoveSequencer>());
 		Destroy(FindObjectOfType<BoonIconInteractable>());
 		Destroy(FindObjectOfType<GrimoraRareChoiceGenerator>());
+		Destroy(FindObjectOfType<PrefabConstants>());
 		Destroy(FindObjectOfType<SpecialNodeHandler>());
 		FindObjectsOfType<ChessboardPiece>().ForEach(_ => Destroy(_.gameObject));
 	}
