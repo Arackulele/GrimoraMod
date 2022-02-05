@@ -195,7 +195,6 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 	private new void OnBoonSelected(MainInputInteractable boonCard)
 	{
 		BoonData data = BoonsUtil.GetData(((SelectableCard)boonCard).Info.boon);
-		// GrimoraSaveData.Data.deck.AddBoon(data.type);
 		RuleBookController.Instance.SetShown(shown: false);
 		boonCard.SetEnabled(enabled: false);
 		((SelectableCard)boonCard).SetInteractionEnabled(interactionEnabled: false);
@@ -377,28 +376,68 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		((SelectCardFromDeckSlot)slot).SelectFromCards(GrimoraSaveUtil.DeckListCopy, OnSelectionEnded, false);
 	}
 
-	private new List<CardInfo> GetValidCards()
+	public static void CreateSequencerInScene()
 	{
-		return new List<CardInfo>(GrimoraSaveData.Data.deck.Cards);
-	}
-}
+		// TODO: This will work, but it doesn't show the boon art correctly.
 
-
-[HarmonyPatch(typeof(SpecialNodeHandler), nameof(SpecialNodeHandler.StartSpecialNodeSequence))]
-public class CardRemoveSequencerPatches
-{
-
-	[HarmonyPrefix]
-	public static bool CastToGrimoraCardRemoveSequencer(SpecialNodeHandler __instance, ref SpecialNodeData nodeData)
-	{
-		if (!SaveManager.SaveFile.IsGrimora || nodeData is not CardRemoveNodeData)
+		if (SpecialNodeHandler.Instance is null || SpecialNodeHandler.Instance.cardRemoveSequencer is not null)
 		{
-			return true;
+			return;
 		}
-		
-		// We have to cast it, otherwise it tries to call the base version of it
-		__instance.StartCoroutine(((GrimoraCardRemoveSequencer)__instance.cardRemoveSequencer).RemoveSequence());
-		return false;
+
+		Log.LogDebug($"[AddCardRemoveSequencer] Creating card remove sequencer");
+		GameObject cardRemoveSequencerObj = Object.Instantiate(
+			ResourceBank.Get<GameObject>("Prefabs/SpecialNodeSequences/CardRemoveSequencer"),
+			SpecialNodeHandler.Instance.transform
+		);
+		cardRemoveSequencerObj.name = "CardRemoveSequencer_Grimora";
+
+		var oldRemoveSequencer = cardRemoveSequencerObj.GetComponent<CardRemoveSequencer>();
+
+		Log.LogDebug($"[AddCardRemoveSequencer] Adding new card remove sequencer component");
+		var cardRemoveSequencer = cardRemoveSequencerObj.AddComponent<GrimoraCardRemoveSequencer>();
+
+		Log.LogDebug($"[AddCardRemoveSequencer] Setting prefabs");
+		cardRemoveSequencer.gamepadGrid = oldRemoveSequencer.gamepadGrid;
+		cardRemoveSequencer.selectableCardPrefab = PrefabConstants.Instance.GrimoraSelectableCard;
+		cardRemoveSequencer.confirmStone = oldRemoveSequencer.confirmStone;
+		cardRemoveSequencer.sacrificeSlot = oldRemoveSequencer.sacrificeSlot;
+		cardRemoveSequencer.sacrificeSlot.cardSelector.selectableCardPrefab = PrefabConstants.Instance.GrimoraSelectableCard;
+		cardRemoveSequencer.sacrificeSlot.pile.cardbackPrefab = PrefabConstants.Instance.GrimoraCardBack;
+		cardRemoveSequencer.skullEyes = oldRemoveSequencer.skullEyes;
+		cardRemoveSequencer.stoneCircleAnim = oldRemoveSequencer.stoneCircleAnim;
+
+		Log.LogDebug($"[AddCardRemoveSequencer] Setting card backs");
+		cardRemoveSequencer.deckPile = oldRemoveSequencer.deckPile;
+		cardRemoveSequencer.deckPile.cardbackPrefab = PrefabConstants.Instance.GrimoraCardBack;
+
+		Log.LogDebug($"[AddCardRemoveSequencer] Destroying old sequencer");
+		Object.Destroy(oldRemoveSequencer);
+
+
+		// TODO: HOW DO WE GET THOSE DECALS TO SHOW UP
+		CardDisplayer3D displayer3D = ResourceBank.Get<CardDisplayer3D>("Prefabs/Cards/CardElements");
+
+		CardDisplayer3D graveDisplayer = Object.FindObjectOfType<CardDisplayer3D>();
+
+		BoonIconInteractable cardAbilityIcons = Object.Instantiate(
+			ResourceBank.Get<BoonIconInteractable>("Prefabs/Cards/CardSurfaceInteraction/BoonIcon"),
+			graveDisplayer.GetComponentInChildren<CardAbilityIcons>().transform
+		);
+		graveDisplayer.GetComponentInChildren<CardAbilityIcons>().boonIcon = cardAbilityIcons;
+
+		GameObject cardDecals = Object.Instantiate(
+			displayer3D.transform.GetChild(9).gameObject,
+			graveDisplayer.transform, true
+		);
+
+		graveDisplayer.decalRenderers.Clear();
+		for (int i = 0; i < cardDecals.transform.childCount; i++)
+		{
+			graveDisplayer.decalRenderers.Add(cardDecals.transform.GetChild(i).GetComponent<MeshRenderer>());
+		}
+
+		SpecialNodeHandler.Instance.cardRemoveSequencer = cardRemoveSequencer;
+		Log.LogDebug($"[AddCardRemoveSequencer] Finished adding AddCardRemoveSequencer");
 	}
-	
 }

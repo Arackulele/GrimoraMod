@@ -408,4 +408,45 @@ public class ChessboardMapExt : GameMap
 	{
 		mapAnim.Play("exit", 0, 1f);
 	}
+
+	public static void ChangeChessboardToExtendedClass()
+	{
+		ChessboardMapExt ext = ChessboardMap.Instance.gameObject.GetComponent<ChessboardMapExt>();
+
+		Log.LogDebug($"[ChangeChessboardToExtendedClass] Adding MapExt to ChessboardMapGameObject");
+
+		if (ext is null)
+		{
+			Log.LogDebug($"[ChangeChessboardToExtendedClass] ChessboardMapExt is null");
+			ChessboardMap boardComp = ChessboardMap.Instance.gameObject.GetComponent<ChessboardMap>();
+			boardComp.pieces.Clear();
+
+			ext = ChessboardMap.Instance.gameObject.AddComponent<ChessboardMapExt>();
+
+			Log.LogDebug($"[ChangeChessboardToExtendedClass] Transferring over fields to new extension class");
+			ext.dynamicElementsParent = boardComp.dynamicElementsParent;
+			ext.mapAnim = boardComp.mapAnim;
+			ext.navGrid = boardComp.navGrid;
+			ext.pieces = new List<ChessboardPiece>();
+			ext.defaultPosition = boardComp.defaultPosition;
+
+			Log.LogDebug($"[ChangeChessboardToExtendedClass] Destroying old chessboard component");
+			Destroy(boardComp);
+		}
+
+		Log.LogDebug($"[ChangeChessboardToExtendedClass] Getting initial starting pieces");
+		var initialStartingPieces = FindObjectsOfType<ChessboardPiece>();
+		Log.LogDebug($"[ChangeChessboardToExtendedClass] Resetting initial pieces" +
+		             $" {string.Join(", ", initialStartingPieces.Select(_ => _.name))}");
+
+		Log.LogDebug($"[ChangeChessboardToExtendedClass] Destroying initial pieces");
+		foreach (var piece in initialStartingPieces)
+		{
+			piece.MapNode.OccupyingPiece = null;
+			piece.gameObject.SetActive(false);
+			Destroy(piece.gameObject);
+		}
+
+		Log.LogDebug($"[ChangeChessboardToExtendedClass] Finished adding ChessboardMapExt");
+	}
 }
