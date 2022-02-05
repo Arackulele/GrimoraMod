@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.ComponentModel;
 using DiskCardGame;
 using GrimoraMod.Consumables;
 using HarmonyLib;
@@ -11,16 +12,7 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(GameFlowManager))]
 public class BaseGameFlowManagerPatches
 {
-	private static GameObject PrefabGrimoraSelectableCard =>
-		ResourceBank.Get<GameObject>("Prefabs/Cards/SelectableCard_Grimora");
 
-	private static GameObject PrefabGrimoraPlayableCard =>
-		ResourceBank.Get<GameObject>("Prefabs/Cards/PlayableCard_Grimora");
-
-	// private static GameObject PrefabGrimoraPlayableCardGiant = CreatePrefabGrimoraPlayableCardGiant();
-
-	private static GameObject PrefabGrimoraCardBack =>
-		ResourceBank.Get<GameObject>("Prefabs/Cards/CardBack_Grimora");
 
 	private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
 
@@ -32,21 +24,25 @@ public class BaseGameFlowManagerPatches
 			return;
 		}
 
+		__instance.gameObject.AddComponent<PrefabConstants>();
+
 		Log.LogDebug($"[GameFlowManager] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");
-		CardSpawner.Instance.giantPlayableCardPrefab = PrefabGrimoraPlayableCard;
+		CardSpawner.Instance.giantPlayableCardPrefab = PrefabConstants.Instance.GrimoraPlayableCard;
 
-		AddCardRemoveSequencer();
+		ChessboardMapExt.ChangeChessboardToExtendedClass();
+		
+		BoneyardBurialSequencer.CreateSequencerInScene();
 
+		GrimoraCardRemoveSequencer.CreateSequencerInScene();
+
+		GrimoraItemsManagerExt.AddHammer();
+		
 		AddDeckReviewSequencerToScene();
 
 		AddEnergyDrone();
-
-		AddHammer();
-
+		
 		AddRareCardSequencerToScene();
-
-		ChangeChessboardToExtendedClass();
-
+		
 		ChangeStartDeckIfNotAlreadyChanged();
 
 		// AddBoonLordBoonConsumable();
@@ -110,112 +106,6 @@ public class BaseGameFlowManagerPatches
 		// FixShaders(energyObj);
 	}
 
-	private static void AddCardRemoveSequencer()
-	{
-		// TODO: This will work, but it doesn't show the boon art correctly.
-
-		if (SpecialNodeHandler.Instance is null || SpecialNodeHandler.Instance.cardRemoveSequencer is not null)
-		{
-			return;
-		}
-
-		Log.LogDebug($"[AddCardRemoveSequencer] Creating card remove sequencer");
-		GameObject cardRemoveSequencerObj = Object.Instantiate(
-			ResourceBank.Get<GameObject>("Prefabs/SpecialNodeSequences/CardRemoveSequencer"),
-			SpecialNodeHandler.Instance.transform
-		);
-		cardRemoveSequencerObj.name = cardRemoveSequencerObj.name.Replace("(Clone)", "_Grimora");
-
-		var oldRemoveSequencer = cardRemoveSequencerObj.GetComponent<CardRemoveSequencer>();
-
-		Log.LogDebug($"[AddCardRemoveSequencer] Adding new card remove sequencer component");
-		var cardRemoveSequencer = cardRemoveSequencerObj.AddComponent<GrimoraCardRemoveSequencer>();
-
-		Log.LogDebug($"[AddCardRemoveSequencer] Setting prefabs");
-		cardRemoveSequencer.gamepadGrid = oldRemoveSequencer.gamepadGrid;
-		cardRemoveSequencer.selectableCardPrefab = PrefabGrimoraSelectableCard;
-		cardRemoveSequencer.confirmStone = oldRemoveSequencer.confirmStone;
-		cardRemoveSequencer.sacrificeSlot = oldRemoveSequencer.sacrificeSlot;
-		cardRemoveSequencer.sacrificeSlot.cardSelector.selectableCardPrefab = PrefabGrimoraSelectableCard;
-		cardRemoveSequencer.sacrificeSlot.pile.cardbackPrefab = PrefabGrimoraCardBack;
-		cardRemoveSequencer.skullEyes = oldRemoveSequencer.skullEyes;
-		cardRemoveSequencer.stoneCircleAnim = oldRemoveSequencer.stoneCircleAnim;
-
-		cardRemoveSequencer.GetComponentInChildren<SelectableCardArray>().selectableCardPrefab =
-			PrefabGrimoraSelectableCard;
-
-		Log.LogDebug($"[AddCardRemoveSequencer] Setting card backs");
-		cardRemoveSequencer.deckPile = oldRemoveSequencer.deckPile;
-		cardRemoveSequencer.deckPile.cardbackPrefab = PrefabGrimoraCardBack;
-
-		Log.LogDebug($"[AddCardRemoveSequencer] Destroying old sequencer");
-		Object.Destroy(oldRemoveSequencer);
-
-
-		// TODO: HOW DO WE GET THOSE DECALS TO SHOW UP
-		CardDisplayer3D displayer3D = ResourceBank.Get<CardDisplayer3D>("Prefabs/Cards/CardElements");
-
-		CardDisplayer3D graveDisplayer = Object.FindObjectOfType<CardDisplayer3D>();
-
-		BoonIconInteractable cardAbilityIcons = Object.Instantiate(
-			ResourceBank.Get<BoonIconInteractable>("Prefabs/Cards/CardSurfaceInteraction/BoonIcon"),
-			graveDisplayer.GetComponentInChildren<CardAbilityIcons>().transform
-		);
-		graveDisplayer.GetComponentInChildren<CardAbilityIcons>().boonIcon = cardAbilityIcons;
-
-		GameObject cardDecals = Object.Instantiate(
-			displayer3D.transform.GetChild(9).gameObject,
-			graveDisplayer.transform, true
-		);
-
-		graveDisplayer.decalRenderers.Clear();
-		for (int i = 0; i < cardDecals.transform.childCount; i++)
-		{
-			graveDisplayer.decalRenderers.Add(cardDecals.transform.GetChild(i).GetComponent<MeshRenderer>());
-		}
-
-		SpecialNodeHandler.Instance.cardRemoveSequencer = cardRemoveSequencer;
-		Log.LogDebug($"[AddCardRemoveSequencer] Finished adding AddCardRemoveSequencer");
-	}
-
-	internal static void AddHammer()
-	{
-		GrimoraItemsManager currentItemsManager = GrimoraItemsManager.Instance.GetComponent<GrimoraItemsManager>();
-
-		GrimoraItemsManagerExt ext = GrimoraItemsManager.Instance.GetComponent<GrimoraItemsManagerExt>();
-
-		if (ext is null)
-		{
-			Log.LogDebug($"[AddHammer] Creating hammer and GrimoraItemsManagerExt");
-
-			ext = GrimoraItemsManager.Instance.gameObject.AddComponent<GrimoraItemsManagerExt>();
-			ext.consumableSlots = currentItemsManager.consumableSlots;
-
-			Log.LogDebug($"[AddHammer] Destroying old manager");
-			Object.Destroy(currentItemsManager);
-
-			Part3ItemsManager part3ItemsManager = Object.Instantiate(ResourceBank.Get<Part3ItemsManager>(
-					"Prefabs/Items/ItemsManager_Part3"),
-				ext.transform,
-				true
-			);
-
-			ext.hammerSlot = part3ItemsManager.hammerSlot;
-
-			float xVal = Harmony.HasAnyPatches("julianperge.inscryption.act1.increaseCardSlots") ? -8.75f : -7.5f;
-			ext.hammerSlot.gameObject.transform.localPosition = new Vector3(xVal, 0.81f, -0.48f);
-			ext.hammerSlot.gameObject.transform.rotation = Quaternion.Euler(270f, 315f, 0f);
-		}
-
-		if (Object.FindObjectOfType<Part3ItemsManager>() is not null)
-		{
-			Log.LogDebug($"[AddHammer] Destroying existing part3ItemsManager");
-			Object.Destroy(Object.FindObjectOfType<Part3ItemsManager>().gameObject);
-		}
-
-		Log.LogDebug($"[AddHammer] Finished adding hammer");
-	}
-
 	private static void AddEnergyDrone()
 	{
 		ResourceDrone resourceEnergy = Object.FindObjectOfType<ResourceDrone>();
@@ -242,7 +132,6 @@ public class BaseGameFlowManagerPatches
 			// Log.LogDebug($"[AddEnergyDrone] Getting module energy and setting mesh to null");
 			moduleEnergy.gameObject.GetComponent<MeshFilter>().mesh = null;
 
-			int modulesChildren = moduleEnergy.childCount;
 			for (int i = 1; i < 7; i++)
 			{
 				Transform energyCell = moduleEnergy.GetChild(i);
@@ -255,9 +144,9 @@ public class BaseGameFlowManagerPatches
 			}
 
 			// Log.LogDebug($"[AddEnergyDrone] Setting Connector inactive");
-			moduleEnergy.Find("Connector").gameObject.SetActive(false);
+			Object.Destroy(moduleEnergy.Find("Connector").gameObject);
 			// Log.LogDebug($"[AddEnergyDrone] Setting Propellers inactive");
-			moduleEnergy.Find("Propellers").gameObject.SetActive(false);
+			Object.Destroy(moduleEnergy.Find("Propellers").gameObject);
 		}
 	}
 
@@ -273,54 +162,13 @@ public class BaseGameFlowManagerPatches
 		}
 	}
 
-	private static void ChangeChessboardToExtendedClass()
-	{
-		ChessboardMapExt ext = ChessboardMap.Instance.gameObject.GetComponent<ChessboardMapExt>();
-
-		Log.LogDebug($"[ChangeChessboardToExtendedClass] Adding MapExt to ChessboardMapGameObject");
-
-		if (ext is null)
-		{
-			Log.LogDebug($"[ChangeChessboardToExtendedClass] ChessboardMapExt is null");
-			ChessboardMap boardComp = ChessboardMap.Instance.gameObject.GetComponent<ChessboardMap>();
-			boardComp.pieces.Clear();
-
-			ext = ChessboardMap.Instance.gameObject.AddComponent<ChessboardMapExt>();
-
-			Log.LogDebug($"[ChangeChessboardToExtendedClass] Transferring over fields to new extension class");
-			ext.dynamicElementsParent = boardComp.dynamicElementsParent;
-			ext.mapAnim = boardComp.mapAnim;
-			ext.navGrid = boardComp.navGrid;
-			ext.pieces = new List<ChessboardPiece>();
-			ext.defaultPosition = boardComp.defaultPosition;
-
-			Log.LogDebug($"[ChangeChessboardToExtendedClass] Destroying old chessboard component");
-			Object.Destroy(boardComp);
-		}
-
-		Log.LogDebug($"[ChangeChessboardToExtendedClass] Finished adding ChessboardMapExt");
-
-		Log.LogDebug($"[ChangeChessboardToExtendedClass] Getting initial starting pieces");
-		var initialStartingPieces = Object.FindObjectsOfType<ChessboardPiece>();
-		Log.LogDebug($"[ChangeChessboardToExtendedClass] Resetting initial pieces" +
-		             $" {string.Join(", ", initialStartingPieces.Select(_ => _.name))}");
-
-		Log.LogDebug($"[ChangeChessboardToExtendedClass] Destroying initial pieces");
-		foreach (var piece in initialStartingPieces)
-		{
-			piece.MapNode.OccupyingPiece = null;
-			piece.gameObject.SetActive(false);
-			Object.Destroy(piece.gameObject);
-		}
-	}
-
 	private static void AddDeckReviewSequencerToScene()
 	{
 		if (DeckReviewSequencer.Instance is not null)
 		{
 			// DeckReviewSequencer reviewSequencer = deckReviewSequencerObj.GetComponent<DeckReviewSequencer>();
 			SelectableCardArray cardArray = DeckReviewSequencer.Instance.GetComponentInChildren<SelectableCardArray>();
-			cardArray.selectableCardPrefab = PrefabGrimoraSelectableCard;
+			cardArray.selectableCardPrefab = PrefabConstants.Instance.GrimoraSelectableCard;
 			Log.LogDebug($"[AddRareCardSequencerToScene] Creating new rare choice generator");
 		}
 	}
@@ -329,7 +177,7 @@ public class BaseGameFlowManagerPatches
 	{
 		// GrimoraPlugin.Log.LogDebug($"Creating RareCardChoiceSelector");
 
-		if (SpecialNodeHandler.Instance is null || SpecialNodeHandler.Instance.rareCardChoiceSequencer is not null)
+		if (SpecialNodeHandler.Instance is null)
 		{
 			return;
 		}
@@ -342,13 +190,13 @@ public class BaseGameFlowManagerPatches
 		rareCardChoicesSelector.name = rareCardChoicesSelector.name.Replace("(Clone)", "_Grimora");
 
 		RareCardChoicesSequencer sequencer = rareCardChoicesSelector.GetComponent<RareCardChoicesSequencer>();
-		sequencer.deckPile.cardbackPrefab = PrefabGrimoraCardBack;
+		sequencer.deckPile.cardbackPrefab = PrefabConstants.Instance.GrimoraCardBack;
 
 		// GrimoraPlugin.Log.LogDebug($"-> Setting RareCardChoicesSequencer choice generator to Part1RareChoiceGenerator");
 		sequencer.choiceGenerator = rareCardChoicesSelector.AddComponent<GrimoraRareChoiceGenerator>();
 
 		// GrimoraPlugin.Log.LogDebug($"-> Setting RareCardChoicesSequencer selectableCardPrefab to SelectableCard_Grimora");
-		sequencer.selectableCardPrefab = PrefabGrimoraSelectableCard;
+		sequencer.selectableCardPrefab = PrefabConstants.Instance.GrimoraSelectableCard;
 
 		// GrimoraPlugin.Log.LogDebug($"-> Setting SpecialNodeHandler rareCardChoiceSequencer to sequencer");
 		SpecialNodeHandler.Instance.rareCardChoiceSequencer = sequencer;
