@@ -144,6 +144,7 @@ public class BaseGameFlowManagerPatches
 			// Log.LogDebug($"[AddEnergyDrone] Setting Connector inactive");
 			Object.Destroy(moduleEnergy.Find("Connector").gameObject);
 			// Log.LogDebug($"[AddEnergyDrone] Setting Propellers inactive");
+			resourceEnergy.emissiveRenderers.Clear();
 			Object.Destroy(moduleEnergy.Find("Propellers").gameObject);
 		}
 	}
