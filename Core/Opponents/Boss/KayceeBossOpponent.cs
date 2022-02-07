@@ -8,7 +8,7 @@ namespace GrimoraMod;
 
 public class KayceeBossOpponent : BaseBossExt
 {
-	public const string SpecialId = "kayceeBoss";
+	public const string SpecialId = "KayceeBoss";
 
 	public override StoryEvent EventForDefeat => StoryEvent.FactoryConveyorBeltMoved;
 
