@@ -12,8 +12,6 @@ public class ChessboardMapExt : GameMap
 
 	[SerializeField] internal List<ChessboardPiece> pieces;
 
-	internal PrefabChessboardPieceHelper PrefabChessboardPieceHelper;
-
 	public List<ChessboardPiece> ActivePieces => pieces;
 
 	public readonly Predicate<ChessboardPiece> PieceExistsInActivePieces
@@ -82,7 +80,6 @@ public class ChessboardMapExt : GameMap
 		gameObject.AddComponent<DebugHelper>();
 
 		Log.LogDebug($"[MapExt] Adding prefab piece helper");
-		PrefabChessboardPieceHelper = gameObject.AddComponent<PrefabChessboardPieceHelper>();
 	}
 
 	private void OnGUI()
@@ -126,7 +123,7 @@ public class ChessboardMapExt : GameMap
 
 	public IEnumerator CompleteRegionSequence()
 	{
-		PrefabChessboardPieceHelper.ChangeBlockerPieceForRegion();
+		// ActiveChessboard.ChangeBlockerPieceForRegion();
 		ViewManager.Instance.Controller.SwitchToControlMode(ViewController.ControlMode.Map);
 		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
 
@@ -178,7 +175,7 @@ public class ChessboardMapExt : GameMap
 		});
 
 		// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Clearing removedPiecesConfig");
-		ConfigHelper.Instance._configCurrentRemovedPieces.Value = "";
+		ConfigHelper.Instance._configCurrentRemovedPieces.Value = ConfigHelper.DefaultRemovedPiecesList;
 	}
 
 	public override IEnumerator UnrollingSequence(float unrollSpeed)
@@ -209,7 +206,7 @@ public class ChessboardMapExt : GameMap
 
 		// if the boss piece exists in the removed pieces,
 		// this means the game didn't complete clearing the board for changing the region
-		if (ConfigHelper.Instance.RemovedPieces.Exists(piece => piece.Contains("Boss")))
+		if (ConfigHelper.Instance.RemovedPieces.Exists(piece => piece.Contains("BossPiece")))
 		{
 			ClearBoardForChangingRegion();
 		}

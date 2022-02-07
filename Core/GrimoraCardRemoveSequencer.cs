@@ -399,17 +399,17 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 		Log.LogDebug($"[AddCardRemoveSequencer] Setting prefabs");
 		cardRemoveSequencer.gamepadGrid = oldRemoveSequencer.gamepadGrid;
-		cardRemoveSequencer.selectableCardPrefab = PrefabConstants.Instance.GrimoraSelectableCard;
+		cardRemoveSequencer.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
 		cardRemoveSequencer.confirmStone = oldRemoveSequencer.confirmStone;
 		cardRemoveSequencer.sacrificeSlot = oldRemoveSequencer.sacrificeSlot;
-		cardRemoveSequencer.sacrificeSlot.cardSelector.selectableCardPrefab = PrefabConstants.Instance.GrimoraSelectableCard;
-		cardRemoveSequencer.sacrificeSlot.pile.cardbackPrefab = PrefabConstants.Instance.GrimoraCardBack;
+		cardRemoveSequencer.sacrificeSlot.cardSelector.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
+		cardRemoveSequencer.sacrificeSlot.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
 		cardRemoveSequencer.skullEyes = oldRemoveSequencer.skullEyes;
 		cardRemoveSequencer.stoneCircleAnim = oldRemoveSequencer.stoneCircleAnim;
 
 		Log.LogDebug($"[AddCardRemoveSequencer] Setting card backs");
 		cardRemoveSequencer.deckPile = oldRemoveSequencer.deckPile;
-		cardRemoveSequencer.deckPile.cardbackPrefab = PrefabConstants.Instance.GrimoraCardBack;
+		cardRemoveSequencer.deckPile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
 
 		Log.LogDebug($"[AddCardRemoveSequencer] Destroying old sequencer");
 		Object.Destroy(oldRemoveSequencer);

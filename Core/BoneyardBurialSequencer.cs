@@ -103,7 +103,9 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 				MixerGroup.TableObjectsSFX,
 				selectionSlot.transform.position
 			);
-			selectionSlot.Card.Anim.PlayTransformAnimation();
+			selectionSlot.Card.Anim.StrongNegationEffect();
+			selectionSlot.Card.Anim.StrongNegationEffect();
+			selectionSlot.Card.Anim.StrongNegationEffect();
 			ApplyModToCard(selectionSlot.Card.Info);
 			// selectionSlot.Card.RenderCard();
 			yield return new WaitForSeconds(0.15f);
@@ -208,7 +210,10 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		}
 
 		Log.LogDebug($"[AddBoneyardBurialSequencer] Creating boneyard burial");
-		GameObject cardStatObj = Instantiate(PrefabConstants.Instance.CardStatBoostSequencer, SpecialNodeHandler.Instance.transform);
+		GameObject cardStatObj = Instantiate(
+			PrefabConstants.CardStatBoostSequencer, 
+			SpecialNodeHandler.Instance.transform
+			);
 		cardStatObj.name = "BoneyardBurialSequencer_Grimora";
 
 		Log.LogDebug($"[Boneyard] getting selection slot");
@@ -244,10 +249,10 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		newSequencer.confirmStone = oldSequencer.confirmStone;
 		newSequencer.figurines = new List<CompositeFigurine>() { CreateGravediggerFigurine(cardStatObj) };
 		newSequencer.pile = oldSequencer.pile;
-		newSequencer.pile.cardbackPrefab = PrefabConstants.Instance.GrimoraCardBack;
+		newSequencer.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
 		newSequencer.selectionSlot = oldSequencer.selectionSlot;
-		newSequencer.selectionSlot.cardSelector.selectableCardPrefab = PrefabConstants.Instance.GrimoraSelectableCard;
-		newSequencer.selectionSlot.pile.cardbackPrefab = PrefabConstants.Instance.GrimoraCardBack;
+		newSequencer.selectionSlot.cardSelector.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
+		newSequencer.selectionSlot.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
 		newSequencer.retrieveCardInteractable = oldSequencer.retrieveCardInteractable;
 		newSequencer.stakeRingParent = oldSequencer.stakeRingParent;
 		newSequencer.selectionSlot.specificRenderers.RemoveAt(1);
@@ -263,12 +268,13 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		Log.LogDebug($"[Boneyard] creating gravedigger");
 
 		CompositeFigurine gravediggerFigurine = Instantiate(
-			PrefabConstants.Instance.GraveDiggerFigurine,
+			PrefabConstants.GraveDiggerFigurine,
 			new Vector3(0, 5, 2.5f),
 			Quaternion.Euler(0, 180, 0),
 			cardStatObj.transform
 		).AddComponent<CompositeFigurine>();
-		gravediggerFigurine.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
+		gravediggerFigurine.transform.localPosition = new Vector3(0, 5, 2.75f);
+		gravediggerFigurine.transform.localScale = new Vector3(4, 4, 4);
 		gravediggerFigurine.gameObject.SetActive(false);
 
 		return gravediggerFigurine;
@@ -278,11 +284,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 	{
 		Log.LogDebug($"[Boneyard] creating grave");
 		CompositeFigurine grave = Instantiate(
-			AllPrefabs.Single(obj =>
-			{
-				Log.LogDebug($"Checking against [{obj.name}] is [{obj.name.Equals("BoneyardBurialGrave")}]");
-				return obj.name.Equals("BoneyardBurialGrave", StringComparison.OrdinalIgnoreCase);
-			}),
+			AllPrefabs.Single(obj => obj.name.Equals("BoneyardBurialGrave", StringComparison.OrdinalIgnoreCase)),
 			new Vector3(0, 4f, 0.6f),
 			Quaternion.Euler(0, 90, 0),
 			base.transform
@@ -296,7 +298,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 	private List<CompositeFigurine> CreateTombstones()
 	{
 		var tombstone1 = Instantiate(
-			PrefabConstants.Instance.Tombstone3,
+			PrefabConstants.Tombstone3,
 			stakeRingParent.transform
 		).AddComponent<CompositeFigurine>();
 
@@ -304,7 +306,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		tombstone1.transform.localScale = new Vector3(10, 10, 10);
 
 		var tombstone2 = Instantiate(
-			PrefabConstants.Instance.Tombstone3,
+			PrefabConstants.Tombstone3,
 			new Vector3(-1.8f, 0, 0),
 			Quaternion.Euler(0, 135, 0),
 			stakeRingParent.transform
@@ -314,7 +316,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		tombstone2.transform.localScale = new Vector3(10, 10, 10);
 
 		var tombstone3 = Instantiate(
-			PrefabConstants.Instance.Tombstone3,
+			PrefabConstants.Tombstone3,
 			new Vector3(1.8f, 0, 0),
 			Quaternion.Euler(0, 215, 0),
 			stakeRingParent.transform
@@ -324,7 +326,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		tombstone3.transform.localScale = new Vector3(10, 10, 10);
 
 		var tombstone4 = Instantiate(
-			GrimoraMod.PrefabConstants.Instance.Tombstone3,
+			GrimoraMod.PrefabConstants.Tombstone3,
 			new Vector3(3f, 0, -2.5f),
 			Quaternion.Euler(0, 90, 0),
 			stakeRingParent.transform

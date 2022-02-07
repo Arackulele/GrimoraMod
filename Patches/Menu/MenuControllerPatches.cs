@@ -2,6 +2,7 @@
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -25,10 +26,8 @@ public class MenuControllerPatches
 	{
 		if (SaveManager.SaveFile.IsGrimora && card.MenuAction == MenuAction.ReturnToStartMenu)
 		{
-			GrimoraPlugin.Log.LogDebug($"[MenuController.OnCardReachedSlot] Saving before exiting");
+			Log.LogDebug($"[MenuController.OnCardReachedSlot] Saving before exiting");
 			SaveManager.SaveToFile();
-			Object.Destroy(Object.FindObjectOfType<PrefabChessboardPieceHelper>());
-			Object.Destroy(Object.FindObjectOfType<PrefabConstants>());
 		}
 		else if (card.titleText == "Start Grimora Mod")
 		{

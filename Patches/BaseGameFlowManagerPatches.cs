@@ -24,10 +24,8 @@ public class BaseGameFlowManagerPatches
 			return;
 		}
 
-		__instance.gameObject.AddComponent<PrefabConstants>();
-
 		Log.LogDebug($"[GameFlowManager] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");
-		CardSpawner.Instance.giantPlayableCardPrefab = PrefabConstants.Instance.GrimoraPlayableCard;
+		CardSpawner.Instance.giantPlayableCardPrefab = PrefabConstants.GrimoraPlayableCard;
 
 		ChessboardMapExt.ChangeChessboardToExtendedClass();
 		
@@ -168,7 +166,7 @@ public class BaseGameFlowManagerPatches
 		{
 			// DeckReviewSequencer reviewSequencer = deckReviewSequencerObj.GetComponent<DeckReviewSequencer>();
 			SelectableCardArray cardArray = DeckReviewSequencer.Instance.GetComponentInChildren<SelectableCardArray>();
-			cardArray.selectableCardPrefab = PrefabConstants.Instance.GrimoraSelectableCard;
+			cardArray.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
 			Log.LogDebug($"[AddRareCardSequencerToScene] Creating new rare choice generator");
 		}
 	}
@@ -190,13 +188,13 @@ public class BaseGameFlowManagerPatches
 		rareCardChoicesSelector.name = rareCardChoicesSelector.name.Replace("(Clone)", "_Grimora");
 
 		RareCardChoicesSequencer sequencer = rareCardChoicesSelector.GetComponent<RareCardChoicesSequencer>();
-		sequencer.deckPile.cardbackPrefab = PrefabConstants.Instance.GrimoraCardBack;
+		sequencer.deckPile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
 
 		// GrimoraPlugin.Log.LogDebug($"-> Setting RareCardChoicesSequencer choice generator to Part1RareChoiceGenerator");
 		sequencer.choiceGenerator = rareCardChoicesSelector.AddComponent<GrimoraRareChoiceGenerator>();
 
 		// GrimoraPlugin.Log.LogDebug($"-> Setting RareCardChoicesSequencer selectableCardPrefab to SelectableCard_Grimora");
-		sequencer.selectableCardPrefab = PrefabConstants.Instance.GrimoraSelectableCard;
+		sequencer.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
 
 		// GrimoraPlugin.Log.LogDebug($"-> Setting SpecialNodeHandler rareCardChoiceSequencer to sequencer");
 		SpecialNodeHandler.Instance.rareCardChoiceSequencer = sequencer;

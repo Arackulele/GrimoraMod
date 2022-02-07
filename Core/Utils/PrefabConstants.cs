@@ -4,47 +4,43 @@ using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
-public class PrefabConstants : Singleton<PrefabConstants>
+public static class PrefabConstants
 {
 	public const string PathChessboardMap = "Prefabs/Map/ChessboardMap";
 	public const string PathSpecialNodes = "Prefabs/SpecialNodeSequences";
 	public const string PathArt3D = "Art/Assets3D";
 
-	public GameObject GraveDiggerFigurine
-	{
-		get
-		{
-			Log.LogDebug($"Getting GraveDiggerFigurine");
-			return ResourceBank.Get<GameObject>($"{PathArt3D}/PlayerAvatar/gravedigger/GravediggerFin");
-		}
-	}
+	public static GameObject GraveDiggerFigurine 
+		=> ResourceBank.Get<GameObject>($"{PathArt3D}/PlayerAvatar/gravedigger/GravediggerFin");
 
-	public ChessboardEnemyPiece BossPiece =>
+	public static ChessboardEnemyPiece BossPiece =>
 		ResourceBank.Get<ChessboardEnemyPiece>($"{PathChessboardMap}/BossFigurine");
 
-	public ChessboardChestPiece ChestPiece =>
+	public static ChessboardChestPiece ChestPiece =>
 		ResourceBank.Get<ChessboardChestPiece>($"{PathChessboardMap}/ChessboardChestPiece");
 
-	public ChessboardEnemyPiece EnemyPiece =>
+	public static ChessboardEnemyPiece EnemyPiece =>
 		ResourceBank.Get<ChessboardEnemyPiece>($"{PathChessboardMap}/ChessboardEnemyPiece");
 
-	public GameObject GrimoraSelectableCard =>
+	public static GameObject GrimoraSelectableCard =>
 		ResourceBank.Get<GameObject>("Prefabs/Cards/SelectableCard_Grimora");
 
-	public GameObject GrimoraPlayableCard =>
+	public static GameObject GrimoraPlayableCard =>
 		ResourceBank.Get<GameObject>("Prefabs/Cards/PlayableCard_Grimora");
 
-	public GameObject GrimoraCardBack =>
+	public static GameObject GrimoraCardBack =>
 		ResourceBank.Get<GameObject>("Prefabs/Cards/CardBack_Grimora");
 
-	public GameObject GoatEye = ResourceBank.Get<GameObject>($"{PathSpecialNodes}/EyeBall");
+	public static GameObject EyeBall => ResourceBank.Get<GameObject>($"{PathSpecialNodes}/EyeBall");
+	
+	public static Material GoatEyeMat => ResourceBank.Get<Material>($"Art/Materials/Eyeball_Goat");
 
-	public GameObject SkinningKnife = ResourceBank.Get<GameObject>($"{PathSpecialNodes}/SkinningKnife");
+	public static GameObject SkinningKnife => ResourceBank.Get<GameObject>($"{PathSpecialNodes}/SkinningKnife");
 
-	public GameObject Tombstone3 =>
+	public static GameObject Tombstone3 =>
 		ResourceBank.Get<GameObject>($"{PathChessboardMap}/Chessboard_Tombstone_3");
 
-	public GameObject CardStatBoostSequencer
+	public static GameObject CardStatBoostSequencer
 	{
 		get
 		{
@@ -53,7 +49,7 @@ public class PrefabConstants : Singleton<PrefabConstants>
 		}
 	}
 
-	public GameObject BoneyardGrave
+	public static GameObject BoneyardGrave
 	{
 		get
 		{
@@ -66,7 +62,9 @@ public class PrefabConstants : Singleton<PrefabConstants>
 		}
 	}
 
-	public Material WoodenBoxMaterial
+	public static GameObject ElectricChair => AllPrefabs.Single(go => go.name.Equals("SpecialNode_ElectricChair"));
+
+	public static Material WoodenBoxMaterial
 	{
 		get
 		{
@@ -75,7 +73,7 @@ public class PrefabConstants : Singleton<PrefabConstants>
 		}
 	}
 
-	public Material AncientStonesMaterial
+	public static Material AncientStonesMaterial
 	{
 		get
 		{

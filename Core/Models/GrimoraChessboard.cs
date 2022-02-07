@@ -7,63 +7,50 @@ namespace GrimoraMod;
 
 public class GrimoraChessboard
 {
-	private readonly Dictionary<System.Type, Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>> _nodesByPieceType;
+	private readonly Dictionary<System.Type, Tuple<Func<GameObject>, Func<List<ChessNode>>>> _nodesByPieceType;
 
-	private Dictionary<Type, Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>> BuildDictionary()
+	private Dictionary<Type, Tuple<Func<GameObject>, Func<List<ChessNode>>>> BuildDictionary()
 	{
-		return new Dictionary<Type, Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>>
+		return new Dictionary<Type, Tuple<Func<GameObject>, Func<List<ChessNode>>>>
 		{
 			{
 				typeof(ChessboardBlockerPieceExt),
-				new Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>(
-					GetBlockerNodes,
-					() => null
-				)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(GetActiveRegionBlockerPiece, GetBlockerNodes)
 			},
 			{
 				typeof(ChessboardBoneyardPiece),
-				new Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>(
-					GetBoneyardNodes,
-					() => null // todo: change later after impl
-				)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.GraveDiggerFigurine, GetBoneyardNodes)
 			},
 			{
 				typeof(ChessboardCardRemovePiece),
-				new Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>(
-					GetCardRemovalNodes,
-					() => new CardRemoveNodeData()
-				)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.SkinningKnife, GetCardRemovalNodes)
 			},
 			{
 				typeof(ChessboardChestPiece),
-				new Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>(
-					GetCardRemovalNodes,
-					() => new CardChoicesNodeData()
-				)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.ChestPiece.gameObject, GetChestNodes)
 			},
 			{
 				typeof(ChessboardElectricChairPiece),
-				new Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>(
-					GetElectricChairNodes,
-					() => null // todo: impl after
-				)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.ElectricChair, GetElectricChairNodes)
 			},
 			{
 				typeof(ChessboardEnemyPiece),
-				new Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>(
-					GetEnemyNodes,
-					() => null // todo: impl after
-				)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.EnemyPiece.gameObject, GetEnemyNodes)
 			},
 			{
 				typeof(ChessboardGoatEyePiece),
-				new Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>>(
-					GetGoatEyeNodes,
-					() => null // todo: impl after
-				)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.EyeBall, GetGoatEyeNodes)
 			}
 		};
 	}
+
+	private readonly Dictionary<int, Func<GameObject>> _bossByIndex = new()
+	{
+		{ 0, () => AllPrefabs.Single(pb => pb.name.Equals("Blocker_Kaycee")) },
+		{ 1, () => AllPrefabs.Single(pb => pb.name.Equals("Blocker_Sawyer")) },
+		{ 2, () => AllPrefabs.Single(pb => pb.name.Equals("Blocker_Royal")) },
+		{ 3, () => AllPrefabs.Single(pb => pb.name.Equals("Blocker_Grimora")) },
+	};
 
 	private readonly Dictionary<string, Opponent.Type> _bossBySpecialId = new()
 	{
@@ -72,6 +59,26 @@ public class GrimoraChessboard
 		{ RoyalBossOpponentExt.SpecialId, BaseBossExt.RoyalOpponent },
 		{ GrimoraBossOpponentExt.SpecialId, BaseBossExt.GrimoraOpponent }
 	};
+
+	public GameObject GetActiveRegionBlockerPiece()
+	{
+		Log.LogDebug($"[GetActiveRegionBlockerPiece] Getting active region blocker piece [{AllPrefabs.Length}]");
+		int bossesDead = ConfigHelper.Instance.BossesDefeated;
+		Log.LogDebug($"[GetActiveRegionBlockerPiece] Bosses dead [{bossesDead}]");
+		GameObject blocker = _bossByIndex.GetValueSafe(bossesDead).Invoke();
+		Log.LogDebug($"[GetActiveRegionBlockerPiece] Blocker [{blocker}]");
+		blocker.GetComponentInChildren<MeshRenderer>().material = bossesDead switch
+		{
+			// the reason for doing this is because the materials are massive if in our own asset bundle, 5MB+ total
+			// so lets just use the already existing material in the game
+			2 => PrefabConstants.WoodenBoxMaterial,
+			3 => PrefabConstants.AncientStonesMaterial,
+			_ => blocker.GetComponentInChildren<MeshRenderer>().material
+		};
+
+		Log.LogDebug($"[GetActiveRegionBlockerPiece] Returning blocker");
+		return blocker;
+	}
 
 	public readonly int indexInList;
 	public readonly ChessNode BossNode;
@@ -166,9 +173,9 @@ public class GrimoraChessboard
 
 	#endregion
 
-
 	public void SetupBoard()
 	{
+		Log.LogDebug($"[SetupBoard]");
 		PlaceBossPiece(GetBossSpecialIdForRegion());
 		PlacePieces<ChessboardBlockerPieceExt>();
 		PlacePieces<ChessboardBoneyardPiece>();
@@ -242,42 +249,38 @@ public class GrimoraChessboard
 
 	#region PlacingPieces
 
-	public ChessboardEnemyPiece PlaceBossPieceDev(int x, int y, string bossName)
+	public ChessboardEnemyPiece PlaceBossPiece(string bossName, int x = -1, int y = -1)
 	{
-		return PlacePiece<ChessboardEnemyPiece>(x, y, bossName);
-	}
-
-	public ChessboardEnemyPiece PlaceBossPiece(string bossName)
-	{
+		int newX = x == -1 ? BossNode.GridX : x;
+		int newY = x == -1 ? BossNode.GridY : y;
 		return CreateChessPiece<ChessboardEnemyPiece>(
-			ChessboardMapExt.Instance.PrefabChessboardPieceHelper.PrefabBossPiece, BossNode.GridX, BossNode.GridY, bossName
+			PrefabConstants.BossPiece.gameObject,
+			newX,
+			newY,
+			bossName
 		);
 	}
 
 	public T PlacePiece<T>(int x, int y, string id = "", SpecialNodeData specialNodeData = null) where T : ChessboardPiece
 	{
-		// out ChessboardPiece prefabToUse
-		if (!ChessboardMapExt.Instance.PrefabChessboardPieceHelper
-			    .PieceSetupByType
-			    .TryGetValue(typeof(T), out Tuple<float, GameObject, Func<ChessboardPiece>> tuple))
-		{
-			throw new Exception($"Unable to find piece of type [{typeof(T)}] in PieceSetupByType!");
-		}
-
-		return CreateChessPiece<T>(tuple.Item3.Invoke(), x, y, id, specialNodeData);
+		return CreateChessPiece<T>(
+			_nodesByPieceType.GetValueSafe(typeof(T)).Item1.Invoke(),
+			x, y,
+			id,
+			specialNodeData
+		);
 	}
 
 	public List<T> PlacePieces<T>() where T : ChessboardPiece
 	{
-		if (!_nodesByPieceType.TryGetValue(typeof(T), out Tuple<Func<List<ChessNode>>, Func<SpecialNodeData>> tuple))
+		if (!_nodesByPieceType.TryGetValue(typeof(T), out Tuple<Func<GameObject>, Func<List<ChessNode>>> tuple))
 		{
 			throw new Exception($"Unable to find piece of type [{typeof(T)}] in _nodesByPieceType!");
 		}
 
-		List<ChessNode> nodes = tuple.Item1.Invoke();
-		SpecialNodeData specialNodeData = tuple.Item2.Invoke();
+		List<ChessNode> nodes = tuple.Item2.Invoke();
 
-		return nodes.Select(node => PlacePiece<T>(node.GridX, node.GridY, specialNodeData: specialNodeData)).ToList();
+		return nodes.Select(node => PlacePiece<T>(node.GridX, node.GridY)).ToList();
 	}
 
 	#endregion
@@ -285,29 +288,24 @@ public class GrimoraChessboard
 	#region CreatePieces
 
 	private T CreateChessPiece<T>(
-		ChessboardPiece prefab,
+		GameObject prefab,
 		int x, int y,
 		string id = "",
 		SpecialNodeData specialNodeData = null) where T : ChessboardPiece
 	{
 		string coordName = $"x[{x}]y[{y}]";
 
-		ChessboardPiece piece = GetPieceAtSpace(x, y);
-
-		if (piece is not null && ChessboardMapExt.Instance.PieceExistsInActivePieces.Invoke(piece))
+		if (GetPieceAtSpace(x, y) is not null)
 		{
-			Log.LogDebug($"[CreateChessPiece<{typeof(T).Name}>] Skipping x{x}y{y}, {piece.name} already exists");
-			return piece as T;
+			Log.LogDebug($"[CreateChessPiece<{typeof(T).Name}>] Skipping x{x}y{y}");
+			return GetPieceAtSpace(x, y) as T;
 		}
 
-		piece = Object.Instantiate(prefab, ChessboardMapExt.Instance.dynamicElementsParent);
-		piece.gridXPos = x;
-		piece.gridYPos = y;
+		GameObject pieceObj = Object.Instantiate(prefab, ChessboardMapExt.Instance.dynamicElementsParent);
 
 		// ChessboardEnemyPiece => EnemyPiece_x[]y[]
-		string nameTemp = piece.GetType().Name.Replace("Chessboard", "") + "_" + coordName;
 
-		switch (piece)
+		switch (pieceObj.GetComponent<T>())
 		{
 			case ChessboardEnemyPiece enemyPiece:
 			{
@@ -316,7 +314,6 @@ public class GrimoraChessboard
 				if (prefab.name.Contains("Boss"))
 				{
 					Log.LogDebug($"[CreateChessPiece] Setting ActiveBossType to [{id}]");
-					nameTemp = nameTemp.Replace("Enemy", "Boss");
 					ActiveBossType = _bossBySpecialId.GetValueSafe(id);
 					enemyPiece.blueprint = BlueprintUtils.BossInitialBlueprints[id];
 				}
@@ -325,15 +322,43 @@ public class GrimoraChessboard
 					id = "GrimoraModBattleSequencer";
 					enemyPiece.blueprint = GetBlueprint();
 				}
-				
+
 				enemyPiece.specialEncounterId = id;
 				break;
 			}
+			default:
+				if (pieceObj.GetComponent<T>() is null)
+				{
+					Log.LogDebug($"[CreateChessPiece] Adding type [{typeof(T).Name}] to [{prefab}]");
+					pieceObj.AddComponent<T>();
+				}
+
+				if (typeof(T) == typeof(ChessboardGoatEyePiece))
+				{
+					pieceObj.GetComponent<MeshRenderer>().material = PrefabConstants.GoatEyeMat;
+					pieceObj.GetComponent<MeshRenderer>().sharedMaterial = PrefabConstants.GoatEyeMat;
+					pieceObj.GetComponent<Rigidbody>().useGravity = false;
+				}
+
+				break;
 		}
+
+		ChessboardPiece piece = pieceObj.GetComponent<T>();
+
+		piece.gridXPos = x;
+		piece.gridYPos = y;
 
 		if (specialNodeData is not null)
 		{
 			piece.NodeData = specialNodeData;
+		}
+
+		piece.anim ??= PrefabConstants.EnemyPiece.anim;
+
+		string nameTemp = typeof(T).Name.Replace("Chessboard", "") + "_" + coordName;
+		if (prefab.name.Contains("boss"))
+		{
+			nameTemp = nameTemp.Replace("Enemy", "Boss");
 		}
 
 		piece.name = nameTemp;
@@ -341,7 +366,7 @@ public class GrimoraChessboard
 		// Log.LogDebug($"[CreateChessPiece] {piece.name}");
 		ChessboardMapExt.Instance.pieces.Add(piece);
 		// ChessboardNavGrid.instance.zones[x, y].GetComponent<ChessboardMapNode>().OccupyingPiece = piece;
-		return piece as T;
+		return (T)piece;
 	}
 
 	#endregion
