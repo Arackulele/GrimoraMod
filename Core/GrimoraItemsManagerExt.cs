@@ -36,22 +36,20 @@ public class GrimoraItemsManagerExt : ItemsManager
 
 			ext = GrimoraItemsManager.Instance.gameObject.AddComponent<GrimoraItemsManagerExt>();
 			ext.consumableSlots = currentItemsManager.consumableSlots;
-
+			Log.LogDebug($"[AddHammer] Destroying old manager");
+			Destroy(currentItemsManager);
 			
-			Part3ItemsManager part3ItemsManager = Instantiate(ResourceBank.Get<Part3ItemsManager>(
-					"Prefabs/Items/ItemsManager_Part3"),
-				ext.transform,
-				true
+			Part3ItemsManager part3ItemsManager = Instantiate(
+				ResourceBank.Get<Part3ItemsManager>("Prefabs/Items/ItemsManager_Part3")
 			);
 
 			ext.hammerSlot = part3ItemsManager.hammerSlot;
+			part3ItemsManager.hammerSlot.transform.SetParent(ext.transform);
 
 			float xVal = Harmony.HasAnyPatches("julianperge.inscryption.act1.increaseCardSlots") ? -8.75f : -7.5f;
 			ext.hammerSlot.gameObject.transform.localPosition = new Vector3(xVal, 0.81f, -0.48f);
 			ext.hammerSlot.gameObject.transform.rotation = Quaternion.Euler(270f, 315f, 0f);
 			
-			Log.LogDebug($"[AddHammer] Destroying old manager");
-			Destroy(currentItemsManager);
 		}
 
 		if (FindObjectOfType<Part3ItemsManager>() is not null)
