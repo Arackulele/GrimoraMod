@@ -18,7 +18,7 @@ public class ConfigHelper
 		true
 	);
 
-	public const string StaticDefaultRemovedPiecesList =
+	public const string DefaultRemovedPiecesList =
 		"BossFigurine," +
 		"ChessboardChestPiece," +
 		"EnemyPiece_Skelemagus,EnemyPiece_Gravedigger," +
@@ -70,7 +70,7 @@ public class ConfigHelper
 		_configCurrentRemovedPieces = GrimoraConfigFile.Bind(
 			PluginName,
 			"Current Removed Pieces",
-			StaticDefaultRemovedPiecesList,
+			DefaultRemovedPiecesList,
 			new ConfigDescription("Contains all the current removed pieces." +
 			                      "\nDo not alter this list unless you know what you are doing!")
 		);
@@ -177,7 +177,7 @@ public class ConfigHelper
 	{
 		Log.LogWarning($"Resetting Grimora Mod config");
 		_configBossesDefeated.Value = 0;
-		_configCurrentRemovedPieces.Value = StaticDefaultRemovedPiecesList;
+		_configCurrentRemovedPieces.Value = DefaultRemovedPiecesList;
 		_configCurrentChessboardIndex.Value = 0;
 	}
 
