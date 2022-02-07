@@ -195,9 +195,11 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 	{
 		List<CardInfo> list = GrimoraSaveUtil.DeckListCopy;
 		list.RemoveAll(card => card.BonesCost <= 1
+		                       || card.abilities.Contains(Ability.Brittle)
 		                       || card.SpecialAbilities.Contains(SpecialTriggeredAbility.RandomCard)
 		                       || card.traits.Contains(Trait.Pelt)
-		                       || card.traits.Contains(Trait.Terrain));
+		                       || card.traits.Contains(Trait.Terrain)
+		);
 
 		return list;
 	}
@@ -211,9 +213,9 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 		Log.LogDebug($"[AddBoneyardBurialSequencer] Creating boneyard burial");
 		GameObject cardStatObj = Instantiate(
-			PrefabConstants.CardStatBoostSequencer, 
+			PrefabConstants.CardStatBoostSequencer,
 			SpecialNodeHandler.Instance.transform
-			);
+		);
 		cardStatObj.name = "BoneyardBurialSequencer_Grimora";
 
 		Log.LogDebug($"[Boneyard] getting selection slot");
