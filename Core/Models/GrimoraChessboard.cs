@@ -295,10 +295,12 @@ public class GrimoraChessboard
 	{
 		string coordName = $"x[{x}]y[{y}]";
 
-		if (GetPieceAtSpace(x, y) is not null)
+		ChessboardPiece piece = ChessboardMapExt.Instance.pieces.Find(p => p.gridXPos == x && p.gridYPos == y);
+
+		if (piece is not null)
 		{
-			Log.LogDebug($"[CreateChessPiece<{typeof(T).Name}>] Skipping x{x}y{y}");
-			return GetPieceAtSpace(x, y) as T;
+			// Log.LogDebug($"[CreateChessPiece<{typeof(T).Name}>] Skipping x{x}y{y}");
+			return piece.GetComponent<T>();
 		}
 
 		piece = HandlePieceSetup<T>(prefab, id);
