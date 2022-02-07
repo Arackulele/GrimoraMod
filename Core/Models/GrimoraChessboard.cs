@@ -301,6 +301,33 @@ public class GrimoraChessboard
 			return GetPieceAtSpace(x, y) as T;
 		}
 
+		piece = HandlePieceSetup<T>(prefab, id);
+
+		piece.anim ??= PrefabConstants.EnemyPiece.anim;
+		piece.gridXPos = x;
+		piece.gridYPos = y;
+
+		if (specialNodeData is not null)
+		{
+			piece.NodeData = specialNodeData;
+		}
+
+		string nameTemp = typeof(T).Name.Replace("Chessboard", "") + "_" + coordName;
+		if (prefab.name.Contains("boss"))
+		{
+			nameTemp = nameTemp.Replace("Enemy", "Boss");
+		}
+
+		piece.name = nameTemp;
+
+		// Log.LogDebug($"[CreateChessPiece] {piece.name}");
+		ChessboardMapExt.Instance.pieces.Add(piece);
+		// ChessboardNavGrid.instance.zones[x, y].GetComponent<ChessboardMapNode>().OccupyingPiece = piece;
+		return (T)piece;
+	}
+
+	private T HandlePieceSetup<T>(GameObject prefab, string id = "") where T : ChessboardPiece
+	{
 		GameObject pieceObj = Object.Instantiate(prefab, ChessboardMapExt.Instance.dynamicElementsParent);
 
 		// ChessboardEnemyPiece => EnemyPiece_x[]y[]
@@ -309,9 +336,7 @@ public class GrimoraChessboard
 		{
 			case ChessboardEnemyPiece enemyPiece:
 			{
-				enemyPiece.GoalPosX = x;
-				enemyPiece.GoalPosX = y;
-				if (prefab.name.Contains("Boss"))
+				if (id.Contains("Boss"))
 				{
 					Log.LogDebug($"[CreateChessPiece] Setting ActiveBossType to [{id}]");
 					ActiveBossType = _bossBySpecialId.GetValueSafe(id);
@@ -329,7 +354,7 @@ public class GrimoraChessboard
 			default:
 				if (pieceObj.GetComponent<T>() is null)
 				{
-					Log.LogDebug($"[CreateChessPiece] Adding type [{typeof(T).Name}] to [{prefab}]");
+					// Log.LogDebug($"[CreateChessPiece] Adding type [{typeof(T).Name}] to [{prefab}]");
 					pieceObj.AddComponent<T>();
 				}
 
@@ -343,30 +368,7 @@ public class GrimoraChessboard
 				break;
 		}
 
-		ChessboardPiece piece = pieceObj.GetComponent<T>();
-
-		piece.gridXPos = x;
-		piece.gridYPos = y;
-
-		if (specialNodeData is not null)
-		{
-			piece.NodeData = specialNodeData;
-		}
-
-		piece.anim ??= PrefabConstants.EnemyPiece.anim;
-
-		string nameTemp = typeof(T).Name.Replace("Chessboard", "") + "_" + coordName;
-		if (prefab.name.Contains("boss"))
-		{
-			nameTemp = nameTemp.Replace("Enemy", "Boss");
-		}
-
-		piece.name = nameTemp;
-
-		// Log.LogDebug($"[CreateChessPiece] {piece.name}");
-		ChessboardMapExt.Instance.pieces.Add(piece);
-		// ChessboardNavGrid.instance.zones[x, y].GetComponent<ChessboardMapNode>().OccupyingPiece = piece;
-		return (T)piece;
+		return pieceObj.GetComponent<T>();
 	}
 
 	#endregion
