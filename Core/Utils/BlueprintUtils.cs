@@ -562,7 +562,6 @@ public static class BlueprintUtils
 			new() { },
 			new() { bp_Skeleton, bp_PlagueDoctor },
 			new() { },
-			new() { },
 			new() { bp_Sarcophagus, bp_PlagueDoctor },
 			new() { },
 			new() { bp_Skeleton, bp_PlagueDoctor },
@@ -583,7 +582,6 @@ public static class BlueprintUtils
 		{
 			new() { bp_Poltergeist },
 			new() { bp_Sarcophagus },
-			new() { },
 			new() { },
 			new() { },
 			new() { bp_Poltergeist },
