@@ -296,13 +296,7 @@ public class GrimoraChessboard
 			piece.NodeData = specialNodeData;
 		}
 
-		string nameTemp = typeof(T).Name.Replace("Chessboard", "") + "_" + coordName;
-		if (prefab.name.Contains("boss"))
-		{
-			nameTemp = nameTemp.Replace("Enemy", "Boss");
-		}
-
-		piece.name = nameTemp;
+		piece.name = CreateNameOfPiece<T>(prefab, coordName);
 
 		// Log.LogDebug($"[CreateChessPiece] {piece.name}");
 		ChessboardMapExt.Instance.pieces.Add(piece);
@@ -310,7 +304,18 @@ public class GrimoraChessboard
 		return (T)piece;
 	}
 
-	private T HandlePieceSetup<T>(GameObject prefab, string id = "") where T : ChessboardPiece
+	private static string CreateNameOfPiece<T>(Object prefab, string coordName) where T : ChessboardPiece
+	{
+		string nameTemp = typeof(T).Name.Replace("Chessboard", "") + "_" + coordName;
+		if (prefab.name.Contains("boss"))
+		{
+			nameTemp = nameTemp.Replace("Enemy", "Boss");
+		}
+
+		return nameTemp;
+	}
+
+	private T HandlePieceSetup<T>(GameObject prefab, string specialEncounterId = "") where T : ChessboardPiece
 	{
 		GameObject pieceObj = Object.Instantiate(prefab, ChessboardMapExt.Instance.dynamicElementsParent);
 
