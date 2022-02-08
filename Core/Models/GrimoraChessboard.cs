@@ -62,22 +62,18 @@ public class GrimoraChessboard
 
 	public GameObject GetActiveRegionBlockerPiece()
 	{
-		Log.LogDebug($"[GetActiveRegionBlockerPiece] Getting active region blocker piece [{AllPrefabs.Length}]");
 		int bossesDead = ConfigHelper.Instance.BossesDefeated;
-		Log.LogDebug($"[GetActiveRegionBlockerPiece] Bosses dead [{bossesDead}]");
-		GameObject blocker = _bossByIndex.GetValueSafe(bossesDead).Invoke();
-		Log.LogDebug($"[GetActiveRegionBlockerPiece] Blocker [{blocker}]");
-		blocker.GetComponentInChildren<MeshRenderer>().material = bossesDead switch
+		GameObject blockerPrefab = _bossByIndex.GetValueSafe(bossesDead).Invoke();
+		blockerPrefab.GetComponentInChildren<MeshRenderer>().material = bossesDead switch
 		{
 			// the reason for doing this is because the materials are massive if in our own asset bundle, 5MB+ total
 			// so lets just use the already existing material in the game
 			2 => PrefabConstants.WoodenBoxMaterial,
 			3 => PrefabConstants.AncientStonesMaterial,
-			_ => blocker.GetComponentInChildren<MeshRenderer>().material
+			_ => blockerPrefab.GetComponentInChildren<MeshRenderer>().material
 		};
 
-		Log.LogDebug($"[GetActiveRegionBlockerPiece] Returning blocker");
-		return blocker;
+		return blockerPrefab;
 	}
 
 	public readonly int indexInList;
