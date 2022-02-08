@@ -111,18 +111,24 @@ public class ConfigHelper
 
 	public void HandleHotReloadBefore()
 	{
-		if (_configHotReloadEnabled.Value)
+		if (!_configHotReloadEnabled.Value)
 		{
-			if (!CardLoader.allData.IsNullOrEmpty())
-			{
-				NewCard.cards.RemoveAll(card => card.name.StartsWith("GrimoraMod_"));
-			}
+			return;
+		}
+
+		if (!CardLoader.allData.IsNullOrEmpty())
+		{
+			NewCard.cards.RemoveAll(card => card.name.StartsWith("GrimoraMod_"));
 		}
 
 		if (!AbilitiesUtil.allData.IsNullOrEmpty())
 		{
 			NewAbility.abilities.RemoveAll(ab => ab.id.ToString().StartsWith(GUID));
 		}
+
+		// TODO: I'd prefer not to do this but I'm not sure how to filter out the emissions without literally
+		//	making a giant list of all the card names.
+		NewCard.emissions.Clear();
 	}
 
 	public void HandleHotReloadAfter()
