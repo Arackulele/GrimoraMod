@@ -1,7 +1,6 @@
 using System.Collections;
 using APIPlugin;
 using DiskCardGame;
-using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -14,8 +13,7 @@ public class PayBonesForSkeleton : ActivatedAbilityBehaviour
 
 	public override IEnumerator Activate()
 	{
-		yield return CardSpawner.Instance.SpawnCardToHand(CardLoader.GetCardByName("Skeleton"), 0.25f);
-		yield break;
+		yield return CardSpawner.Instance.SpawnCardToHand("Skeleton".GetCardInfo());
 	}
 
 	public static NewAbility Create()

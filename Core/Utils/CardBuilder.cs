@@ -153,7 +153,7 @@ public class CardBuilder
 		CardInfo cardToLoad = null;
 		try
 		{
-			cardToLoad = CardLoader.GetCardByName(iceCubeName);
+			cardToLoad = iceCubeName.GetCardInfo();
 		}
 		catch (Exception e)
 		{
@@ -173,7 +173,7 @@ public class CardBuilder
 		CardInfo cardToLoad = null;
 		try
 		{
-			cardToLoad = CardLoader.GetCardByName(evolveInto);
+			cardToLoad = evolveInto.GetCardInfo();
 		}
 		catch (Exception e)
 		{

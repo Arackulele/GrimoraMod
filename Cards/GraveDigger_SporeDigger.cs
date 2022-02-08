@@ -6,12 +6,12 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameGraveDigger = "GrimoraMod_Gravedigger";
-	public const string NameSporeDigger = "GrimoraMod_Sporedigger";
+	public const string NameGravedigger = "GrimoraMod_Gravedigger";
+	public const string NameSporedigger = "GrimoraMod_Sporedigger";
 
 	private void Add_GraveDigger()
 	{
-		Sprite ogSprite = CardLoader.GetCardByName("Gravedigger").portraitTex;
+		Sprite ogSprite = "Gravedigger".GetCardInfo().portraitTex;
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()
 			.SetAbilities(Ability.BoneDigger)
@@ -19,7 +19,7 @@ public partial class GrimoraPlugin
 			.SetBoneCost(1)
 			.SetDescription(
 				"He spends his time alone digging for bones in hopes of finding a treasure. Just like his grandpa.")
-			.SetNames(NameGraveDigger, "Gravedigger", ogSprite)
+			.SetNames(NameGravedigger, "Gravedigger", ogSprite)
 			.Build()
 		);
 	}
@@ -32,7 +32,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(0, 3)
 			.SetBoneCost(1)
 			.SetDescription("An excellent digger.")
-			.SetNames(NameSporeDigger, "Sporedigger")
+			.SetNames(NameSporedigger, "Sporedigger")
 			.SetTraits(Trait.Fused)
 			.Build()
 		);

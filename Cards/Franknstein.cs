@@ -1,5 +1,4 @@
 ﻿using APIPlugin;
-using DiskCardGame;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -10,7 +9,7 @@ public partial class GrimoraPlugin
 
 	private void Add_Franknstein()
 	{
-		Sprite ogSprite = CardLoader.GetCardByName("FrankNStein").portraitTex;
+		Sprite ogSprite = "FrankNStein".GetCardInfo().portraitTex;
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()
 			.SetBaseAttackAndHealth(2, 2)

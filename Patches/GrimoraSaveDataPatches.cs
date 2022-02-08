@@ -9,11 +9,11 @@ public class GrimoraSaveDataPatches
 {
 	private static readonly List<CardInfo> DefaultCardInfos = new()
 	{
-		CardLoader.GetCardByName(NameBonepile),
-		CardLoader.GetCardByName(NameGraveDigger),
-		CardLoader.GetCardByName(NameGraveDigger),
-		CardLoader.GetCardByName(NameFranknstein),
-		CardLoader.GetCardByName(NameZombie)
+		NameBonepile.GetCardInfo(),
+		NameGravedigger.GetCardInfo(),
+		NameGravedigger.GetCardInfo(),
+		NameFranknstein.GetCardInfo(),
+		NameZombie.GetCardInfo()
 	};
 
 	[HarmonyPrefix, HarmonyPatch(nameof(GrimoraSaveData.Initialize))]

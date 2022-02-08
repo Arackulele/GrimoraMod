@@ -178,7 +178,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		foreach (var cardName in cardsToResizeArtwork)
 		{
-			CardInfo cardInfo = CardLoader.GetCardByName(cardName);
+			CardInfo cardInfo = cardName.GetCardInfo();
 			CardBuilder builder = CardBuilder.Builder
 				.SetAsNormalCard()
 				.SetAbilities(cardInfo.abilities.ToArray())

@@ -143,7 +143,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		ViewManager.Instance.SwitchToView(View.OpponentQueue, immediate: false, lockAfter: true);
 
-		CardInfo modifiedGiant = CardLoader.GetCardByName(NameGiant);
+		CardInfo modifiedGiant = NameGiant.GetCardInfo();
 		modifiedGiant.abilities = new List<Ability>() { Ability.AllStrike, Ability.Reach };
 		modifiedGiant.specialAbilities.Add(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility);
 
@@ -163,7 +163,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		ViewManager.Instance.SwitchToView(View.Board);
 
 		yield return BoardManager.Instance.CreateCardInSlot(
-			CardLoader.GetCardByName(NameBonelord), oppSlots[2], 0.2f
+			NameBonelord.GetCardInfo(), oppSlots[2], 0.2f
 		);
 		yield return new WaitForSeconds(0.25f);
 
@@ -177,7 +177,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		foreach (CardSlot cardSlot in oppSlots)
 		{
 			yield return BoardManager.Instance.CreateCardInSlot(
-				CardLoader.GetCardByName(NameSkeletonArmy), cardSlot, 0.2f
+				NameSkeletonArmy.GetCardInfo(), cardSlot, 0.2f
 			);
 
 			yield return new WaitForSeconds(0.25f);

@@ -108,7 +108,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		if (randomizedChoices.Count < 3)
 		{
 			Log.LogWarning($"[GetFixedOpeningHand] ...How did you get fewer than 3 cards in your deck?!");
-			var skeleton = CardLoader.GetCardByName("Skeleton");
+			var skeleton = "Skeleton".GetCardInfo();
 			cardsToAdd.AddRange(new[] { skeleton, skeleton });
 		}
 
