@@ -146,6 +146,11 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private void OnDestroy()
 	{
+		AllAbilityTextures = null;
+		AllMats = null;
+		AllPrefabs = null;
+		AllSprites = null;
+		AllGrimoraModCards = new List<CardInfo>();
 		Resources.UnloadUnusedAssets();
 		_harmony?.UnpatchSelf();
 		GrimoraModBattleSequencer.ActiveEnemyPiece = null;
