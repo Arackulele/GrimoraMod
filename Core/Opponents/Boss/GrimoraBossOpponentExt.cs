@@ -20,17 +20,16 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 	private static void SetSceneEffectsShownGrimora()
 	{
-		Color brightBlue = GameColors.Instance.brightBlue;
-		brightBlue.a = 0.5f;
+		Color darkPurple = GameColors.Instance.darkPurple;
 		TableVisualEffectsManager.Instance.ChangeTableColors(
-			GameColors.Instance.darkPurple,
+			darkPurple,
 			GameColors.Instance.purple,
 			GameColors.Instance.purple,
-			GameColors.Instance.darkPurple,
-			GameColors.Instance.darkPurple,
+			darkPurple,
+			darkPurple,
 			GameColors.Instance.purple,
 			GameColors.Instance.purple,
-			GameColors.Instance.darkPurple,
+			darkPurple,
 			GameColors.Instance.purple
 		);
 	}
@@ -52,7 +51,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		// Log.LogDebug($"[{GetType()}] Calling base IntroSequence, this creates and sets the candle skull");
 		yield return base.IntroSequence(encounter);
 
-		ViewManager.Instance.SwitchToView(View.BossSkull, immediate: false, lockAfter: true);
+		ViewManager.Instance.SwitchToView(View.BossSkull, false, true);
 
 		yield return new WaitForSeconds(0.25f);
 		yield return TextDisplayer.Instance.PlayDialogueEvent(
@@ -61,7 +60,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		);
 		yield return new WaitForSeconds(0.4f);
 
-		Log.LogDebug($"Calling bossSkull.EnterHand();");
+		Log.LogDebug($"Calling bossSkull.EnterHand()");
 		bossSkull.EnterHand();
 
 		yield return new WaitForSeconds(2f);
@@ -70,17 +69,13 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 	public override IEnumerator StartNewPhaseSequence()
 	{
-		base.TurnPlan.Clear();
-
-		Log.LogDebug($"[GrimoraBoss] Clearing board");
-		yield return base.ClearBoard();
-
-		Log.LogDebug($"[GrimoraBoss] Clearing queue");
-		yield return base.ClearQueue();
+		TurnPlan.Clear();
+		yield return ClearBoard();
+		yield return ClearQueue();
 
 		yield return new WaitForSeconds(0.5f);
 
-		switch (this.NumLives)
+		switch (NumLives)
 		{
 			case 1:
 			{
@@ -97,7 +92,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			}
 		}
 
-		ViewManager.Instance.SwitchToView(View.Default, false, false);
+		ViewManager.Instance.SwitchToView(View.Default);
 
 		yield break;
 	}
@@ -141,7 +136,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
 		);
 
-		ViewManager.Instance.SwitchToView(View.OpponentQueue, immediate: false, lockAfter: true);
+		ViewManager.Instance.SwitchToView(View.OpponentQueue, false, true);
 
 		CardInfo modifiedGiant = NameGiant.GetCardInfo();
 		modifiedGiant.abilities = new List<Ability>() { Ability.AllStrike, Ability.Reach };
@@ -167,20 +162,30 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		);
 		yield return new WaitForSeconds(0.25f);
 
-		oppSlots.RemoveAt(2);
+		oppSlots.RemoveRange(1, 2);
 
 		yield return TextDisplayer.Instance.ShowUntilInput(
 			"RISE MY ARMY! RIIIIIIIIIISE!",
 			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
 		);
 
-		foreach (CardSlot cardSlot in oppSlots)
-		{
-			yield return BoardManager.Instance.CreateCardInSlot(
-				NameSkeletonArmy.GetCardInfo(), cardSlot, 0.2f
-			);
 
+		var leftAndRightQueueSlots = GetFarLeftAndFarRightQueueSlots();
+		
+		CardInfo bonelordsHorn = NameBoneLordsHorn.GetCardInfo();
+		bonelordsHorn.mods.Add(new CardModificationInfo() { attackAdjustment = 1 });
+		bonelordsHorn.abilities.Remove(Ability.QuadrupleBones);
+		for (int i = 0; i < oppSlots.Count; i++)
+		{
+			yield return TurnManager.Instance.Opponent.QueueCard(bonelordsHorn, leftAndRightQueueSlots[i]);
+			yield return BoardManager.Instance.CreateCardInSlot(bonelordsHorn, oppSlots[i], 0.2f);
 			yield return new WaitForSeconds(0.25f);
 		}
+	}
+	
+	private List<CardSlot> GetFarLeftAndFarRightQueueSlots() {
+		var qSlots = BoardManager.Instance.GetQueueSlots();
+		qSlots.RemoveRange(1, 2);
+		return qSlots;
 	}
 }
