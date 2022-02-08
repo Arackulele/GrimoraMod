@@ -1,6 +1,5 @@
 ﻿using APIPlugin;
 using DiskCardGame;
-using HarmonyLib;
 using Sirenix.Utilities;
 using UnityEngine;
 
@@ -12,31 +11,32 @@ public class DebugHelper : ManagedBehaviour
 
 	private readonly string[] _btnTools =
 	{
-		"Win Round", "Lose Round", 
+		"Win Round", "Lose Round",
 		"Add All Grimora Cards", "Clear Deck",
-		"Add Bones"
+		"Add Bones", "Reset Removed Pieces"
 	};
 
 	private bool _toggleDebugChests;
-	
+
 	private readonly string[] _btnChests =
 	{
 		"Card Remove", "Card Choice", "Rare Card Choice"
 	};
 
 	private bool _toggleDebug;
-	
+
 	private readonly string[] _btnDebug =
 	{
 		"Win Round", "Lose Round"
 	};
 
 	private bool _toggleEnemies;
+
 	private readonly string[] _btnEnemies =
 	{
 		"Place Enemies"
 	};
-	
+
 	private void OnGUI()
 	{
 		if (!ConfigHelper.Instance.isDevModeEnabled)
@@ -49,7 +49,7 @@ public class DebugHelper : ManagedBehaviour
 			_toggleDebugTools,
 			"Debug Tools"
 		);
-		
+
 		_toggleDebugChests = GUI.Toggle(
 			new Rect(20, 180, 100, 20),
 			_toggleDebugChests,
@@ -61,7 +61,7 @@ public class DebugHelper : ManagedBehaviour
 			_toggleEnemies,
 			"Debug Enemies"
 		);
-		
+
 		if (_toggleDebugTools)
 		{
 			int selectedButton = GUI.SelectionGrid(
@@ -128,7 +128,7 @@ public class DebugHelper : ManagedBehaviour
 						specialNode = new ChooseRareCardNodeData();
 						break;
 				}
-				
+
 				ChessboardChestPiece[] chests = FindObjectsOfType<ChessboardChestPiece>();
 
 				if (chests.IsNullOrEmpty())
