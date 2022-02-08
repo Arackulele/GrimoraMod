@@ -169,7 +169,7 @@ public static class BlueprintUtils
 
 	#endregion
 
-	public static readonly Dictionary<string, EncounterBlueprintData> BossInitialBlueprints = new()
+	internal static readonly Dictionary<string, EncounterBlueprintData> BossInitialBlueprints = new()
 	{
 		{
 			KayceeBossOpponent.SpecialId,
@@ -189,7 +189,7 @@ public static class BlueprintUtils
 		}
 	};
 
-	public static readonly Dictionary<Opponent.Type, List<EncounterBlueprintData>> RegionWithBlueprints = new()
+	internal static readonly Dictionary<Opponent.Type, List<EncounterBlueprintData>> RegionWithBlueprints = new()
 	{
 		{
 			BaseBossExt.KayceeOpponent,
@@ -237,7 +237,7 @@ public static class BlueprintUtils
 
 	#region RegionBlueprints
 
-	public static EncounterBlueprintData BuildGeneralRegionBlueprintOne()
+	private static EncounterBlueprintData BuildGeneralRegionBlueprintOne()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -254,7 +254,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	public static EncounterBlueprintData BuildKayceeBossInitialBlueprint()
+	private static EncounterBlueprintData BuildKayceeBossInitialBlueprint()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -280,7 +280,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	public static EncounterBlueprintData BuildKayceeRegionBlueprintOne()
+	private static EncounterBlueprintData BuildKayceeRegionBlueprintOne()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -296,7 +296,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	public static EncounterBlueprintData BuildKayceeRegionBlueprintTwo()
+	private static EncounterBlueprintData BuildKayceeRegionBlueprintTwo()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -312,7 +312,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	public static EncounterBlueprintData BuildKayceeRegionBlueprintThree()
+	private static EncounterBlueprintData BuildKayceeRegionBlueprintThree()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -329,7 +329,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	public static EncounterBlueprintData BuildKayceeRegionBlueprintFour()
+	private static EncounterBlueprintData BuildKayceeRegionBlueprintFour()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -346,7 +346,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	public static EncounterBlueprintData BuildKayceeRegionBlueprintFive()
+	private static EncounterBlueprintData BuildKayceeRegionBlueprintFive()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -364,7 +364,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	public static EncounterBlueprintData BuildRoyalBossInitialBlueprint()
+	private static EncounterBlueprintData BuildRoyalBossInitialBlueprint()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -392,7 +392,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	public static EncounterBlueprintData BuildRoyalBossRegionBlueprintOne()
+	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintOne()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -412,7 +412,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	public static EncounterBlueprintData BuildRoyalBossRegionBlueprintTwo()
+	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintTwo()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -429,7 +429,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	public static EncounterBlueprintData BuildRoyalBossRegionBlueprintThree()
+	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintThree()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -448,7 +448,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	public static EncounterBlueprintData BuildRoyalBossRegionBlueprintFour()
+	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintFour()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -469,7 +469,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	public static EncounterBlueprintData BuildGrimoraBossInitialBlueprint()
+	private static EncounterBlueprintData BuildGrimoraBossInitialBlueprint()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -492,7 +492,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	public static EncounterBlueprintData BuildGrimoraBossRegionBlueprintOne()
+	private static EncounterBlueprintData BuildGrimoraBossRegionBlueprintOne()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -514,7 +514,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	public static EncounterBlueprintData BuildGrimoraBossRegionBlueprintTwo()
+	private static EncounterBlueprintData BuildGrimoraBossRegionBlueprintTwo()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -533,7 +533,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	public static EncounterBlueprintData BuildGrimoraBossRegionBlueprintThree()
+	private static EncounterBlueprintData BuildGrimoraBossRegionBlueprintThree()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -554,7 +554,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	public static EncounterBlueprintData BuildGrimoraBossRegionBlueprintFour()
+	private static EncounterBlueprintData BuildGrimoraBossRegionBlueprintFour()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -572,7 +572,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	public static EncounterBlueprintData BuildSawyerBossInitialBlueprint()
+	private static EncounterBlueprintData BuildSawyerBossInitialBlueprint()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -595,7 +595,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	public static EncounterBlueprintData BuildSawyerRegionBlueprintOne()
+	private static EncounterBlueprintData BuildSawyerRegionBlueprintOne()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -612,7 +612,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	public static EncounterBlueprintData BuildSawyerRegionBlueprintTwo()
+	private static EncounterBlueprintData BuildSawyerRegionBlueprintTwo()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -630,7 +630,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	public static EncounterBlueprintData BuildSawyerRegionBlueprintThree()
+	private static EncounterBlueprintData BuildSawyerRegionBlueprintThree()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -654,7 +654,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	public static EncounterBlueprintData BuildSawyerRegionBlueprintFour()
+	private static EncounterBlueprintData BuildSawyerRegionBlueprintFour()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
