@@ -61,11 +61,6 @@ public abstract class BaseBossExt : Part1BossOpponent
 
 	public abstract string SpecialEncounterId { get; }
 
-	private void Start()
-	{
-		Blueprint = OpponentTupleBySpecialId[SpecialEncounterId].Item3;
-	}
-
 	protected internal GameObject Mask { get; set; }
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
