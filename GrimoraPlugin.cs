@@ -117,9 +117,9 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Sarcophagus();
 		Add_Silbon(); // Bt Y#0895
 		Add_ScreamingSkull(); // Bt Y#0895
-		Add_Skelemancer();
+		Add_VengefulSpirit();
 		Add_SkeletonArmy();
-		Add_SkeletonMage();
+		Add_Skelemagus();
 		Add_SporeDigger();
 		Add_Summoner();
 		Add_TombRobber();

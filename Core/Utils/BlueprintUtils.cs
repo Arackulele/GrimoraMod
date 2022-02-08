@@ -139,7 +139,7 @@ public static class BlueprintUtils
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Skelemancer = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameSkelemancer)
+		card = CardLoader.GetCardByName(GrimoraPlugin.NameVengefulSpirit)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Skeleton = new()

@@ -5,9 +5,9 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameSkelemagus = "GrimoraMod_SkeletonMagus";
+	public const string NameSkelemagus = "GrimoraMod_Skelemagus";
 
-	private void Add_SkeletonMage()
+	private void Add_Skelemagus()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()
