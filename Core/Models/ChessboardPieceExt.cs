@@ -21,10 +21,10 @@ public class ChessboardPieceExt : ChessboardPiece
 
 		if (newScale != 0f)
 		{
-			base.transform.localScale = new Vector3(newScale, newScale, newScale);
+			transform.localScale = new Vector3(newScale, newScale, newScale);
 		}
 
-		if (base.GetType() == typeof(ChessboardBlockerPieceExt))
+		if (GetType() == typeof(ChessboardBlockerPieceExt))
 		{
 			ChessboardNavGrid.instance.zones[gridXPos, gridYPos]
 				.GetComponent<ChessboardMapNode>()
@@ -34,7 +34,6 @@ public class ChessboardPieceExt : ChessboardPiece
 		{
 			ChessboardNavGrid.instance.zones[gridXPos, gridYPos].GetComponent<ChessboardMapNode>().OccupyingPiece = this;
 		}
-		base.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
 	}
 	
 	public override void OnPlayerInteracted()
@@ -44,8 +43,8 @@ public class ChessboardPieceExt : ChessboardPiece
 
 	private IEnumerator StartSpecialNodeSequence()
 	{
-		GrimoraPlugin.Log.LogDebug($"[StartSpecialNodeSequence] Piece [{base.name}] Node [{GetType()}]");
-		ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(base.name);
+		GrimoraPlugin.Log.LogDebug($"[StartSpecialNodeSequence] Piece [{name}] Node [{GetType()}]");
+		ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(name);
 
 		MapNodeManager.Instance.SetAllNodesInteractable(false);
 
@@ -56,6 +55,6 @@ public class ChessboardPieceExt : ChessboardPiece
 		
 		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 
-		GameFlowManager.Instance.TransitionToGameState(GameState.SpecialCardSequence, base.NodeData);
+		GameFlowManager.Instance.TransitionToGameState(GameState.SpecialCardSequence, NodeData);
 	}
 }
