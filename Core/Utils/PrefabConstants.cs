@@ -10,7 +10,7 @@ public static class PrefabConstants
 	public const string PathSpecialNodes = "Prefabs/SpecialNodeSequences";
 	public const string PathArt3D = "Art/Assets3D";
 
-	public static GameObject GraveDiggerFigurine 
+	public static GameObject GraveDiggerFigurine
 		=> ResourceBank.Get<GameObject>($"{PathArt3D}/PlayerAvatar/gravedigger/GravediggerFin");
 
 	public static ChessboardEnemyPiece BossPiece =>
@@ -32,7 +32,7 @@ public static class PrefabConstants
 		ResourceBank.Get<GameObject>("Prefabs/Cards/CardBack_Grimora");
 
 	public static GameObject EyeBall => ResourceBank.Get<GameObject>($"{PathSpecialNodes}/EyeBall");
-	
+
 	public static Material GoatEyeMat => ResourceBank.Get<Material>($"Art/Materials/Eyeball_Goat");
 
 	public static GameObject SkinningKnife => ResourceBank.Get<GameObject>($"{PathSpecialNodes}/SkinningKnife");
@@ -40,45 +40,17 @@ public static class PrefabConstants
 	public static GameObject Tombstone3 =>
 		ResourceBank.Get<GameObject>($"{PathChessboardMap}/Chessboard_Tombstone_3");
 
-	public static GameObject CardStatBoostSequencer
-	{
-		get
-		{
-			Log.LogDebug($"Getting CardStatBoostSequencer");
-			return ResourceBank.Get<GameObject>($"{PathSpecialNodes}/CardStatBoostSequencer");
-		}
-	}
+	public static GameObject CardStatBoostSequencer =>
+		ResourceBank.Get<GameObject>($"{PathSpecialNodes}/CardStatBoostSequencer");
 
-	public static GameObject BoneyardGrave
-	{
-		get
-		{
-			Log.LogDebug($"Getting BoneyardGrave");
-			return AllPrefabs.Single(obj =>
-			{
-				Log.LogDebug($"Checking against [{obj.name}] is [{obj.name.Equals("BoneyardBurialGrave")}]");
-				return obj.name.Equals("BoneyardBurialGrave", StringComparison.OrdinalIgnoreCase);
-			});
-		}
-	}
+	public static GameObject BoneyardGrave =>
+		AllPrefabs.Single(obj => obj.name.Equals("BoneyardBurialGrave", StringComparison.OrdinalIgnoreCase));
 
 	public static GameObject ElectricChair => AllPrefabs.Single(go => go.name.Equals("SpecialNode_ElectricChair"));
 
-	public static Material WoodenBoxMaterial
-	{
-		get
-		{
-			Log.LogDebug($"Getting WoodenBoxMaterial");
-			return ResourceBank.Get<Material>($"{PathArt3D}/nodesequences/woodenbox/WoodenBox_Wood");
-		}
-	}
+	public static Material WoodenBoxMaterial =>
+		ResourceBank.Get<Material>($"{PathArt3D}/nodesequences/woodenbox/WoodenBox_Wood");
 
-	public static Material AncientStonesMaterial
-	{
-		get
-		{
-			Log.LogDebug($"Getting AncientStonesMaterial");
-			return ResourceBank.Get<Material>($"{PathArt3D}/misc/AncientRuins/AncientRuins_StonePath");
-		}
-	}
+	public static Material AncientStonesMaterial =>
+		ResourceBank.Get<Material>($"{PathArt3D}/misc/AncientRuins/AncientRuins_StonePath");
 }
