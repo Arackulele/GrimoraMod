@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using Pixelplacement;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -7,10 +9,12 @@ namespace GrimoraMod;
 
 public class BoneyardBurialSequencer : CardStatBoostSequencer
 {
+	[SerializeField] private GameObject revenantCard;
+
+	private readonly CardInfo _revenantCardReward = NameRevenant.GetCardInfo();
+
 	private void Start()
 	{
-		base.figurines.Add(CreateGrave());
-		base.figurines.AddRange(CreateTombstones());
 		SetMaterials();
 	}
 
@@ -27,8 +31,8 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		var stoneQuad = confirmStone.transform.Find("Quad").GetComponent<MeshRenderer>();
 		stoneQuad.material = AllMats.Single(_ => _.name.Equals("BoneyardBurialShovel"));
 		stoneQuad.sharedMaterial = AllMats.Single(_ => _.name.Equals("BoneyardBurialShovel"));
-		base.selectionSlot.defaultColor = new Color(0.420f, 1f, 0.63f);
-		base.selectionSlot.baseColor = new Color(0.420f, 1f, 0.63f);
+		selectionSlot.defaultColor = new Color(0.420f, 1f, 0.63f);
+		selectionSlot.baseColor = new Color(0.420f, 1f, 0.63f);
 		stoneQuad.transform.localScale = new Vector3(1.75f, 1.75f, 1.75f);
 		stoneQuad.transform.localRotation = Quaternion.Euler(90, 0, 0);
 	}
@@ -49,7 +53,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		ViewManager.Instance.OffsetPosition(new Vector3(0f, 0f, 2.25f), 0.1f);
 		yield return new WaitForSeconds(1f);
 
-		figurines.ForEach(delegate(CompositeFigurine x) { x.gameObject.SetActive(value: true); });
+		figurines.ForEach(delegate(CompositeFigurine x) { x.gameObject.SetActive(true); });
 
 		stakeRingParent.SetActive(true);
 		ExplorableAreaManager.Instance.HandLight.gameObject.SetActive(true);
@@ -89,33 +93,44 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 	{
 		yield return InitialSetup();
 
-		yield return TextDisplayer.Instance.PlayDialogueEvent("StatBoostIntro", TextDisplayer.MessageAdvanceMode.Input);
-
-		yield return confirmStone.WaitUntilConfirmation();
-		bool finishedBuffing = false;
-		while (!finishedBuffing)
+		if (GetValidCards().IsNullOrEmpty())
 		{
-			selectionSlot.Disable();
-			RuleBookController.Instance.SetShown(false);
-			yield return new WaitForSeconds(0.25f);
-			AudioController.Instance.PlaySound3D(
-				"card_blessing",
-				MixerGroup.TableObjectsSFX,
-				selectionSlot.transform.position
-			);
-			selectionSlot.Card.Anim.StrongNegationEffect();
-			selectionSlot.Card.Anim.StrongNegationEffect();
-			selectionSlot.Card.Anim.StrongNegationEffect();
-			ApplyModToCard(selectionSlot.Card.Info);
-			// selectionSlot.Card.RenderCard();
-			yield return new WaitForSeconds(0.15f);
-			selectionSlot.Card.SetInfo(selectionSlot.Card.Info);
-			selectionSlot.Card.SetInteractionEnabled(false);
-			yield return new WaitForSeconds(0.75f);
-			finishedBuffing = true;
+			yield return new WaitForSeconds(1f);
+			yield return TextDisplayer.Instance.PlayDialogueEvent("GainConsumablesFull",
+				TextDisplayer.MessageAdvanceMode.Input);
+			yield return new WaitForSeconds(0.5f);
+			yield return NoValidCardsSequence();
 		}
+		else
+		{
+			yield return TextDisplayer.Instance.PlayDialogueEvent("StatBoostIntro", TextDisplayer.MessageAdvanceMode.Input);
 
-		yield return TextDisplayer.Instance.PlayDialogueEvent("StatBoostOutro", TextDisplayer.MessageAdvanceMode.Input);
+			yield return confirmStone.WaitUntilConfirmation();
+			bool finishedBuffing = false;
+			while (!finishedBuffing)
+			{
+				selectionSlot.Disable();
+				RuleBookController.Instance.SetShown(false);
+				yield return new WaitForSeconds(0.25f);
+				AudioController.Instance.PlaySound3D(
+					"card_blessing",
+					MixerGroup.TableObjectsSFX,
+					selectionSlot.transform.position
+				);
+				selectionSlot.Card.Anim.StrongNegationEffect();
+				selectionSlot.Card.Anim.StrongNegationEffect();
+				selectionSlot.Card.Anim.StrongNegationEffect();
+				ApplyModToCard(selectionSlot.Card.Info);
+				// selectionSlot.Card.RenderCard();
+				yield return new WaitForSeconds(0.15f);
+				selectionSlot.Card.SetInfo(selectionSlot.Card.Info);
+				selectionSlot.Card.SetInteractionEnabled(false);
+				yield return new WaitForSeconds(0.75f);
+				finishedBuffing = true;
+			}
+
+			yield return TextDisplayer.Instance.PlayDialogueEvent("StatBoostOutro", TextDisplayer.MessageAdvanceMode.Input);
+		}
 
 		yield return OutroEnvTeardown();
 
@@ -144,7 +159,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		yield return pile.DestroyCards();
 		yield return new WaitForSeconds(0.2f);
 
-		figurines.ForEach(delegate(CompositeFigurine x) { x.gameObject.SetActive(value: false); });
+		figurines.ForEach(delegate(CompositeFigurine x) { x.gameObject.SetActive(false); });
 
 		stakeRingParent.SetActive(false);
 		confirmStone.SetStoneInactive();
@@ -159,14 +174,77 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		});
 	}
 
+	private IEnumerator NoValidCardsSequence()
+	{
+		Log.LogDebug($"Clearing delegates and setting info _revenantCard");
+		revenantCard = Instantiate(
+			PrefabConstants.GrimoraSelectableCard,
+			new Vector3(0, 12, 1.75f),
+			Quaternion.identity,
+			transform
+		);
+		var revenantSelectableCard = revenantCard.GetComponent<SelectableCard>();
+		revenantSelectableCard.ClearDelegates();
+		revenantSelectableCard.SetInfo(_revenantCardReward);
+
+		bool cardGrabbed = false;
+		Log.LogDebug($"Playing lowering sequence");
+		Vector3 targetPos = new Vector3(0, 5, 0);
+		Tween.Position(revenantCard.transform, revenantCard.transform.position - targetPos, 2f, 0f);
+		revenantSelectableCard.CursorSelectEnded = (Action<MainInputInteractable>)Delegate.Combine(
+			revenantSelectableCard.CursorSelectEnded,
+			(Action<MainInputInteractable>)delegate { cardGrabbed = true; });
+		yield return new WaitUntil(() => cardGrabbed);
+
+		RuleBookController.Instance.SetShown(false);
+		TableRuleBook.Instance.SetOnBoard(false);
+		// rat.GetComponentInChildren<Animator>().SetTrigger("exit");
+		yield return new WaitForEndOfFrame();
+
+		Log.LogDebug($"Instantiating _revenantCard");
+		revenantCard.SetActive(true);
+		revenantCard.transform.parent = null;
+		revenantCard.transform.position = revenantCard.transform.position;
+		revenantCard.transform.rotation = revenantCard.transform.rotation;
+		// cardObj.transform.localScale = Vector3.one;
+		revenantSelectableCard.SetInfo(_revenantCardReward);
+		revenantSelectableCard.SetInteractionEnabled(false);
+
+		string text = _revenantCardReward.description;
+		yield return LearnObjectSequence(revenantCard.transform, 1f, new Vector3(20f, 0f, 0f), text);
+		Tween.Position(
+			revenantCard.transform,
+			revenantCard.transform.position + Vector3.up * 2f + Vector3.forward * 0.5f,
+			0.1f,
+			0f,
+			null,
+			Tween.LoopType.None,
+			null,
+			delegate { Destroy(revenantCard); }
+		);
+
+		yield return new WaitForSeconds(0.5f);
+		// rat.SetActive(value: false);
+		GrimoraSaveData.Data.deck.AddCard(_revenantCardReward);
+	}
+
+	private IEnumerator LearnObjectSequence(Transform obj, float heightOffset, Vector3 baseRotation, string text)
+	{
+		Tween.Position(obj, new Vector3(0f, 5.7f + heightOffset, -4.25f), 0.1f, 0f, Tween.EaseInOut);
+		Tween.Rotation(obj, baseRotation, 0.1f, 0f, Tween.EaseInOut);
+		Tween.Rotate(obj, new Vector3(1f, 5f, 3f), Space.World, 3f, 0.1f, Tween.EaseInOut,
+			Tween.LoopType.PingPong);
+		yield return TextDisplayer.Instance.ShowUntilInput(text);
+	}
+
 	private new static void ApplyModToCard(CardInfo card)
 	{
-		Log.LogDebug(
-			$"[ApplyModToCard] Bones cost [{card.BonesCost}] after mathf.ciel [{Mathf.CeilToInt(card.BonesCost / 2f)}]");
+		Log.LogDebug($"[ApplyModToCard] Bones [{card.BonesCost}] mathf.ciel [{Mathf.CeilToInt(card.BonesCost / 2f)}]");
 		CardModificationInfo cardModificationInfo = new CardModificationInfo()
 		{
+			abilities = new List<Ability>() { Ability.Brittle },
 			bonesCostAdjustment = -Mathf.CeilToInt(card.BonesCost / 2f),
-			abilities = new List<Ability>() { Ability.Brittle }
+			singletonId = "GrimoraMod_BoneyardBuried"
 		};
 		GrimoraSaveUtil.DeckInfo.ModifyCard(card, cardModificationInfo);
 	}
@@ -195,7 +273,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 	{
 		List<CardInfo> list = GrimoraSaveUtil.DeckListCopy;
 		list.RemoveAll(card => card.BonesCost <= 1
-		                       || card.abilities.Contains(Ability.Brittle)
+		                       || card.Abilities.Contains(Ability.Brittle)
 		                       || card.SpecialAbilities.Contains(SpecialTriggeredAbility.RandomCard)
 		                       || card.traits.Contains(Trait.Pelt)
 		                       || card.traits.Contains(Trait.Terrain)
@@ -228,14 +306,16 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 		Log.LogDebug($"[Boneyard] destroying fireanim");
 		Destroy(selectionSlot.GetChild(1).gameObject); //FireAnim 
-		//
-		// while (cardStatObj.transform.Find("Figurine") is not null)
-		// {
-		// 	Log.LogDebug($"[Boneyard] destroying figurines");
-		// 	Destroy(cardStatObj.transform.Find("Figurine").gameObject);
-		// }
+		for (int i = 0; i < cardStatObj.transform.childCount; i++)
+		{
+			var child = cardStatObj.transform.GetChild(i);
+			if (child.name.Equals("Figurine"))
+			{
+				Destroy(child.gameObject);
+			}
+		}
 
-		Log.LogDebug($"[Boneyard] destroying existing stake rings");
+		Log.LogDebug($"[Boneyard] destroying existing stake rings [{stakeRing.childCount}]");
 		for (int i = 0; i < stakeRing.childCount; i++)
 		{
 			// don't need the stake rings
@@ -244,12 +324,16 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 		var oldSequencer = cardStatObj.GetComponent<CardStatBoostSequencer>();
 
+		Log.LogDebug($"Adding component");
 		var newSequencer = cardStatObj.AddComponent<BoneyardBurialSequencer>();
 
+		Log.LogDebug($"Transferring old to new");
 		newSequencer.campfireLight = oldSequencer.campfireLight;
 		newSequencer.campfireCardLight = oldSequencer.campfireCardLight;
 		newSequencer.confirmStone = oldSequencer.confirmStone;
-		newSequencer.figurines = new List<CompositeFigurine>() { CreateGravediggerFigurine(cardStatObj) };
+		newSequencer.figurines = new List<CompositeFigurine>()
+			{ CreateGravediggerFigurine(cardStatObj), CreateGrave(cardStatObj) };
+		newSequencer.figurines.AddRange(CreateTombstones(cardStatObj));
 		newSequencer.pile = oldSequencer.pile;
 		newSequencer.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
 		newSequencer.selectionSlot = oldSequencer.selectionSlot;
@@ -262,6 +346,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 		SpecialNodeHandler.Instance.cardStatBoostSequencer = newSequencer;
 
+		Log.LogDebug($"Destroying old sequencer");
 		Destroy(oldSequencer);
 	}
 
@@ -275,6 +360,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 			Quaternion.Euler(0, 180, 0),
 			cardStatObj.transform
 		).AddComponent<CompositeFigurine>();
+		gravediggerFigurine.name = "Boneyard Gravedigger";
 		gravediggerFigurine.transform.localPosition = new Vector3(0, 5, 2.75f);
 		gravediggerFigurine.transform.localScale = new Vector3(4, 4, 4);
 		gravediggerFigurine.gameObject.SetActive(false);
@@ -282,59 +368,43 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		return gravediggerFigurine;
 	}
 
-	private CompositeFigurine CreateGrave()
+	private static CompositeFigurine CreateGrave(GameObject cardStatObj)
 	{
 		Log.LogDebug($"[Boneyard] creating grave");
 		CompositeFigurine grave = Instantiate(
 			AllPrefabs.Single(obj => obj.name.Equals("BoneyardBurialGrave", StringComparison.OrdinalIgnoreCase)),
 			new Vector3(0, 4f, 0.6f),
 			Quaternion.Euler(0, 90, 0),
-			base.transform
+			cardStatObj.transform
 		).AddComponent<CompositeFigurine>();
+		grave.name = "Boneyard Burial Grave";
 		grave.transform.localScale = new Vector3(0.4f, 0.6f, 0.6f);
 		grave.gameObject.SetActive(false);
 
 		return grave;
 	}
 
-	private List<CompositeFigurine> CreateTombstones()
+	private static List<CompositeFigurine> CreateTombstones(GameObject cardStatObj)
 	{
-		var tombstone1 = Instantiate(
-			PrefabConstants.Tombstone3,
-			stakeRingParent.transform
-		).AddComponent<CompositeFigurine>();
-
+		var stakeRing = cardStatObj.transform.Find("StakeRing");
+		var tombstone1 = Instantiate(PrefabConstants.Tombstone3, stakeRing).AddComponent<CompositeFigurine>();
 		tombstone1.transform.localPosition = new Vector3(-3, 0, -2.5f);
+		tombstone1.transform.localRotation = Quaternion.Euler(0, 90, 0);
 		tombstone1.transform.localScale = new Vector3(10, 10, 10);
 
-		var tombstone2 = Instantiate(
-			PrefabConstants.Tombstone3,
-			new Vector3(-1.8f, 0, 0),
-			Quaternion.Euler(0, 135, 0),
-			stakeRingParent.transform
-		).AddComponent<CompositeFigurine>();
-		;
+		var tombstone2 = Instantiate(PrefabConstants.Tombstone3, stakeRing).AddComponent<CompositeFigurine>();
 		tombstone2.transform.localPosition = new Vector3(-1.8f, 0, 0);
+		tombstone2.transform.localRotation = Quaternion.Euler(0, 135, 0);
 		tombstone2.transform.localScale = new Vector3(10, 10, 10);
 
-		var tombstone3 = Instantiate(
-			PrefabConstants.Tombstone3,
-			new Vector3(1.8f, 0, 0),
-			Quaternion.Euler(0, 215, 0),
-			stakeRingParent.transform
-		).AddComponent<CompositeFigurine>();
-		;
+		var tombstone3 = Instantiate(PrefabConstants.Tombstone3, stakeRing).AddComponent<CompositeFigurine>();
 		tombstone3.transform.localPosition = new Vector3(1.8f, 0, 0);
+		tombstone3.transform.localRotation = Quaternion.Euler(0, -135, 0);
 		tombstone3.transform.localScale = new Vector3(10, 10, 10);
 
-		var tombstone4 = Instantiate(
-			GrimoraMod.PrefabConstants.Tombstone3,
-			new Vector3(3f, 0, -2.5f),
-			Quaternion.Euler(0, 90, 0),
-			stakeRingParent.transform
-		).AddComponent<CompositeFigurine>();
-		;
+		var tombstone4 = Instantiate(PrefabConstants.Tombstone3, stakeRing).AddComponent<CompositeFigurine>();
 		tombstone4.transform.localPosition = new Vector3(3f, 0, -2.5f);
+		tombstone3.transform.localRotation = Quaternion.Euler(0, 90, 0);
 		tombstone4.transform.localScale = new Vector3(10, 10, 10);
 
 		return new List<CompositeFigurine>() { tombstone1, tombstone2, tombstone3, tombstone4 };
