@@ -7,7 +7,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameRevenant = "GrimoraMod_Revenant";
 
-	private void AddAra_Revenant()
+	private void Add_Revenant()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()

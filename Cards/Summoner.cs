@@ -7,7 +7,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameSummoner = "GrimoraMod_Summoner";
 
-	private void AddAra_Summoner()
+	private void Add_Summoner()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()

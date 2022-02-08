@@ -7,7 +7,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameSkeletonMage = "GrimoraMod_SkeletonMage";
 
-	private void AddAra_SkeletonMage()
+	private void Add_SkeletonMage()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()

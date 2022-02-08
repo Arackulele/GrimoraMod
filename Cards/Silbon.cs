@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameSilbon = "GrimoraMod_Silbon";
 
-	private void AddAra_Silbon()
+	private void Add_Silbon()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()

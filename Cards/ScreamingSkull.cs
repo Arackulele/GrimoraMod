@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameScreamingSkull = "GrimoraMod_ScreamingSkull";
 
-	private void AddAra_ScreamingSkull()
+	private void Add_ScreamingSkull()
 	{
 
 		CardInfo info = ScriptableObject.CreateInstance<CardInfo>();

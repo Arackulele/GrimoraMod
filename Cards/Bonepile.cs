@@ -7,7 +7,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameBonepile = "GrimoraMod_Bonepile";
 
-	private void AddAra_Bonepile()
+	private void Add_Bonepile()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()

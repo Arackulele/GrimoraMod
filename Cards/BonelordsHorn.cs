@@ -7,7 +7,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameBoneLordsHorn = "GrimoraMod_BonelordsHorn";
 
-	private void AddAra_BonelordsHorn()
+	private void Add_BonelordsHorn()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsRareCard()

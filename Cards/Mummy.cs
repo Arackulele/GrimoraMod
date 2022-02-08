@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameMummy = "GrimoraMod_Mummy";
 
-	private void AddAra_Mummy()
+	private void Add_Mummy()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()

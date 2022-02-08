@@ -91,49 +91,49 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		#region AddingCards
 
-		AddAra_ArmoredZombie();
-		AddAra_Bonepile(); // Bt Y#0895		
-		AddAra_BonePrince();
-		AddAra_Bonelord();
-		AddAra_BonelordsHorn();
-		AddAra_BooHag(); // Bt Y#0895
-		AddAra_DanseMacabre(); // Bt Y#0895
-		AddAra_DeadHand();
-		AddAra_DeadPets();
-		AddAra_Draugr();
-		AddAra_DrownedSoul();
-		AddAra_Dybbuk(); // Bt Y#0895
-		AddAra_Ember_spirit();
-		AddAra_Family();
-		AddAra_Flames();
-		AddAra_Franknstein();
-		AddAra_Giant(); // Bt Y#0895
-		AddAra_GhostShip();
-		AddAra_GraveDigger();
-		AddAra_HeadlessHorseman();
-		AddAra_Hydra();
-		AddAra_Mummy();
-		AddAra_Necromancer();
-		AddAra_Obol(); // Bt Y#0895
-		AddAra_PlagueDoctor();
-		AddAra_Poltergeist();
-		AddAra_Project(); // Bt Y#0895
-		AddAra_Revenant();
-		AddAra_RingWorm();
-		AddAra_Ripper(); // Bt Y#0895
-		AddAra_Sarcophagus();
-		AddAra_Silbon(); // Bt Y#0895
-		AddAra_ScreamingSkull(); // Bt Y#0895
-		AddAra_Skelemancer();
-		AddAra_SkeletonArmy();
-		AddAra_SkeletonMage();
-		AddAra_SporeDigger();
-		AddAra_Summoner();
-		AddAra_TombRobber();
-		AddAra_Wendigo();
-		AddAra_Wyvern();
-		AddAra_ZombieGeck();
-		AddAra_Zombie();
+		Add_ArmoredZombie();
+		Add_Bonepile(); // Bt Y#0895		
+		Add_BonePrince();
+		Add_Bonelord();
+		Add_BonelordsHorn();
+		Add_BooHag(); // Bt Y#0895
+		Add_DanseMacabre(); // Bt Y#0895
+		Add_DeadHand();
+		Add_DeadPets();
+		Add_Draugr();
+		Add_DrownedSoul();
+		Add_Dybbuk(); // Bt Y#0895
+		Add_Ember_spirit();
+		Add_Family();
+		Add_Flames();
+		Add_Franknstein();
+		Add_Giant(); // Bt Y#0895
+		Add_GhostShip();
+		Add_GraveDigger();
+		Add_HeadlessHorseman();
+		Add_Hydra();
+		Add_Mummy();
+		Add_Necromancer();
+		Add_Obol(); // Bt Y#0895
+		Add_PlagueDoctor();
+		Add_Poltergeist();
+		Add_Project(); // Bt Y#0895
+		Add_Revenant();
+		Add_RingWorm();
+		Add_Ripper(); // Bt Y#0895
+		Add_Sarcophagus();
+		Add_Silbon(); // Bt Y#0895
+		Add_ScreamingSkull(); // Bt Y#0895
+		Add_Skelemancer();
+		Add_SkeletonArmy();
+		Add_SkeletonMage();
+		Add_SporeDigger();
+		Add_Summoner();
+		Add_TombRobber();
+		Add_Wendigo();
+		Add_Wyvern();
+		Add_ZombieGeck();
+		Add_Zombie();
 
 		#endregion
 

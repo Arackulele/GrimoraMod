@@ -7,7 +7,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameDanseMacabre = "GrimoraMod_DanseMacabre";
 	
-	private void AddAra_DanseMacabre()
+	private void Add_DanseMacabre()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()

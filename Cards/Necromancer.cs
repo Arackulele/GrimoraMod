@@ -7,7 +7,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameNecromancer = "GrimoraMod_Necromancer";
 
-	private void AddAra_Necromancer()
+	private void Add_Necromancer()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsRareCard()

@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameGiant = "GrimoraMod_Giant";
 
-	private void AddAra_Giant()
+	private void Add_Giant()
 	{
 		NewCard.Add(CardBuilder.Builder
 				.SetAsNormalCard()

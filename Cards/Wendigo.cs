@@ -7,7 +7,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameWendigo = "GrimoraMod_Wendigo";
 
-	private void AddAra_Wendigo()
+	private void Add_Wendigo()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsRareCard()

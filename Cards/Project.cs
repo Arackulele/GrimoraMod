@@ -7,7 +7,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameProject = "GrimoraMod_Project";
 
-	private void AddAra_Project()
+	private void Add_Project()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()

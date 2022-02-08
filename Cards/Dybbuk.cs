@@ -9,7 +9,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameDybbuk = "GrimoraMod_Dybbuk";
 
-	private void AddAra_Dybbuk()
+	private void Add_Dybbuk()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()

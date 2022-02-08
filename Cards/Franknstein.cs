@@ -8,7 +8,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameFranknstein = "GrimoraMod_Franknstein";
 
-	private void AddAra_Franknstein()
+	private void Add_Franknstein()
 	{
 		Sprite ogSprite = CardLoader.GetCardByName("FrankNStein").portraitTex;
 		NewCard.Add(CardBuilder.Builder

@@ -7,7 +7,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameGhostShip = "GrimoraMod_GhostShip";
 
-	private void AddAra_GhostShip()
+	private void Add_GhostShip()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()

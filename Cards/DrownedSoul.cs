@@ -7,7 +7,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameDrownedSoul = "GrimoraMod_DrownedSoul";
 
-	private void AddAra_DrownedSoul()
+	private void Add_DrownedSoul()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()

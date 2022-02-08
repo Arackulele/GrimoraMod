@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameZombie = "GrimoraMod_Zombie";
 
-	private void AddAra_Zombie()
+	private void Add_Zombie()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()

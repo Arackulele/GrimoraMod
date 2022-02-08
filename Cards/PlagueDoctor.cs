@@ -7,7 +7,7 @@ public partial class GrimoraPlugin
 {
 	public const string NamePlagueDoctor = "GrimoraMod_PlagueDoctor";
 
-	private void AddAra_PlagueDoctor()
+	private void Add_PlagueDoctor()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()

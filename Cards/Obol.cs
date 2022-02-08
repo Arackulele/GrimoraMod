@@ -7,7 +7,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameObol = "GrimoraMod_Obol";
 
-	private void AddAra_Obol()
+	private void Add_Obol()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()

@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameEmberSpirit = "GrimoraMod_Ember_Spirit";
 
-	private void AddAra_Ember_spirit()
+	private void Add_Ember_spirit()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsRareCard()

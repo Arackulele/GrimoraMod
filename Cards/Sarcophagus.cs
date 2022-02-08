@@ -7,7 +7,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameSarcophagus = "GrimoraMod_Sarcophagus";
 
-	private void AddAra_Sarcophagus()
+	private void Add_Sarcophagus()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()

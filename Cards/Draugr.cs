@@ -7,7 +7,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameDraugr = "GrimoraMod_Draugr";
 
-	private void AddAra_Draugr()
+	private void Add_Draugr()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()
