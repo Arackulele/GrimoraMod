@@ -8,14 +8,6 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(TurnManager))]
 public class TurnManagerPatches
 {
-	private static readonly Dictionary<string, Type> GrimoraModBattleSequencers = new()
-	{
-		{ SawyerBossOpponent.SpecialId, typeof(SawyerBattleSequencer) },
-		{ GrimoraBossOpponentExt.SpecialId, typeof(GrimoraBossSequencer) },
-		{ KayceeBossOpponent.SpecialId, typeof(KayceeBossSequencer) },
-		{ RoyalBossOpponentExt.SpecialId, typeof(RoyalBossSequencer) },
-		{ "GrimoraModBattleSequencer", typeof(GrimoraModBattleSequencer) }
-	};
 
 	[HarmonyPrefix, HarmonyPatch(nameof(TurnManager.UpdateSpecialSequencer))]
 	public static bool Prefix(ref TurnManager __instance, string specialBattleId)
@@ -32,10 +24,10 @@ public class TurnManagerPatches
 		Object.Destroy(__instance.SpecialSequencer);
 		__instance.SpecialSequencer = null;
 
-		if (GrimoraModBattleSequencers.ContainsKey(specialBattleId))
+		if (BaseBossExt.OpponentTupleBySpecialId.ContainsKey(specialBattleId))
 		{
-			__instance.SpecialSequencer =
-				__instance.gameObject.AddComponent(GrimoraModBattleSequencers[specialBattleId]) as SpecialBattleSequencer;
+			__instance.SpecialSequencer = __instance.gameObject
+					.AddComponent(BaseBossExt.OpponentTupleBySpecialId[specialBattleId].Item2) as SpecialBattleSequencer;
 
 			Log.LogDebug($"[UpdateSpecialSequencer][Prefix] SpecialSequencer is [{__instance.SpecialSequencer}]");
 		}

@@ -52,13 +52,6 @@ public class GrimoraChessboard
 		{ 3, () => AllPrefabs.Single(pb => pb.name.Equals("Blocker_Grimora")) },
 	};
 
-	private readonly Dictionary<string, Opponent.Type> _bossBySpecialId = new()
-	{
-		{ KayceeBossOpponent.SpecialId, BaseBossExt.KayceeOpponent },
-		{ SawyerBossOpponent.SpecialId, BaseBossExt.SawyerOpponent },
-		{ RoyalBossOpponentExt.SpecialId, BaseBossExt.RoyalOpponent },
-		{ GrimoraBossOpponentExt.SpecialId, BaseBossExt.GrimoraOpponent }
-	};
 
 	public GameObject GetActiveRegionBlockerPiece()
 	{
@@ -150,21 +143,7 @@ public class GrimoraChessboard
 
 	public static string GetBossSpecialIdForRegion()
 	{
-		switch (ConfigHelper.Instance.BossesDefeated)
-		{
-			case 1:
-				Log.LogDebug($"[GetBossSpecialIdForRegion] Kaycee defeated");
-				return SawyerBossOpponent.SpecialId;
-			case 2:
-				Log.LogDebug($"[GetBossSpecialIdForRegion] Sawyer defeated");
-				return RoyalBossOpponentExt.SpecialId;
-			case 3:
-				Log.LogDebug($"[GetBossSpecialIdForRegion] Royal defeated");
-				return GrimoraBossOpponentExt.SpecialId;
-			default:
-				Log.LogDebug($"[GetBossSpecialIdForRegion] No bosses defeated yet, creating Kaycee");
-				return KayceeBossOpponent.SpecialId;
-		}
+		return BaseBossExt.OpponentTupleBySpecialId.ElementAt(ConfigHelper.Instance.BossesDefeated).Key;
 	}
 
 	#endregion
@@ -218,13 +197,6 @@ public class GrimoraChessboard
 	{
 		// Log.LogDebug($"[GetPieceAtSpace] Getting piece at space x{x}y{y}");
 		return GetNodeAtSpace(x, y).OccupyingPiece;
-	}
-
-	private EncounterBlueprintData GetBlueprint()
-	{
-		// Log.LogDebug($"[GetBlueprint] ActiveBoss [{ActiveBossType}]");
-		var blueprints = BlueprintUtils.RegionWithBlueprints[ActiveBossType];
-		return blueprints[UnityEngine.Random.RandomRangeInt(0, blueprints.Count)];
 	}
 
 	#endregion
@@ -324,8 +296,12 @@ public class GrimoraChessboard
 			{
 				if (specialEncounterId.Contains("Boss"))
 				{
-					ActiveBossType = _bossBySpecialId.GetValueSafe(specialEncounterId);
-					enemyPiece.blueprint = BlueprintUtils.BossInitialBlueprints[specialEncounterId];
+					ActiveBossType = BaseBossExt.OpponentTupleBySpecialId.GetValueSafe(specialEncounterId).Item1;
+					if (ConfigHelper.Instance.BossesDefeated == 3)
+					{
+						// have to set the scale since the prefab is much larger
+						pieceObj.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+					}
 				}
 				else
 				{

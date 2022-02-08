@@ -7,6 +7,35 @@ namespace GrimoraMod;
 
 public abstract class BaseBossExt : Part1BossOpponent
 {
+	public static readonly Dictionary<string, Tuple<Opponent.Type, System.Type, EncounterBlueprintData>>
+		OpponentTupleBySpecialId = new()
+		{
+			{
+				"KayceeBoss", new Tuple<Type, System.Type, EncounterBlueprintData>(
+					KayceeOpponent, typeof(KayceeBossSequencer), BlueprintUtils.BuildKayceeBossInitialBlueprint()
+				)
+			},
+			{
+				"SawyerBoss", new Tuple<Type, System.Type, EncounterBlueprintData>(
+					SawyerOpponent, typeof(SawyerBattleSequencer), BlueprintUtils.BuildSawyerBossInitialBlueprint()
+				)
+			},
+			{
+				"RoyalBoss", new Tuple<Type, System.Type, EncounterBlueprintData>(
+					RoyalOpponent, typeof(RoyalBattleSequencer), BlueprintUtils.BuildRoyalBossInitialBlueprint()
+				)
+			},
+			{
+				"GrimoraBoss", new Tuple<Type, System.Type, EncounterBlueprintData>(
+					GrimoraOpponent, typeof(GrimoraBattleSequencer), BlueprintUtils.BuildGrimoraBossInitialBlueprint()
+				)
+			},
+			{
+				"GrimoraModBattleSequencer",
+				new Tuple<Type, System.Type, EncounterBlueprintData>(0, typeof(GrimoraModBattleSequencer), null)
+			}
+		};
+
 	public const string PrefabPathMasks = "Prefabs/Opponents/Leshy/Masks";
 	public const string PrefabPathRoyalBossSkull = "Prefabs/Opponents/Grimora/RoyalBossSkull";
 
@@ -29,6 +58,13 @@ public abstract class BaseBossExt : Part1BossOpponent
 	public abstract StoryEvent EventForDefeat { get; }
 
 	public abstract Type Opponent { get; }
+
+	public abstract string SpecialEncounterId { get; }
+
+	private void Start()
+	{
+		Blueprint = OpponentTupleBySpecialId[SpecialEncounterId].Item3;
+	}
 
 	protected internal GameObject Mask { get; set; }
 

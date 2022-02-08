@@ -8,12 +8,13 @@ namespace GrimoraMod;
 
 public class SawyerBossOpponent : BaseBossExt
 {
-	public const string SpecialId = "SawyerBoss";
 
 	public override StoryEvent EventForDefeat => StoryEvent.FactoryCuckooClockAppeared;
 
 	public override Type Opponent => SawyerOpponent;
 
+	public override string SpecialEncounterId => "SawyerBoss";
+	
 	public override string DefeatedPlayerDialogue => "My dogs will enjoy your bones!";
 
 	public override IEnumerator IntroSequence(EncounterData encounter)

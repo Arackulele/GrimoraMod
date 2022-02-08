@@ -8,12 +8,13 @@ namespace GrimoraMod;
 
 public class GrimoraBossOpponentExt : BaseBossExt
 {
-	public const string SpecialId = "GrimoraBoss";
 
 	public override StoryEvent EventForDefeat => StoryEvent.PhotoDroneSeenInCabin;
 
 	public override Type Opponent => GrimoraOpponent;
 
+	public override string SpecialEncounterId => "GrimoraBoss";
+	
 	public override string DefeatedPlayerDialogue => "Thank you!";
 
 	public override int StartingLives => 3;

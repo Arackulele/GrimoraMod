@@ -8,11 +8,10 @@ namespace GrimoraMod;
 
 public class KayceeBossOpponent : BaseBossExt
 {
-	public const string SpecialId = "KayceeBoss";
-
 	public override StoryEvent EventForDefeat => StoryEvent.FactoryConveyorBeltMoved;
 
 	public override Type Opponent => KayceeOpponent;
+	public override string SpecialEncounterId => "KayceeBoss";
 
 	public override string DefeatedPlayerDialogue => "Youuuuuuur, painnnfulllll deaaathhh awaiiitttsss youuuuuuu!";
 
@@ -64,7 +63,7 @@ public class KayceeBossOpponent : BaseBossExt
 			new() { bp_Draugr, bp_Revenant, bp_Draugr, bp_Draugr },
 			new() { bp_Draugr, bp_Draugr, bp_Revenant, bp_Draugr },
 			new() { bp_Draugr, bp_Draugr, bp_Draugr, bp_Revenant },
-			new() { bp_HeadlessHorseman, bp_Zombie, bp_Zombie, bp_Zombie},
+			new() { bp_HeadlessHorseman, bp_Zombie, bp_Zombie, bp_Zombie },
 		};
 
 		return blueprint;

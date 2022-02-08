@@ -170,26 +170,6 @@ public static class BlueprintUtils
 
 	#endregion
 
-	internal static readonly Dictionary<string, EncounterBlueprintData> BossInitialBlueprints = new()
-	{
-		{
-			KayceeBossOpponent.SpecialId,
-			BuildKayceeBossInitialBlueprint()
-		},
-		{
-			SawyerBossOpponent.SpecialId,
-			BuildSawyerBossInitialBlueprint()
-		},
-		{
-			RoyalBossOpponentExt.SpecialId,
-			BuildRoyalBossInitialBlueprint()
-		},
-		{
-			GrimoraBossOpponentExt.SpecialId,
-			BuildGrimoraBossInitialBlueprint()
-		}
-	};
-
 	internal static readonly Dictionary<Opponent.Type, List<EncounterBlueprintData>> RegionWithBlueprints = new()
 	{
 		{
@@ -255,7 +235,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildKayceeBossInitialBlueprint()
+	internal static EncounterBlueprintData BuildKayceeBossInitialBlueprint()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -365,7 +345,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildRoyalBossInitialBlueprint()
+	internal static EncounterBlueprintData BuildRoyalBossInitialBlueprint()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -470,7 +450,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildGrimoraBossInitialBlueprint()
+	internal static EncounterBlueprintData BuildGrimoraBossInitialBlueprint()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
@@ -573,7 +553,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildSawyerBossInitialBlueprint()
+	internal static EncounterBlueprintData BuildSawyerBossInitialBlueprint()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
