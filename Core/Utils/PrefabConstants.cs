@@ -35,7 +35,7 @@ public static class PrefabConstants
 
 	public static Material GoatEyeMat => ResourceBank.Get<Material>($"Art/Materials/Eyeball_Goat");
 
-	public static GameObject CardRemovalFigurine => AllPrefabs.Single(go => go.name.Equals("CardRemovalFigurine"));
+	public static GameObject CardRemovalFigurine => AllPrefabs.Single(go => go.name.Equals("ChessboardPiece_CardRemove"));
 
 	public static GameObject Tombstone3 =>
 		ResourceBank.Get<GameObject>($"{PathChessboardMap}/Chessboard_Tombstone_3");
@@ -46,7 +46,7 @@ public static class PrefabConstants
 	public static GameObject BoneyardGrave =>
 		AllPrefabs.Single(obj => obj.name.Equals("BoneyardBurialGrave", StringComparison.OrdinalIgnoreCase));
 
-	public static GameObject ElectricChair => AllPrefabs.Single(go => go.name.Equals("SpecialNode_ElectricChair"));
+	public static GameObject ElectricChair => AllPrefabs.Single(go => go.name.Equals("ChessboardPiece_ElectricChair"));
 
 	public static Material WoodenBoxMaterial =>
 		ResourceBank.Get<Material>($"{PathArt3D}/nodesequences/woodenbox/WoodenBox_Wood");

@@ -372,7 +372,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 	{
 		Log.LogDebug($"[Boneyard] creating grave");
 		CompositeFigurine grave = Instantiate(
-			AllPrefabs.Single(obj => obj.name.Equals("BoneyardBurialGrave", StringComparison.OrdinalIgnoreCase)),
+			PrefabConstants.BoneyardGrave,
 			new Vector3(0, 4f, 0.6f),
 			Quaternion.Euler(0, 90, 0),
 			cardStatObj.transform

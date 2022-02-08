@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3280183870
+CRC: 233765668
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 625ab29393ceb9ca6dab77a87adaac11
+    Hash: 19ec4cec70f31327673b31e75111f5a9
   TypeTreeHash:
     serializedVersion: 2
-    Hash: f675c8e5873dcf2f0ed97cbea1e09c0b
+    Hash: 42dec8856f4299359bb880c0b90a721a
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -29,7 +29,17 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 65
   Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
 - Class: 108
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4748a6205bb37a949b4c201d3f278959, type: 3}
+- Class: 115
   Script: {instanceID: 0}
 - Class: 135
   Script: {instanceID: 0}
@@ -40,9 +50,9 @@ Assets:
 - Assets/GrimoraMod/ChessboardPieces/Blocker_Kaycee.prefab
 - Assets/GrimoraMod/BoneyardBurialGrave.obj
 - Assets/GrimoraMod/ChessboardPieces/Blocker_Sawyer.prefab
+- Assets/GrimoraMod/ChessboardPieces/ChessboardPiece_CardRemove.prefab
 - Assets/Prefabs/Hexalantern.prefab
 - Assets/GrimoraMod/ChessboardPieces/Blocker_Grimora.prefab
-- Assets/GrimoraMod/Scythe/CardRemovalFigurine.prefab
-- Assets/GrimoraMod/SpecialNode_ElectricChair.prefab
+- Assets/GrimoraMod/ChessboardPieces/ChessboardPiece_ElectricChair.prefab
 - Assets/GrimoraMod/ChessboardPieces/Blocker_Royal.prefab
 Dependencies: []
