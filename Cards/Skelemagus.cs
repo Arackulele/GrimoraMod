@@ -5,7 +5,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameSkeletonMage = "GrimoraMod_SkeletonMage";
+	public const string NameSkelemagus = "GrimoraMod_SkeletonMagus";
 
 	private void Add_SkeletonMage()
 	{
@@ -15,7 +15,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(4, 1)
 			.SetEnergyCost(5)
 			.SetDescription("The Skelemagus, they have learned the ancient spell of Death.")
-			.SetNames(NameSkeletonMage, "Skelemagus")
+			.SetNames(NameSkelemagus, "Skelemagus")
 			.Build()
 		);
 	}

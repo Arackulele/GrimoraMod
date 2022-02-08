@@ -149,7 +149,7 @@ public static class BlueprintUtils
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_SkeletonMage = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameSkeletonMage)
+		card = CardLoader.GetCardByName(GrimoraPlugin.NameSkelemagus)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Sporedigger = new()
