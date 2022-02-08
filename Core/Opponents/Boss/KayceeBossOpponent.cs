@@ -29,7 +29,7 @@ public class KayceeBossOpponent : BaseBossExt
 		yield return base.IntroSequence(encounter);
 		yield return new WaitForSeconds(0.5f);
 
-		yield return base.FaceZoomSequence();
+		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
 			"Brrrr! I've been freezing for ages! Let's turn up the heat in a good fight!",
 			-0.65f,
@@ -60,21 +60,11 @@ public class KayceeBossOpponent : BaseBossExt
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_DrownedSoul },
-			new() { bp_Skeleton },
-			new() { bp_Draugr },
-			new() { },
-			new() { bp_Zombie },
-			new() { },
-			new() { bp_Zombie },
-			new() { },
-			new() { },
-			new() { bp_Draugr },
-			new() { bp_Zombie },
-			new() { },
-			new() { },
-			new() { bp_HeadlessHorseman },
-			new() { bp_Draugr }
+			new() { bp_Revenant, bp_Draugr, bp_Draugr, bp_Draugr },
+			new() { bp_Draugr, bp_Revenant, bp_Draugr, bp_Draugr },
+			new() { bp_Draugr, bp_Draugr, bp_Revenant, bp_Draugr },
+			new() { bp_Draugr, bp_Draugr, bp_Draugr, bp_Revenant },
+			new() { bp_HeadlessHorseman, bp_Zombie, bp_Zombie, bp_Zombie},
 		};
 
 		return blueprint;
@@ -83,27 +73,17 @@ public class KayceeBossOpponent : BaseBossExt
 	public override IEnumerator StartNewPhaseSequence()
 	{
 		{
-			yield return base.FaceZoomSequence();
+			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"I'm still not feeling Warmer!",
 				-0.65f,
 				0.4f
 			);
 
-			yield return this.ClearBoard();
-			var playerSlotsWithCards = CardSlotUtils.GetPlayerSlotsWithCards();
-			foreach (var playerSlot in playerSlotsWithCards)
-			{
-				// card.SetIsOpponentCard();
-				// card.transform.eulerAngles += new Vector3(0f, 0f, -180f);
-				yield return BoardManager.Instance.CreateCardInSlot(
-					playerSlot.Card.Info, playerSlot.opposingSlot, 0.25f
-				);
-			}
+			yield return ClearBoard();
 
 			yield return base.ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
 		}
-		yield break;
 	}
 
 	public override IEnumerator OutroSequence(bool wasDefeated)
@@ -120,7 +100,7 @@ public class KayceeBossOpponent : BaseBossExt
 			// this will put the mask away
 			yield return base.OutroSequence(true);
 
-			yield return base.FaceZoomSequence();
+			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"This next area was made by Sawyer, one of my Ghouls.\nHe says it is terrible.",
 				-0.65f,
