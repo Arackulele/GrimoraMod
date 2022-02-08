@@ -23,18 +23,14 @@ public class GoatEyePatch
 	{
 		yield return enumerator;
 
-		// GrimoraPlugin.Log.LogDebug($"[GoatEye] Getting player marker");
 		Vector3 playerPos = Object.FindObjectOfType<PlayerMarker>().transform.position;
 		foreach (var goatEyePiece in Object.FindObjectsOfType<ChessboardGoatEyePiece>())
 		{
-			// Log.LogDebug($"[GoatEyePatch] Rotating [{goatEyePiece}]");
 			TurnToFacePoint(goatEyePiece.gameObject, playerPos, 0.1f);
 		}
 
-		// GrimoraPlugin.Log.LogDebug($"[GoatEyePatch] Checking if bosses defeated is 3");
 		if (ConfigHelper.Instance.BossesDefeated == 3)
 		{
-			// GrimoraPlugin.Log.LogDebug($"[GoatEyePatch] Rotating all skulls");
 			foreach (var blocker in Object.FindObjectsOfType<ChessboardBlockerPieceExt>())
 			{
 				TurnToFacePoint(blocker.gameObject, playerPos, 0.1f);
