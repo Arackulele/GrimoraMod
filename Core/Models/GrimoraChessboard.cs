@@ -207,8 +207,11 @@ public class GrimoraChessboard
 	{
 		int newX = x == -1 ? BossNode.GridX : x;
 		int newY = x == -1 ? BossNode.GridY : y;
+		GameObject prefabToUse = ConfigHelper.Instance.BossesDefeated == 3
+			? ResourceBank.Get<GameObject>("Prefabs/Opponents/Grimora/GrimoraAnim")
+			: PrefabConstants.BossPiece.gameObject;
 		return CreateChessPiece<ChessboardEnemyPiece>(
-			PrefabConstants.BossPiece.gameObject,
+			prefabToUse,
 			newX,
 			newY,
 			bossName
@@ -290,6 +293,11 @@ public class GrimoraChessboard
 	{
 		GameObject pieceObj = Object.Instantiate(prefab, ChessboardMapExt.Instance.dynamicElementsParent);
 
+		if (pieceObj.GetComponent<T>() is null)
+		{
+			pieceObj.AddComponent<T>();
+		}
+
 		switch (pieceObj.GetComponent<T>())
 		{
 			case ChessboardEnemyPiece enemyPiece:
@@ -303,26 +311,15 @@ public class GrimoraChessboard
 						pieceObj.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
 					}
 				}
-				else
-				{
-					enemyPiece.blueprint = GetBlueprint();
-				}
 
 				enemyPiece.specialEncounterId = specialEncounterId;
 				break;
 			}
-			default:
-				if (pieceObj.GetComponent<T>() is null)
-				{
-					pieceObj.AddComponent<T>();
-				}
+			case ChessboardGoatEyePiece goatEyePiece:
 
-				if (typeof(T) == typeof(ChessboardGoatEyePiece))
-				{
-					pieceObj.GetComponent<MeshRenderer>().material = PrefabConstants.GoatEyeMat;
-					pieceObj.GetComponent<MeshRenderer>().sharedMaterial = PrefabConstants.GoatEyeMat;
-					pieceObj.GetComponent<Rigidbody>().useGravity = false;
-				}
+				goatEyePiece.GetComponent<MeshRenderer>().material = PrefabConstants.GoatEyeMat;
+				goatEyePiece.GetComponent<MeshRenderer>().sharedMaterial = PrefabConstants.GoatEyeMat;
+				goatEyePiece.GetComponent<Rigidbody>().useGravity = false;
 
 				break;
 		}
