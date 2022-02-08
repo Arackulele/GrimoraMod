@@ -64,7 +64,7 @@ namespace GrimoraMod
 
 		public static AbilityIdentifier GetAbilityId(string rulebookName)
 		{
-			return AbilityIdentifier.GetID(PluginGuid, rulebookName);
+			return AbilityIdentifier.GetID(GUID, rulebookName);
 		}
 	}
 }

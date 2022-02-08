@@ -62,13 +62,13 @@ public class ConfigHelper
 		Log.LogDebug($"Binding config");
 
 		_configCurrentChessboardIndex
-			= GrimoraConfigFile.Bind(PluginName, "Current chessboard layout index", 0);
+			= GrimoraConfigFile.Bind(Name, "Current chessboard layout index", 0);
 
 		_configBossesDefeated
-			= GrimoraConfigFile.Bind(PluginName, "Number of bosses defeated", 0);
+			= GrimoraConfigFile.Bind(Name, "Number of bosses defeated", 0);
 
 		_configCurrentRemovedPieces = GrimoraConfigFile.Bind(
-			PluginName,
+			Name,
 			"Current Removed Pieces",
 			DefaultRemovedPiecesList,
 			new ConfigDescription("Contains all the current removed pieces." +
@@ -76,14 +76,14 @@ public class ConfigHelper
 		);
 
 		_configDeveloperMode = GrimoraConfigFile.Bind(
-			PluginName,
+			Name,
 			"Enable Developer Mode",
 			false,
 			new ConfigDescription("Does not generate blocker pieces. Chests fill first row, enemy pieces fill first column.")
 		);
 
 		_configHotReloadEnabled = GrimoraConfigFile.Bind(
-			PluginName,
+			Name,
 			"Enable Hot Reload",
 			false,
 			new ConfigDescription(
@@ -121,7 +121,7 @@ public class ConfigHelper
 
 		if (!AbilitiesUtil.allData.IsNullOrEmpty())
 		{
-			NewAbility.abilities.RemoveAll(ab => ab.id.ToString().StartsWith(PluginGuid));
+			NewAbility.abilities.RemoveAll(ab => ab.id.ToString().StartsWith(GUID));
 		}
 	}
 
@@ -144,11 +144,11 @@ public class ConfigHelper
 			{
 				Log.LogDebug($"All data is not null, concatting GrimoraMod abilities");
 				AbilitiesUtil.allData.RemoveAll(info =>
-					NewAbility.abilities.Exists(na => na.id.ToString().StartsWith(PluginGuid) && na.ability == info.ability));
+					NewAbility.abilities.Exists(na => na.id.ToString().StartsWith(GUID) && na.ability == info.ability));
 
 				AbilitiesUtil.allData = AbilitiesUtil.allData
 					.Concat(
-						NewAbility.abilities.Where(ab => ab.id.ToString().StartsWith(PluginGuid)).Select(_ => _.info)
+						NewAbility.abilities.Where(ab => ab.id.ToString().StartsWith(GUID)).Select(_ => _.info)
 					)
 					.ToList();
 			}

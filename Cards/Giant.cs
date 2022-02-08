@@ -33,7 +33,7 @@ public class GrimoraGiant : SpecialCardBehaviour
 
 	public static NewSpecialAbility Create()
 	{
-		var sId = SpecialAbilityIdentifier.GetID(PluginGuid, "!GRIMORA_GIANT");
+		var sId = SpecialAbilityIdentifier.GetID(GUID, "!GRIMORA_GIANT");
 
 		return new NewSpecialAbility(typeof(GrimoraGiant), sId);
 	}

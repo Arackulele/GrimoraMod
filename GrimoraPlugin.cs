@@ -11,12 +11,12 @@ using UnityEngine;
 namespace GrimoraMod;
 
 [BepInDependency("cyantist.inscryption.api")]
-[BepInPlugin(PluginGuid, PluginName, PluginVersion)]
+[BepInPlugin(GUID, Name, Version)]
 public partial class GrimoraPlugin : BaseUnityPlugin
 {
-	public const string PluginGuid = "arackulele.inscryption.grimoramod";
-	public const string PluginName = "GrimoraMod";
-	private const string PluginVersion = "2.5.0";
+	public const string GUID = "arackulele.inscryption.grimoramod";
+	public const string Name = "GrimoraMod";
+	private const string Version = "2.5.0";
 
 	internal static ManualLogSource Log;
 
@@ -65,7 +65,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		Log = Logger;
 
-		_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), PluginGuid);
+		_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
 
 		ConfigHelper.Instance.BindConfig();
 
