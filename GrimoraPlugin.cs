@@ -26,6 +26,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	public static Sprite[] AllSprites;
 	public static Texture[] AllAbilityTextures;
 	public static Material[] AllMats;
+	// Gets populated in CardBuilder.Build()
+	public static List<CardInfo> AllGrimoraModCards;
 
 
 	private static readonly List<StoryEvent> StoryEventsToBeCompleteBeforeStarting = new()

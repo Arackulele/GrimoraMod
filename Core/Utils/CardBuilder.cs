@@ -19,6 +19,7 @@ public class CardBuilder
 			_cardInfo.appearanceBehaviour = CardUtils.getRareAppearance;
 		}
 
+		AllGrimoraModCards.Add(_cardInfo);
 		return _cardInfo;
 	}
 
