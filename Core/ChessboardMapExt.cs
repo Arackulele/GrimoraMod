@@ -175,7 +175,7 @@ public class ChessboardMapExt : GameMap
 		});
 
 		// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Clearing removedPiecesConfig");
-		ConfigHelper.Instance._configCurrentRemovedPieces.Value = ConfigHelper.DefaultRemovedPiecesList;
+		ConfigHelper.Instance.ResetRemovedPieces();
 	}
 
 	public override IEnumerator UnrollingSequence(float unrollSpeed)

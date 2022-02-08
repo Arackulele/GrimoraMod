@@ -100,6 +100,9 @@ public class DebugHelper : ManagedBehaviour
 					case "Add Bones":
 						ResourcesManager.Instance.StartCoroutine(ResourcesManager.Instance.AddBones(25));
 						break;
+					case "Reset Removed Pieces":
+						ConfigHelper.Instance.ResetRemovedPieces();
+						break;
 				}
 			}
 		}
@@ -134,7 +137,7 @@ public class DebugHelper : ManagedBehaviour
 					{
 						var copy = ConfigHelper.Instance.RemovedPieces;
 						copy.RemoveAll(piece => piece.Contains("Chest"));
-						ConfigHelper.Instance._configCurrentRemovedPieces.Value = copy.Join();
+						ConfigHelper.Instance.RemovedPieces = copy;
 						ChessboardMapExt.Instance
 							.ActiveChessboard
 							.PlacePiece<ChessboardChestPiece>(i, 0, specialNodeData: specialNode);
@@ -163,7 +166,7 @@ public class DebugHelper : ManagedBehaviour
 			{
 				var copy = ConfigHelper.Instance.RemovedPieces;
 				copy.RemoveAll(piece => piece.Contains("Enemy"));
-				ConfigHelper.Instance._configCurrentRemovedPieces.Value = copy.Join();
+				ConfigHelper.Instance.RemovedPieces = copy;
 				for (int i = 0; i < 8; i++)
 				{
 					ChessboardMapExt.Instance.ActiveChessboard.PlacePiece<ChessboardEnemyPiece>(0, i);

@@ -14,7 +14,7 @@ public class ConfigHelper
 		StoryEvent.BasicTutorialCompleted, StoryEvent.TutorialRunCompleted, StoryEvent.BonesTutorialCompleted,
 		StoryEvent.TutorialRun2Completed, StoryEvent.TutorialRun3Completed
 	};
-	
+
 	private static ConfigHelper m_Instance;
 	public static ConfigHelper Instance => m_Instance ??= new ConfigHelper();
 
@@ -23,7 +23,7 @@ public class ConfigHelper
 		true
 	);
 
-	public const string DefaultRemovedPiecesList =
+	public const string DefaultRemovedPieces =
 		"BossFigurine," +
 		"ChessboardChestPiece," +
 		"EnemyPiece_Skelemagus,EnemyPiece_Gravedigger," +
@@ -58,9 +58,13 @@ public class ConfigHelper
 
 	public bool isHotReloadEnabled => _configHotReloadEnabled.Value;
 
-	protected internal ConfigEntry<string> _configCurrentRemovedPieces;
+	private ConfigEntry<string> _configCurrentRemovedPieces;
 
-	public List<string> RemovedPieces => _configCurrentRemovedPieces.Value.Split(',').Distinct().ToList();
+	public List<string> RemovedPieces
+	{
+		get => _configCurrentRemovedPieces.Value.Split(',').Distinct().ToList();
+		set => _configCurrentRemovedPieces.Value = string.Join(",", value);
+	}
 
 	internal void BindConfig()
 	{
@@ -75,7 +79,7 @@ public class ConfigHelper
 		_configCurrentRemovedPieces = GrimoraConfigFile.Bind(
 			Name,
 			"Current Removed Pieces",
-			DefaultRemovedPiecesList,
+			DefaultRemovedPieces,
 			new ConfigDescription("Contains all the current removed pieces." +
 			                      "\nDo not alter this list unless you know what you are doing!")
 		);
@@ -110,7 +114,7 @@ public class ConfigHelper
 		ResetConfigDataIfGrimoraHasNotReachedTable();
 
 		HandleHotReloadBefore();
-		
+
 		UnlockAllNecessaryEventsToPlay();
 	}
 
@@ -190,8 +194,8 @@ public class ConfigHelper
 	{
 		Log.LogWarning($"Resetting Grimora Mod config");
 		_configBossesDefeated.Value = 0;
-		_configCurrentRemovedPieces.Value = DefaultRemovedPiecesList;
 		_configCurrentChessboardIndex.Value = 0;
+		ResetRemovedPieces();
 	}
 
 	private void ResetConfigDataIfGrimoraHasNotReachedTable()
@@ -202,7 +206,7 @@ public class ConfigHelper
 			ResetConfig();
 		}
 	}
-	
+
 	private static void UnlockAllNecessaryEventsToPlay()
 	{
 		if (!StoryEventsToBeCompleteBeforeStarting.TrueForAll(StoryEventsData.EventCompleted))
@@ -217,6 +221,11 @@ public class ConfigHelper
 	public void AddPieceToRemovedPiecesConfig(string pieceName)
 	{
 		_configCurrentRemovedPieces.Value += "," + pieceName + ",";
+	}
+
+	public void ResetRemovedPieces()
+	{
+		_configCurrentRemovedPieces.Value = DefaultRemovedPieces;
 	}
 
 	public void SetBossDefeatedInConfig(BaseBossExt boss)
