@@ -6,8 +6,8 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameGraveDigger = "ara_Gravedigger";
-	public const string NameSporeDigger = "ara_Sporedigger";
+	public const string NameGraveDigger = "GrimoraMod_Gravedigger";
+	public const string NameSporeDigger = "GrimoraMod_Sporedigger";
 
 	private void AddAra_GraveDigger()
 	{

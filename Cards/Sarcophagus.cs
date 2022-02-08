@@ -5,7 +5,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameSarcophagus = "ara_Sarcophagus";
+	public const string NameSarcophagus = "GrimoraMod_Sarcophagus";
 
 	private void AddAra_Sarcophagus()
 	{

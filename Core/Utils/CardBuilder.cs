@@ -37,7 +37,7 @@ public class CardBuilder
 	{
 		if (ogCardArt is null)
 		{
-			cardName = cardName.Replace("ara_", "");
+			cardName = cardName.Replace("GrimoraMod_", "");
 			// Log.LogDebug($"Looking in AllSprites for [{cardName}]");
 			_cardInfo.portraitTex = AllSprites.Single(
 				spr => spr.name.Equals(cardName, StringComparison.OrdinalIgnoreCase)

@@ -5,7 +5,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameFamily = "ara_Family";
+	public const string NameFamily = "GrimoraMod_Family";
 
 	private void AddAra_Family()
 	{

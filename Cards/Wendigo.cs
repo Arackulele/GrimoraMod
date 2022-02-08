@@ -5,7 +5,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameWendigo = "ara_Wendigo";
+	public const string NameWendigo = "GrimoraMod_Wendigo";
 
 	private void AddAra_Wendigo()
 	{

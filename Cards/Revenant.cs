@@ -5,7 +5,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameRevenant = "ara_Revenant";
+	public const string NameRevenant = "GrimoraMod_Revenant";
 
 	private void AddAra_Revenant()
 	{

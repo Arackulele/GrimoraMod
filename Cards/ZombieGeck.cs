@@ -5,7 +5,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameZombieGeck = "ara_ZombieGeck";
+	public const string NameZombieGeck = "GrimoraMod_ZombieGeck";
 
 	private void AddAra_ZombieGeck()
 	{

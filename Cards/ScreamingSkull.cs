@@ -8,7 +8,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameScreamingSkull = "ara_ScreamingSkull";
+	public const string NameScreamingSkull = "GrimoraMod_ScreamingSkull";
 
 	private void AddAra_ScreamingSkull()
 	{

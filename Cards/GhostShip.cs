@@ -5,7 +5,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameGhostShip = "ara_GhostShip";
+	public const string NameGhostShip = "GrimoraMod_GhostShip";
 
 	private void AddAra_GhostShip()
 	{

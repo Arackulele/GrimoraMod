@@ -9,7 +9,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameGiant = "ara_Giant";
+	public const string NameGiant = "GrimoraMod_Giant";
 
 	private void AddAra_Giant()
 	{

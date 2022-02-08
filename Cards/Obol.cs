@@ -5,7 +5,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameObol = "ara_Obol";
+	public const string NameObol = "GrimoraMod_Obol";
 
 	private void AddAra_Obol()
 	{

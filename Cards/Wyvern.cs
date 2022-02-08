@@ -5,7 +5,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameWyvern = "ara_Wyvern";
+	public const string NameWyvern = "GrimoraMod_Wyvern";
 
 	private void AddAra_Wyvern()
 	{

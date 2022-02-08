@@ -5,7 +5,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameSkeletonArmy = "ara_SkeletonArmy";
+	public const string NameSkeletonArmy = "GrimoraMod_SkeletonArmy";
 
 	private void AddAra_SkeletonArmy()
 	{

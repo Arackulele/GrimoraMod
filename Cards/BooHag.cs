@@ -5,7 +5,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameBooHag = "ara_BooHag";
+	public const string NameBooHag = "GrimoraMod_BooHag";
 
 	private void AddAra_BooHag()
 	{

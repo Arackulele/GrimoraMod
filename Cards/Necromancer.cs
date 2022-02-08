@@ -5,7 +5,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameNecromancer = "ara_Necromancer";
+	public const string NameNecromancer = "GrimoraMod_Necromancer";
 
 	private void AddAra_Necromancer()
 	{

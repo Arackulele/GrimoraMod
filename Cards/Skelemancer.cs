@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameSkelemancer = "ara_Skelemancer";
+	public const string NameSkelemancer = "GrimoraMod_Skelemancer";
 
 	private void AddAra_Skelemancer()
 	{

@@ -25,7 +25,7 @@ public static class ImageUtils
 
 	public static Texture2D LoadTextureFromFile(string nameOfCardArt)
 	{
-		nameOfCardArt = nameOfCardArt.Replace("ara_", "");
+		nameOfCardArt = nameOfCardArt.Replace("GrimoraMod_", "");
 		if (!nameOfCardArt.EndsWith(".png"))
 		{
 			nameOfCardArt += ".png";

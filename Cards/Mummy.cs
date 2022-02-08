@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameMummy = "ara_Mummy";
+	public const string NameMummy = "GrimoraMod_Mummy";
 
 	private void AddAra_Mummy()
 	{

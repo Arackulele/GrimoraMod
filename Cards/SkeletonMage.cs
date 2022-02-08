@@ -5,7 +5,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameSkeletonMage = "ara_SkeletonMage";
+	public const string NameSkeletonMage = "GrimoraMod_SkeletonMage";
 
 	private void AddAra_SkeletonMage()
 	{

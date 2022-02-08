@@ -189,7 +189,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 				.SetBaseAttackAndHealth(cardInfo.baseAttack, cardInfo.baseHealth)
 				.SetBoneCost(cardInfo.bonesCost)
 				.SetDescription(cardInfo.description)
-				.SetNames("ara_" + cardInfo.name, cardInfo.displayedName)
+				.SetNames("GrimoraMod_" + cardInfo.name, cardInfo.displayedName)
 				.SetTribes(cardInfo.tribes.ToArray());
 
 			if (cardName == "Amoeba")

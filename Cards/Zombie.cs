@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameZombie = "ara_Zombie";
+	public const string NameZombie = "GrimoraMod_Zombie";
 
 	private void AddAra_Zombie()
 	{

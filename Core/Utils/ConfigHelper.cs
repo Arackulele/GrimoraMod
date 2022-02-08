@@ -115,7 +115,7 @@ public class ConfigHelper
 		{
 			if (!CardLoader.allData.IsNullOrEmpty())
 			{
-				NewCard.cards.RemoveAll(card => card.name.StartsWith("ara_"));
+				NewCard.cards.RemoveAll(card => card.name.StartsWith("GrimoraMod_"));
 			}
 		}
 
@@ -131,10 +131,10 @@ public class ConfigHelper
 		{
 			if (!CardLoader.allData.IsNullOrEmpty())
 			{
-				int removed = CardLoader.allData.RemoveAll(info => info.name.StartsWith("ara_"));
+				int removed = CardLoader.allData.RemoveAll(info => info.name.StartsWith("GrimoraMod_"));
 				Log.LogDebug($"All data is not null, concatting GrimoraMod cards. Removed [{removed}] cards.");
 				CardLoader.allData = CardLoader.allData.Concat(
-						NewCard.cards.Where(card => card.name.StartsWith("ara_"))
+						NewCard.cards.Where(card => card.name.StartsWith("GrimoraMod_"))
 					)
 					.Distinct()
 					.ToList();

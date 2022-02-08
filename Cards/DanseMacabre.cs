@@ -5,7 +5,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameDanseMacabre = "ara_DanseMacabre";
+	public const string NameDanseMacabre = "GrimoraMod_DanseMacabre";
 	
 	private void AddAra_DanseMacabre()
 	{

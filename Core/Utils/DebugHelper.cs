@@ -89,7 +89,7 @@ public class DebugHelper : ManagedBehaviour
 					case "Add All Grimora Cards":
 						GrimoraSaveUtil.ClearDeck();
 						GrimoraSaveUtil.DeckList.AddRange(
-							NewCard.cards.FindAll(card => card.name.StartsWith("ara_"))
+							NewCard.cards.FindAll(card => card.name.StartsWith("GrimoraMod_"))
 						);
 						SaveManager.SaveToFile();
 						break;

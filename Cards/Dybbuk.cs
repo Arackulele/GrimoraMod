@@ -7,7 +7,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameDybbuk = "ara_Dybbuk";
+	public const string NameDybbuk = "GrimoraMod_Dybbuk";
 
 	private void AddAra_Dybbuk()
 	{

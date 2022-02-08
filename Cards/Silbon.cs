@@ -8,7 +8,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameSilbon = "ara_Silbon";
+	public const string NameSilbon = "GrimoraMod_Silbon";
 
 	private void AddAra_Silbon()
 	{
