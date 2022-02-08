@@ -180,7 +180,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		var leftAndRightQueueSlots = GetFarLeftAndFarRightQueueSlots();
 		
 		CardInfo bonelordsHorn = NameBoneLordsHorn.GetCardInfo();
-		bonelordsHorn.mods.Add(new CardModificationInfo() { attackAdjustment = 1 });
+		bonelordsHorn.mods.Add(new CardModificationInfo() { attackAdjustment = 2 });
 		bonelordsHorn.abilities.Remove(Ability.QuadrupleBones);
 		for (int i = 0; i < oppSlots.Count; i++)
 		{
