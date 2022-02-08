@@ -37,10 +37,8 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			TableRuleBook.Instance.enabled = false;
 			Log.LogDebug($"[PreCleanUp] Glitching rulebook");
 			GlitchOutAssetEffect.GlitchModel(TableRuleBook.Instance.transform);
-
 			yield return new WaitForSeconds(0.75f);
 
-			// yield return TextDisplayer.Instance.ShowUntilInput("Let the circle reset");
 
 			yield return TextDisplayer.Instance.PlayDialogueEvent(
 				"RoyalBossDeleted",

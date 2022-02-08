@@ -33,10 +33,7 @@ public class KayceeBossOpponent : BaseBossExt
 		yield return TextDisplayer.Instance.ShowUntilInput(
 			"Brrrr! I've been freezing for ages! Let's turn up the heat in a good fight!",
 			-0.65f,
-			0.4f,
-			Emotion.Neutral,
-			TextDisplayer.LetterAnimation.Jitter,
-			DialogueEvent.Speaker.Single, null, true
+			0.4f
 		);
 
 		ViewManager.Instance.SwitchToView(View.Default);
@@ -90,10 +87,7 @@ public class KayceeBossOpponent : BaseBossExt
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"I'm still not feeling Warmer!",
 				-0.65f,
-				0.4f,
-				Emotion.Neutral,
-				TextDisplayer.LetterAnimation.Jitter,
-				DialogueEvent.Speaker.Single, null, true
+				0.4f
 			);
 
 			yield return this.ClearBoard();
@@ -120,10 +114,7 @@ public class KayceeBossOpponent : BaseBossExt
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"Oh come on dude, I'm still Cold! Lets fight again soon!",
 				-0.65f,
-				0.4f,
-				Emotion.Neutral,
-				TextDisplayer.LetterAnimation.Jitter,
-				DialogueEvent.Speaker.Single, null, true
+				0.4f
 			);
 
 			// this will put the mask away
@@ -133,10 +124,7 @@ public class KayceeBossOpponent : BaseBossExt
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"This next area was made by Sawyer, one of my Ghouls.\nHe says it is terrible.",
 				-0.65f,
-				0.4f,
-				Emotion.Neutral,
-				TextDisplayer.LetterAnimation.Jitter,
-				DialogueEvent.Speaker.Single, null, true
+				0.4f
 			);
 		}
 		else
@@ -145,10 +133,7 @@ public class KayceeBossOpponent : BaseBossExt
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				DefeatedPlayerDialogue,
 				-0.65f,
-				0.4f,
-				Emotion.Neutral,
-				TextDisplayer.LetterAnimation.Jitter,
-				DialogueEvent.Speaker.Single, null, true
+				0.4f
 			);
 		}
 

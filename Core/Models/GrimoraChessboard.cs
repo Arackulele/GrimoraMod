@@ -175,7 +175,6 @@ public class GrimoraChessboard
 
 	public void SetupBoard()
 	{
-		Log.LogDebug($"[SetupBoard]");
 		PlaceBossPiece(GetBossSpecialIdForRegion());
 		PlacePieces<ChessboardBlockerPieceExt>();
 		PlacePieces<ChessboardBoneyardPiece>();
@@ -191,16 +190,6 @@ public class GrimoraChessboard
 		int x = GrimoraSaveData.Data.gridX;
 		int y = GrimoraSaveData.Data.gridY;
 
-		Log.LogDebug($"[HandlePlayerMarkerPosition] " +
-		             $"Player Marker name [{PlayerMarker.Instance.name}] " +
-		             $"x{x}y{y} coords");
-
-		var occupyingPiece = GetPieceAtSpace(x, y);
-
-		bool isPlayerOccupied = occupyingPiece is not null && PlayerMarker.Instance.name == occupyingPiece.name;
-
-		Log.LogDebug($"[HandlePlayerMarkerPosition] isPlayerOccupied? [{isPlayerOccupied}]");
-
 		if (changingRegion || !StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable))
 		{
 			// the PlayerNode will be different since this is now a different chessboard
@@ -209,12 +198,9 @@ public class GrimoraChessboard
 		}
 
 		MapNodeManager.Instance.ActiveNode = ChessboardNavGrid.instance.zones[x, y].GetComponent<MapNode>();
-		Log.LogDebug($"[SetupGamePieces] MapNodeManager ActiveNode is x[{x}]y[{y}]");
 
-		Log.LogDebug($"[SetupGamePieces] SetPlayerAdjacentNodesActive");
 		ChessboardNavGrid.instance.SetPlayerAdjacentNodesActive();
 
-		Log.LogDebug($"[SetupGamePieces] Setting player position to active node");
 		PlayerMarker.Instance.transform.position = MapNodeManager.Instance.ActiveNode.transform.position;
 	}
 
