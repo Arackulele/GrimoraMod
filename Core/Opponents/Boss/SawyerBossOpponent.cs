@@ -76,28 +76,23 @@ public class SawyerBossOpponent : BaseBossExt
 				);
 			}
 
-
-			var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-			blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
-			{
-				new() { },
-				new() { bp_PlagueDoctor },
-				new() { },
-				new() { bp_PlagueDoctor },
-				new() { },
-				new() { bp_Bonehound },
-				new() { },
-				new() { },
-				new() { bp_PlagueDoctor },
-				new() { bp_PlagueDoctor },
-				new() { },
-				new() { bp_Sarcophagus },
-				new() { bp_PlagueDoctor, bp_PlagueDoctor }
-			};
-
-			yield return ReplaceBlueprintCustom(blueprint);
+			yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
 		}
 		yield break;
+	}
+
+	public EncounterBlueprintData BuildNewPhaseBlueprint()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Bonehound, bp_Obol, bp_Obol, bp_Bonehound},
+			new() { bp_Bonehound, bp_Sarcophagus, bp_Sarcophagus, bp_Bonehound },
+			new() { bp_Bonehound, bp_PlagueDoctor, bp_PlagueDoctor, bp_Bonehound },
+			new() { bp_Bonehound, bp_ArmoredZombie, bp_ArmoredZombie, bp_Bonehound },
+		};
+
+		return blueprint;
 	}
 
 	public override IEnumerator OutroSequence(bool wasDefeated)
