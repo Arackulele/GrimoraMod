@@ -23,7 +23,7 @@ public class GrimoraChessboard
 			},
 			{
 				typeof(ChessboardCardRemovePiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.SkinningKnife, GetCardRemovalNodes)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.CardRemovalFigurine, GetCardRemovalNodes)
 			},
 			{
 				typeof(ChessboardChestPiece),

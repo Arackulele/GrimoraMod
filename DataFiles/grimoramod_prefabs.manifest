@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2316851382
+CRC: 1421812301
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: cd5c3c2192cd44f1995a2223eff56025
+    Hash: 1ce335a39324f92c3a308e49958c44dd
   TypeTreeHash:
     serializedVersion: 2
     Hash: f675c8e5873dcf2f0ed97cbea1e09c0b
@@ -42,6 +42,7 @@ Assets:
 - Assets/GrimoraMod/Blocker_Sawyer.prefab
 - Assets/Prefabs/Hexalantern.prefab
 - Assets/GrimoraMod/Blocker_Grimora.prefab
+- Assets/GrimoraMod/Scythe/Gravedigger_CardRemove.prefab
 - Assets/GrimoraMod/SpecialNode_ElectricChair.prefab
 - Assets/GrimoraMod/Blocker_Royal.prefab
 Dependencies: []

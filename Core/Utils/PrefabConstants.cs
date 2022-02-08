@@ -35,7 +35,7 @@ public static class PrefabConstants
 
 	public static Material GoatEyeMat => ResourceBank.Get<Material>($"Art/Materials/Eyeball_Goat");
 
-	public static GameObject SkinningKnife => ResourceBank.Get<GameObject>($"{PathSpecialNodes}/SkinningKnife");
+	public static GameObject CardRemovalFigurine => AllPrefabs.Single(go => go.name.Equals("Gravedigger_CardRemove"));
 
 	public static GameObject Tombstone3 =>
 		ResourceBank.Get<GameObject>($"{PathChessboardMap}/Chessboard_Tombstone_3");
