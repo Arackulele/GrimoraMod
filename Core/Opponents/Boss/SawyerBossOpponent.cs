@@ -74,7 +74,7 @@ public class SawyerBossOpponent : BaseBossExt
 				// card.SetIsOpponentCard();
 				// card.transform.eulerAngles += new Vector3(0f, 0f, -180f);
 				yield return BoardManager.Instance.CreateCardInSlot(
-					CardLoader.GetCardByName("ara_Obol"), playerSlot.opposingSlot, 0.25f
+					CardLoader.GetCardByName(NameObol), playerSlot.opposingSlot, 0.25f
 				);
 			}
 
