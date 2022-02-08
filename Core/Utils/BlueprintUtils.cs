@@ -1,5 +1,6 @@
 using DiskCardGame;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -14,157 +15,157 @@ public static class BlueprintUtils
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Bonelord = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameBonelord)
+		card = CardLoader.GetCardByName(NameBonelord)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Bonepile = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameBonepile)
+		card = CardLoader.GetCardByName(NameBonepile)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_BonePrince = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameBonePrince)
+		card = CardLoader.GetCardByName(NameBonePrince)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_PlagueDoctor = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NamePlagueDoctor)
+		card = CardLoader.GetCardByName(NamePlagueDoctor)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_ArmoredZombie = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameArmoredZombie)
+		card = CardLoader.GetCardByName(NameArmoredZombie)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Summoner = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameSummoner)
+		card = CardLoader.GetCardByName(NameSummoner)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_DeadHand = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameDeadHand)
+		card = CardLoader.GetCardByName(NameDeadHand)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_DeadPets = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameDeadPets)
+		card = CardLoader.GetCardByName(NameDeadPets)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Draugr = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameDraugr)
+		card = CardLoader.GetCardByName(NameDraugr)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_DrownedSoul = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameDrownedSoul)
+		card = CardLoader.GetCardByName(NameDrownedSoul)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_EmberSpirit = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameEmberSpirit)
+		card = CardLoader.GetCardByName(NameEmberSpirit)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Family = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameFamily)
+		card = CardLoader.GetCardByName(NameFamily)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Flames = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameFlames)
+		card = CardLoader.GetCardByName(NameFlames)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_FrankAndStein = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameFranknstein)
+		card = CardLoader.GetCardByName(NameFranknstein)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_GhostShip = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameGhostShip)
+		card = CardLoader.GetCardByName(NameGhostShip)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Gravedigger = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameGraveDigger)
+		card = CardLoader.GetCardByName(NameGravedigger)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_HeadlessHorseman = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameHeadlessHorseman)
+		card = CardLoader.GetCardByName(NameHeadlessHorseman)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Hydra = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameHydra)
+		card = CardLoader.GetCardByName(NameHydra)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_MudWorm = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameMudWorm)
+		card = CardLoader.GetCardByName(NameMudWorm)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Mummy = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameMummy)
+		card = CardLoader.GetCardByName(NameMummy)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Necromancer = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameNecromancer)
+		card = CardLoader.GetCardByName(NameNecromancer)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Obol = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameObol)
+		card = CardLoader.GetCardByName(NameObol)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Poltergeist = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NamePoltergeist)
+		card = CardLoader.GetCardByName(NamePoltergeist)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Revenant = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameRevenant)
+		card = CardLoader.GetCardByName(NameRevenant)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Sarcophagus = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameSarcophagus)
+		card = CardLoader.GetCardByName(NameSarcophagus)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Skelemancer = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameVengefulSpirit)
+		card = CardLoader.GetCardByName(NameVengefulSpirit)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Skeleton = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameSkeleton)
+		card = CardLoader.GetCardByName(NameSkeleton)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_SkeletonMage = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameSkelemagus)
+		card = CardLoader.GetCardByName(NameSkelemagus)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Sporedigger = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameSporeDigger)
+		card = CardLoader.GetCardByName(NameSporedigger)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_TombRobber = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameTombRobber)
+		card = CardLoader.GetCardByName(NameTombRobber)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Zombie = new()
 	{
-		card = CardLoader.GetCardByName(GrimoraPlugin.NameZombie)
+		card = CardLoader.GetCardByName(NameZombie)
 	};
 
 	#endregion

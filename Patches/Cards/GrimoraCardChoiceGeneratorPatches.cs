@@ -1,6 +1,5 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
-using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 

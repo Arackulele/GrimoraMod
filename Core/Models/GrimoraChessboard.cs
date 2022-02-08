@@ -300,7 +300,6 @@ public class GrimoraChessboard
 
 		// Log.LogDebug($"[CreateChessPiece] {piece.name}");
 		ChessboardMapExt.Instance.pieces.Add(piece);
-		// ChessboardNavGrid.instance.zones[x, y].GetComponent<ChessboardMapNode>().OccupyingPiece = piece;
 		return (T)piece;
 	}
 
@@ -325,7 +324,6 @@ public class GrimoraChessboard
 			{
 				if (specialEncounterId.Contains("Boss"))
 				{
-					Log.LogDebug($"[CreateChessPiece] Setting ActiveBossType to [{specialEncounterId}]");
 					ActiveBossType = _bossBySpecialId.GetValueSafe(specialEncounterId);
 					enemyPiece.blueprint = BlueprintUtils.BossInitialBlueprints[specialEncounterId];
 				}
@@ -340,7 +338,6 @@ public class GrimoraChessboard
 			default:
 				if (pieceObj.GetComponent<T>() is null)
 				{
-					// Log.LogDebug($"[CreateChessPiece] Adding type [{typeof(T).Name}] to [{prefab}]");
 					pieceObj.AddComponent<T>();
 				}
 
