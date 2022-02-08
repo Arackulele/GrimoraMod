@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1421812301
+CRC: 3280183870
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 1ce335a39324f92c3a308e49958c44dd
+    Hash: 625ab29393ceb9ca6dab77a87adaac11
   TypeTreeHash:
     serializedVersion: 2
     Hash: f675c8e5873dcf2f0ed97cbea1e09c0b
@@ -37,12 +37,12 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/GrimoraMod/Blocker_Kaycee.prefab
+- Assets/GrimoraMod/ChessboardPieces/Blocker_Kaycee.prefab
 - Assets/GrimoraMod/BoneyardBurialGrave.obj
-- Assets/GrimoraMod/Blocker_Sawyer.prefab
+- Assets/GrimoraMod/ChessboardPieces/Blocker_Sawyer.prefab
 - Assets/Prefabs/Hexalantern.prefab
-- Assets/GrimoraMod/Blocker_Grimora.prefab
-- Assets/GrimoraMod/Scythe/Gravedigger_CardRemove.prefab
+- Assets/GrimoraMod/ChessboardPieces/Blocker_Grimora.prefab
+- Assets/GrimoraMod/Scythe/CardRemovalFigurine.prefab
 - Assets/GrimoraMod/SpecialNode_ElectricChair.prefab
-- Assets/GrimoraMod/Blocker_Royal.prefab
+- Assets/GrimoraMod/ChessboardPieces/Blocker_Royal.prefab
 Dependencies: []
