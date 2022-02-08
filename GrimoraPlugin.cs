@@ -26,16 +26,9 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	public static Sprite[] AllSprites;
 	public static Texture[] AllAbilityTextures;
 	public static Material[] AllMats;
+
 	// Gets populated in CardBuilder.Build()
-	public static List<CardInfo> AllGrimoraModCards;
-
-
-	private static readonly List<StoryEvent> StoryEventsToBeCompleteBeforeStarting = new()
-	{
-		StoryEvent.BasicTutorialCompleted, StoryEvent.TutorialRunCompleted, StoryEvent.BonesTutorialCompleted,
-		StoryEvent.TutorialRun2Completed, StoryEvent.TutorialRun3Completed
-	};
-
+	public static List<CardInfo> AllGrimoraModCards = new();
 
 	public static void SpawnParticlesOnCard(PlayableCard target, Texture2D tex, bool reduceY = false)
 	{
@@ -72,8 +65,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		ConfigHelper.Instance.BindConfig();
 
 		LoadAssets();
-
-		UnlockAllNecessaryEventsToPlay();
 
 		#region AddingAbilities
 
@@ -140,8 +131,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		#endregion
 
 		ResizeArtworkForVanillaBoneCards();
-		
-		if(ConfigHelper.Instance.isHotReloadEnabled)
+
+		if (ConfigHelper.Instance.isHotReloadEnabled)
 		{
 			GameObject cardRow = GameObject.Find("CardRow");
 			if (cardRow is not null && cardRow.transform.Find("MenuCard_Grimora") is null)
@@ -206,39 +197,13 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		FileUtils.CheckIfDirectoriesNeededExist();
 
-		Log.LogDebug($"Loading asset bundles");
-
-		AssetBundle abilityBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_abilities"));
-		AssetBundle matsBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_mats"));
-		AssetBundle spritesBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_sprites"));
-		AssetBundle prefabsBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_prefabs"));
-
-		
-		// BundlePrefab = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("prefab-testing"));
-
 		Log.LogDebug($"Loading assets into static vars");
-		AllAbilityTextures = abilityBundle.LoadAllAssets<Texture>();
-		abilityBundle.Unload(false);
+		AllAbilityTextures = AssetUtils.LoadAssetBundle<Texture>("grimoramod_abilities");
 
-		AllMats = matsBundle.LoadAllAssets<Material>();
-		matsBundle.Unload(false);
-		
-		AllPrefabs = prefabsBundle.LoadAllAssets<GameObject>();
-		Log.LogDebug($"{string.Join(",", AllPrefabs.Select(_ => _.name))}");
-		prefabsBundle.Unload(false);
+		AllMats = AssetUtils.LoadAssetBundle<Material>("grimoramod_mats");
 
-		AllSprites = spritesBundle.LoadAllAssets<Sprite>();
-		spritesBundle.Unload(false);
-	}
+		AllPrefabs = AssetUtils.LoadAssetBundle<GameObject>("grimoramod_prefabs");
 
-	private static void UnlockAllNecessaryEventsToPlay()
-	{
-		if (!StoryEventsToBeCompleteBeforeStarting.TrueForAll(StoryEventsData.EventCompleted))
-		{
-			Log.LogWarning($"You haven't completed a required event... Starting unlock process");
-			StoryEventsToBeCompleteBeforeStarting.ForEach(evt => StoryEventsData.SetEventCompleted(evt));
-			ProgressionData.UnlockAll();
-			SaveManager.SaveToFile();
-		}
+		AllSprites = AssetUtils.LoadAssetBundle<Sprite>("grimoramod_sprites");
 	}
 }

@@ -10,6 +10,12 @@ namespace GrimoraMod;
 
 public class ConfigHelper
 {
+	private static readonly List<StoryEvent> StoryEventsToBeCompleteBeforeStarting = new()
+	{
+		StoryEvent.BasicTutorialCompleted, StoryEvent.TutorialRunCompleted, StoryEvent.BonesTutorialCompleted,
+		StoryEvent.TutorialRun2Completed, StoryEvent.TutorialRun3Completed
+	};
+	
 	private static ConfigHelper m_Instance;
 	public static ConfigHelper Instance => m_Instance ??= new ConfigHelper();
 
@@ -105,6 +111,8 @@ public class ConfigHelper
 		ResetConfigDataIfGrimoraHasNotReachedTable();
 
 		HandleHotReloadBefore();
+		
+		UnlockAllNecessaryEventsToPlay();
 	}
 
 	public int BonesToAdd => BossesDefeated * 2;
@@ -193,6 +201,17 @@ public class ConfigHelper
 		{
 			Log.LogWarning($"Grimora has not reached the table yet, resetting values to false again.");
 			ResetConfig();
+		}
+	}
+	
+	private static void UnlockAllNecessaryEventsToPlay()
+	{
+		if (!StoryEventsToBeCompleteBeforeStarting.TrueForAll(StoryEventsData.EventCompleted))
+		{
+			Log.LogWarning($"You haven't completed a required event... Starting unlock process");
+			StoryEventsToBeCompleteBeforeStarting.ForEach(evt => StoryEventsData.SetEventCompleted(evt));
+			ProgressionData.UnlockAll();
+			SaveManager.SaveToFile();
 		}
 	}
 
