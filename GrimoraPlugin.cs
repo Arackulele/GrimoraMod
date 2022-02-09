@@ -26,6 +26,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	public static Sprite[] AllSprites;
 	public static Texture[] AllAbilityTextures;
 	public static Material[] AllMats;
+	public static RuntimeAnimatorController[] AllControllers;
 
 	// Gets populated in CardBuilder.Build()
 	public static List<CardInfo> AllGrimoraModCards = new();
@@ -210,5 +211,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AllPrefabs = AssetUtils.LoadAssetBundle<GameObject>("grimoramod_prefabs");
 
 		AllSprites = AssetUtils.LoadAssetBundle<Sprite>("grimoramod_sprites");
+		
+		AllControllers = AssetUtils.LoadAssetBundle<RuntimeAnimatorController>("grimoramod_controller");
 	}
 }

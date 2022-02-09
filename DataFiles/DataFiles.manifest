@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 2532551163
+CRC: 474675098
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -19,4 +19,7 @@ AssetBundleManifest:
       Dependencies: {}
     Info_5:
       Name: scp_universe_sprites_cards
+      Dependencies: {}
+    Info_6:
+      Name: grimoramod_controller
       Dependencies: {}
