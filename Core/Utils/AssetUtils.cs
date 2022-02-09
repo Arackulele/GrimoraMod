@@ -4,12 +4,12 @@ namespace GrimoraMod;
 
 public static class AssetUtils
 {
-	public static T[] LoadAssetBundle<T>(string assetBundle) where T : UnityEngine.Object
+	public static T[] LoadAssetBundle<T>(string assetBundleFile) where T : UnityEngine.Object
 	{
-		AssetBundle abilityBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir(assetBundle));
-		var loadedBundle = abilityBundle.LoadAllAssets<T>();
-		// GrimoraPlugin.Log.LogDebug($"{string.Join(",", loadedBundle.Select(_ => _.name))}");
-		abilityBundle.Unload(false);
+		AssetBundle assetBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir(assetBundleFile));
+		var loadedBundle = assetBundle.LoadAllAssets<T>();
+		// GrimoraPlugin.Log.LogDebug($"Bundle [{assetBundle}] - {string.Join(",", loadedBundle.Select(_ => _.name))}");
+		assetBundle.Unload(false);
 		return loadedBundle;
 	}
 
