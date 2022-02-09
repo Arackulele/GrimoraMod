@@ -10,7 +10,6 @@ public class ChessboardGoatEyePiece : ChessboardPieceExt
 {
 	public ChessboardGoatEyePiece()
 	{
-		newYPosition = 1.275f;
 		newScale = 0.4f;
 	}
 }
