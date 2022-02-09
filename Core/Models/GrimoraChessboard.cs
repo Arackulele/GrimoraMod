@@ -305,11 +305,16 @@ public class GrimoraChessboard
 				if (specialEncounterId.Contains("Boss"))
 				{
 					ActiveBossType = BaseBossExt.OpponentTupleBySpecialId.GetValueSafe(specialEncounterId).Item1;
+					enemyPiece.blueprint = BaseBossExt.OpponentTupleBySpecialId[specialEncounterId].Item3;
 					if (ConfigHelper.Instance.BossesDefeated == 3)
 					{
 						// have to set the scale since the prefab is much larger
 						pieceObj.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
 					}
+				}
+				else
+				{
+					enemyPiece.blueprint = GetBlueprint();
 				}
 
 				enemyPiece.specialEncounterId = specialEncounterId;
@@ -325,6 +330,13 @@ public class GrimoraChessboard
 		}
 
 		return pieceObj.GetComponent<T>();
+	}
+	
+	private static EncounterBlueprintData GetBlueprint()
+	{
+		var blueprints
+			= BlueprintUtils.RegionWithBlueprints[ChessboardMapExt.Instance.ActiveChessboard.ActiveBossType];
+		return blueprints[UnityEngine.Random.RandomRangeInt(0, blueprints.Count)];
 	}
 
 	#endregion
