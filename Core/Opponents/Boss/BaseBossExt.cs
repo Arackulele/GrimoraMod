@@ -27,7 +27,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 			},
 			{
 				"GrimoraBoss", new Tuple<Type, System.Type, EncounterBlueprintData>(
-					GrimoraOpponent, typeof(GrimoraBattleSequencer), BlueprintUtils.BuildGrimoraBossInitialBlueprint()
+					GrimoraOpponent, typeof(GrimoraExtBattleSequencer), BlueprintUtils.BuildGrimoraBossInitialBlueprint()
 				)
 			},
 			{
