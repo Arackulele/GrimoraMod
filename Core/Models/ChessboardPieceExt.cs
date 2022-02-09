@@ -12,7 +12,8 @@ public class ChessboardPieceExt : ChessboardPiece
 	
 	private void Start()
 	{
-		base.transform.position = ChessboardNavGrid.instance.zones[gridXPos, gridYPos].transform.position;
+		var navZone = ChessboardNavGrid.instance.zones[gridXPos, gridYPos];
+		base.transform.position = navZone.transform.position;
 		if (newYPosition != 0f)
 		{
 			Vector3 copy = base.transform.localPosition;
@@ -32,7 +33,7 @@ public class ChessboardPieceExt : ChessboardPiece
 		}
 		else
 		{
-			ChessboardNavGrid.instance.zones[gridXPos, gridYPos].GetComponent<ChessboardMapNode>().OccupyingPiece = this;
+			navZone.GetComponent<ChessboardMapNode>().OccupyingPiece = this;
 		}
 	}
 	
