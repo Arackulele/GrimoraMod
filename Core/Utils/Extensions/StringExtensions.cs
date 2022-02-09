@@ -8,4 +8,14 @@ public static class StringExtensions
 	{
 		return CardLoader.GetCardByName(self);
 	}
+
+	public static string GetDelimitedString(this string[] self)
+	{
+		return string.Join(",", self);
+	}
+	
+	public static string GetDelimitedString(this UnityEngine.Object[] self)
+	{
+		return string.Join(",", self.Select(_ => _.name));
+	}
 }
