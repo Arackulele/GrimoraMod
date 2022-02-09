@@ -167,7 +167,7 @@ public class BaseGameFlowManagerPatches
 			// DeckReviewSequencer reviewSequencer = deckReviewSequencerObj.GetComponent<DeckReviewSequencer>();
 			SelectableCardArray cardArray = DeckReviewSequencer.Instance.GetComponentInChildren<SelectableCardArray>();
 			cardArray.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
-			Log.LogDebug($"[AddRareCardSequencerToScene] Creating new rare choice generator");
+			Log.LogDebug($"[AddDeckReviewSequencerToScene] Added deck review sequencer");
 		}
 	}
 
