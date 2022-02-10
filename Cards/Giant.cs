@@ -73,19 +73,19 @@ public class ModifyLocalPositionsOfTableObjects
 		IEnumerator enumerator, PlayableCard card, CardSlot slot,
 		float transitionLength, bool resolveTriggers = true)
 	{
-		if (SaveManager.SaveFile.IsGrimora 
-		    && card.Info.HasTrait(Trait.Giant) 
+		if (SaveManager.SaveFile.IsGrimora
+		    && card.Info.HasTrait(Trait.Giant)
 		    && card.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility))
 		{
 			Log.LogDebug($"Setting new scaling and position of [{card.Info.name}]");
 			// Card -> RotatingParent -> TombstoneParent -> Cardbase_StatsLayer
-			UnityEngine.Transform rotatingParent = card.transform.GetChild(0);
+			Transform rotatingParent = card.transform.GetChild(0);
 			Log.LogDebug($"Transforming [{rotatingParent.name}]");
 
 			rotatingParent.localPosition = new Vector3(-0.7f, 1.05f, 0f);
 			// GrimoraPlugin.Log.LogDebug($"Successfully set new localPosition for the giant");
 
-			rotatingParent.localScale = new UnityEngine.Vector3(2.1f, 2.1f, 1f);
+			rotatingParent.localScale = new Vector3(2.1f, 2.1f, 1f);
 			// GrimoraPlugin.Log.LogDebug($"Successfully set new scaling for the giant");
 		}
 
@@ -99,10 +99,11 @@ public class KayceeModLogicForDeathTouchPrevention
 	[HarmonyPostfix, HarmonyPatch(typeof(Deathtouch), nameof(Deathtouch.RespondsToDealDamage))]
 	public static void AddLogicForDeathTouchToNotKillGiants(int amount, PlayableCard target, ref bool __result)
 	{
-		__result = __result && !target.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility);
+		bool targetIsNotGrimoraGiant =
+			target.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility);
+		__result = __result && targetIsNotGrimoraGiant;
 	}
 }
-
 
 [HarmonyPatch]
 public class CorrectLogicForAllStrikeAbility
