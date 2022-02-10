@@ -109,7 +109,7 @@ public class GravestoneCardAnimationControllerPatches
 	}
 
 	[HarmonyPrefix, HarmonyPatch(nameof(GravestoneCardAnimationController.PlayDeathAnimation))]
-	public static bool Prefix(GravestoneCardAnimationController __instance, bool playSound = true)
+	public static bool ChangeDeathAnimationToNotNullOut(GravestoneCardAnimationController __instance, bool playSound = true)
 	{
 		if (__instance.PlayableCard is not null)
 		{
