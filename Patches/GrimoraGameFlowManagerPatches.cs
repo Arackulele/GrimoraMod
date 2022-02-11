@@ -51,39 +51,43 @@ public class GrimoraGameFlowManagerPatches
 
 			__instance.StartCoroutine(__instance.StartSceneSequence());
 
-			CryptEpitaphSlotInteractable cryptEpitaphSlotInteractable =
-				Object.FindObjectOfType<CryptEpitaphSlotInteractable>();
+			PlayTombstonesFalling();
 
-			AudioController.Instance.PlaySound3D(
-				"giant_stones_falling",
-				MixerGroup.ExplorationSFX,
-				__instance.transform.position
-			);
-
-			Tween.Position(
-				cryptEpitaphSlotInteractable.tombstoneParent,
-				cryptEpitaphSlotInteractable.tombstoneParent.position + Vector3.down * 11f,
-				6f,
-				0f,
-				Tween.EaseIn
-			);
-
-			Tween.Shake(
-				cryptEpitaphSlotInteractable.tombstoneAnim,
-				cryptEpitaphSlotInteractable.tombstoneAnim.localPosition,
-				new Vector3(0.05f, 0.05f, 0.05f),
-				0.1f,
-				0f,
-				Tween.LoopType.Loop
-			);
-
-			// Log.LogDebug($"[SceneSpecificInitialization] RevealGrimoraSequence");
 			__instance.StartCoroutine(((GrimoraGameFlowManager)GameFlowManager.Instance).RevealGrimoraSequence());
 
 			SaveManager.SaveToFile();
 		}
 
 		return false;
+	}
+
+	private static void PlayTombstonesFalling()
+	{
+		CryptEpitaphSlotInteractable cryptEpitaphSlotInteractable =
+			Object.FindObjectOfType<CryptEpitaphSlotInteractable>();
+
+		AudioController.Instance.PlaySound3D(
+			"giant_stones_falling",
+			MixerGroup.ExplorationSFX,
+			GameFlowManager.Instance.transform.position
+		);
+
+		Tween.Position(
+			cryptEpitaphSlotInteractable.tombstoneParent,
+			cryptEpitaphSlotInteractable.tombstoneParent.position + Vector3.down * 11f,
+			6f,
+			0f,
+			Tween.EaseIn
+		);
+
+		Tween.Shake(
+			cryptEpitaphSlotInteractable.tombstoneAnim,
+			cryptEpitaphSlotInteractable.tombstoneAnim.localPosition,
+			new Vector3(0.05f, 0.05f, 0.05f),
+			0.1f,
+			0f,
+			Tween.LoopType.Loop
+		);
 	}
 
 	private static void SetLightsActive(GrimoraGameFlowManager __instance)
