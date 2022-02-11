@@ -280,17 +280,17 @@ public class GrimoraChessboard
 			piece.NodeData = specialNodeData;
 		}
 
-		piece.name = CreateNameOfPiece<T>(prefab, coordName);
+		piece.name = CreateNameOfPiece<T>(specialEncounterId, coordName);
 
 		// Log.LogDebug($"[CreateChessPiece] {piece.name}");
 		ChessboardMapExt.Instance.pieces.Add(piece);
 		return (T)piece;
 	}
 
-	private static string CreateNameOfPiece<T>(Object prefab, string coordName) where T : ChessboardPiece
+	private static string CreateNameOfPiece<T>(string specialEncounterId, string coordName) where T : ChessboardPiece
 	{
 		string nameTemp = typeof(T).Name.Replace("Chessboard", "") + "_" + coordName;
-		if (prefab.name.Contains("boss"))
+		if (specialEncounterId.Contains("Boss"))
 		{
 			nameTemp = nameTemp.Replace("Enemy", "Boss");
 		}
@@ -334,7 +334,7 @@ public class GrimoraChessboard
 
 		return pieceObj.GetComponent<T>();
 	}
-	
+
 	private static EncounterBlueprintData GetBlueprint()
 	{
 		var blueprints
