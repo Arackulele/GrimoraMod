@@ -41,4 +41,14 @@ public static class RandomUtils
 
 		return cardChoices;
 	}
+
+	public static int GenerateRandomSeed(IReadOnlyCollection<CardInfo> cardInfos)
+	{
+		int seedRng = UnityEngine.Random.RandomRangeInt(int.MinValue, int.MaxValue);
+		return SeededRandom.Range(
+			0,
+			cardInfos.Count,
+			seedRng
+		);
+	}
 }

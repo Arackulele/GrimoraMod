@@ -103,7 +103,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		var cardsToAdd = new List<CardInfo>();
 		var randomizedChoices = RandomUtils.GenerateRandomChoicesOfCategory(
 			GrimoraSaveUtil.DeckList,
-			GenerateRandomSeed(GrimoraSaveUtil.DeckList)
+			RandomUtils.GenerateRandomSeed(GrimoraSaveUtil.DeckList)
 		);
 
 		if (randomizedChoices.Count < 3)
@@ -114,16 +114,6 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		}
 
 		return cardsToAdd;
-	}
-
-	private static int GenerateRandomSeed(IReadOnlyCollection<CardInfo> cardInfos)
-	{
-		int seedRng = UnityEngine.Random.RandomRangeInt(int.MinValue, int.MaxValue);
-		return SeededRandom.Range(
-			0,
-			cardInfos.Count,
-			seedRng
-		);
 	}
 
 	public override IEnumerator GameEnd(bool playerWon)
