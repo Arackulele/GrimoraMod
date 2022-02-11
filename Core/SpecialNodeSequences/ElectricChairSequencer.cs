@@ -11,6 +11,72 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 {
 	public static ElectricChairSequencer Instance => FindObjectOfType<ElectricChairSequencer>();
 
+	private static readonly List<Ability> AbilitiesToChoseRandomly = new()
+	{
+		Ability.ActivatedDealDamage,
+		Ability.ActivatedDrawSkeleton,
+		Ability.ActivatedEnergyToBones,
+		Ability.ActivatedHeal,
+		Ability.ActivatedRandomPowerEnergy,
+		Ability.ActivatedSacrificeDrawCards,
+		Ability.ActivatedStatsUp,
+		Ability.ActivatedStatsUpEnergy,
+		Ability.BeesOnHit,
+		Ability.BombSpawner,
+		Ability.BoneDigger,
+		Ability.Brittle,
+		Ability.BuffEnemy,
+		Ability.BuffGems,
+		Ability.BuffNeighbours,
+		Ability.CorpseEater,
+		Ability.CreateBells,
+		Ability.CreateDams,
+		Ability.DeathShield,
+		Ability.Deathtouch,
+		Ability.DebuffEnemy,
+		Ability.DoubleDeath,
+		Ability.DrawAnt,
+		Ability.DrawCopy,
+		Ability.DrawCopyOnDeath,
+		Ability.DrawNewHand,
+		Ability.DrawRabbits,
+		Ability.DrawRandomCardOnDeath,
+		Ability.DrawVesselOnHit,
+		Ability.DropRubyOnDeath,
+		Ability.Evolve,
+		Ability.ExplodeOnDeath,
+		Ability.Flying,
+		Ability.GainBattery,
+		Ability.GuardDog,
+		Ability.IceCube,
+		Ability.LatchBrittle,
+		Ability.LatchDeathShield,
+		Ability.LatchExplodeOnDeath,
+		Ability.MoveBeside,
+		Ability.PermaDeath,
+		Ability.PreventAttack,
+		Ability.QuadrupleBones,
+		Ability.RandomAbility,
+		Ability.RandomConsumable,
+		Ability.Reach,
+		Ability.Sentry,
+		Ability.Sharp,
+		Ability.ShieldGems,
+		Ability.SkeletonStrafe,
+		Ability.Sniper,
+		Ability.SplitStrike,
+		Ability.SteelTrap,
+		Ability.Strafe,
+		Ability.StrafePush,
+		Ability.Submerge,
+		Ability.SwapStats,
+		Ability.TailOnHit,
+		Ability.Transformer,
+		Ability.TriStrike,
+		Ability.Tutor,
+		Ability.WhackAMole
+	};
+
 	private static readonly ViewInfo ChairViewInfo = new()
 	{
 		handPosition = PlayerHand3D.HIDDEN_HAND_POS,
@@ -176,19 +242,28 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private new static void ApplyModToCard(CardInfo card)
 	{
-		Ability randomSigil = AbilitiesUtil.GetRandomAbility(RandomUtils.GenerateRandomSeed(), true);
-		while (card.HasAbility(randomSigil))
-		{
-			randomSigil = AbilitiesUtil.GetRandomAbility(RandomUtils.GenerateRandomSeed(), true);
-		}
-
-		Log.LogDebug($"[ApplyModToCard] Ability [{randomSigil}]");
 		CardModificationInfo cardModificationInfo = new CardModificationInfo
 		{
-			abilities = new List<Ability> { randomSigil },
+			abilities = new List<Ability> { GetRandomAbility(card) },
 			singletonId = "GrimoraMod_ElectricChaired"
 		};
 		GrimoraSaveUtil.DeckInfo.ModifyCard(card, cardModificationInfo);
+	}
+
+	private static Ability GetRandomAbility(CardInfo card)
+	{
+		Ability randomSigil = AbilitiesToChoseRandomly
+			.Randomize()
+			.ToList()[SeededRandom.Range(0, AbilitiesToChoseRandomly.Count, RandomUtils.GenerateRandomSeed())];
+		while (card.HasAbility(randomSigil))
+		{
+			randomSigil = AbilitiesToChoseRandomly
+				.Randomize()
+				.ToList()[SeededRandom.Range(0, AbilitiesToChoseRandomly.Count, RandomUtils.GenerateRandomSeed())];
+		}
+
+		Log.LogDebug($"[ApplyModToCard] Ability [{randomSigil}]");
+		return randomSigil;
 	}
 
 	private new static List<CardInfo> GetValidCards()
@@ -390,17 +465,17 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private static ConfirmStoneButton CreateLever(GameObject cardStatObj)
 	{
-		GameObject leverObj = Instantiate(
+		GameObject lever = Instantiate(
 			AssetUtils.GetPrefab<GameObject>("ElectricChair_Lever"),
 			new Vector3(0, 5, -0.5f),
 			Quaternion.identity,
 			cardStatObj.transform
 		);
-		leverObj.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-		ConfirmStoneButton button = leverObj.transform.GetChild(0).GetChild(1).gameObject.AddComponent<ConfirmStoneButton>();
+		lever.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+		ConfirmStoneButton button = lever.transform.GetChild(0).GetChild(1).gameObject.AddComponent<ConfirmStoneButton>();
 		button.confirmView = View.CardMergeSlots;
 		button.anim = button.transform.parent.GetComponent<Animator>();
-		leverObj.gameObject.SetActive(false);
+		lever.gameObject.SetActive(false);
 
 		return button;
 	}
