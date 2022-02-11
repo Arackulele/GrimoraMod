@@ -12,11 +12,11 @@ public class ChessboardPieceExt : ChessboardPiece
 	private void Start()
 	{
 		var navZone = ChessboardNavGrid.instance.zones[gridXPos, gridYPos];
-		base.transform.position = navZone.transform.position;
+		transform.position = navZone.transform.position;
 		if (newYPosition != 0f)
 		{
-			Vector3 copy = base.transform.localPosition;
-			base.transform.localPosition = new Vector3(copy.x, newYPosition, copy.z);
+			Vector3 copy = transform.localPosition;
+			transform.localPosition = new Vector3(copy.x, newYPosition, copy.z);
 		}
 
 		if (newScale != 0f)
