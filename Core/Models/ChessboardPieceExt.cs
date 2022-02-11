@@ -6,10 +6,9 @@ namespace GrimoraMod;
 
 public class ChessboardPieceExt : ChessboardPiece
 {
-
 	public float newYPosition;
 	public float newScale;
-	
+
 	private void Start()
 	{
 		var navZone = ChessboardNavGrid.instance.zones[gridXPos, gridYPos];
@@ -36,7 +35,7 @@ public class ChessboardPieceExt : ChessboardPiece
 			navZone.GetComponent<ChessboardMapNode>().OccupyingPiece = this;
 		}
 	}
-	
+
 	public override void OnPlayerInteracted()
 	{
 		StartCoroutine(StartSpecialNodeSequence());
@@ -51,9 +50,9 @@ public class ChessboardPieceExt : ChessboardPiece
 
 		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
 
-		PlayerMarker.Instance.Anim.Play("knock against", 0, 0f);
+		yield return ChessboardEnemyManager.Instance.KnockPiecesTogether(PlayerMarker.Instance, this, 0.25f);
 		yield return new WaitForSeconds(0.05f);
-		
+
 		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 
 		GameFlowManager.Instance.TransitionToGameState(GameState.SpecialCardSequence, NodeData);
