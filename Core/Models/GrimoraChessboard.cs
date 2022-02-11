@@ -336,6 +336,7 @@ public class GrimoraChessboard
 					enemyPiece.blueprint = GetBlueprint();
 				}
 
+				enemyPiece.TurnToFacePoint(ChessboardNavGrid.instance.zones[3, 3].transform.position, 0.1f);
 				enemyPiece.specialEncounterId = specialEncounterId;
 				break;
 			}
