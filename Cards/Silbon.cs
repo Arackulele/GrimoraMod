@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 	private void Add_Silbon()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.SetAsNormalCard()
+			.SetAsRareCard()
 			.SetAbilities(InvertedStrike.ability, Ability.Strafe)
 			.SetBaseAttackAndHealth(3, 2)
 			.SetBoneCost(7)

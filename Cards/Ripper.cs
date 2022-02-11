@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 	private void Add_Ripper()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.SetAsNormalCard()
+			.SetAsRareCard()
 			.SetAbilities(Ability.Brittle)
 			.SetBaseAttackAndHealth(6, 6)
 			.SetBoneCost(12)

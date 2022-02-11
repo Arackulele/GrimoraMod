@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 	private void Add_Project()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.SetAsNormalCard()
+			.SetAsRareCard()
 			.SetAbilities(Ability.TriStrike)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(8)

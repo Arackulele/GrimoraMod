@@ -9,7 +9,7 @@ public partial class GrimoraPlugin
 	private void Add_Dybbuk()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.SetAsNormalCard()
+			.SetAsRareCard()
 			.SetAbilities(Possessive.ability)
 			.SetBaseAttackAndHealth(0, 1)
 			.SetBoneCost(6)

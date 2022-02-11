@@ -10,10 +10,8 @@ public partial class GrimoraPlugin
 
 	private void Add_ScreamingSkull()
 	{
-
-		CardInfo info = ScriptableObject.CreateInstance<CardInfo>();
 		NewCard.Add(CardBuilder.Builder
-			.SetAsNormalCard()
+			.SetAsRareCard()
 			.SetAbilities(AreaOfEffectStrike.ability)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(6)
