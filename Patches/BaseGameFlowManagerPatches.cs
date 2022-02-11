@@ -34,6 +34,9 @@ public class BaseGameFlowManagerPatches
 		PrefabConstants.GrimoraPlayableCard
 			.GetComponent<GravestoneCardAnimationController>().Anim.runtimeAnimatorController = GraveStoneController;
 		
+		PrefabConstants.GrimoraSelectableCard
+			.GetComponent<GravestoneCardAnimationController>().Anim.runtimeAnimatorController = GraveStoneController;
+		
 		CardSpawner.Instance.giantPlayableCardPrefab = PrefabConstants.GrimoraPlayableCard;
 
 		ChessboardMapExt.ChangeChessboardToExtendedClass();
