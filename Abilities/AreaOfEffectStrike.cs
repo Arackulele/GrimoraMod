@@ -97,6 +97,7 @@ public class PatchesForAreaOfEffectStrike
 		
 		if (slot.Card is not null && slot.Card.HasAbility(AreaOfEffectStrike.ability))
 		{
+			yield return new WaitForSeconds(1f);
 			int dmgDoneToPlayer = slot.Card.GetComponent<AreaOfEffectStrike>().damageDoneToPlayer;
 			Log.LogDebug($"[SlotAttackSequence] Dealing [{dmgDoneToPlayer}] to player");
 			yield return LifeManager.Instance.ShowDamageSequence(
