@@ -39,13 +39,16 @@ public class KayceeBossSequencer : GrimoraModBossBattleSequencer
 			if (_freezeCounter >= 3)
 			{
 				ViewManager.Instance.SwitchToView(View.BossCloseup);
-				yield return TextDisplayer.Instance.ShowUntilInput("Freeze!");
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					"It's time for your cards attack to freeze! CHILLED TO THE BONE!"
+				);
 				ViewManager.Instance.SwitchToView(View.Board);
 				foreach (var card in playerCardsWithAttacks)
 				{
+					int attack = card.Attack == 0 ? 0 : 1 - card.Attack;
 					card.Anim.StrongNegationEffect();
 					card.Anim.StrongNegationEffect();
-					card.AddTemporaryMod(new CardModificationInfo(1 - card.Attack, 0));
+					card.AddTemporaryMod(new CardModificationInfo(attack, 0));
 					card.Anim.StrongNegationEffect();
 					card.Anim.StrongNegationEffect();
 					yield return new WaitForSeconds(0.05f);
@@ -67,7 +70,7 @@ public class KayceeBossSequencer : GrimoraModBossBattleSequencer
 				yield return new WaitForSeconds(0.1f);
 			}
 		}
-		
+
 		ViewManager.Instance.SwitchToView(View.Default);
 	}
 }
