@@ -8,6 +8,10 @@ namespace GrimoraMod;
 
 public class ChessboardGoatEyePiece : ChessboardPieceExt
 {
+	public ChessboardGoatEyePiece()
+	{
+		newYPosition = 1.275f;
+	}
 }
 
 [HarmonyPatch(typeof(ChessboardMapNode), nameof(ChessboardMapNode.OnArriveAtNode))]
