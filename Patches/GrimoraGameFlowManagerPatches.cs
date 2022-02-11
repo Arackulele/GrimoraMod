@@ -88,11 +88,9 @@ public class GrimoraGameFlowManagerPatches
 
 	private static void SetLightsActive(GrimoraGameFlowManager __instance)
 	{
-		// Log.LogDebug($"[SceneSpecificInitialization] Setting ExplorableAreaManager lights active");
 		CryptManager.Instance.HangingLight.gameObject.SetActive(true);
 		CryptManager.Instance.HandLight.gameObject.SetActive(true);
 
-		// Log.LogDebug($"[SceneSpecificInitialization] Setting gameTableCandlesParent active");
 		__instance.gameTableCandlesParent.SetActive(true);
 
 		Transform tableTransform = __instance.gameTableCandlesParent.transform;
@@ -100,7 +98,6 @@ public class GrimoraGameFlowManagerPatches
 		for (int i = 0; i < childCountTable; i++)
 		{
 			var candle = tableTransform.GetChild(i).gameObject;
-			// Log.LogDebug($"[SceneSpecificInitialization] Setting cryptLight [{candle.name}] active");
 			candle.SetActive(true);
 			candle.GetComponentInChildren<Animator>().Play("candle_light");
 		}
@@ -109,7 +106,6 @@ public class GrimoraGameFlowManagerPatches
 		int cryptLightsCount = cryptLightsTransform.childCount;
 		for (int i = 0; i < cryptLightsCount; i++)
 		{
-			// Log.LogDebug($"[SceneSpecificInitialization] Setting cryptLight [{cryptLightsTransform.GetChild(i).gameObject.name}] active");
 			cryptLightsTransform.GetChild(i).gameObject.SetActive(true);
 		}
 

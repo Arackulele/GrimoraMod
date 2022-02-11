@@ -51,16 +51,13 @@ public class ChessboardMapExt : GameMap
 	{
 		if (_chessboards == null)
 		{
-			Log.LogDebug($"[ChessboardMapExt] Loading json boards");
 			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir(
 				ConfigHelper.Instance.isDevModeEnabled ? "GrimoraChessboardDevMode.json" : "GrimoraChessboardsStatic.json"
 			));
 
-			// Log.LogDebug($"[ChessboardMapExt] Parsing json");
 			_chessboards = ParseJson(
 				SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString)
 			);
-			// Log.LogDebug($"[ChessboardMapExt] Finished loading chessboard json file");
 		}
 	}
 
@@ -71,15 +68,11 @@ public class ChessboardMapExt : GameMap
 
 	private void Awake()
 	{
-		Log.LogDebug($"[MapExt] Setting on view changed");
 		ViewManager instance = ViewManager.Instance;
 		instance.ViewChanged = (Action<View, View>)Delegate
 			.Combine(instance.ViewChanged, new Action<View, View>(OnViewChanged));
 
-		Log.LogDebug($"[MapExt] Adding debug helper");
 		gameObject.AddComponent<DebugHelper>();
-
-		Log.LogDebug($"[MapExt] Adding prefab piece helper");
 	}
 
 	private void OnGUI()
@@ -123,7 +116,6 @@ public class ChessboardMapExt : GameMap
 
 	public IEnumerator CompleteRegionSequence()
 	{
-		// ActiveChessboard.ChangeBlockerPieceForRegion();
 		ViewManager.Instance.Controller.SwitchToControlMode(ViewController.ControlMode.Map);
 		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
 
@@ -131,7 +123,6 @@ public class ChessboardMapExt : GameMap
 
 		BossDefeated = false;
 
-		Log.LogDebug($"[CompleteRegionSequence] Starting CompleteRegionSequence");
 		ChangingRegion = true;
 
 		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
@@ -182,23 +173,14 @@ public class ChessboardMapExt : GameMap
 	{
 		TableRuleBook.Instance.SetOnBoard(false);
 
-		Log.LogDebug($"[UnrollingSequence] Setting each piece game object active to false");
 		pieces.ForEach(delegate(ChessboardPiece x) { x.gameObject.SetActive(false); });
-		// yield return new WaitForSeconds(0.5f);
 
 		UpdateVisuals();
 
-		// Log.LogDebug($"[ChessboardMap.UnrollingSequence] Playing map anim enter");
 		// base.mapAnim.speed = 1f;
 		mapAnim.Play("enter", 0, 0f);
 		yield return new WaitForSeconds(0.25f);
 
-		// todo: play sound?
-
-		// base.mapAnim.speed = unrollSpeed;
-		// yield return new WaitForSeconds(0.15f);
-
-		// Log.LogDebug($"[UnrollingSequence] Setting dynamicElements [{dynamicElementsParent}] to active");
 		dynamicElementsParent.gameObject.SetActive(true);
 
 		// for checking which nodes are active/inactive
@@ -259,7 +241,6 @@ public class ChessboardMapExt : GameMap
 
 	private static void SetAllNodesActive()
 	{
-		// GrimoraPlugin.Log.LogDebug($"[SetAllNodesActive] setting all chess nodes active");
 		foreach (var zone in ChessboardNavGrid.instance.zones)
 		{
 			zone.gameObject.SetActive(true);
@@ -269,9 +250,6 @@ public class ChessboardMapExt : GameMap
 
 	private IEnumerator HandleActivatingChessPieces()
 	{
-		// GrimoraPlugin.Log.LogDebug($"[HandleActivatingChessPieces] active pieces before setting if active " +
-		//                            $"[{string.Join(",", activePieces.Select(_ => _.name))}]");
-
 		var removedList = ConfigHelper.Instance.RemovedPieces;
 
 		// pieces will contain the pieces just placed
@@ -284,23 +262,18 @@ public class ChessboardMapExt : GameMap
 			bool toRemove = false;
 			if (activePieces.Contains(piece))
 			{
-				// GrimoraPlugin.Log.LogDebug($"[HandleSaveStatesForPieces] Setting active [{piece.name}]");
 				piece.gameObject.SetActive(true);
 			}
 			else
 			{
-				// GrimoraPlugin.Log.LogDebug($"[HandleSaveStatesForPieces] Setting inactive [{piece.gameObject}]] Node is active? [{piece.MapNode.isActiveAndEnabled}]]");
 				piece.gameObject.SetActive(false);
 				piece.MapNode.OccupyingPiece = null;
 				toRemove = true;
-				// GrimoraPlugin.Log.LogDebug($"[HandleSaveStatesForPieces] -> is node active and enabled? [{piece.MapNode.isActiveAndEnabled}]]");
 			}
 
 			piece.Hide(true);
 			return toRemove;
 		});
-
-		// GrimoraPlugin.Log.LogDebug("[HandleSaveStatesForPieces] Finished UpdatingSaveStates of pieces");
 
 		yield return new WaitForSeconds(0.05f);
 
@@ -311,17 +284,13 @@ public class ChessboardMapExt : GameMap
 	{
 		foreach (var piece in pieces.Where(piece => piece.gameObject.activeInHierarchy))
 		{
-			// GrimoraPlugin.Log.LogDebug($"-> Piece [{piece.name}] saveId [{piece.saveId}] is active in hierarchy, calling Show method");
 			piece.Show();
 			yield return new WaitForSeconds(0.020f);
 		}
-
-		// GrimoraPlugin.Log.LogDebug("[HandleSaveStatesForPieces] Finished showing all active pieces");
 	}
 
 	private static void UpdateVisuals()
 	{
-		// GrimoraPlugin.Log.LogDebug($"[{this.GetType()}] Updating visuals");
 		TableVisualEffectsManager.Instance.SetFogPlaneShown(true);
 		CameraEffects.Instance.SetFogEnabled(true);
 		CameraEffects.Instance.SetFogAlpha(0f);
@@ -332,14 +301,12 @@ public class ChessboardMapExt : GameMap
 
 	private void OnViewChanged(View newView, View oldView)
 	{
-		// GrimoraPlugin.Log.LogDebug($"[OnViewChanged] OnViewChanged called");
 		switch (oldView)
 		{
 			case View.MapDefault when newView == View.MapDeckReview:
 			{
 				if (MapNodeManager.Instance != null)
 				{
-					// GrimoraPlugin.Log.LogDebug($"[OnViewChanged] SetAllNodesInteractable false");
 					MapNodeManager.Instance.SetAllNodesInteractable(false);
 				}
 
@@ -367,8 +334,6 @@ public class ChessboardMapExt : GameMap
 			    StringComparison.OrdinalIgnoreCase)
 		   )
 		{
-			// GrimoraPlugin.Log.LogDebug($"ChessboardMap.UnrollingSequence] Renaming all map nodes");
-
 			var zones = ChessboardNavGrid.instance.zones;
 			for (var i = 0; i < zones.GetLength(0); i++)
 			{
@@ -407,33 +372,24 @@ public class ChessboardMapExt : GameMap
 	{
 		ChessboardMapExt ext = ChessboardMap.Instance.gameObject.GetComponent<ChessboardMapExt>();
 
-		Log.LogDebug($"[ChangeChessboardToExtendedClass] Adding MapExt to ChessboardMapGameObject");
-
 		if (ext is null)
 		{
-			Log.LogDebug($"[ChangeChessboardToExtendedClass] ChessboardMapExt is null");
 			ChessboardMap boardComp = ChessboardMap.Instance.gameObject.GetComponent<ChessboardMap>();
 			boardComp.pieces.Clear();
 
 			ext = ChessboardMap.Instance.gameObject.AddComponent<ChessboardMapExt>();
 
-			Log.LogDebug($"[ChangeChessboardToExtendedClass] Transferring over fields to new extension class");
 			ext.dynamicElementsParent = boardComp.dynamicElementsParent;
 			ext.mapAnim = boardComp.mapAnim;
 			ext.navGrid = boardComp.navGrid;
 			ext.pieces = new List<ChessboardPiece>();
 			ext.defaultPosition = boardComp.defaultPosition;
 
-			Log.LogDebug($"[ChangeChessboardToExtendedClass] Destroying old chessboard component");
 			Destroy(boardComp);
 		}
 
-		Log.LogDebug($"[ChangeChessboardToExtendedClass] Getting initial starting pieces");
 		var initialStartingPieces = FindObjectsOfType<ChessboardPiece>();
-		Log.LogDebug($"[ChangeChessboardToExtendedClass] Resetting initial pieces" +
-		             $" {string.Join(", ", initialStartingPieces.Select(_ => _.name))}");
 
-		Log.LogDebug($"[ChangeChessboardToExtendedClass] Destroying initial pieces");
 		foreach (var piece in initialStartingPieces)
 		{
 			piece.MapNode.OccupyingPiece = null;
