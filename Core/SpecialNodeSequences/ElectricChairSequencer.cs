@@ -334,7 +334,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		newSequencer.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
 
 		newSequencer.selectionSlot = oldSequencer.selectionSlot;
-		newSequencer.selectionSlot.transform.localPosition = new Vector3(0, 7.2f, 1);
+		newSequencer.selectionSlot.transform.localPosition = new Vector3(0, 7.2f, 1.2f);
 		newSequencer.selectionSlot.transform.localRotation = Quaternion.Euler(270, 0, 0);
 		newSequencer.selectionSlot.cardSelector.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
 		newSequencer.selectionSlot.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
