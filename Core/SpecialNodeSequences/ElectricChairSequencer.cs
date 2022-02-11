@@ -323,7 +323,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		newSequencer.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
 
 		newSequencer.selectionSlot = oldSequencer.selectionSlot;
-		newSequencer.selectionSlot.transform.localPosition = new Vector3(0, 7, 1);
+		newSequencer.selectionSlot.transform.localPosition = new Vector3(0, 7.2f, 1);
 		newSequencer.selectionSlot.transform.localRotation = Quaternion.Euler(270, 0, 0);
 		newSequencer.selectionSlot.cardSelector.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
 		newSequencer.selectionSlot.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
@@ -347,12 +347,12 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			cardStatObj.transform
 		).AddComponent<CompositeFigurine>();
 		chairFigurine.name = "Electric Chair Figurine";
-		chairFigurine.transform.localScale = new Vector3(60, 60, 60);
+		chairFigurine.transform.localScale = new Vector3(60, 75, 80);
 		chairFigurine.gameObject.SetActive(false);
 
 		CompositeFigurine vfxElectricity = Instantiate(
 			AssetUtils.GetPrefab<GameObject>("VfxBoltLightning"),
-			new Vector3(0.1f, 7.5f, 1.25f),
+			new Vector3(0.1f, 7.8f, 1.25f),
 			Quaternion.identity,
 			cardStatObj.transform
 		).AddComponent<CompositeFigurine>();
