@@ -152,6 +152,17 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		((SelectCardFromDeckSlot)slot).SelectFromCards(validCards, OnSelectionEnded, false);
 	}
 
+	private new void OnSelectionEnded()
+	{
+		selectionSlot.SetShown(true);
+		selectionSlot.ShowState(HighlightedInteractable.State.Interactable);
+		ViewManager.Instance.SwitchToView(View.CardMergeSlots, false, true);
+		if (selectionSlot.Card != null)
+		{
+			confirmStone.Enter();
+		}
+	}
+
 	private new static void ApplyModToCard(CardInfo card)
 	{
 		Ability randomSigil = AbilitiesUtil.GetRandomAbility(
