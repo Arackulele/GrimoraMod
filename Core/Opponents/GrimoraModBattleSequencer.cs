@@ -22,6 +22,18 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 			InteractionCursor.Instance.InteractionDisabled = true;
 
+			yield return TextDisplayer.Instance.PlayDialogueEvent(
+				"RoyalBossDeleted",
+				TextDisplayer.MessageAdvanceMode.Input
+			);
+			yield return new WaitForSeconds(0.5f);
+
+			Log.LogDebug($"[GameEnd] Playing dialogue event");
+			yield return TextDisplayer.Instance.PlayDialogueEvent(
+				"GrimoraFinaleEnd",
+				TextDisplayer.MessageAdvanceMode.Input
+			);
+
 			Log.LogDebug($"[PreCleanUp] Calling CardDrawPiles CleanUp...");
 			StartCoroutine(CardDrawPiles.Instance.CleanUp());
 
@@ -30,7 +42,6 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 			yield return GlitchOutBoardAndHandCards();
 
-			
 			Log.LogDebug($"[PreCleanUp] Setting rulebook controller to not shown");
 			RuleBookController.Instance.SetShown(shown: false);
 			Log.LogDebug($"[PreCleanUp] Setting TableRuleBook.Instance enabled to false");
@@ -39,14 +50,6 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			GlitchOutAssetEffect.GlitchModel(TableRuleBook.Instance.transform);
 			yield return new WaitForSeconds(0.75f);
 
-
-			yield return TextDisplayer.Instance.PlayDialogueEvent(
-				"RoyalBossDeleted",
-				TextDisplayer.MessageAdvanceMode.Input
-			);
-			yield return new WaitForSeconds(0.5f);
-
-			InteractionCursor.Instance.InteractionDisabled = false;
 
 			Log.LogDebug($"[GameEnd] Glitching Resource Energy");
 			GlitchOutAssetEffect.GlitchModel(ResourceDrone.Instance.transform);
@@ -64,18 +67,12 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			GlitchOutAssetEffect.GlitchModel(GrimoraItemsManagerExt.Instance.hammerSlot.transform);
 			yield return new WaitForSeconds(0.75f);
 
-			// yield return (GameFlowManager.Instance as GrimoraGameFlowManager).EndSceneSequence();
-
 			Log.LogDebug($"[GameEnd] Glitching bone tokens");
 			(ResourcesManager.Instance as Part1ResourcesManager).GlitchOutBoneTokens();
 			GlitchOutAssetEffect.GlitchModel(TableVisualEffectsManager.Instance.Table.transform);
 			yield return new WaitForSeconds(0.75f);
 
-			Log.LogDebug($"[GameEnd] Playing dialogue event");
-			yield return TextDisplayer.Instance.PlayDialogueEvent(
-				"GrimoraFinaleEnd",
-				TextDisplayer.MessageAdvanceMode.Input
-			);
+			InteractionCursor.Instance.InteractionDisabled = false;
 
 			Log.LogDebug($"[GameEnd] Switching to default view");
 			ViewManager.Instance.SwitchToView(View.Default, immediate: false, lockAfter: true);
@@ -151,7 +148,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			GlitchOutCard(c2);
 			yield return new WaitForSeconds(0.1f);
 		}
-		
+
 		PlayerHand.Instance.SetShown(false);
 
 		yield return new WaitForSeconds(0.75f);
