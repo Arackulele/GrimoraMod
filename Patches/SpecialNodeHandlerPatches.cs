@@ -28,6 +28,12 @@ public class SpecialNodeHandlerPatches
 			return false;
 		}
 
+		if (nodeData is ElectricChairNodeData)
+		{
+			__instance.StartCoroutine(ElectricChairSequencer.Instance.StartSequence());
+			return false;
+		}
+
 		return true;
 	}
 }
