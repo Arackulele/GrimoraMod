@@ -22,7 +22,8 @@ public class KayceeBossSequencer : GrimoraModBossBattleSequencer
 		return playerUpkeep;
 	}
 
-	public int freezeCounter = 0;
+	private int _freezeCounter = 0;
+	private int _iceBreakCounter = 0;
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
@@ -32,12 +33,14 @@ public class KayceeBossSequencer : GrimoraModBossBattleSequencer
 				.Where(card => card.Attack > 0)
 				.ToList();
 
-		freezeCounter++;
+		_freezeCounter++;
 		if (!playerCardsWithAttacks.IsNullOrEmpty())
 		{
-			if (freezeCounter >= 3)
+			if (_freezeCounter >= 3)
 			{
-				StartCoroutine(TextDisplayer.Instance.ShowUntilInput("Freeze!"));
+				ViewManager.Instance.SwitchToView(View.BossCloseup);
+				yield return TextDisplayer.Instance.ShowUntilInput("Freeze!");
+				ViewManager.Instance.SwitchToView(View.Board);
 				foreach (var card in playerCardsWithAttacks)
 				{
 					card.Anim.StrongNegationEffect();
@@ -47,9 +50,24 @@ public class KayceeBossSequencer : GrimoraModBossBattleSequencer
 					card.Anim.StrongNegationEffect();
 					yield return new WaitForSeconds(0.05f);
 
-					freezeCounter = 0;
+					_freezeCounter = 0;
 				}
 			}
 		}
+
+		var opponentCards = CardSlotUtils.GetOpponentSlotsWithCards();
+		var draugrCards = opponentCards.FindAll(slot => slot.Card.name.Equals(GrimoraPlugin.NameDraugr));
+		if (++_iceBreakCounter == 2 && draugrCards.Count >= 2)
+		{
+			ViewManager.Instance.SwitchToView(View.Board);
+			yield return TextDisplayer.Instance.ShowUntilInput("ALL THIS ICE IS TAKING UP TOO MUCH SPACE!");
+			foreach (var card in draugrCards.Select(slot => slot.Card))
+			{
+				yield return card.Die(false);
+				yield return new WaitForSeconds(0.1f);
+			}
+		}
+		
+		ViewManager.Instance.SwitchToView(View.Default);
 	}
 }
