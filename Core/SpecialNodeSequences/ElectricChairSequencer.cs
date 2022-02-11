@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using Pixelplacement;
 using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -9,6 +10,14 @@ namespace GrimoraMod;
 public class ElectricChairSequencer : CardStatBoostSequencer
 {
 	public static ElectricChairSequencer Instance => FindObjectOfType<ElectricChairSequencer>();
+
+	private static readonly ViewInfo ChairViewInfo = new()
+	{
+		handPosition = PlayerHand3D.HIDDEN_HAND_POS,
+		camPosition = new Vector3(0f, 9.3f, -3.5f),
+		camRotation = new Vector3(37.5f, 0f, 0f),
+		fov = 55f
+	};
 
 	public IEnumerator StartSequence()
 	{
@@ -156,11 +165,13 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	{
 		selectionSlot.SetShown(true);
 		selectionSlot.ShowState(HighlightedInteractable.State.Interactable);
-		ViewManager.Instance.SwitchToView(View.CardMergeSlots, false, true);
 		if (selectionSlot.Card != null)
 		{
 			confirmStone.Enter();
 		}
+
+		Tween.LocalPosition(ViewManager.Instance.CameraParent, ChairViewInfo.camPosition, 0.16f, 0f, Tween.EaseInOut);
+		Tween.LocalRotation(ViewManager.Instance.CameraParent, ChairViewInfo.camRotation, 0.16f, 0f, Tween.EaseInOut);
 	}
 
 	private new static void ApplyModToCard(CardInfo card)
