@@ -68,27 +68,27 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 				break;
 			}
 
-			if (!RunState.Run.survivorsDead)
+			yield return TextDisplayer.Instance.PlayDialogueEvent(
+				"StatBoostPushLuck" + numBuffsGiven,
+				TextDisplayer.MessageAdvanceMode.Input
+			);
+			yield return new WaitForSeconds(0.1f);
+			switch (numBuffsGiven)
 			{
-				yield return TextDisplayer.Instance.PlayDialogueEvent("StatBoostPushLuck" + numBuffsGiven,
-					TextDisplayer.MessageAdvanceMode.Input);
-				yield return new WaitForSeconds(0.1f);
-				switch (numBuffsGiven)
-				{
-					case 1:
-						TextDisplayer.Instance.ShowMessage("Push your luck? Or pull away?", Emotion.Neutral,
-							TextDisplayer.LetterAnimation.WavyJitter);
-						break;
-					case 2:
-						TextDisplayer.Instance.ShowMessage("Push your luck further? Or run back?", Emotion.Neutral,
-							TextDisplayer.LetterAnimation.WavyJitter);
-						break;
-					case 3:
-						TextDisplayer.Instance.ShowMessage("Recklessly continue?", Emotion.Neutral,
-							TextDisplayer.LetterAnimation.WavyJitter);
-						break;
-				}
+				case 1:
+					TextDisplayer.Instance.ShowMessage("Push your luck? Or pull away?", Emotion.Neutral,
+						TextDisplayer.LetterAnimation.WavyJitter);
+					break;
+				case 2:
+					TextDisplayer.Instance.ShowMessage("Push your luck further? Or run back?", Emotion.Neutral,
+						TextDisplayer.LetterAnimation.WavyJitter);
+					break;
+				case 3:
+					TextDisplayer.Instance.ShowMessage("Recklessly continue?", Emotion.Neutral,
+						TextDisplayer.LetterAnimation.WavyJitter);
+					break;
 			}
+
 
 			bool cancelledByClickingCard = false;
 			retrieveCardInteractable.gameObject.SetActive(true);
