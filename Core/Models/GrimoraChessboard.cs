@@ -265,7 +265,13 @@ public class GrimoraChessboard
 		if (piece.anim is null && piece.transform.Find("Anim") is not null)
 		{
 			piece.anim = piece.transform.Find("Anim").GetComponent<Animator>();
-		} 
+		}
+
+		if (typeof(T) == typeof(ChessboardBlockerPieceExt))
+		{
+			piece.anim = PrefabConstants.EnemyPiece.anim;
+		}
+
 		piece.gridXPos = x;
 		piece.gridYPos = y;
 
