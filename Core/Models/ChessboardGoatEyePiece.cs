@@ -39,7 +39,8 @@ public class GoatEyePatch
 		for (int i = 0; i < 8; i++)
 		{
 			var node = ChessboardNavGrid.instance.zones[i, GrimoraSaveData.Data.gridY].GetComponent<ChessboardMapNode>();
-			if (node.OccupyingPiece is not null && node.OccupyingPiece.GetType() != typeof(ChessboardPlayerMarker))
+			if (node.OccupyingPiece is null) continue;
+			if (node.OccupyingPiece.GetType() != typeof(ChessboardPlayerMarker) && node.OccupyingPiece.GetType() != typeof(ChessboardGoatEyePiece))
 			{
 				node.OccupyingPiece.TurnToFacePoint(PlayerMarker.Instance.transform.position, 0.2f);
 			}
