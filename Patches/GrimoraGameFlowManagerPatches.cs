@@ -12,40 +12,45 @@ public class GrimoraGameFlowManagerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(GrimoraGameFlowManager.SceneSpecificInitialization))]
 	public static bool PrefixAddMultipleSequencersDuringLoad(ref GrimoraGameFlowManager __instance)
 	{
-		// Log.LogDebug($"[SceneSpecificInitialization] Instance is [{__instance.GetType()}]");
-
 		// bool skipIntro = GrimoraPlugin.ConfigHasPlayedRevealSequence.Value;
 		bool setLightsActive = true;
 
 		if (FinaleDeletionWindowManager.instance != null)
 		{
-			// GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Destroying FinaleDeletionWindowManager as it exists");
 			Object.Destroy(FinaleDeletionWindowManager.instance.gameObject);
 		}
 
-		ViewManager.Instance.SwitchToView(View.Default, immediate: true);
+		ViewManager.Instance.SwitchToView(View.Default, true);
 
-		if (!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable))
+		if (StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable))
+		{
+			Log.LogDebug($"[SceneSpecificInitialization] GrimoraReachedTable is true.");
+			AudioController.Instance.SetLoopAndPlay("finalegrimora_ambience");
+			if (GameMap.Instance != null)
+			{
+				// this is so that it looks a little cleaner when entering for the first time
+				ChessboardMap.Instance.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+				__instance.CurrentGameState = GameState.Map;
+				__instance.StartCoroutine(__instance.TransitionTo(GameState.Map, null, true));
+			}
+		}
+		else
 		{
 			Log.LogDebug($"[SceneSpecificInitialization] GrimoraReachedTable is false");
 
 			if (GameMap.Instance != null)
 			{
-				// GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Calling GameMap.HideMapImmediate as it exists");
 				GameMap.Instance.HideMapImmediate();
 			}
 
-			// GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Setting __instance.CurrentGameState to GameState.FirstPerson3D");
 			__instance.CurrentGameState = GameState.FirstPerson3D;
 
-			// Log.LogDebug($"[SceneSpecificInitialization] Transitioning to FirstPerson3D");
-			__instance.StartCoroutine(__instance.TransitionTo(GameState.FirstPerson3D, null, immediate: true));
+			__instance.StartCoroutine(__instance.TransitionTo(GameState.FirstPerson3D, null, true));
 
 			SetLightsActive(__instance);
 
 			__instance.StartCoroutine(__instance.StartSceneSequence());
 
-			// Log.LogDebug($"[SceneSpecificInitialization] Tombstones falling");
 			CryptEpitaphSlotInteractable cryptEpitaphSlotInteractable =
 				Object.FindObjectOfType<CryptEpitaphSlotInteractable>();
 
@@ -76,20 +81,6 @@ public class GrimoraGameFlowManagerPatches
 			__instance.StartCoroutine(((GrimoraGameFlowManager)GameFlowManager.Instance).RevealGrimoraSequence());
 
 			SaveManager.SaveToFile();
-		}
-		else
-		{
-			Log.LogDebug($"[SceneSpecificInitialization] GrimoraReachedTable is true.");
-			AudioController.Instance.SetLoopAndPlay("finalegrimora_ambience");
-			if (GameMap.Instance != null)
-			{
-				// this is so that it looks a little cleaner when entering for the first time
-				ChessboardMap.Instance.gameObject.transform.GetChild(0).gameObject.SetActive(false);
-				// GrimoraPlugin.Log.LogDebug($"[SceneSpecificInitialization] Setting CurrentGameState to GameState.Map");
-				__instance.CurrentGameState = GameState.Map;
-				// Log.LogDebug($"[SceneSpecificInitialization] Transitioning to GameState.Map");
-				__instance.StartCoroutine(__instance.TransitionTo(GameState.Map, null, immediate: true));
-			}
 		}
 
 		return false;
