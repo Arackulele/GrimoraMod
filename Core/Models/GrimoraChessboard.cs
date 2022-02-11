@@ -165,11 +165,18 @@ public class GrimoraChessboard
 		int x = GrimoraSaveData.Data.gridX;
 		int y = GrimoraSaveData.Data.gridY;
 
-		if (changingRegion || !StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable))
+		ChessboardPiece pieceAtSpace = GetPieceAtSpace(x, y);
+		
+		bool pieceAtSpaceIsNotPlayer = pieceAtSpace is not null && pieceAtSpace.GetType() != typeof(PlayerMarker);
+		
+		if (changingRegion || !StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable) || pieceAtSpaceIsNotPlayer)
 		{
 			// the PlayerNode will be different since this is now a different chessboard
 			x = GetPlayerNode().GridX;
 			y = GetPlayerNode().GridY;
+			GrimoraSaveData.Data.gridX = x;
+			GrimoraSaveData.Data.gridY = y;
+			Log.LogDebug($"[UpdatePlayerMarkerPosition] New x{x}y{y} coords");
 		}
 
 		MapNodeManager.Instance.ActiveNode = ChessboardNavGrid.instance.zones[x, y].GetComponent<MapNode>();

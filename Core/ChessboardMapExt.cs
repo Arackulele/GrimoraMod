@@ -351,9 +351,6 @@ public class ChessboardMapExt : GameMap
 				DeckReviewSequencer.Instance.SetDeckReviewShown(false, transform, DefaultPosition);
 				if (MapNodeManager.Instance != null)
 				{
-					// GrimoraPlugin.Log.LogDebug($"[OnViewChanged] SetAllNodesInteractable true");
-					// MapNodeManager.Instance.SetAllNodesInteractable(true);
-					MapNodeManager.Instance.FindAndSetActiveNodeInteractable();
 					ChessboardNavGrid.instance.SetPlayerAdjacentNodesActive();
 				}
 
