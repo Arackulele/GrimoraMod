@@ -74,10 +74,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 			yield return ShowBossSkull();
 
 			// Log.LogDebug($"[{GetType()}] Creating mask [{prefabPath}]");
-			Mask = (GameObject)Instantiate(
-				Resources.Load(prefabPath),
-				RightWrist.transform
-			);
+			Mask = (GameObject)Instantiate(Resources.Load(prefabPath), RightWrist.transform);
 
 			Mask.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
 			Mask.transform.localPosition = new Vector3(0.02f, 0.18f, 0.07f);
@@ -103,10 +100,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 			if (Mask is not null)
 			{
 				Log.LogDebug($"[{GetType()}] Glitching mask");
-				GlitchOutAssetEffect.GlitchModel(
-					Mask.transform,
-					true
-				);
+				GlitchOutAssetEffect.GlitchModel(Mask.transform, true);
 			}
 
 			Log.LogDebug($"[{GetType()}] audio queue");
@@ -154,7 +148,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 
 		yield return new WaitForSeconds(0.25f);
 
-		ViewManager.Instance.SwitchToView(View.BossCloseup, immediate: false, lockAfter: true);
+		ViewManager.Instance.SwitchToView(View.BossCloseup, false, true);
 	}
 
 	public virtual IEnumerator ReplaceBlueprintCustom(EncounterBlueprintData blueprintData)
