@@ -30,7 +30,7 @@ public class KayceeBossOpponent : BaseBossExt
 
 		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
-			"Brrrr! I've been freezing for ages! Let's turn up the heat in a good fight!",
+			"[c:bB]Brrrr![c:] I've been freezing for ages! Let's turn up the [c:R]heat[c:] for a good fight!",
 			-0.65f,
 			0.4f
 		);
@@ -104,7 +104,7 @@ public class KayceeBossOpponent : BaseBossExt
 
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"This next area was made by Sawyer, one of my Ghouls.\nHe says it is terrible.",
+				"This next area was made by one of my ghouls, Sawyer.\nHe says it is terrible.",
 				-0.65f,
 				0.4f
 			);
