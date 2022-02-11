@@ -8,7 +8,6 @@ public class ChessboardBoneyardPiece : ChessboardPieceExt
 	public ChessboardBoneyardPiece()
 	{
 		NodeData = new CardStatBoostNodeData();
-		newScale = 1.25f;
 	}
 	
 }
