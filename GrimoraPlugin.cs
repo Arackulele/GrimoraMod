@@ -22,11 +22,11 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private static Harmony _harmony;
 
-	public static GameObject[] AllPrefabs;
-	public static Sprite[] AllSprites;
-	public static Texture[] AllAbilityTextures;
-	public static Material[] AllMats;
-	public static RuntimeAnimatorController[] AllControllers;
+	public static List<GameObject> AllPrefabs;
+	public static List<Material> AllMats;
+	public static List<RuntimeAnimatorController> AllControllers;
+	public static List<Sprite> AllSprites;
+	public static List<Texture> AllAbilityTextures;
 
 	// Gets populated in CardBuilder.Build()
 	public static List<CardInfo> AllGrimoraModCards = new();

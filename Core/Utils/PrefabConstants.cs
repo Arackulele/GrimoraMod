@@ -10,8 +10,7 @@ public static class PrefabConstants
 	public const string PathSpecialNodes = "Prefabs/SpecialNodeSequences";
 	public const string PathArt3D = "Art/Assets3D";
 
-	public static GameObject GraveDiggerFigurine
-		= ResourceBank.Get<GameObject>($"{PathArt3D}/PlayerAvatar/gravedigger/GravediggerFin");
+	public static GameObject BoneyardFigurine = AssetUtils.GetPrefab<GameObject>("ChessboardPiece_Boneyard");
 
 	public static ChessboardEnemyPiece BossPiece =
 		ResourceBank.Get<ChessboardEnemyPiece>($"{PathChessboardMap}/BossFigurine");
@@ -31,9 +30,9 @@ public static class PrefabConstants
 	public static GameObject GrimoraCardBack =
 		ResourceBank.Get<GameObject>("Prefabs/Cards/CardBack_Grimora");
 
-	public static GameObject GoatEyeFigurine = AllPrefabs.Single(go => go.name.Equals("ChessboardPiece_GoatEye"));
+	public static GameObject GoatEyeFigurine = AssetUtils.GetPrefab<GameObject>("ChessboardPiece_GoatEye");
 
-	public static GameObject CardRemovalFigurine = AllPrefabs.Single(go => go.name.Equals("ChessboardPiece_CardRemove"));
+	public static GameObject CardRemovalFigurine = AssetUtils.GetPrefab<GameObject>("ChessboardPiece_CardRemove");
 
 	public static GameObject Tombstone3 =
 		ResourceBank.Get<GameObject>($"{PathChessboardMap}/Chessboard_Tombstone_3");
@@ -41,10 +40,9 @@ public static class PrefabConstants
 	public static GameObject CardStatBoostSequencer =
 		ResourceBank.Get<GameObject>($"{PathSpecialNodes}/CardStatBoostSequencer");
 
-	public static GameObject BoneyardGrave =
-		AllPrefabs.Single(obj => obj.name.Equals("BoneyardBurialGrave", StringComparison.OrdinalIgnoreCase));
+	public static GameObject BoneyardGrave = AssetUtils.GetPrefab<GameObject>("BoneyardBurialGrave");
 
-	public static GameObject ElectricChair = AllPrefabs.Single(go => go.name.Equals("ChessboardPiece_ElectricChair"));
+	public static GameObject ElectricChair = AssetUtils.GetPrefab<GameObject>("ChessboardPiece_ElectricChair");
 
 	public static Material WoodenBoxMaterial =
 		ResourceBank.Get<Material>($"{PathArt3D}/nodesequences/woodenbox/WoodenBox_Wood");

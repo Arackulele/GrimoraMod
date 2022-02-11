@@ -19,7 +19,7 @@ public class GrimoraChessboard
 			},
 			{
 				typeof(ChessboardBoneyardPiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.GraveDiggerFigurine, GetBoneyardNodes)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.BoneyardFigurine, GetBoneyardNodes)
 			},
 			{
 				typeof(ChessboardCardRemovePiece),
@@ -46,10 +46,10 @@ public class GrimoraChessboard
 
 	private readonly Dictionary<int, Func<GameObject>> _bossByIndex = new()
 	{
-		{ 0, () => AllPrefabs.Single(pb => pb.name.Equals("Blocker_Kaycee")) },
-		{ 1, () => AllPrefabs.Single(pb => pb.name.Equals("Blocker_Sawyer")) },
-		{ 2, () => AllPrefabs.Single(pb => pb.name.Equals("Blocker_Royal")) },
-		{ 3, () => AllPrefabs.Single(pb => pb.name.Equals("Blocker_Grimora")) },
+		{ 0, () => AssetUtils.GetPrefab<GameObject>("Blocker_Kaycee") },
+		{ 1, () => AssetUtils.GetPrefab<GameObject>("Blocker_Sawyer") },
+		{ 2, () => AssetUtils.GetPrefab<GameObject>("Blocker_Royal") },
+		{ 3, () => AssetUtils.GetPrefab<GameObject>("Blocker_Grimora") },
 	};
 
 

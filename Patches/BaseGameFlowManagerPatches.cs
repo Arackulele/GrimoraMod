@@ -12,10 +12,10 @@ namespace GrimoraMod;
 public class BaseGameFlowManagerPatches
 {
 	private static readonly RuntimeAnimatorController GraveStoneController =
-		AllControllers.Single(obj => obj.name.Equals("GravestoneCardAnim - Copy"));
+		AssetUtils.GetPrefab<RuntimeAnimatorController>("GravestoneCardAnim - Copy");
 
 	private static readonly RuntimeAnimatorController SkeletonArmController =
-		AllControllers.Single(obj => obj.name.Equals("SkeletonAttackAnim"));
+		AssetUtils.GetPrefab<RuntimeAnimatorController>("SkeletonAttackAnim");
 
 	private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
 

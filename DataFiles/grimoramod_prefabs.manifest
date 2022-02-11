@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2281366019
+CRC: 851180681
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 0af700626622a0d4fbb92103377fcb0d
+    Hash: ed3adaa4c770ace4d4ec47beb0181213
   TypeTreeHash:
     serializedVersion: 2
     Hash: 890c8307931cb6c5d1d171fecf411d65
@@ -52,4 +52,5 @@ Assets:
 - Assets/GrimoraMod/ChessboardPieces/Blocker_Grimora.prefab
 - Assets/GrimoraMod/ChessboardPieces/ChessboardPiece_ElectricChair.prefab
 - Assets/GrimoraMod/ChessboardPieces/Blocker_Royal.prefab
+- Assets/GrimoraMod/ChessboardPieces/ChessboardPiece_Boneyard.prefab
 Dependencies: []

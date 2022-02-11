@@ -40,9 +40,7 @@ public class CardBuilder
 		{
 			cardName = cardName.Replace("GrimoraMod_", "");
 			// Log.LogDebug($"Looking in AllSprites for [{cardName}]");
-			_cardInfo.portraitTex = AllSprites.Single(
-				spr => spr.name.Equals(cardName, StringComparison.OrdinalIgnoreCase)
-			);
+			_cardInfo.portraitTex = AssetUtils.GetPrefab<Sprite>(cardName);
 
 			// TODO: refactor when API 2.0 comes out
 			AllSprites.DoIf(

@@ -20,7 +20,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 	private void SetMaterials()
 	{
-		Material statBoostBoneyard = AllMats.Single(_ => _.name.Equals("StatBoostBoneyard"));
+		Material statBoostBoneyard = AssetUtils.GetPrefab<Material>("StatBoostBoneyard");
 		selectionSlot.specificRenderers[0].material = statBoostBoneyard;
 		selectionSlot.specificRenderers[0].sharedMaterial = statBoostBoneyard;
 		selectionSlot.transform.localPosition = new Vector3(0, 5.13f, 0.51f);
@@ -29,8 +29,8 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		// selectionSlot.transform.GetChild(0).localRotation = Quaternion.Euler(90, 0, 0);
 
 		var stoneQuad = confirmStone.transform.Find("Quad").GetComponent<MeshRenderer>();
-		stoneQuad.material = AllMats.Single(_ => _.name.Equals("BoneyardBurialShovel"));
-		stoneQuad.sharedMaterial = AllMats.Single(_ => _.name.Equals("BoneyardBurialShovel"));
+		stoneQuad.material = AssetUtils.GetPrefab<Material>("BoneyardBurialShovel");
+		stoneQuad.sharedMaterial = AssetUtils.GetPrefab<Material>("BoneyardBurialShovel");
 		selectionSlot.defaultColor = new Color(0.420f, 1f, 0.63f);
 		selectionSlot.baseColor = new Color(0.420f, 1f, 0.63f);
 		stoneQuad.transform.localScale = new Vector3(1.75f, 1.75f, 1.75f);
@@ -355,7 +355,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		Log.LogDebug($"[Boneyard] creating gravedigger");
 
 		CompositeFigurine gravediggerFigurine = Instantiate(
-			PrefabConstants.GraveDiggerFigurine,
+			PrefabConstants.BoneyardFigurine,
 			new Vector3(0, 5, 2.5f),
 			Quaternion.Euler(0, 180, 0),
 			cardStatObj.transform
