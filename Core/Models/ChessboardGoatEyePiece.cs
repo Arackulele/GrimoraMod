@@ -18,7 +18,7 @@ public class GoatEyePatch
 	{
 		yield return enumerator;
 
-		Vector3 playerPos = Object.FindObjectOfType<PlayerMarker>().transform.position;
+		Vector3 playerPos = PlayerMarker.Instance.transform.position;
 		foreach (var goatEyePiece in Object.FindObjectsOfType<ChessboardGoatEyePiece>())
 		{
 			TurnToFacePoint(goatEyePiece.gameObject, playerPos, 0.1f);
@@ -29,6 +29,15 @@ public class GoatEyePatch
 			foreach (var blocker in Object.FindObjectsOfType<ChessboardBlockerPieceExt>())
 			{
 				TurnToFacePoint(blocker.gameObject, playerPos, 0.1f);
+			}
+		}
+		
+		for (int i = 0; i < 8; i++)
+		{
+			var node = ChessboardNavGrid.instance.zones[i, GrimoraSaveData.Data.gridY].GetComponent<ChessboardMapNode>();
+			if (node.OccupyingPiece is not null && node.OccupyingPiece.GetType() != typeof(ChessboardPlayerMarker))
+			{
+				node.OccupyingPiece.TurnToFacePoint(PlayerMarker.Instance.transform.position, 0.2f);
 			}
 		}
 	}
