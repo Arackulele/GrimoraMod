@@ -269,4 +269,104 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			ExplorableAreaManager.Instance.HandLight.gameObject.SetActive(true);
 		});
 	}
+
+	public static void CreateSequencerInScene()
+	{
+		if (SpecialNodeHandler.Instance is null)
+		{
+			return;
+		}
+
+		Log.LogDebug("[ElectricChair] Creating boneyard burial");
+		GameObject cardStatObj = Instantiate(
+			PrefabConstants.CardStatBoostSequencer,
+			SpecialNodeHandler.Instance.transform
+		);
+		cardStatObj.name = "ElectricChairSequencer_Grimora";
+
+		Log.LogDebug("[ElectricChair] getting selection slot");
+		var selectionSlot = cardStatObj.transform.GetChild(1);
+
+		Log.LogDebug("[ElectricChair] getting stake ring");
+		var stakeRing = cardStatObj.transform.Find("StakeRing");
+
+		// destroying things
+
+		Log.LogDebug("[ElectricChair] destroying fireanim");
+		Destroy(selectionSlot.GetChild(1).gameObject); //FireAnim 
+		for (int i = 0; i < cardStatObj.transform.childCount; i++)
+		{
+			var child = cardStatObj.transform.GetChild(i);
+			if (child.name.Equals("Figurine"))
+			{
+				Destroy(child.gameObject);
+			}
+		}
+
+		Log.LogDebug($"[ElectricChair] destroying existing stake rings [{stakeRing.childCount}]");
+		for (int i = 0; i < stakeRing.childCount; i++)
+		{
+			// don't need the stake rings
+			Destroy(stakeRing.GetChild(i).gameObject);
+		}
+
+		var oldSequencer = cardStatObj.GetComponent<CardStatBoostSequencer>();
+
+		Log.LogDebug("Adding component");
+		var newSequencer = cardStatObj.AddComponent<ElectricChairSequencer>();
+
+		Log.LogDebug("Transferring old to new");
+		newSequencer.campfireLight = oldSequencer.campfireLight;
+		newSequencer.campfireLight.transform.localPosition = new Vector3(0, 6.75f, 0.63f);
+		newSequencer.campfireLight.color = new Color(0, 1, 1, 1);
+		newSequencer.campfireCardLight = oldSequencer.campfireCardLight;
+		newSequencer.campfireCardLight.color = new Color(0, 1, 1, 1);
+
+		newSequencer.confirmStone = oldSequencer.confirmStone;
+		newSequencer.confirmStone.confirmView = View.CardMergeSlots;
+
+		newSequencer.figurines = new List<CompositeFigurine>();
+		newSequencer.figurines.AddRange(CreateElectricChair(cardStatObj));
+
+		newSequencer.pile = oldSequencer.pile;
+		newSequencer.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
+
+		newSequencer.selectionSlot = oldSequencer.selectionSlot;
+		newSequencer.selectionSlot.transform.localPosition = new Vector3(0, 7, 1);
+		newSequencer.selectionSlot.transform.localRotation = Quaternion.Euler(270, 0, 0);
+		newSequencer.selectionSlot.cardSelector.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
+		newSequencer.selectionSlot.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
+
+		newSequencer.retrieveCardInteractable = oldSequencer.retrieveCardInteractable;
+		newSequencer.stakeRingParent = oldSequencer.stakeRingParent;
+		// this will throw an exception if we don't remove the specific renderer for fire anim
+		newSequencer.selectionSlot.specificRenderers.RemoveAt(1);
+
+		Log.LogDebug("Destroying old sequencer");
+		Destroy(oldSequencer);
+	}
+
+	private static List<CompositeFigurine> CreateElectricChair(GameObject cardStatObj)
+	{
+		Log.LogDebug("[ElectricChair] creating chair");
+		CompositeFigurine chairFigurine = Instantiate(
+			PrefabConstants.ElectricChair,
+			new Vector3(0, 5.85f, 1),
+			Quaternion.Euler(0, -90, 0),
+			cardStatObj.transform
+		).AddComponent<CompositeFigurine>();
+		chairFigurine.name = "Electric Chair Figurine";
+		chairFigurine.transform.localScale = new Vector3(60, 60, 60);
+		chairFigurine.gameObject.SetActive(false);
+
+		CompositeFigurine vfxElectricity = Instantiate(
+			AssetUtils.GetPrefab<GameObject>("VfxBoltLightning"),
+			new Vector3(0.1f, 7.5f, 1.25f),
+			Quaternion.identity,
+			cardStatObj.transform
+		).AddComponent<CompositeFigurine>();
+		vfxElectricity.gameObject.SetActive(false);
+
+		return new List<CompositeFigurine> { chairFigurine, vfxElectricity };
+	}
 }

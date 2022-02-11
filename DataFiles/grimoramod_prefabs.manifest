@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 851180681
+CRC: 3442825287
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: ed3adaa4c770ace4d4ec47beb0181213
+    Hash: 9a31baf9ec0ce847d0a385dc677ed5fd
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 890c8307931cb6c5d1d171fecf411d65
+    Hash: bc2f737821ec90d33cfdfb0a7a7aba7b
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -41,6 +41,10 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 136
   Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/GrimoraMod/ChessboardPieces/Blocker_Kaycee.prefab
@@ -50,6 +54,7 @@ Assets:
 - Assets/GrimoraMod/ChessboardPieces/ChessboardPiece_CardRemove.prefab
 - Assets/Prefabs/Hexalantern.prefab
 - Assets/GrimoraMod/ChessboardPieces/Blocker_Grimora.prefab
+- Assets/GrimoraMod/Animations/VfxBoltLightning.prefab
 - Assets/GrimoraMod/ChessboardPieces/ChessboardPiece_ElectricChair.prefab
 - Assets/GrimoraMod/ChessboardPieces/Blocker_Royal.prefab
 - Assets/GrimoraMod/ChessboardPieces/ChessboardPiece_Boneyard.prefab

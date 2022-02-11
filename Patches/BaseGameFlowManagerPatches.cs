@@ -42,6 +42,8 @@ public class BaseGameFlowManagerPatches
 		ChessboardMapExt.ChangeChessboardToExtendedClass();
 		
 		BoneyardBurialSequencer.CreateSequencerInScene();
+		
+		ElectricChairSequencer.CreateSequencerInScene();
 
 		GrimoraCardRemoveSequencer.CreateSequencerInScene();
 
