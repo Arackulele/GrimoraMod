@@ -262,7 +262,10 @@ public class GrimoraChessboard
 
 		piece = HandlePieceSetup<T>(prefab, specialEncounterId);
 
-		piece.anim ??= PrefabConstants.EnemyPiece.anim;
+		if (piece.anim is null && piece.transform.Find("Anim") is not null)
+		{
+			piece.anim = piece.transform.Find("Anim").GetComponent<Animator>();
+		} 
 		piece.gridXPos = x;
 		piece.gridYPos = y;
 
