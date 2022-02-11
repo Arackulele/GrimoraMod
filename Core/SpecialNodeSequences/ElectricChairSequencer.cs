@@ -337,6 +337,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		newSequencer.campfireLight.color = new Color(0, 1, 1, 1);
 		newSequencer.campfireCardLight = oldSequencer.campfireCardLight;
 		newSequencer.campfireCardLight.color = new Color(0, 1, 1, 1);
+		newSequencer.campfireCardLight.range = 8;
 
 		newSequencer.confirmStone = oldSequencer.confirmStone;
 		newSequencer.confirmStone.confirmView = View.CardMergeSlots;
