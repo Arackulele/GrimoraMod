@@ -6,12 +6,12 @@ namespace GrimoraMod;
 public static class ImageUtils
 {
 	// ReSharper disable all InconsistentNaming
-	public static readonly Texture Energy1 = LoadTextureFromFile("Energy1");
-	public static readonly Texture Energy2 = LoadTextureFromFile("Energy2");
-	public static readonly Texture Energy3 = LoadTextureFromFile("Energy3");
-	public static readonly Texture Energy4 = LoadTextureFromFile("Energy4");
-	public static readonly Texture Energy5 = LoadTextureFromFile("Energy5");
-	public static readonly Texture Energy6 = LoadTextureFromFile("Energy6");
+	// public static readonly Texture Energy1 = LoadTextureFromFile("Energy1");
+	// public static readonly Texture Energy2 = LoadTextureFromFile("Energy2");
+	// public static readonly Texture Energy3 = LoadTextureFromFile("Energy3");
+	// public static readonly Texture Energy4 = LoadTextureFromFile("Energy4");
+	// public static readonly Texture Energy5 = LoadTextureFromFile("Energy5");
+	// public static readonly Texture Energy6 = LoadTextureFromFile("Energy6");
 
 	public static Texture2D LoadTextureFromBytes(byte[] nameOfCardArt)
 	{
