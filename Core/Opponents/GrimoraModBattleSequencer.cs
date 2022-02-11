@@ -13,6 +13,8 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 	{
 		if (!TurnManager.Instance.PlayerIsWinner())
 		{
+			Opponent opponent = TurnManager.Instance.Opponent;
+			
 			Log.LogDebug($"[PreCleanUp] Player did not win...");
 			AudioController.Instance.FadeOutLoop(3f, Array.Empty<int>());
 
@@ -33,12 +35,20 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 				"GrimoraFinaleEnd",
 				TextDisplayer.MessageAdvanceMode.Input
 			);
+			
+			if (opponent is BaseBossExt ext && ext.Mask != null)
+			{
+				Log.LogDebug($"[{GetType()}] Glitching mask and boss skull");
+				GlitchOutAssetEffect.GlitchModel(ext.Mask.transform, true);
+				GrimoraAnimationController.Instance.SetHeadTrigger("hide_skull");
+				GlitchOutAssetEffect.GlitchModel(ext.bossSkull.transform, true);
+			}
 
 			Log.LogDebug($"[PreCleanUp] Calling CardDrawPiles CleanUp...");
 			StartCoroutine(CardDrawPiles.Instance.CleanUp());
 
 			Log.LogDebug($"[PreCleanUp] Calling TurnManager CleanUp...");
-			StartCoroutine(TurnManager.Instance.Opponent.CleanUp());
+			StartCoroutine(opponent.CleanUp());
 
 			yield return GlitchOutBoardAndHandCards();
 
