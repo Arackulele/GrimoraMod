@@ -120,7 +120,7 @@ public class BaseGameFlowManagerPatches
 
 	private static void AddEnergyDrone()
 	{
-		ResourceDrone resourceEnergy = Object.FindObjectOfType<ResourceDrone>();
+		ResourceDrone resourceEnergy = ResourceDrone.Instance;
 
 		if (BoardManager3D.Instance is not null && resourceEnergy is null)
 		{
