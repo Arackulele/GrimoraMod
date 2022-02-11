@@ -339,8 +339,9 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		newSequencer.campfireCardLight.color = new Color(0, 1, 1, 1);
 		newSequencer.campfireCardLight.range = 8;
 
+		// TODO: fix creation of leve
+		// newSequencer.confirmStone = CreateLever(cardStatObj);
 		newSequencer.confirmStone = oldSequencer.confirmStone;
-		newSequencer.confirmStone.confirmView = View.CardMergeSlots;
 
 		newSequencer.figurines = new List<CompositeFigurine>();
 		newSequencer.figurines.AddRange(CreateElectricChair(cardStatObj));
@@ -385,5 +386,22 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		vfxElectricity.gameObject.SetActive(false);
 
 		return new List<CompositeFigurine> { chairFigurine, vfxElectricity };
+	}
+
+	private static ConfirmStoneButton CreateLever(GameObject cardStatObj)
+	{
+		GameObject leverObj = Instantiate(
+			AssetUtils.GetPrefab<GameObject>("ElectricChair_Lever"),
+			new Vector3(0, 5, -0.5f),
+			Quaternion.identity,
+			cardStatObj.transform
+		);
+		leverObj.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+		ConfirmStoneButton button = leverObj.transform.GetChild(0).GetChild(1).gameObject.AddComponent<ConfirmStoneButton>();
+		button.confirmView = View.CardMergeSlots;
+		button.anim = button.transform.parent.GetComponent<Animator>();
+		leverObj.gameObject.SetActive(false);
+
+		return button;
 	}
 }
