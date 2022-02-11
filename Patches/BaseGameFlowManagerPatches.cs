@@ -28,33 +28,33 @@ public class BaseGameFlowManagerPatches
 		}
 
 		Log.LogDebug($"[GameFlowManager] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");
-		
+
 		PrefabConstants.GrimoraPlayableCard
 			.transform.Find("SkeletonAttackAnim").GetComponent<Animator>().runtimeAnimatorController = SkeletonArmController;
 		PrefabConstants.GrimoraPlayableCard
 			.GetComponent<GravestoneCardAnimationController>().Anim.runtimeAnimatorController = GraveStoneController;
-		
+
 		PrefabConstants.GrimoraSelectableCard
 			.GetComponent<GravestoneCardAnimationController>().Anim.runtimeAnimatorController = GraveStoneController;
-		
+
 		CardSpawner.Instance.giantPlayableCardPrefab = PrefabConstants.GrimoraPlayableCard;
 
 		ChessboardMapExt.ChangeChessboardToExtendedClass();
-		
+
 		BoneyardBurialSequencer.CreateSequencerInScene();
-		
+
 		ElectricChairSequencer.CreateSequencerInScene();
 
 		GrimoraCardRemoveSequencer.CreateSequencerInScene();
 
 		GrimoraItemsManagerExt.AddHammer();
-		
+
 		AddDeckReviewSequencerToScene();
 
 		AddEnergyDrone();
-		
+
 		AddRareCardSequencerToScene();
-		
+
 		ChangeStartDeckIfNotAlreadyChanged();
 
 		// AddBoonLordBoonConsumable();
@@ -228,33 +228,24 @@ public class BaseGameFlowManagerPatches
 	{
 		if (!SaveManager.SaveFile.IsGrimora || gameState is not GameState.Map)
 		{
+			// run the original code
 			yield return enumerator;
 			yield break;
 		}
-
-		Log.LogDebug(
-			$"[TransitionTo] Instance {__instance.name} " +
-			$"Current state is [{__instance.CurrentGameState}] " +
-			$"GameState [{gameState}]"
-		);
 
 		if (ChessboardMapExt.Instance is null)
 		{
 			// This is required because Unity takes a second to update
 			while (ChessboardMapExt.Instance is null)
 			{
-				Log.LogDebug($"[TransitionTo] Waiting until MapExt is no longer null");
 				yield return new WaitForSeconds(0.25f);
 			}
 
 			// we just want to run this once, not each time the transition happens
-			Log.LogDebug($"[TransitionTo] Calling SetAnimActiveIfInactive()");
 			ChessboardMapExt.Instance.SetAnimActiveIfInactive();
 		}
 
-		Log.LogDebug($"[TransitionTo] Getting bosses defeated");
 		bool isBossDefeated = ChessboardMapExt.Instance.BossDefeated;
-		Log.LogDebug($"[TransitionTo] Getting existing pieces");
 		bool piecesExist = !ChessboardMapExt.Instance.pieces.IsNullOrEmpty();
 
 		Log.LogDebug($"[TransitionTo] IsBossDefeated [{isBossDefeated}] Pieces exist [{piecesExist}]");
@@ -268,7 +259,7 @@ public class BaseGameFlowManagerPatches
 		}
 		else
 		{
-			Log.LogDebug($"[TransitionTo] Returning enumerator since pieces dont exist and/or boss has not been defeated");
+			Log.LogDebug($"[TransitionTo] Running original code as pieces dont exist and/or boss has not been defeated");
 			yield return enumerator;
 		}
 	}
