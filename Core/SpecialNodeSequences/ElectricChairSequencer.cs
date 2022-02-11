@@ -348,7 +348,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		Destroy(oldSequencer);
 	}
 
-	private static List<CompositeFigurine> CreateElectricChair(GameObject cardStatObj)
+	private static IEnumerable<CompositeFigurine> CreateElectricChair(GameObject cardStatObj)
 	{
 		Log.LogDebug("[ElectricChair] creating chair");
 		CompositeFigurine chairFigurine = Instantiate(
@@ -358,7 +358,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			cardStatObj.transform
 		).AddComponent<CompositeFigurine>();
 		chairFigurine.name = "Electric Chair Figurine";
-		chairFigurine.transform.localScale = new Vector3(60, 75, 80);
+		chairFigurine.transform.localScale = new Vector3(60, 85, 95);
 		chairFigurine.gameObject.SetActive(false);
 
 		CompositeFigurine vfxElectricity = Instantiate(
