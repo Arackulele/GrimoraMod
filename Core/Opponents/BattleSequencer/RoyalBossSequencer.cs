@@ -8,7 +8,7 @@ namespace GrimoraMod;
 
 public class RoyalBossSequencer : GrimoraModBossBattleSequencer
 {
-	private readonly RandomEx _rng = new ();
+	private readonly RandomEx _rng = new();
 
 	public override Opponent.Type BossType => BaseBossExt.RoyalOpponent;
 
@@ -47,7 +47,5 @@ public class RoyalBossSequencer : GrimoraModBossBattleSequencer
 			yield return playableCard.TakeDamage(1, null);
 			yield return new WaitForSeconds(0.5f);
 		}
-
-		yield break;
 	}
 }
