@@ -165,10 +165,12 @@ public class GrimoraChessboard
 		int x = GrimoraSaveData.Data.gridX;
 		int y = GrimoraSaveData.Data.gridY;
 
-		ChessboardPiece pieceAtSpace = GetPieceAtSpace(x, y);
-		
-		bool pieceAtSpaceIsNotPlayer = pieceAtSpace is not null && pieceAtSpace.GetType() != typeof(PlayerMarker);
-		
+		ChessboardMapNode nodeAtSpace = GetNodeAtSpace(x, y);
+
+		bool pieceAtSpaceIsNotPlayer = nodeAtSpace.OccupyingPiece is not null
+		                               && nodeAtSpace.OccupyingPiece.GetType() != typeof(PlayerMarker)
+		                               || !nodeAtSpace.isActiveAndEnabled;
+
 		if (changingRegion || !StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable) || pieceAtSpaceIsNotPlayer)
 		{
 			// the PlayerNode will be different since this is now a different chessboard
