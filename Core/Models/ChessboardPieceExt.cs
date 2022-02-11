@@ -33,6 +33,8 @@ public class ChessboardPieceExt : ChessboardPiece
 		else
 		{
 			navZone.GetComponent<ChessboardMapNode>().OccupyingPiece = this;
+			var zone = ChessboardNavGrid.instance.zones[3, 3];
+			TurnToFacePoint(zone.transform.position, 0.1f);
 		}
 	}
 
