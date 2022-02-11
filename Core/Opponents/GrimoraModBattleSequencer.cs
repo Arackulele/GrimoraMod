@@ -14,7 +14,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		if (!TurnManager.Instance.PlayerIsWinner())
 		{
 			Opponent opponent = TurnManager.Instance.Opponent;
-			
+
 			Log.LogDebug($"[PreCleanUp] Player did not win...");
 			AudioController.Instance.FadeOutLoop(3f, Array.Empty<int>());
 
@@ -24,18 +24,12 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 			InteractionCursor.Instance.InteractionDisabled = true;
 
-			yield return TextDisplayer.Instance.PlayDialogueEvent(
-				"RoyalBossDeleted",
-				TextDisplayer.MessageAdvanceMode.Input
-			);
+			yield return TextDisplayer.Instance.PlayDialogueEvent("RoyalBossDeleted", TextDisplayer.MessageAdvanceMode.Input);
 			yield return new WaitForSeconds(0.5f);
 
 			Log.LogDebug($"[GameEnd] Playing dialogue event");
-			yield return TextDisplayer.Instance.PlayDialogueEvent(
-				"GrimoraFinaleEnd",
-				TextDisplayer.MessageAdvanceMode.Input
-			);
-			
+			yield return TextDisplayer.Instance.PlayDialogueEvent("GrimoraFinaleEnd", TextDisplayer.MessageAdvanceMode.Input);
+
 			if (opponent is BaseBossExt ext && ext.Mask != null)
 			{
 				Log.LogDebug($"[{GetType()}] Glitching mask and boss skull");
@@ -53,7 +47,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			yield return GlitchOutBoardAndHandCards();
 
 			Log.LogDebug($"[PreCleanUp] Setting rulebook controller to not shown");
-			RuleBookController.Instance.SetShown(shown: false);
+			RuleBookController.Instance.SetShown(false);
 			Log.LogDebug($"[PreCleanUp] Setting TableRuleBook.Instance enabled to false");
 			TableRuleBook.Instance.enabled = false;
 			Log.LogDebug($"[PreCleanUp] Glitching rulebook");
@@ -85,7 +79,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			InteractionCursor.Instance.InteractionDisabled = false;
 
 			Log.LogDebug($"[GameEnd] Switching to default view");
-			ViewManager.Instance.SwitchToView(View.Default, immediate: false, lockAfter: true);
+			ViewManager.Instance.SwitchToView(View.Default, false, true);
 
 			Log.LogDebug($"[GameEnd] Time to rest");
 			yield return TextDisplayer.Instance.ShowThenClear(
