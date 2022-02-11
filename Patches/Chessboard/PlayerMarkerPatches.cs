@@ -46,9 +46,6 @@ public class PlayerMarkerPatches
 						.zones[GrimoraSaveData.Data.gridX, GrimoraSaveData.Data.gridY]
 						.GetComponent<ChessboardMapNode>();
 			}
-
-			GrimoraPlugin.Log.LogDebug($"[AnimatedGameMapMarker.Show] Setting PlayerMarker");
-			PlayerMarker.Instance.transform.position = MapNodeManager.Instance.ActiveNode.transform.position;
 		}
 	}
 
