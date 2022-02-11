@@ -9,7 +9,7 @@ namespace GrimoraMod;
 public class GrimoraExtBattleSequencer : GrimoraModBossBattleSequencer
 {
 	private readonly RandomEx _rng = new();
-	
+
 	private bool playedDeathTouchDialogue;
 
 	public override Opponent.Type BossType => BaseBossExt.GrimoraOpponent;
@@ -46,11 +46,12 @@ public class GrimoraExtBattleSequencer : GrimoraModBossBattleSequencer
 	public override IEnumerator OpponentUpkeep()
 	{
 		if (!playedDeathTouchDialogue &&
-		    BoardManager.Instance.GetSlots(getPlayerSlots: true)
-			    .Exists((CardSlot x) => x.Card != null && x.Card.HasAbility(Ability.Deathtouch))
-		    && BoardManager.Instance.GetSlots(getPlayerSlots: false)
-			    .Exists((CardSlot x) =>
-				    x.Card != null && x.Card.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility))
+		    BoardManager.Instance.GetSlots(true)
+			    .Exists(x => x.Card != null && x.Card.HasAbility(Ability.Deathtouch))
+		    && BoardManager.Instance.GetSlots(false)
+			    .Exists(x =>
+				    x.Card != null &&
+				    x.Card.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility))
 		   )
 		{
 			yield return new WaitForSeconds(0.5f);
@@ -85,24 +86,17 @@ public class GrimoraExtBattleSequencer : GrimoraModBossBattleSequencer
 	)
 	{
 		Log.LogDebug($"[{GetType()}] Other Card [{card.Info.name}] is happening");
-		List<CardSlot> opponentQueuedSlots = BoardManager.Instance
-			.GetSlots(getPlayerSlots: false)
-			.FindAll((CardSlot x) => x.Card == null && !TurnManager.Instance.Opponent.QueuedSlots.Contains(x));
+		List<CardSlot> opponentQueuedSlots = BoardManager.Instance.GetQueueSlots();
 		Log.LogDebug($"[{GetType()}] Opponent Slots count [{opponentQueuedSlots.Count}]");
 		if (!opponentQueuedSlots.IsNullOrEmpty())
 		{
 			ViewManager.Instance.SwitchToView(View.BossCloseup);
-			TextDisplayer.Instance.PlayDialogueEvent(
-				"GrimoraBossReanimate1",
-				TextDisplayer.MessageAdvanceMode.Input
-			);
+			TextDisplayer.Instance.PlayDialogueEvent("GrimoraBossReanimate1", TextDisplayer.MessageAdvanceMode.Input);
 
 			CardSlot slot = opponentQueuedSlots[UnityEngine.Random.Range(0, opponentQueuedSlots.Count)];
 			yield return TurnManager.Instance.Opponent.QueueCard(card.Info, slot);
 			yield return new WaitForSeconds(0.5f);
 		}
-
-		yield break;
 	}
 
 	public override bool RespondsToUpkeep(bool playerUpkeep)
