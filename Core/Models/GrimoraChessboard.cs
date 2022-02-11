@@ -312,7 +312,8 @@ public class GrimoraChessboard
 					if (ConfigHelper.Instance.BossesDefeated == 3)
 					{
 						// have to set the scale since the prefab is much larger
-						pieceObj.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+						enemyPiece.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+						enemyPiece.transform.Rotate(new Vector3(0, 215, 0));
 					}
 				}
 				else
