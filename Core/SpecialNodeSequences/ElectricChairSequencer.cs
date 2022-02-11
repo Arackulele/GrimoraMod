@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using DiskCardGame;
-using Pixelplacement;
 using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -155,12 +154,12 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	private new static void ApplyModToCard(CardInfo card)
 	{
 		Ability randomSigil = AbilitiesUtil.GetRandomAbility(
-			RandomUtils.GenerateRandomSeed(new List<CardInfo>() { card }), true
+			RandomUtils.GenerateRandomSeed(new List<CardInfo> { card }), true
 		);
 		Log.LogDebug($"[ApplyModToCard] Ability [{randomSigil}]");
-		CardModificationInfo cardModificationInfo = new CardModificationInfo()
+		CardModificationInfo cardModificationInfo = new CardModificationInfo
 		{
-			abilities = new List<Ability>() { randomSigil },
+			abilities = new List<Ability> { randomSigil },
 			singletonId = "GrimoraMod_ElectricChaired"
 		};
 		GrimoraSaveUtil.DeckInfo.ModifyCard(card, cardModificationInfo);
@@ -176,15 +175,6 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		);
 
 		return list;
-	}
-
-	private IEnumerator LearnObjectSequence(Transform obj, float heightOffset, Vector3 baseRotation, string text)
-	{
-		Tween.Position(obj, new Vector3(0f, 5.7f + heightOffset, -4.25f), 0.1f, 0f, Tween.EaseInOut);
-		Tween.Rotation(obj, baseRotation, 0.1f, 0f, Tween.EaseInOut);
-		Tween.Rotate(obj, new Vector3(1f, 5f, 3f), Space.World, 3f, 0.1f, Tween.EaseInOut,
-			Tween.LoopType.PingPong);
-		yield return TextDisplayer.Instance.ShowUntilInput(text);
 	}
 
 	private IEnumerator InitialSetup()
