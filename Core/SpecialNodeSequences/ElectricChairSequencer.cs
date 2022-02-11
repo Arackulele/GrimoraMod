@@ -165,9 +165,12 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private new static void ApplyModToCard(CardInfo card)
 	{
-		Ability randomSigil = AbilitiesUtil.GetRandomAbility(
-			RandomUtils.GenerateRandomSeed(new List<CardInfo> { card }), true
-		);
+		Ability randomSigil = AbilitiesUtil.GetRandomAbility(RandomUtils.GenerateRandomSeed(), true);
+		while (card.HasAbility(randomSigil))
+		{
+			randomSigil = AbilitiesUtil.GetRandomAbility(RandomUtils.GenerateRandomSeed(), true);
+		}
+
 		Log.LogDebug($"[ApplyModToCard] Ability [{randomSigil}]");
 		CardModificationInfo cardModificationInfo = new CardModificationInfo
 		{
