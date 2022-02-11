@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using UnityEngine;
 
 namespace GrimoraMod;
 
@@ -15,24 +16,6 @@ public class SawyerBattleSequencer : GrimoraModBossBattleSequencer
 		};
 	}
 
-	public override bool RespondsToOtherCardDie(
-		PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer
-	)
-	{
-		return true;
-	}
-
-	public override IEnumerator OnOtherCardDie(
-		PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer
-	)
-	{
-		if (TurnManager.Instance.Opponent.GetComponent<SawyerBehaviour>() != null)
-		{
-			yield return TurnManager.Instance.Opponent.GetComponent<SawyerBehaviour>()
-				.OnOtherCardDie(deathSlot.opposingSlot);
-		}
-	}
-
 	public override bool RespondsToUpkeep(bool playerUpkeep)
 	{
 		return playerUpkeep;
@@ -40,6 +23,18 @@ public class SawyerBattleSequencer : GrimoraModBossBattleSequencer
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
-		yield break;
+		bool isBonehoundOnBoard = BoardManager.Instance.opponentSlots.Exists(info => info.name.Equals("Bonehound"));
+		if (new RandomEx().NextBoolean() && isBonehoundOnBoard && ResourcesManager.Instance.PlayerBones > 5)
+		{
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				"PLEASE, WON'T YOU SPARE SOME BONES FOR [c:R]BONEHOUND[c:]?",
+				-0.65f,
+				0.4f
+			);
+			ViewManager.Instance.SwitchToView(View.BoneTokens);
+			yield return new WaitForSeconds(0.1f);
+			yield return ResourcesManager.Instance.SpendBones(1);
+			yield return new WaitForSeconds(1f);
+		}
 	}
 }
