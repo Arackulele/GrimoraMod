@@ -129,12 +129,17 @@ public class ConfigHelper
 
 		if (!CardLoader.allData.IsNullOrEmpty())
 		{
-			NewCard.cards.RemoveAll(card => card.name.StartsWith("GrimoraMod_"));
+			int removedNewCards = NewCard.cards.RemoveAll(card => card.name.StartsWith("GrimoraMod_"));
+			int removedCardLoader = CardLoader.allData.RemoveAll(info => info.name.StartsWith("GrimoraMod_"));
+			Log.LogDebug($"All data is not null. Removed [{removedNewCards}] NewCards, [{removedCardLoader}] CardLoader");
 		}
 
 		if (!AbilitiesUtil.allData.IsNullOrEmpty())
 		{
-			NewAbility.abilities.RemoveAll(ab => ab.id.ToString().StartsWith(GUID));
+			int removed = NewAbility.abilities.RemoveAll(ab => ab.id.ToString().StartsWith(GUID));
+			AbilitiesUtil.allData.RemoveAll(info =>
+				NewAbility.abilities.Exists(na => na.id.ToString().StartsWith(GUID) && na.ability == info.ability));
+			Log.LogDebug($"All data is not null, removed [{removed}] abilities");
 		}
 
 		// TODO: I'd prefer not to do this but I'm not sure how to filter out the emissions without literally
@@ -144,31 +149,28 @@ public class ConfigHelper
 
 	public void HandleHotReloadAfter()
 	{
-		if (_configHotReloadEnabled.Value)
+		if (!_configHotReloadEnabled.Value)
 		{
-			if (!CardLoader.allData.IsNullOrEmpty())
-			{
-				int removed = CardLoader.allData.RemoveAll(info => info.name.StartsWith("GrimoraMod_"));
-				Log.LogDebug($"All data is not null, concatting GrimoraMod cards. Removed [{removed}] cards.");
-				CardLoader.allData = CardLoader.allData.Concat(
-						NewCard.cards.Where(card => card.name.StartsWith("GrimoraMod_"))
-					)
-					.Distinct()
-					.ToList();
-			}
+			return;
+		}
 
-			if (!AbilitiesUtil.allData.IsNullOrEmpty())
-			{
-				Log.LogDebug($"All data is not null, concatting GrimoraMod abilities");
-				AbilitiesUtil.allData.RemoveAll(info =>
-					NewAbility.abilities.Exists(na => na.id.ToString().StartsWith(GUID) && na.ability == info.ability));
+		if (!CardLoader.allData.IsNullOrEmpty())
+		{
+			CardLoader.allData = CardLoader.allData.Concat(
+					NewCard.cards.Where(card => card.name.StartsWith("GrimoraMod_"))
+				)
+				.Distinct()
+				.ToList();
+		}
 
-				AbilitiesUtil.allData = AbilitiesUtil.allData
-					.Concat(
-						NewAbility.abilities.Where(ab => ab.id.ToString().StartsWith(GUID)).Select(_ => _.info)
-					)
-					.ToList();
-			}
+		if (!AbilitiesUtil.allData.IsNullOrEmpty())
+		{
+			Log.LogDebug($"All data is not null, concatting GrimoraMod abilities");
+			AbilitiesUtil.allData = AbilitiesUtil.allData
+				.Concat(
+					NewAbility.abilities.Where(ab => ab.id.ToString().StartsWith(GUID)).Select(_ => _.info)
+				)
+				.ToList();
 		}
 	}
 
