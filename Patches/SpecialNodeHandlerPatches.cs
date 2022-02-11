@@ -22,7 +22,7 @@ public class SpecialNodeHandlerPatches
 
 		}
 
-		if (nodeData is CardStatBoostNodeData)
+		if (nodeData is BoneyardBurialNodeData)
 		{
 			__instance.StartCoroutine(((BoneyardBurialSequencer)__instance.cardStatBoostSequencer).BurialSequence());
 			return false;

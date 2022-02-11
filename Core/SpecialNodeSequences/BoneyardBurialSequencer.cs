@@ -96,8 +96,10 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		if (GetValidCards().IsNullOrEmpty())
 		{
 			yield return new WaitForSeconds(1f);
-			yield return TextDisplayer.Instance.PlayDialogueEvent("GainConsumablesFull",
-				TextDisplayer.MessageAdvanceMode.Input);
+			yield return TextDisplayer.Instance.PlayDialogueEvent(
+				"GainConsumablesFull",
+				TextDisplayer.MessageAdvanceMode.Input
+			);
 			yield return new WaitForSeconds(0.5f);
 			yield return NoValidCardsSequence();
 		}
@@ -117,11 +119,8 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 					MixerGroup.TableObjectsSFX,
 					selectionSlot.transform.position
 				);
-				selectionSlot.Card.Anim.StrongNegationEffect();
-				selectionSlot.Card.Anim.StrongNegationEffect();
-				selectionSlot.Card.Anim.StrongNegationEffect();
 				ApplyModToCard(selectionSlot.Card.Info);
-				// selectionSlot.Card.RenderCard();
+				selectionSlot.Card.Anim.PlayTransformAnimation();
 				yield return new WaitForSeconds(0.15f);
 				selectionSlot.Card.SetInfo(selectionSlot.Card.Info);
 				selectionSlot.Card.SetInteractionEnabled(false);
@@ -193,12 +192,12 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		Tween.Position(revenantCard.transform, revenantCard.transform.position - targetPos, 2f, 0f);
 		revenantSelectableCard.CursorSelectEnded = (Action<MainInputInteractable>)Delegate.Combine(
 			revenantSelectableCard.CursorSelectEnded,
-			(Action<MainInputInteractable>)delegate { cardGrabbed = true; });
+			(Action<MainInputInteractable>)delegate { cardGrabbed = true; }
+		);
 		yield return new WaitUntil(() => cardGrabbed);
 
 		RuleBookController.Instance.SetShown(false);
 		TableRuleBook.Instance.SetOnBoard(false);
-		// rat.GetComponentInChildren<Animator>().SetTrigger("exit");
 		yield return new WaitForEndOfFrame();
 
 		Log.LogDebug($"Instantiating _revenantCard");
@@ -206,7 +205,6 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		revenantCard.transform.parent = null;
 		revenantCard.transform.position = revenantCard.transform.position;
 		revenantCard.transform.rotation = revenantCard.transform.rotation;
-		// cardObj.transform.localScale = Vector3.one;
 		revenantSelectableCard.SetInfo(_revenantCardReward);
 		revenantSelectableCard.SetInteractionEnabled(false);
 
@@ -224,7 +222,6 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		);
 
 		yield return new WaitForSeconds(0.5f);
-		// rat.SetActive(value: false);
 		GrimoraSaveData.Data.deck.AddCard(_revenantCardReward);
 	}
 
@@ -272,7 +269,8 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 	private new static List<CardInfo> GetValidCards()
 	{
 		List<CardInfo> list = GrimoraSaveUtil.DeckListCopy;
-		list.RemoveAll(card => card.BonesCost <= 1
+		list.RemoveAll(card => card.Mods.Exists(mod => mod.singletonId.Equals("GrimoraMod_BoneyardBuried"))
+		                       || card.BonesCost <= 1
 		                       || card.Abilities.Contains(Ability.Brittle)
 		                       || card.SpecialAbilities.Contains(SpecialTriggeredAbility.RandomCard)
 		                       || card.traits.Contains(Trait.Pelt)
