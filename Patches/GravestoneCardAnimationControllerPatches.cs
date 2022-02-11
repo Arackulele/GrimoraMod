@@ -11,13 +11,9 @@ public class GravestoneCardAnimationControllerPatches
 	[HarmonyPatch(nameof(GravestoneCardAnimationController.PlayAttackAnimation))]
 	public static bool Prefix(ref GravestoneCardAnimationController __instance, bool attackPlayer, CardSlot targetSlot)
 	{
-		// Log.LogDebug($"[Controller] Attacks player? [{attackPlayer}] TargetSlot is [{targetSlot.Index}]");
 		__instance.Anim.Play("shake", 0, 0f);
 		__instance.armAnim.gameObject.SetActive(value: true);
 
-		bool isPlayerSideBeingAttacked = targetSlot.IsPlayerSlot;
-
-		// Log.LogDebug($"[Controller] Current rotation is [{currentRotation}]");
 
 		// target slot = 3 (far right)
 		// player slot = 0, 3 - 0 == 3
@@ -25,62 +21,52 @@ public class GravestoneCardAnimationControllerPatches
 		int numToDetermineRotation = (
 			                             targetSlot.Index // 0
 			                             -
-			                             __instance.PlayableCard.Slot.Index // 1
-		                             ) // == -1
+			                             __instance.PlayableCard.Slot.Index // 3
+		                             ) // == -3
 		                             *
 		                             (__instance.PlayableCard.Slot.IsPlayerSlot ? 1 : -1);
-		// Log.LogDebug($"[GravestoneAnim] Num is [{numToDetermineRotation}]");
 
-		if (isPlayerSideBeingAttacked)
+		bool isPlayerSideBeingAttacked = targetSlot.IsPlayerSlot;
+		bool isCardOpponents = __instance.PlayableCard.OpponentCard;
+		bool targetSlotIsFarthestAway =
+			Mathf.Abs(numToDetermineRotation) == BoardManager.Instance.PlayerSlotsCopy.Count - 1;
+
+		bool hasInvertedStrikeAndTargetIsFarthestSlot
+			= __instance.PlayableCard.HasAbility(InvertedStrike.ability) && targetSlotIsFarthestAway;
+
+		string directionToAttack = numToDetermineRotation switch
 		{
-			// for Area Of Effect Strike
-			if (!__instance.PlayableCard.OpponentCard)
-			{
-				Log.LogDebug($"[GravestoneAnim] is not opponent card [{__instance.PlayableCard}]");
+			< 0 => "_left",
+			> 0 => "_right",
+			_ => ""
+		};
 
-				__instance.armAnim.transform.localRotation = DetermineRotationForAdjCards(numToDetermineRotation, true);
+		string animToPlay = (attackPlayer ? "attack_player" : "attack_creature") + directionToAttack;
+
+		if (hasInvertedStrikeAndTargetIsFarthestSlot)
+		{
+			animToPlay += "_invertedstrike";
+		}
+		else if (__instance.PlayableCard.HasAbility(AreaOfEffectStrike.ability))
+		{
+			if (isPlayerSideBeingAttacked)
+			{
+				if (!isCardOpponents)
+				{
+					animToPlay += "_adj";
+				}
 			}
 			else
 			{
-				// default y position is -1.0 for straight ahead
-				__instance.armAnim.transform.localRotation = numToDetermineRotation switch
+				if (isCardOpponents)
 				{
-					< 0 => Quaternion.Euler(50, 90, 270),
-					> 0 => Quaternion.Euler(50, 270, 90),
-					_ => Quaternion.Euler(90, 180, 0)
-				};
-			}
-		}
-		else
-		{
-			if (__instance.PlayableCard.OpponentCard)
-			{
-				Log.LogDebug($"[GravestoneAnim] is opponent card [{__instance.PlayableCard}]");
-
-				__instance.armAnim.transform.localRotation = DetermineRotationForAdjCards(numToDetermineRotation, false);
-			}
-			else
-			{
-				int increaseX = 310 + (Mathf.Abs(numToDetermineRotation) == 1 ? 0 : 30);
-				// don't hardcode the max slot index value to 3 
-				float zed = Mathf.Abs(numToDetermineRotation) == BoardManager.Instance.PlayerSlotsCopy.Count - 1
-					? 1.2f
-					: 0.5f;
-
-				// Log.LogDebug($"[GravestoneAnim] X [{increaseX}] Zed [{zed}]");
-				__instance.armAnim.transform.localScale = new Vector3(0.5f, 0.5f, zed);
-
-				__instance.armAnim.transform.localRotation = numToDetermineRotation switch
-				{
-					< 0 => Quaternion.Euler(increaseX, 270, 90),
-					> 0 => Quaternion.Euler(increaseX, 90, 270),
-					_ => Quaternion.Euler(270, 0, 0)
-				};
+					animToPlay += "_adj";
+				}
 			}
 		}
 
-		// __instance.armAnim.transform.Rotate(0, newY, 0f);
-		__instance.armAnim.Play(attackPlayer ? "attack_player" : "attack_creature", 0, 0f);
+		Log.LogDebug($"[GravestoneAnim] Anim to play [{animToPlay}]");
+		__instance.armAnim.Play(animToPlay, 0, 0f);
 		string soundId = "gravestone_card_attack_" + (attackPlayer ? "player" : "creature");
 		AudioController.Instance.PlaySound3D(
 			soundId,
@@ -94,22 +80,11 @@ public class GravestoneCardAnimationControllerPatches
 		return false;
 	}
 
-	private static Quaternion DetermineRotationForAdjCards(int numToDetermineRotation, bool isPlayerSide)
-	{
-		if (isPlayerSide)
-		{
-			return numToDetermineRotation == -1
-				? Quaternion.Euler(0, 270, 90) // left of the player card slot	
-				: Quaternion.Euler(0, 90, 270); // right of the player card slot
-		}
-
-		return numToDetermineRotation == -1
-			? Quaternion.Euler(0, 90, 270) // right of the opponent slot
-			: Quaternion.Euler(0, 270, 90); // left of the opponent slot
-	}
-
 	[HarmonyPrefix, HarmonyPatch(nameof(GravestoneCardAnimationController.PlayDeathAnimation))]
-	public static bool ChangeDeathAnimationToNotNullOut(GravestoneCardAnimationController __instance, bool playSound = true)
+	public static bool ChangeDeathAnimationToNotNullOut(
+		GravestoneCardAnimationController __instance,
+		bool playSound = true
+	)
 	{
 		if (__instance.PlayableCard is not null)
 		{
@@ -117,6 +92,48 @@ public class GravestoneCardAnimationControllerPatches
 		}
 
 		__instance.PlayGlitchOutAnimation();
+		return false;
+	}
+}
+
+[HarmonyPatch(typeof(CardAnimationController))]
+public class GravestoneCardAnimBaseClassPatches
+{
+	private static readonly int Hover = Animator.StringToHash("hover");
+	private static readonly int Hovering = Animator.StringToHash("hovering");
+
+	[HarmonyPrefix, HarmonyPatch(nameof(CardAnimationController.SetHovering))]
+	public static bool ChangeSetHoveringForGraveCards(CardAnimationController __instance, bool hovering)
+	{
+		if (!SaveManager.SaveFile.IsGrimora)
+		{
+			return true;
+		}
+
+		Log.LogDebug($"Setting hovering [{hovering}]");
+		GravestoneCardAnimationController controller = (GravestoneCardAnimationController)__instance;
+
+		if (hovering)
+		{
+			controller.Anim.ResetTrigger(Hover);
+			controller.Anim.SetTrigger(Hover);
+		}
+
+		controller.Anim.SetBool(Hovering, hovering);
+
+		return false;
+	}
+
+	[HarmonyPrefix, HarmonyPatch(nameof(CardAnimationController.PlayTransformAnimation))]
+	public static bool PlayCardFlipAnim(CardAnimationController __instance)
+	{
+		if (!SaveManager.SaveFile.IsGrimora)
+		{
+			return true;
+		}
+
+		Log.LogDebug($"Playing card_flip");
+		((GravestoneCardAnimationController)__instance).SetTrigger("flip");
 		return false;
 	}
 }

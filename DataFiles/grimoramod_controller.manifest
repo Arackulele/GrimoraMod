@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 12932023
+CRC: 1038719106
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 6cc380c2142e29786534aea8e3b0adaa
+    Hash: 67703c57f7fe3e19248863fb55bdaa23
   TypeTreeHash:
     serializedVersion: 2
     Hash: fdf6c57a251b9f6ec27bdd2fe01b033c
@@ -15,13 +15,14 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/Resources/animation/cards/gravestonecard/gravestonecard_arm_attack.anim
-- Assets/GrimoraMod/GravestoneCardAnim - Copy.controller
-- Assets/GrimoraMod/gravestonecard_flip.anim
+- Assets/Resources/animation/cards/gravestonecard/gravestonecard_arm_attack_creature.anim
+- Assets/GrimoraMod/Animations/GravestoneCardAnim - Copy.controller
+- Assets/GrimoraMod/Animations/gravestonecard_flip.anim
 - Assets/Resources/animation/cards/gravestonecard/gravestonecard_die.anim
 - Assets/Resources/animation/cards/gravestonecard/gravestonecard_arm_attack_player.anim
 - Assets/Resources/animation/cards/gravestonecard/gravestonecard_flip_faceup.anim
 - Assets/Resources/animation/cards/gravestonecard/gravestonecard_takehit.anim
+- Assets/Resources/animation/cards/gravestonecard/SkeletonAttackAnim.controller
 - Assets/Resources/animation/cards/gravestonecard/gravestonecard_shake.anim
 - Assets/Resources/animation/cards/gravestonecard/gravestonecard_flip_facedown.anim
 Dependencies: []
