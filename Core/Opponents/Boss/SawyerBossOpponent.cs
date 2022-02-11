@@ -8,23 +8,20 @@ namespace GrimoraMod;
 
 public class SawyerBossOpponent : BaseBossExt
 {
-
 	public override StoryEvent EventForDefeat => StoryEvent.FactoryCuckooClockAppeared;
 
 	public override Type Opponent => SawyerOpponent;
 
 	public override string SpecialEncounterId => "SawyerBoss";
-	
+
 	public override string DefeatedPlayerDialogue => "My dogs will enjoy your bones!";
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
 		AudioController.Instance.SetLoopAndPlay("gbc_battle_undead");
 		AudioController.Instance.SetLoopAndPlay("gbc_battle_undead", 1);
-		base.SpawnScenery("CratesTableEffects");
+		SpawnScenery("CratesTableEffects");
 		yield return new WaitForSeconds(0.5f);
-		// TurnManager.Instance.Opponent.NumTurnsTaken;
-		// TurnManager.Instance.Opponent.TurnPlan;
 
 		ViewManager.Instance.SwitchToView(View.Default);
 		yield return new WaitForSeconds(1f);
@@ -34,9 +31,12 @@ public class SawyerBossOpponent : BaseBossExt
 		yield return base.IntroSequence(encounter);
 		yield return new WaitForSeconds(0.5f);
 
-		yield return base.FaceZoomSequence();
+		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
-			"Look away, Look away! If you want to fight, get it over quick!", -0.65f, 0.4f);
+			"Look away, Look away! If you want to fight, get it over quick!",
+			-0.65f,
+			0.4f
+		);
 
 		ViewManager.Instance.SwitchToView(View.Default);
 		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
@@ -60,26 +60,19 @@ public class SawyerBossOpponent : BaseBossExt
 	public override IEnumerator StartNewPhaseSequence()
 	{
 		{
-			base.InstantiateBossBehaviour<SawyerBehaviour>();
+			InstantiateBossBehaviour<SawyerBehaviour>();
 
-			yield return base.FaceZoomSequence();
+			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"Please, I don't want to fight anymore! Get it over with!",
 				-0.65f,
 				0.4f
 			);
-			yield return this.ClearBoard();
-			var playerSlotsWithCards = CardSlotUtils.GetPlayerSlotsWithCards();
-			foreach (var playerSlot in playerSlotsWithCards)
-			{
-				yield return BoardManager.Instance.CreateCardInSlot(
-					NameObol.GetCardInfo(), playerSlot.opposingSlot, 0.25f
-				);
-			}
+			yield return ClearQueue();
+			yield return ClearBoard();
 
 			yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
 		}
-		yield break;
 	}
 
 	public EncounterBlueprintData BuildNewPhaseBlueprint()
@@ -87,10 +80,16 @@ public class SawyerBossOpponent : BaseBossExt
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Bonehound, bp_Obol, bp_Obol, bp_Bonehound},
-			new() { bp_Bonehound, bp_Sarcophagus, bp_Sarcophagus, bp_Bonehound },
-			new() { bp_Bonehound, bp_PlagueDoctor, bp_PlagueDoctor, bp_Bonehound },
-			new() { bp_Bonehound, bp_ArmoredZombie, bp_ArmoredZombie, bp_Bonehound },
+			new() { bp_Bonehound, bp_Bonehound },
+			new(),
+			new(),
+			new() { bp_Bonehound, bp_Draugr, bp_Draugr },
+			new(),
+			new(),
+			new() { bp_Bonehound, bp_Draugr, bp_Draugr, bp_Bonehound },
+			new(),
+			new(),
+			new() { bp_Bonehound, bp_ArmoredZombie },
 		};
 
 		return blueprint;
@@ -109,7 +108,7 @@ public class SawyerBossOpponent : BaseBossExt
 			yield return new WaitForSeconds(0.5f);
 			yield return base.OutroSequence(true);
 
-			yield return base.FaceZoomSequence();
+			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"The next area won't be so easy. I asked Royal to do his best at making it impossible.",
 				-0.65f,
@@ -124,8 +123,5 @@ public class SawyerBossOpponent : BaseBossExt
 				0.4f
 			);
 		}
-
-
-		yield break;
 	}
 }
