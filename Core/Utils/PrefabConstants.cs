@@ -31,9 +31,7 @@ public static class PrefabConstants
 	public static GameObject GrimoraCardBack =
 		ResourceBank.Get<GameObject>("Prefabs/Cards/CardBack_Grimora");
 
-	public static GameObject EyeBall = ResourceBank.Get<GameObject>($"{PathSpecialNodes}/EyeBall");
-
-	public static Material GoatEyeMat = ResourceBank.Get<Material>($"Art/Materials/Eyeball_Goat");
+	public static GameObject GoatEyeFigurine = AllPrefabs.Single(go => go.name.Equals("ChessboardPiece_GoatEye"));
 
 	public static GameObject CardRemovalFigurine = AllPrefabs.Single(go => go.name.Equals("ChessboardPiece_CardRemove"));
 

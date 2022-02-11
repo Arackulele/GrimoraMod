@@ -11,7 +11,11 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(GameFlowManager))]
 public class BaseGameFlowManagerPatches
 {
+	private static readonly RuntimeAnimatorController GraveStoneController =
+		AllControllers.Single(obj => obj.name.Equals("GravestoneCardAnim - Copy"));
 
+	private static readonly RuntimeAnimatorController SkeletonArmController =
+		AllControllers.Single(obj => obj.name.Equals("SkeletonAttackAnim"));
 
 	private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
 
@@ -24,6 +28,12 @@ public class BaseGameFlowManagerPatches
 		}
 
 		Log.LogDebug($"[GameFlowManager] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");
+		
+		PrefabConstants.GrimoraPlayableCard
+			.transform.Find("SkeletonAttackAnim").GetComponent<Animator>().runtimeAnimatorController = SkeletonArmController;
+		PrefabConstants.GrimoraPlayableCard
+			.GetComponent<GravestoneCardAnimationController>().Anim.runtimeAnimatorController = GraveStoneController;
+		
 		CardSpawner.Instance.giantPlayableCardPrefab = PrefabConstants.GrimoraPlayableCard;
 
 		ChessboardMapExt.ChangeChessboardToExtendedClass();

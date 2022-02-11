@@ -39,7 +39,7 @@ public class GrimoraChessboard
 			},
 			{
 				typeof(ChessboardGoatEyePiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.EyeBall, GetGoatEyeNodes)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.GoatEyeFigurine, GetGoatEyeNodes)
 			}
 		};
 	}
@@ -320,13 +320,6 @@ public class GrimoraChessboard
 				enemyPiece.specialEncounterId = specialEncounterId;
 				break;
 			}
-			case ChessboardGoatEyePiece goatEyePiece:
-
-				goatEyePiece.GetComponent<MeshRenderer>().material = PrefabConstants.GoatEyeMat;
-				goatEyePiece.GetComponent<MeshRenderer>().sharedMaterial = PrefabConstants.GoatEyeMat;
-				goatEyePiece.GetComponent<Rigidbody>().useGravity = false;
-
-				break;
 		}
 
 		return pieceObj.GetComponent<T>();

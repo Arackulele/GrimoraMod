@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1292647544
+CRC: 2281366019
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 075dccd649e5059d4ea94031b3a6e5fe
+    Hash: 0af700626622a0d4fbb92103377fcb0d
   TypeTreeHash:
     serializedVersion: 2
     Hash: 890c8307931cb6c5d1d171fecf411d65
@@ -45,6 +45,7 @@ SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/GrimoraMod/ChessboardPieces/Blocker_Kaycee.prefab
 - Assets/GrimoraMod/BoneyardBurialGrave.obj
+- Assets/GrimoraMod/ChessboardPieces/ChessboardPiece_GoatEye.prefab
 - Assets/GrimoraMod/ChessboardPieces/Blocker_Sawyer.prefab
 - Assets/GrimoraMod/ChessboardPieces/ChessboardPiece_CardRemove.prefab
 - Assets/Prefabs/Hexalantern.prefab
