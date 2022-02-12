@@ -105,7 +105,13 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		}
 		else
 		{
-			yield return TextDisplayer.Instance.PlayDialogueEvent("StatBoostIntro", TextDisplayer.MessageAdvanceMode.Input);
+			yield return TextDisplayer.Instance.ShowUntilInput("A lone grave sits solemnly in front of you.", -0.65f);
+			yield return new WaitForSeconds(0.1f);
+			yield return TextDisplayer.Instance.ShowUntilInput("In front of it is a mound of earth, left by someone who's already passed on.", -0.65f);
+			yield return new WaitForSeconds(0.1f);
+			yield return TextDisplayer.Instance.ShowUntilInput("Perhaps a member of your undead horde could [c:bR]dig them up?[c:]", -0.65f);
+			yield return new WaitForSeconds(0.1f);
+			yield return TextDisplayer.Instance.ShowUntilInput("This wouldn't be without repercussions of course, as death is never permanent", -0.65f);
 
 			yield return confirmStone.WaitUntilConfirmation();
 			bool finishedBuffing = false;
