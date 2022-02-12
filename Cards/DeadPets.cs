@@ -1,4 +1,4 @@
-﻿using APIPlugin;
+using APIPlugin;
 using DiskCardGame;
 
 namespace GrimoraMod;
@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.Brittle, Ability.DrawCopyOnDeath)
 			.SetBaseAttackAndHealth(3, 1)
 			.SetBoneCost(4)
-			.SetDescription("The undying underlings of the Pharaoh.")
+			.SetDescription("They die, over and over again. Only for the Pharao")
 			.SetNames(NameDeadPets, "Pharaoh's Pets")
 			.Build()
 		);

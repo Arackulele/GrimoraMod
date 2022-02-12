@@ -12,7 +12,7 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetBaseAttackAndHealth(1, 1)
 			.SetEnergyCost(3)
-			.SetDescription("Coming for vengeance!")
+			.SetDescription("Coming for vengeance, and a bit of fun, too!")
 			.SetNames(NameVengefulSpirit, "Vengeful Spirit")
 			.Build()
 		);

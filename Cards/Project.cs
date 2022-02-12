@@ -1,4 +1,4 @@
-﻿using APIPlugin;
+using APIPlugin;
 using DiskCardGame;
 
 namespace GrimoraMod;
@@ -10,12 +10,12 @@ public partial class GrimoraPlugin
 	private void Add_Project()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.SetAsRareCard()
-			.SetAbilities(Ability.TriStrike)
-			.SetBaseAttackAndHealth(1, 1)
-			.SetBoneCost(8)
+			.SetAsNormalCard()
+			.SetAbilities(Erratic.ability, Ability.SplitStrike)
+			.SetBaseAttackAndHealth(1, 3)
+			.SetBoneCost(6)
 			.SetNames(NameProject, "Project")
-			// .SetDescription("A vicious pile of bones. You can have it...")
+			.SetDescription("An experiment gone wrong, or right.It depends on your world view")
 			.Build()
 		);
 	}

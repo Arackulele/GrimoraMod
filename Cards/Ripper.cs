@@ -1,4 +1,4 @@
-﻿using APIPlugin;
+using APIPlugin;
 using DiskCardGame;
 
 namespace GrimoraMod;
@@ -13,9 +13,9 @@ public partial class GrimoraPlugin
 			.SetAsRareCard()
 			.SetAbilities(Ability.Brittle)
 			.SetBaseAttackAndHealth(6, 6)
-			.SetBoneCost(12)
+			.SetBoneCost(9)
 			.SetNames(NameRipper, "Ripper")
-			// .SetDescription("A vicious pile of bones. You can have it...")
+			.SetDescription("When all hope is lost, you can always count on this Demon straight from hell!")
 			.Build()
 		);
 	}

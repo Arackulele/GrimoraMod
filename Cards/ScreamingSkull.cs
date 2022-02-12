@@ -1,4 +1,4 @@
-﻿using APIPlugin;
+using APIPlugin;
 using DiskCardGame;
 using UnityEngine;
 
@@ -14,8 +14,8 @@ public partial class GrimoraPlugin
 			.SetAsRareCard()
 			.SetAbilities(AreaOfEffectStrike.ability)
 			.SetBaseAttackAndHealth(1, 1)
-			.SetBoneCost(6)
-			// .SetDescription("Going into that well wasn't the best idea...")
+			.SetBoneCost(5)
+			.SetDescription("Only pain, nothing else is felt by this Skeletal head.What a pity")
 			.SetNames(NameScreamingSkull, "Screaming Skull")
 			.Build()
 		);

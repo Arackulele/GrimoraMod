@@ -1,4 +1,4 @@
-﻿using APIPlugin;
+using APIPlugin;
 using DiskCardGame;
 using UnityEngine;
 
@@ -31,7 +31,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.BoneDigger, Ability.BoneDigger)
 			.SetBaseAttackAndHealth(0, 3)
 			.SetBoneCost(1)
-			.SetDescription("An excellent digger.")
+			.SetDescription("Really quite good at finding Bones, how does he do it?Probably Drugs")
 			.SetNames(NameSporedigger, "Sporedigger")
 			.SetTraits(Trait.Fused)
 			.Build()

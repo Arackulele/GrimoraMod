@@ -1,4 +1,4 @@
-﻿using APIPlugin;
+using APIPlugin;
 
 namespace GrimoraMod;
 
@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(3, 3)
 			.SetBoneCost(8)
 			.SetNames(NameDanseMacabre, "Danse Macabre")
-			// .SetDescription("A vicious pile of bones. You can have it...")
+			.SetDescription("They can never decide, truly a painful existance...")
 			.Build()
 		);
 	}

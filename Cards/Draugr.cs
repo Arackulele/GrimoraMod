@@ -1,4 +1,4 @@
-﻿using APIPlugin;
+using APIPlugin;
 using DiskCardGame;
 
 namespace GrimoraMod;
@@ -15,7 +15,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(0, 1)
 			.SetBoneCost(1)
 			.SetIceCube(NameSkeleton)
-			.SetDescription("Hiding in a suit of armor, this skeleton won't last forever.")
+			.SetDescription("Hiding in a suit of armor,or ice, what does it matter. this skeleton won't last forever.")
 			.SetNames(NameDraugr, "Draugr")
 			.Build()
 		);

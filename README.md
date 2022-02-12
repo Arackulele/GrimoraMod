@@ -1,9 +1,9 @@
 # Grimora Mod
 
-- A giant Mod made by Kopie, Arackulele, and xXxStoner420BongMasterxXx that builds upon the finale with Grimora's
+- A giant Mod made by Arackulele, and xXxStoner420BongMasterxXx that builds upon the finale with Grimora's
   chessboard.
 
-- **MOST IMPORTANT**: **!!!THIS IS A BETA AND IS NOT BUG FREE!!!**
+- **MOST IMPORTANT**: **!!!YOu will probably encounter some Bugs!!!**
 - **IMPORTANT**: **ENABLE ENERGY DRONE IN API CONFIG IN ORDER FOR IT TO SHOW UP**
 - **BEWARE**:
 
@@ -27,27 +27,18 @@
 
 ## Update Notes
 
-### 2.5.7
+###2.5.7
 
-- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Corrected DeadHand sprite to better fit in the gravestone.
+- ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Redid all of the Chessboard layouts...again!
+  - The new Nodes are now Introduced Gradually
+  - Slightly less linearity, beat optional enemies to gain access to more nodes
 
-- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Removed getting set amount of starting bones at start of turn. Made things a bit too easy.
-
-- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Added more chests for the first 3 areas as not being able to draw cards was more common than expected.
-
-- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Changed eye color of buffing pieces like Boneyard and Card Removal to better indicate they are buffs.
-
-- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Tweaked Sawyer's second phase to be a less harsh with the Bonehounds.
-
-- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Added dialogue reflecting what the Boneyard Burial sequence actually does courtesy of `BobTheNerd10#2164` (sorry for the lazy copy paste from campfire...)
-
-- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Added dialogue reflecting what the Electric Chair sequence actually does courtesy of `BobTheNerd10#2164` (sorry for the lazy copy paste from campfire...)
-
-- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) MenuCard now has a sprite for the text!
-
-- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Set ElectricChair to use new artwork.
-
-- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) `GiantStrike` icon courtesy of `DragonSlayr15001#9923`. This is to avoid confusion as before, `Giant` had `All Strike` causing some confusion on how it works.
+- ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Difficulty Rebalance!
+  -Blueprints now follow a Difficulty Curve
+  -Kaycee now has a new Boss Mechanics, making the first map slightly easier
+  -Royals and Grimoras Areas have been buffed to provide for a more challenging experience given the new Chess pieces
+  -Rebalanced the new Cards to make them more interesting and less underpowered
+  -Removed the BoneLord Sigil from the Electric Chair Ability Pool :)
 
 ### 2.5.6
 

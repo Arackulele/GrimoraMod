@@ -1,4 +1,4 @@
-﻿using APIPlugin;
+using APIPlugin;
 
 namespace GrimoraMod;
 
@@ -12,8 +12,8 @@ public partial class GrimoraPlugin
 			.SetAsRareCard()
 			.SetAbilities(Possessive.ability)
 			.SetBaseAttackAndHealth(0, 1)
-			.SetBoneCost(6)
-			// .SetDescription("Going into that well wasn't the best idea...")
+			.SetBoneCost(5)
+			.SetDescription("No one knows what exactly the Dybbuk is, some say it is better left unknown.")
 			.SetNames(NameDybbuk, "Dybbuk")
 			.Build()
 		);
