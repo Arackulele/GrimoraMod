@@ -27,6 +27,10 @@
 
 ## Update Notes
 
+### 2.5.5
+
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) HOTFIX - Issue with attempting to wipe deck if Grimora's deck contained previous GrimoraMod cards that were prefixed with `ara_`. This is throwing an exception because accessing the deck means calling `CardLoader.GetCardByName()`, which throws the exception.
+
 ### 2.5.4
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) HOTFIX - Royal was using original vanilla battle sequencer and not the new one, therefore unable to progress.

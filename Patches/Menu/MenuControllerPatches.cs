@@ -32,7 +32,16 @@ public class MenuControllerPatches
 		else if (card.titleText == "Start Grimora Mod")
 		{
 			// since the card names are now prefixed with GrimoraMod_, any cards that have ara_ will throw an exception
-			if (GrimoraSaveUtil.DeckListCopy.Exists(info => info.name.StartsWith("ara_")))
+			try
+			{
+				if (GrimoraSaveUtil.DeckListCopy.Exists(info => info.name.StartsWith("ara_")))
+				{
+					Log.LogWarning(
+						"Due to changing the name prefix from `ara_` to `GrimoraMod_`, your run will be reset otherwise exceptions will be thrown.");
+					ConfigHelper.Instance.ResetRun();
+				}
+			}
+			catch (Exception e)
 			{
 				Log.LogWarning("Due to changing the name prefix from `ara_` to `GrimoraMod_`, your run will be reset otherwise exceptions will be thrown.");
 				ConfigHelper.Instance.ResetRun();
