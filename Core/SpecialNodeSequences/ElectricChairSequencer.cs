@@ -13,7 +13,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private void Start()
 	{
-		var stoneQuad = confirmStone.transform.Find("Quad").GetComponent<MeshRenderer>();
+		var stoneQuad = selectionSlot.transform.Find("Quad").GetComponent<MeshRenderer>();
 		stoneQuad.material = AssetUtils.GetPrefab<Material>("ElectricChair_Stat_AbilityBoost");
 		stoneQuad.sharedMaterial = AssetUtils.GetPrefab<Material>("ElectricChair_Stat_AbilityBoost");
 	}
