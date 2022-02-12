@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using Pixelplacement;
 using Sirenix.Utilities;
@@ -22,7 +22,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	{
 		Ability.ActivatedDealDamage,
 		Ability.ActivatedDrawSkeleton,
-		Ability.ActivatedEnergyToBones,
+		//Ability.ActivatedEnergyToBones,
 		Ability.ActivatedHeal,
 		Ability.ActivatedRandomPowerEnergy,
 		Ability.ActivatedSacrificeDrawCards,
