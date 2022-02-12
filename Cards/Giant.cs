@@ -100,7 +100,7 @@ public class KayceeModLogicForDeathTouchPrevention
 	public static void AddLogicForDeathTouchToNotKillGiants(int amount, PlayableCard target, ref bool __result)
 	{
 		bool targetIsNotGrimoraGiant =
-			target.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility);
+			!target.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility);
 		__result = __result && targetIsNotGrimoraGiant;
 	}
 }
