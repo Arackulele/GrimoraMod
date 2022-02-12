@@ -126,10 +126,8 @@ public class ChessboardMapExt : GameMap
 		ChangingRegion = true;
 
 		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
-		yield return new WaitForSeconds(0.8f);
 
 		ViewManager.Instance.SwitchToView(View.MapDefault);
-		yield return new WaitForSeconds(0.25f);
 
 		RunState.CurrentMapRegion.FadeInAmbientAudio();
 
@@ -179,7 +177,6 @@ public class ChessboardMapExt : GameMap
 
 		// base.mapAnim.speed = 1f;
 		mapAnim.Play("enter", 0, 0f);
-		yield return new WaitForSeconds(0.25f);
 
 		dynamicElementsParent.gameObject.SetActive(true);
 
@@ -203,7 +200,6 @@ public class ChessboardMapExt : GameMap
 
 		if (!DialogueEventsData.EventIsPlayed("FinaleGrimoraMapShown"))
 		{
-			yield return new WaitForSeconds(0.5f);
 			yield return TextDisplayer.Instance.PlayDialogueEvent(
 				"FinaleGrimoraMapShown",
 				TextDisplayer.MessageAdvanceMode.Input
@@ -275,7 +271,7 @@ public class ChessboardMapExt : GameMap
 			return toRemove;
 		});
 
-		yield return new WaitForSeconds(0.05f);
+		yield return new WaitForSeconds(0.02f);
 
 		yield return ShowPiecesThatAreActive();
 	}
@@ -285,7 +281,7 @@ public class ChessboardMapExt : GameMap
 		foreach (var piece in pieces.Where(piece => piece.gameObject.activeInHierarchy))
 		{
 			piece.Show();
-			yield return new WaitForSeconds(0.020f);
+			yield return new WaitForSeconds(0.02f);
 		}
 	}
 
@@ -351,16 +347,15 @@ public class ChessboardMapExt : GameMap
 		foreach (var piece in pieces.Where(piece => piece.gameObject.activeInHierarchy))
 		{
 			piece.Hide();
-			yield return new WaitForSeconds(0.005f);
 		}
 
 		PlayerMarker.Instance.Hide();
 		CameraEffects.Instance.TweenFogAlpha(0f, 0.15f);
-		yield return new WaitForSeconds(0.15f);
 		TableVisualEffectsManager.Instance.SetFogPlaneShown(shown: false);
 		CameraEffects.Instance.SetFogEnabled(fogEnabled: false);
 		mapAnim.Play("exit", 0, 0f);
 		dynamicElementsParent.gameObject.SetActive(value: false);
+		yield break;
 	}
 
 	public override void OnHideMapImmediate()
