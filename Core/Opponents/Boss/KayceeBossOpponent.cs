@@ -30,7 +30,12 @@ public class KayceeBossOpponent : BaseBossExt
 
 		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
-			"[c:bB]Brrrr![c:] I've been freezing for ages! Let's turn up the [c:R]heat[c:] for a good fight!",
+			"[c:bB]Brrrr![c:] I've been freezing for ages!",
+			-0.65f,
+			0.4f
+		);
+		yield return TextDisplayer.Instance.ShowUntilInput(
+			"Let's turn up the [c:R]heat[c:] for a good fight!",
 			-0.65f,
 			0.4f
 		);
@@ -93,21 +98,19 @@ public class KayceeBossOpponent : BaseBossExt
 		if (wasDefeated)
 		{
 			// before the mask gets put away
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				"Oh come on dude, I'm still Cold! Lets fight again soon!",
-				-0.65f,
-				0.4f
-			);
+			yield return TextDisplayer.Instance.ShowUntilInput("Oh come on dude, I'm still Cold!", -0.65f, 0.4F);
+			yield return TextDisplayer.Instance.ShowUntilInput("Let's fight again soon!", -0.65f, 0.4f);
 
 			// this will put the mask away
 			yield return base.OutroSequence(true);
 
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"This next area was made by one of my ghouls, Sawyer.\nHe says it is terrible.",
+				"This next area was made by one of my ghouls, Sawyer.",
 				-0.65f,
 				0.4f
 			);
+			yield return TextDisplayer.Instance.ShowUntilInput("He says it is terrible", -0.65f, 0.4f);
 		}
 		else
 		{
