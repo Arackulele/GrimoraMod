@@ -48,11 +48,5 @@ public class TurnManagerPatches
 		{
 			yield return ResourcesManager.Instance.AddBones(25);
 		}
-		else
-		{
-			int bonesToAdd = ConfigHelper.Instance.BonesToAdd;
-			Log.LogDebug($"[SetupPhase] Adding [{bonesToAdd}] bones");
-			yield return ResourcesManager.Instance.AddBones(bonesToAdd);
-		}
 	}
 }
