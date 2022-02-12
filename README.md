@@ -27,6 +27,10 @@
 
 ## Update Notes
 
+### 2.5.2
+
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) HOTFIX - Problem was on very first load, no cards are loaded at all. Default base cards are now used and then reset later.
+
 ### 2.5.0
 
 #### Feature
