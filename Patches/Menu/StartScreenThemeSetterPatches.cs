@@ -53,10 +53,9 @@ public class StartScreenThemeSetterPatches
 		menuCardGrimora.rotationCenter = new Vector2(1.378f, 0f);
 		menuCardGrimora.menuAction = MenuAction.Continue;
 		menuCardGrimora.titleText = "Start Grimora Mod";
+		menuCardGrimora.titleSprite = AssetUtils.GetPrefab<Sprite>("menutext_grimora_mod");
 
 		Vector3 cardRowLocalPosition = cardRow.transform.localPosition;
 		cardRow.transform.localPosition = new Vector3(-0.23f, cardRowLocalPosition.y, cardRowLocalPosition.z);
-
-		yield break;
 	}
 }
