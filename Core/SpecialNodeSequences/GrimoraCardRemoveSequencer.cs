@@ -101,6 +101,8 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		AudioController.Instance.PlaySound2D("creepy_rattle_lofi");
 		yield return new WaitForSeconds(0.5f);
 
+		yield return TextDisplayer.Instance.ShowUntilInput("SACRIFICE A CARD FOR THE BONE LORD, AND HE MAY JUST REWARD YOU!");
+		
 		if (!sacrificedInfo.HasTrait(Trait.Pelt))
 		{
 			CardInfo randomCard = GetRandomCardForEffect();
