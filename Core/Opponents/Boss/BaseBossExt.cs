@@ -12,22 +12,22 @@ public abstract class BaseBossExt : Part1BossOpponent
 		{
 			{
 				"KayceeBoss", new Tuple<Type, System.Type, EncounterBlueprintData>(
-					KayceeOpponent, typeof(KayceeBossSequencer), BlueprintUtils.BuildKayceeBossInitialBlueprint()
+					KayceeOpponent, typeof(GrimoraModKayceeBossSequencer), BlueprintUtils.BuildKayceeBossInitialBlueprint()
 				)
 			},
 			{
 				"SawyerBoss", new Tuple<Type, System.Type, EncounterBlueprintData>(
-					SawyerOpponent, typeof(SawyerBattleSequencer), BlueprintUtils.BuildSawyerBossInitialBlueprint()
+					SawyerOpponent, typeof(GrimoraModSawyerBossSequencer), BlueprintUtils.BuildSawyerBossInitialBlueprint()
 				)
 			},
 			{
 				"RoyalBoss", new Tuple<Type, System.Type, EncounterBlueprintData>(
-					RoyalOpponent, typeof(RoyalBattleSequencer), BlueprintUtils.BuildRoyalBossInitialBlueprint()
+					RoyalOpponent, typeof(GrimoraModRoyalBossSequencer), BlueprintUtils.BuildRoyalBossInitialBlueprint()
 				)
 			},
 			{
 				"GrimoraBoss", new Tuple<Type, System.Type, EncounterBlueprintData>(
-					GrimoraOpponent, typeof(GrimoraExtBattleSequencer), BlueprintUtils.BuildGrimoraBossInitialBlueprint()
+					GrimoraOpponent, typeof(GrimoraModGrimoraBossSequencer), BlueprintUtils.BuildGrimoraBossInitialBlueprint()
 				)
 			},
 			{

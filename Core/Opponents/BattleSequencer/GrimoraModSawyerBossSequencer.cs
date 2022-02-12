@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GrimoraMod;
 
-public class SawyerBattleSequencer : GrimoraModBossBattleSequencer
+public class GrimoraModSawyerBossSequencer : GrimoraModBossBattleSequencer
 {
 	public override Opponent.Type BossType => BaseBossExt.SawyerOpponent;
 

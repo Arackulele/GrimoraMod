@@ -6,7 +6,7 @@ using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
-public class RoyalBossSequencer : GrimoraModBossBattleSequencer
+public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 {
 	private readonly RandomEx _rng = new();
 

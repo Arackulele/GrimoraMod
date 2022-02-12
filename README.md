@@ -27,6 +27,10 @@
 
 ## Update Notes
 
+### 2.5.4
+
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) HOTFIX - Royal was using original vanilla battle sequencer and not the new one, therefore unable to progress.
+
 ### 2.5.3
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) HOTFIX - Fixed issue with death touch not working. Problem was that there is a check for a certain card that the result should have been negated and it was not.
