@@ -35,11 +35,10 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 		{
 			if (_freezeCounter >= 3)
 			{
-				ViewManager.Instance.SwitchToView(View.BossCloseup);
+				ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 				yield return TextDisplayer.Instance.ShowUntilInput(
 					"It's time for your cards to freeze! CHILLED TO THE BONE!"
 				);
-				ViewManager.Instance.SwitchToView(View.Board);
 				foreach (var card in playerCardsWithAttacks)
 				{
 					int attack = card.Attack == 0 ? 0 :  -card.Attack;
