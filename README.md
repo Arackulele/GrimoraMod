@@ -27,6 +27,28 @@
 
 ## Update Notes
 
+### 2.5.7
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Corrected DeadHand sprite to better fit in the gravestone.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Removed getting set amount of starting bones at start of turn. Made things a bit too easy.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Added more chests for the first 3 areas as not being able to draw cards was more common than expected.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Changed eye color of buffing pieces like Boneyard and Card Removal to better indicate they are buffs.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Tweaked Sawyer's second phase to be a less harsh with the Bonehounds.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Added dialogue reflecting what the Boneyard Burial sequence actually does courtesy of `BobTheNerd10#2164` (sorry for the lazy copy paste from campfire...)
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Added dialogue reflecting what the Electric Chair sequence actually does courtesy of `BobTheNerd10#2164` (sorry for the lazy copy paste from campfire...)
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) MenuCard now has a sprite for the text!
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Set ElectricChair to use new artwork.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) `GiantStrike` icon courtesy of `DragonSlayr15001#9923`. This is to avoid confusion as before, `Giant` had `All Strike` causing some confusion on how it works.
+
 ### 2.5.6
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) HOTFIX - Removed checking for `DataFiles` and `Artwork` folders as some mod managers appear to extract the files inside them to the main directory?
