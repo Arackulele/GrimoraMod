@@ -7,15 +7,6 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(GrimoraSaveData))]
 public class GrimoraSaveDataPatches
 {
-	private static readonly List<CardInfo> DefaultCardInfos = new()
-	{
-		NameBonepile.GetCardInfo(),
-		NameGravedigger.GetCardInfo(),
-		NameGravedigger.GetCardInfo(),
-		NameFranknstein.GetCardInfo(),
-		NameZombie.GetCardInfo()
-	};
-
 	[HarmonyPrefix, HarmonyPatch(nameof(GrimoraSaveData.Initialize))]
 	public static bool PrefixChangeSetupOfGrimoraSaveData(ref GrimoraSaveData __instance)
 	{
@@ -24,9 +15,33 @@ public class GrimoraSaveDataPatches
 		__instance.removedPieces = new List<int>();
 		__instance.deck = new DeckInfo();
 		__instance.deck.Cards.Clear();
-		foreach (var cardInfo in DefaultCardInfos)
+		
+		if (CardLoader.allData is not null && CardLoader.allData.Any(info => info.name.StartsWith("GrimoraMod_")))
 		{
-			__instance.deck.AddCard(cardInfo);
+			Log.LogDebug($"[GrimoraSaveData.Initialize] All data is not null");
+			List<CardInfo> defaultCardInfos = new()
+			{
+				NameBonepile.GetCardInfo(),
+				NameGravedigger.GetCardInfo(),
+				NameGravedigger.GetCardInfo(),
+				NameFranknstein.GetCardInfo(),
+				NameZombie.GetCardInfo()
+			};
+
+			foreach (var cardInfo in defaultCardInfos)
+			{
+				__instance.deck.AddCard(cardInfo);
+			}
+		}
+		else
+		{
+			Log.LogDebug($"[GrimoraSaveData.Initialize] All data is NULL");
+			__instance.deck.AddCard("Gravedigger".GetCardInfo());
+			__instance.deck.AddCard("Gravedigger".GetCardInfo());
+			__instance.deck.AddCard("Gravedigger".GetCardInfo());
+			
+			__instance.deck.AddCard("FrankNStein".GetCardInfo());
+			__instance.deck.AddCard("FrankNStein".GetCardInfo());
 		}
 
 		return false;
