@@ -83,13 +83,15 @@ public class SawyerBossOpponent : BaseBossExt
 			new() { bp_Bonehound, bp_Bonehound },
 			new(),
 			new(),
+			new(),
 			new() { bp_Bonehound, bp_Draugr, bp_Draugr },
 			new(),
 			new(),
-			new() { bp_Bonehound, bp_Draugr, bp_Draugr, bp_Bonehound },
+			new(),
+			new() { bp_Bonehound, bp_Draugr, bp_Draugr },
 			new(),
 			new(),
-			new() { bp_Bonehound, bp_ArmoredZombie },
+			new() { bp_Bonehound },
 		};
 
 		return blueprint;
