@@ -151,7 +151,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	private static CardInfo CreateModifiedGiant()
 	{
 		CardInfo modifiedGiant = NameGiant.GetCardInfo();
-		modifiedGiant.abilities = new List<Ability>() { Ability.AllStrike, Ability.Reach };
+		modifiedGiant.abilities = new List<Ability>() { GiantStrike.ability, Ability.Reach };
 		modifiedGiant.specialAbilities.Add(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility);
 		return modifiedGiant;
 	}
