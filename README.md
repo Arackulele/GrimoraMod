@@ -27,6 +27,10 @@
 
 ## Update Notes
 
+### 2.5.3
+
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) HOTFIX - Fixed issue with death touch not working. Problem was that there is a check for a certain card that the result should have been negated and it was not.
+
 ### 2.5.2
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) HOTFIX - Problem was on very first load, no cards are loaded at all. Default base cards are now used and then reset later.
