@@ -275,8 +275,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 	private new static List<CardInfo> GetValidCards()
 	{
 		List<CardInfo> list = GrimoraSaveUtil.DeckListCopy;
-		list.RemoveAll(card => card.Mods.Exists(mod => mod.singletonId.Equals("GrimoraMod_BoneyardBuried"))
-		                       || card.BonesCost <= 1
+		list.RemoveAll(card => card.BonesCost <= 1
 		                       || card.Abilities.Contains(Ability.Brittle)
 		                       || card.SpecialAbilities.Contains(SpecialTriggeredAbility.RandomCard)
 		                       || card.traits.Contains(Trait.Pelt)
