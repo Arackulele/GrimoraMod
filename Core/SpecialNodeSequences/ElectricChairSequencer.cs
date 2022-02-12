@@ -152,7 +152,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			switch (numBuffsGiven)
 			{
 				case 1:
-					TextDisplayer.Instance.ShowMessage("Push your luck? Or pull away?", Emotion.Neutral,
+					TextDisplayer.Instance.ShowMessage("Push your luck for more abilities? Or pull away?", Emotion.Neutral,
 						TextDisplayer.LetterAnimation.WavyJitter);
 					break;
 				case 2:
