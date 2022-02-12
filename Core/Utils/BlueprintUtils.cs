@@ -227,7 +227,7 @@ public static class BlueprintUtils
 			new() { bp_BonePrince, bp_Zombie },
 			new() { bp_Zombie },
 			new() { bp_GhostShip },
-			new() { },
+			new(),
 			new() { bp_BonePrince },
 			new() { bp_Zombie }
 		};
@@ -282,10 +282,10 @@ public static class BlueprintUtils
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { },
+			new(),
 			new() { bp_Skeleton },
 			new() { bp_Zombie, bp_Bonehound },
-			new() { },
+			new(),
 			new() { bp_Skeleton, bp_Skeleton },
 			new() { bp_Zombie }
 		};
@@ -300,10 +300,10 @@ public static class BlueprintUtils
 		{
 			new() { bp_Draugr },
 			new() { bp_Summoner },
-			new() { },
+			new(),
 			new() { bp_Draugr },
 			new() { bp_Skeleton },
-			new() { },
+			new(),
 			new() { bp_Summoner }
 		};
 
@@ -316,12 +316,12 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_FrankAndStein },
-			new() { },
+			new(),
 			new() { bp_Zombie },
-			new() { },
+			new(),
 			new() { bp_Skeleton },
 			new() { bp_FrankAndStein },
-			new() { },
+			new(),
 			new() { bp_Zombie }
 		};
 		return blueprint;
@@ -334,9 +334,9 @@ public static class BlueprintUtils
 		{
 			new(),
 			new() { bp_Draugr },
-			new() { },
+			new(),
 			new() { bp_Draugr, bp_Zombie },
-			new() { },
+			new(),
 			new() { bp_Zombie },
 			new() { bp_Zombie },
 			new() { bp_Zombie }
@@ -351,22 +351,22 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_Skeleton },
-			new() { },
+			new(),
 			new() { bp_BonePrince },
 			new() { bp_Skeleton },
-			new() { },
+			new(),
 			new() { bp_GhostShip },
-			new() { },
+			new(),
 			new() { bp_Revenant },
 			new() { bp_BonePrince },
 			new() { bp_Revenant },
-			new() { },
-			new() { },
+			new(),
+			new(),
 			new() { bp_GhostShip },
 			new() { bp_BonePrince },
-			new() { },
+			new(),
 			new() { bp_BonePrince },
-			new() { },
+			new(),
 			new() { bp_Revenant }
 		};
 
@@ -416,13 +416,13 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_DrownedSoul },
-			new() { },
+			new(),
 			new() { bp_Skelemancer },
-			new() { },
+			new(),
 			new() { bp_Skelemancer },
 			new() { bp_DrownedSoul },
 			new() { bp_Revenant },
-			new() { },
+			new(),
 			new() { bp_Skelemancer }
 		};
 
@@ -460,13 +460,13 @@ public static class BlueprintUtils
 			new() { bp_Hydra },
 			new() { bp_FrankAndStein },
 			new() { bp_Family },
-			new() { },
+			new(),
 			new() { bp_Skeleton },
-			new() { },
+			new(),
 			new() { bp_Skeleton, bp_PlagueDoctor },
-			new() { },
+			new(),
 			new() { bp_Revenant },
-			new() { },
+			new(),
 			new() { bp_Sarcophagus },
 			new() { bp_SkeletonMage }
 		};
@@ -522,7 +522,7 @@ public static class BlueprintUtils
 			// bp_Zombie.difficultyReplace = false;
 			new() { bp_Hydra },
 			new(),
-			new() { },
+			new(),
 			new() { bp_Zombie },
 			new(),
 			new() { bp_Hydra },
@@ -543,10 +543,10 @@ public static class BlueprintUtils
 			new() { bp_Skeleton, bp_Skeleton },
 			new() { bp_Draugr },
 			new() { bp_Draugr },
-			new() { },
+			new(),
 			new() { bp_Revenant, bp_Skeleton },
 			new() { bp_Skeleton, bp_Skeleton },
-			new() { },
+			new(),
 			new() { bp_Revenant, bp_Revenant, bp_Revenant, bp_Revenant },
 		};
 
@@ -559,15 +559,15 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_Zombie },
-			new() { },
+			new(),
 			new() { bp_Skeleton, bp_PlagueDoctor },
-			new() { },
+			new(),
 			new() { bp_Sarcophagus, bp_PlagueDoctor },
-			new() { },
+			new(),
 			new() { bp_Skeleton, bp_PlagueDoctor },
-			new() { },
+			new(),
 			new() { bp_PlagueDoctor },
-			new() { },
+			new(),
 			new() { bp_DeadPets, bp_DeadPets },
 			new() { bp_PlagueDoctor, bp_PlagueDoctor }
 		};
@@ -582,8 +582,8 @@ public static class BlueprintUtils
 		{
 			new() { bp_Poltergeist },
 			new() { bp_Sarcophagus },
-			new() { },
-			new() { },
+			new(),
+			new(),
 			new() { bp_Poltergeist },
 			new() { bp_Sarcophagus, bp_Sarcophagus }
 		};
@@ -598,10 +598,10 @@ public static class BlueprintUtils
 		{
 			new() { bp_Bonehound },
 			new() { bp_Revenant },
-			new() { },
+			new(),
 			new() { bp_PlagueDoctor },
-			new() { },
-			new() { },
+			new(),
+			new(),
 			new() { bp_PlagueDoctor },
 			new() { bp_Bonehound }
 		};
