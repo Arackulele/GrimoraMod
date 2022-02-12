@@ -28,10 +28,7 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
 		var playerCardsWithAttacks
-			= CardSlotUtils.GetPlayerSlotsWithCards()
-				.Select(slot => slot.Card)
-				.Where(card => card.Attack > 0)
-				.ToList();
+			= CardSlotUtils.GetPlayerSlotsWithCards().Select(slot => slot.Card).ToList();
 
 		_freezeCounter++;
 		if (!playerCardsWithAttacks.IsNullOrEmpty())
@@ -40,19 +37,24 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 			{
 				ViewManager.Instance.SwitchToView(View.BossCloseup);
 				yield return TextDisplayer.Instance.ShowUntilInput(
-					"It's time for your cards attack to freeze! CHILLED TO THE BONE!"
+					"It's time for your cards to freeze! CHILLED TO THE BONE!"
 				);
 				ViewManager.Instance.SwitchToView(View.Board);
 				foreach (var card in playerCardsWithAttacks)
 				{
-					int attack = card.Attack == 0 ? 0 : 1 - card.Attack;
-					card.Anim.StrongNegationEffect();
-					card.Anim.StrongNegationEffect();
-					card.AddTemporaryMod(new CardModificationInfo(attack, 0));
-					card.Anim.StrongNegationEffect();
-					card.Anim.StrongNegationEffect();
+					int attack = card.Attack == 0 ? 0 :  -card.Attack;
+					var infoCopy = card.Info;
+					var modInfo = new CardModificationInfo()
+					{
+						attackAdjustment = attack,
+						healthAdjustment = 1 - card.Health,
+						abilities = new List<Ability>() { Ability.IceCube }
+					};
+					infoCopy.iceCubeParams = new IceCubeParams() { creatureWithin = card.Info };
+					card.AddTemporaryMod(modInfo);
+					card.Anim.PlayTransformAnimation();
 					yield return new WaitForSeconds(0.05f);
-
+					card.RenderCard();
 					_freezeCounter = 0;
 				}
 			}
