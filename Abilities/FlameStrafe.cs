@@ -15,12 +15,8 @@ public class FlameStrafe : Strafe
 	{
 		if (cardSlot.Card == null)
 		{
-			yield return BoardManager
-				.Instance
-				.CreateCardInSlot(CardLoader.GetCardByName(NameFlames), cardSlot);
+			yield return BoardManager.Instance.CreateCardInSlot(NameFlames.GetCardInfo(), cardSlot);
 		}
-
-		yield break;
 	}
 
 	public static NewAbility Create()

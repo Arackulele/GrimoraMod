@@ -5,9 +5,9 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameFlames = "ara_Flames";
+	public const string NameFlames = "GrimoraMod_Flames";
 
-	private void AddAra_Flames()
+	private void Add_Flames()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAbilities(Ability.Brittle, Ability.BuffNeighbours)

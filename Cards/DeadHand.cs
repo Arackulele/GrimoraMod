@@ -5,9 +5,9 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameDeadHand = "ara_DeadHand";
+	public const string NameDeadHand = "GrimoraMod_DeadHand";
 
-	private void AddAra_DeadHand()
+	private void Add_DeadHand()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()

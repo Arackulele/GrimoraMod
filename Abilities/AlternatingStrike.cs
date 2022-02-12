@@ -48,7 +48,7 @@ public class AlternatingStrike : AbilityBehaviour
 	public static NewAbility Create()
 	{
 		const string rulebookDescription =
-			"[creature] will alternate between striking the opposing space to the left and right from it.";
+			"[creature] alternates between striking the opposing space to the left and right from it.";
 
 		return ApiUtils.CreateAbility<AlternatingStrike>(rulebookDescription);
 	}

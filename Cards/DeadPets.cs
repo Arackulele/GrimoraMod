@@ -5,19 +5,13 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameDeadPets = "ara_DeadPets";
+	public const string NameDeadPets = "GrimoraMod_DeadPets";
 
-	private void AddAra_DeadPets()
+	private void Add_DeadPets()
 	{
-		List<Ability> abilities = new List<Ability>
-		{
-			Ability.DrawCopyOnDeath,
-			Ability.Brittle
-		};
-
 		NewCard.Add(CardBuilder.Builder
 			.SetAsRareCard()
-			.SetAbilities(abilities)
+			.SetAbilities(Ability.Brittle, Ability.DrawCopyOnDeath)
 			.SetBaseAttackAndHealth(3, 1)
 			.SetBoneCost(4)
 			.SetDescription("The undying underlings of the Pharaoh.")

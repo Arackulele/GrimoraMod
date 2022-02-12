@@ -3,7 +3,6 @@ using APIPlugin;
 using DiskCardGame;
 using Sirenix.Utilities;
 using UnityEngine;
-using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 

@@ -8,11 +8,10 @@ namespace GrimoraMod;
 
 public class KayceeBossOpponent : BaseBossExt
 {
-	public const string SpecialId = "kayceeBoss";
-
 	public override StoryEvent EventForDefeat => StoryEvent.FactoryConveyorBeltMoved;
 
 	public override Type Opponent => KayceeOpponent;
+	public override string SpecialEncounterId => "KayceeBoss";
 
 	public override string DefeatedPlayerDialogue => "Youuuuuuur, painnnfulllll deaaathhh awaiiitttsss youuuuuuu!";
 
@@ -29,14 +28,16 @@ public class KayceeBossOpponent : BaseBossExt
 		yield return base.IntroSequence(encounter);
 		yield return new WaitForSeconds(0.5f);
 
-		yield return base.FaceZoomSequence();
+		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
-			"Brrrr! I've been freezing for ages! Let's turn up the heat in a good fight!",
+			"[c:bB]Brrrr![c:] I've been freezing for ages!",
 			-0.65f,
-			0.4f,
-			Emotion.Neutral,
-			TextDisplayer.LetterAnimation.Jitter,
-			DialogueEvent.Speaker.Single, null, true
+			0.4f
+		);
+		yield return TextDisplayer.Instance.ShowUntilInput(
+			"Let's turn up the [c:R]heat[c:] for a good fight!",
+			-0.65f,
+			0.4f
 		);
 
 		ViewManager.Instance.SwitchToView(View.Default);
@@ -63,21 +64,15 @@ public class KayceeBossOpponent : BaseBossExt
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_DrownedSoul },
-			new() { bp_Skeleton },
-			new() { bp_Draugr },
-			new() { },
-			new() { bp_Zombie },
-			new() { },
-			new() { bp_Zombie },
-			new() { },
-			new() { },
-			new() { bp_Draugr },
-			new() { bp_Zombie },
-			new() { },
-			new() { },
-			new() { bp_HeadlessHorseman },
-			new() { bp_Draugr }
+			new() { bp_Draugr, bp_Draugr, bp_Draugr, bp_Draugr },
+			new(),
+			new() { bp_Draugr, bp_Skeleton },
+			new(),
+			new() { bp_Skeleton, bp_Revenant, bp_Skeleton },
+			new(),
+			new(),
+			new() { bp_Draugr, bp_Skeleton, bp_Draugr, bp_Revenant },
+			new() { bp_Skeleton, bp_Skeleton, bp_Skeleton, bp_Skeleton },
 		};
 
 		return blueprint;
@@ -86,30 +81,17 @@ public class KayceeBossOpponent : BaseBossExt
 	public override IEnumerator StartNewPhaseSequence()
 	{
 		{
-			yield return base.FaceZoomSequence();
+			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"I'm still not feeling Warmer!",
 				-0.65f,
-				0.4f,
-				Emotion.Neutral,
-				TextDisplayer.LetterAnimation.Jitter,
-				DialogueEvent.Speaker.Single, null, true
+				0.4f
 			);
 
-			yield return this.ClearBoard();
-			var playerSlotsWithCards = CardSlotUtils.GetPlayerSlotsWithCards();
-			foreach (var playerSlot in playerSlotsWithCards)
-			{
-				// card.SetIsOpponentCard();
-				// card.transform.eulerAngles += new Vector3(0f, 0f, -180f);
-				yield return BoardManager.Instance.CreateCardInSlot(
-					playerSlot.Card.Info, playerSlot.opposingSlot, 0.25f
-				);
-			}
+			yield return ClearBoard();
 
 			yield return base.ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
 		}
-		yield break;
 	}
 
 	public override IEnumerator OutroSequence(bool wasDefeated)
@@ -117,27 +99,19 @@ public class KayceeBossOpponent : BaseBossExt
 		if (wasDefeated)
 		{
 			// before the mask gets put away
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				"Oh come on dude, I'm still Cold! Lets fight again soon!",
-				-0.65f,
-				0.4f,
-				Emotion.Neutral,
-				TextDisplayer.LetterAnimation.Jitter,
-				DialogueEvent.Speaker.Single, null, true
-			);
+			yield return TextDisplayer.Instance.ShowUntilInput("Oh come on dude, I'm still Cold!", -0.65f, 0.4F);
+			yield return TextDisplayer.Instance.ShowUntilInput("Let's fight again soon!", -0.65f, 0.4f);
 
 			// this will put the mask away
 			yield return base.OutroSequence(true);
 
-			yield return base.FaceZoomSequence();
+			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"This next area was made by Sawyer, one of my Ghouls.\nHe says it is terrible.",
+				"This next area was made by one of my ghouls, Sawyer.",
 				-0.65f,
-				0.4f,
-				Emotion.Neutral,
-				TextDisplayer.LetterAnimation.Jitter,
-				DialogueEvent.Speaker.Single, null, true
+				0.4f
 			);
+			yield return TextDisplayer.Instance.ShowUntilInput("He says it is terrible", -0.65f, 0.4f);
 		}
 		else
 		{
@@ -145,14 +119,8 @@ public class KayceeBossOpponent : BaseBossExt
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				DefeatedPlayerDialogue,
 				-0.65f,
-				0.4f,
-				Emotion.Neutral,
-				TextDisplayer.LetterAnimation.Jitter,
-				DialogueEvent.Speaker.Single, null, true
+				0.4f
 			);
 		}
-
-
-		yield break;
 	}
 }

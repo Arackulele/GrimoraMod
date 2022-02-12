@@ -10,11 +10,11 @@ namespace GrimoraMod
 	public static class ApiUtils
 	{
 		public static AbilityInfo CreateInfoWithDefaultSettings(
-			string rulebookName, string rulebookDescription, bool activated, int powerLevel = 0
+			string rulebookName, string rulebookDescription, bool activated
 		)
 		{
 			AbilityInfo info = ScriptableObject.CreateInstance<AbilityInfo>();
-			info.powerLevel = powerLevel;
+			info.powerLevel = 0;
 			info.activated = activated;
 			// Pascal split will make names like "AreaOfEffectStrike" => "Area Of Effect Strike" 
 			// "Possessive" => "Possessive" 
@@ -32,23 +32,17 @@ namespace GrimoraMod
 		public static NewAbility CreateAbility<T>(
 			string rulebookDescription,
 			string rulebookName = null,
-			int powerLevel = 0,
 			bool activated = false
 		) where T : AbilityBehaviour
 		{
 			rulebookName ??= typeof(T).Name;
 			return CreateAbility<T>(
-				CreateInfoWithDefaultSettings(rulebookName, rulebookDescription, activated, powerLevel),
-				AllAbilityAssets.Single(
-					t => t.name.Equals("ability_" + typeof(T).Name, StringComparison.OrdinalIgnoreCase)
-				)
+				CreateInfoWithDefaultSettings(rulebookName, rulebookDescription, activated),
+				AssetUtils.GetPrefab<Texture>("ability_" + typeof(T).Name)
 			);
 		}
 
-		private static NewAbility CreateAbility<T>(
-			AbilityInfo info,
-			Texture texture
-		) where T : AbilityBehaviour
+		private static NewAbility CreateAbility<T>(AbilityInfo info, Texture texture) where T : AbilityBehaviour
 		{
 			Type type = typeof(T);
 			// instantiate
@@ -68,7 +62,7 @@ namespace GrimoraMod
 
 		public static AbilityIdentifier GetAbilityId(string rulebookName)
 		{
-			return AbilityIdentifier.GetID(PluginGuid, rulebookName);
+			return AbilityIdentifier.GetID(GUID, rulebookName);
 		}
 	}
 }

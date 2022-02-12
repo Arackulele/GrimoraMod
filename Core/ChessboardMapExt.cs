@@ -1,0 +1,402 @@
+﻿using System.Collections;
+using DiskCardGame;
+using Unity.Cloud.UserReporting.Plugin.SimpleJson;
+using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
+
+namespace GrimoraMod;
+
+public class ChessboardMapExt : GameMap
+{
+	[SerializeField] internal NavigationGrid navGrid;
+
+	[SerializeField] internal List<ChessboardPiece> pieces;
+
+	public List<ChessboardPiece> ActivePieces => pieces;
+
+	public readonly Predicate<ChessboardPiece> PieceExistsInActivePieces
+		= piece => Instance.pieces.Exists(active => active.gridXPos == piece.gridXPos && active.gridYPos == piece.gridYPos);
+
+	public GrimoraChessboard ActiveChessboard { get; set; }
+
+	private List<GrimoraChessboard> _chessboards;
+
+	public new static ChessboardMapExt Instance => GameMap.Instance as ChessboardMapExt;
+
+	public void SetAnimActiveIfInactive()
+	{
+		GameObject anim = gameObject.transform.GetChild(0).gameObject;
+		if (!anim.activeInHierarchy)
+		{
+			anim.SetActive(true);
+		}
+	}
+
+	public ChessboardEnemyPiece BossPiece => ActiveChessboard.BossPiece;
+
+	private bool ChangingRegion { get; set; }
+
+	public bool BossDefeated { get; protected internal set; }
+
+	private List<GrimoraChessboard> Chessboards
+	{
+		get
+		{
+			LoadData();
+			return _chessboards;
+		}
+	}
+
+	public void LoadData()
+	{
+		if (_chessboards == null)
+		{
+			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir(
+				ConfigHelper.Instance.isDevModeEnabled ? "GrimoraChessboardDevMode.json" : "GrimoraChessboardsStatic.json"
+			));
+
+			_chessboards = ParseJson(
+				SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString)
+			);
+		}
+	}
+
+	private static List<GrimoraChessboard> ParseJson(IEnumerable<List<List<int>>> chessboardsFromJson)
+	{
+		return chessboardsFromJson.Select((board, idx) => new GrimoraChessboard(board, idx)).ToList();
+	}
+
+	private void Awake()
+	{
+		ViewManager instance = ViewManager.Instance;
+		instance.ViewChanged = (Action<View, View>)Delegate
+			.Combine(instance.ViewChanged, new Action<View, View>(OnViewChanged));
+
+		gameObject.AddComponent<DebugHelper>();
+	}
+
+	private void OnGUI()
+	{
+		var deckViewBtn = GUI.Button(
+			new Rect(0, 0, 100, 50),
+			"Deck View"
+		);
+
+		var deckResetBtn = GUI.Button(
+			new Rect(100, 0, 100, 50),
+			"Reset Deck"
+		);
+
+		var resetRunBtn = GUI.Button(
+			new Rect(200, 0, 100, 50),
+			"Reset Run"
+		);
+
+		if (deckViewBtn)
+		{
+			switch (ViewManager.Instance.CurrentView)
+			{
+				case View.MapDeckReview:
+					ViewManager.Instance.SwitchToView(View.MapDefault);
+					break;
+				case View.MapDefault:
+					ViewManager.Instance.SwitchToView(View.MapDeckReview);
+					break;
+			}
+		}
+		else if (resetRunBtn)
+		{
+			ConfigHelper.Instance.ResetRun();
+		}
+		else if (deckResetBtn)
+		{
+			ConfigHelper.ResetDeck();
+		}
+	}
+
+	public IEnumerator CompleteRegionSequence()
+	{
+		ViewManager.Instance.Controller.SwitchToControlMode(ViewController.ControlMode.Map);
+		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+
+		SaveManager.SaveToFile();
+
+		BossDefeated = false;
+
+		ChangingRegion = true;
+
+		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+		yield return new WaitForSeconds(0.8f);
+
+		ViewManager.Instance.SwitchToView(View.MapDefault);
+		yield return new WaitForSeconds(0.25f);
+
+		RunState.CurrentMapRegion.FadeInAmbientAudio();
+
+		MapNodeManager.Instance.SetAllNodesInteractable(false);
+
+		// Log.LogDebug($"[CompleteRegionSequence] Looping audio");
+		AudioController.Instance.SetLoopAndPlay("finalegrimora_ambience");
+		AudioController.Instance.SetLoopVolumeImmediate(0f);
+		AudioController.Instance.FadeInLoop(1f, 1f);
+
+		ClearBoardForChangingRegion();
+
+		SetAllNodesActive();
+
+		// this will call Unrolling and Showing the player Marker
+		yield return GameMap.Instance.ShowMapSequence();
+
+		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+
+		ChangingRegion = false;
+		Log.LogDebug($"[CompleteRegionSequence] No longer ChangingRegion");
+	}
+
+	private void ClearBoardForChangingRegion()
+	{
+		Log.LogDebug($"[CompleteRegionSequence] Clearing and destroying pieces");
+		pieces.RemoveAll(delegate(ChessboardPiece piece)
+		{
+			// piece.gameObject.SetActive(false);
+			piece.MapNode.OccupyingPiece = null;
+			Destroy(piece.gameObject);
+
+			return true;
+		});
+
+		// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Clearing removedPiecesConfig");
+		ConfigHelper.Instance.ResetRemovedPieces();
+	}
+
+	public override IEnumerator UnrollingSequence(float unrollSpeed)
+	{
+		TableRuleBook.Instance.SetOnBoard(false);
+
+		pieces.ForEach(delegate(ChessboardPiece x) { x.gameObject.SetActive(false); });
+
+		UpdateVisuals();
+
+		// base.mapAnim.speed = 1f;
+		mapAnim.Play("enter", 0, 0f);
+		yield return new WaitForSeconds(0.25f);
+
+		dynamicElementsParent.gameObject.SetActive(true);
+
+		// for checking which nodes are active/inactive
+		if (ConfigHelper.Instance.isDevModeEnabled) RenameMapNodesWithGridCoords();
+
+		// if the boss piece exists in the removed pieces,
+		// this means the game didn't complete clearing the board for changing the region
+		if (ConfigHelper.Instance.RemovedPieces.Exists(piece => piece.Contains("BossPiece")))
+		{
+			ClearBoardForChangingRegion();
+		}
+
+		UpdateActiveChessboard();
+
+		ActiveChessboard.SetupBoard();
+
+		yield return HandleActivatingChessPieces();
+
+		ActiveChessboard.UpdatePlayerMarkerPosition(ChangingRegion);
+
+		if (!DialogueEventsData.EventIsPlayed("FinaleGrimoraMapShown"))
+		{
+			yield return new WaitForSeconds(0.5f);
+			yield return TextDisplayer.Instance.PlayDialogueEvent(
+				"FinaleGrimoraMapShown",
+				TextDisplayer.MessageAdvanceMode.Input
+			);
+		}
+
+		StoryEventsData.SetEventCompleted(StoryEvent.GrimoraReachedTable);
+
+		SaveManager.SaveToFile();
+	}
+
+	private void UpdateActiveChessboard()
+	{
+		int currentChessboardIndex = ConfigHelper.Instance.CurrentChessboardIndex;
+		Log.LogDebug($"[HandleChessboardSetup] Before setting chess board idx [{currentChessboardIndex}]");
+
+		if (ChangingRegion)
+		{
+			if (++currentChessboardIndex >= 4)
+			{
+				currentChessboardIndex = 0;
+			}
+
+			ConfigHelper.Instance.CurrentChessboardIndex = currentChessboardIndex;
+			Log.LogDebug($"[HandleChessboardSetup] -> Setting new chessboard idx [{currentChessboardIndex}]");
+			ActiveChessboard = Chessboards[currentChessboardIndex];
+
+			ActiveChessboard.SetSavePositions();
+		}
+
+		Log.LogDebug($"[HandleChessboardSetup] Chessboard [{ActiveChessboard}] Chessboards [{Chessboards.Count}]");
+		ActiveChessboard ??= Chessboards[currentChessboardIndex];
+	}
+
+
+	private static void SetAllNodesActive()
+	{
+		foreach (var zone in ChessboardNavGrid.instance.zones)
+		{
+			zone.gameObject.SetActive(true);
+			// UnityExplorer.ExplorerCore.Log(zone.GetComponent<ChessboardMapNode>().isActiveAndEnabled);
+		}
+	}
+
+	private IEnumerator HandleActivatingChessPieces()
+	{
+		var removedList = ConfigHelper.Instance.RemovedPieces;
+
+		// pieces will contain the pieces just placed
+		var activePieces = pieces
+			.Where(p => !removedList.Contains(p.name))
+			.ToList();
+
+		pieces.RemoveAll(delegate(ChessboardPiece piece)
+		{
+			bool toRemove = false;
+			if (activePieces.Contains(piece))
+			{
+				piece.gameObject.SetActive(true);
+			}
+			else
+			{
+				piece.gameObject.SetActive(false);
+				piece.MapNode.OccupyingPiece = null;
+				toRemove = true;
+			}
+
+			piece.Hide(true);
+			return toRemove;
+		});
+
+		yield return new WaitForSeconds(0.05f);
+
+		yield return ShowPiecesThatAreActive();
+	}
+
+	private IEnumerator ShowPiecesThatAreActive()
+	{
+		foreach (var piece in pieces.Where(piece => piece.gameObject.activeInHierarchy))
+		{
+			piece.Show();
+			yield return new WaitForSeconds(0.020f);
+		}
+	}
+
+	private static void UpdateVisuals()
+	{
+		TableVisualEffectsManager.Instance.SetFogPlaneShown(true);
+		CameraEffects.Instance.SetFogEnabled(true);
+		CameraEffects.Instance.SetFogAlpha(0f);
+		CameraEffects.Instance.TweenFogAlpha(0.6f, 1f);
+
+		TableVisualEffectsManager.Instance.SetDustParticlesActive(!RunState.CurrentMapRegion.dustParticlesDisabled);
+	}
+
+	private void OnViewChanged(View newView, View oldView)
+	{
+		switch (oldView)
+		{
+			case View.MapDefault when newView == View.MapDeckReview:
+			{
+				if (MapNodeManager.Instance != null)
+				{
+					MapNodeManager.Instance.SetAllNodesInteractable(false);
+				}
+
+				DeckReviewSequencer.Instance.SetDeckReviewShown(true, transform, DefaultPosition);
+				break;
+			}
+			case View.MapDeckReview when newView == View.MapDefault:
+			{
+				DeckReviewSequencer.Instance.SetDeckReviewShown(false, transform, DefaultPosition);
+				if (MapNodeManager.Instance != null)
+				{
+					ChessboardNavGrid.instance.SetPlayerAdjacentNodesActive();
+				}
+
+				break;
+			}
+		}
+	}
+
+	public void RenameMapNodesWithGridCoords()
+	{
+		if (string.Equals(
+			    navGrid.zones[0, 0].name,
+			    "ChessBoardMapNode",
+			    StringComparison.OrdinalIgnoreCase)
+		   )
+		{
+			var zones = ChessboardNavGrid.instance.zones;
+			for (var i = 0; i < zones.GetLength(0); i++)
+			{
+				for (var i1 = 0; i1 < zones.GetLength(1); i1++)
+				{
+					var obj = ChessboardNavGrid.instance.zones[i, i1].GetComponent<ChessboardMapNode>();
+					obj.name = $"ChessboardMapNode_x{i}y{i1}";
+				}
+			}
+		}
+	}
+
+	public override IEnumerator RerollingSequence()
+	{
+		foreach (var piece in pieces.Where(piece => piece.gameObject.activeInHierarchy))
+		{
+			piece.Hide();
+			yield return new WaitForSeconds(0.005f);
+		}
+
+		PlayerMarker.Instance.Hide();
+		CameraEffects.Instance.TweenFogAlpha(0f, 0.15f);
+		yield return new WaitForSeconds(0.15f);
+		TableVisualEffectsManager.Instance.SetFogPlaneShown(shown: false);
+		CameraEffects.Instance.SetFogEnabled(fogEnabled: false);
+		mapAnim.Play("exit", 0, 0f);
+		dynamicElementsParent.gameObject.SetActive(value: false);
+	}
+
+	public override void OnHideMapImmediate()
+	{
+		mapAnim.Play("exit", 0, 1f);
+	}
+
+	public static void ChangeChessboardToExtendedClass()
+	{
+		ChessboardMapExt ext = ChessboardMap.Instance.gameObject.GetComponent<ChessboardMapExt>();
+
+		if (ext is null)
+		{
+			ChessboardMap boardComp = ChessboardMap.Instance.gameObject.GetComponent<ChessboardMap>();
+			boardComp.pieces.Clear();
+
+			ext = ChessboardMap.Instance.gameObject.AddComponent<ChessboardMapExt>();
+
+			ext.dynamicElementsParent = boardComp.dynamicElementsParent;
+			ext.mapAnim = boardComp.mapAnim;
+			ext.navGrid = boardComp.navGrid;
+			ext.pieces = new List<ChessboardPiece>();
+			ext.defaultPosition = boardComp.defaultPosition;
+
+			Destroy(boardComp);
+		}
+
+		var initialStartingPieces = FindObjectsOfType<ChessboardPiece>();
+
+		foreach (var piece in initialStartingPieces)
+		{
+			piece.MapNode.OccupyingPiece = null;
+			piece.gameObject.SetActive(false);
+			Destroy(piece.gameObject);
+		}
+
+		Log.LogDebug($"[ChangeChessboardToExtendedClass] Finished adding ChessboardMapExt");
+	}
+}

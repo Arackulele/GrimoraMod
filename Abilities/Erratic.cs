@@ -10,6 +10,8 @@ public class Erratic : Strafe
 	public static Ability ability;
 	public override Ability Ability => ability;
 
+	private readonly RandomEx _rng = new();
+
 	public override IEnumerator DoStrafe(CardSlot toLeft, CardSlot toRight)
 	{
 		bool toLeftIsValid = toLeft is not null && toLeft.Card is null;
@@ -25,13 +27,13 @@ public class Erratic : Strafe
 		else
 		{
 			// means that both adj-slots are valid for moving to
-			movingLeft = new RandomEx().NextBoolean();
+			movingLeft = _rng.NextBoolean();
 		}
 
 		CardSlot destination = movingLeft ? toLeft : toRight;
 		Log.LogDebug($"[Erratic] Moving from slot [{base.Card.Slot.Index}] to slot [{destination.Index}]");
 		yield return StartCoroutine(MoveToSlot(destination, true));
-		if (destination is not null)
+		if (destination != null)
 		{
 			yield return PreSuccessfulTriggerSequence();
 			yield return LearnAbility();
@@ -41,8 +43,7 @@ public class Erratic : Strafe
 
 	public static NewAbility Create()
 	{
-		const string rulebookDescription =
-			"At the end of the owner's turn, [creature] will move in a random direction.";
+		const string rulebookDescription = "At the end of the owner's turn, [creature] will move in a random direction.";
 
 		return ApiUtils.CreateAbility<Erratic>(rulebookDescription);
 	}

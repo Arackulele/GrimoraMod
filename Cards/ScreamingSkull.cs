@@ -1,21 +1,17 @@
 ﻿using APIPlugin;
 using DiskCardGame;
-using Sirenix.Utilities;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameScreamingSkull = "ara_ScreamingSkull";
+	public const string NameScreamingSkull = "GrimoraMod_ScreamingSkull";
 
-	private void AddAra_ScreamingSkull()
+	private void Add_ScreamingSkull()
 	{
-
-		CardInfo info = ScriptableObject.CreateInstance<CardInfo>();
 		NewCard.Add(CardBuilder.Builder
-			.SetAsNormalCard()
+			.SetAsRareCard()
 			.SetAbilities(AreaOfEffectStrike.ability)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(6)

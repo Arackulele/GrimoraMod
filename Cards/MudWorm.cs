@@ -5,9 +5,9 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameMudWorm = "ara_MudWorm";
+	public const string NameMudWorm = "GrimoraMod_MudWorm";
 
-	private void AddAra_RingWorm()
+	private void Add_RingWorm()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()

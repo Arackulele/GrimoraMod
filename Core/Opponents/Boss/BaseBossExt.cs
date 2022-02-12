@@ -7,6 +7,35 @@ namespace GrimoraMod;
 
 public abstract class BaseBossExt : Part1BossOpponent
 {
+	public static readonly Dictionary<string, Tuple<Opponent.Type, System.Type, EncounterBlueprintData>>
+		OpponentTupleBySpecialId = new()
+		{
+			{
+				"KayceeBoss", new Tuple<Type, System.Type, EncounterBlueprintData>(
+					KayceeOpponent, typeof(GrimoraModKayceeBossSequencer), BlueprintUtils.BuildKayceeBossInitialBlueprint()
+				)
+			},
+			{
+				"SawyerBoss", new Tuple<Type, System.Type, EncounterBlueprintData>(
+					SawyerOpponent, typeof(GrimoraModSawyerBossSequencer), BlueprintUtils.BuildSawyerBossInitialBlueprint()
+				)
+			},
+			{
+				"RoyalBoss", new Tuple<Type, System.Type, EncounterBlueprintData>(
+					RoyalOpponent, typeof(GrimoraModRoyalBossSequencer), BlueprintUtils.BuildRoyalBossInitialBlueprint()
+				)
+			},
+			{
+				"GrimoraBoss", new Tuple<Type, System.Type, EncounterBlueprintData>(
+					GrimoraOpponent, typeof(GrimoraModGrimoraBossSequencer), BlueprintUtils.BuildGrimoraBossInitialBlueprint()
+				)
+			},
+			{
+				"GrimoraModBattleSequencer",
+				new Tuple<Type, System.Type, EncounterBlueprintData>(0, typeof(GrimoraModBattleSequencer), null)
+			}
+		};
+
 	public const string PrefabPathMasks = "Prefabs/Opponents/Leshy/Masks";
 	public const string PrefabPathRoyalBossSkull = "Prefabs/Opponents/Grimora/RoyalBossSkull";
 
@@ -17,14 +46,6 @@ public abstract class BaseBossExt : Part1BossOpponent
 	public const Type SawyerOpponent = (Type)1002;
 	public const Type RoyalOpponent = (Type)1003;
 	public const Type GrimoraOpponent = (Type)1004;
-
-	public static readonly Dictionary<string, Type> BossTypesByString = new()
-	{
-		{ SawyerBossOpponent.SpecialId, SawyerOpponent },
-		{ GrimoraBossOpponentExt.SpecialId, GrimoraOpponent },
-		{ KayceeBossOpponent.SpecialId, KayceeOpponent },
-		{ RoyalBossOpponentExt.SpecialId, RoyalOpponent }
-	};
 
 	public static readonly Dictionary<Type, string> BossMasksByType = new()
 	{
@@ -37,6 +58,8 @@ public abstract class BaseBossExt : Part1BossOpponent
 	public abstract StoryEvent EventForDefeat { get; }
 
 	public abstract Type Opponent { get; }
+
+	public abstract string SpecialEncounterId { get; }
 
 	protected internal GameObject Mask { get; set; }
 
@@ -51,16 +74,13 @@ public abstract class BaseBossExt : Part1BossOpponent
 			yield return ShowBossSkull();
 
 			// Log.LogDebug($"[{GetType()}] Creating mask [{prefabPath}]");
-			Mask = (GameObject)Instantiate(
-				Resources.Load(prefabPath),
-				RightWrist.transform
-			);
+			Mask = (GameObject)Instantiate(Resources.Load(prefabPath), RightWrist.transform);
 
 			Mask.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
 			Mask.transform.localPosition = new Vector3(0.02f, 0.18f, 0.07f);
 			Mask.transform.localRotation = Quaternion.Euler(0, 0, 270);
 
-			// UnityEngine.Object.Destroy(RoyalBossSkull);
+			// Object.Destroy(RoyalBossSkull);
 			RoyalBossSkull.SetActive(false);
 			yield return new WaitForSeconds(1f);
 
@@ -80,10 +100,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 			if (Mask is not null)
 			{
 				Log.LogDebug($"[{GetType()}] Glitching mask");
-				GlitchOutAssetEffect.GlitchModel(
-					Mask.transform,
-					true
-				);
+				GlitchOutAssetEffect.GlitchModel(Mask.transform, true);
 			}
 
 			Log.LogDebug($"[{GetType()}] audio queue");
@@ -131,7 +148,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 
 		yield return new WaitForSeconds(0.25f);
 
-		ViewManager.Instance.SwitchToView(View.BossCloseup, immediate: false, lockAfter: true);
+		ViewManager.Instance.SwitchToView(View.BossCloseup, false, true);
 	}
 
 	public virtual IEnumerator ReplaceBlueprintCustom(EncounterBlueprintData blueprintData)

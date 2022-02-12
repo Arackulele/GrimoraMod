@@ -1,13 +1,12 @@
 using APIPlugin;
-using DiskCardGame;
 
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameBonelord = "ara_Bonelord";
+	public const string NameBonelord = "GrimoraMod_Bonelord";
 
-	private void AddAra_Bonelord()
+	private void Add_Bonelord()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsRareCard()

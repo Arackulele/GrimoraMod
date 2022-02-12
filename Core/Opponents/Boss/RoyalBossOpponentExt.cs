@@ -7,13 +7,13 @@ namespace GrimoraMod;
 
 public class RoyalBossOpponentExt : BaseBossExt
 {
-	public const string SpecialId = "RoyalBoss";
-
 	public GameObject cannons;
 
 	public override StoryEvent EventForDefeat => StoryEvent.Part3PurchasedHoloBrush;
 
 	public override Type Opponent => RoyalOpponent;
+
+	public override string SpecialEncounterId => "RoyalBoss";
 
 	public override string DefeatedPlayerDialogue => "Arrg! Walk off the plank yee dirty Scallywag!!!";
 

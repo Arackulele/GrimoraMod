@@ -5,9 +5,9 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameTombRobber = "ara_TombRobber";
+	public const string NameTombRobber = "GrimoraMod_TombRobber";
 
-	private void AddAra_TombRobber()
+	private void Add_TombRobber()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()

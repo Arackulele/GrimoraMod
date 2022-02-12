@@ -2,7 +2,6 @@
 using APIPlugin;
 using DiskCardGame;
 using HarmonyLib;
-using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -99,10 +98,11 @@ public class PatchesForAreaOfEffectStrike
 		
 		if (slot.Card is not null && slot.Card.HasAbility(AreaOfEffectStrike.ability))
 		{
+			yield return new WaitForSeconds(1f);
 			int dmgDoneToPlayer = slot.Card.GetComponent<AreaOfEffectStrike>().damageDoneToPlayer;
 			Log.LogDebug($"[SlotAttackSequence] Dealing [{dmgDoneToPlayer}] to player");
 			yield return LifeManager.Instance.ShowDamageSequence(
-				dmgDoneToPlayer, dmgDoneToPlayer, true, 0.2f
+				dmgDoneToPlayer, dmgDoneToPlayer, !slot.Card.OpponentCard, 0.2f
 			);
 			
 			__instance.DamageDealtThisPhase -= dmgDoneToPlayer;
