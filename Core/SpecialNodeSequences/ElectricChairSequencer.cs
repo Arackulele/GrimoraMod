@@ -109,7 +109,13 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		else
 		{
 			// play dialogue
-			yield return TextDisplayer.Instance.PlayDialogueEvent("StatBoostIntro", TextDisplayer.MessageAdvanceMode.Input);
+			yield return TextDisplayer.Instance.ShowUntilInput("Oh! I love this one!", -0.65f);
+			yield return new WaitForSeconds(0.1f);
+			yield return TextDisplayer.Instance.ShowUntilInput("You strap one of your cards to the chair, [c:B]empowering[c:] it!", -0.65f);
+			yield return new WaitForSeconds(0.1f);
+			yield return TextDisplayer.Instance.ShowUntilInput("Of course, it doesn't hurt. You can't die twice after all.", -0.65f);
+			yield return new WaitForSeconds(0.1f);
+
 			yield return WhileNotFinishedBuffingAndDestroyedCardIsNull();
 		}
 
@@ -218,6 +224,10 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		}
 		else
 		{
+			// "The fire warmed the poor [c:bR][v:1][c:], enhancing its [c:bR][v:0][c:].",
+			// "One of the survivors reached toward it.",
+			// "Another gnashed their teeth.",
+			// "Without a word, you pulled the [c:bR][v:1][c:] away from the fire and left.",
 			yield return TextDisplayer.Instance.PlayDialogueEvent("StatBoostOutro", TextDisplayer.MessageAdvanceMode.Input);
 
 			yield return new WaitForSeconds(0.1f);
