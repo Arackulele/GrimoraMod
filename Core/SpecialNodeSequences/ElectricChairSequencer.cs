@@ -11,6 +11,13 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 {
 	public static ElectricChairSequencer Instance => FindObjectOfType<ElectricChairSequencer>();
 
+	private void Start()
+	{
+		var stoneQuad = confirmStone.transform.Find("Quad").GetComponent<MeshRenderer>();
+		stoneQuad.material = AssetUtils.GetPrefab<Material>("ElectricChair_Stat_AbilityBoost");
+		stoneQuad.sharedMaterial = AssetUtils.GetPrefab<Material>("ElectricChair_Stat_AbilityBoost");
+	}
+
 	private static readonly List<Ability> AbilitiesToChoseRandomly = new()
 	{
 		Ability.ActivatedDealDamage,

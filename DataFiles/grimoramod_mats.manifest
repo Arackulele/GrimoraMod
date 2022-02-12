@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 4034624600
+CRC: 2499171364
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 7041561fe9092357298ed99be76bf0a8
+    Hash: cd986d1ad3b5874e031ae6418fdd037f
   TypeTreeHash:
     serializedVersion: 2
     Hash: 22357172b8cea85847937e8f62d0c077
@@ -18,5 +18,6 @@ ClassTypes:
 SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/GrimoraMod/Materials/BoneyardBurialShovel.mat
+- Assets/GrimoraMod/Materials/ElectricChair_Stat_AbilityBoost.mat
 - Assets/GrimoraMod/Materials/StatBoostBoneyard.mat
 Dependencies: []
