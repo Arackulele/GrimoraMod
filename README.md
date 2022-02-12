@@ -32,16 +32,16 @@
 #### Feature
 
 - ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added 3 new special node pieces!
-  - Boneyard: Bury one of your cards to give it Brittle and halve it's bone cost rounded up. 9 bones becomes 5 for example.
-  - Card Removal: Remove a card for a special effect to another card (or maybe your entire deck?!)
-  - Electric Chair: Give one of your cards a random positive sigil.
-  - Goat Eye: Remove your eye...
+  - Boneyard: Bury one of your cards to give it Brittle and halve it's bone cost rounded up. For example, 9 bones becomes 5.
+  - Card Removal: Remove a card to give another card (or maybe your entire deck?!) in your deck a random special effect.
+  - Electric Chair: Give one of your cards a random positive sigil. This will not give your cards blood related sigils like `Sacrificial`.
+  - Goat Eye: Unsettling
 
 - ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Grimora phase 2 redone to be more difficult.
 
 - ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Grimora has a new set of blocker pieces!
 
-- ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added more logic to make the skeleton arm attack animation work for both player and opponent sides.
+- ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added custom animations to make the skeleton arm attack animation work for both player and opponent sides.
 
 - ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added multiple cards from `Bt Y#0895`, included with artwork!
 
@@ -82,7 +82,7 @@
 
 #### Refactor
 
-- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Added PrefabPieceHlper class for ease of creating new chessboard pieces using generics.
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Added PrefabConstants class for ease of grabbing prefabs and other objects.
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Changed `Object.Find` calls to use `.Instance` calls where necessary. This is because `.Instance` will automatically give me the object I need to destroy/check.
 
