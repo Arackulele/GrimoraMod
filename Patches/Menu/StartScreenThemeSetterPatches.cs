@@ -27,8 +27,6 @@ public class StartScreenThemeSetterPatches
 			theme.triggeringEvent == StoryEvent.PlayerDeletedArchivistFile);
 
 		__instance.SetTheme(findPlayerDeletedArchivistFile);
-		// GrimoraPlugin.Log.LogDebug(findPlayerDeletedArchivistFile);
-
 		__instance.StartCoroutine(CreateButton());
 	}
 
