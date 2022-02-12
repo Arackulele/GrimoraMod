@@ -16,7 +16,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 {
 	public const string GUID = "arackulele.inscryption.grimoramod";
 	public const string Name = "GrimoraMod";
-	private const string Version = "2.5.5";
+	private const string Version = "2.5.6";
 
 	internal static ManualLogSource Log;
 
@@ -201,8 +201,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private static void LoadAssets()
 	{
-		FileUtils.CheckIfDirectoriesNeededExist();
-
 		Log.LogDebug($"Loading assets into static vars");
 		AllAbilityTextures = AssetUtils.LoadAssetBundle<Texture>("grimoramod_abilities");
 

@@ -19,23 +19,6 @@ public static class FileUtils
 			: Assembly.GetExecutingAssembly().Location.Replace("GrimoraMod.dll", "");
 	}
 
-	public static void CheckIfDirectoriesNeededExist()
-	{
-		const string exceptionToPrint = "Please make sure if you manually installed that you copied everything in the zip file!";
-		
-		if (!Directory.Exists(Path.Combine(GetDir(), "DataFiles")))
-		{
-			throw new DirectoryNotFoundException($"Unable to find DataFiles directory in [{GrimoraPluginsDir}]! {exceptionToPrint}");
-		}
-
-		if (!Directory.Exists(Path.Combine(GetDir(), "Artwork")))
-		{
-			throw new DirectoryNotFoundException($"Unable to find Artwork directory in [{GrimoraPluginsDir}]! {exceptionToPrint}");
-		}
-		
-		Log.LogDebug($"[CheckIfDirectoriesNeededExist] Both directories exist! Continuing loading rest of mod.");
-	}
-
 	public static byte[] ReadFileAsBytes(string file, bool isPng = false)
 	{
 		return File.ReadAllBytes(FindFileInPluginDir(file, isPng));
@@ -56,7 +39,7 @@ public static class FileUtils
 		catch (Exception e)
 		{
 			Log.LogError($"Unable to find file [{Path.GetFileName(file)}] in directory [{GrimoraPluginsDir}] ! " +
-			             $"Are you sure you have both Artwork and DataFiles in this directory?");
+			             $"These are the files I have found: [{string.Join(",", FilesToSearch.Select(Path.GetFileName))}]");
 			throw;
 		}
 	}

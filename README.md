@@ -27,13 +27,17 @@
 
 ## Update Notes
 
+### 2.5.6
+
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) HOTFIX - Removed checking for `DataFiles` and `Artwork` folders as some mod managers appear to extract the files inside them to the main directory?
+
 ### 2.5.5
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) HOTFIX - Issue with attempting to wipe deck if Grimora's deck contained previous GrimoraMod cards that were prefixed with `ara_`. This is throwing an exception because accessing the deck means calling `CardLoader.GetCardByName()`, which throws the exception.
 
 ### 2.5.4
 
-- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) HOTFIX - Royal was using original vanilla battle sequencer and not the new one, therefore unable to progress.
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) HOTFIX - Royal was using original vanilla battle sequencer and not the new one, therefore unable to progress. The new GrimoraMod battle sequencers are now prefixed woith `GrimoraMod` so that I don't accidently set the wrong one again...
 
 ### 2.5.3
 
