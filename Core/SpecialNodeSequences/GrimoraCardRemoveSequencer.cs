@@ -153,15 +153,6 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			Destroy(boonCard.gameObject);
 		}
 
-		if (!ProgressionData.LearnedMechanic(MechanicsConcept.CardRemoval))
-		{
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				string.Format(
-					Localization.Translate("You shook off the viscera of the poor [c:bR]{0}[c:] and carried onwards."),
-					sacrificedInfo.DisplayedNameLocalized), -0.65f, 0.4f, Emotion.Neutral,
-				TextDisplayer.LetterAnimation.WavyJitter);
-		}
-
 		Log.LogDebug($"Destroying deck pile");
 		yield return deckPile.DestroyCards();
 
