@@ -82,13 +82,8 @@ public class ChessboardMapExt : GameMap
 			"Deck View"
 		);
 
-		var deckResetBtn = GUI.Button(
-			new Rect(100, 0, 100, 50),
-			"Reset Deck"
-		);
-
 		var resetRunBtn = GUI.Button(
-			new Rect(200, 0, 100, 50),
+			new Rect(100, 0, 100, 50),
 			"Reset Run"
 		);
 
@@ -107,10 +102,6 @@ public class ChessboardMapExt : GameMap
 		else if (resetRunBtn)
 		{
 			ConfigHelper.Instance.ResetRun();
-		}
-		else if (deckResetBtn)
-		{
-			ConfigHelper.ResetDeck();
 		}
 	}
 
