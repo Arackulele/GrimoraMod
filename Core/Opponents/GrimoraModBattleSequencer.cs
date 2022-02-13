@@ -101,6 +101,17 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 	{
 		Log.LogDebug($"[GetFixedOpeningHand] Getting randomized list for starting hand");
 		var cardsToAdd = new List<CardInfo>();
+		var gravedigger = GrimoraSaveUtil.DeckList.Find(info => info.name.Equals(NameGravedigger));
+		var bonepile = GrimoraSaveUtil.DeckList.Find(info => info.name.Equals(NameBonepile));
+		if (bonepile is not null)
+		{
+			cardsToAdd.Add(bonepile);
+		}
+		else if (gravedigger is not null)
+		{
+			cardsToAdd.Add(gravedigger);
+		}
+
 		var randomizedChoices = RandomUtils.GenerateRandomChoicesOfCategory(
 			GrimoraSaveUtil.DeckList,
 			RandomUtils.GenerateRandomSeed(GrimoraSaveUtil.DeckList)
@@ -109,10 +120,18 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		if (randomizedChoices.Count < 3)
 		{
 			Log.LogWarning($"[GetFixedOpeningHand] ...How did you get fewer than 3 cards in your deck?!");
-			var skeleton = "Skeleton".GetCardInfo();
-			cardsToAdd.AddRange(new[] { skeleton, skeleton });
+			randomizedChoices.AddRange(new[]
+			{
+				new CardChoice() { info = "Skeleton".GetCardInfo() }, new CardChoice() { info = "Skeleton".GetCardInfo() }
+			});
 		}
 
+		while (cardsToAdd.Count < 3)
+		{
+			cardsToAdd.Add(randomizedChoices[UnityEngine.Random.RandomRangeInt(0, randomizedChoices.Count)].info);
+		}
+		
+		Log.LogDebug($"[GetFixedOpeningHand] Opening hand [{cardsToAdd.GetDelimitedString()}]");
 		return cardsToAdd;
 	}
 
