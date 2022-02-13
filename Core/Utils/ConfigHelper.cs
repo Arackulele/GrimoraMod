@@ -31,6 +31,10 @@ public class ConfigHelper
 		"Tombstone_Wall1,Tombstone_Wall2,Tombstone_Wall3,Tombstone_Wall4,Tombstone_Wall5," +
 		"Tombstone_South1,Tombstone_South2,Tombstone_South3,";
 
+	private ConfigEntry<bool> _configCardsLeftInDeck;
+	
+	public bool EnableCardsLeftInDeckView => _configCardsLeftInDeck.Value;
+
 	private ConfigEntry<int> _configCurrentChessboardIndex;
 
 	public int CurrentChessboardIndex
@@ -84,6 +88,13 @@ public class ConfigHelper
 			                      "\nDo not alter this list unless you know what you are doing!")
 		);
 
+		_configCardsLeftInDeck = GrimoraConfigFile.Bind(
+			Name,
+			"Enable showing list of cards left in deck during battles",
+			true,
+			new ConfigDescription("This option will allow you to see what cards are left in your deck.")
+		);
+		
 		_configDeveloperMode = GrimoraConfigFile.Bind(
 			Name,
 			"Enable Developer Mode",
