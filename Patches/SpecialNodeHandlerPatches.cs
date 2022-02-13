@@ -9,7 +9,7 @@ public class SpecialNodeHandlerPatches
 	[HarmonyPrefix]
 	public static bool CastToGrimoraCardRemoveSequencer(SpecialNodeHandler __instance, ref SpecialNodeData nodeData)
 	{
-		if (!SaveManager.SaveFile.IsGrimora)
+		if (GrimoraSaveUtil.isNotGrimora)
 		{
 			return true;
 		}

@@ -24,7 +24,7 @@ public class MenuControllerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(MenuController.OnCardReachedSlot))]
 	public static bool MainMenuThree(MenuController __instance, MenuCard card, bool skipTween = false)
 	{
-		if (SaveManager.SaveFile.IsGrimora && card.MenuAction == MenuAction.ReturnToStartMenu)
+		if (GrimoraSaveUtil.isGrimora && card.MenuAction == MenuAction.ReturnToStartMenu)
 		{
 			Log.LogDebug($"[MenuController.OnCardReachedSlot] Saving before exiting");
 			SaveManager.SaveToFile();

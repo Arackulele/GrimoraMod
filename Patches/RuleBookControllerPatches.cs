@@ -10,7 +10,7 @@ public class RuleBookControllerPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(RuleBookController.Start))]
 	public static void AddAllAbilitiesPatch(ref RuleBookController __instance)
 	{
-		if (!SaveManager.SaveFile.IsGrimora)
+		if (GrimoraSaveUtil.isNotGrimora)
 		{
 			return;
 		}

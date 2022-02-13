@@ -9,7 +9,7 @@ public class PlayerMarkerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(AnimatedGameMapMarker.Show))]
 	public static bool PrefixShowHandleGrimoraBossPiece(AnimatedGameMapMarker __instance)
 	{
-		if (!SaveManager.SaveFile.IsGrimora)
+		if (GrimoraSaveUtil.isNotGrimora)
 		{
 			return true;
 		}
@@ -27,7 +27,7 @@ public class PlayerMarkerPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(AnimatedGameMapMarker.Show))]
 	public static void PostfixAddExtraLogicAfterUnrolling(AnimatedGameMapMarker __instance)
 	{
-		if (!SaveManager.SaveFile.IsGrimora)
+		if (GrimoraSaveUtil.isNotGrimora)
 		{
 			return;
 		}
@@ -52,7 +52,7 @@ public class PlayerMarkerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(AnimatedGameMapMarker.Hide))]
 	public static bool PrefixHideHandleGrimoraBossPiece(AnimatedGameMapMarker __instance, bool immediate = false)
 	{
-		if (!SaveManager.SaveFile.IsGrimora)
+		if (GrimoraSaveUtil.isNotGrimora)
 		{
 			return true;
 		}

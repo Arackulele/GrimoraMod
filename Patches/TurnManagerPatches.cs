@@ -12,14 +12,14 @@ public class TurnManagerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(TurnManager.UpdateSpecialSequencer))]
 	public static bool Prefix(ref TurnManager __instance, string specialBattleId)
 	{
-		if (!SaveManager.SaveFile.IsGrimora)
+		if (GrimoraSaveUtil.isNotGrimora)
 		{
 			return true;
 		}
 
 		Log.LogDebug($"[UpdateSpecialSequencer][Prefix] " +
 		             $"SpecialBattleId [{specialBattleId}] " +
-		             $"SaveFile is grimora? [{SaveManager.SaveFile.IsGrimora}]");
+		             $"SaveFile is grimora? [{GrimoraSaveUtil.isGrimora}]");
 
 		Object.Destroy(__instance.SpecialSequencer);
 		__instance.SpecialSequencer = null;
