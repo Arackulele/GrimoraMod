@@ -10,10 +10,10 @@ public partial class GrimoraPlugin
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(PayBonesForSkeleton.ability)
+			.SetAbilities(CreateArmyOfSkeletons.ability)
 			.SetBaseAttackAndHealth(1, 3)
 			.SetBoneCost(5)
-			.SetDescription("The skeleton army, boons of the Bone Lord.")
+			.SetDescription("[c:bR]RISE MY ARMY, RIIIIIISE[c:]")
 			.SetNames(NameSkeletonArmy, "Skeleton Army")
 			.Build()
 		);
