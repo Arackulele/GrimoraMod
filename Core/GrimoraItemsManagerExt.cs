@@ -7,11 +7,10 @@ namespace GrimoraMod;
 
 public class GrimoraItemsManagerExt : ItemsManager
 {
-	[SerializeField]
-	internal HammerItemSlot hammerSlot;
-	
+	[SerializeField] internal HammerItemSlot hammerSlot;
+
 	public new static GrimoraItemsManagerExt Instance => ItemsManager.Instance as GrimoraItemsManagerExt;
-	
+
 	public override List<string> SaveDataItemsList => Part3SaveData.Data.items;
 
 	public override void OnBattleStart()
@@ -23,7 +22,7 @@ public class GrimoraItemsManagerExt : ItemsManager
 	{
 		hammerSlot.CleanupHammer();
 	}
-	
+
 	public static void AddHammer()
 	{
 		GrimoraItemsManager currentItemsManager = GrimoraItemsManager.Instance.GetComponent<GrimoraItemsManager>();
@@ -38,7 +37,7 @@ public class GrimoraItemsManagerExt : ItemsManager
 			ext.consumableSlots = currentItemsManager.consumableSlots;
 			Log.LogDebug($"[AddHammer] Destroying old manager");
 			Destroy(currentItemsManager);
-			
+
 			Part3ItemsManager part3ItemsManager = Instantiate(
 				ResourceBank.Get<Part3ItemsManager>("Prefabs/Items/ItemsManager_Part3")
 			);
@@ -49,7 +48,6 @@ public class GrimoraItemsManagerExt : ItemsManager
 			float xVal = Harmony.HasAnyPatches("julianperge.inscryption.act1.increaseCardSlots") ? -8.75f : -7.5f;
 			ext.hammerSlot.gameObject.transform.localPosition = new Vector3(xVal, 0.81f, -0.48f);
 			ext.hammerSlot.gameObject.transform.rotation = Quaternion.Euler(270f, 315f, 0f);
-			
 		}
 
 		if (FindObjectOfType<Part3ItemsManager>() is not null)
