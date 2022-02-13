@@ -467,24 +467,16 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	{
 		Log.LogDebug("[ElectricChair] creating chair");
 		CompositeFigurine chairFigurine = Instantiate(
-			PrefabConstants.ElectricChair,
-			new Vector3(0, 5.85f, 1),
-			Quaternion.Euler(0, -90, 0),
+			PrefabConstants.ElectricChairForSelectionSlot,
+			new Vector3(-0.05f, 4.9f, 1.2f),
+			Quaternion.Euler(0, 180, 0),
 			cardStatObj.transform
 		).AddComponent<CompositeFigurine>();
-		chairFigurine.name = "Electric Chair Figurine";
-		chairFigurine.transform.localScale = new Vector3(60, 85, 95);
+		chairFigurine.name = "Electric Chair Selection Slot";
+		chairFigurine.transform.localScale = new Vector3(1.15f, 1, 0.75f);
 		chairFigurine.gameObject.SetActive(false);
 
-		CompositeFigurine vfxElectricity = Instantiate(
-			AssetUtils.GetPrefab<GameObject>("VfxBoltLightning"),
-			new Vector3(0.1f, 7.8f, 1.25f),
-			Quaternion.identity,
-			cardStatObj.transform
-		).AddComponent<CompositeFigurine>();
-		vfxElectricity.gameObject.SetActive(false);
-
-		return new List<CompositeFigurine> { chairFigurine, vfxElectricity };
+		return new List<CompositeFigurine> { chairFigurine };
 	}
 
 	private static ConfirmStoneButton CreateLever(GameObject cardStatObj)
