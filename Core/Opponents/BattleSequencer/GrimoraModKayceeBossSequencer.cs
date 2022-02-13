@@ -2,6 +2,7 @@
 using DiskCardGame;
 using Sirenix.Utilities;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -60,7 +61,7 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 		}
 
 		var opponentCards = CardSlotUtils.GetOpponentSlotsWithCards();
-		var draugrCards = opponentCards.FindAll(slot => slot.Card.name.Equals(GrimoraPlugin.NameDraugr));
+		var draugrCards = opponentCards.FindAll(slot => slot.Card.name.Equals(NameDraugr));
 		if (++_iceBreakCounter == 2 && draugrCards.Count >= 2)
 		{
 			ViewManager.Instance.SwitchToView(View.Board);
