@@ -83,7 +83,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	{
 		handPosition = PlayerHand3D.HIDDEN_HAND_POS,
 		camPosition = new Vector3(0f, 9.3f, -3.5f),
-		camRotation = new Vector3(37.5f, 0f, 0f),
+		camRotation = new Vector3(32.5f, 0f, 0f),
 		fov = 55f
 	};
 
