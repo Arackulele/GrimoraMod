@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(3, 3)
 			.SetBoneCost(8)
 			.SetNames(NameDanseMacabre, "Danse Macabre")
-			.SetDescription("They can never decide, truly a painful existance...")
+			.SetDescription("They can never decide, truly a painful existence...")
 			.Build()
 		);
 	}
