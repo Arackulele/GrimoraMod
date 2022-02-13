@@ -25,34 +25,36 @@ public class HammerItemExt : HammerItem
 			null,
 			delegate { firstPersonItem.gameObject.SetActive(false); }
 		);
+
 		if (targetSlot.Card != null)
 		{
-			if (TurnManager.Instance.Opponent is not null
-			    && TurnManager.Instance.Opponent is KayceeBossOpponent
-			    && targetSlot.Card.HasAbility(Ability.IceCube)
-			    && _useCounter < 3
-			   )
+			if (_useCounter < 3)
 			{
-				yield return TextDisplayer.Instance.ShowUntilInput(
-					"I can't make it that easy for you! There's no fun if you destroy all this ice!"
-				);
-			}
-			else
-			{
-				yield return targetSlot.Card.TakeDamage(100, null);
+				if (TurnManager.Instance.Opponent is not null
+				    && TurnManager.Instance.Opponent is KayceeBossOpponent
+				    && targetSlot.Card.HasAbility(Ability.IceCube)
+				   )
+				{
+					yield return TextDisplayer.Instance.ShowUntilInput(
+						"I can't make it that easy for you! There's no fun if you destroy all this ice!"
+					);
+				}
+				else
+				{
+					yield return targetSlot.Card.TakeDamage(100, null);
+					_useCounter++;
+				}
 			}
 		}
 
-		yield return new WaitForSeconds(0.65f);
-		_useCounter++;
 		if (!_dialoguePlayed && _useCounter >= 3)
 		{
 			StartCoroutine(
 				TextDisplayer.Instance.ShowUntilInput("The was the last one, I hope you used it well.")
 			);
-
-			_dialoguePlayed = true;
 		}
+
+		yield return new WaitForSeconds(0.65f);
 	}
 
 	public override bool ExtraActivationPrerequisitesMet()
