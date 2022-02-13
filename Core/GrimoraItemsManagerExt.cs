@@ -60,20 +60,36 @@ public class GrimoraItemsManagerExt : ItemsManager
 	}
 }
 
-[HarmonyPatch(typeof(HammerItemSlot), nameof(HammerItemSlot.InitializeHammer))]
+[HarmonyPatch(typeof(ItemSlot), nameof(ItemSlot.CreateItem))]
 public class AddNewHammerExt
 {
-	[HarmonyPostfix]
-	public static void InitHammerExtAfter(HammerItemSlot __instance)
+	[HarmonyPrefix]
+	public static bool InitHammerExtAfter(ItemSlot __instance, ItemData data, bool skipDropAnimation = false)
 	{
-		Log.LogDebug($"Destroying old HammerItem");
-		HammerItem prev = __instance.Consumable.gameObject.GetComponent<HammerItem>();
-		HammerItemExt ext = __instance.Consumable.gameObject.AddComponent<HammerItemExt>();
-		ext.Data = prev.Data;
-		Object.Destroy(prev);
-		ext.enteredImmediate = true;
-		// ext.Data.placedSoundId = prev.Data.placedSoundId;
-		__instance.Item = ext;
+		if (GrimoraSaveUtil.isGrimora && data.prefabId.Equals("HammerItem"))
+		{
+			if (__instance.Item != null)
+			{
+				Object.Destroy(__instance.Item.gameObject);
+			}
 
+			GameObject gameObject = Object.Instantiate(
+				ResourceBank.Get<GameObject>("Prefabs/Items/" + data.PrefabId),
+				__instance.transform
+			);
+			gameObject.transform.localPosition = Vector3.zero;
+			var oldHammer = gameObject.GetComponent<Item>();
+			HammerItemExt ext = gameObject.AddComponent<HammerItemExt>();
+			ext.Data = oldHammer.Data;
+			__instance.Item = ext;
+			__instance.Item.SetData(data);
+			__instance.Item.PlayEnterAnimation(true);
+
+			Log.LogDebug($"Destroying old HammerItem");
+			Object.Destroy(oldHammer);
+			return false;
+		}
+
+		return true;
 	}
 }
