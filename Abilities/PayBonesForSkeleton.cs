@@ -9,7 +9,7 @@ public class PayBonesForSkeleton : ActivatedAbilityBehaviour
 	public static Ability ability;
 
 	public override Ability Ability => ability;
-	public override int BonesCost => 2;
+	public override int BonesCost => 1;
 
 	public override IEnumerator Activate()
 	{
