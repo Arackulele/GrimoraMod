@@ -17,6 +17,14 @@ public class KayceeBossOpponent : BaseBossExt
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
+		encounter.startConditions = new List<EncounterData.StartCondition>()
+		{
+			new()
+			{
+				cardsInOpponentSlots = new[] { NameDraugr.GetCardInfo(), NameDraugr.GetCardInfo() }
+			}
+		};
+
 		AudioController.Instance.SetLoopAndPlay("gbc_battle_undead");
 		AudioController.Instance.SetLoopAndPlay("gbc_battle_undead", 1);
 		yield return new WaitForSeconds(0.5f);
