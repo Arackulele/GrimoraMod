@@ -25,9 +25,10 @@ public static class RandomUtils
 		while (cardChoices.Count < MaxChoices)
 		{
 			var choice = randomizedChoices[SeededRandom.Range(0, randomizedChoices.Count, seed++)];
-			if (cardChoices.Contains(choice))
+			if (cardChoices.Exists(_ => _.info.name.Equals(choice.info.name)))
 			{
 				randomizedChoices.Remove(choice);
+				Log.LogDebug($"[GenerateChoices] Removing [{choice.info.name}] as it already exists");
 			}
 			else
 			{

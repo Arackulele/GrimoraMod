@@ -16,7 +16,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 {
 	public const string GUID = "arackulele.inscryption.grimoramod";
 	public const string Name = "GrimoraMod";
-	private const string Version = "2.5.8";
+	private const string Version = "2.5.10";
 
 	internal static ManualLogSource Log;
 
@@ -174,7 +174,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		List<string> cardsToResizeArtwork = new List<string>
 		{
-			"Amoeba", "Maggots"
+			"Amoeba", "Banshee", "Maggots"
 		};
 
 		foreach (var cardName in cardsToResizeArtwork)
@@ -186,7 +186,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 				.SetBaseAttackAndHealth(cardInfo.baseAttack, cardInfo.baseHealth)
 				.SetBoneCost(cardInfo.bonesCost)
 				.SetDescription(cardInfo.description)
-				.SetNames("GrimoraMod_" + cardInfo.name, cardInfo.displayedName)
+				.SetNames("GrimoraMod_" + cardInfo.name, cardInfo.displayedName, (cardName == "Banshee" ? cardInfo.portraitTex : null))
 				.SetTribes(cardInfo.tribes.ToArray());
 
 			if (cardName == "Amoeba")

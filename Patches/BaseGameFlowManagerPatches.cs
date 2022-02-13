@@ -37,6 +37,8 @@ public class BaseGameFlowManagerPatches
 		PrefabConstants.GrimoraSelectableCard
 			.GetComponent<GravestoneCardAnimationController>().Anim.runtimeAnimatorController = GraveStoneController;
 
+		DisableAttackAndHealthStatShadows();
+
 		CardSpawner.Instance.giantPlayableCardPrefab = PrefabConstants.GrimoraPlayableCard;
 
 		ChessboardMapExt.ChangeChessboardToExtendedClass();
@@ -60,6 +62,14 @@ public class BaseGameFlowManagerPatches
 		// AddBoonLordBoonConsumable();
 
 		// AddCustomEnergy();
+	}
+
+	private static void DisableAttackAndHealthStatShadows()
+	{
+		GravestoneCardDisplayer displayer = Object.FindObjectOfType<GravestoneCardDisplayer>();
+		var statsParent = displayer.transform.Find("Stats");
+		statsParent.Find("Attack_Shadow").gameObject.SetActive(false);
+		statsParent.Find("Health_Shadow").gameObject.SetActive(false);
 	}
 
 	public static void AddBoonLordBoonConsumable()

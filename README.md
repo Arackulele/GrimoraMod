@@ -27,6 +27,21 @@
 
 ## Update Notes
 
+### 2.5.10
+
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed logic in Kaycee's upkeep phase to now look for the Draugr's correctly.
+
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Hopefully fixed issue with duplicate rare cards showing up in choice selection.
+
+- ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added toggle button for viewing cards left in the deck during battle! Auto-updates in realtime as well.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Removed `Reset Deck` button as it doesn't really get used besides for debugging purposes, and `Reset Run` will most likely be used if the player wants to restart their deck.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Card changes:
+  - Changed Revenant to use original sprite and emission.
+  - Added vanilla Banshee to card pool.
+  - Disabled Attack and health shadows as sometimes the shadows don't correlate to the number and the overlapping is ugly.
+
 ### 2.5.8
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Corrected logic for determining opening hand to at least always guarantee a `Bonepile` or `Gravedigger`.

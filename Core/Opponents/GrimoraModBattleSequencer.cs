@@ -112,25 +112,6 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			cardsToAdd.Add(gravedigger);
 		}
 
-		var randomizedChoices = RandomUtils.GenerateRandomChoicesOfCategory(
-			GrimoraSaveUtil.DeckList,
-			RandomUtils.GenerateRandomSeed(GrimoraSaveUtil.DeckList)
-		);
-
-		if (randomizedChoices.Count < 3)
-		{
-			Log.LogWarning($"[GetFixedOpeningHand] ...How did you get fewer than 3 cards in your deck?!");
-			randomizedChoices.AddRange(new[]
-			{
-				new CardChoice() { info = "Skeleton".GetCardInfo() }, new CardChoice() { info = "Skeleton".GetCardInfo() }
-			});
-		}
-
-		while (cardsToAdd.Count < 3)
-		{
-			cardsToAdd.Add(randomizedChoices[UnityEngine.Random.RandomRangeInt(0, randomizedChoices.Count)].info);
-		}
-		
 		Log.LogDebug($"[GetFixedOpeningHand] Opening hand [{cardsToAdd.GetDelimitedString()}]");
 		return cardsToAdd;
 	}
