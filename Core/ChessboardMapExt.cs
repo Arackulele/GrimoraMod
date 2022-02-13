@@ -13,7 +13,7 @@ public class ChessboardMapExt : GameMap
 	[SerializeField] internal List<ChessboardPiece> pieces;
 
 	private bool _toggleCardsLeftInDeck = false;
-	
+
 	public List<ChessboardPiece> ActivePieces => pieces;
 
 	public readonly Predicate<ChessboardPiece> PieceExistsInActivePieces
@@ -96,12 +96,16 @@ public class ChessboardMapExt : GameMap
 			new Rect(100, 0, 100, 50),
 			"Reset Run"
 		);
-		
-		_toggleCardsLeftInDeck = GUI.Toggle(
-			new Rect(20, (ConfigHelper.Instance.isDevModeEnabled ? 320 : 60), 150, 15),
-			_toggleCardsLeftInDeck,
-			"Cards Left in Deck"
-		);
+
+		if (TurnManager.Instance.Opponent is not null
+		    && CardDrawPiles3D.Instance.Deck is not null)
+		{
+			_toggleCardsLeftInDeck = GUI.Toggle(
+				new Rect(20, (ConfigHelper.Instance.isDevModeEnabled ? 320 : 60), 150, 15),
+				_toggleCardsLeftInDeck,
+				"Cards Left in Deck"
+			);
+		}
 
 		if (deckViewBtn)
 		{
@@ -120,9 +124,7 @@ public class ChessboardMapExt : GameMap
 			ConfigHelper.Instance.ResetRun();
 		}
 
-		if (TurnManager.Instance.Opponent is not null 
-		    && ConfigHelper.Instance.EnableCardsLeftInDeckView 
-		    && _toggleCardsLeftInDeck)
+		if (ConfigHelper.Instance.EnableCardsLeftInDeckView && _toggleCardsLeftInDeck)
 		{
 			GUI.SelectionGrid(
 				new Rect(25, 350, 150, CardDrawPiles3D.Instance.Deck.cards.Count * 25f),
