@@ -92,8 +92,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			// no valid cards
 			yield return new WaitForSeconds(1f);
 			yield return TextDisplayer.Instance.PlayDialogueEvent(
-				"GainConsumablesFull",
-				TextDisplayer.MessageAdvanceMode.Input
+				"GainConsumablesFull", TextDisplayer.MessageAdvanceMode.Input
 			);
 			yield return new WaitForSeconds(0.5f);
 		}
