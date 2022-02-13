@@ -16,6 +16,10 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		var stoneQuad = selectionSlot.transform.Find("Quad").GetComponent<MeshRenderer>();
 		stoneQuad.material = AssetUtils.GetPrefab<Material>("ElectricChair_Stat_AbilityBoost");
 		stoneQuad.sharedMaterial = AssetUtils.GetPrefab<Material>("ElectricChair_Stat_AbilityBoost");
+
+		var confirmStoneButton = transform.Find("ConfirmStoneButton");
+		var positionCopy = confirmStoneButton.position;
+		confirmStoneButton.position = new Vector3(positionCopy.x, positionCopy.y, -0.5f);
 	}
 
 	private static readonly List<Ability> AbilitiesToChoseRandomly = new()
