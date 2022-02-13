@@ -61,3 +61,21 @@ public class GrimoraItemsManagerExt : ItemsManager
 		Log.LogDebug($"[AddHammer] Finished adding hammer");
 	}
 }
+
+[HarmonyPatch(typeof(HammerItemSlot), nameof(HammerItemSlot.InitializeHammer))]
+public class AddNewHammerExt
+{
+	[HarmonyPostfix]
+	public static void InitHammerExtAfter(HammerItemSlot __instance)
+	{
+		Log.LogDebug($"Destroying old HammerItem");
+		HammerItem prev = __instance.Consumable.gameObject.GetComponent<HammerItem>();
+		HammerItemExt ext = __instance.Consumable.gameObject.AddComponent<HammerItemExt>();
+		ext.Data = prev.Data;
+		Object.Destroy(prev);
+		ext.enteredImmediate = true;
+		// ext.Data.placedSoundId = prev.Data.placedSoundId;
+		__instance.Item = ext;
+
+	}
+}
