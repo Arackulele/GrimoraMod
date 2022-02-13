@@ -280,6 +280,11 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 				.ToList()[SeededRandom.Range(0, AbilitiesToChoseRandomly.Count, RandomUtils.GenerateRandomSeed())];
 		}
 
+		if (randomSigil == Ability.IceCube)
+		{
+			card.iceCubeParams = new IceCubeParams { creatureWithin = NameSkeleton.GetCardInfo() };
+		}
+
 		Log.LogDebug($"[ApplyModToCard] Ability [{randomSigil}]");
 		return randomSigil;
 	}
