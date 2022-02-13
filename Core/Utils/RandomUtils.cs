@@ -32,12 +32,9 @@ public static class RandomUtils
 			else
 			{
 				cardChoices.Add(choice);
-				Log.LogDebug($"[GenerateChoices] Adding random card choice [{choice.info.name}] to opening hand");
+				Log.LogDebug($"[GenerateChoices] Adding random card choice [{choice.info.name}]");
 			}
 		}
-
-		Log.LogDebug($"[GrimoraRareChoiceGenerator] Selected random cards are " +
-		             $"{string.Join(",", cardChoices.Select(cc => cc.info.name))}");
 
 		return cardChoices;
 	}
