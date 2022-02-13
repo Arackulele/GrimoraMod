@@ -27,18 +27,13 @@ public class RoyalBossOpponentExt : BaseBossExt
 			"RoyalBossPreIntro",
 			TextDisplayer.MessageAdvanceMode.Input
 		);
-		AudioController.Instance.PlaySound2D("boss_royal");
-		yield return new WaitForSeconds(0.1f);
 
-		Log.LogDebug($"[{GetType()}] Setting RoyalBossSkull [{RoyalBossSkull}]");
 		RoyalBossSkull.SetActive(true);
 
 		yield return ShowBossSkull();
 
-		Log.LogDebug($"[{GetType()}] Creating royal mask if not null");
 		Mask = RoyalBossSkull;
 
-		Log.LogDebug($"[{GetType()}] Transforming mask");
 		Mask.transform.localPosition = new Vector3(0, 0.2f, 0);
 		Mask.transform.localRotation = Quaternion.Euler(90, 325, 0);
 
@@ -46,19 +41,17 @@ public class RoyalBossOpponentExt : BaseBossExt
 		yield return new WaitForSeconds(1f);
 
 		yield return base.FaceZoomSequence();
-		yield return TextDisplayer.Instance.ShowUntilInput(
-			"Var, I see you made it to me ship challenger! I've been waiting for a worthy fight!",
-			-0.65f,
-			0.4f,
-			Emotion.Neutral,
-			TextDisplayer.LetterAnimation.Jitter,
-			DialogueEvent.Speaker.Single, null, true
-		);
-
+		yield return TextDisplayer.Instance.ShowUntilInput("Var, I see you made it to me ship challenger!");
+		yield return TextDisplayer.Instance.ShowUntilInput("I've been waiting for a worthy fight!");
 
 		cannons = Object.Instantiate(
 			ResourceBank.Get<GameObject>("Prefabs/Environment/TableEffects/CannonTableEffects")
 		);
+		if (!ConfigHelper.Instance.isDevModeEnabled)
+		{
+			AudioController.Instance.PlaySound2D("boss_royal");
+			yield return new WaitForSeconds(0.1f);
+		}
 
 		ViewManager.Instance.SwitchToView(View.Default);
 
@@ -89,9 +82,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 		yield return TextDisplayer.Instance.ShowUntilInput(
 			"Yee be a tough nut to crack!\nReady for Round 2?",
 			-0.65f,
-			0.4f,
-			Emotion.Neutral, TextDisplayer.LetterAnimation.Jitter,
-			DialogueEvent.Speaker.Single, null, true
+			0.4f
 		);
 
 
@@ -124,10 +115,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"I overestimated me skill, good luck challenger.",
 				-0.65f,
-				1f,
-				Emotion.Neutral,
-				TextDisplayer.LetterAnimation.Jitter,
-				DialogueEvent.Speaker.Single, null
+				1f
 			);
 
 			// taken from Opponent patches as it makes more sense to glitch the cannons out once defeated
@@ -148,10 +136,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 				"Hello again! I am excited for you to see this last one. I put it together myself." +
 				"\nLet's see if you can beat all odds and win!",
 				-0.65f,
-				0.4f,
-				Emotion.Neutral,
-				TextDisplayer.LetterAnimation.Jitter,
-				DialogueEvent.Speaker.Single, null, true
+				0.4f
 			);
 		}
 		else
@@ -160,10 +145,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				DefeatedPlayerDialogue,
 				-0.65f,
-				0.4f,
-				Emotion.Neutral,
-				TextDisplayer.LetterAnimation.Jitter,
-				DialogueEvent.Speaker.Single, null, true
+				0.4f
 			);
 
 			// Log.LogDebug($"Setting footstep sound to wood");
