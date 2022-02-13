@@ -37,14 +37,14 @@ public class MenuControllerPatches
 				if (GrimoraSaveUtil.DeckListCopy.Exists(info => info.name.StartsWith("ara_")))
 				{
 					Log.LogWarning(
-						"Due to changing the name prefix from `ara_` to `GrimoraMod_`, your run will be reset. Otherwise exceptions will be thrown.");
-					ConfigHelper.Instance.ResetRun();
+						"Due to changing the name prefix from `ara_` to `GrimoraMod_`, your deck needs to be reset. Otherwise exceptions will be thrown.");
+					ConfigHelper.ResetDeck();
 				}
 			}
 			catch (Exception e)
 			{
-				Log.LogWarning("Due to changing the name prefix from `ara_` to `GrimoraMod_`, your run will be reset. Otherwise exceptions will be thrown.");
-				ConfigHelper.Instance.ResetRun();
+				Log.LogWarning("Due to changing the name prefix from `ara_` to `GrimoraMod_`, your deck needs to be reset. Otherwise exceptions will be thrown.");
+				ConfigHelper.ResetDeck();
 			}
 			
 			__instance.DoingCardTransition = false;
