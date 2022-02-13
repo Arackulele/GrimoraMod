@@ -61,7 +61,7 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 		}
 
 		var opponentCards = CardSlotUtils.GetOpponentSlotsWithCards();
-		var draugrCards = opponentCards.FindAll(slot => slot.Card.name.Equals(NameDraugr));
+		var draugrCards = opponentCards.FindAll(slot => slot.Card.Info.name.Equals(NameDraugr));
 		if (++_iceBreakCounter == 2 && draugrCards.Count >= 2)
 		{
 			ViewManager.Instance.SwitchToView(View.Board);
