@@ -22,7 +22,6 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	{
 		Ability.ActivatedDealDamage,
 		Ability.ActivatedDrawSkeleton,
-		//Ability.ActivatedEnergyToBones,
 		Ability.ActivatedHeal,
 		Ability.ActivatedRandomPowerEnergy,
 		Ability.ActivatedSacrificeDrawCards,
@@ -36,29 +35,21 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		Ability.BuffGems,
 		Ability.BuffNeighbours,
 		Ability.CorpseEater,
-		Ability.CreateBells,
-		Ability.CreateDams,
 		Ability.DeathShield,
 		Ability.Deathtouch,
 		Ability.DebuffEnemy,
 		Ability.DoubleDeath,
 		Ability.DrawAnt,
 		Ability.DrawCopy,
-		Ability.DrawCopyOnDeath,
 		Ability.DrawNewHand,
 		Ability.DrawRabbits,
 		Ability.DrawRandomCardOnDeath,
-		Ability.DrawVesselOnHit,
-		Ability.DropRubyOnDeath,
 		Ability.Evolve,
 		Ability.ExplodeOnDeath,
 		Ability.Flying,
 		Ability.GainBattery,
 		Ability.GuardDog,
 		Ability.IceCube,
-		Ability.LatchBrittle,
-		Ability.LatchDeathShield,
-		Ability.LatchExplodeOnDeath,
 		Ability.MoveBeside,
 		Ability.PermaDeath,
 		Ability.PreventAttack,
@@ -108,7 +99,6 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		}
 		else
 		{
-			// play dialogue
 			yield return TextDisplayer.Instance.ShowUntilInput("Oh! I love this one!", -0.65f);
 			yield return new WaitForSeconds(0.1f);
 			yield return TextDisplayer.Instance.ShowUntilInput("You strap one of your cards to the chair, [c:B]empowering[c:] it!", -0.65f);
