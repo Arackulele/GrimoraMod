@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(Ability.ActivatedDrawSkeleton)
+			.SetAbilities(Ability.ExplodeOnDeath)
 			.SetBaseAttackAndHealth(0, 1)
 			.SetDescription("Nothing... Nothing again... No treasure is left anymore.")
 			.SetNames(NameTombRobber, "Tomb Robber")
