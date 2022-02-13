@@ -435,6 +435,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		// TODO: fix creation of leve
 		// newSequencer.confirmStone = CreateLever(cardStatObj);
 		newSequencer.confirmStone = oldSequencer.confirmStone;
+		newSequencer.confirmStone.confirmView = View.CardMergeSlots;
 
 		newSequencer.figurines = new List<CompositeFigurine>();
 		newSequencer.figurines.AddRange(CreateElectricChair(cardStatObj));
