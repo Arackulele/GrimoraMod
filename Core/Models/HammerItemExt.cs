@@ -47,10 +47,23 @@ public class HammerItemExt : HammerItem
 			}
 		}
 
-		if (!_dialoguePlayed && _useCounter >= 3)
+		if (!_dialoguePlayed && _useCounter == 1)
 		{
 			StartCoroutine(
-				TextDisplayer.Instance.ShowUntilInput("The was the last one, I hope you used it well.")
+				TextDisplayer.Instance.ShowUntilInput(
+					"Don't get too comfortable with that, this Hammer is fragile and will break after the 3rd use!")
+			);
+		}
+		else if (!_dialoguePlayed && _useCounter == 2)
+		{
+			StartCoroutine(
+				TextDisplayer.Instance.ShowUntilInput("Getting carried away are we? You can only use it one more time.")
+			);
+		}
+		else if (!_dialoguePlayed && _useCounter >= 3)
+		{
+			StartCoroutine(
+				TextDisplayer.Instance.ShowUntilInput("The Hammer is now broken and you can no longer use it. I will have it fixed for the next battle though...")
 			);
 		}
 
