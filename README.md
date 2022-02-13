@@ -1,6 +1,6 @@
 # Grimora Mod
 
-- A giant Mod made by Arackulele, and xXxStoner420BongMasterxXx that builds upon the finale with Grimora's
+- A giant Mod made by xXxStoner420BongMasterxXx and Arackulele that builds upon the finale with Grimora's
   chessboard.
 
 - **MOST IMPORTANT**: **!!!YOu will probably encounter some Bugs!!!**
@@ -37,6 +37,8 @@
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Card changes
   - Changed `Skeleton Army` ability to now create a `Skeleton` in any owner owned open slots when played.
+  - Lowered `Dans Macabres` Bone cost to 5
+  - Lowered `Screaming Skull` Bone Cost to 2
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Electric Chair changes:
   - Removed more abilities from Electric Chair sequence:
@@ -48,6 +50,8 @@
     - Latch Brittle
     - Latch Death Shield
     - Latch Explode on Death
+	- DrawAnts
+	- Brittle
   - Updated dialogue.
   - Reduced number of times to electrify card to a max of 2 times.
   - Changed texture of selection slot to be a plus sign with a question mark instead of 3 question marks.
@@ -67,11 +71,11 @@
   - Slightly less linearity. Beat optional enemies to gain access to more nodes.
 
 - ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Difficulty rebalance!
-  -Blueprints now follow a difficulty curve.
-  -Kaycee now has a new Boss Mechanics, making the first map slightly easier.
-  -Royal's and Grimora's areas have been buffed to provide for a more challenging experience given the new chess pieces.
-  -Rebalanced the new cards to make them more interesting and less underpowered.
-  -Removed the BoneLord sigil from the Electric Chair ability pool :)
+  - Blueprints now follow a difficulty curve.
+  - Kaycee now has a new Boss Mechanics, making the first map slightly easier.
+  - Royal's and Grimora's areas have been buffed to provide for a more challenging experience given the new chess pieces.
+  - Rebalanced the new cards to make them more interesting and less underpowered.
+  - Removed the BoneLord sigil from the Electric Chair ability pool :)
 
 ### 2.5.6
 
@@ -405,7 +409,7 @@
 
 - JulianMods (xXxStoner420BongMasterxXx) for refactoring the code.
 
-- Morrígan/crow_system#3539, Comrade Alpaca#0292, TheGreenDigi#8672, Plot#6972 for extensive beta testing v2.1
+- Cevin_2006 for additional Card Art
 
 - Bt Y#0895 for currently working on Artwork for the mod
 
