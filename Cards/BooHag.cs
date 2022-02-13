@@ -1,4 +1,4 @@
-﻿using APIPlugin;
+using APIPlugin;
 
 namespace GrimoraMod;
 
@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(5)
 			.SetNames(NameBooHag, "Boo Hag")
-			// .SetDescription("A vicious pile of bones. You can have it...")
+			.SetDescription("When you know shes there, its already too late")
 			.Build()
 		);
 	}

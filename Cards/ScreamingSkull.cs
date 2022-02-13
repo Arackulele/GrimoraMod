@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetAsRareCard()
 			.SetAbilities(AreaOfEffectStrike.ability)
 			.SetBaseAttackAndHealth(1, 1)
-			.SetBoneCost(5)
+			.SetBoneCost(2)
 			.SetDescription("Only pain, nothing else is felt by this Skeletal head.What a pity")
 			.SetNames(NameScreamingSkull, "Screaming Skull")
 			.Build()
