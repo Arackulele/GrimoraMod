@@ -22,7 +22,7 @@ public class CardAppearanceBehaviourPatch
 	[HarmonyPrefix, HarmonyPatch(typeof(RareCardBackground), nameof(RareCardBackground.ApplyAppearance))]
 	public static bool CorrectBehaviourForGrimora(ref RareCardBackground __instance)
 	{
-		if (!SaveManager.SaveFile.IsGrimora)
+		if (GrimoraSaveUtil.isNotGrimora)
 		{
 			return true;
 		}
@@ -37,7 +37,7 @@ public class CardAppearanceBehaviourPatch
 	[HarmonyPrefix, HarmonyPatch(typeof(GiantAnimatedPortrait), nameof(GiantAnimatedPortrait.ApplyAppearance))]
 	public static bool GiantTesting(GiantAnimatedPortrait __instance)
 	{
-		if (!SaveManager.SaveFile.IsGrimora)
+		if (GrimoraSaveUtil.isNotGrimora)
 		{
 			return true;
 		}
@@ -84,7 +84,7 @@ public class ChangeLogicInCardAbilityIcons
 	[HarmonyPrefix, HarmonyPatch(nameof(CardAbilityIcons.SetColorOfDefaultIcons))]
 	public static bool SetColorOfDefaultIconsChange(CardAbilityIcons __instance, Color color, bool inConduitCircuit)
 	{
-		if (!SaveManager.SaveFile.IsGrimora)
+		if (GrimoraSaveUtil.isNotGrimora)
 		{
 			return true;
 		}
@@ -115,7 +115,7 @@ public class ChangeLogicInCardAbilityIcons
 		PlayableCard playableCard,
 		List<Ability> hiddenAbilities)
 	{
-		if (!SaveManager.SaveFile.IsGrimora)
+		if (GrimoraSaveUtil.isNotGrimora)
 		{
 			return true;
 		}

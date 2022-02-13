@@ -37,7 +37,7 @@ public class ModifyLocalPositionsOfTableObjects
 		IEnumerator enumerator, PlayableCard card, CardSlot slot,
 		float transitionLength, bool resolveTriggers = true)
 	{
-		if (SaveManager.SaveFile.IsGrimora
+		if (GrimoraSaveUtil.isGrimora
 		    && card.Info.HasTrait(Trait.Giant)
 		    && card.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility))
 		{

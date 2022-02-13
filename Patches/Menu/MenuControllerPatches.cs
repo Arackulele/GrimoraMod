@@ -24,7 +24,7 @@ public class MenuControllerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(MenuController.OnCardReachedSlot))]
 	public static bool MainMenuThree(MenuController __instance, MenuCard card, bool skipTween = false)
 	{
-		if (SaveManager.SaveFile.IsGrimora && card.MenuAction == MenuAction.ReturnToStartMenu)
+		if (GrimoraSaveUtil.isGrimora && card.MenuAction == MenuAction.ReturnToStartMenu)
 		{
 			Log.LogDebug($"[MenuController.OnCardReachedSlot] Saving before exiting");
 			SaveManager.SaveToFile();
@@ -37,14 +37,14 @@ public class MenuControllerPatches
 				if (GrimoraSaveUtil.DeckListCopy.Exists(info => info.name.StartsWith("ara_")))
 				{
 					Log.LogWarning(
-						"Due to changing the name prefix from `ara_` to `GrimoraMod_`, your run will be reset. Otherwise exceptions will be thrown.");
-					ConfigHelper.Instance.ResetRun();
+						"Due to changing the name prefix from `ara_` to `GrimoraMod_`, your deck needs to be reset. Otherwise exceptions will be thrown.");
+					ConfigHelper.ResetDeck();
 				}
 			}
 			catch (Exception e)
 			{
-				Log.LogWarning("Due to changing the name prefix from `ara_` to `GrimoraMod_`, your run will be reset. Otherwise exceptions will be thrown.");
-				ConfigHelper.Instance.ResetRun();
+				Log.LogWarning("Due to changing the name prefix from `ara_` to `GrimoraMod_`, your deck needs to be reset. Otherwise exceptions will be thrown.");
+				ConfigHelper.ResetDeck();
 			}
 			
 			__instance.DoingCardTransition = false;

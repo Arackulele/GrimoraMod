@@ -10,7 +10,7 @@ public class CardDisplayerPatches
 	public static bool PrefixChangeRenderColors(ref CardDisplayer __instance, CardRenderInfo renderInfo,
 		PlayableCard playableCard)
 	{
-		if (!SaveManager.saveFile.IsGrimora)
+		if (GrimoraSaveUtil.isNotGrimora)
 		{
 			return true;
 		}

@@ -31,10 +31,7 @@ public class PatchesForInvertedStrike
 				? BoardManager.Instance.PlayerSlotsCopy
 				: BoardManager.Instance.OpponentSlotsCopy;
 
-			// Log.LogDebug($"Slots to check [{string.Join(",", slotsToCheck.Select(_ => _.Index))}]");
-
 			int slotIndex = __instance.Slot.Index;
-			// Log.LogDebug($"[InvertedStrike] Slot index [{slotIndex}]");
 			// 3 - 0 (card slot) == 3 (opposing slot)
 			// 3 - 1 (card slot) == 2 (opposing slot)
 			// 3 - 2 (card slot) == 1 (opposing slot)
@@ -42,11 +39,7 @@ public class PatchesForInvertedStrike
 			// if for whatever reason we increase the number of card slots in the mod, don't hardcode to 3
 			int slotToAttack = (BoardManager.Instance.playerSlots.Count - 1) - slotIndex;
 
-			// Log.LogDebug($"[InvertedStrike] Set to attack slot [{slotToAttack}]");
-
 			__result = new List<CardSlot>() { slotsToCheck[slotToAttack] };
-
-			// Log.LogDebug($"[GetOpposingSlotsPatch] Sorting result");
 		}
 	}
 }

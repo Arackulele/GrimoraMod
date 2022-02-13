@@ -16,7 +16,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 {
 	public const string GUID = "arackulele.inscryption.grimoramod";
 	public const string Name = "GrimoraMod";
-	private const string Version = "2.5.7";
+	private const string Version = "2.5.8";
 
 	internal static ManualLogSource Log;
 
@@ -78,7 +78,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		BoneLordsReign.Create();
 		FlameStrafe.Create();
-		PayBonesForSkeleton.Create();
+		CreateArmyOfSkeletons.Create();
 		PayEnergyForWyvern.Create();
 
 		#endregion

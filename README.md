@@ -27,18 +27,51 @@
 
 ## Update Notes
 
-###2.5.7
+### 2.5.8
+
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Corrected logic for determining opening hand to at least always guarantee a `Bonepile` or `Gravedigger`.
+
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Corrected `Erratic` ability logic to now no longer force itself onto other cards.
+
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Set default ice cube creature within to `Skeleton` if the card would receive Ice Cube ability from Electric Chair.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Card changes
+  - Changed `Skeleton Army` ability to now create a `Skeleton` in any owner owned open slots when played.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Electric Chair changes:
+  - Removed more abilities from Electric Chair sequence:
+    - Create Bells
+    - Create Dams
+    - Draw Copy on Death
+    - Draw Vessel on Hit
+    - Drop Ruby on Death
+    - Latch Brittle
+    - Latch Death Shield
+    - Latch Explode on Death
+  - Updated dialogue.
+  - Reduced number of times to electrify card to a max of 2 times.
+  - Changed texture of selection slot to be a plus sign with a question mark instead of 3 question marks.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Changed `Sporedigger` description to better fit the card.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Reduced `Skeleton Army` activated bone cost from 2 to 1.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Made hammer only usable up to 3 times per battle. The reasoning for this is that the hammer use should be used when necessary, and not a large crutch.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png)
+
+### 2.5.7
 
 - ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Redid all of the Chessboard layouts...again!
-  - The new Nodes are now Introduced Gradually
-  - Slightly less linearity, beat optional enemies to gain access to more nodes
+  - The new nodes are now introduced gradually
+  - Slightly less linearity. Beat optional enemies to gain access to more nodes.
 
-- ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Difficulty Rebalance!
-  -Blueprints now follow a Difficulty Curve
-  -Kaycee now has a new Boss Mechanics, making the first map slightly easier
-  -Royals and Grimoras Areas have been buffed to provide for a more challenging experience given the new Chess pieces
-  -Rebalanced the new Cards to make them more interesting and less underpowered
-  -Removed the BoneLord Sigil from the Electric Chair Ability Pool :)
+- ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Difficulty rebalance!
+  -Blueprints now follow a difficulty curve.
+  -Kaycee now has a new Boss Mechanics, making the first map slightly easier.
+  -Royal's and Grimora's areas have been buffed to provide for a more challenging experience given the new chess pieces.
+  -Rebalanced the new cards to make them more interesting and less underpowered.
+  -Removed the BoneLord sigil from the Electric Chair ability pool :)
 
 ### 2.5.6
 
@@ -160,8 +193,6 @@
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Added extra builder methods for setting abilities.
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Modified build command in project to include artwork folder.
-
-
 
 ### 2.4.1
 

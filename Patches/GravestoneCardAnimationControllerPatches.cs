@@ -105,7 +105,7 @@ public class GravestoneCardAnimBaseClassPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(CardAnimationController.SetHovering))]
 	public static bool ChangeSetHoveringForGraveCards(CardAnimationController __instance, bool hovering)
 	{
-		if (!SaveManager.SaveFile.IsGrimora)
+		if (GrimoraSaveUtil.isNotGrimora)
 		{
 			return true;
 		}
@@ -127,7 +127,7 @@ public class GravestoneCardAnimBaseClassPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(CardAnimationController.PlayTransformAnimation))]
 	public static bool PlayCardFlipAnim(CardAnimationController __instance)
 	{
-		if (!SaveManager.SaveFile.IsGrimora)
+		if (GrimoraSaveUtil.isNotGrimora)
 		{
 			return true;
 		}

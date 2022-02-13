@@ -13,7 +13,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private void Start()
 	{
-		var stoneQuad = confirmStone.transform.Find("Quad").GetComponent<MeshRenderer>();
+		var stoneQuad = selectionSlot.transform.Find("Quad").GetComponent<MeshRenderer>();
 		stoneQuad.material = AssetUtils.GetPrefab<Material>("ElectricChair_Stat_AbilityBoost");
 		stoneQuad.sharedMaterial = AssetUtils.GetPrefab<Material>("ElectricChair_Stat_AbilityBoost");
 	}
@@ -22,7 +22,6 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	{
 		Ability.ActivatedDealDamage,
 		Ability.ActivatedDrawSkeleton,
-		//Ability.ActivatedEnergyToBones,
 		Ability.ActivatedHeal,
 		Ability.ActivatedRandomPowerEnergy,
 		Ability.ActivatedSacrificeDrawCards,
@@ -36,29 +35,21 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		Ability.BuffGems,
 		Ability.BuffNeighbours,
 		Ability.CorpseEater,
-		Ability.CreateBells,
-		Ability.CreateDams,
 		Ability.DeathShield,
 		Ability.Deathtouch,
 		Ability.DebuffEnemy,
 		Ability.DoubleDeath,
 		Ability.DrawAnt,
 		Ability.DrawCopy,
-		Ability.DrawCopyOnDeath,
 		Ability.DrawNewHand,
 		Ability.DrawRabbits,
 		Ability.DrawRandomCardOnDeath,
-		Ability.DrawVesselOnHit,
-		Ability.DropRubyOnDeath,
 		Ability.Evolve,
 		Ability.ExplodeOnDeath,
 		Ability.Flying,
 		Ability.GainBattery,
 		Ability.GuardDog,
 		Ability.IceCube,
-		Ability.LatchBrittle,
-		Ability.LatchDeathShield,
-		Ability.LatchExplodeOnDeath,
 		Ability.MoveBeside,
 		Ability.PermaDeath,
 		Ability.PreventAttack,
@@ -101,26 +92,27 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			// no valid cards
 			yield return new WaitForSeconds(1f);
 			yield return TextDisplayer.Instance.PlayDialogueEvent(
-				"GainConsumablesFull",
-				TextDisplayer.MessageAdvanceMode.Input
+				"GainConsumablesFull", TextDisplayer.MessageAdvanceMode.Input
 			);
 			yield return new WaitForSeconds(0.5f);
 		}
 		else
 		{
-			// play dialogue
 			yield return TextDisplayer.Instance.ShowUntilInput("Oh! I love this one!", -0.65f);
 			yield return new WaitForSeconds(0.1f);
-			yield return TextDisplayer.Instance.ShowUntilInput("You strap one of your cards to the chair, [c:B]empowering[c:] it!", -0.65f);
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				"You strap one of your cards to the chair, [c:B]empowering[c:] it!", -0.65f
+			);
 			yield return new WaitForSeconds(0.1f);
-			yield return TextDisplayer.Instance.ShowUntilInput("Of course, it doesn't hurt. You can't die twice after all.", -0.65f);
+			yield return TextDisplayer.Instance.ShowUntilInput("Of course, it doesn't hurt. You can't die twice after all.",
+				-0.65f
+			);
 			yield return new WaitForSeconds(0.1f);
 
 			yield return WhileNotFinishedBuffingAndDestroyedCardIsNull();
 		}
 
 		yield return OutroEnvTeardown();
-
 		if (GameFlowManager.Instance != null)
 		{
 			GameFlowManager.Instance.TransitionToGameState(GameState.Map);
@@ -152,32 +144,29 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			selectionSlot.Card.SetInteractionEnabled(false);
 			yield return new WaitForSeconds(0.75f);
 
-			if (numBuffsGiven == 4)
+			if (numBuffsGiven == 2)
 			{
 				break;
 			}
 
-			yield return TextDisplayer.Instance.PlayDialogueEvent(
-				"StatBoostPushLuck" + numBuffsGiven,
-				TextDisplayer.MessageAdvanceMode.Input
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				"Surely your creature could become more powerful...", -0.66f
+			);
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				"But you would need to risk another moment under the shock.", -0.66f
 			);
 			yield return new WaitForSeconds(0.1f);
+
 			switch (numBuffsGiven)
 			{
 				case 1:
-					TextDisplayer.Instance.ShowMessage("Push your luck for more abilities? Or pull away?", Emotion.Neutral,
-						TextDisplayer.LetterAnimation.WavyJitter);
-					break;
-				case 2:
-					TextDisplayer.Instance.ShowMessage("Push your luck further? Or run back?", Emotion.Neutral,
-						TextDisplayer.LetterAnimation.WavyJitter);
-					break;
-				case 3:
-					TextDisplayer.Instance.ShowMessage("Recklessly continue?", Emotion.Neutral,
-						TextDisplayer.LetterAnimation.WavyJitter);
+					TextDisplayer.Instance.ShowMessage(
+						"Push your luck for one more ability?\nOr pull away?",
+						Emotion.Neutral,
+						TextDisplayer.LetterAnimation.WavyJitter
+					);
 					break;
 			}
-
 
 			bool cancelledByClickingCard = false;
 			retrieveCardInteractable.gameObject.SetActive(true);
@@ -197,8 +186,8 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			yield return new WaitForSeconds(0.1f);
 			if (confirmStone.SelectionConfirmed)
 			{
-				float num = 1f - numBuffsGiven * 0.225f;
-				if (SeededRandom.Value(SaveManager.SaveFile.GetCurrentRandomSeed()) > num)
+				const float changeToDestroyCard = 0.5f;
+				if (SeededRandom.Value(SaveManager.SaveFile.GetCurrentRandomSeed()) > changeToDestroyCard)
 				{
 					destroyedCard = selectionSlot.Card.Info;
 					selectionSlot.Card.Anim.PlayDeathAnimation();
@@ -214,11 +203,14 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 		if (destroyedCard != null)
 		{
-			yield return TextDisplayer.Instance.PlayDialogueEvent(
-				"StatBoostCardEaten",
-				TextDisplayer.MessageAdvanceMode.Input,
-				TextDisplayer.EventIntersectMode.Wait, new[] { selectionSlot.Card.Info.DisplayedNameLocalized }
+			// "Before you could pull away, one of the survivors leapt upon the [c:bR][v:0][c:]."
+			// "Another jabbed it with a spear."
+			// "You looked away as a grotesque feeding frenzy ensued."
+			// "Blood and bones flew left and right as you retreated from the scene."
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				"Bones flew left and right as you retreated from the scene", -0.65f
 			);
+
 			yield return new WaitForSeconds(0.1f);
 			selectionSlot.DestroyCard();
 		}
@@ -228,7 +220,16 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			// "One of the survivors reached toward it.",
 			// "Another gnashed their teeth.",
 			// "Without a word, you pulled the [c:bR][v:1][c:] away from the fire and left.",
-			yield return TextDisplayer.Instance.PlayDialogueEvent("StatBoostOutro", TextDisplayer.MessageAdvanceMode.Input);
+			// yield return TextDisplayer.Instance.PlayDialogueEvent("StatBoostOutro", TextDisplayer.MessageAdvanceMode.Input);
+
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				$"The shock empowered the poor [c:bR]{selectionSlot.Card.Info.DisplayedNameLocalized}[c:], enhancing its abilities.",
+				-0.65f
+			);
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				$"You ever so carefully pull the [c:bR]{selectionSlot.Card.Info.DisplayedNameLocalized}[c:] away from the electricity and left.",
+				-0.65f
+			);
 
 			yield return new WaitForSeconds(0.1f);
 			selectionSlot.FlyOffCard();
@@ -277,6 +278,11 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			randomSigil = AbilitiesToChoseRandomly
 				.Randomize()
 				.ToList()[SeededRandom.Range(0, AbilitiesToChoseRandomly.Count, RandomUtils.GenerateRandomSeed())];
+		}
+
+		if (randomSigil == Ability.IceCube)
+		{
+			card.iceCubeParams = new IceCubeParams { creatureWithin = NameSkeleton.GetCardInfo() };
 		}
 
 		Log.LogDebug($"[ApplyModToCard] Ability [{randomSigil}]");
@@ -434,6 +440,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		// TODO: fix creation of leve
 		// newSequencer.confirmStone = CreateLever(cardStatObj);
 		newSequencer.confirmStone = oldSequencer.confirmStone;
+		newSequencer.confirmStone.confirmView = View.CardMergeSlots;
 
 		newSequencer.figurines = new List<CompositeFigurine>();
 		newSequencer.figurines.AddRange(CreateElectricChair(cardStatObj));
