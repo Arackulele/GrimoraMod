@@ -31,7 +31,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.BoneDigger, Ability.BoneDigger)
 			.SetBaseAttackAndHealth(0, 3)
 			.SetBoneCost(1)
-			.SetDescription("Really quite good at finding Bones, how does he do it?Probably Drugs")
+			.SetDescription("A poor, brutalized soul. Its mycelia probes far into the soil, guiding its spade.")
 			.SetNames(NameSporedigger, "Sporedigger")
 			.SetTraits(Trait.Fused)
 			.Build()
