@@ -19,7 +19,6 @@ public class SawyerBossOpponent : BaseBossExt
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
 		AudioController.Instance.SetLoopAndPlay("gbc_battle_undead");
-		AudioController.Instance.SetLoopAndPlay("gbc_battle_undead", 1);
 		SpawnScenery("CratesTableEffects");
 		yield return new WaitForSeconds(0.5f);
 
