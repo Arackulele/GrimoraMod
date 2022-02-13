@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(PayBonesForSkeleton.ability)
 			.SetBaseAttackAndHealth(1, 3)
 			.SetBoneCost(5)
-			.SetDescription("The skeleton army, boons of the Bone Lord")
+			.SetDescription("The skeleton army, boons of the Bone Lord.")
 			.SetNames(NameSkeletonArmy, "Skeleton Army")
 			.Build()
 		);
