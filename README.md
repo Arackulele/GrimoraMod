@@ -27,6 +27,14 @@
 
 ## Update Notes
 
+### 2.5.10
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Card changes:
+  - Changed Revenant to use original sprite and emission.
+	- Added vanilla Banshee to card pool.
+  - Disabled Attack and health shadows as sometimes the shadows don't correlate to the number and the overlapping is ugly.
+  - Removed `Reset Deck` button as it doesn't really get used besides for debugging purposes, and `Reset Run` will most likely be used if the player wants to restart their deck.
+
 ### 2.5.8
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Corrected logic for determining opening hand to at least always guarantee a `Bonepile` or `Gravedigger`.
