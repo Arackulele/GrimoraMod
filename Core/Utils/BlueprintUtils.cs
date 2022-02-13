@@ -330,7 +330,7 @@ public static class BlueprintUtils
 			new() { bp_Skeleton },
 			new() { bp_Zombie, bp_Bonehound },
 			new(),
-			new() { bp_Skeleton, bp_Skeleton },
+			new() { bp_Skeleton },
 			new() { bp_Zombie }
 		};
 
@@ -343,12 +343,12 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_Draugr },
-			new() { bp_Summoner },
+			new() { bp_Project },
 			new(),
 			new() { bp_Draugr },
 			new() { bp_Skeleton },
 			new(),
-			new() { bp_Summoner }
+			new() { bp_Project }
 		};
 
 		return blueprint;
@@ -425,9 +425,9 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_GhostShip, bp_BonePrince },
-			new() { bp_Zombie },
+			new(),
 			new() { bp_BonePrince },
-			new() { bp_Zombie },
+			new(),
 			new() { bp_BonePrince, bp_BonePrince },
 			new(),
 			new(),
@@ -445,6 +445,7 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_EmberSpirit },
+			new(),
 			new() { bp_Zombie, bp_Zombie },
 			new(),
 			new() { bp_EmberSpirit },
@@ -461,12 +462,12 @@ public static class BlueprintUtils
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_DrownedSoul },
-			new() { bp_Skelemancer },
 			new() { bp_Dybbuk },
 			new(),
+			new() { bp_Revenant },
+			new(),
 			new() { bp_Skelemancer },
-			new() { bp_DrownedSoul },
+			new() { bp_Skelemancer },
 			new() { bp_Dybbuk, bp_Dybbuk },
 			new(),
 			new() { bp_Skelemancer }
@@ -481,10 +482,10 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_Silbon },
-			new() { bp_Zombie },
+			new() {  },
 			new() { bp_ArmoredZombie },
 			new() { bp_Zombie },
-			new() { bp_ArmoredZombie },
+			new() {  },
 			new() { bp_Zombie, bp_Zombie },
 			new() { bp_DrownedSoul },
 			new(),
