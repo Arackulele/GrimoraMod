@@ -29,6 +29,8 @@
 
 ### 2.5.8
 
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Corrected logic for determining opening hand to at least always guarantee a `Bonepile` or `Gravedigger`.
+
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Corrected `Erratic` ability logic to now no longer force itself onto other cards.
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Set default ice cube creature within to `Skeleton` if the card would receive Ice Cube ability from Electric Chair.
