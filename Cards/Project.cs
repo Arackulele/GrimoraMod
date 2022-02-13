@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetAbilities(Erratic.ability, Ability.SplitStrike)
 			.SetBaseAttackAndHealth(1, 3)
-			.SetBoneCost(6)
+			.SetBoneCost(5)
 			.SetNames(NameProject, "Project")
 			.SetDescription("An experiment gone wrong, or right.It depends on your world view")
 			.Build()
