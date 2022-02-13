@@ -80,7 +80,9 @@ public class ChessboardMapExt : GameMap
 	public static string[] CardsLeftInDeck => CardDrawPiles3D
 		.Instance
 		.Deck
-		.cards.Select(_ => _ .name.Replace("GrimoraMod_", ""))
+		.cards
+		.OrderBy(info => info.name)
+		.Select(_ => _.name.Replace("GrimoraMod_", ""))
 		.ToArray();
 
 	private void OnGUI()
