@@ -27,7 +27,7 @@ public class AreaOfEffectStrike : AbilityBehaviour
 
 	public override bool RespondsToUpkeep(bool playerUpkeep)
 	{
-		return playerUpkeep && damageDoneToPlayer > 0;
+		return damageDoneToPlayer > 0;
 	}
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
