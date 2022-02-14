@@ -108,7 +108,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 				"You strap one of your cards to the chair, [c:B]empowering[c:] it!", -0.65f
 			);
 			yield return new WaitForSeconds(0.1f);
-			yield return TextDisplayer.Instance.ShowUntilInput("Of course, it doesn't hurt. You can't die twice after all.",
+			yield return TextDisplayer.Instance.ShowUntilInput("Of course, it doesn't hurt.\nYou can't die twice after all.",
 				-0.65f
 			);
 			yield return new WaitForSeconds(0.1f);
