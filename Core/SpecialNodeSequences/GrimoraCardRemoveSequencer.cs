@@ -243,7 +243,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 					"grimora_card_bones_decrease",
 					"Oh dear, it looks like [c:bR]{0}[c:] cost has decreased!",
 					"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]REDUCE THEIR BONE COST[c:], HOW SAD. NOW PLEASE LEAVE.",
-					cardInfoPredicate: info => info.BonesCost > 0
+					filterCardsOnPredicate: info => info.BonesCost > 0
 				);
 
 				break;
@@ -255,7 +255,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 					"grimora_card_health_increase",
 					"The Bone Lord has been generous. [c:bR]{0}[c:] base health has increased!",
 					"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]GAIN HP[c:], HOW SAD. NOW PLEASE LEAVE.",
-					cardInfoPredicate: info => info.Health > 0
+					filterCardsOnPredicate: info => info.Health > 0
 				);
 
 				break;
@@ -267,7 +267,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 					"grimora_card_health_decrease",
 					"Be glad the Bone Lord doesn't take more. [c:bR]{0}[c:] base health has decreased!",
 					"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]LOSE HP[c:], HOW SAD. NOW PLEASE LEAVE.",
-					cardInfoPredicate: info => info.Health > 1
+					filterCardsOnPredicate: info => info.Health > 1
 				);
 
 				break;
@@ -314,12 +314,12 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		string dialogueOnAtLeastOneCard,
 		string dialogueNoCardsChosen,
 		bool isForSingleCard = true,
-		Predicate<CardInfo> cardInfoPredicate = null
+		Predicate<CardInfo> filterCardsOnPredicate = null
 	)
 	{
 		var modificationInfo = GetModInfoFromSingletonId(singletonId);
 
-		List<CardInfo> cards = GetCardsWithoutMod(singletonId, cardInfoPredicate);
+		List<CardInfo> cards = GetCardsWithoutMod(singletonId, filterCardsOnPredicate);
 
 		CardInfo cardToReturn = BoonsUtil.CreateCardForBoon(BoonData.Type.StartingBones);
 		if (cards.IsNullOrEmpty())
