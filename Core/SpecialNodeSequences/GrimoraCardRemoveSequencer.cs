@@ -416,10 +416,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		graveDisplayer.GetComponentInChildren<CardAbilityIcons>().boonIcon = cardAbilityIcons;
 
 		CardDisplayer3D cardElements = ResourceBank.Get<CardDisplayer3D>("Prefabs/Cards/CardElements");
-		CardDisplayer3D cardDisplayer3D = Instantiate(
-			cardElements,
-			graveDisplayer.transform
-		);
+		CardDisplayer3D cardDisplayer3D = Instantiate(cardElements, graveDisplayer.transform);
 
 		var cardDecals = cardDisplayer3D.transform.Find("CardDecals");
 		cardDecals.SetParent(graveDisplayer.transform);
