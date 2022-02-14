@@ -79,6 +79,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		BoneLordsReign.Create();
 		CreateArmyOfSkeletons.Create();
 		FlameStrafe.Create();
+		GiantStrike.Create();
 		GrimoraRandomAbility.Create();
 		PayEnergyForWyvern.Create();
 
