@@ -15,6 +15,13 @@
 - If you are not starting from a new save, this mod will check for certain story events and determine if it needs to unlock those.
 - I suggest restarting your game at least once if you haven't actually gotten to the finale.
 
+## Reporting Issues
+
+- If you would to help report issues, please raise a thread here with as much detail as you can provide: <https://github.com/Arackulele/GrimoraMod/issues>
+- You may also post in the modding discord general thread: <https://discord.com/channels/903472928883093545/914480438389661747>
+
+ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
+
 ## Known Issues
 
 ### Grimora's dialogue is unfinished and still the one from the finale and part 1 dialogue in some cases
@@ -29,15 +36,26 @@
 
 ### 2.5.11
 
+#### Card Changes
+
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Changed `Amoeba` random ability to now only choose from the list of abilities that the Electric Chair choses from. This is due to the fact that `Amoeba` can be given an ability that breaks the game in unintended ways.
+  - `Amoeba` now has a modified version of RandomAbility. The ability description may not show up correctly in Deck Review, just as a heads up.
+
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed `Screaming Skull` damage done to now correctly deal damage to the owner of the card.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Added new `Wendigo` and `Wyvern` artwork courtesy of `Cevin2006™ (◕‿◕)#7971`.
+
+#### Bugfixes/Features/Refactors
+
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed issue with card removal node decreasing card costs in the negatives.
+
 - ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Electric Chair sequence now uses new model provided by `Pink#9824`.
   - Moved confirm stone button closer to chair.
   - Changed camera rotation during sequence to 32.5 from 37.5.
 
-- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Added new `Wendigo` and `Wyvern` artwork courtesy of
-
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Ordered decklist alphabetically in viewing cards left in the deck.
 
-- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) New hammer dialogue courtesy of `Mr. Dwaus`
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) New hammer dialogue courtesy of `Mr. Etc.#3925`.
 
 ### 2.5.10
 
@@ -56,6 +74,8 @@
 
 ### 2.5.8
 
+- ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Corrected `Double Death` rulebook name to no longer be `Handy`. Funnily enough, the game has the ability page set with the name `Handy`. Probably because it was never actually meant to be used in an other act other than 2.
+
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Corrected logic for determining opening hand to at least always guarantee a `Bonepile` or `Gravedigger`.
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Corrected `Erratic` ability logic to now no longer force itself onto other cards.
@@ -69,16 +89,20 @@
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Electric Chair changes:
   - Removed more abilities from Electric Chair sequence:
+    - Activated Sacrifice Draw Cards (True Scholar)
+    - Brittle
+    - Buff Gems (Gem Animator)
     - Create Bells
     - Create Dams
+    - Draw Ants
     - Draw Copy on Death
-    - Draw Vessel on Hit
+    - Draw Random Card On Death
     - Drop Ruby on Death
+    - Draw Vessel on Hit
     - Latch Brittle
     - Latch Death Shield
     - Latch Explode on Death
-    - DrawAnts
-    - Brittle
+    - Shield Gems (Gem Guardian)
     - Updated dialogue.
     - Reduced number of times to electrify card to a max of 2 times.
     - Changed texture of selection slot to be a plus sign with a question mark instead of 3 question marks.
