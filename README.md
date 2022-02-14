@@ -27,6 +27,18 @@
 
 ## Update Notes
 
+### 2.5.11
+
+- ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Electric Chair sequence now uses new model provided by `Pink#9824`.
+  - Moved confirm stone button closer to chair.
+  - Changed camera rotation during sequence to 32.5 from 37.5.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Added new `Wendigo` and `Wyvern` artwork courtesy of
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Ordered decklist alphabetically in viewing cards left in the deck.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) New hammer dialogue courtesy of `Mr. Dwaus`
+
 ### 2.5.10
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed logic in Kaycee's upkeep phase to now look for the Draugr's correctly.
@@ -51,7 +63,7 @@
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Set default ice cube creature within to `Skeleton` if the card would receive Ice Cube ability from Electric Chair.
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Card changes
-  - Changed `Skeleton Army` ability to now create a `Skeleton` in any owner owned open slots when played.
+  - Changed `Skeleton Army` ability to now create a `Skeleton` in all owner owned open slots when played.
   - Lowered `Dans Macabres` Bone cost to 5
   - Lowered `Screaming Skull` Bone Cost to 2
 
@@ -65,19 +77,17 @@
     - Latch Brittle
     - Latch Death Shield
     - Latch Explode on Death
-	- DrawAnts
-	- Brittle
-  - Updated dialogue.
-  - Reduced number of times to electrify card to a max of 2 times.
-  - Changed texture of selection slot to be a plus sign with a question mark instead of 3 question marks.
+    - DrawAnts
+    - Brittle
+    - Updated dialogue.
+    - Reduced number of times to electrify card to a max of 2 times.
+    - Changed texture of selection slot to be a plus sign with a question mark instead of 3 question marks.
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Changed `Sporedigger` description to better fit the card.
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Reduced `Skeleton Army` activated bone cost from 2 to 1.
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Made hammer only usable up to 3 times per battle. The reasoning for this is that the hammer use should be used when necessary, and not a large crutch.
-
-- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png)
 
 ### 2.5.7
 
