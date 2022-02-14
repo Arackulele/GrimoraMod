@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 4083769890
+CRC: 2714517560
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 2371d41e30a8185c6325791f76af498e
+    Hash: 4982217cb3bf0deb12f0576b06ac4694
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -15,6 +15,7 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
+- Assets/GrimoraMod/Cards/Wendigo_emission.png
 - Assets/GrimoraMod/Cards/Zombie_emission.png
 - Assets/GrimoraMod/Cards/Elk.png
 - Assets/GrimoraMod/Cards/Wendigo.png
@@ -38,6 +39,7 @@ Assets:
 - Assets/GrimoraMod/Cards/DanseMacabre_emission.png
 - Assets/GrimoraMod/Cards/Amoeba_emission.png
 - Assets/GrimoraMod/Cards/Skeleton.png
+- Assets/GrimoraMod/Cards/Wyvern.png
 - Assets/GrimoraMod/Cards/GhostShip.png
 - Assets/GrimoraMod/Cards/Draugr_emission.png
 - Assets/GrimoraMod/MenuCard.png
@@ -80,7 +82,7 @@ Assets:
 - Assets/GrimoraMod/Cards/Project_emission.png
 - Assets/GrimoraMod/Cards/Maggots.png
 - Assets/GrimoraMod/Cards/Project.png
-- Assets/GrimoraMod/Cards/Wyvern.png
+- Assets/GrimoraMod/Cards/Wyvern_smaller.png
 - Assets/GrimoraMod/Cards/Draugr.png
 - Assets/GrimoraMod/Cards/HeadlessHorseman.png
 - Assets/GrimoraMod/Cards/BoneSerpent.png
@@ -88,6 +90,7 @@ Assets:
 - Assets/GrimoraMod/Cards/DeadPets_emission.png
 - Assets/GrimoraMod/Cards/VengefulSpirit_emission.png
 - Assets/GrimoraMod/Cards/GhostShip_emission.png
+- Assets/GrimoraMod/Cards/Wyvern_emission.png
 - Assets/GrimoraMod/Cards/BooHag.png
 - Assets/GrimoraMod/Cards/Bonepile.png
 - Assets/GrimoraMod/Cards/SkeletonArmy_emission.png
