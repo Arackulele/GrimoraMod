@@ -130,9 +130,7 @@ public class CardBuilder
 
 	internal CardBuilder SetAbilities(params Ability[] abilities)
 	{
-		_cardInfo.abilities ??= new List<Ability>();
-		_cardInfo.abilities.AddRange(abilities);
-
+		_cardInfo.abilities = abilities?.ToList();
 		return this;
 	}
 
