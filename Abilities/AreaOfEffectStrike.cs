@@ -16,7 +16,20 @@ public class AreaOfEffectStrike : AbilityBehaviour
 
 	public override bool RespondsToSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
 	{
-		return attacker.Slot == base.Card.Slot && slot.IsPlayerSlot && slot.Card is null;
+		// check if the attacking card is this card
+		if (attacker.Slot == base.Card.Slot && slot.Card is null)
+		{
+			if (attacker.Slot.IsPlayerSlot)
+			{
+				// if the attacker slot is the player, return if the targeted slot is also the player slot 
+				return slot.IsPlayerSlot;
+			}
+
+			// check if slot being attacked is the opponent slot if the attacking slot is the opponent
+			return !slot.IsPlayerSlot;
+		}
+
+		return false;
 	}
 
 	public override IEnumerator OnSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
