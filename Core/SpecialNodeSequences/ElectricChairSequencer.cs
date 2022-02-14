@@ -22,7 +22,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		confirmStoneButton.position = new Vector3(positionCopy.x, positionCopy.y, -0.5f);
 	}
 
-	private static readonly List<Ability> AbilitiesToChoseRandomly = new()
+	public static readonly List<Ability> AbilitiesToChoseRandomly = new()
 	{
 		Ability.ActivatedDealDamage,
 		Ability.ActivatedDrawSkeleton,
@@ -34,7 +34,6 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		Ability.BeesOnHit,
 		Ability.BombSpawner,
 		Ability.BoneDigger,
-		//Ability.Brittle,
 		Ability.BuffEnemy,
 		Ability.BuffGems,
 		Ability.BuffNeighbours,
@@ -43,11 +42,9 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		Ability.Deathtouch,
 		Ability.DebuffEnemy,
 		Ability.DoubleDeath,
-		//Ability.DrawAnt,
 		Ability.DrawCopy,
 		Ability.DrawNewHand,
 		Ability.DrawRabbits,
-		//Ability.DrawRandomCardOnDeath,
 		Ability.Evolve,
 		Ability.ExplodeOnDeath,
 		Ability.Flying,
