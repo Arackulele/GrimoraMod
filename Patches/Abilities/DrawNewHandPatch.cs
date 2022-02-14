@@ -12,6 +12,12 @@ public class DrawNewHandPatch
 	[HarmonyPostfix, HarmonyPatch(nameof(DrawNewHand.OnResolveOnBoard))]
 	public static IEnumerator PostfixChangeViewAndCorrectVisuals(IEnumerator enumerator, DrawNewHand __instance)
 	{
+		if (GrimoraSaveUtil.isNotGrimora)
+		{
+			yield return enumerator;
+			yield break;
+		}
+		
 		ViewManager.Instance.SwitchToView(View.Hand);
 		yield return __instance.PreSuccessfulTriggerSequence();
 		yield return new WaitForSeconds(0.25f);
