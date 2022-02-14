@@ -1,5 +1,6 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
+using Sirenix.Utilities;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -20,7 +21,15 @@ public class RuleBookControllerPatches
 		List<int> abilitiesNoCategory = AbilitiesUtil.AllData
 			// this is needed because Sinkhole and another ability will throw IndexOutOfBounds exceptions
 			.Where(info => !string.IsNullOrEmpty(info.LocalizedRulebookDescription))
-			.Select(x => (int)x.ability).ToList();
+			.ForEach(x =>
+			{
+				if (x.ability == Ability.DoubleDeath)
+				{
+					x.rulebookName = "Double Death";
+				}
+			})
+			.Select(x => (int)x.ability)
+			.ToList();
 		int min = abilitiesNoCategory.AsQueryable().Min();
 		int max = abilitiesNoCategory.AsQueryable().Max();
 		PageRangeInfo pageRange = __instance.bookInfo.pageRanges.Find(i => i.type == PageRangeType.Abilities);
@@ -40,7 +49,8 @@ public class RuleBookControllerPatches
 
 		pageInfos = pageInfos
 			.GroupBy(i => i.ability)
-			.Select(i => i.First()).ToList();
+			.Select(i => i.First())
+			.ToList();
 
 		Log.LogDebug($"[RuleBookController.Start] Setting pages of rulebook infos. Total [{pageInfos.Count}]");
 		__instance.PageData = pageInfos;
