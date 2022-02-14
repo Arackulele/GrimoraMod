@@ -207,7 +207,8 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 					"grimora_deck_bones_decrease",
 					"... WHAT? WHY DID YOU DO THAT BONE LORD?! [c:bR]DECREASING THE COST OF THE ENTIRE DECK?![c:] YOU FOOL!",
 					"THAT'S UNFORTUNATE. YOU WERE SUPPOSED TO HAVE YOUR ENTIRE DECK DECREASED, BUT IT LOOKS LIKE THE BONE LORD HAS ALREADY GIFTED YOU THAT. BEGONE!",
-					false
+					false,
+					info => info.BonesCost > 0
 				);
 
 				break;
@@ -224,7 +225,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 				break;
 			}
-			// bone increase = 9%~
+			// card bonesCost increase = 9%~
 			case <= 0.10f:
 			{
 				cardThatWillHaveEffectApplied = ApplyEffectToCards(
@@ -235,7 +236,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 				break;
 			}
-			// bone reduce = 20% of the time
+			// card bonesCost reduce = 20% of the time
 			case <= 0.30f:
 			{
 				cardThatWillHaveEffectApplied = ApplyEffectToCards(
