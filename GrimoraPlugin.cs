@@ -77,8 +77,9 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		SkinCrawler.Create(); // Bt Y#0895
 
 		BoneLordsReign.Create();
-		FlameStrafe.Create();
 		CreateArmyOfSkeletons.Create();
+		FlameStrafe.Create();
+		GrimoraRandomAbility.Create();
 		PayEnergyForWyvern.Create();
 
 		#endregion
@@ -192,6 +193,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			if (cardName == "Amoeba")
 			{
 				builder.SetAsRareCard();
+				builder.SetAbilities(GrimoraRandomAbility.ability);
 			}
 
 			NewCard.Add(builder.Build());

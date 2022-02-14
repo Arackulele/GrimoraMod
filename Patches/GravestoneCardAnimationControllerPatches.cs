@@ -1,4 +1,5 @@
-﻿using DiskCardGame;
+﻿using System.Collections;
+using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -124,6 +125,21 @@ public class GravestoneCardAnimBaseClassPatches
 		return false;
 	}
 
+	[HarmonyPostfix, HarmonyPatch(nameof(CardAnimationController.FlipInAir))]
+	public static IEnumerator PlayCardFlipInHandAnim(IEnumerator enumerator, CardAnimationController __instance)
+	{
+		if (GrimoraSaveUtil.isNotGrimora)
+		{
+			yield return enumerator;
+			yield break;
+		}
+
+		Log.LogDebug($"Playing card_flip_inair");
+		yield return new WaitForSeconds(0.6f);
+		__instance.Anim.Play("card_flip_inair");
+		yield return new WaitForSeconds(0.15f);
+	}
+	
 	[HarmonyPrefix, HarmonyPatch(nameof(CardAnimationController.PlayTransformAnimation))]
 	public static bool PlayCardFlipAnim(CardAnimationController __instance)
 	{
