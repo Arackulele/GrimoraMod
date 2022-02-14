@@ -53,7 +53,6 @@ public class AreaOfEffectStrike : AbilityBehaviour
 [HarmonyPatch]
 public class PatchesForAreaOfEffectStrike
 {
-
 	[HarmonyPostfix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetOpposingSlots))]
 	public static void AreaOfEffectStrikeGetOpposingSlotsPatch(PlayableCard __instance, ref List<CardSlot> __result)
 	{
@@ -62,14 +61,15 @@ public class PatchesForAreaOfEffectStrike
 			// Log.LogDebug($"[GetOpposingSlotsPatch] Adding adj slots from [{__instance.Slot.Index}]");
 			var toLeftSlot = BoardManager.Instance.GetAdjacent(__instance.Slot, true);
 			var toRightSlot = BoardManager.Instance.GetAdjacent(__instance.Slot, false);
-			
+
 			// insert at beginning
-			if(toLeftSlot is not null)
+			if (toLeftSlot is not null)
 			{
 				__result.Insert(0, toLeftSlot);
 			}
+
 			// insert at end
-			if(toRightSlot is not null)
+			if (toRightSlot is not null)
 			{
 				__result.Insert(__result.Count, toRightSlot);
 			}
@@ -89,22 +89,23 @@ public class PatchesForAreaOfEffectStrike
 
 	[HarmonyPostfix, HarmonyPatch(typeof(CombatPhaseManager), nameof(CombatPhaseManager.SlotAttackSequence))]
 	public static IEnumerator MinusDamageDealtThisPhase(
-		IEnumerator enumerator, 
+		IEnumerator enumerator,
 		CombatPhaseManager __instance,
 		CardSlot slot
 	)
 	{
 		yield return enumerator;
-		
+
 		if (slot.Card is not null && slot.Card.HasAbility(AreaOfEffectStrike.ability))
 		{
 			yield return new WaitForSeconds(1f);
 			int dmgDoneToPlayer = slot.Card.GetComponent<AreaOfEffectStrike>().damageDoneToPlayer;
-			Log.LogDebug($"[SlotAttackSequence] Dealing [{dmgDoneToPlayer}] to player");
+			Log.LogDebug($"[SlotAttackSequence.AOE] Dealing [{dmgDoneToPlayer}] to player");
 			yield return LifeManager.Instance.ShowDamageSequence(
 				dmgDoneToPlayer, dmgDoneToPlayer, !slot.Card.OpponentCard, 0.2f
 			);
-			
+
+			Log.LogDebug($"[SlotAttackSequence.AOE] Subtracting [{dmgDoneToPlayer}] from DamageDealtThisPhase");
 			__instance.DamageDealtThisPhase -= dmgDoneToPlayer;
 		}
 	}
