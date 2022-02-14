@@ -42,15 +42,14 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 				);
 				foreach (var card in playerCardsWithAttacks)
 				{
-					int attack = card.Attack == 0 ? 0 :  -card.Attack;
-					var infoCopy = card.Info;
+					int attack = card.Attack == 0 ? 0 : -card.Attack;
 					var modInfo = new CardModificationInfo()
 					{
 						attackAdjustment = attack,
 						healthAdjustment = 1 - card.Health,
 						abilities = new List<Ability>() { Ability.IceCube }
 					};
-					infoCopy.iceCubeParams = new IceCubeParams() { creatureWithin = card.Info };
+					card.Info.iceCubeParams = new IceCubeParams() { creatureWithin = card.Info };
 					card.AddTemporaryMod(modInfo);
 					card.Anim.PlayTransformAnimation();
 					yield return new WaitForSeconds(0.05f);
