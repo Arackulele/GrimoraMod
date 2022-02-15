@@ -24,6 +24,10 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ## Known Issues
 
+### When a card with `Flying` attacks, the hovering animation stops working
+
+- Noted, however it is low priority.
+
 ### Grimora's dialogue is unfinished and still the one from the finale and part 1 dialogue in some cases
 
 - Ongoing process to add new dialogue.
