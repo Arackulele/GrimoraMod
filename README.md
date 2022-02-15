@@ -1,6 +1,6 @@
 # Grimora Mod
 
-- A giant Mod made by xXxStoner420BongMasterxXx and Arackulele that builds upon the finale with Grimora's
+- A giant Mod made by xXxStoner420BongMasterxXx and Arackulele, with modeling from `Pink#9824`, that builds upon the finale with Grimora's
   chessboard.
 
 - **MOST IMPORTANT**: **!!!YOu will probably encounter some Bugs!!!**
@@ -26,7 +26,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ### When a card with `Flying` attacks, the hovering animation stops working
 
-- Noted, however it is low priority.
+- Noted, however it is low priority to fix. Part of the issue is that there are 2 separate animation controllers for Grimora's playable cards, as opposed to the paper cards which just uses 1 animation controller.
 
 ### Grimora's dialogue is unfinished and still the one from the finale and part 1 dialogue in some cases
 
@@ -36,13 +36,28 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - Make a backup of your save, then delete it. Having your current save already at the finale will break the mod.
 
+### Bonelord art overlaps abilites
+
+- Bonelord does what he wants.
+
 ## Update Notes
 
 ### 2.6.1
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed softlock in Grimora's finale phase.
 
+- ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added new `Bonelord` artwork and emission courtesy of `Ryan S. Art`!
+
+- ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added new Kaycee boss skull courtesy of `Pink#9824`!
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Tweaked card's light color in Grimora fight to be a bit light so the art is more visible.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Removed ice break counter for Kaycee so that she breaks Draugrs when possible.
+  - Also removed clearing the board in the final phase of Kaycee.
+
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Cleaned up descriptions of some cards to have correct punctuation and spacing.
+
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Corrected viewing of queue slots to be before the start of the Bonelord phase instead of after.
 
 ### 2.6.0
 
@@ -53,7 +68,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed `Screaming Skull` damage done to now correctly deal damage to the owner of the card.
 
-- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Added new `Wendigo` and `Wyvern` artwork courtesy of `Cevin2006™ (◕‿◕)#7971`.
+- ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added new `Wendigo` and `Wyvern` artwork courtesy of `Cevin2006™ (◕‿◕)#7971`.
 
 #### Bugfixes/Features/Refactors
 
@@ -69,9 +84,9 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
   - Moved confirm stone button closer to chair.
   - Changed camera rotation during sequence to 32.5 from 37.5.
 
-- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Ordered decklist alphabetically in viewing cards left in the deck.
+- ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) New hammer dialogue courtesy of `Mr. Etc.#3925`.
 
-- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) New hammer dialogue courtesy of `Mr. Etc.#3925`.
+- ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Ordered decklist alphabetically in viewing cards left in the deck.
 
 ### 2.5.10
 
@@ -84,9 +99,9 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Removed `Reset Deck` button as it doesn't really get used besides for debugging purposes, and `Reset Run` will most likely be used if the player wants to restart their deck.
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Card changes:
-  - Changed Revenant to use original sprite and emission.
-  - Added vanilla Banshee to card pool.
-  - Disabled Attack and health shadows as sometimes the shadows don't correlate to the number and the overlapping is ugly.
+  - Changed `Revenant` to use original sprite and emission.
+  - Added vanilla `Banshee` to card pool.
+  - Disabled attack and health shadows as sometimes the shadows don't correlate to the number and the overlapping is ugly.
 
 ### 2.5.8
 
@@ -119,9 +134,9 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
     - Latch Death Shield
     - Latch Explode on Death
     - Shield Gems (Gem Guardian)
-    - Updated dialogue.
-    - Reduced number of times to electrify card to a max of 2 times.
-    - Changed texture of selection slot to be a plus sign with a question mark instead of 3 question marks.
+  - Updated dialogue.
+  - Reduced number of times to electrify card to a max of 2 times.
+  - Changed texture of selection slot to be a plus sign with a question mark instead of 3 question marks.
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Changed `Sporedigger` description to better fit the card.
 
