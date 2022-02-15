@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3258143372
+CRC: 3076328077
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 4982217cb3bf0deb12f0576b06ac4694
+    Hash: ddf002861ceaa348e53441ea8b66f375
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -47,13 +47,13 @@ Assets:
 - Assets/GrimoraMod/Cards/DrownedSoul.png
 - Assets/GrimoraMod/Cards/GravestoneCard_Base_Lowered2.png
 - Assets/GrimoraMod/Cards/Ember_Spirit.png
+- Assets/GrimoraMod/Cards/Bonelord_emission.png
 - Assets/GrimoraMod/Cards/BooHag_emission.png
 - Assets/GrimoraMod/Cards/ZombieGeck.png
 - Assets/GrimoraMod/Cards/DeadHand.png
 - Assets/GrimoraMod/Cards/BonelordsHorn_emission.png
 - Assets/GrimoraMod/Cards/Ripper_emission.png
 - Assets/GrimoraMod/Cards/Family_emission.png
-- Assets/GrimoraMod/Cards/Bonelord.png
 - Assets/GrimoraMod/Cards/DanseMacabre.png
 - Assets/GrimoraMod/Cards/PlagueDoctor.png
 - Assets/GrimoraMod/Cards/Obol.png
@@ -95,6 +95,7 @@ Assets:
 - Assets/GrimoraMod/Cards/Bonepile.png
 - Assets/GrimoraMod/Cards/SkeletonArmy_emission.png
 - Assets/GrimoraMod/Cards/Sporedigger_emission.png
+- Assets/GrimoraMod/Cards/Bonelord.png
 - Assets/GrimoraMod/Cards/Skelemaniac.png
 - Assets/GrimoraMod/Cards/Necromancer.png
 - Assets/GrimoraMod/Cards/Maggots_emission.png
