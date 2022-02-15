@@ -73,8 +73,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 		if (BossMasksByType.TryGetValue(Opponent, out GameObject mask))
 		{
 			Log.LogDebug($"[{GetType()}] Setting royal skull inactive");
-			RoyalBossSkull.SetActive(false);
-			
+
 			Log.LogDebug($"[{GetType()}] Creating skull");
 			GrimoraAnimationController.Instance.bossSkull = Instantiate(mask, GrimoraRightWrist.transform);
 			var bossSkullTransform = GrimoraBossSkull.transform;
@@ -86,11 +85,21 @@ public abstract class BaseBossExt : Part1BossOpponent
 			}
 			else if (Opponent is KayceeOpponent)
 			{
-				bossSkullTransform.localPosition = RoyalBossSkull.transform.localPosition;
-				bossSkullTransform.localRotation = RoyalBossSkull.transform.localRotation;
-				bossSkullTransform.localScale = RoyalBossSkull.transform.localScale;
+				bossSkullTransform.localPosition = new Vector3(-0.0044f, 0.18f, -0.042f);
+				bossSkullTransform.localRotation = Quaternion.Euler(85.85f, 227.76f, 262.77f);
+				bossSkullTransform.localScale = new Vector3(0.14f, 0.14f, 0.14f);
 			}
-			
+
+			try
+			{
+				RoyalBossSkull.SetActive(false);
+			}
+			catch (Exception e)
+			{
+				Log.LogError("Was unable to find Royal's skull or set it as inactive?");
+				throw;
+			}
+
 			yield return ShowBossSkull();
 
 			AudioController.Instance.FadeOutLoop(0.75f);
@@ -107,13 +116,13 @@ public abstract class BaseBossExt : Part1BossOpponent
 			Log.LogDebug($"[{GetType()}] SaveFile is Grimora");
 
 			AudioController.Instance.PlaySound2D("glitch_error", MixerGroup.TableObjectsSFX);
-			
+
 			if (GrimoraBossSkull is not null)
 			{
 				Log.LogDebug($"[{GetType()}] Glitching mask");
 				yield return HideBossSkull();
 			}
-			
+
 			Log.LogDebug($"[{GetType()}] hiding skull");
 			GrimoraAnimationController.Instance.SetHeadTrigger("hide_skull");
 
@@ -157,15 +166,15 @@ public abstract class BaseBossExt : Part1BossOpponent
 		yield return new WaitForSeconds(0.05f);
 
 		ViewManager.Instance.SwitchToView(View.BossCloseup, false, true);
-		
+
 		yield return new WaitForSeconds(1f);
 	}
-	
+
 	public IEnumerator HideBossSkull()
 	{
 		// Log.LogDebug($"[{GetType()}] Calling GlitchOutBossSkull");
 		GrimoraAnimationController.Instance.GlitchOutBossSkull();
-		
+
 		GrimoraAnimationController.Instance.headAnim.ResetTrigger(ShowSkull);
 		GrimoraAnimationController.Instance.SetHeadTrigger("hide_skull");
 
