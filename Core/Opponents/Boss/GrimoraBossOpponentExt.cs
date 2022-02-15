@@ -101,10 +101,9 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	private static IEnumerator StartPlayerCardWeakeningPhase()
 	{
 		var playerCardsThatAreValidToWeaken
-			= CardSlotUtils
-				.GetPlayerSlotsWithCards()
-				.Where(slot => slot.Card.Health > 1)
-				.Select(slot => slot.Card)
+			= BoardManager.Instance
+				.GetPlayerCards()
+				.Where(pCard => pCard.Health > 1)
 				.ToList();
 		if (!playerCardsThatAreValidToWeaken.IsNullOrEmpty())
 		{

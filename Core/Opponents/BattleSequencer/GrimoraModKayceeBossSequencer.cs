@@ -59,13 +59,14 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 			}
 		}
 
-		var opponentCards = CardSlotUtils.GetOpponentSlotsWithCards();
-		var draugrCards = opponentCards.FindAll(slot => slot.Card.Info.name.Equals(NameDraugr));
+		var opponentCards = BoardManager.Instance.GetOpponentCards();
+		var draugrCards = opponentCards.FindAll(pCard => pCard.InfoName().Equals(NameDraugr));
+		Log.LogDebug($"[KayceeSequencer] Draugr cards found [{draugrCards.GetDelimitedString()}]");
 		if (++_iceBreakCounter == 2 && draugrCards.Count >= 2)
 		{
 			ViewManager.Instance.SwitchToView(View.Board);
 			yield return TextDisplayer.Instance.ShowUntilInput("ALL THIS ICE IS TAKING UP TOO MUCH SPACE!");
-			foreach (var card in draugrCards.Select(slot => slot.Card))
+			foreach (var card in draugrCards)
 			{
 				yield return card.Die(false);
 				yield return new WaitForSeconds(0.1f);

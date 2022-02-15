@@ -86,7 +86,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 		);
 
 
-		var playerSlotsWithCards = CardSlotUtils.GetPlayerSlotsWithCards();
+		var activePlayerCards = BoardManager.Instance.GetPlayerCards();
 
 		// foreach (var slot in playerSlotsWithCards)
 		// {

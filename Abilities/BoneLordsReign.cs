@@ -19,19 +19,19 @@ public class BoneLordsReign : AbilityBehaviour
 
 	public override IEnumerator OnPlayFromHand()
 	{
-		var playerSlotsWithCards = CardSlotUtils.GetPlayerSlotsWithCards();
-		if (!playerSlotsWithCards.IsNullOrEmpty())
+		var activePlayerCards = BoardManager.Instance.GetPlayerCards();
+		if (!activePlayerCards.IsNullOrEmpty())
 		{
-			yield return base.PreSuccessfulTriggerSequence();
+			yield return PreSuccessfulTriggerSequence();
 			ViewManager.Instance.SwitchToView(View.Board);
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"DID YOU REALLY THINK THE BONE LORD WOULD LET YOU OFF THAT EASILY?!"
 			);
-			foreach (var cardSlot in playerSlotsWithCards)
+			foreach (var cardSlot in activePlayerCards)
 			{
-				cardSlot.Card.Anim.StrongNegationEffect();
-				cardSlot.Card.AddTemporaryMod(new CardModificationInfo(1 - Card.Attack, 0));
-				cardSlot.Card.Anim.StrongNegationEffect();
+				cardSlot.Anim.StrongNegationEffect();
+				cardSlot.AddTemporaryMod(new CardModificationInfo(1 - Card.Attack, 0));
+				cardSlot.Anim.StrongNegationEffect();
 				yield return new WaitForSeconds(0.1f);
 			}
 		}

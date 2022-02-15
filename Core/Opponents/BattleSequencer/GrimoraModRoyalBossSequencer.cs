@@ -27,10 +27,10 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
-		var playerSlotsWithCards = CardSlotUtils.GetPlayerSlotsWithCards();
-		if (!playerSlotsWithCards.IsNullOrEmpty() && _rng.NextBoolean())
+		var activePlayerCards = BoardManager.Instance.GetPlayerCards();
+		if (!activePlayerCards.IsNullOrEmpty() && _rng.NextBoolean())
 		{
-			var playableCard = playerSlotsWithCards[UnityEngine.Random.Range(0, playerSlotsWithCards.Count)].Card;
+			var playableCard = activePlayerCards[UnityEngine.Random.Range(0, activePlayerCards.Count)];
 			Log.LogDebug($"[{GetType()}] About to assign ExplodeOnDeath to [{playableCard.Info.name}]");
 			ViewManager.Instance.SwitchToView(View.Board);
 			yield return new WaitForSeconds(0.25f);
