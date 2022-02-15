@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(1, 6)
 			.SetBoneCost(6)
 			.SetNames(NameArmoredZombie, "Armored Zombie")
-			.SetDescription("Not your ordinary Undead, they searched through a Scrapyard for this Gear.")
+			.SetDescription("NOT YOUR ORDINARY UNDEAD, THEY SEARCHED THROUGH A SCRAPYARD FOR THIS GEAR.")
 			.Build()
 		);
 	}

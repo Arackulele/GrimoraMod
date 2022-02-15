@@ -15,7 +15,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(0, 2)
 			.SetBoneCost(4)
 			.SetEvolve(NameMummy, 1)
-			.SetDescription("The cycle of the Mummy Lord, never ending.")
+			.SetDescription("THE CYCLE OF THE MUMMY LORD, NEVER ENDING.")
 			.SetNames(NameSarcophagus, "Sarcophagus")
 			.Build()
 		);

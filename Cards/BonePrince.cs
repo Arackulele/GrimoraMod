@@ -12,8 +12,9 @@ public partial class GrimoraPlugin
 		NewCard.Add(CardBuilder.Builder
 			.SetBaseAttackAndHealth(2, 1)
 			.SetBoneCost(1)
-			.SetNames(NameBonePrince, "Bone Prince")
+			.SetDescription("MY, WHAT A LOVELY PRINCE!")
 			.SetMetaCategories(CardMetaCategory.GBCPlayable)
+			.SetNames(NameBonePrince, "Bone Prince")
 			.Build()
 		);
 	}

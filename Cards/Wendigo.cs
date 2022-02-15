@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.DebuffEnemy, Ability.Strafe)
 			.SetBaseAttackAndHealth(2, 2)
 			.SetBoneCost(5)
-			.SetDescription("A sense of dread consumes you as you realize you are not alone in these woods.")
+			.SetDescription("A SENSE OF DREAD CONSUMES YOU AS YOU REALIZE YOU ARE NOT ALONE IN THESE WOODS.")
 			.SetNames(NameWendigo, "Wendigo")
 			.Build()
 		);

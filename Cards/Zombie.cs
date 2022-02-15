@@ -12,7 +12,7 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(2)
-			.SetDescription("The humble zombie, a respected member of the army.")
+			.SetDescription("THE HUMBLE ZOMBIE, A RESPECTED MEMBER OF THE ARMY.")
 			.SetNames(NameZombie, "Zombie")
 			.Build()
 		);

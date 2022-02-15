@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.Brittle)
 			.SetBaseAttackAndHealth(2, 1)
 			.SetBoneCost(1)
-			.SetDescription("A bit famished. Could use a bite to eat.")
+			.SetDescription("A BIT FAMISHED. COULD USE A BITE TO EAT.")
 			.SetNames(NameZombieGeck, "Zomb-Geck")
 			.Build()
 		);

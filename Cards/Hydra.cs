@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.DrawCopyOnDeath, Ability.TriStrike)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(5)
-			.SetDescription("Described by some as the truest nightmare.")
+			.SetDescription("DESCRIBED BY SOME AS THE TRUEST NIGHTMARE.")
 			.SetNames(NameHydra, "Hydra")
 			.Build()
 		);

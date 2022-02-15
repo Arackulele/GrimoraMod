@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.DebuffEnemy)
 			.SetBaseAttackAndHealth(2, 1)
 			.SetBoneCost(5)
-			.SetDescription("Like a true worm, loves to dig in the dirt.")
+			.SetDescription("LIKE A TRUE WORM, LOVES TO DIG IN THE DIRT.")
 			.SetNames(NameMudWorm, "Mud Worm")
 			.Build()
 		);

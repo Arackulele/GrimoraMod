@@ -12,7 +12,7 @@ public partial class GrimoraPlugin
 			.SetAsRareCard()
 			.SetAbilities(FlameStrafe.ability)
 			.SetBaseAttackAndHealth(1, 3)
-			.SetDescription("A trickster spirit fleeing and leaving behind its flames.")
+			.SetDescription("A TRICKSTER SPIRIT FLEEING AND LEAVING BEHIND ITS FLAMES.")
 			.SetEnergyCost(6)
 			.SetNames(NameEmberSpirit, "Spirit of Ember")
 			.Build()

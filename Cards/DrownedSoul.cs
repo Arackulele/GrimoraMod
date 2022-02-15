@@ -13,8 +13,8 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetAbilities(Ability.Deathtouch, Ability.Submerge)
 			.SetBaseAttackAndHealth(1, 1)
+			.SetDescription("GOING INTO THAT WELL WASN'T THE BEST IDEA...")
 			.SetEnergyCost(5)
-			.SetDescription("Going into that well wasn't the best idea...")
 			.SetNames(NameDrownedSoul, "Drowned Soul")
 			.Build()
 		);

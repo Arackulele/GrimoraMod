@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetAbilities(Ability.ExplodeOnDeath)
 			.SetBaseAttackAndHealth(0, 1)
-			.SetDescription("Nothing... Nothing again... No treasure is left anymore.")
+			.SetDescription("NOTHING... NOTHING AGAIN... NO TREASURE IS LEFT ANYMORE.")
 			.SetNames(NameTombRobber, "Tomb Robber")
 			.Build()
 		);

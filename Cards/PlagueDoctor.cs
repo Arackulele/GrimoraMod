@@ -15,7 +15,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(6)
 			.SetNames(NamePlagueDoctor, "Plague Doctor")
-			.SetDescription("Ironically enough not a real doctor.")
+			.SetDescription("IRONICALLY ENOUGH, NOT A REAL DOCTOR.")
 			.Build()
 		);
 	}

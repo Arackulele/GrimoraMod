@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetBaseAttackAndHealth(2, 2)
 			.SetBoneCost(5)
-			.SetDescription("Best friends, brothers, and fighters.")
+			.SetDescription("BEST FRIENDS, BROTHERS, AND FIGHTERS.")
 			.SetNames(NameFranknstein, "Frank & Stein", ogSprite)
 			.Build()
 		);

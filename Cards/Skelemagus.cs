@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.Brittle)
 			.SetBaseAttackAndHealth(4, 1)
 			.SetEnergyCost(5)
-			.SetDescription("The Skelemagus, they have learned the ancient spell of Death.")
+			.SetDescription("THEY HAVE LEARNED THE ANCIENT SPELL OF DEATH.")
 			.SetNames(NameSkelemagus, "Skelemagus")
 			.Build()
 		);

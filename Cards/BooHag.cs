@@ -1,4 +1,4 @@
-using APIPlugin;
+﻿using APIPlugin;
 
 namespace GrimoraMod;
 
@@ -13,8 +13,8 @@ public partial class GrimoraPlugin
 			.SetAbilities(SkinCrawler.ability)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(5)
+			.SetDescription("WHEN YOU KNOW SHE'S THERE, IT'S ALREADY TOO LATE.")
 			.SetNames(NameBooHag, "Boo Hag")
-			.SetDescription("When you know shes there, its already too late")
 			.Build()
 		);
 	}

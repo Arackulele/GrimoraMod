@@ -18,7 +18,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(0, 3)
 			.SetBoneCost(1)
 			.SetDescription(
-				"He spends his time alone digging for bones in hopes of finding a treasure. Just like his grandpa.")
+				"HE SPENDS HIS TIME ALONE DIGGING FOR BONES IN HOPES OF FINDING A TREASURE. JUST LIKE HIS GRANDPA.")
 			.SetNames(NameGravedigger, "Gravedigger", ogSprite)
 			.Build()
 		);
@@ -31,7 +31,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.BoneDigger, Ability.BoneDigger)
 			.SetBaseAttackAndHealth(0, 3)
 			.SetBoneCost(1)
-			.SetDescription("A poor, brutalized soul. Its mycelia probes far into the soil, guiding its spade.")
+			.SetDescription("A POOR, BRUTALIZED SOUL. ITS MYCELIA PROBES FAR INTO THE SOIL, GUIDING ITS SPADE.")
 			.SetNames(NameSporedigger, "Sporedigger")
 			.SetTraits(Trait.Fused)
 			.Build()

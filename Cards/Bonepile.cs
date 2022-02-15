@@ -14,8 +14,8 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.QuadrupleBones)
 			.SetBaseAttackAndHealth(0, 1)
 			.SetBoneCost(1)
+			.SetDescription("AN UNINSPIRING PILE OF BONES. YOU CAN HAVE IT.")
 			.SetNames(NameBonepile, "Bone Heap")
-			.SetDescription("An uninspiring pile of bones. You can have it.")
 			.Build()
 		);
 	}

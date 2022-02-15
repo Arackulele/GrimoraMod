@@ -1,4 +1,4 @@
-using APIPlugin;
+﻿using APIPlugin;
 using DiskCardGame;
 
 namespace GrimoraMod;
@@ -15,7 +15,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(6, 6)
 			.SetBoneCost(9)
 			.SetNames(NameRipper, "Ripper")
-			.SetDescription("When all hope is lost, you can always count on this Demon straight from hell!")
+			.SetDescription("WHEN ALL HOPE IS LOST, YOU CAN ALWAYS COUNT ON THIS DEMON STRAIGHT FROM HELL!")
 			.Build()
 		);
 	}

@@ -1,4 +1,4 @@
-using APIPlugin;
+﻿using APIPlugin;
 using DiskCardGame;
 
 namespace GrimoraMod;
@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(InvertedStrike.ability, Ability.Strafe)
 			.SetBaseAttackAndHealth(3, 2)
 			.SetBoneCost(7)
-			.SetDescription("The Silbon, a skilled hunter. WHat did it hunt?Unknown.")
+			.SetDescription("A SKILLED HUNTER. WHAT DID IT HUNT? THAT IS UNKNOWN...")
 			.SetNames(NameSilbon, "Silbon")
 			.Build()
 		);

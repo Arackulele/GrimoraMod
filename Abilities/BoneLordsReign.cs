@@ -40,8 +40,7 @@ public class BoneLordsReign : AbilityBehaviour
 	public static NewAbility Create()
 	{
 		const string rulebookDescription =
-			"Whenever [creature] gets played, all enemies Power is set to 1. " +
-			"When the Bone Lord appears, every Creature will fall.";
+			"Whenever [creature] gets played, all enemies attack and health is set to 1.";
 
 		return ApiUtils.CreateAbility<BoneLordsReign>(
 			rulebookDescription, "Bone Lord's Reign"
