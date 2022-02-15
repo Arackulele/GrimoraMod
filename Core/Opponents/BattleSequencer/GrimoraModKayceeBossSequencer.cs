@@ -24,7 +24,6 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 	}
 
 	private int _freezeCounter = 0;
-	private int _iceBreakCounter = 0;
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
@@ -62,7 +61,7 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 		var opponentCards = BoardManager.Instance.GetOpponentCards();
 		var draugrCards = opponentCards.FindAll(pCard => pCard.InfoName().Equals(NameDraugr));
 		Log.LogDebug($"[KayceeSequencer] Draugr cards found [{draugrCards.GetDelimitedString()}]");
-		if (++_iceBreakCounter == 2 && draugrCards.Count >= 2)
+		if (draugrCards.Count >= 2)
 		{
 			ViewManager.Instance.SwitchToView(View.Board);
 			yield return TextDisplayer.Instance.ShowUntilInput("ALL THIS ICE IS TAKING UP TOO MUCH SPACE!");
