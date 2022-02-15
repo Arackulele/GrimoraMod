@@ -8,13 +8,12 @@ namespace GrimoraMod;
 
 public class GrimoraBossOpponentExt : BaseBossExt
 {
-
 	public override StoryEvent EventForDefeat => StoryEvent.PhotoDroneSeenInCabin;
 
 	public override Type Opponent => GrimoraOpponent;
 
 	public override string SpecialEncounterId => "GrimoraBoss";
-	
+
 	public override string DefeatedPlayerDialogue => "Thank you!";
 
 	public override int StartingLives => 3;
@@ -164,12 +163,9 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		ViewManager.Instance.SwitchToView(View.Board);
 
-		yield return BoardManager.Instance.CreateCardInSlot(
-			NameBonelord.GetCardInfo(), oppSlots[2], 0.2f
-		);
+		yield return BoardManager.Instance.CreateCardInSlot(CreateModifiedBonelord(), oppSlots[2], 0.2f);
 		yield return new WaitForSeconds(0.25f);
 
-		oppSlots.RemoveRange(1, 2);
 
 		yield return TextDisplayer.Instance.ShowUntilInput(
 			"RISE MY ARMY! RIIIIIIIIIISE!",
@@ -177,22 +173,44 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		);
 
 
+		oppSlots.RemoveRange(1, 2); // slot 1, slot 4
 		var leftAndRightQueueSlots = GetFarLeftAndFarRightQueueSlots();
-		
-		CardInfo bonelordsHorn = NameBoneLordsHorn.GetCardInfo();
-		bonelordsHorn.mods.Add(new CardModificationInfo() { attackAdjustment = 2 });
-		bonelordsHorn.abilities.Remove(Ability.QuadrupleBones);
-		for (int i = 0; i < oppSlots.Count; i++)
+
+		CardInfo bonelordsHorn = CreateModifiedBonelordsHorn();
+		for (int i = 0; i < 2; i++)
 		{
 			yield return TurnManager.Instance.Opponent.QueueCard(bonelordsHorn, leftAndRightQueueSlots[i]);
 			yield return BoardManager.Instance.CreateCardInSlot(bonelordsHorn, oppSlots[i], 0.2f);
 			yield return new WaitForSeconds(0.25f);
 		}
 	}
-	
-	private List<CardSlot> GetFarLeftAndFarRightQueueSlots() {
+
+	private static CardInfo CreateModifiedBonelord()
+	{
+		CardInfo bonelord = NameBonelord.GetCardInfo();
+		CardModificationInfo mod = new CardModificationInfo()
+		{
+			abilities = new List<Ability> { GiantStrike.ability, Ability.Reach },
+			specialAbilities = new List<SpecialTriggeredAbility> { GrimoraGiant.NewSpecialAbility.specialTriggeredAbility }
+		};
+
+		bonelord.traits.Add(Trait.Giant);
+		bonelord.Mods.Add(mod);
+
+		return bonelord;
+	}
+
+	private static CardInfo CreateModifiedBonelordsHorn()
+	{
+		CardInfo bonelordsHorn = NameBoneLordsHorn.GetCardInfo();
+		bonelordsHorn.mods.Add(new CardModificationInfo() { attackAdjustment = 2 });
+		bonelordsHorn.abilities.Remove(Ability.QuadrupleBones);
+		return bonelordsHorn;
+	}
+
+	private List<CardSlot> GetFarLeftAndFarRightQueueSlots()
+	{
 		var qSlots = BoardManager.Instance.GetQueueSlots();
-		qSlots.RemoveRange(1, 2);
-		return qSlots;
+		return new List<CardSlot> { qSlots[0], qSlots[3] };
 	}
 }
