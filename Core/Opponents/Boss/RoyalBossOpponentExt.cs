@@ -28,23 +28,19 @@ public class RoyalBossOpponentExt : BaseBossExt
 			TextDisplayer.MessageAdvanceMode.Input
 		);
 
+		GrimoraAnimationController.Instance.bossSkull = RoyalBossSkull;
 		RoyalBossSkull.SetActive(true);
 
 		yield return ShowBossSkull();
 
-		Mask = RoyalBossSkull;
-
-		Mask.transform.localPosition = new Vector3(0, 0.2f, 0);
-		Mask.transform.localRotation = Quaternion.Euler(90, 325, 0);
-
 		SetSceneEffectsShownRoyal();
 		yield return new WaitForSeconds(1f);
 
-		yield return base.FaceZoomSequence();
+		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput("Var, I see you made it to me ship challenger!");
 		yield return TextDisplayer.Instance.ShowUntilInput("I've been waiting for a worthy fight!");
 
-		cannons = Object.Instantiate(
+		cannons = Instantiate(
 			ResourceBank.Get<GameObject>("Prefabs/Environment/TableEffects/CannonTableEffects")
 		);
 		if (!ConfigHelper.Instance.isDevModeEnabled)
@@ -78,7 +74,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 	public override IEnumerator StartNewPhaseSequence()
 	{
 		Log.LogDebug($"StartNewPhaseSequence started for RoyalBoss");
-		yield return base.FaceZoomSequence();
+		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
 			"Yee be a tough nut to crack!\nReady for Round 2?",
 			-0.65f,
@@ -101,7 +97,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 		// this.ReplaceAndAppendTurnPlan(plan);
 
-		yield return this.QueueNewCards();
+		yield return QueueNewCards();
 
 		yield break;
 	}
@@ -111,7 +107,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 	{
 		if (wasDefeated)
 		{
-			yield return base.FaceZoomSequence();
+			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"I overestimated me skill, good luck challenger.",
 				-0.65f,

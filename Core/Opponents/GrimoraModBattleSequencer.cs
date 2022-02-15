@@ -30,12 +30,10 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			Log.LogDebug($"[GameEnd] Playing dialogue event");
 			yield return TextDisplayer.Instance.PlayDialogueEvent("GrimoraFinaleEnd", TextDisplayer.MessageAdvanceMode.Input);
 
-			if (opponent is BaseBossExt ext && ext.Mask != null)
+			if (opponent is BaseBossExt ext)
 			{
 				Log.LogDebug($"[{GetType()}] Glitching mask and boss skull");
-				GlitchOutAssetEffect.GlitchModel(ext.Mask.transform, true);
-				GrimoraAnimationController.Instance.SetHeadTrigger("hide_skull");
-				GlitchOutAssetEffect.GlitchModel(ext.bossSkull.transform, true);
+				yield return ext.HideBossSkull();
 			}
 
 			Log.LogDebug($"[PreCleanUp] Calling CardDrawPiles CleanUp...");
