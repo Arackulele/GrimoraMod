@@ -59,9 +59,29 @@ public class BaseGameFlowManagerPatches
 
 		ChangeStartDeckIfNotAlreadyChanged();
 
+		AddCardSelectorObjectForTutor();
+
 		// AddBoonLordBoonConsumable();
 
 		// AddCustomEnergy();
+	}
+
+	private static void AddCardSelectorObjectForTutor()
+	{
+		if (BoardManager.Instance is not null)
+		{
+			Log.LogDebug($"[AddCardSelectorObjectForTutor] Creating BoardCardSelection object");
+			SelectableCardArray boardCardSelection
+				= new GameObject("BoardCardSelection").AddComponent<SelectableCardArray>();
+			boardCardSelection.arrayWidth = 5;
+			boardCardSelection.cardsTilt = 0;
+			boardCardSelection.leftAnchor = -2.5f;
+
+			boardCardSelection.transform.SetParent(BoardManager.Instance.transform);
+			boardCardSelection.transform.position = new Vector3(0.81f, 5.01f, -3.45f);
+			BoardManager.Instance.cardSelector = boardCardSelection;
+			BoardManager.Instance.cardSelector.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
+		}
 	}
 
 	private static void DisableAttackAndHealthStatShadows()

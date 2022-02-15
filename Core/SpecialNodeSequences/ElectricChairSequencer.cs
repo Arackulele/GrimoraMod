@@ -16,34 +16,41 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		var stoneQuad = selectionSlot.transform.Find("Quad").GetComponent<MeshRenderer>();
 		stoneQuad.material = AssetUtils.GetPrefab<Material>("ElectricChair_Stat_AbilityBoost");
 		stoneQuad.sharedMaterial = AssetUtils.GetPrefab<Material>("ElectricChair_Stat_AbilityBoost");
+
+		var confirmStoneButton = transform.Find("ConfirmStoneButton");
+		var positionCopy = confirmStoneButton.position;
+		confirmStoneButton.position = new Vector3(positionCopy.x, positionCopy.y, -0.5f);
 	}
 
-	private static readonly List<Ability> AbilitiesToChoseRandomly = new()
+	public static readonly List<Ability> AbilitiesToChoseRandomly = new()
 	{
+		AlternatingStrike.ability,
+		AreaOfEffectStrike.ability,
+		CreateArmyOfSkeletons.ability,
+		Erratic.ability,
+		InvertedStrike.ability,
+		PayEnergyForWyvern.ability,
+		Possessive.ability,
+		SkinCrawler.ability,
 		Ability.ActivatedDealDamage,
 		Ability.ActivatedDrawSkeleton,
 		Ability.ActivatedHeal,
 		Ability.ActivatedRandomPowerEnergy,
-		Ability.ActivatedSacrificeDrawCards,
 		Ability.ActivatedStatsUp,
 		Ability.ActivatedStatsUpEnergy,
 		Ability.BeesOnHit,
 		Ability.BombSpawner,
 		Ability.BoneDigger,
-		//Ability.Brittle,
 		Ability.BuffEnemy,
-		Ability.BuffGems,
 		Ability.BuffNeighbours,
 		Ability.CorpseEater,
 		Ability.DeathShield,
 		Ability.Deathtouch,
 		Ability.DebuffEnemy,
 		Ability.DoubleDeath,
-		//Ability.DrawAnt,
 		Ability.DrawCopy,
 		Ability.DrawNewHand,
 		Ability.DrawRabbits,
-		//Ability.DrawRandomCardOnDeath,
 		Ability.Evolve,
 		Ability.ExplodeOnDeath,
 		Ability.Flying,
@@ -54,12 +61,10 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		Ability.PermaDeath,
 		Ability.PreventAttack,
 		Ability.QuadrupleBones,
-		Ability.RandomAbility,
 		Ability.RandomConsumable,
 		Ability.Reach,
 		Ability.Sentry,
 		Ability.Sharp,
-		Ability.ShieldGems,
 		Ability.SkeletonStrafe,
 		Ability.Sniper,
 		Ability.SplitStrike,
@@ -79,7 +84,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	{
 		handPosition = PlayerHand3D.HIDDEN_HAND_POS,
 		camPosition = new Vector3(0f, 9.3f, -3.5f),
-		camRotation = new Vector3(37.5f, 0f, 0f),
+		camRotation = new Vector3(32.5f, 0f, 0f),
 		fov = 55f
 	};
 
@@ -104,7 +109,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 				"You strap one of your cards to the chair, [c:B]empowering[c:] it!", -0.65f
 			);
 			yield return new WaitForSeconds(0.1f);
-			yield return TextDisplayer.Instance.ShowUntilInput("Of course, it doesn't hurt. You can't die twice after all.",
+			yield return TextDisplayer.Instance.ShowUntilInput("Of course, it doesn't hurt.\nYou can't die twice after all.",
 				-0.65f
 			);
 			yield return new WaitForSeconds(0.1f);
@@ -467,24 +472,16 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	{
 		Log.LogDebug("[ElectricChair] creating chair");
 		CompositeFigurine chairFigurine = Instantiate(
-			PrefabConstants.ElectricChair,
-			new Vector3(0, 5.85f, 1),
-			Quaternion.Euler(0, -90, 0),
+			PrefabConstants.ElectricChairForSelectionSlot,
+			new Vector3(-0.05f, 4.9f, 1.2f),
+			Quaternion.Euler(0, 180, 0),
 			cardStatObj.transform
 		).AddComponent<CompositeFigurine>();
-		chairFigurine.name = "Electric Chair Figurine";
-		chairFigurine.transform.localScale = new Vector3(60, 85, 95);
+		chairFigurine.name = "Electric Chair Selection Slot";
+		chairFigurine.transform.localScale = new Vector3(1.15f, 1, 0.75f);
 		chairFigurine.gameObject.SetActive(false);
 
-		CompositeFigurine vfxElectricity = Instantiate(
-			AssetUtils.GetPrefab<GameObject>("VfxBoltLightning"),
-			new Vector3(0.1f, 7.8f, 1.25f),
-			Quaternion.identity,
-			cardStatObj.transform
-		).AddComponent<CompositeFigurine>();
-		vfxElectricity.gameObject.SetActive(false);
-
-		return new List<CompositeFigurine> { chairFigurine, vfxElectricity };
+		return new List<CompositeFigurine> { chairFigurine };
 	}
 
 	private static ConfirmStoneButton CreateLever(GameObject cardStatObj)

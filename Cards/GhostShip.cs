@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.SkeletonStrafe, Ability.Submerge)
 			.SetBaseAttackAndHealth(0, 1)
 			.SetBoneCost(4)
-			.SetDescription("The skeleton army never rests.")
+			.SetDescription("THE SKELETON ARMY NEVER RESTS.")
 			.SetNames(NameGhostShip, "Ghost Ship")
 			.Build()
 		);

@@ -16,7 +16,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.Brittle)
 			.SetBaseAttackAndHealth(3, 1)
 			.SetBoneCost(3)
-			.SetDescription("The Revenant, bringing the scythe of death.")
+			.SetDescription("THE REVENANT, BRINGING THE SCYTHE OF DEATH.")
 			.SetNames(NameRevenant, "Revenant", ogSprite)
 			.Build()
 		);

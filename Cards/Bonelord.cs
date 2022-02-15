@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(BoneLordsReign.ability)
 			.SetBaseAttackAndHealth(4, 10)
 			.SetBoneCost(8)
-			.SetDescription("Lord of Bones, Lord of Bones, answer our call.")
+			.SetDescription("WHEN THE BONE LORD APPEARS, EVERY CREATURE WILL FALL.")
 			.SetEnergyCost(6)
 			.SetNames(NameBonelord, "The Bone Lord")
 			.Build()

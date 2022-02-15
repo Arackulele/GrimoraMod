@@ -96,8 +96,6 @@ public class KayceeBossOpponent : BaseBossExt
 				0.4f
 			);
 
-			yield return ClearBoard();
-
 			yield return base.ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
 		}
 	}

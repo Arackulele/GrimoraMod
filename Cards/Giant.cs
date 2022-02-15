@@ -20,7 +20,7 @@ public partial class GrimoraPlugin
 				.SetBoneCost(15)
 				.SetNames(NameGiant, "Giant")
 				.SetTraits(Trait.Giant, Trait.Uncuttable)
-				// .SetDescription("A vicious pile of bones. You can have it...")
+				.SetDescription("TRULY A SIGHT TO BEHOLD.")
 				.Build()
 			// , specialAbilitiesIdsParam: new List<SpecialAbilityIdentifier> { sbIds.id }
 		);

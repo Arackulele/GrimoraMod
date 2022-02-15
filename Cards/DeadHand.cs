@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.DrawNewHand)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(5)
-			.SetDescription("Cut off from an ancient God, the Dead Hand took on its own Life.")
+			.SetDescription("CUT OFF FROM AN ANCIENT GOD, THE DEAD HAND TOOK ON ITS OWN LIFE.")
 			.SetNames(NameDeadHand, "Dead Hand")
 			.Build()
 		);

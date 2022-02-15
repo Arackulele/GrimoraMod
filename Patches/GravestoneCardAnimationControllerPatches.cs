@@ -1,4 +1,5 @@
-﻿using DiskCardGame;
+﻿using System.Collections;
+using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -65,7 +66,6 @@ public class GravestoneCardAnimationControllerPatches
 			}
 		}
 
-		Log.LogDebug($"[GravestoneAnim] Anim to play [{animToPlay}]");
 		__instance.armAnim.Play(animToPlay, 0, 0f);
 		string soundId = "gravestone_card_attack_" + (attackPlayer ? "player" : "creature");
 		AudioController.Instance.PlaySound3D(
@@ -110,7 +110,6 @@ public class GravestoneCardAnimBaseClassPatches
 			return true;
 		}
 
-		Log.LogDebug($"Setting hovering [{hovering}]");
 		GravestoneCardAnimationController controller = (GravestoneCardAnimationController)__instance;
 
 		if (hovering)
@@ -124,6 +123,20 @@ public class GravestoneCardAnimBaseClassPatches
 		return false;
 	}
 
+	[HarmonyPostfix, HarmonyPatch(nameof(CardAnimationController.FlipInAir))]
+	public static IEnumerator PlayCardFlipInHandAnim(IEnumerator enumerator, CardAnimationController __instance)
+	{
+		if (GrimoraSaveUtil.isNotGrimora)
+		{
+			yield return enumerator;
+			yield break;
+		}
+
+		yield return new WaitForSeconds(0.6f);
+		__instance.Anim.Play("card_flip_inair");
+		yield return new WaitForSeconds(0.15f);
+	}
+	
 	[HarmonyPrefix, HarmonyPatch(nameof(CardAnimationController.PlayTransformAnimation))]
 	public static bool PlayCardFlipAnim(CardAnimationController __instance)
 	{
@@ -132,7 +145,6 @@ public class GravestoneCardAnimBaseClassPatches
 			return true;
 		}
 
-		Log.LogDebug($"Playing card_flip");
 		((GravestoneCardAnimationController)__instance).SetTrigger("flip");
 		return false;
 	}

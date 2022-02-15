@@ -32,14 +32,15 @@ namespace GrimoraMod
 		public static NewAbility CreateAbility<T>(
 			string rulebookDescription,
 			string rulebookName = null,
-			bool activated = false
+			bool activated = false,
+			Texture rulebookIcon = null
 		) where T : AbilityBehaviour
 		{
 			rulebookName ??= typeof(T).Name;
-			return CreateAbility<T>(
-				CreateInfoWithDefaultSettings(rulebookName, rulebookDescription, activated),
-				AssetUtils.GetPrefab<Texture>("ability_" + typeof(T).Name)
-			);
+			Texture icon = rulebookIcon
+				? rulebookIcon 
+				: AssetUtils.GetPrefab<Texture>("ability_" + typeof(T).Name); 
+			return CreateAbility<T>(CreateInfoWithDefaultSettings(rulebookName, rulebookDescription, activated), icon);
 		}
 
 		private static NewAbility CreateAbility<T>(AbilityInfo info, Texture texture) where T : AbilityBehaviour

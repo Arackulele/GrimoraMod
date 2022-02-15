@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(PayEnergyForWyvern.ability)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(4)
-			.SetDescription("A Skeletal Beast, it calls in more of its kind.")
+			.SetDescription("A SKELETAL BEAST, IT CALLS IN MORE OF ITS KIND.")
 			.SetNames(NameWyvern, "Wyvern")
 			.Build()
 		);

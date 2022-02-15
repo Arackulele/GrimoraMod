@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.Reach, Ability.Sharp)
 			.SetBaseAttackAndHealth(0, 3)
 			.SetBoneCost(3)
-			.SetDescription("The key to everything, somehow.")
+			.SetDescription("THE KEY TO EVERYTHING, SOMEHOW.")
 			.SetNames(NameObol, "Ancient Obol")
 			.Build()
 		);

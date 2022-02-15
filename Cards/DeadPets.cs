@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.Brittle, Ability.DrawCopyOnDeath)
 			.SetBaseAttackAndHealth(3, 1)
 			.SetBoneCost(4)
-			.SetDescription("They die, over and over again. Only for the Pharao")
+			.SetDescription("THEY DIE, OVER AND OVER AGAIN. ONLY FOR THE PHARAOH.")
 			.SetNames(NameDeadPets, "Pharaoh's Pets")
 			.Build()
 		);

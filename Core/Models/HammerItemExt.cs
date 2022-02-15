@@ -65,6 +65,7 @@ public class HammerItemExt : HammerItem
 			StartCoroutine(
 				TextDisplayer.Instance.ShowUntilInput("The Hammer is now broken and you can no longer use it. I will have it fixed for the next battle though...")
 			);
+			_dialoguePlayed = true;
 		}
 
 		yield return new WaitForSeconds(0.65f);

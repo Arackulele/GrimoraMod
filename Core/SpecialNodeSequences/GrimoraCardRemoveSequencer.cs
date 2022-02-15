@@ -207,7 +207,8 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 					"grimora_deck_bones_decrease",
 					"... WHAT? WHY DID YOU DO THAT BONE LORD?! [c:bR]DECREASING THE COST OF THE ENTIRE DECK?![c:] YOU FOOL!",
 					"THAT'S UNFORTUNATE. YOU WERE SUPPOSED TO HAVE YOUR ENTIRE DECK DECREASED, BUT IT LOOKS LIKE THE BONE LORD HAS ALREADY GIFTED YOU THAT. BEGONE!",
-					false
+					false,
+					info => info.BonesCost > 0
 				);
 
 				break;
@@ -224,7 +225,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 				break;
 			}
-			// bone increase = 9%~
+			// card bonesCost increase = 9%~
 			case <= 0.10f:
 			{
 				cardThatWillHaveEffectApplied = ApplyEffectToCards(
@@ -235,14 +236,14 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 				break;
 			}
-			// bone reduce = 20% of the time
+			// card bonesCost reduce = 20% of the time
 			case <= 0.30f:
 			{
 				cardThatWillHaveEffectApplied = ApplyEffectToCards(
 					"grimora_card_bones_decrease",
 					"Oh dear, it looks like [c:bR]{0}[c:] cost has decreased!",
 					"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]REDUCE THEIR BONE COST[c:], HOW SAD. NOW PLEASE LEAVE.",
-					cardInfoPredicate: info => info.BonesCost > 0
+					filterCardsOnPredicate: info => info.BonesCost > 0
 				);
 
 				break;
@@ -254,7 +255,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 					"grimora_card_health_increase",
 					"The Bone Lord has been generous. [c:bR]{0}[c:] base health has increased!",
 					"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]GAIN HP[c:], HOW SAD. NOW PLEASE LEAVE.",
-					cardInfoPredicate: info => info.Health > 0
+					filterCardsOnPredicate: info => info.Health > 0
 				);
 
 				break;
@@ -266,7 +267,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 					"grimora_card_health_decrease",
 					"Be glad the Bone Lord doesn't take more. [c:bR]{0}[c:] base health has decreased!",
 					"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]LOSE HP[c:], HOW SAD. NOW PLEASE LEAVE.",
-					cardInfoPredicate: info => info.Health > 1
+					filterCardsOnPredicate: info => info.Health > 1
 				);
 
 				break;
@@ -313,12 +314,12 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		string dialogueOnAtLeastOneCard,
 		string dialogueNoCardsChosen,
 		bool isForSingleCard = true,
-		Predicate<CardInfo> cardInfoPredicate = null
+		Predicate<CardInfo> filterCardsOnPredicate = null
 	)
 	{
 		var modificationInfo = GetModInfoFromSingletonId(singletonId);
 
-		List<CardInfo> cards = GetCardsWithoutMod(singletonId, cardInfoPredicate);
+		List<CardInfo> cards = GetCardsWithoutMod(singletonId, filterCardsOnPredicate);
 
 		CardInfo cardToReturn = BoonsUtil.CreateCardForBoon(BoonData.Type.StartingBones);
 		if (cards.IsNullOrEmpty())
@@ -416,10 +417,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		graveDisplayer.GetComponentInChildren<CardAbilityIcons>().boonIcon = cardAbilityIcons;
 
 		CardDisplayer3D cardElements = ResourceBank.Get<CardDisplayer3D>("Prefabs/Cards/CardElements");
-		CardDisplayer3D cardDisplayer3D = Instantiate(
-			cardElements,
-			graveDisplayer.transform
-		);
+		CardDisplayer3D cardDisplayer3D = Instantiate(cardElements, graveDisplayer.transform);
 
 		var cardDecals = cardDisplayer3D.transform.Find("CardDecals");
 		cardDecals.SetParent(graveDisplayer.transform);

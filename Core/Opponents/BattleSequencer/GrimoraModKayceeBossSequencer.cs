@@ -24,12 +24,11 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 	}
 
 	private int _freezeCounter = 0;
-	private int _iceBreakCounter = 0;
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
 		var playerCardsWithAttacks
-			= CardSlotUtils.GetPlayerSlotsWithCards().Select(slot => slot.Card).ToList();
+			= BoardManager.Instance.GetPlayerCards().Where(pCard => pCard.Attack > 0).ToList();
 
 		_freezeCounter++;
 		if (!playerCardsWithAttacks.IsNullOrEmpty())
@@ -42,15 +41,14 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 				);
 				foreach (var card in playerCardsWithAttacks)
 				{
-					int attack = card.Attack == 0 ? 0 :  -card.Attack;
-					var infoCopy = card.Info;
+					int attack = card.Attack == 0 ? 0 : -card.Attack;
 					var modInfo = new CardModificationInfo()
 					{
 						attackAdjustment = attack,
 						healthAdjustment = 1 - card.Health,
 						abilities = new List<Ability>() { Ability.IceCube }
 					};
-					infoCopy.iceCubeParams = new IceCubeParams() { creatureWithin = card.Info };
+					card.Info.iceCubeParams = new IceCubeParams() { creatureWithin = card.Info };
 					card.AddTemporaryMod(modInfo);
 					card.Anim.PlayTransformAnimation();
 					yield return new WaitForSeconds(0.05f);
@@ -60,13 +58,14 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 			}
 		}
 
-		var opponentCards = CardSlotUtils.GetOpponentSlotsWithCards();
-		var draugrCards = opponentCards.FindAll(slot => slot.Card.Info.name.Equals(NameDraugr));
-		if (++_iceBreakCounter == 2 && draugrCards.Count >= 2)
+		var opponentCards = BoardManager.Instance.GetOpponentCards();
+		var draugrCards = opponentCards.FindAll(pCard => pCard.InfoName().Equals(NameDraugr));
+		Log.LogDebug($"[KayceeSequencer] Draugr cards found [{draugrCards.GetDelimitedString()}]");
+		if (draugrCards.Count >= 2)
 		{
 			ViewManager.Instance.SwitchToView(View.Board);
 			yield return TextDisplayer.Instance.ShowUntilInput("ALL THIS ICE IS TAKING UP TOO MUCH SPACE!");
-			foreach (var card in draugrCards.Select(slot => slot.Card))
+			foreach (var card in draugrCards)
 			{
 				yield return card.Die(false);
 				yield return new WaitForSeconds(0.1f);

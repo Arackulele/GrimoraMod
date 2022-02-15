@@ -12,7 +12,7 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetBaseAttackAndHealth(3, 3)
 			.SetBoneCost(8)
-			.SetDescription("The cycle of the Mummy Lord is never ending.")
+			.SetDescription("THE CYCLE OF THE MUMMY LORD IS NEVER ENDING.")
 			.SetNames(NameMummy, "Mummy Lord")
 			.Build()
 		);

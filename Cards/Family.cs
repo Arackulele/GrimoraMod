@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.QuadrupleBones)
 			.SetBaseAttackAndHealth(1, 2)
 			.SetBoneCost(4)
-			.SetDescription("The family wishes to rest in piece.")
+			.SetDescription("THE FAMILY WISHES TO REST IN PEACE.")
 			.SetNames(NameFamily, "The Walkers")
 			.Build()
 		);

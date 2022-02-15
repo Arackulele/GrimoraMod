@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.Flying, Ability.Submerge)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetEnergyCost(3)
-			.SetDescription("A skilled haunting ghost. Handle with caution.")
+			.SetDescription("A SKILLED HAUNTING GHOST. HANDLE WITH CAUTION.")
 			.SetNames(NamePoltergeist, "Poltergeist")
 			.Build()
 		);

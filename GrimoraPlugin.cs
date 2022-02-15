@@ -16,7 +16,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 {
 	public const string GUID = "arackulele.inscryption.grimoramod";
 	public const string Name = "GrimoraMod";
-	private const string Version = "2.5.10";
+	private const string Version = "2.6.2";
 
 	internal static ManualLogSource Log;
 
@@ -77,8 +77,10 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		SkinCrawler.Create(); // Bt Y#0895
 
 		BoneLordsReign.Create();
-		FlameStrafe.Create();
 		CreateArmyOfSkeletons.Create();
+		FlameStrafe.Create();
+		GiantStrike.Create();
+		GrimoraRandomAbility.Create();
 		PayEnergyForWyvern.Create();
 
 		#endregion
@@ -192,6 +194,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			if (cardName == "Amoeba")
 			{
 				builder.SetAsRareCard();
+				builder.SetAbilities(GrimoraRandomAbility.ability);
 			}
 
 			NewCard.Add(builder.Build());

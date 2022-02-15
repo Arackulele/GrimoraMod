@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.DoubleDeath)
 			.SetBaseAttackAndHealth(1, 2)
 			.SetBoneCost(3)
-			.SetDescription("Nothing dies once.")
+			.SetDescription("NOTHING DIES ONCE.")
 			.SetNames(NameNecromancer, "Necromancer")
 			.Build()
 		);

@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Possessive.ability)
 			.SetBaseAttackAndHealth(0, 1)
 			.SetBoneCost(5)
-			.SetDescription("No one knows what exactly the Dybbuk is, some say it is better left unknown.")
+			.SetDescription("NO ONE KNOWS WHAT EXACTLY THE DYBBUK IS, SOME SAY IT IS BETTER LEFT UNKNOWN.")
 			.SetNames(NameDybbuk, "Dybbuk")
 			.Build()
 		);

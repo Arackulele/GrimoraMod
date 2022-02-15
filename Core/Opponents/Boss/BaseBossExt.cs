@@ -39,20 +39,24 @@ public abstract class BaseBossExt : Part1BossOpponent
 	public const string PrefabPathMasks = "Prefabs/Opponents/Leshy/Masks";
 	public const string PrefabPathRoyalBossSkull = "Prefabs/Opponents/Grimora/RoyalBossSkull";
 
-	private protected GameObject RoyalBossSkull => RightWrist.transform.GetChild(6).gameObject;
-	public GameObject RightWrist { get; } = GameObject.Find("Grimora_RightWrist");
+	public static GameObject RoyalBossSkull => GrimoraRightWrist.transform.GetChild(6).gameObject;
+	public static GameObject GrimoraBossSkull => GrimoraAnimationController.Instance.bossSkull;
+	public static GameObject GrimoraRightWrist { get; } = GameObject.Find("Grimora_RightWrist");
 
 	public const Type KayceeOpponent = (Type)1001;
 	public const Type SawyerOpponent = (Type)1002;
 	public const Type RoyalOpponent = (Type)1003;
 	public const Type GrimoraOpponent = (Type)1004;
 
-	public static readonly Dictionary<Type, string> BossMasksByType = new()
+	public static readonly Dictionary<Type, GameObject> BossMasksByType = new()
 	{
-		{ SawyerOpponent, $"{PrefabPathMasks}/MaskTrader" },
-		{ KayceeOpponent, $"{PrefabPathMasks}/MaskWoodcarver" },
+		{ SawyerOpponent, ResourceBank.Get<GameObject>($"{PrefabPathMasks}/MaskTrader") },
+		{ KayceeOpponent, AssetUtils.GetPrefab<GameObject>("KayceeBossSkull") },
 		// { RoyalOpponent, PrefabPathRoyalBossSkull }
 	};
+
+	private static readonly int ShowSkull = Animator.StringToHash("show_skull");
+	private static readonly int HideSkull = Animator.StringToHash("hide_skull");
 
 
 	public abstract StoryEvent EventForDefeat { get; }
@@ -61,28 +65,33 @@ public abstract class BaseBossExt : Part1BossOpponent
 
 	public abstract string SpecialEncounterId { get; }
 
-	protected internal GameObject Mask { get; set; }
-
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
-		// Log.LogDebug($"[{GetType()}] Calling IntroSequence");
 		yield return base.IntroSequence(encounter);
 
 		// Royal boss has a specific sequence to follow so that it flows easier
-		if (BossMasksByType.TryGetValue(OpponentType, out string prefabPath))
+		if (BossMasksByType.TryGetValue(Opponent, out GameObject mask))
 		{
-			yield return ShowBossSkull();
-
-			// Log.LogDebug($"[{GetType()}] Creating mask [{prefabPath}]");
-			Mask = (GameObject)Instantiate(Resources.Load(prefabPath), RightWrist.transform);
-
-			Mask.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
-			Mask.transform.localPosition = new Vector3(0.02f, 0.18f, 0.07f);
-			Mask.transform.localRotation = Quaternion.Euler(0, 0, 270);
-
-			// Object.Destroy(RoyalBossSkull);
+			Log.LogDebug($"[{GetType()}] Setting royal skull inactive");
 			RoyalBossSkull.SetActive(false);
-			yield return new WaitForSeconds(1f);
+			
+			Log.LogDebug($"[{GetType()}] Creating skull");
+			GrimoraAnimationController.Instance.bossSkull = Instantiate(mask, GrimoraRightWrist.transform);
+			var bossSkullTransform = GrimoraBossSkull.transform;
+			if (Opponent is SawyerOpponent)
+			{
+				bossSkullTransform.localPosition = new Vector3(0.02f, 0.18f, 0.07f);
+				bossSkullTransform.localRotation = Quaternion.Euler(0, 0, 270);
+				bossSkullTransform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
+			}
+			else if (Opponent is KayceeOpponent)
+			{
+				bossSkullTransform.localPosition = RoyalBossSkull.transform.localPosition;
+				bossSkullTransform.localRotation = RoyalBossSkull.transform.localRotation;
+				bossSkullTransform.localScale = RoyalBossSkull.transform.localScale;
+			}
+			
+			yield return ShowBossSkull();
 
 			AudioController.Instance.FadeOutLoop(0.75f);
 			RunState.CurrentMapRegion.FadeOutAmbientAudio();
@@ -97,15 +106,14 @@ public abstract class BaseBossExt : Part1BossOpponent
 
 			Log.LogDebug($"[{GetType()}] SaveFile is Grimora");
 
-			if (Mask is not null)
+			AudioController.Instance.PlaySound2D("glitch_error", MixerGroup.TableObjectsSFX);
+			
+			if (GrimoraBossSkull is not null)
 			{
 				Log.LogDebug($"[{GetType()}] Glitching mask");
-				GlitchOutAssetEffect.GlitchModel(Mask.transform, true);
+				yield return HideBossSkull();
 			}
-
-			Log.LogDebug($"[{GetType()}] audio queue");
-			AudioController.Instance.PlaySound2D("glitch_error", MixerGroup.TableObjectsSFX);
-
+			
 			Log.LogDebug($"[{GetType()}] hiding skull");
 			GrimoraAnimationController.Instance.SetHeadTrigger("hide_skull");
 
@@ -138,17 +146,30 @@ public abstract class BaseBossExt : Part1BossOpponent
 		}
 	}
 
-	public static IEnumerator ShowBossSkull()
+	public IEnumerator ShowBossSkull()
 	{
-		// Log.LogDebug($"[{GetType()}] Calling ShowBossSkull");
+		yield return new WaitForSeconds(0.1f);
+		Log.LogDebug($"[{GetType()}] Calling ShowBossSkull");
 		GrimoraAnimationController.Instance.ShowBossSkull();
-
-		// Log.LogDebug($"[{GetType()}] Setting Head Trigger");
+		Log.LogDebug($"[{GetType()}] Setting Head Trigger");
+		GrimoraAnimationController.Instance.headAnim.ResetTrigger(HideSkull);
 		GrimoraAnimationController.Instance.SetHeadTrigger("show_skull");
-
-		yield return new WaitForSeconds(0.25f);
+		yield return new WaitForSeconds(0.05f);
 
 		ViewManager.Instance.SwitchToView(View.BossCloseup, false, true);
+		
+		yield return new WaitForSeconds(1f);
+	}
+	
+	public IEnumerator HideBossSkull()
+	{
+		// Log.LogDebug($"[{GetType()}] Calling GlitchOutBossSkull");
+		GrimoraAnimationController.Instance.GlitchOutBossSkull();
+		
+		GrimoraAnimationController.Instance.headAnim.ResetTrigger(ShowSkull);
+		GrimoraAnimationController.Instance.SetHeadTrigger("hide_skull");
+
+		yield break;
 	}
 
 	public virtual IEnumerator ReplaceBlueprintCustom(EncounterBlueprintData blueprintData)
