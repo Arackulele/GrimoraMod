@@ -41,7 +41,6 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		Ability.BeesOnHit,
 		Ability.BombSpawner,
 		Ability.BoneDigger,
-		Ability.BuffEnemy,
 		Ability.BuffNeighbours,
 		Ability.CorpseEater,
 		Ability.DeathShield,
