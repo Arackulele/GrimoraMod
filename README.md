@@ -42,6 +42,12 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ## Update Notes
 
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png)Changed setting boss skull transform for Kaycee to hardcoded position, rotation, and scaling.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Added try/catch for setting RoyalBossSkull as inactive to hopefully confirm if it's throwing an error in the intro sequence.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed `BuffEnemy (Annoying)` ability from Electric Chair.
+
 ### 2.6.2
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Hopefully fixed weird NRE with finding Royal's skull.
