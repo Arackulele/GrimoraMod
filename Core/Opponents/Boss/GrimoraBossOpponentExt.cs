@@ -163,7 +163,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		yield return TextDisplayer.Instance.ShowUntilInput("LET THE BONE LORD COMMETH!",
 			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
 
-		ViewManager.Instance.SwitchToView(View.Board);
+		ViewManager.Instance.SwitchToView(View.OpponentQueue, false, true);
 
 		yield return BoardManager.Instance.CreateCardInSlot(CreateModifiedBonelord(), oppSlots[2], 0.2f);
 		yield return new WaitForSeconds(0.25f);
@@ -175,7 +175,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		);
 
 
-		oppSlots.RemoveRange(1, 2); // slot 1, slot 4
+		oppSlots.RemoveRange(1, 2); // slot 1, slot 4 remain
 		var leftAndRightQueueSlots = GetFarLeftAndFarRightQueueSlots();
 
 		CardInfo bonelordsHorn = CreateModifiedBonelordsHorn();
