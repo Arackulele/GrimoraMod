@@ -61,7 +61,6 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		Ability.PermaDeath,
 		Ability.PreventAttack,
 		Ability.QuadrupleBones,
-		Ability.RandomConsumable,
 		Ability.Reach,
 		Ability.Sentry,
 		Ability.Sharp,
