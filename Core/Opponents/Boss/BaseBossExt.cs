@@ -39,9 +39,9 @@ public abstract class BaseBossExt : Part1BossOpponent
 	public const string PrefabPathMasks = "Prefabs/Opponents/Leshy/Masks";
 	public const string PrefabPathRoyalBossSkull = "Prefabs/Opponents/Grimora/RoyalBossSkull";
 
-	public static GameObject RoyalBossSkull => GrimoraRightWrist.transform.GetChild(6).gameObject;
-	public static GameObject GrimoraBossSkull => GrimoraAnimationController.Instance.bossSkull;
-	public static GameObject GrimoraRightWrist { get; } = GameObject.Find("Grimora_RightWrist");
+	public GameObject RoyalBossSkull => GrimoraRightWrist.transform.GetChild(6).gameObject;
+	public GameObject GrimoraBossSkull => GrimoraAnimationController.Instance.bossSkull;
+	public GameObject GrimoraRightWrist => GameObject.Find("Grimora_RightWrist");
 
 	public const Type KayceeOpponent = (Type)1001;
 	public const Type SawyerOpponent = (Type)1002;
