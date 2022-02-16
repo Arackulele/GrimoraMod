@@ -47,8 +47,8 @@ public class SkinCrawler : AbilityBehaviour
 		// CardSlot toLeft = BoardManager.Instance.GetAdjacent(base.Card.Slot, adjacentOnLeft: true);
 		// Log.LogDebug($"[SkinCrawler] Checking if adj slots from [{base.Card.Slot}] are not null");
 		CardSlot slotToPick = null;
-		CardSlot toLeftSlot = BoardManager.Instance.GetAdjacent(base.Card.Slot, adjacentOnLeft: true);
-		CardSlot toRightSlot = BoardManager.Instance.GetAdjacent(base.Card.Slot, adjacentOnLeft: false);
+		CardSlot toLeftSlot = BoardManager.Instance.GetAdjacent(Card.Slot, true);
+		CardSlot toRightSlot = BoardManager.Instance.GetAdjacent(Card.Slot, false);
 
 		if (toLeftSlot is not null && toLeftSlot.Card is not null)
 		{
@@ -84,7 +84,7 @@ public class SkinCrawler : AbilityBehaviour
 			// move pack from current position to the baseCardSlotPosition
 			// Log.LogDebug($"[SkinCrawler] moving BooHag to [{toRightSlotTransform.position}]");
 			TweenBase tween = Tween.Position(
-				base.Card.transform,
+				Card.transform,
 				cardSlotToPick.transform.position + new Vector3(0f, 0f, 0.31f),
 				0.4f,
 				0f,
@@ -120,11 +120,11 @@ public class SkinCrawler : AbilityBehaviour
 			);
 
 			Log.LogDebug($"[SkinCrawler] Setting Boo Hag as child of card");
-			base.transform.SetParent(cardToPick.transform); // now a child of the playable card
-			Log.LogDebug($"[SkinCrawler] Setting Boo Hag slot [{base.Card.Slot.Index}] to null");
-			BoardManager.Instance.playerSlots[base.Card.Slot.Index].Card = null;
+			transform.SetParent(cardToPick.transform); // now a child of the playable card
+			Log.LogDebug($"[SkinCrawler] Setting Boo Hag slot [{Card.Slot.Index}] to null");
+			BoardManager.Instance.playerSlots[Card.Slot.Index].Card = null;
 			Log.LogDebug($"[SkinCrawler] Setting Boo Hag slot to [{cardSlotToPick}]");
-			base.Card.Slot = cardSlotToPick;
+			Card.Slot = cardSlotToPick;
 
 			hidingUnderCard = cardToPick;
 		}
@@ -135,7 +135,7 @@ public class SkinCrawler : AbilityBehaviour
 				PlayedDialogue = true;
 				ViewManager.Instance.SwitchToView(View.Board);
 				yield return TextDisplayer.Instance.ShowUntilInput("Poor thing couldn't find a host");
-				yield return base.Card.Die(false);
+				yield return Card.Die(false);
 			}
 		}
 	}
@@ -151,11 +151,11 @@ public class SkinCrawler : AbilityBehaviour
 		PlayableCard killer)
 	{
 		hidingUnderCard = null;
-		base.Card.Anim.StrongNegationEffect();
-		Log.LogDebug($"[SkinCrawler] Resolving [{base.Card}] to deathSlot [{deathSlot.Index}]");
-		CardInfo infoCopy = base.Card.Info;
+		Card.Anim.StrongNegationEffect();
+		Log.LogDebug($"[SkinCrawler] Resolving [{Card}] to deathSlot [{deathSlot.Index}]");
+		CardInfo infoCopy = Card.Info;
 		Log.LogDebug($"[SkinCrawler] Destroying existing card");
-		Object.Destroy(base.Card.gameObject);
+		Object.Destroy(Card.gameObject);
 		Log.LogDebug($"[SkinCrawler] Creating new card");
 		yield return BoardManager.Instance.CreateCardInSlot(infoCopy, deathSlot, 0f);
 		// BoardManager.Instance.playerSlots[deathSlot.Index].Card = base.Card;
