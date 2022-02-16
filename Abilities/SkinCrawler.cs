@@ -39,7 +39,7 @@ public class SkinCrawler : AbilityBehaviour
 
 	public override bool RespondsToResolveOnBoard()
 	{
-		return !base.Card.OpponentCard;
+		return true;
 	}
 
 	public override IEnumerator OnResolveOnBoard()
