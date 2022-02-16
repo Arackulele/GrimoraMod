@@ -42,20 +42,23 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		AudioController.Instance.SetLoopVolume(1f, 0.5f);
 		yield return new WaitForSeconds(1f);
 
+		yield return TextDisplayer.Instance.PlayDialogueEvent(
+			"RoyalBossPreIntro",
+			TextDisplayer.MessageAdvanceMode.Input
+		);
+
 		SetSceneEffectsShownGrimora();
 
 		yield return TextDisplayer.Instance.PlayDialogueEvent(
 			"LeshyBossIntro1",
 			TextDisplayer.MessageAdvanceMode.Input
 		);
-		yield return new WaitForSeconds(0.75f);
 
 		// Log.LogDebug($"[{GetType()}] Calling base IntroSequence, this creates and sets the candle skull");
 		yield return base.IntroSequence(encounter);
 
 		ViewManager.Instance.SwitchToView(View.BossSkull, false, true);
 
-		yield return new WaitForSeconds(0.25f);
 		yield return TextDisplayer.Instance.PlayDialogueEvent(
 			"LeshyBossAddCandle",
 			TextDisplayer.MessageAdvanceMode.Input
