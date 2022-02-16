@@ -9,7 +9,6 @@ public partial class GrimoraPlugin
 	private void Add_Bonelord()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.SetAsRareCard()
 			.SetAbilities(BoneLordsReign.ability)
 			.SetBaseAttackAndHealth(4, 10)
 			.SetBoneCost(17)
