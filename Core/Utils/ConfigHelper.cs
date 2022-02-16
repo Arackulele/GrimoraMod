@@ -44,7 +44,11 @@ public class ConfigHelper
 	}
 
 	private ConfigEntry<int> _configBossesDefeated;
-	public int BossesDefeated => _configBossesDefeated.Value;
+	public int BossesDefeated
+	{
+		get => _configBossesDefeated.Value;
+		set => _configBossesDefeated.Value = value;
+	}
 
 	public bool isKayceeDead => BossesDefeated == 1;
 
