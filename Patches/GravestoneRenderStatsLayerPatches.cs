@@ -16,8 +16,7 @@ public class GravestoneRenderStatsLayerPatches
 	{
 		if (__instance.transform.childCount == 0)
 		{
-			PlayableCard playableCard = __instance.GetComponentInParent<PlayableCard>();
-			int energyCost = playableCard.EnergyCost;
+			int energyCost = info.energyCost;
 			if (energyCost > 0)
 			{
 				MeshRenderer energyCellsLeft = Object.Instantiate(
