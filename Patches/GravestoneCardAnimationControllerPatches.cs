@@ -112,12 +112,6 @@ public class GravestoneCardAnimBaseClassPatches
 
 		GravestoneCardAnimationController controller = (GravestoneCardAnimationController)__instance;
 
-		if (hovering)
-		{
-			controller.Anim.ResetTrigger(Hover);
-			controller.Anim.SetTrigger(Hover);
-		}
-
 		controller.Anim.SetBool(Hovering, hovering);
 
 		return false;
@@ -136,7 +130,7 @@ public class GravestoneCardAnimBaseClassPatches
 		__instance.Anim.Play("card_flip_inair");
 		yield return new WaitForSeconds(0.15f);
 	}
-	
+
 	[HarmonyPrefix, HarmonyPatch(nameof(CardAnimationController.PlayTransformAnimation))]
 	public static bool PlayCardFlipAnim(CardAnimationController __instance)
 	{
