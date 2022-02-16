@@ -7,8 +7,7 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(GravestoneRenderStatsLayer))]
 public class GravestoneRenderStatsLayerPatches
 {
-	private static readonly int AlbedoColor = Shader.PropertyToID("_Albedo");
-	private static readonly Color GrimoraTextColor = new(0.420f, 1f, 0.63f);
+	private static readonly Color GrimoraTextColor = new(0.420f, 1f, 0.63f, 0.25f);
 	private static readonly GameObject EnergyCellsLeft = AssetUtils.GetPrefab<GameObject>("EnergyCells_Left");
 	private static readonly GameObject EnergyCellsRight = AssetUtils.GetPrefab<GameObject>("EnergyCells_Right");
 
@@ -23,7 +22,7 @@ public class GravestoneRenderStatsLayerPatches
 			{
 				MeshRenderer energyCellsLeft = Object.Instantiate(
 					EnergyCellsLeft, __instance.gameObject.transform
-					).GetComponent<MeshRenderer>();
+				).GetComponent<MeshRenderer>();
 
 				MeshRenderer energyCellsRight = null;
 				if (energyCost > 3)
@@ -44,17 +43,17 @@ public class GravestoneRenderStatsLayerPatches
 		for (int i = 0; i < energyCellsLeftLength; i++)
 		{
 			Color value = i < energyCost ? GrimoraTextColor : new Color(0, 0, 0, 0);
-			energyCellsLeft.materials[energyCellsLeftLength - i - 1].SetColor(AlbedoColor, value);
+			energyCellsLeft.materials[energyCellsLeftLength - i - 1].color = value;
 		}
 
 		if (energyCellsRight is not null)
 		{
-			int energyCellsRightLength = energyCellsLeft.materials.Length;
+			int energyCellsRightLength = energyCellsRight.materials.Length;
 			for (int i = 0; i < energyCellsRightLength; i++)
 			{
 				Color value = i < energyCost - 3 ? GrimoraTextColor : new Color(0, 0, 0, 0);
 				GrimoraPlugin.Log.LogDebug($"[UpdateEnergyCost] Setting color [{value}]");
-				energyCellsLeft.materials[energyCellsRightLength - i - 1].SetColor(AlbedoColor, value);
+				energyCellsRight.materials[energyCellsRightLength - i - 1].color = value;
 			}
 		}
 	}
