@@ -13,9 +13,13 @@ public class MenuControllerPatches
 	public static bool ContinueActOne(bool newGameGBC)
 	{
 		SaveManager.LoadFromFile();
-		// Falsy value originally is `SaveManager.SaveFile.currentScene`,
-		//	but this means that if you start GrimoraMod, currentScene is now the Grimora finale. 
-		LoadingScreenManager.LoadScene(newGameGBC ? "GBC_Intro" : "Part1_Cabin");
+		// this should fix the issue of having your current scene already at the Grimora finale 
+		string sceneToLoad = "Part1_Cabin";
+		if (!SaveManager.SaveFile.currentScene.ToLowerInvariant().Contains("grimora"))
+		{
+			 sceneToLoad = SaveManager.SaveFile.currentScene;
+		}
+		LoadingScreenManager.LoadScene(newGameGBC ? "GBC_Intro" : sceneToLoad);
 		SaveManager.savingDisabled = false;
 
 		return false;

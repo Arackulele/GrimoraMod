@@ -44,7 +44,7 @@
 	</Target>
 
 	<Target Name="ZipFiles" AfterTargets="Build">
-		<Exec Command="7z u -tzip GrimoraMod.zip .\DataFiles .\Artwork .\README.md .\manifest.json .\icon.png $(TargetDir)$(ProjectName).dll" />
+		<Exec Command="7z u -tzip GrimoraMod.zip .\DataFiles .\README.md .\manifest.json .\icon.png $(TargetDir)$(ProjectName).dll" />
 	</Target>
 
 </Project>

@@ -24,9 +24,9 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ## Known Issues
 
-### When a card with `Flying` attacks, the hovering animation stops working
+### Rare card choosing breaks/throws exceptions
 
-- Noted, however it is low priority to fix. Part of the issue is that there are 2 separate animation controllers for Grimora's playable cards, as opposed to the paper cards which just uses 1 animation controller.
+- The main culprit from what the team can tell, is that it's an issue with updating the asset bundles. The only recommendation we have now is to uninstall the mod completely, and redownload.
 
 ### Grimora's dialogue is unfinished and still the one from the finale and part 1 dialogue in some cases
 
@@ -34,13 +34,38 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ### Current save file is already at the finale with Grimora
 
-- Make a backup of your save, then delete it. Having your current save already at the finale will break the mod.
+- Make a backup of your save, then delete your current save. Having your current save already at the finale seems to break the mod.
+- Possibly fixed in 2.6.4 update.
 
 ### Bonelord art overlaps abilites
 
 - Bonelord does what he wants.
 
 ## Update Notes
+
+### 2.6.5 HOTFIX
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed softlock when choosing cards and one of those cards has an energy cost. The problem was that I was trying to get the `PlayableCard` component from the parent, _as opposed to literally just using the CardRenderInfo object that is passed in `GravestoneRenderStatsLayer.RenderCard`_
+
+### 2.6.4
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed card's with flying appearing no longer flying when attacked or is attacking. Animation resets loop when attacking or being attacked, but it's better than no longer flying.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added initial prefab for energy cells to show on cards. Will be tweaked accordingly.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added new `Poltergeist` artwork provided by `Cevin_2006`
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Updated Kaycee's boss skull model courtesy of `Pink#9824`.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Potentially fixed issue with having your current save already at Grimora's finale breaking the mod. This should now allow you to continue from any point as long as you are not at the finale.
+
+### 2.6.3
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Changed setting boss skull transform for Kaycee to hardcoded position, rotation, and scaling.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with NRE being thrown if `Reset Run` button was clicked. The issue was that the getter for finding Grimora's right wrist was static.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed `Buff Enemy (Annoying)` and `Random Consumable` ability from Electric Chair.
 
 ### 2.6.2
 
@@ -194,16 +219,14 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ## Special thanks to
 
-- LavaErrorDoggo for making a lot of the Artwork
-
-- YisusWhy for the epic Bone Lord Artwork
+- LavaErrorDoggo for making a lot of the artwork,
 
 - JulianMods (xXxStoner420BongMasterxXx) for refactoring the code.
 
-- Cevin_2006 for additional Card Art
+- Cevin_2006 for additional card art,
 
-- Bt Y#0895 for currently working on Artwork for the mod
+- Bt Y#0895 for currently working on artwork for the mod,
 
 - Kopie for being a former developer.
 
-- Draconis17#3692 for the new energy cells game object!
+- Draconis17#3692 for the new energy cells game object,

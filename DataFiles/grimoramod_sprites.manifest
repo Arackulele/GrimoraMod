@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3076328077
+CRC: 1026780527
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: ddf002861ceaa348e53441ea8b66f375
+    Hash: a41187ff446a9fa4d2a3070ac24e52cd
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -39,6 +39,7 @@ Assets:
 - Assets/GrimoraMod/Cards/DanseMacabre_emission.png
 - Assets/GrimoraMod/Cards/Amoeba_emission.png
 - Assets/GrimoraMod/Cards/Skeleton.png
+- Assets/GrimoraMod/Cards/Poltergeist_emission.png
 - Assets/GrimoraMod/Cards/Wyvern.png
 - Assets/GrimoraMod/Cards/GhostShip.png
 - Assets/GrimoraMod/Cards/Draugr_emission.png
