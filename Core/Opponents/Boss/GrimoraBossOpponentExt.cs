@@ -42,20 +42,23 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		AudioController.Instance.SetLoopVolume(1f, 0.5f);
 		yield return new WaitForSeconds(1f);
 
+		yield return TextDisplayer.Instance.PlayDialogueEvent(
+			"RoyalBossPreIntro",
+			TextDisplayer.MessageAdvanceMode.Input
+		);
+
 		SetSceneEffectsShownGrimora();
 
 		yield return TextDisplayer.Instance.PlayDialogueEvent(
 			"LeshyBossIntro1",
 			TextDisplayer.MessageAdvanceMode.Input
 		);
-		yield return new WaitForSeconds(0.75f);
 
 		// Log.LogDebug($"[{GetType()}] Calling base IntroSequence, this creates and sets the candle skull");
 		yield return base.IntroSequence(encounter);
 
 		ViewManager.Instance.SwitchToView(View.BossSkull, false, true);
 
-		yield return new WaitForSeconds(0.25f);
 		yield return TextDisplayer.Instance.PlayDialogueEvent(
 			"LeshyBossAddCandle",
 			TextDisplayer.MessageAdvanceMode.Input
@@ -99,7 +102,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		yield break;
 	}
 
-	private static IEnumerator StartPlayerCardWeakeningPhase()
+	private IEnumerator StartPlayerCardWeakeningPhase()
 	{
 		var playerCardsThatAreValidToWeaken
 			= BoardManager.Instance
@@ -128,7 +131,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		}
 	}
 
-	private static IEnumerator StartSpawningGiantsPhase()
+	private IEnumerator StartSpawningGiantsPhase()
 	{
 		var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
 
@@ -140,15 +143,13 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		ViewManager.Instance.SwitchToView(View.OpponentQueue, false, true);
 
 		// mimics the moon phase
-		CardInfo modifiedGiant = CreateModifiedGiant();
-
-		yield return BoardManager.Instance.CreateCardInSlot(modifiedGiant, oppSlots[1], 0.2f);
+		yield return BoardManager.Instance.CreateCardInSlot(CreateModifiedGiant(), oppSlots[1], 0.2f);
 		yield return new WaitForSeconds(0.5f);
-		yield return BoardManager.Instance.CreateCardInSlot(modifiedGiant, oppSlots[3], 0.2f);
+		yield return BoardManager.Instance.CreateCardInSlot(CreateModifiedGiant(), oppSlots[3], 0.2f);
 		yield return new WaitForSeconds(0.5f);
 	}
 
-	private static CardInfo CreateModifiedGiant()
+	private CardInfo CreateModifiedGiant()
 	{
 		CardInfo modifiedGiant = NameGiant.GetCardInfo();
 		modifiedGiant.abilities = new List<Ability>() { GiantStrike.ability, Ability.Reach };
@@ -187,7 +188,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		}
 	}
 
-	private static CardInfo CreateModifiedBonelord()
+	private CardInfo CreateModifiedBonelord()
 	{
 		CardInfo bonelord = NameBonelord.GetCardInfo();
 		CardModificationInfo mod = new CardModificationInfo()
@@ -202,7 +203,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		return bonelord;
 	}
 
-	private static CardInfo CreateModifiedBonelordsHorn()
+	private CardInfo CreateModifiedBonelordsHorn()
 	{
 		CardInfo bonelordsHorn = NameBoneLordsHorn.GetCardInfo();
 		bonelordsHorn.mods.Add(new CardModificationInfo() { attackAdjustment = 2 });

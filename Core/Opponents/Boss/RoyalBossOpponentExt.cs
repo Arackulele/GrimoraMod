@@ -23,10 +23,6 @@ public class RoyalBossOpponentExt : BaseBossExt
 		yield return base.IntroSequence(encounter);
 
 		GrimoraAnimationController.Instance.SetHeadBool("face_happy", true);
-		yield return TextDisplayer.Instance.PlayDialogueEvent(
-			"RoyalBossPreIntro",
-			TextDisplayer.MessageAdvanceMode.Input
-		);
 
 		GrimoraAnimationController.Instance.bossSkull = RoyalBossSkull;
 		RoyalBossSkull.SetActive(true);
@@ -34,7 +30,6 @@ public class RoyalBossOpponentExt : BaseBossExt
 		yield return ShowBossSkull();
 
 		SetSceneEffectsShownRoyal();
-		yield return new WaitForSeconds(1f);
 
 		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput("Var, I see you made it to me ship challenger!");

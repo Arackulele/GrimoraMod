@@ -70,6 +70,40 @@ public class KayceeModLogicForDeathTouchPrevention
 }
 
 [HarmonyPatch]
+public class PlayableCardPatchesForGiant
+{
+	[HarmonyPostfix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetPassiveAttackBuffs))]
+	public static void CorrectDebuffEnemiesLogicForGiants(PlayableCard __instance, ref int __result)
+	{
+		if (__instance.OnBoard && __instance.Info.HasTrait(Trait.Giant))
+		{
+			List<CardSlot> slotsToTarget =
+				__instance.OpponentCard
+					? BoardManager.Instance.PlayerSlotsCopy
+					: BoardManager.Instance.OpponentSlotsCopy;
+
+			foreach (var slot in slotsToTarget.Where(slot => slot.Card is not null))
+			{
+				// if(!hasPrinted)
+				// 	Log.LogDebug($"[Giant PlayableCard Patch] Slot [{__instance.Slot.Index}] for stinky");
+
+				if (slot.Card.HasAbility(Ability.DebuffEnemy) && slot.opposingSlot.Card != __instance)
+				{
+					// __result is -1 right now
+					// G1 IS FIRST GIANT, G2 IS SECOND GIANT
+					// D IS THE CARD WITH STINKY
+					// G1 G1 G2 G2
+					//  x  x  D  X
+
+					// G1 SHOULD HAVE THE -1 REVERSED, BUT G2 SHOULD STILL HAVE -1 APPLIED TO ATTACK
+					__result += 1;
+				}
+			}
+		}
+	}
+}
+
+[HarmonyPatch]
 public class AddLogicForGiantStrikeAbility
 {
 	[HarmonyPostfix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetOpposingSlots))]

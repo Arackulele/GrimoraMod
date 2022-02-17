@@ -44,7 +44,11 @@ public class ConfigHelper
 	}
 
 	private ConfigEntry<int> _configBossesDefeated;
-	public int BossesDefeated => _configBossesDefeated.Value;
+	public int BossesDefeated
+	{
+		get => _configBossesDefeated.Value;
+		set => _configBossesDefeated.Value = value;
+	}
 
 	public bool isKayceeDead => BossesDefeated == 1;
 
@@ -209,6 +213,13 @@ public class ConfigHelper
 		_configBossesDefeated.Value = 0;
 		_configCurrentChessboardIndex.Value = 0;
 		ResetRemovedPieces();
+		Log.LogWarning($"Resetting active chessboard");
+		if(ChessboardMapExt.Instance is not null)
+		{
+			ChessboardMapExt.Instance.ActiveChessboard = null;
+			Log.LogWarning($"Resetting pieces");
+			ChessboardMapExt.Instance.pieces.Clear();
+		}
 	}
 
 	private void ResetConfigDataIfGrimoraHasNotReachedTable()

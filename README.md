@@ -24,6 +24,10 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ## Known Issues
 
+### Boss skull between fights doesn't reset colors
+
+- Unfortunately this one is a bit hard to track down, as the table colors get reset after each fight. Not sure why the boss skull doesn't have the color reset.
+
 ### Rare card choosing breaks/throws exceptions
 
 - The main culprit from what the team can tell, is that it's an issue with updating the asset bundles. The only recommendation we have now is to uninstall the mod completely, and redownload.
@@ -42,6 +46,26 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - Bonelord does what he wants.
 
 ## Update Notes
+
+### 2.6.6
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed softlock if boss skull is null as there was no null check
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue where `Stinky` sigil would debuff both twin giants. The current code handles `Trait.Giant` cards as if it was the moon and checks all slots, and not just opposing slots.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed softlock after defeating Grimora and chessboard does not load.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed Grimora queueing player cards that have died during second phase.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Flying` & `Submerge` combo not showing the card being submerged.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with a card having both `Strafe Push` and `Skin Crawler` where the card would force itself out of the other card's skin, causing a softlock. It is now no longer possible to receive the `Skin Crawler` sigil if the card has `Strafe Push` and vice versa.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added new Sawyer Boss Skull and Hammer model courtesy of `Pink#9824`.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed `Bonelord` from rare card pool entirely. Wasn't really meant to be playable, but hope anyone had fun while it lasted!
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Moved dialogue event `RoyalBossPreIntro` from Royal to Grimora as it fits better.
 
 ### 2.6.5 HOTFIX
 

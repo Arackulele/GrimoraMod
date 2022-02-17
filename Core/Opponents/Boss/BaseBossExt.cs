@@ -50,7 +50,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 
 	public static readonly Dictionary<Type, GameObject> BossMasksByType = new()
 	{
-		{ SawyerOpponent, ResourceBank.Get<GameObject>($"{PrefabPathMasks}/MaskTrader") },
+		{ SawyerOpponent, AssetUtils.GetPrefab<GameObject>("SawyerBossSkull") },
 		{ KayceeOpponent, AssetUtils.GetPrefab<GameObject>("KayceeBossSkull") },
 		// { RoyalOpponent, PrefabPathRoyalBossSkull }
 	};
@@ -77,18 +77,10 @@ public abstract class BaseBossExt : Part1BossOpponent
 			Log.LogDebug($"[{GetType()}] Creating skull");
 			GrimoraAnimationController.Instance.bossSkull = Instantiate(mask, GrimoraRightWrist.transform);
 			var bossSkullTransform = GrimoraBossSkull.transform;
-			if (Opponent is SawyerOpponent)
-			{
-				bossSkullTransform.localPosition = new Vector3(0.02f, 0.18f, 0.07f);
-				bossSkullTransform.localRotation = Quaternion.Euler(0, 0, 270);
-				bossSkullTransform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
-			}
-			else if (Opponent is KayceeOpponent)
-			{
-				bossSkullTransform.localPosition = new Vector3(-0.0044f, 0.18f, -0.042f);
-				bossSkullTransform.localRotation = Quaternion.Euler(85.85f, 227.76f, 262.77f);
-				bossSkullTransform.localScale = new Vector3(0.14f, 0.14f, 0.14f);
-			}
+
+			bossSkullTransform.localPosition = new Vector3(-0.0044f, 0.18f, -0.042f);
+			bossSkullTransform.localRotation = Quaternion.Euler(85.85f, 227.76f, 262.77f);
+			bossSkullTransform.localScale = new Vector3(0.14f, 0.14f, 0.14f);
 
 			try
 			{
@@ -112,16 +104,18 @@ public abstract class BaseBossExt : Part1BossOpponent
 		if (wasDefeated)
 		{
 			ConfigHelper.Instance.SetBossDefeatedInConfig(this);
+			if (ConfigHelper.Instance.BossesDefeated >= 4)
+			{
+				ConfigHelper.Instance.BossesDefeated = 0;
+			}
 
 			Log.LogDebug($"[{GetType()}] SaveFile is Grimora");
 
 			AudioController.Instance.PlaySound2D("glitch_error", MixerGroup.TableObjectsSFX);
 
-			if (GrimoraBossSkull is not null)
-			{
-				Log.LogDebug($"[{GetType()}] Glitching mask");
-				yield return HideBossSkull();
-			}
+			Log.LogDebug($"[{GetType()}] Glitching mask");
+			yield return HideBossSkull();
+
 
 			Log.LogDebug($"[{GetType()}] hiding skull");
 			GrimoraAnimationController.Instance.SetHeadTrigger("hide_skull");
@@ -172,11 +166,14 @@ public abstract class BaseBossExt : Part1BossOpponent
 
 	public IEnumerator HideBossSkull()
 	{
-		// Log.LogDebug($"[{GetType()}] Calling GlitchOutBossSkull");
-		GrimoraAnimationController.Instance.GlitchOutBossSkull();
+		if (GrimoraBossSkull is not null)
+		{
+			Log.LogDebug($"[{GetType()}] Calling GlitchOutBossSkull");
+			GrimoraAnimationController.Instance.GlitchOutBossSkull();
 
-		GrimoraAnimationController.Instance.headAnim.ResetTrigger(ShowSkull);
-		GrimoraAnimationController.Instance.SetHeadTrigger("hide_skull");
+			GrimoraAnimationController.Instance.headAnim.ResetTrigger(ShowSkull);
+			GrimoraAnimationController.Instance.SetHeadTrigger("hide_skull");
+		}
 
 		yield break;
 	}

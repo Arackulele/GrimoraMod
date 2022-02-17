@@ -276,7 +276,9 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		Ability randomSigil = AbilitiesToChoseRandomly
 			.Randomize()
 			.ToList()[SeededRandom.Range(0, AbilitiesToChoseRandomly.Count, RandomUtils.GenerateRandomSeed())];
-		while (card.HasAbility(randomSigil))
+		while (card.HasAbility(randomSigil)
+		       || card.HasAbility(Ability.StrafePush) && randomSigil == SkinCrawler.ability
+		       || card.HasAbility(SkinCrawler.ability) && randomSigil == Ability.StrafePush)
 		{
 			randomSigil = AbilitiesToChoseRandomly
 				.Randomize()

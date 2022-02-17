@@ -112,6 +112,12 @@ public class GravestoneCardAnimBaseClassPatches
 
 		GravestoneCardAnimationController controller = (GravestoneCardAnimationController)__instance;
 
+		if (hovering)
+		{
+			controller.Anim.ResetTrigger(Hover);
+			controller.Anim.SetTrigger(Hover);
+		}
+		
 		controller.Anim.SetBool(Hovering, hovering);
 
 		return false;

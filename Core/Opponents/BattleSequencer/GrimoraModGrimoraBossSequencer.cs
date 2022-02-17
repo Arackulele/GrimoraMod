@@ -78,7 +78,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer
 	)
 	{
-		return !card.OpponentCard;
+		return !card.OpponentCard && TurnManager.Instance.Opponent.NumLives == 3;
 	}
 
 	public override IEnumerator OnOtherCardDie(
@@ -108,8 +108,10 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 	{
 		if (_rng.NextBoolean())
 		{
-			TextDisplayer.Instance.ShowUntilInput("Only a few more turns before I can bring my army back...",
-				letterAnimation: TextDisplayer.LetterAnimation.None);
+			TextDisplayer.Instance.ShowUntilInput(
+				"Only a few more turns before I can bring my army back...",
+				letterAnimation: TextDisplayer.LetterAnimation.None
+			);
 		}
 
 		yield break;
