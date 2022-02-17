@@ -213,6 +213,10 @@ public class ConfigHelper
 		_configBossesDefeated.Value = 0;
 		_configCurrentChessboardIndex.Value = 0;
 		ResetRemovedPieces();
+		Log.LogWarning($"Resetting active chessboard");
+		ChessboardMapExt.Instance.ActiveChessboard = null;
+		Log.LogWarning($"Resetting pieces");
+		ChessboardMapExt.Instance.pieces.Clear();
 	}
 
 	private void ResetConfigDataIfGrimoraHasNotReachedTable()
