@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 		NewCard.Add(CardBuilder.Builder
 			.SetAbilities(BoneLordsReign.ability)
 			.SetBaseAttackAndHealth(4, 10)
-			.SetBoneCost(17)
+			.SetBoneCost(666)
 			.SetDescription("WHEN THE BONE LORD APPEARS, EVERY CREATURE WILL FALL.")
 			.SetNames(NameBonelord, "The Bone Lord")
 			.Build()
