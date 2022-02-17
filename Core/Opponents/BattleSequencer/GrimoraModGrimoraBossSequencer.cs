@@ -108,8 +108,10 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 	{
 		if (_rng.NextBoolean())
 		{
-			TextDisplayer.Instance.ShowUntilInput("Only a few more turns before I can bring my army back...",
-				letterAnimation: TextDisplayer.LetterAnimation.None);
+			TextDisplayer.Instance.ShowUntilInput(
+				"Only a few more turns before I can bring my army back...",
+				letterAnimation: TextDisplayer.LetterAnimation.None
+			);
 		}
 
 		yield break;
