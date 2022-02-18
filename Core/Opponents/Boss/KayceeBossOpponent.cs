@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
@@ -72,15 +72,20 @@ public class KayceeBossOpponent : BaseBossExt
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Draugr, bp_Draugr, bp_Draugr, bp_Draugr },
+			new() { bp_Draugr, bp_Draugr },
+			new() { bp_Draugr, bp_Draugr },
+			new() { bp_Skeleton },
 			new(),
-			new() { bp_Draugr, bp_Skeleton },
-			new(),
-			new() { bp_Skeleton, bp_Revenant, bp_Skeleton },
+			new() { bp_Skeleton, bp_Revenant, bp_Draugr },
 			new(),
 			new(),
 			new() { bp_Draugr, bp_Skeleton, bp_Draugr, bp_Revenant },
-			new() { bp_Skeleton, bp_Skeleton, bp_Skeleton, bp_Skeleton },
+			new() { bp_Skeleton, bp_Skeleton,  },
+			new() { bp_Skeleton },
+			new() { bp_Skeleton },
+			new() { bp_Skeleton },
+			new(),
+			new() { bp_Skeleton },
 		};
 
 		return blueprint;
