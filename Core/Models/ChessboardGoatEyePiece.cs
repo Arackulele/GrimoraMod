@@ -17,6 +17,13 @@ public class ChessboardGoatEyePiece : ChessboardPieceExt
 [HarmonyPatch(typeof(ChessboardMapNode), nameof(ChessboardMapNode.OnArriveAtNode))]
 public class GoatEyePatch
 {
+
+	private static readonly List<System.Type> PiecesToNotRotate = new()
+	{
+		typeof(ChessboardPlayerMarker),
+		typeof(ChessboardGoatEyePiece)
+	};
+
 	[HarmonyPostfix]
 	public static IEnumerator EyeFollowsPlayerLikeMario(IEnumerator enumerator)
 	{
@@ -40,9 +47,9 @@ public class GoatEyePatch
 		{
 			var node = ChessboardNavGrid.instance.zones[i, GrimoraSaveData.Data.gridY].GetComponent<ChessboardMapNode>();
 			if (node.OccupyingPiece is null) continue;
-			if (node.OccupyingPiece.GetType() != typeof(ChessboardPlayerMarker) && node.OccupyingPiece.GetType() != typeof(ChessboardGoatEyePiece))
+			if (!PiecesToNotRotate.Contains(node.OccupyingPiece.GetType()) || !node.OccupyingPiece.name.Contains("Boss"))
 			{
-				node.OccupyingPiece.TurnToFacePoint(PlayerMarker.Instance.transform.position, 0.2f);
+				node.OccupyingPiece.TurnToFacePoint(PlayerMarker.Instance.transform.position, 0.1f);
 			}
 		}
 	}
