@@ -439,10 +439,8 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 		var oldSequencer = cardStatObj.GetComponent<CardStatBoostSequencer>();
 
-		Log.LogDebug("Adding component");
 		var newSequencer = cardStatObj.AddComponent<ElectricChairSequencer>();
 
-		Log.LogDebug("Transferring old to new");
 		newSequencer.campfireLight = oldSequencer.campfireLight;
 		newSequencer.campfireLight.transform.localPosition = new Vector3(0, 6.75f, 0.63f);
 		newSequencer.campfireLight.color = new Color(0, 1, 1, 1);
@@ -472,7 +470,6 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		// this will throw an exception if we don't remove the specific renderer for fire anim
 		newSequencer.selectionSlot.specificRenderers.RemoveAt(1);
 
-		Log.LogDebug("Destroying old sequencer");
 		Destroy(oldSequencer);
 	}
 
