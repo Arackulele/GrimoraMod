@@ -111,8 +111,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		if (ConfigHelper.Instance.isHotReloadEnabled)
 		{
-			GameObject cardRow = GameObject.Find("CardRow");
-			if (cardRow is not null && cardRow.transform.Find("MenuCard_Grimora") is null)
+			Transform cardRow = MenuController.Instance.cardRow;
+			if (cardRow.Find("MenuCard_Grimora") is null)
 			{
 				MenuControllerPatches.CreateButton(MenuController.Instance);
 			}
