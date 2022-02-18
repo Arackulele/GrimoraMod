@@ -98,8 +98,6 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		}
 
 		ViewManager.Instance.SwitchToView(View.Default);
-
-		yield break;
 	}
 
 	private IEnumerator StartPlayerCardWeakeningPhase()
