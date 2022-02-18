@@ -46,8 +46,8 @@ public class GrimoraItemsManagerExt : ItemsManager
 			part3ItemsManager.hammerSlot.transform.SetParent(ext.transform);
 
 			float xVal = Harmony.HasAnyPatches("julianperge.inscryption.act1.increaseCardSlots") ? -8.75f : -7.5f;
-			ext.hammerSlot.gameObject.transform.localPosition = new Vector3(xVal, 0.81f, -0.48f);
-			ext.hammerSlot.gameObject.transform.rotation = Quaternion.Euler(270f, 315f, 0f);
+			ext.hammerSlot.gameObject.transform.localPosition = new Vector3(xVal, 1.25f, -0.48f);
+			ext.hammerSlot.gameObject.transform.rotation = Quaternion.Euler(0, 20, -90);
 		}
 
 		if (FindObjectOfType<Part3ItemsManager>() is not null)
@@ -73,20 +73,16 @@ public class AddNewHammerExt
 				Object.Destroy(__instance.Item.gameObject);
 			}
 
-			GameObject gameObject = Object.Instantiate(
-				ResourceBank.Get<GameObject>("Prefabs/Items/" + data.PrefabId),
+			Log.LogDebug($"Adding new HammerItemExt");
+			HammerItemExt grimoraHammer = Object.Instantiate(
+				AssetUtils.GetPrefab<GameObject>("GrimoraHammer"),
 				__instance.transform
-			);
-			gameObject.transform.localPosition = Vector3.zero;
-			var oldHammer = gameObject.GetComponent<Item>();
-			HammerItemExt ext = gameObject.AddComponent<HammerItemExt>();
-			ext.Data = oldHammer.Data;
-			__instance.Item = ext;
+			).AddComponent<HammerItemExt>();
+			Log.LogDebug($"Setting data to old hammer data");
+			grimoraHammer.Data = ResourceBank.Get<Item>("Prefabs/Items/" + data.PrefabId).Data;
+			__instance.Item = grimoraHammer;
 			__instance.Item.SetData(data);
-			__instance.Item.PlayEnterAnimation(true);
-
-			Log.LogDebug($"Destroying old HammerItem");
-			Object.Destroy(oldHammer);
+			__instance.Item.PlayEnterAnimation();
 			return false;
 		}
 
