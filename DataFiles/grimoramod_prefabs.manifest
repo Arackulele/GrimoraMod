@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 243542283
+CRC: 1677095094
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 7392e97effab100926fe1ef1415e1505
+    Hash: c439e4588ec29bf8dd805c9de774d081
   TypeTreeHash:
     serializedVersion: 2
     Hash: bc2f737821ec90d33cfdfb0a7a7aba7b
@@ -65,4 +65,5 @@ Assets:
 - Assets/GrimoraMod/Models/EnergyCells_Left.prefab
 - Assets/GrimoraMod/ChessboardPieces/Blocker_Royal.prefab
 - Assets/GrimoraMod/ChessboardPieces/ChessboardPiece_Boneyard.prefab
+- Assets/GrimoraMod/ChessboardPieces/ChessboardPiece_KayceeFigurine.prefab
 Dependencies: []
