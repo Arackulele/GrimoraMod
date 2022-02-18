@@ -330,11 +330,17 @@ public class GrimoraChessboard
 				{
 					ActiveBossType = BaseBossExt.OpponentTupleBySpecialId.GetValueSafe(specialEncounterId).Item1;
 					enemyPiece.blueprint = BaseBossExt.OpponentTupleBySpecialId[specialEncounterId].Item4;
-					if (ConfigHelper.Instance.BossesDefeated == 3)
+					int bossesDefeated = ConfigHelper.Instance.BossesDefeated;
+					switch (bossesDefeated)
 					{
-						// have to set the scale since the prefab is much larger
-						enemyPiece.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
-						enemyPiece.transform.Rotate(new Vector3(0, 215, 0));
+						case 3:
+							// have to set the scale since the Grimora anim prefab is much larger
+							enemyPiece.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+							enemyPiece.transform.Rotate(new Vector3(0, 215, 0));
+							break;
+						default:
+							enemyPiece.transform.localRotation = Quaternion.Euler(0, 90, 0);
+							break;
 					}
 				}
 				else
