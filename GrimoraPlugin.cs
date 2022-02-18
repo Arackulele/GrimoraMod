@@ -1,4 +1,3 @@
-global using Object = UnityEngine.Object;
 using System.Reflection;
 using APIPlugin;
 using BepInEx;
@@ -7,6 +6,7 @@ using DiskCardGame;
 using HarmonyLib;
 using Sirenix.Utilities;
 using UnityEngine;
+global using Object = UnityEngine.Object;
 
 namespace GrimoraMod;
 
@@ -30,32 +30,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	// Gets populated in CardBuilder.Build()
 	public static List<CardInfo> AllGrimoraModCards = new();
-
-	public static void SpawnParticlesOnCard(PlayableCard target, Texture2D tex, bool reduceY = false)
-	{
-		GravestoneCardAnimationController anim = target.Anim as GravestoneCardAnimationController;
-		GameObject gameObject = Instantiate<ParticleSystem>(anim.deathParticles).gameObject;
-		ParticleSystem particle = gameObject.GetComponent<ParticleSystem>();
-		particle.startColor = Color.white;
-		particle.GetComponent<ParticleSystemRenderer>().material =
-			new Material(particle.GetComponent<ParticleSystemRenderer>().material) { mainTexture = tex };
-
-		ParticleSystem.MainModule mainMod = particle.main;
-		mainMod.startColor = new ParticleSystem.MinMaxGradient(Color.white);
-		gameObject.gameObject.SetActive(true);
-		gameObject.transform.position = anim.deathParticles.transform.position;
-		gameObject.transform.localScale = anim.deathParticles.transform.localScale;
-		gameObject.transform.rotation = anim.deathParticles.transform.rotation;
-		if (reduceY)
-		{
-			particle.transform.position = new Vector3(
-				particle.transform.position.x,
-				particle.transform.position.y - 0.1f,
-				particle.transform.position.z);
-		}
-
-		Destroy(gameObject, 6f);
-	}
 
 	private void Awake()
 	{
@@ -140,7 +114,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			GameObject cardRow = GameObject.Find("CardRow");
 			if (cardRow is not null && cardRow.transform.Find("MenuCard_Grimora") is null)
 			{
-				StartScreenPatches.AddGrimoraModMenuCardButton(FindObjectOfType<StartScreenThemeSetter>());
+				MenuControllerPatches.CreateButton(MenuController.Instance);
 			}
 		}
 
@@ -172,6 +146,32 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		FindObjectsOfType<ChessboardPiece>().ForEach(_ => Destroy(_.gameObject));
 	}
 
+	public static void SpawnParticlesOnCard(PlayableCard target, Texture2D tex, bool reduceY = false)
+	{
+		GravestoneCardAnimationController anim = target.Anim as GravestoneCardAnimationController;
+		GameObject gameObject = Instantiate<ParticleSystem>(anim.deathParticles).gameObject;
+		ParticleSystem particle = gameObject.GetComponent<ParticleSystem>();
+		particle.startColor = Color.white;
+		particle.GetComponent<ParticleSystemRenderer>().material =
+			new Material(particle.GetComponent<ParticleSystemRenderer>().material) { mainTexture = tex };
+
+		ParticleSystem.MainModule mainMod = particle.main;
+		mainMod.startColor = new ParticleSystem.MinMaxGradient(Color.white);
+		gameObject.gameObject.SetActive(true);
+		gameObject.transform.position = anim.deathParticles.transform.position;
+		gameObject.transform.localScale = anim.deathParticles.transform.localScale;
+		gameObject.transform.rotation = anim.deathParticles.transform.rotation;
+		if (reduceY)
+		{
+			particle.transform.position = new Vector3(
+				particle.transform.position.x,
+				particle.transform.position.y - 0.1f,
+				particle.transform.position.z);
+		}
+
+		Destroy(gameObject, 6f);
+	}
+
 	private static void ResizeArtworkForVanillaBoneCards()
 	{
 		List<string> cardsToResizeArtwork = new List<string>
@@ -188,7 +188,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 				.SetBaseAttackAndHealth(cardInfo.baseAttack, cardInfo.baseHealth)
 				.SetBoneCost(cardInfo.bonesCost)
 				.SetDescription(cardInfo.description)
-				.SetNames("GrimoraMod_" + cardInfo.name, cardInfo.displayedName, (cardName == "Banshee" ? cardInfo.portraitTex : null))
+				.SetNames("GrimoraMod_" + cardInfo.name, cardInfo.displayedName,
+					(cardName == "Banshee" ? cardInfo.portraitTex : null))
 				.SetTribes(cardInfo.tribes.ToArray());
 
 			if (cardName == "Amoeba")
@@ -212,7 +213,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AllPrefabs = AssetUtils.LoadAssetBundle<GameObject>("grimoramod_prefabs");
 
 		AllSprites = AssetUtils.LoadAssetBundle<Sprite>("grimoramod_sprites");
-		
+
 		AllControllers = AssetUtils.LoadAssetBundle<RuntimeAnimatorController>("grimoramod_controller");
 	}
 }
