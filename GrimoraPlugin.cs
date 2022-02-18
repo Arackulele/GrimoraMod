@@ -114,7 +114,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			Transform cardRow = MenuController.Instance.cardRow;
 			if (cardRow.Find("MenuCard_Grimora") is null)
 			{
-				MenuControllerPatches.CreateButton(MenuController.Instance);
+				MenuController.Instance.cards.Add(MenuControllerPatches.CreateButton(MenuController.Instance));
 			}
 		}
 
