@@ -8,20 +8,13 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(DrawNewHand))]
 public class DrawNewHandPatch
 {
-	
 	[HarmonyPostfix, HarmonyPatch(nameof(DrawNewHand.OnResolveOnBoard))]
 	public static IEnumerator PostfixChangeViewAndCorrectVisuals(IEnumerator enumerator, DrawNewHand __instance)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
-		{
-			yield return enumerator;
-			yield break;
-		}
-		
 		ViewManager.Instance.SwitchToView(View.Hand);
 		yield return __instance.PreSuccessfulTriggerSequence();
 		yield return new WaitForSeconds(0.25f);
-		List<PlayableCard> cardsNotChoosingASlot 
+		List<PlayableCard> cardsNotChoosingASlot
 			= PlayerHand.Instance.CardsInHand.FindAll(x => x != PlayerHand.Instance.ChoosingSlotCard);
 		while (cardsNotChoosingASlot.Count > 0)
 		{
@@ -31,12 +24,19 @@ public class DrawNewHandPatch
 			PlayerHand.Instance.RemoveCardFromHand(cardsNotChoosingASlot[0]);
 			cardsNotChoosingASlot.RemoveAt(0);
 		}
+
 		yield return new WaitForSeconds(0.5f);
+		bool drawPile3DIsActive = CardDrawPiles3D.Instance is not null && CardDrawPiles3D.Instance.pile is not null;
 		for (int i = 0; i < 4; i++)
 		{
-			CardDrawPiles3D.Instance.pile.Draw();
+			if (drawPile3DIsActive)
+			{
+				CardDrawPiles3D.Instance.pile.Draw();
+			}
+
 			yield return CardDrawPiles.Instance.DrawCardFromDeck();
 		}
+
 		yield return __instance.LearnAbility(0.5f);
 	}
 }
