@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 212451077
+CRC: 1508587434
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 203349932adf8b3ec8cee980c48ce536
+    Hash: bbf75f91ab4df9542be37af18fe8456e
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -30,6 +30,7 @@ Assets:
 - Assets/GrimoraMod/Cards/DeadPets.png
 - Assets/GrimoraMod/Cards/Silbon_emission.png
 - Assets/GrimoraMod/Cards/BonePrince_emission.png
+- Assets/GrimoraMod/Cards/Ember_Spirit_emission.png
 - Assets/GrimoraMod/Cards/MudWorm.png
 - Assets/GrimoraMod/Cards/Boneseed.png
 - Assets/GrimoraMod/Cards/Flames.png
@@ -59,6 +60,7 @@ Assets:
 - Assets/GrimoraMod/Cards/PlagueDoctor.png
 - Assets/GrimoraMod/Cards/Obol.png
 - Assets/GrimoraMod/Cards/Skelemagus_emission.png
+- Assets/GrimoraMod/Cards/PlagueDoctor_emission.png
 - Assets/GrimoraMod/Cards/Mummy.png
 - Assets/GrimoraMod/Cards/ArmoredZombie.png
 - Assets/GrimoraMod/Cards/Summoner.png
