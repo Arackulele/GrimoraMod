@@ -9,6 +9,8 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 {
 	public static ChessboardEnemyPiece ActiveEnemyPiece;
 
+	private readonly List<CardInfo> _cardsThatHaveDiedThisMatch = new List<CardInfo>();
+
 	public override IEnumerator PreCleanUp()
 	{
 		if (!TurnManager.Instance.PlayerIsWinner())
@@ -82,6 +84,21 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		yield break;
 	}
 
+	public override bool RespondsToOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat,
+		PlayableCard killer)
+	{
+		return deathSlot.IsPlayerSlot;
+	}
+
+	public override IEnumerator OnOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat,
+		PlayableCard killer)
+	{
+		Log.LogDebug($"[GModBattleSequencer] Adding [{card.InfoName()}] to cardsThatHaveDiedThisGame. " +
+		             $"Current count [{_cardsThatHaveDiedThisMatch.Count + 1}]");
+		_cardsThatHaveDiedThisMatch.Add(card.Info);
+		yield break;
+	}
+
 	public override List<CardInfo> GetFixedOpeningHand()
 	{
 		Log.LogDebug($"[GetFixedOpeningHand] Getting randomized list for starting hand");
@@ -107,6 +124,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		{
 			// Log.LogDebug($"[GrimoraModBattleSequencer Adding enemy to config [{ActiveEnemyPiece.name}]");
 			ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
+			_cardsThatHaveDiedThisMatch.Clear();
 		}
 
 		yield break;
