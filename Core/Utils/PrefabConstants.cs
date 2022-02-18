@@ -12,10 +12,21 @@ public static class PrefabConstants
 
 	public static GameObject BoneyardFigurine = AssetUtils.GetPrefab<GameObject>("ChessboardPiece_Boneyard");
 
-	public static ChessboardEnemyPiece BossPiece =
-		ResourceBank.Get<ChessboardEnemyPiece>($"{PathChessboardMap}/BossFigurine");
+	#region BossPieces
 
-	public static GameObject KayceeBossPiece = AssetUtils.GetPrefab<GameObject>("ChessboardPiece_KayceeFigurine");
+	public static readonly GameObject BossPieceGrimora
+		= ResourceBank.Get<GameObject>("Prefabs/Opponents/Grimora/GrimoraAnim");
+
+	public static readonly GameObject BossPieceRoyal
+		= ResourceBank.Get<GameObject>($"{PathChessboardMap}/BossFigurine");
+
+	public static readonly GameObject BossPieceKaycee
+		= AssetUtils.GetPrefab<GameObject>("ChessboardPiece_KayceeFigurine");
+
+	public static readonly GameObject BossPieceSawyer
+		= AssetUtils.GetPrefab<GameObject>("ChessboardPiece_SawyerFigurine");
+
+	#endregion
 
 	public static ChessboardChestPiece ChestPiece =
 		ResourceBank.Get<ChessboardChestPiece>($"{PathChessboardMap}/ChessboardChestPiece");
@@ -45,7 +56,7 @@ public static class PrefabConstants
 	public static GameObject BoneyardGrave = AssetUtils.GetPrefab<GameObject>("BoneyardBurialGrave");
 
 	public static GameObject ElectricChair = AssetUtils.GetPrefab<GameObject>("ChessboardPiece_ElectricChair");
-	
+
 	public static GameObject ElectricChairForSelectionSlot = AssetUtils.GetPrefab<GameObject>("ElectricChairV2");
 
 	public static Material WoodenBoxMaterial =
