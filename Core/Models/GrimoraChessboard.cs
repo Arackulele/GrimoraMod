@@ -24,7 +24,8 @@ public class GrimoraChessboard
 			},
 			{
 				typeof(ChessboardCardRemovePiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.CardRemovalFigurine, GetCardRemovalNodes)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.CardRemovalFigurine,
+					GetCardRemovalNodes)
 			},
 			{
 				typeof(ChessboardChestPiece),
@@ -218,12 +219,14 @@ public class GrimoraChessboard
 		GameObject prefabToUse = null;
 		if (bossName.IsNullOrWhitespace())
 		{
-			prefabToUse = BaseBossExt.OpponentTupleBySpecialId[GetBossSpecialIdForRegion()].Item3;
+			bossName = GetBossSpecialIdForRegion();
+			prefabToUse = BaseBossExt.OpponentTupleBySpecialId[bossName].Item3;
 		}
 		else
 		{
 			prefabToUse = PrefabConstants.BossPiece.gameObject;
 		}
+
 		int newX = x == -1 ? BossNode.GridX : x;
 		int newY = x == -1 ? BossNode.GridY : y;
 		return CreateChessPiece<ChessboardEnemyPiece>(
