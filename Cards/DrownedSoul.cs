@@ -1,26 +1,20 @@
-﻿using APIPlugin;
+using APIPlugin;
 using DiskCardGame;
 
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameDrownedSoul = "ara_DrownedSoul";
+	public const string NameDrownedSoul = "GrimoraMod_DrownedSoul";
 
-	private void AddAra_DrownedSoul()
+	private void Add_DrownedSoul()
 	{
-		List<Ability> abilities = new List<Ability>
-		{
-			Ability.Deathtouch,
-			Ability.Submerge
-		};
-
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(abilities)
+			.SetAbilities(Ability.Deathtouch, Ability.Submerge)
 			.SetBaseAttackAndHealth(1, 1)
-			.SetBoneCost(4)
-			.SetDescription("Going into that well wasn't the best idea...")
+			.SetDescription("GOING INTO THAT WELL WASN'T THE BEST IDEA...")
+			.SetEnergyCost(5)
 			.SetNames(NameDrownedSoul, "Drowned Soul")
 			.Build()
 		);

@@ -5,15 +5,16 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameBonePrince = "ara_BonePrince";
+	public const string NameBonePrince = "GrimoraMod_BonePrince";
 
-	private void AddAra_BonePrince()
+	private void Add_BonePrince()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetBaseAttackAndHealth(2, 1)
 			.SetBoneCost(1)
-			.SetNames(NameBonePrince, "Bone Prince")
+			.SetDescription("MY, WHAT A LOVELY PRINCE!")
 			.SetMetaCategories(CardMetaCategory.GBCPlayable)
+			.SetNames(NameBonePrince, "Bone Prince")
 			.Build()
 		);
 	}

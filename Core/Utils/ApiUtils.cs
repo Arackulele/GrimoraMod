@@ -1,21 +1,25 @@
-﻿using System.Reflection;
+using System.Reflection;
 using APIPlugin;
 using DiskCardGame;
+using Sirenix.Utilities;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod
 {
 	public static class ApiUtils
 	{
-		#region AbilityUtils
-
 		public static AbilityInfo CreateInfoWithDefaultSettings(
-			string rulebookName, string rulebookDescription, int powerLevel = 0
+			string rulebookName, string rulebookDescription, bool activated
 		)
 		{
 			AbilityInfo info = ScriptableObject.CreateInstance<AbilityInfo>();
-			info.powerLevel = powerLevel;
-			info.rulebookName = rulebookName;
+			info.powerLevel = 0;
+			info.activated = activated;
+			// Pascal split will make names like "AreaOfEffectStrike" => "Area Of Effect Strike" 
+			// "Possessive" => "Possessive" 
+			info.rulebookName = rulebookName.Contains(" ") ? rulebookName : rulebookName.SplitPascalCase();
+			Log.LogDebug($"[CreateAbility] Rulebook name is [{info.rulebookName}]");
 			info.rulebookDescription = rulebookDescription;
 			info.metaCategories = new List<AbilityMetaCategory>()
 			{
@@ -26,37 +30,20 @@ namespace GrimoraMod
 		}
 
 		public static NewAbility CreateAbility<T>(
-			byte[] texture,
-			string rulebookName,
 			string rulebookDescription,
-			int powerLevel = 0
+			string rulebookName = null,
+			bool activated = false,
+			Texture rulebookIcon = null
 		) where T : AbilityBehaviour
 		{
-			return CreateAbility<T>(
-				ImageUtils.LoadTextureFromBytes(texture),
-				rulebookName,
-				rulebookDescription,
-				powerLevel
-			);
+			rulebookName ??= typeof(T).Name;
+			Texture icon = rulebookIcon
+				? rulebookIcon 
+				: AssetUtils.GetPrefab<Texture>("ability_" + typeof(T).Name); 
+			return CreateAbility<T>(CreateInfoWithDefaultSettings(rulebookName, rulebookDescription, activated), icon);
 		}
 
-		public static NewAbility CreateAbility<T>(
-			Texture texture,
-			string rulebookName,
-			string rulebookDescription,
-			int powerLevel = 0
-		) where T : AbilityBehaviour
-		{
-			return CreateAbility<T>(
-				CreateInfoWithDefaultSettings(rulebookName, rulebookDescription, powerLevel),
-				texture
-			);
-		}
-
-		private static NewAbility CreateAbility<T>(
-			AbilityInfo info,
-			Texture texture
-		) where T : AbilityBehaviour
+		private static NewAbility CreateAbility<T>(AbilityInfo info, Texture texture) where T : AbilityBehaviour
 		{
 			Type type = typeof(T);
 			// instantiate
@@ -76,9 +63,7 @@ namespace GrimoraMod
 
 		public static AbilityIdentifier GetAbilityId(string rulebookName)
 		{
-			return AbilityIdentifier.GetID("grimora_test", rulebookName);
+			return AbilityIdentifier.GetID(GUID, rulebookName);
 		}
-
-		#endregion
 	}
 }

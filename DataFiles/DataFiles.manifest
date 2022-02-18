@@ -1,0 +1,25 @@
+ManifestFileVersion: 0
+CRC: 3885997583
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: grimoramod_sprites
+      Dependencies: {}
+    Info_1:
+      Name: grimoramod_prefabs
+      Dependencies: {}
+    Info_2:
+      Name: grimoramod_mats
+      Dependencies: {}
+    Info_3:
+      Name: grimoramod_abilities
+      Dependencies: {}
+    Info_4:
+      Name: scp_universe_abilities
+      Dependencies: {}
+    Info_5:
+      Name: scp_universe_sprites_cards
+      Dependencies: {}
+    Info_6:
+      Name: grimoramod_controller
+      Dependencies: {}

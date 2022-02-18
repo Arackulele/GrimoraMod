@@ -1,26 +1,20 @@
-﻿using APIPlugin;
+using APIPlugin;
 using DiskCardGame;
 
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NamePoltergeist = "ara_Poltergeist";
+	public const string NamePoltergeist = "GrimoraMod_Poltergeist";
 
-	private void AddAra_Poltergeist()
+	private void Add_Poltergeist()
 	{
-		List<Ability> abilities = new List<Ability>
-		{
-			Ability.Flying,
-			Ability.Submerge
-		};
-
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(abilities)
+			.SetAbilities(Ability.Flying, Ability.Submerge)
 			.SetBaseAttackAndHealth(1, 1)
-			.SetEnergyCost(2)
-			.SetDescription("A skilled haunting ghost. Handle with caution.")
+			.SetEnergyCost(3)
+			.SetDescription("A SKILLED HAUNTING GHOST. HANDLE WITH CAUTION.")
 			.SetNames(NamePoltergeist, "Poltergeist")
 			.Build()
 		);

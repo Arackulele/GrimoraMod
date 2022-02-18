@@ -7,6 +7,7 @@ public class ChessNode
 	public int JsonValue;
 	public readonly bool IsBlocker;
 	public readonly bool isBoss;
+	public readonly bool isCardRemoval;
 	public readonly bool isChest;
 	public readonly bool isEnemy;
 	public readonly bool IsPath;
@@ -34,6 +35,9 @@ public class ChessNode
 				break;
 			case 4:
 				isBoss = true;
+				break;
+			case 5:
+				isCardRemoval = true;
 				break;
 			default:
 				isPlayer = true;

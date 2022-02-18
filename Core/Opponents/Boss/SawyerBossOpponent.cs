@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
@@ -8,35 +8,33 @@ namespace GrimoraMod;
 
 public class SawyerBossOpponent : BaseBossExt
 {
-	public const string SpecialId = "SawyerBoss";
-
 	public override StoryEvent EventForDefeat => StoryEvent.FactoryCuckooClockAppeared;
 
 	public override Type Opponent => SawyerOpponent;
+
+	public override string SpecialEncounterId => "SawyerBoss";
 
 	public override string DefeatedPlayerDialogue => "My dogs will enjoy your bones!";
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
-		AudioController.Instance.SetLoopAndPlay("gbc_battle_undead");
 		AudioController.Instance.SetLoopAndPlay("gbc_battle_undead", 1);
-		base.SpawnScenery("CratesTableEffects");
-		yield return new WaitForSeconds(0.5f);
-		// TurnManager.Instance.Opponent.NumTurnsTaken;
-		// TurnManager.Instance.Opponent.TurnPlan;
+		SpawnScenery("CratesTableEffects");
+		yield return new WaitForSeconds(0.1f);
 
 		ViewManager.Instance.SwitchToView(View.Default);
-		yield return new WaitForSeconds(1f);
 
 		SetSceneEffectsShownSawyer();
 
 		yield return base.IntroSequence(encounter);
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(0.1f);
 
-		yield return base.FaceZoomSequence();
+		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
-			"Look away, Look away! If you want to fight, get it over quick!", -0.65f, 0.4f, Emotion.Neutral,
-			TextDisplayer.LetterAnimation.Jitter, DialogueEvent.Speaker.Single, null, true);
+			"Look away, Look away! If you want to fight, get it over quick!",
+			-0.65f,
+			0.4f
+		);
 
 		ViewManager.Instance.SwitchToView(View.Default);
 		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
@@ -60,39 +58,41 @@ public class SawyerBossOpponent : BaseBossExt
 	public override IEnumerator StartNewPhaseSequence()
 	{
 		{
-			base.InstantiateBossBehaviour<SawyerBehaviour>();
+			InstantiateBossBehaviour<SawyerBehaviour>();
 
-			yield return base.FaceZoomSequence();
+			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"Please, I don't want to fight anymore! Get it over with!",
 				-0.65f,
-				0.4f,
-				Emotion.Neutral,
-				TextDisplayer.LetterAnimation.Jitter,
-				DialogueEvent.Speaker.Single, null, true
+				0.4f
 			);
+			yield return ClearQueue();
+			yield return ClearBoard();
 
-
-			var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-			blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
-			{
-				new() { bp_Skeleton },
-				new() { bp_BoneSerpent },
-				new() { },
-				new() { bp_BoneSerpent },
-				new() { },
-				new() { bp_UndeadWolf },
-				new() { },
-				new() { bp_BoneSerpent },
-				new() { bp_BoneSerpent },
-				new() { },
-				new() { bp_UndeadWolf },
-				new() { bp_BoneSerpent, bp_BoneSerpent }
-			};
-
-			yield return ReplaceBlueprintCustom(blueprint);
+			yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
 		}
-		yield break;
+	}
+
+	public EncounterBlueprintData BuildNewPhaseBlueprint()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Bonehound, bp_Bonehound },
+			new(),
+			new(),
+			new(),
+			new() { bp_Bonehound, bp_Draugr, bp_Draugr },
+			new(),
+			new(),
+			new(),
+			new() { bp_Bonehound, bp_Draugr, bp_Draugr },
+			new(),
+			new(),
+			new() { bp_Bonehound },
+		};
+
+		return blueprint;
 	}
 
 	public override IEnumerator OutroSequence(bool wasDefeated)
@@ -102,23 +102,17 @@ public class SawyerBossOpponent : BaseBossExt
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"Thanks for getting it over with, and don't ever return!",
 				-0.65f,
-				0.4f,
-				Emotion.Neutral,
-				TextDisplayer.LetterAnimation.Jitter,
-				DialogueEvent.Speaker.Single, null, true
+				0.4f
 			);
 
 			yield return new WaitForSeconds(0.5f);
 			yield return base.OutroSequence(true);
 
-			yield return base.FaceZoomSequence();
+			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"The next area won't be so easy. I asked Royal to do his best at making it impossible.",
 				-0.65f,
-				0.4f,
-				Emotion.Neutral,
-				TextDisplayer.LetterAnimation.Jitter,
-				DialogueEvent.Speaker.Single, null, true);
+				0.4f);
 		}
 		else
 		{
@@ -126,14 +120,8 @@ public class SawyerBossOpponent : BaseBossExt
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				DefeatedPlayerDialogue,
 				-0.65f,
-				0.4f,
-				Emotion.Neutral,
-				TextDisplayer.LetterAnimation.Jitter,
-				DialogueEvent.Speaker.Single, null, true
+				0.4f
 			);
 		}
-
-
-		yield break;
 	}
 }

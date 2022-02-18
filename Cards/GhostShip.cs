@@ -5,22 +5,16 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameGhostShip = "ara_GhostShip";
+	public const string NameGhostShip = "GrimoraMod_GhostShip";
 
-	private void AddAra_GhostShip()
+	private void Add_GhostShip()
 	{
-		List<Ability> abilities = new List<Ability>
-		{
-			Ability.SkeletonStrafe,
-			Ability.Submerge
-		};
-
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(abilities)
+			.SetAbilities(Ability.SkeletonStrafe, Ability.Submerge)
 			.SetBaseAttackAndHealth(0, 1)
 			.SetBoneCost(4)
-			.SetDescription("The skeleton army never rests.")
+			.SetDescription("THE SKELETON ARMY NEVER RESTS.")
 			.SetNames(NameGhostShip, "Ghost Ship")
 			.Build()
 		);

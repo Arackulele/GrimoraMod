@@ -1,0 +1,23 @@
+ManifestFileVersion: 0
+CRC: 359967258
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 0c7d52d0b49b792244a8c55c8608fb8b
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 22357172b8cea85847937e8f62d0c077
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/GrimoraMod/Materials/BoneyardBurialShovel.mat
+- Assets/GrimoraMod/Materials/ElectricChair_Stat_AbilityBoost.mat
+- Assets/GrimoraMod/Materials/StatBoostBoneyard.mat
+Dependencies: []

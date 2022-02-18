@@ -5,16 +5,16 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameObol = "ara_Obol";
+	public const string NameObol = "GrimoraMod_Obol";
 
-	private void AddAra_Obol()
+	private void Add_Obol()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(Ability.Sharp)
-			.SetBaseAttackAndHealth(0, 6)
-			.SetEnergyCost(3)
-			.SetDescription("Going into that well wasn't the best idea...")
+			.SetAbilities(Ability.Reach, Ability.Sharp)
+			.SetBaseAttackAndHealth(0, 3)
+			.SetBoneCost(3)
+			.SetDescription("THE KEY TO EVERYTHING, SOMEHOW.")
 			.SetNames(NameObol, "Ancient Obol")
 			.Build()
 		);
