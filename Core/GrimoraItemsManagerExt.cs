@@ -46,8 +46,8 @@ public class GrimoraItemsManagerExt : ItemsManager
 			part3ItemsManager.hammerSlot.transform.SetParent(ext.transform);
 
 			float xVal = Harmony.HasAnyPatches("julianperge.inscryption.act1.increaseCardSlots") ? -8.75f : -7.5f;
-			ext.hammerSlot.gameObject.transform.localPosition = new Vector3(xVal, 0.81f, -0.48f);
-			ext.hammerSlot.gameObject.transform.rotation = Quaternion.Euler(270f, 315f, 0f);
+			ext.hammerSlot.gameObject.transform.localPosition = new Vector3(xVal, 1.25f, -0.48f);
+			ext.hammerSlot.gameObject.transform.rotation = Quaternion.Euler(0, 20, -90);
 		}
 
 		if (FindObjectOfType<Part3ItemsManager>() is not null)
@@ -73,23 +73,48 @@ public class AddNewHammerExt
 				Object.Destroy(__instance.Item.gameObject);
 			}
 
-			GameObject gameObject = Object.Instantiate(
-				ResourceBank.Get<GameObject>("Prefabs/Items/" + data.PrefabId),
+			Log.LogDebug($"Adding new HammerItemExt");
+			HammerItemExt grimoraHammer = Object.Instantiate(
+				AssetUtils.GetPrefab<GameObject>("GrimoraHammer"),
 				__instance.transform
-			);
-			gameObject.transform.localPosition = Vector3.zero;
-			var oldHammer = gameObject.GetComponent<Item>();
-			HammerItemExt ext = gameObject.AddComponent<HammerItemExt>();
-			ext.Data = oldHammer.Data;
-			__instance.Item = ext;
+			).AddComponent<HammerItemExt>();
+			Log.LogDebug($"Setting data to old hammer data");
+			grimoraHammer.Data = ResourceBank.Get<Item>("Prefabs/Items/" + data.PrefabId).Data;
+			__instance.Item = grimoraHammer;
 			__instance.Item.SetData(data);
-			__instance.Item.PlayEnterAnimation(true);
-
-			Log.LogDebug($"Destroying old HammerItem");
-			Object.Destroy(oldHammer);
+			__instance.Item.PlayEnterAnimation();
 			return false;
 		}
 
 		return true;
+	}
+}
+
+[HarmonyPatch(typeof(FirstPersonAnimationController), nameof(FirstPersonAnimationController.SpawnFirstPersonAnimation))]
+public class FirstPersonHammerPatch
+{
+	[HarmonyPrefix]
+	public static bool InitHammerExtAfter(
+		FirstPersonAnimationController __instance,
+		ref GameObject __result,
+		string prefabName,
+		Action<int> keyframesCallback = null
+	)
+	{
+		if (GrimoraSaveUtil.isNotGrimora || !prefabName.Contains("FirstPersonHammer"))
+		{
+			return true;
+		}
+
+		Log.LogDebug($"[FirstPersonController] Creating new grimora first person hammer");
+		GameObject gameObject = Object.Instantiate(
+			AssetUtils.GetPrefab<GameObject>("FirstPersonGrimoraHammer"),
+			__instance.pixelCamera.transform
+		);
+		gameObject.transform.localPosition = Vector3.zero;
+		gameObject.transform.localRotation = Quaternion.identity;
+
+		__result = gameObject;
+		return false;
 	}
 }

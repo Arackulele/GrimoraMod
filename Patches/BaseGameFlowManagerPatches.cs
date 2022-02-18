@@ -29,17 +29,9 @@ public class BaseGameFlowManagerPatches
 
 		Log.LogDebug($"[GameFlowManager] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");
 
-		PrefabConstants.GrimoraPlayableCard
-			.transform.Find("SkeletonAttackAnim").GetComponent<Animator>().runtimeAnimatorController = SkeletonArmController;
-		PrefabConstants.GrimoraPlayableCard
-			.GetComponent<GravestoneCardAnimationController>().Anim.runtimeAnimatorController = GraveStoneController;
-
-		PrefabConstants.GrimoraSelectableCard
-			.GetComponent<GravestoneCardAnimationController>().Anim.runtimeAnimatorController = GraveStoneController;
-
 		DisableAttackAndHealthStatShadows();
 
-		CardSpawner.Instance.giantPlayableCardPrefab = PrefabConstants.GrimoraPlayableCard;
+		SetupPlayableAndSelectableCardPrefabs();
 
 		ChessboardMapExt.ChangeChessboardToExtendedClass();
 
@@ -64,6 +56,19 @@ public class BaseGameFlowManagerPatches
 		// AddBoonLordBoonConsumable();
 
 		// AddCustomEnergy();
+	}
+
+	private static void SetupPlayableAndSelectableCardPrefabs()
+	{
+		PrefabConstants.GrimoraPlayableCard
+			.transform.Find("SkeletonAttackAnim").GetComponent<Animator>().runtimeAnimatorController = SkeletonArmController;
+
+		PrefabConstants.GrimoraPlayableCard
+			.GetComponent<GravestoneCardAnimationController>().Anim.runtimeAnimatorController = GraveStoneController;
+		PrefabConstants.GrimoraSelectableCard
+			.GetComponent<GravestoneCardAnimationController>().Anim.runtimeAnimatorController = GraveStoneController;
+
+		CardSpawner.Instance.giantPlayableCardPrefab = PrefabConstants.GrimoraPlayableCard;
 	}
 
 	private static void AddCardSelectorObjectForTutor()
