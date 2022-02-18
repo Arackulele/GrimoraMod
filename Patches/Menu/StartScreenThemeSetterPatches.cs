@@ -39,16 +39,14 @@ public class StartScreenThemeSetterPatches
 		// GrimoraPlugin.Log.LogDebug("Finding MenuCard_Continue gameObject");
 		MenuCard menuCardGrimora = Object.Instantiate(
 			ResourceBank.Get<MenuCard>("Prefabs/StartScreen/StartScreenMenuCard"),
+			new Vector3(1.378f, -0.77f ,0),
+			Quaternion.identity,
 			cardRow.transform
 		);
-
-		menuCardGrimora.GetComponent<SpriteRenderer>().sprite = AssetUtils.GetPrefab<Sprite>("MenuCard");
-
+		MenuController.Instance.cards.Add(menuCardGrimora);
 		menuCardGrimora.name = "MenuCard_Grimora";
 
-		menuCardGrimora.StartPosition = new Vector2(1.378f, 0f);
-		menuCardGrimora.targetPosition = new Vector2(1.378f, 0f);
-		menuCardGrimora.rotationCenter = new Vector2(1.378f, 0f);
+		menuCardGrimora.GetComponent<SpriteRenderer>().sprite = AssetUtils.GetPrefab<Sprite>("MenuCard");
 		menuCardGrimora.menuAction = MenuAction.Continue;
 		menuCardGrimora.titleText = "Start Grimora Mod";
 		menuCardGrimora.titleSprite = AssetUtils.GetPrefab<Sprite>("menutext_grimora_mod");

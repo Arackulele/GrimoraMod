@@ -24,7 +24,7 @@ public static class RandomUtils
 
 		while (cardChoices.Count < MaxChoices)
 		{
-			var choice = randomizedChoices[SeededRandom.Range(0, randomizedChoices.Count, seed++)];
+			var choice = randomizedChoices.GetRandomItem();
 			if (cardChoices.Exists(_ => _.info.name.Equals(choice.info.name)))
 			{
 				randomizedChoices.Remove(choice);
@@ -42,13 +42,6 @@ public static class RandomUtils
 
 	public static int GenerateRandomSeed()
 	{
-		int seedRng = UnityEngine.Random.RandomRangeInt(int.MinValue, int.MaxValue);
-		return SeededRandom.Range(int.MinValue, int.MaxValue, seedRng);
-	}
-	
-	public static int GenerateRandomSeed(IReadOnlyCollection<CardInfo> cardInfos)
-	{
-		int seedRng = UnityEngine.Random.RandomRangeInt(int.MinValue, int.MaxValue);
-		return SeededRandom.Range(0, cardInfos.Count, seedRng);
+		return SaveManager.SaveFile.GetCurrentRandomSeed() + GlobalTriggerHandler.Instance.NumTriggersThisBattle;
 	}
 }

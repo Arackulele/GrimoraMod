@@ -166,18 +166,15 @@ public class BaseGameFlowManagerPatches
 			resourceEnergy.baseCellColor = grimoraTextColor;
 			resourceEnergy.highlightedCellColor = new Color(1, 1, 0.23f);
 
-			// Log.LogDebug($"[AddEnergyDrone] Disabling animation");
 			Animator animator = resourceEnergy.GetComponentInChildren<Animator>();
 			animator.enabled = false;
 
 			Transform moduleEnergy = animator.transform.GetChild(0);
-			// Log.LogDebug($"[AddEnergyDrone] Getting module energy and setting mesh to null");
 			moduleEnergy.gameObject.GetComponent<MeshFilter>().mesh = null;
 
 			for (int i = 1; i < 7; i++)
 			{
 				Transform energyCell = moduleEnergy.GetChild(i);
-				// Log.LogDebug($"[AddEnergyDrone] Energy cell [{energyCell.name}]");
 				energyCell.gameObject.GetComponent<MeshFilter>().mesh = null;
 				var energyCellCase = energyCell.GetChild(0);
 				energyCellCase.GetChild(0).GetComponent<MeshRenderer>().material.SetColor(EmissionColor, grimoraTextColor);
@@ -185,9 +182,7 @@ public class BaseGameFlowManagerPatches
 				energyCellCase.GetChild(2).GetComponent<MeshFilter>().mesh = null;
 			}
 
-			// Log.LogDebug($"[AddEnergyDrone] Setting Connector inactive");
 			Object.Destroy(moduleEnergy.Find("Connector").gameObject);
-			// Log.LogDebug($"[AddEnergyDrone] Setting Propellers inactive");
 			resourceEnergy.emissiveRenderers.Clear();
 			Object.Destroy(moduleEnergy.Find("Propellers").gameObject);
 		}
@@ -200,7 +195,7 @@ public class BaseGameFlowManagerPatches
 		int frankNSteinCount = grimoraDeck.Count(info => info.name == "FrankNStein");
 		if (grimoraDeck.Count == 5 && graveDiggerCount == 3 && frankNSteinCount == 2)
 		{
-			Log.LogDebug($"[ChangeStartDeckIfNotAlreadyChanged] Starter deck needs reset");
+			Log.LogWarning($"[ChangeStartDeckIfNotAlreadyChanged] Starter deck needs reset");
 			GrimoraSaveData.Data.Initialize();
 		}
 	}
@@ -212,14 +207,11 @@ public class BaseGameFlowManagerPatches
 			// DeckReviewSequencer reviewSequencer = deckReviewSequencerObj.GetComponent<DeckReviewSequencer>();
 			SelectableCardArray cardArray = DeckReviewSequencer.Instance.GetComponentInChildren<SelectableCardArray>();
 			cardArray.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
-			Log.LogDebug($"[AddDeckReviewSequencerToScene] Added deck review sequencer");
 		}
 	}
 
 	private static void AddRareCardSequencerToScene()
 	{
-		// GrimoraPlugin.Log.LogDebug($"Creating RareCardChoiceSelector");
-
 		if (SpecialNodeHandler.Instance is null)
 		{
 			return;
@@ -234,14 +226,9 @@ public class BaseGameFlowManagerPatches
 
 		RareCardChoicesSequencer sequencer = rareCardChoicesSelector.GetComponent<RareCardChoicesSequencer>();
 		sequencer.deckPile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
-
-		// GrimoraPlugin.Log.LogDebug($"-> Setting RareCardChoicesSequencer choice generator to Part1RareChoiceGenerator");
 		sequencer.choiceGenerator = rareCardChoicesSelector.AddComponent<GrimoraRareChoiceGenerator>();
-
-		// GrimoraPlugin.Log.LogDebug($"-> Setting RareCardChoicesSequencer selectableCardPrefab to SelectableCard_Grimora");
 		sequencer.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
 
-		// GrimoraPlugin.Log.LogDebug($"-> Setting SpecialNodeHandler rareCardChoiceSequencer to sequencer");
 		SpecialNodeHandler.Instance.rareCardChoiceSequencer = sequencer;
 		Log.LogDebug($"[AddRareCardSequencerToScene] Finished adding GrimoraRareChoiceGenerator");
 	}
