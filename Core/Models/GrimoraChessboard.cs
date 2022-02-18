@@ -1,5 +1,6 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -150,7 +151,7 @@ public class GrimoraChessboard
 
 	public void SetupBoard()
 	{
-		PlaceBossPiece(GetBossSpecialIdForRegion());
+		PlaceBossPiece();
 		PlacePieces<ChessboardBlockerPieceExt>();
 		PlacePieces<ChessboardBoneyardPiece>();
 		PlacePieces<ChessboardCardRemovePiece>();
@@ -212,13 +213,19 @@ public class GrimoraChessboard
 
 	#region PlacingPieces
 
-	public ChessboardEnemyPiece PlaceBossPiece(string bossName, int x = -1, int y = -1)
+	public ChessboardEnemyPiece PlaceBossPiece(string bossName = "", int x = -1, int y = -1)
 	{
+		GameObject prefabToUse = null;
+		if (bossName.IsNullOrWhitespace())
+		{
+			prefabToUse = BaseBossExt.OpponentTupleBySpecialId[GetBossSpecialIdForRegion()].Item3;
+		}
+		else
+		{
+			prefabToUse = PrefabConstants.BossPiece.gameObject;
+		}
 		int newX = x == -1 ? BossNode.GridX : x;
 		int newY = x == -1 ? BossNode.GridY : y;
-		GameObject prefabToUse = ConfigHelper.Instance.BossesDefeated == 3
-			? ResourceBank.Get<GameObject>("Prefabs/Opponents/Grimora/GrimoraAnim")
-			: PrefabConstants.BossPiece.gameObject;
 		return CreateChessPiece<ChessboardEnemyPiece>(
 			prefabToUse,
 			newX,
@@ -291,7 +298,6 @@ public class GrimoraChessboard
 
 		piece.name = CreateNameOfPiece<T>(specialEncounterId, coordName);
 
-		// Log.LogDebug($"[CreateChessPiece] {piece.name}");
 		ChessboardMapExt.Instance.pieces.Add(piece);
 		return (T)piece;
 	}
@@ -323,7 +329,7 @@ public class GrimoraChessboard
 				if (specialEncounterId.Contains("Boss"))
 				{
 					ActiveBossType = BaseBossExt.OpponentTupleBySpecialId.GetValueSafe(specialEncounterId).Item1;
-					enemyPiece.blueprint = BaseBossExt.OpponentTupleBySpecialId[specialEncounterId].Item3;
+					enemyPiece.blueprint = BaseBossExt.OpponentTupleBySpecialId[specialEncounterId].Item4;
 					if (ConfigHelper.Instance.BossesDefeated == 3)
 					{
 						// have to set the scale since the prefab is much larger

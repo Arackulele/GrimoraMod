@@ -7,37 +7,50 @@ namespace GrimoraMod;
 
 public abstract class BaseBossExt : Part1BossOpponent
 {
-	public static readonly Dictionary<string, Tuple<Opponent.Type, System.Type, EncounterBlueprintData>>
+	public static readonly Dictionary<string, Tuple<Opponent.Type, System.Type, GameObject, EncounterBlueprintData>>
 		OpponentTupleBySpecialId = new()
 		{
 			{
-				"KayceeBoss", new Tuple<Type, System.Type, EncounterBlueprintData>(
-					KayceeOpponent, typeof(GrimoraModKayceeBossSequencer), BlueprintUtils.BuildKayceeBossInitialBlueprint()
+				"KayceeBoss", new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
+					KayceeOpponent, 
+					typeof(GrimoraModKayceeBossSequencer),
+					PrefabConstants.KayceeBossPiece,
+					BlueprintUtils.BuildKayceeBossInitialBlueprint()
 				)
 			},
 			{
-				"SawyerBoss", new Tuple<Type, System.Type, EncounterBlueprintData>(
-					SawyerOpponent, typeof(GrimoraModSawyerBossSequencer), BlueprintUtils.BuildSawyerBossInitialBlueprint()
+				"SawyerBoss", new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
+					SawyerOpponent, 
+					typeof(GrimoraModSawyerBossSequencer),
+					PrefabConstants.BossPiece.gameObject,
+					BlueprintUtils.BuildSawyerBossInitialBlueprint()
 				)
 			},
 			{
-				"RoyalBoss", new Tuple<Type, System.Type, EncounterBlueprintData>(
-					RoyalOpponent, typeof(GrimoraModRoyalBossSequencer), BlueprintUtils.BuildRoyalBossInitialBlueprint()
+				"RoyalBoss", new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
+					RoyalOpponent, 
+					typeof(GrimoraModRoyalBossSequencer),
+					PrefabConstants.BossPiece.gameObject,
+					BlueprintUtils.BuildRoyalBossInitialBlueprint()
 				)
 			},
 			{
-				"GrimoraBoss", new Tuple<Type, System.Type, EncounterBlueprintData>(
-					GrimoraOpponent, typeof(GrimoraModGrimoraBossSequencer), BlueprintUtils.BuildGrimoraBossInitialBlueprint()
+				"GrimoraBoss", new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
+					GrimoraOpponent, 
+					typeof(GrimoraModGrimoraBossSequencer),
+					ResourceBank.Get<GameObject>("Prefabs/Opponents/Grimora/GrimoraAnim"),
+					BlueprintUtils.BuildGrimoraBossInitialBlueprint()
 				)
 			},
 			{
-				"GrimoraModBattleSequencer",
-				new Tuple<Type, System.Type, EncounterBlueprintData>(0, typeof(GrimoraModBattleSequencer), null)
+				"GrimoraModBattleSequencer", new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
+					0, 
+					typeof(GrimoraModBattleSequencer),
+					null,
+					null
+				)
 			}
 		};
-
-	public const string PrefabPathMasks = "Prefabs/Opponents/Leshy/Masks";
-	public const string PrefabPathRoyalBossSkull = "Prefabs/Opponents/Grimora/RoyalBossSkull";
 
 	public GameObject RoyalBossSkull => GrimoraRightWrist.transform.GetChild(6).gameObject;
 	public GameObject GrimoraBossSkull => GrimoraAnimationController.Instance.bossSkull;

@@ -15,6 +15,8 @@ public static class PrefabConstants
 	public static ChessboardEnemyPiece BossPiece =
 		ResourceBank.Get<ChessboardEnemyPiece>($"{PathChessboardMap}/BossFigurine");
 
+	public static GameObject KayceeBossPiece = AssetUtils.GetPrefab<GameObject>("ChessboardPiece_KayceeFigurine");
+
 	public static ChessboardChestPiece ChestPiece =
 		ResourceBank.Get<ChessboardChestPiece>($"{PathChessboardMap}/ChessboardChestPiece");
 
