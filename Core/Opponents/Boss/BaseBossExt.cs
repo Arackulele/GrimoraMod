@@ -14,7 +14,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 				"KayceeBoss", new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
 					KayceeOpponent, 
 					typeof(GrimoraModKayceeBossSequencer),
-					PrefabConstants.KayceeBossPiece,
+					PrefabConstants.BossPieceKaycee,
 					BlueprintUtils.BuildKayceeBossInitialBlueprint()
 				)
 			},
@@ -22,7 +22,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 				"SawyerBoss", new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
 					SawyerOpponent, 
 					typeof(GrimoraModSawyerBossSequencer),
-					PrefabConstants.BossPiece.gameObject,
+					PrefabConstants.BossPieceSawyer,
 					BlueprintUtils.BuildSawyerBossInitialBlueprint()
 				)
 			},
@@ -30,7 +30,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 				"RoyalBoss", new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
 					RoyalOpponent, 
 					typeof(GrimoraModRoyalBossSequencer),
-					PrefabConstants.BossPiece.gameObject,
+					PrefabConstants.BossPieceRoyal.gameObject,
 					BlueprintUtils.BuildRoyalBossInitialBlueprint()
 				)
 			},
@@ -38,7 +38,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 				"GrimoraBoss", new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
 					GrimoraOpponent, 
 					typeof(GrimoraModGrimoraBossSequencer),
-					ResourceBank.Get<GameObject>("Prefabs/Opponents/Grimora/GrimoraAnim"),
+					PrefabConstants.BossPieceGrimora,
 					BlueprintUtils.BuildGrimoraBossInitialBlueprint()
 				)
 			},

@@ -216,17 +216,12 @@ public class GrimoraChessboard
 
 	public ChessboardEnemyPiece PlaceBossPiece(string bossName = "", int x = -1, int y = -1)
 	{
-		GameObject prefabToUse = null;
 		if (bossName.IsNullOrWhitespace())
 		{
 			bossName = GetBossSpecialIdForRegion();
-			prefabToUse = BaseBossExt.OpponentTupleBySpecialId[bossName].Item3;
-		}
-		else
-		{
-			prefabToUse = PrefabConstants.BossPiece.gameObject;
 		}
 
+		GameObject prefabToUse = BaseBossExt.OpponentTupleBySpecialId[bossName].Item3;
 		int newX = x == -1 ? BossNode.GridX : x;
 		int newY = x == -1 ? BossNode.GridY : y;
 		return CreateChessPiece<ChessboardEnemyPiece>(
