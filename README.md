@@ -24,7 +24,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ## Known Issues
 
-### Hoarder (Tutor) ability does not work with Corpse Eater
+### Hoarder (Tutor) ability does not work with Corpse Eater (5$ USD reward for anyone who can actually figure out why this ability doesn't work in Grimora's act)
 
 - There is no immediate reason as to why this doesn't work. The array of cards that are placed have the exact same code logic as if the card was placed manually by the player.
 - The created game object could be causing the issue, but there is nothing that stands out as to what the cause is, even after debugging with prefix and postfix patches.
