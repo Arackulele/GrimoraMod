@@ -2,6 +2,7 @@
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -70,7 +71,8 @@ public class MenuControllerPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(MenuController.Start))]
 	public static void AddGrimoraCard(ref MenuController __instance)
 	{
-		if (!__instance.cards.Exists(card => card.name.ToLowerInvariant().Contains("grimora")))
+		if (SceneManager.GetActiveScene().name.ToLowerInvariant().Contains("start") 
+		    && !__instance.cards.Exists(card => card.name.ToLowerInvariant().Contains("grimora")))
 		{
 			__instance.cards.Add(CreateButton(__instance));
 		}
