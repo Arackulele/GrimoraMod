@@ -294,11 +294,12 @@ public static class BlueprintUtils
 			new() { bp_Skeleton, bp_Skeleton },
 			new() { bp_Skeleton, bp_Draugr },
 			new() { },
-			new() { },
-			new() { bp_Revenant },
 			new() { bp_Skeleton },
-			new() { bp_DrownedSoul },
-			new() { bp_Revenant }
+			new() { bp_Skeleton },
+			new() { bp_Skeleton },
+			new() { bp_Skeleton },
+			new() { },
+			new() { bp_DrownedSoul }
 		};
 
 		return blueprint;
@@ -396,11 +397,11 @@ public static class BlueprintUtils
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Summoner, bp_Summoner },
+			new() { bp_Summoner, bp_Zombie },
 			new() { bp_Skeleton },
 			new() { bp_BonePrince },
+			new() { bp_Summoner },
 			new() { bp_Skeleton },
-			new() { bp_Skeleton, bp_Skeleton },
 			new() { bp_GhostShip },
 			new(),
 			new() { bp_Revenant },
@@ -448,7 +449,7 @@ public static class BlueprintUtils
 			new(),
 			new() { bp_Zombie, bp_Zombie },
 			new(),
-			new() { bp_EmberSpirit },
+			new() { bp_Zombie },
 			new() { bp_Zombie, bp_Zombie },
 			new(),
 			new() { bp_GhostShip }
