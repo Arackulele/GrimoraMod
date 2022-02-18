@@ -4,6 +4,17 @@ namespace GrimoraMod;
 
 public static class CardRelatedExtension
 {
+
+	public static bool CardHasAbility(this CardSlot cardSlot, Ability ability)
+	{
+		return cardSlot.Card is not null && cardSlot.Card.HasAbility(ability);
+	}
+	
+	public static bool CardHasSpecialAbility(this CardSlot cardSlot, SpecialTriggeredAbility ability)
+	{
+		return cardSlot.Card is not null && cardSlot.Card.Info.specialAbilities.Contains(ability);
+	}
+	
 	public static string InfoName(this Card card)
 	{
 		return card.Info.name;
