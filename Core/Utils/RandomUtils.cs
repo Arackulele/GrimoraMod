@@ -24,7 +24,7 @@ public static class RandomUtils
 
 		while (cardChoices.Count < MaxChoices)
 		{
-			var choice = randomizedChoices[SeededRandom.Range(0, randomizedChoices.Count, seed++)];
+			var choice = randomizedChoices.GetRandomItem();
 			if (cardChoices.Exists(_ => _.info.name.Equals(choice.info.name)))
 			{
 				randomizedChoices.Remove(choice);

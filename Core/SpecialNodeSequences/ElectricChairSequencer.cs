@@ -273,16 +273,10 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private static Ability GetRandomAbility(CardInfo card)
 	{
-		Ability randomSigil = AbilitiesToChoseRandomly
-			.Randomize()
-			.ToList()[SeededRandom.Range(0, AbilitiesToChoseRandomly.Count, RandomUtils.GenerateRandomSeed())];
-		while (card.HasAbility(randomSigil)
-		       || card.HasAbility(Ability.StrafePush) && randomSigil == SkinCrawler.ability
-		       || card.HasAbility(SkinCrawler.ability) && randomSigil == Ability.StrafePush)
+		Ability randomSigil = AbilitiesToChoseRandomly.GetRandomItem();
+		while (card.HasAbility(randomSigil) || HasAbilityComboThatWillBreakTheGame(card, randomSigil))
 		{
-			randomSigil = AbilitiesToChoseRandomly
-				.Randomize()
-				.ToList()[SeededRandom.Range(0, AbilitiesToChoseRandomly.Count, RandomUtils.GenerateRandomSeed())];
+			randomSigil = AbilitiesToChoseRandomly.GetRandomItem();
 		}
 
 		if (randomSigil == Ability.IceCube)
@@ -290,8 +284,22 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			card.iceCubeParams = new IceCubeParams { creatureWithin = NameSkeleton.GetCardInfo() };
 		}
 
-		Log.LogDebug($"[ApplyModToCard] Ability [{randomSigil}]");
+		Log.LogDebug($"[ApplyModToCard] Ability from electric chair [{randomSigil}]");
 		return randomSigil;
+	}
+
+	private static bool HasAbilityComboThatWillBreakTheGame(CardInfo card, Ability randomSigil)
+	{
+		return CheckCardHavingAbilityAndViceVersa(card, Ability.StrafePush, randomSigil, SkinCrawler.ability)
+		       || CheckCardHavingAbilityAndViceVersa(card, Ability.Tutor, randomSigil, Ability.CorpseEater);
+	}
+
+	private static bool CheckCardHavingAbilityAndViceVersa(
+		CardInfo card, Ability cardAbility, Ability randomSigil, Ability abilityToCheckAgainst
+	)
+	{
+		return card.HasAbility(cardAbility) && randomSigil == abilityToCheckAgainst
+		       || card.HasAbility(abilityToCheckAgainst) && randomSigil == cardAbility;
 	}
 
 	private new static List<CardInfo> GetValidCards()
