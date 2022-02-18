@@ -7,9 +7,9 @@ using static GrimoraMod.GrimoraPlugin;
 namespace GrimoraMod;
 
 [HarmonyPatch(typeof(StartScreenThemeSetter))]
-public class StartScreenThemeSetterPatches
+public class StartScreenPatches
 {
-	[HarmonyPrefix, HarmonyPatch(nameof(StartScreenThemeSetter.Start))]
+	[HarmonyPostfix, HarmonyPatch(nameof(StartScreenThemeSetter.Start))]
 	public static void AddGrimoraModMenuCardButton(StartScreenThemeSetter __instance)
 	{
 		var grimoraTheme = __instance.themes[0];
@@ -27,31 +27,5 @@ public class StartScreenThemeSetterPatches
 			theme.triggeringEvent == StoryEvent.PlayerDeletedArchivistFile);
 
 		__instance.SetTheme(findPlayerDeletedArchivistFile);
-		__instance.StartCoroutine(CreateButton());
-	}
-
-	public static IEnumerator CreateButton()
-	{
-		GameObject cardRow = null;
-
-		yield return new WaitUntil(() => cardRow = GameObject.Find("CardRow"));
-
-		// GrimoraPlugin.Log.LogDebug("Finding MenuCard_Continue gameObject");
-		MenuCard menuCardGrimora = Object.Instantiate(
-			ResourceBank.Get<MenuCard>("Prefabs/StartScreen/StartScreenMenuCard"),
-			new Vector3(1.378f, -0.77f ,0),
-			Quaternion.identity,
-			cardRow.transform
-		);
-		MenuController.Instance.cards.Add(menuCardGrimora);
-		menuCardGrimora.name = "MenuCard_Grimora";
-
-		menuCardGrimora.GetComponent<SpriteRenderer>().sprite = AssetUtils.GetPrefab<Sprite>("MenuCard");
-		menuCardGrimora.menuAction = MenuAction.Continue;
-		menuCardGrimora.titleText = "Start Grimora Mod";
-		menuCardGrimora.titleSprite = AssetUtils.GetPrefab<Sprite>("menutext_grimora_mod");
-
-		Vector3 cardRowLocalPosition = cardRow.transform.localPosition;
-		cardRow.transform.localPosition = new Vector3(-0.23f, cardRowLocalPosition.y, cardRowLocalPosition.z);
 	}
 }

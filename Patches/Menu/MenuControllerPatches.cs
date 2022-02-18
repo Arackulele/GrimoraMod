@@ -66,6 +66,39 @@ public class MenuControllerPatches
 
 		return true;
 	}
+
+	[HarmonyPostfix, HarmonyPatch(nameof(MenuController.Start))]
+	public static void AddGrimoraCard(ref MenuController __instance)
+	{
+		if (!__instance.cards.Exists(card => card.name.ToLowerInvariant().Contains("grimora")))
+		{
+			__instance.cards.Add(CreateButton(__instance));
+		}
+	}
+
+	public static MenuCard CreateButton(MenuController controller)
+	{
+		GameObject cardRow = controller.transform.Find("CardRow").gameObject;
+
+		// GrimoraPlugin.Log.LogDebug("Finding MenuCard_Continue gameObject");
+		MenuCard menuCardGrimora = Object.Instantiate(
+			ResourceBank.Get<MenuCard>("Prefabs/StartScreen/StartScreenMenuCard"),
+			new Vector3(1.378f, -0.77f, 0),
+			Quaternion.identity,
+			cardRow.transform
+		);
+		menuCardGrimora.name = "MenuCard_Grimora";
+
+		menuCardGrimora.GetComponent<SpriteRenderer>().sprite = AssetUtils.GetPrefab<Sprite>("MenuCard");
+		menuCardGrimora.menuAction = MenuAction.Continue;
+		menuCardGrimora.titleText = "Start Grimora Mod";
+		menuCardGrimora.titleSprite = AssetUtils.GetPrefab<Sprite>("menutext_grimora_mod");
+
+		Vector3 cardRowLocalPosition = cardRow.transform.localPosition;
+		cardRow.transform.localPosition = new Vector3(-0.23f, cardRowLocalPosition.y, cardRowLocalPosition.z);
+
+		return menuCardGrimora;
+	}
 }
 
 public static class TransitionExt
