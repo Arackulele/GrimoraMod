@@ -129,10 +129,6 @@ public abstract class BaseBossExt : Part1BossOpponent
 			Log.LogDebug($"[{GetType()}] Glitching mask");
 			yield return HideBossSkull();
 
-
-			Log.LogDebug($"[{GetType()}] hiding skull");
-			GrimoraAnimationController.Instance.SetHeadTrigger("hide_skull");
-
 			Log.LogDebug($"[{GetType()}] Destroying scenery");
 			DestroyScenery();
 
