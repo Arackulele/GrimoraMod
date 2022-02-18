@@ -9,6 +9,9 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(MenuController))]
 public class MenuControllerPatches
 {
+	private const string ErrorMessageFromOldMod =
+		"Due to changing the name prefix from `ara_` to `GrimoraMod_`, your deck needs to be reset. Otherwise exceptions will be thrown.";
+
 	[HarmonyPrefix, HarmonyPatch(nameof(MenuController.LoadGameFromMenu))]
 	public static bool ContinueActOne(bool newGameGBC)
 	{
@@ -17,8 +20,9 @@ public class MenuControllerPatches
 		string sceneToLoad = "Part1_Cabin";
 		if (!SaveManager.SaveFile.currentScene.ToLowerInvariant().Contains("grimora"))
 		{
-			 sceneToLoad = SaveManager.SaveFile.currentScene;
+			sceneToLoad = SaveManager.SaveFile.currentScene;
 		}
+
 		LoadingScreenManager.LoadScene(newGameGBC ? "GBC_Intro" : sceneToLoad);
 		SaveManager.savingDisabled = false;
 
@@ -26,7 +30,7 @@ public class MenuControllerPatches
 	}
 
 	[HarmonyPrefix, HarmonyPatch(nameof(MenuController.OnCardReachedSlot))]
-	public static bool MainMenuThree(MenuController __instance, MenuCard card, bool skipTween = false)
+	public static bool OnCardReachedSlotPatch(MenuController __instance, MenuCard card, bool skipTween = false)
 	{
 		if (GrimoraSaveUtil.isGrimora && card.MenuAction == MenuAction.ReturnToStartMenu)
 		{
@@ -40,17 +44,16 @@ public class MenuControllerPatches
 			{
 				if (GrimoraSaveUtil.DeckListCopy.Exists(info => info.name.StartsWith("ara_")))
 				{
-					Log.LogWarning(
-						"Due to changing the name prefix from `ara_` to `GrimoraMod_`, your deck needs to be reset. Otherwise exceptions will be thrown.");
+					Log.LogWarning(ErrorMessageFromOldMod);
 					ConfigHelper.ResetDeck();
 				}
 			}
 			catch (Exception e)
 			{
-				Log.LogWarning("Due to changing the name prefix from `ara_` to `GrimoraMod_`, your deck needs to be reset. Otherwise exceptions will be thrown.");
+				Log.LogWarning(ErrorMessageFromOldMod);
 				ConfigHelper.ResetDeck();
 			}
-			
+
 			__instance.DoingCardTransition = false;
 			card.transform.parent = __instance.menuSlot.transform;
 			card.SetBorderColor(__instance.slottedBorderColor);
