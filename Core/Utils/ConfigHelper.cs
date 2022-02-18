@@ -3,13 +3,18 @@ using BepInEx;
 using BepInEx.Configuration;
 using DiskCardGame;
 using Sirenix.Utilities;
-using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
 public class ConfigHelper
 {
+	private static readonly List<StoryEvent> StoryEventsToBeCompleteBeforeStarting = new()
+	{
+		StoryEvent.BasicTutorialCompleted, StoryEvent.TutorialRunCompleted, StoryEvent.BonesTutorialCompleted,
+		StoryEvent.TutorialRun2Completed, StoryEvent.TutorialRun3Completed
+	};
+
 	private static ConfigHelper m_Instance;
 	public static ConfigHelper Instance => m_Instance ??= new ConfigHelper();
 
@@ -18,13 +23,17 @@ public class ConfigHelper
 		true
 	);
 
-	public const string StaticDefaultRemovedPiecesList =
+	public const string DefaultRemovedPieces =
 		"BossFigurine," +
 		"ChessboardChestPiece," +
 		"EnemyPiece_Skelemagus,EnemyPiece_Gravedigger," +
 		"Tombstone_North1," +
 		"Tombstone_Wall1,Tombstone_Wall2,Tombstone_Wall3,Tombstone_Wall4,Tombstone_Wall5," +
 		"Tombstone_South1,Tombstone_South2,Tombstone_South3,";
+
+	private ConfigEntry<bool> _configCardsLeftInDeck;
+	
+	public bool EnableCardsLeftInDeckView => _configCardsLeftInDeck.Value;
 
 	private ConfigEntry<int> _configCurrentChessboardIndex;
 
@@ -35,7 +44,11 @@ public class ConfigHelper
 	}
 
 	private ConfigEntry<int> _configBossesDefeated;
-	public int BossesDefeated => _configBossesDefeated.Value;
+	public int BossesDefeated
+	{
+		get => _configBossesDefeated.Value;
+		set => _configBossesDefeated.Value = value;
+	}
 
 	public bool isKayceeDead => BossesDefeated == 1;
 
@@ -53,37 +66,48 @@ public class ConfigHelper
 
 	public bool isHotReloadEnabled => _configHotReloadEnabled.Value;
 
-	protected internal ConfigEntry<string> _configCurrentRemovedPieces;
+	private ConfigEntry<string> _configCurrentRemovedPieces;
 
-	public List<string> RemovedPieces => _configCurrentRemovedPieces.Value.Split(',').Distinct().ToList();
+	public List<string> RemovedPieces
+	{
+		get => _configCurrentRemovedPieces.Value.Split(',').Distinct().ToList();
+		set => _configCurrentRemovedPieces.Value = string.Join(",", value);
+	}
 
 	internal void BindConfig()
 	{
 		Log.LogDebug($"Binding config");
 
 		_configCurrentChessboardIndex
-			= GrimoraConfigFile.Bind(PluginName, "Current chessboard layout index", 0);
+			= GrimoraConfigFile.Bind(Name, "Current chessboard layout index", 0);
 
 		_configBossesDefeated
-			= GrimoraConfigFile.Bind(PluginName, "Number of bosses defeated", 0);
+			= GrimoraConfigFile.Bind(Name, "Number of bosses defeated", 0);
 
 		_configCurrentRemovedPieces = GrimoraConfigFile.Bind(
-			PluginName,
+			Name,
 			"Current Removed Pieces",
-			StaticDefaultRemovedPiecesList,
+			DefaultRemovedPieces,
 			new ConfigDescription("Contains all the current removed pieces." +
 			                      "\nDo not alter this list unless you know what you are doing!")
 		);
 
+		_configCardsLeftInDeck = GrimoraConfigFile.Bind(
+			Name,
+			"Enable showing list of cards left in deck during battles",
+			true,
+			new ConfigDescription("This option will allow you to see what cards are left in your deck.")
+		);
+		
 		_configDeveloperMode = GrimoraConfigFile.Bind(
-			PluginName,
+			Name,
 			"Enable Developer Mode",
 			false,
 			new ConfigDescription("Does not generate blocker pieces. Chests fill first row, enemy pieces fill first column.")
 		);
 
 		_configHotReloadEnabled = GrimoraConfigFile.Bind(
-			PluginName,
+			Name,
 			"Enable Hot Reload",
 			false,
 			new ConfigDescription(
@@ -105,53 +129,63 @@ public class ConfigHelper
 		ResetConfigDataIfGrimoraHasNotReachedTable();
 
 		HandleHotReloadBefore();
+
+		UnlockAllNecessaryEventsToPlay();
 	}
 
 	public int BonesToAdd => BossesDefeated * 2;
 
 	public void HandleHotReloadBefore()
 	{
-		if (_configHotReloadEnabled.Value)
+		if (!_configHotReloadEnabled.Value)
 		{
-			if (!CardLoader.allData.IsNullOrEmpty())
-			{
-				NewCard.cards.RemoveAll(card => card.name.StartsWith("ara_"));
-			}
+			return;
+		}
+
+		if (!CardLoader.allData.IsNullOrEmpty())
+		{
+			int removedNewCards = NewCard.cards.RemoveAll(card => card.name.StartsWith("GrimoraMod_"));
+			int removedCardLoader = CardLoader.allData.RemoveAll(info => info.name.StartsWith("GrimoraMod_"));
+			Log.LogDebug($"All data is not null. Removed [{removedNewCards}] NewCards, [{removedCardLoader}] CardLoader");
 		}
 
 		if (!AbilitiesUtil.allData.IsNullOrEmpty())
 		{
-			NewAbility.abilities.RemoveAll(ab => ab.id.ToString().StartsWith(PluginGuid));
+			int removed = NewAbility.abilities.RemoveAll(ab => ab.id.ToString().StartsWith(GUID));
+			AbilitiesUtil.allData.RemoveAll(info =>
+				NewAbility.abilities.Exists(na => na.id.ToString().StartsWith(GUID) && na.ability == info.ability));
+			Log.LogDebug($"All data is not null, removed [{removed}] abilities");
 		}
+
+		// TODO: I'd prefer not to do this but I'm not sure how to filter out the emissions without literally
+		//	making a giant list of all the card names.
+		NewCard.emissions.Clear();
 	}
 
 	public void HandleHotReloadAfter()
 	{
-		if (_configHotReloadEnabled.Value)
+		if (!_configHotReloadEnabled.Value)
 		{
-			if (!CardLoader.allData.IsNullOrEmpty())
-			{
-				int removed = CardLoader.allData.RemoveAll(info => info.name.StartsWith("ara_"));
-				Log.LogDebug($"All data is not null, concatting GrimoraMod cards. Removed [{removed}] cards.");
-				CardLoader.allData = CardLoader.allData.Concat(
-						NewCard.cards.Where(card => card.name.StartsWith("ara_"))
-					)
-					.Distinct()
-					.ToList();
-			}
+			return;
+		}
 
-			if (!AbilitiesUtil.allData.IsNullOrEmpty())
-			{
-				Log.LogDebug($"All data is not null, concatting GrimoraMod abilities");
-				AbilitiesUtil.allData.RemoveAll(info =>
-					NewAbility.abilities.Exists(na => na.id.ToString().StartsWith(PluginGuid) && na.ability == info.ability));
+		if (!CardLoader.allData.IsNullOrEmpty())
+		{
+			CardLoader.allData = CardLoader.allData.Concat(
+					NewCard.cards.Where(card => card.name.StartsWith("GrimoraMod_"))
+				)
+				.Distinct()
+				.ToList();
+		}
 
-				AbilitiesUtil.allData = AbilitiesUtil.allData
-					.Concat(
-						NewAbility.abilities.Where(ab => ab.id.ToString().StartsWith(PluginGuid)).Select(_ => _.info)
-					)
-					.ToList();
-			}
+		if (!AbilitiesUtil.allData.IsNullOrEmpty())
+		{
+			Log.LogDebug($"All data is not null, concatting GrimoraMod abilities");
+			AbilitiesUtil.allData = AbilitiesUtil.allData
+				.Concat(
+					NewAbility.abilities.Where(ab => ab.id.ToString().StartsWith(GUID)).Select(_ => _.info)
+				)
+				.ToList();
 		}
 	}
 
@@ -177,8 +211,15 @@ public class ConfigHelper
 	{
 		Log.LogWarning($"Resetting Grimora Mod config");
 		_configBossesDefeated.Value = 0;
-		_configCurrentRemovedPieces.Value = StaticDefaultRemovedPiecesList;
 		_configCurrentChessboardIndex.Value = 0;
+		ResetRemovedPieces();
+		Log.LogWarning($"Resetting active chessboard");
+		if(ChessboardMapExt.Instance is not null)
+		{
+			ChessboardMapExt.Instance.ActiveChessboard = null;
+			Log.LogWarning($"Resetting pieces");
+			ChessboardMapExt.Instance.pieces.Clear();
+		}
 	}
 
 	private void ResetConfigDataIfGrimoraHasNotReachedTable()
@@ -190,9 +231,25 @@ public class ConfigHelper
 		}
 	}
 
+	private static void UnlockAllNecessaryEventsToPlay()
+	{
+		if (!StoryEventsToBeCompleteBeforeStarting.TrueForAll(StoryEventsData.EventCompleted))
+		{
+			Log.LogWarning($"You haven't completed a required event... Starting unlock process");
+			StoryEventsToBeCompleteBeforeStarting.ForEach(evt => StoryEventsData.SetEventCompleted(evt));
+			ProgressionData.UnlockAll();
+			SaveManager.SaveToFile();
+		}
+	}
+
 	public void AddPieceToRemovedPiecesConfig(string pieceName)
 	{
 		_configCurrentRemovedPieces.Value += "," + pieceName + ",";
+	}
+
+	public void ResetRemovedPieces()
+	{
+		_configCurrentRemovedPieces.Value = DefaultRemovedPieces;
 	}
 
 	public void SetBossDefeatedInConfig(BaseBossExt boss)

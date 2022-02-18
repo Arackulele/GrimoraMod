@@ -5,17 +5,17 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameProject = "ara_Project";
+	public const string NameProject = "GrimoraMod_Project";
 
-	private void AddAra_Project()
+	private void Add_Project()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(Ability.TriStrike)
-			.SetBaseAttackAndHealth(1, 1)
-			.SetBoneCost(8)
+			.SetAbilities(Erratic.ability, Ability.SplitStrike)
+			.SetBaseAttackAndHealth(1, 3)
+			.SetBoneCost(5)
+			.SetDescription("AN EXPERIMENT GONE WRONG, OR RIGHT. IT DEPENDS ON YOUR WORLD VIEW.")
 			.SetNames(NameProject, "Project")
-			// .SetDescription("A vicious pile of bones. You can have it...")
 			.Build()
 		);
 	}

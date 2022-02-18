@@ -1,7 +1,6 @@
 ﻿using APIPlugin;
 using DiskCardGame;
 using HarmonyLib;
-using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -20,6 +19,7 @@ public class CardBuilder
 			_cardInfo.appearanceBehaviour = CardUtils.getRareAppearance;
 		}
 
+		AllGrimoraModCards.Add(_cardInfo);
 		return _cardInfo;
 	}
 
@@ -29,7 +29,7 @@ public class CardBuilder
 
 	internal CardBuilder SetTribes(params Tribe[] tribes)
 	{
-		_cardInfo.tribes ??= new();
+		_cardInfo.tribes ??= new List<Tribe>();
 		tribes.DoIf(tribe => !_cardInfo.tribes.Contains(tribe), tribe => _cardInfo.tribes.Add(tribe));
 		return this;
 	}
@@ -38,14 +38,12 @@ public class CardBuilder
 	{
 		if (ogCardArt is null)
 		{
-			cardName = cardName.Replace("ara_", "");
+			cardName = cardName.Replace("GrimoraMod_", "");
 			// Log.LogDebug($"Looking in AllSprites for [{cardName}]");
-			_cardInfo.portraitTex = AllSpriteAssets.Single(
-				spr => string.Equals(spr.name, cardName, StringComparison.OrdinalIgnoreCase)
-			);
+			_cardInfo.portraitTex = AssetUtils.GetPrefab<Sprite>(cardName);
 
 			// TODO: refactor when API 2.0 comes out
-			AllSpriteAssets.DoIf(
+			AllSprites.DoIf(
 				_ => !NewCard.emissions.ContainsKey(cardName)
 				     && _.name.Equals(cardName + "_emission", StringComparison.OrdinalIgnoreCase),
 				delegate(Sprite sprite) { NewCard.emissions.Add(cardName, sprite); }
@@ -74,18 +72,19 @@ public class CardBuilder
 	internal CardBuilder SetEnergyCost(int energyCost)
 	{
 		_cardInfo.energyCost = energyCost;
-		Texture energyDecal = energyCost switch
-		{
-			1 => ImageUtils.Energy1,
-			2 => ImageUtils.Energy2,
-			3 => ImageUtils.Energy3,
-			4 => ImageUtils.Energy4,
-			5 => ImageUtils.Energy5,
-			6 => ImageUtils.Energy6,
-			_ => null
-		};
-
-		return SetDecals(energyDecal);
+		return this;
+		// Texture energyDecal = energyCost switch
+		// {
+		// 	1 => ImageUtils.Energy1,
+		// 	2 => ImageUtils.Energy2,
+		// 	3 => ImageUtils.Energy3,
+		// 	4 => ImageUtils.Energy4,
+		// 	5 => ImageUtils.Energy5,
+		// 	6 => ImageUtils.Energy6,
+		// 	_ => null
+		// };
+		//
+		// return SetDecals(energyDecal);
 	}
 
 	internal CardBuilder SetBaseAttackAndHealth(int baseAttack, int baseHealth)
@@ -121,7 +120,7 @@ public class CardBuilder
 
 	internal CardBuilder SetMetaCategories(params CardMetaCategory[] categories)
 	{
-		_cardInfo.metaCategories ??= new();
+		_cardInfo.metaCategories ??= new List<CardMetaCategory>();
 		categories.DoIf(
 			category => !_cardInfo.metaCategories.Contains(category),
 			category => _cardInfo.metaCategories.Add(category)
@@ -131,15 +130,13 @@ public class CardBuilder
 
 	internal CardBuilder SetAbilities(params Ability[] abilities)
 	{
-		_cardInfo.abilities ??= new();
-		_cardInfo.abilities.AddRange(abilities);
-
+		_cardInfo.abilities = abilities?.ToList();
 		return this;
 	}
 
 	internal CardBuilder SetAbilities(params SpecialTriggeredAbility[] specialTriggeredAbilities)
 	{
-		_cardInfo.specialAbilities ??= new();
+		_cardInfo.specialAbilities ??= new List<SpecialTriggeredAbility>();
 		specialTriggeredAbilities.DoIf(
 			tribe => !_cardInfo.specialAbilities.Contains(tribe),
 			tribe => _cardInfo.specialAbilities.Add(tribe)
@@ -153,14 +150,14 @@ public class CardBuilder
 		CardInfo cardToLoad = null;
 		try
 		{
-			cardToLoad = CardLoader.GetCardByName(iceCubeName);
+			cardToLoad = iceCubeName.GetCardInfo();
 		}
 		catch (Exception e)
 		{
 			cardToLoad = NewCard.cards.Single(_ => _.name.Equals(iceCubeName));
 		}
 
-		_cardInfo.iceCubeParams = new()
+		_cardInfo.iceCubeParams = new IceCubeParams
 		{
 			creatureWithin = cardToLoad
 		};
@@ -173,14 +170,14 @@ public class CardBuilder
 		CardInfo cardToLoad = null;
 		try
 		{
-			cardToLoad = CardLoader.GetCardByName(evolveInto);
+			cardToLoad = evolveInto.GetCardInfo();
 		}
 		catch (Exception e)
 		{
 			cardToLoad = NewCard.cards.Single(_ => _.name.Equals(evolveInto));
 		}
 
-		_cardInfo.evolveParams = new()
+		_cardInfo.evolveParams = new EvolveParams
 		{
 			turnsToEvolve = numberOfTurns,
 			evolution = cardToLoad
@@ -190,7 +187,7 @@ public class CardBuilder
 
 	internal CardBuilder SetTraits(params Trait[] traits)
 	{
-		_cardInfo.traits ??= new();
+		_cardInfo.traits ??= new List<Trait>();
 		traits.DoIf(trait => !_cardInfo.traits.Contains(trait), trait => _cardInfo.traits.Add(trait));
 
 		return this;
@@ -198,7 +195,7 @@ public class CardBuilder
 
 	internal CardBuilder SetDecals(params Texture[] decals)
 	{
-		_cardInfo.decals ??= new();
+		_cardInfo.decals ??= new List<Texture>();
 		_cardInfo.decals = decals.ToList();
 		return this;
 	}

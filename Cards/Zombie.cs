@@ -4,15 +4,15 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameZombie = "ara_Zombie";
+	public const string NameZombie = "GrimoraMod_Zombie";
 
-	private void AddAra_Zombie()
+	private void Add_Zombie()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(2)
-			.SetDescription("The humble zombie, a respected member of the army.")
+			.SetDescription("THE HUMBLE ZOMBIE, A RESPECTED MEMBER OF THE ARMY.")
 			.SetNames(NameZombie, "Zombie")
 			.Build()
 		);

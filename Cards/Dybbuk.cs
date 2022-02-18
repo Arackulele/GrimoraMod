@@ -1,22 +1,19 @@
-﻿using APIPlugin;
-using DiskCardGame;
-using Sirenix.Utilities;
-using UnityEngine.UIElements;
+using APIPlugin;
 
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameDybbuk = "ara_Dybbuk";
+	public const string NameDybbuk = "GrimoraMod_Dybbuk";
 
-	private void AddAra_Dybbuk()
+	private void Add_Dybbuk()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.SetAsNormalCard()
+			.SetAsRareCard()
 			.SetAbilities(Possessive.ability)
 			.SetBaseAttackAndHealth(0, 1)
-			.SetBoneCost(6)
-			// .SetDescription("Going into that well wasn't the best idea...")
+			.SetBoneCost(5)
+			.SetDescription("NO ONE KNOWS WHAT EXACTLY THE DYBBUK IS, SOME SAY IT IS BETTER LEFT UNKNOWN.")
 			.SetNames(NameDybbuk, "Dybbuk")
 			.Build()
 		);

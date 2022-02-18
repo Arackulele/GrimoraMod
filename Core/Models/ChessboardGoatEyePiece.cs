@@ -11,7 +11,6 @@ public class ChessboardGoatEyePiece : ChessboardPieceExt
 	public ChessboardGoatEyePiece()
 	{
 		newYPosition = 1.275f;
-		newScale = 0.4f;
 	}
 }
 
@@ -23,21 +22,27 @@ public class GoatEyePatch
 	{
 		yield return enumerator;
 
-		// GrimoraPlugin.Log.LogDebug($"[GoatEye] Getting player marker");
-		Vector3 playerPos = Object.FindObjectOfType<PlayerMarker>().transform.position;
+		Vector3 playerPos = PlayerMarker.Instance.transform.position;
 		foreach (var goatEyePiece in Object.FindObjectsOfType<ChessboardGoatEyePiece>())
 		{
-			// Log.LogDebug($"[GoatEyePatch] Rotating [{goatEyePiece}]");
 			TurnToFacePoint(goatEyePiece.gameObject, playerPos, 0.1f);
 		}
 
-		// GrimoraPlugin.Log.LogDebug($"[GoatEyePatch] Checking if bosses defeated is 3");
 		if (ConfigHelper.Instance.BossesDefeated == 3)
 		{
-			// GrimoraPlugin.Log.LogDebug($"[GoatEyePatch] Rotating all skulls");
 			foreach (var blocker in Object.FindObjectsOfType<ChessboardBlockerPieceExt>())
 			{
 				TurnToFacePoint(blocker.gameObject, playerPos, 0.1f);
+			}
+		}
+		
+		for (int i = 0; i < 8; i++)
+		{
+			var node = ChessboardNavGrid.instance.zones[i, GrimoraSaveData.Data.gridY].GetComponent<ChessboardMapNode>();
+			if (node.OccupyingPiece is null) continue;
+			if (node.OccupyingPiece.GetType() != typeof(ChessboardPlayerMarker) && node.OccupyingPiece.GetType() != typeof(ChessboardGoatEyePiece))
+			{
+				node.OccupyingPiece.TurnToFacePoint(PlayerMarker.Instance.transform.position, 0.2f);
 			}
 		}
 	}

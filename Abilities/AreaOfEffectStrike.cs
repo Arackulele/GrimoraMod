@@ -2,7 +2,6 @@
 using APIPlugin;
 using DiskCardGame;
 using HarmonyLib;
-using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -17,7 +16,20 @@ public class AreaOfEffectStrike : AbilityBehaviour
 
 	public override bool RespondsToSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
 	{
-		return attacker.Slot == base.Card.Slot && slot.IsPlayerSlot && slot.Card is null;
+		// check if the attacking card is this card
+		if (attacker.Slot == base.Card.Slot && slot.Card is null)
+		{
+			if (attacker.Slot.IsPlayerSlot)
+			{
+				// if the attacker slot is the player, return if the targeted slot is also the player slot 
+				return slot.IsPlayerSlot;
+			}
+
+			// check if slot being attacked is the opponent slot if the attacking slot is the opponent
+			return !slot.IsPlayerSlot;
+		}
+
+		return false;
 	}
 
 	public override IEnumerator OnSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
@@ -28,7 +40,7 @@ public class AreaOfEffectStrike : AbilityBehaviour
 
 	public override bool RespondsToUpkeep(bool playerUpkeep)
 	{
-		return playerUpkeep && damageDoneToPlayer > 0;
+		return damageDoneToPlayer > 0;
 	}
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
@@ -54,7 +66,6 @@ public class AreaOfEffectStrike : AbilityBehaviour
 [HarmonyPatch]
 public class PatchesForAreaOfEffectStrike
 {
-
 	[HarmonyPostfix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetOpposingSlots))]
 	public static void AreaOfEffectStrikeGetOpposingSlotsPatch(PlayableCard __instance, ref List<CardSlot> __result)
 	{
@@ -63,14 +74,15 @@ public class PatchesForAreaOfEffectStrike
 			// Log.LogDebug($"[GetOpposingSlotsPatch] Adding adj slots from [{__instance.Slot.Index}]");
 			var toLeftSlot = BoardManager.Instance.GetAdjacent(__instance.Slot, true);
 			var toRightSlot = BoardManager.Instance.GetAdjacent(__instance.Slot, false);
-			
+
 			// insert at beginning
-			if(toLeftSlot is not null)
+			if (toLeftSlot is not null)
 			{
 				__result.Insert(0, toLeftSlot);
 			}
+
 			// insert at end
-			if(toRightSlot is not null)
+			if (toRightSlot is not null)
 			{
 				__result.Insert(__result.Count, toRightSlot);
 			}
@@ -90,21 +102,23 @@ public class PatchesForAreaOfEffectStrike
 
 	[HarmonyPostfix, HarmonyPatch(typeof(CombatPhaseManager), nameof(CombatPhaseManager.SlotAttackSequence))]
 	public static IEnumerator MinusDamageDealtThisPhase(
-		IEnumerator enumerator, 
+		IEnumerator enumerator,
 		CombatPhaseManager __instance,
 		CardSlot slot
 	)
 	{
 		yield return enumerator;
-		
+
 		if (slot.Card is not null && slot.Card.HasAbility(AreaOfEffectStrike.ability))
 		{
+			yield return new WaitForSeconds(1f);
 			int dmgDoneToPlayer = slot.Card.GetComponent<AreaOfEffectStrike>().damageDoneToPlayer;
-			Log.LogDebug($"[SlotAttackSequence] Dealing [{dmgDoneToPlayer}] to player");
+			Log.LogDebug($"[SlotAttackSequence.AOE] Dealing [{dmgDoneToPlayer}] to player");
 			yield return LifeManager.Instance.ShowDamageSequence(
-				dmgDoneToPlayer, dmgDoneToPlayer, true, 0.2f
+				dmgDoneToPlayer, dmgDoneToPlayer, !slot.Card.OpponentCard, 0.2f
 			);
-			
+
+			Log.LogDebug($"[SlotAttackSequence.AOE] Subtracting [{dmgDoneToPlayer}] from DamageDealtThisPhase");
 			__instance.DamageDealtThisPhase -= dmgDoneToPlayer;
 		}
 	}

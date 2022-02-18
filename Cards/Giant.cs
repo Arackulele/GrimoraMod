@@ -9,9 +9,9 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameGiant = "ara_Giant";
+	public const string NameGiant = "GrimoraMod_Giant";
 
-	private void AddAra_Giant()
+	private void Add_Giant()
 	{
 		NewCard.Add(CardBuilder.Builder
 				.SetAsNormalCard()
@@ -20,46 +20,10 @@ public partial class GrimoraPlugin
 				.SetBoneCost(15)
 				.SetNames(NameGiant, "Giant")
 				.SetTraits(Trait.Giant, Trait.Uncuttable)
-				// .SetDescription("A vicious pile of bones. You can have it...")
+				.SetDescription("TRULY A SIGHT TO BEHOLD.")
 				.Build()
 			// , specialAbilitiesIdsParam: new List<SpecialAbilityIdentifier> { sbIds.id }
 		);
-	}
-}
-
-public class GrimoraGiant : SpecialCardBehaviour
-{
-	public static readonly NewSpecialAbility NewSpecialAbility = Create();
-
-	public static NewSpecialAbility Create()
-	{
-		var sId = SpecialAbilityIdentifier.GetID(PluginGuid, "!GRIMORA_GIANT");
-
-		return new NewSpecialAbility(typeof(GrimoraGiant), sId);
-	}
-
-	public override bool RespondsToResolveOnBoard()
-	{
-		return true;
-	}
-
-	public override IEnumerator OnResolveOnBoard()
-	{
-		BoardManager.Instance.OpponentSlotsCopy[base.PlayableCard.Slot.Index - 1].Card = base.PlayableCard;
-		BoardManager.Instance.OpponentSlotsCopy[base.PlayableCard.Slot.Index].Card = base.PlayableCard;
-		yield break;
-	}
-
-	public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer)
-	{
-		return true;
-	}
-
-	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
-	{
-		BoardManager.Instance.OpponentSlotsCopy[base.PlayableCard.Slot.Index - 1].Card = null;
-		BoardManager.Instance.OpponentSlotsCopy[base.PlayableCard.Slot.Index].Card = null;
-		yield break;
 	}
 }
 
@@ -73,19 +37,19 @@ public class ModifyLocalPositionsOfTableObjects
 		IEnumerator enumerator, PlayableCard card, CardSlot slot,
 		float transitionLength, bool resolveTriggers = true)
 	{
-		if (SaveManager.SaveFile.IsGrimora 
-		    && card.Info.HasTrait(Trait.Giant) 
+		if (GrimoraSaveUtil.isGrimora
+		    && card.Info.HasTrait(Trait.Giant)
 		    && card.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility))
 		{
 			Log.LogDebug($"Setting new scaling and position of [{card.Info.name}]");
 			// Card -> RotatingParent -> TombstoneParent -> Cardbase_StatsLayer
-			UnityEngine.Transform rotatingParent = card.transform.GetChild(0);
+			Transform rotatingParent = card.transform.GetChild(0);
 			Log.LogDebug($"Transforming [{rotatingParent.name}]");
 
 			rotatingParent.localPosition = new Vector3(-0.7f, 1.05f, 0f);
 			// GrimoraPlugin.Log.LogDebug($"Successfully set new localPosition for the giant");
 
-			rotatingParent.localScale = new UnityEngine.Vector3(2.1f, 2.1f, 1f);
+			rotatingParent.localScale = new Vector3(2.1f, 2.1f, 1f);
 			// GrimoraPlugin.Log.LogDebug($"Successfully set new scaling for the giant");
 		}
 
@@ -99,19 +63,54 @@ public class KayceeModLogicForDeathTouchPrevention
 	[HarmonyPostfix, HarmonyPatch(typeof(Deathtouch), nameof(Deathtouch.RespondsToDealDamage))]
 	public static void AddLogicForDeathTouchToNotKillGiants(int amount, PlayableCard target, ref bool __result)
 	{
-		__result = __result && !target.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility);
+		bool targetIsNotGrimoraGiant =
+			!target.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility);
+		__result = __result && targetIsNotGrimoraGiant;
 	}
 }
 
+[HarmonyPatch]
+public class PlayableCardPatchesForGiant
+{
+	[HarmonyPostfix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetPassiveAttackBuffs))]
+	public static void CorrectDebuffEnemiesLogicForGiants(PlayableCard __instance, ref int __result)
+	{
+		if (__instance.OnBoard && __instance.Info.HasTrait(Trait.Giant))
+		{
+			List<CardSlot> slotsToTarget =
+				__instance.OpponentCard
+					? BoardManager.Instance.PlayerSlotsCopy
+					: BoardManager.Instance.OpponentSlotsCopy;
+
+			foreach (var slot in slotsToTarget.Where(slot => slot.Card is not null))
+			{
+				// if(!hasPrinted)
+				// 	Log.LogDebug($"[Giant PlayableCard Patch] Slot [{__instance.Slot.Index}] for stinky");
+
+				if (slot.Card.HasAbility(Ability.DebuffEnemy) && slot.opposingSlot.Card != __instance)
+				{
+					// __result is -1 right now
+					// G1 IS FIRST GIANT, G2 IS SECOND GIANT
+					// D IS THE CARD WITH STINKY
+					// G1 G1 G2 G2
+					//  x  x  D  X
+
+					// G1 SHOULD HAVE THE -1 REVERSED, BUT G2 SHOULD STILL HAVE -1 APPLIED TO ATTACK
+					__result += 1;
+				}
+			}
+		}
+	}
+}
 
 [HarmonyPatch]
-public class CorrectLogicForAllStrikeAbility
+public class AddLogicForGiantStrikeAbility
 {
 	[HarmonyPostfix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetOpposingSlots))]
-	public static void FixSlotsToAttackForGiantAllStrike(PlayableCard __instance, ref List<CardSlot> __result)
+	public static void FixSlotsToAttackForGiantStrike(PlayableCard __instance, ref List<CardSlot> __result)
 	{
 		if (__instance.Info.HasTrait(Trait.Giant)
-		    && __instance.HasAbility(Ability.AllStrike)
+		    && __instance.HasAbility(GiantStrike.ability)
 		    && __instance.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility))
 		{
 			List<CardSlot> slotsToTarget = __instance.OpponentCard

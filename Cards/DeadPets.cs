@@ -1,20 +1,20 @@
-﻿using APIPlugin;
+using APIPlugin;
 using DiskCardGame;
 
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameDeadPets = "ara_DeadPets";
+	public const string NameDeadPets = "GrimoraMod_DeadPets";
 
-	private void AddAra_DeadPets()
+	private void Add_DeadPets()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsRareCard()
 			.SetAbilities(Ability.Brittle, Ability.DrawCopyOnDeath)
 			.SetBaseAttackAndHealth(3, 1)
 			.SetBoneCost(4)
-			.SetDescription("The undying underlings of the Pharaoh.")
+			.SetDescription("THEY DIE, OVER AND OVER AGAIN. ONLY FOR THE PHARAOH.")
 			.SetNames(NameDeadPets, "Pharaoh's Pets")
 			.Build()
 		);

@@ -16,7 +16,7 @@ public static class RandomUtils
 		List<CardChoice> cardChoices = new List<CardChoice>();
 
 		var randomizedChoices = new List<CardInfo>(cards)
-			.FindAll(info => info.name.StartsWith("ara_") && (category == CardMetaCategory.NUM_CATEGORIES || info.metaCategories.Contains(category)))
+			.FindAll(info => info.name.StartsWith("GrimoraMod_") && (category == CardMetaCategory.NUM_CATEGORIES || info.metaCategories.Contains(category)))
 			.Select(card => new CardChoice { CardInfo = card })
 			.ToArray()
 			.Randomize()
@@ -24,21 +24,24 @@ public static class RandomUtils
 
 		while (cardChoices.Count < MaxChoices)
 		{
-			var choice = randomizedChoices[SeededRandom.Range(0, randomizedChoices.Count, seed++)];
-			if (cardChoices.Contains(choice))
+			var choice = randomizedChoices.GetRandomItem();
+			if (cardChoices.Exists(_ => _.info.name.Equals(choice.info.name)))
 			{
 				randomizedChoices.Remove(choice);
+				Log.LogDebug($"[GenerateChoices] Removing [{choice.info.name}] as it already exists");
 			}
 			else
 			{
 				cardChoices.Add(choice);
-				Log.LogDebug($"[GenerateChoices] Adding random card choice [{choice.info.name}] to opening hand");
+				Log.LogDebug($"[GenerateChoices] Adding random card choice [{choice.info.name}]");
 			}
 		}
 
-		Log.LogDebug($"[GrimoraRareChoiceGenerator] Selected random cards are " +
-		             $"{string.Join(",", cardChoices.Select(cc => cc.info.name))}");
-
 		return cardChoices;
+	}
+
+	public static int GenerateRandomSeed()
+	{
+		return SaveManager.SaveFile.GetCurrentRandomSeed() + GlobalTriggerHandler.Instance.NumTriggersThisBattle;
 	}
 }

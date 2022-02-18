@@ -11,28 +11,25 @@ using UnityEngine;
 namespace GrimoraMod;
 
 [BepInDependency("cyantist.inscryption.api")]
-[BepInPlugin(PluginGuid, PluginName, PluginVersion)]
+[BepInPlugin(GUID, Name, Version)]
 public partial class GrimoraPlugin : BaseUnityPlugin
 {
-	public const string PluginGuid = "arackulele.inscryption.grimoramod";
-	public const string PluginName = "GrimoraMod";
-	private const string PluginVersion = "2.5.0";
+	public const string GUID = "arackulele.inscryption.grimoramod";
+	public const string Name = "GrimoraMod";
+	private const string Version = "2.6.6";
 
 	internal static ManualLogSource Log;
 
 	private static Harmony _harmony;
 
-	public static GameObject[] AllPrefabAssets;
-	public static Sprite[] AllSpriteAssets;
-	public static Texture[] AllAbilityAssets;
+	public static List<GameObject> AllPrefabs;
+	public static List<Material> AllMats;
+	public static List<RuntimeAnimatorController> AllControllers;
+	public static List<Sprite> AllSprites;
+	public static List<Texture> AllAbilityTextures;
 
-
-	private static readonly List<StoryEvent> StoryEventsToBeCompleteBeforeStarting = new()
-	{
-		StoryEvent.BasicTutorialCompleted, StoryEvent.TutorialRunCompleted, StoryEvent.BonesTutorialCompleted,
-		StoryEvent.TutorialRun2Completed, StoryEvent.TutorialRun3Completed
-	};
-
+	// Gets populated in CardBuilder.Build()
+	public static List<CardInfo> AllGrimoraModCards = new();
 
 	public static void SpawnParticlesOnCard(PlayableCard target, Texture2D tex, bool reduceY = false)
 	{
@@ -64,13 +61,11 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		Log = Logger;
 
-		_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), PluginGuid);
+		_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
 
 		ConfigHelper.Instance.BindConfig();
 
 		LoadAssets();
-
-		UnlockAllNecessaryEventsToPlay();
 
 		#region AddingAbilities
 
@@ -82,70 +77,70 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		SkinCrawler.Create(); // Bt Y#0895
 
 		BoneLordsReign.Create();
+		CreateArmyOfSkeletons.Create();
 		FlameStrafe.Create();
-		PayBonesForSkeleton.Create();
+		GiantStrike.Create();
+		GrimoraRandomAbility.Create();
 		PayEnergyForWyvern.Create();
 
 		#endregion
 
 		#region AddingCards
 
-		AddAra_ArmoredZombie();
-		AddAra_Bonepile(); // Bt Y#0895		
-		AddAra_BonePrince();
-		AddAra_Bonelord();
-		AddAra_BonelordsHorn();
-		AddAra_BooHag(); // Bt Y#0895
-		AddAra_DanseMacabre(); // Bt Y#0895
-		AddAra_DeadHand();
-		AddAra_DeadPets();
-		AddAra_Draugr();
-		AddAra_DrownedSoul();
-		AddAra_Dybbuk(); // Bt Y#0895
-		AddAra_Ember_spirit();
-		AddAra_Family();
-		AddAra_Flames();
-		AddAra_Franknstein();
-		AddAra_Giant(); // Bt Y#0895
-		AddAra_GhostShip();
-		AddAra_GraveDigger();
-		AddAra_HeadlessHorseman();
-		AddAra_Hydra();
-		AddAra_Mummy();
-		AddAra_Necromancer();
-		AddAra_Obol(); // Bt Y#0895
-		AddAra_PlagueDoctor();
-		AddAra_Poltergeist();
-		AddAra_Project(); // Bt Y#0895
-		AddAra_Revenant();
-		AddAra_RingWorm();
-		AddAra_Ripper(); // Bt Y#0895
-		AddAra_Sarcophagus();
-		AddAra_Silbon(); // Bt Y#0895
-		AddAra_ScreamingSkull(); // Bt Y#0895
-		AddAra_Skelemancer();
-		AddAra_SkeletonArmy();
-		AddAra_SkeletonMage();
-		AddAra_SporeDigger();
-		AddAra_Summoner();
-		AddAra_TombRobber();
-		AddAra_Wendigo();
-		AddAra_Wyvern();
-		AddAra_ZombieGeck();
-		AddAra_Zombie();
+		Add_ArmoredZombie();
+		Add_Bonepile(); // Bt Y#0895		
+		Add_BonePrince();
+		Add_Bonelord();
+		Add_BonelordsHorn();
+		Add_BooHag(); // Bt Y#0895
+		Add_DanseMacabre(); // Bt Y#0895
+		Add_DeadHand();
+		Add_DeadPets();
+		Add_Draugr();
+		Add_DrownedSoul();
+		Add_Dybbuk(); // Bt Y#0895
+		Add_Ember_spirit();
+		Add_Family();
+		Add_Flames();
+		Add_Franknstein();
+		Add_Giant(); // Bt Y#0895
+		Add_GhostShip();
+		Add_GraveDigger();
+		Add_HeadlessHorseman();
+		Add_Hydra();
+		Add_Mummy();
+		Add_Necromancer();
+		Add_Obol(); // Bt Y#0895
+		Add_PlagueDoctor();
+		Add_Poltergeist();
+		Add_Project(); // Bt Y#0895
+		Add_Revenant();
+		Add_RingWorm();
+		Add_Ripper(); // Bt Y#0895
+		Add_Sarcophagus();
+		Add_Silbon(); // Bt Y#0895
+		Add_ScreamingSkull(); // Bt Y#0895
+		Add_VengefulSpirit();
+		Add_SkeletonArmy();
+		Add_Skelemagus();
+		Add_SporeDigger();
+		Add_Summoner();
+		Add_TombRobber();
+		Add_Wendigo();
+		Add_Wyvern();
+		Add_ZombieGeck();
+		Add_Zombie();
 
 		#endregion
 
 		ResizeArtworkForVanillaBoneCards();
-		
-		if(ConfigHelper.Instance.isHotReloadEnabled)
+
+		if (ConfigHelper.Instance.isHotReloadEnabled)
 		{
 			GameObject cardRow = GameObject.Find("CardRow");
 			if (cardRow is not null && cardRow.transform.Find("MenuCard_Grimora") is null)
 			{
-				StartScreenThemeSetterPatches.AddGrimoraModMenuCardButton(
-					FindObjectOfType<StartScreenThemeSetter>()
-				);
+				StartScreenPatches.AddGrimoraModMenuCardButton(FindObjectOfType<StartScreenThemeSetter>());
 			}
 		}
 
@@ -154,46 +149,52 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private void OnDestroy()
 	{
+		AllAbilityTextures = null;
+		AllMats = null;
+		AllPrefabs = null;
+		AllSprites = null;
+		AllGrimoraModCards = new List<CardInfo>();
 		Resources.UnloadUnusedAssets();
 		_harmony?.UnpatchSelf();
 		GrimoraModBattleSequencer.ActiveEnemyPiece = null;
 
-		FindObjectsOfType<ChessboardPiece>().ForEach(_ => Destroy(_.gameObject));
-		Destroy(FindObjectOfType<PrefabPieceHelper>());
+		Destroy(ChessboardMapExt.Instance);
+		Destroy(DeckReviewSequencer.Instance);
+		Destroy(ResourceDrone.Instance);
+		Destroy(FindObjectOfType<BoneyardBurialSequencer>());
 		Destroy(FindObjectOfType<DebugHelper>());
 		Destroy(FindObjectOfType<GrimoraModBattleSequencer>());
 		Destroy(FindObjectOfType<GrimoraModBossBattleSequencer>());
-		Destroy(ChessboardMapExt.Instance);
 		Destroy(FindObjectOfType<GrimoraCardRemoveSequencer>());
 		Destroy(FindObjectOfType<BoonIconInteractable>());
-		Destroy(ResourceDrone.Instance);
-		Destroy(DeckReviewSequencer.Instance);
 		Destroy(FindObjectOfType<GrimoraRareChoiceGenerator>());
 		Destroy(FindObjectOfType<SpecialNodeHandler>());
+		FindObjectsOfType<ChessboardPiece>().ForEach(_ => Destroy(_.gameObject));
 	}
 
 	private static void ResizeArtworkForVanillaBoneCards()
 	{
 		List<string> cardsToResizeArtwork = new List<string>
 		{
-			"Amoeba", "Maggots"
+			"Amoeba", "Banshee", "Maggots"
 		};
 
 		foreach (var cardName in cardsToResizeArtwork)
 		{
-			CardInfo cardInfo = CardLoader.Clone(CardLoader.GetCardByName(cardName));
+			CardInfo cardInfo = cardName.GetCardInfo();
 			CardBuilder builder = CardBuilder.Builder
 				.SetAsNormalCard()
 				.SetAbilities(cardInfo.abilities.ToArray())
 				.SetBaseAttackAndHealth(cardInfo.baseAttack, cardInfo.baseHealth)
 				.SetBoneCost(cardInfo.bonesCost)
 				.SetDescription(cardInfo.description)
-				.SetNames("ara_" + cardInfo.name, cardInfo.displayedName)
-				.SetTribes(cardInfo.tribes);
+				.SetNames("GrimoraMod_" + cardInfo.name, cardInfo.displayedName, (cardName == "Banshee" ? cardInfo.portraitTex : null))
+				.SetTribes(cardInfo.tribes.ToArray());
 
 			if (cardName == "Amoeba")
 			{
 				builder.SetAsRareCard();
+				builder.SetAbilities(GrimoraRandomAbility.ability);
 			}
 
 			NewCard.Add(builder.Build());
@@ -203,36 +204,15 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private static void LoadAssets()
 	{
-		FileUtils.CheckIfDirectoriesNeededExist();
-
-		Log.LogDebug($"Loading asset bundles");
-
-		AssetBundle abilityBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_abilities"));
-		AssetBundle spritesBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_sprites"));
-		AssetBundle prefabsBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("grimoramod_prefabs"));
-
-		// BundlePrefab = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir("prefab-testing"));
-		// Log.LogDebug($"{string.Join(",", BundlePrefab.GetAllAssetNames())}");
-
 		Log.LogDebug($"Loading assets into static vars");
-		AllAbilityAssets = abilityBundle.LoadAllAssets<Texture>();
-		abilityBundle.Unload(false);
+		AllAbilityTextures = AssetUtils.LoadAssetBundle<Texture>("grimoramod_abilities");
 
-		AllPrefabAssets = prefabsBundle.LoadAllAssets<GameObject>();
-		prefabsBundle.Unload(false);
+		AllMats = AssetUtils.LoadAssetBundle<Material>("grimoramod_mats");
 
-		AllSpriteAssets = spritesBundle.LoadAllAssets<Sprite>();
-		spritesBundle.Unload(false);
-	}
+		AllPrefabs = AssetUtils.LoadAssetBundle<GameObject>("grimoramod_prefabs");
 
-	private static void UnlockAllNecessaryEventsToPlay()
-	{
-		if (!StoryEventsToBeCompleteBeforeStarting.TrueForAll(StoryEventsData.EventCompleted))
-		{
-			Log.LogWarning($"You haven't completed a required event... Starting unlock process");
-			StoryEventsToBeCompleteBeforeStarting.ForEach(evt => StoryEventsData.SetEventCompleted(evt));
-			ProgressionData.UnlockAll();
-			SaveManager.SaveToFile();
-		}
+		AllSprites = AssetUtils.LoadAssetBundle<Sprite>("grimoramod_sprites");
+		
+		AllControllers = AssetUtils.LoadAssetBundle<RuntimeAnimatorController>("grimoramod_controller");
 	}
 }

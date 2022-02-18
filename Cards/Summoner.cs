@@ -5,16 +5,16 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameSummoner = "ara_Summoner";
+	public const string NameSummoner = "GrimoraMod_Summoner";
 
-	private void AddAra_Summoner()
+	private void Add_Summoner()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()
 			.SetAbilities(Ability.SplitStrike)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(4)
-			.SetDescription("This Skeleton learned Necromancy just to not fall in one Strike.")
+			.SetDescription("THIS SKELETON LEARNED NECROMANCY JUST TO NOT FALL IN ONE STRIKE.")
 			.SetNames(NameSummoner, "Summoner")
 			.Build()
 		);

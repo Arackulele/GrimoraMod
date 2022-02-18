@@ -14,8 +14,7 @@ public class PayEnergyForWyvern : ActivatedAbilityBehaviour
 
 	public override IEnumerator Activate()
 	{
-		yield return CardSpawner.Instance.SpawnCardToHand(CardLoader.GetCardByName(NameWyvern), 0.25f);
-		yield break;
+		yield return CardSpawner.Instance.SpawnCardToHand(NameWyvern.GetCardInfo());
 	}
 
 	public static NewAbility Create()

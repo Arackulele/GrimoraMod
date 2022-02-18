@@ -5,9 +5,9 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NamePlagueDoctor = "ara_PlagueDoctor";
+	public const string NamePlagueDoctor = "GrimoraMod_PlagueDoctor";
 
-	private void AddAra_PlagueDoctor()
+	private void Add_PlagueDoctor()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()
@@ -15,7 +15,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(6)
 			.SetNames(NamePlagueDoctor, "Plague Doctor")
-			.SetDescription("Ironically enough not a real doctor.")
+			.SetDescription("IRONICALLY ENOUGH, NOT A REAL DOCTOR.")
 			.Build()
 		);
 	}

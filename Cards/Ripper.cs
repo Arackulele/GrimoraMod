@@ -5,17 +5,17 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameRipper = "ara_Ripper";
+	public const string NameRipper = "GrimoraMod_Ripper";
 
-	private void AddAra_Ripper()
+	private void Add_Ripper()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.SetAsNormalCard()
+			.SetAsRareCard()
 			.SetAbilities(Ability.Brittle)
 			.SetBaseAttackAndHealth(6, 6)
-			.SetBoneCost(12)
+			.SetBoneCost(9)
 			.SetNames(NameRipper, "Ripper")
-			// .SetDescription("A vicious pile of bones. You can have it...")
+			.SetDescription("WHEN ALL HOPE IS LOST, YOU CAN ALWAYS COUNT ON THIS DEMON STRAIGHT FROM HELL!")
 			.Build()
 		);
 	}
