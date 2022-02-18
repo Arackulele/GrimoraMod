@@ -27,7 +27,6 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			yield return TextDisplayer.Instance.PlayDialogueEvent("RoyalBossDeleted", TextDisplayer.MessageAdvanceMode.Input);
 			yield return new WaitForSeconds(0.5f);
 
-			Log.LogDebug($"[GameEnd] Playing dialogue event");
 			yield return TextDisplayer.Instance.PlayDialogueEvent("GrimoraFinaleEnd", TextDisplayer.MessageAdvanceMode.Input);
 
 			if (opponent is BaseBossExt ext)
@@ -36,40 +35,29 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 				yield return ext.HideBossSkull();
 			}
 
-			Log.LogDebug($"[PreCleanUp] Calling CardDrawPiles CleanUp...");
 			StartCoroutine(CardDrawPiles.Instance.CleanUp());
 
-			Log.LogDebug($"[PreCleanUp] Calling TurnManager CleanUp...");
 			StartCoroutine(opponent.CleanUp());
 
 			yield return GlitchOutBoardAndHandCards();
 
-			Log.LogDebug($"[PreCleanUp] Setting rulebook controller to not shown");
 			RuleBookController.Instance.SetShown(false);
-			Log.LogDebug($"[PreCleanUp] Setting TableRuleBook.Instance enabled to false");
 			TableRuleBook.Instance.enabled = false;
-			Log.LogDebug($"[PreCleanUp] Glitching rulebook");
 			GlitchOutAssetEffect.GlitchModel(TableRuleBook.Instance.transform);
 			yield return new WaitForSeconds(0.75f);
 
-
-			Log.LogDebug($"[GameEnd] Glitching Resource Energy");
 			GlitchOutAssetEffect.GlitchModel(ResourceDrone.Instance.transform);
 			yield return new WaitForSeconds(0.75f);
 
-			Log.LogDebug($"[GameEnd] Glitching bell");
 			GlitchOutAssetEffect.GlitchModel(((BoardManager3D)BoardManager3D.Instance).Bell.transform);
 			yield return new WaitForSeconds(0.75f);
 
-			Log.LogDebug($"[GameEnd] Glitching scales");
 			GlitchOutAssetEffect.GlitchModel(LifeManager.Instance.Scales3D.transform);
 			yield return new WaitForSeconds(0.75f);
 
-			Log.LogDebug($"[GameEnd] Glitching hammer");
 			GlitchOutAssetEffect.GlitchModel(GrimoraItemsManagerExt.Instance.hammerSlot.transform);
 			yield return new WaitForSeconds(0.75f);
 
-			Log.LogDebug($"[GameEnd] Glitching bone tokens");
 			(ResourcesManager.Instance as Part1ResourcesManager).GlitchOutBoneTokens();
 			GlitchOutAssetEffect.GlitchModel(TableVisualEffectsManager.Instance.Table.transform);
 			yield return new WaitForSeconds(0.75f);
@@ -87,7 +75,6 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			Log.LogDebug($"[GameEnd] offset fov");
 			ViewManager.Instance.OffsetFOV(150f, 1.5f);
 
-			Log.LogDebug($"[GameEnd] Resetting run");
 			yield return new WaitForSeconds(1f);
 			ConfigHelper.Instance.ResetRun();
 		}
