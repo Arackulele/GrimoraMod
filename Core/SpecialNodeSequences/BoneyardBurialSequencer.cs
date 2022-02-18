@@ -327,10 +327,8 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 		var oldSequencer = cardStatObj.GetComponent<CardStatBoostSequencer>();
 
-		Log.LogDebug($"Adding component");
 		var newSequencer = cardStatObj.AddComponent<BoneyardBurialSequencer>();
 
-		Log.LogDebug($"Transferring old to new");
 		newSequencer.campfireLight = oldSequencer.campfireLight;
 		newSequencer.campfireCardLight = oldSequencer.campfireCardLight;
 		newSequencer.confirmStone = oldSequencer.confirmStone;
@@ -346,10 +344,8 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		newSequencer.stakeRingParent = oldSequencer.stakeRingParent;
 		newSequencer.selectionSlot.specificRenderers.RemoveAt(1);
 
-
 		SpecialNodeHandler.Instance.cardStatBoostSequencer = newSequencer;
 
-		Log.LogDebug($"Destroying old sequencer");
 		Destroy(oldSequencer);
 	}
 
