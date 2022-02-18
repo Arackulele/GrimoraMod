@@ -89,3 +89,32 @@ public class AddNewHammerExt
 		return true;
 	}
 }
+
+[HarmonyPatch(typeof(FirstPersonAnimationController), nameof(FirstPersonAnimationController.SpawnFirstPersonAnimation))]
+public class FirstPersonHammerPatch
+{
+	[HarmonyPrefix]
+	public static bool InitHammerExtAfter(
+		FirstPersonAnimationController __instance,
+		ref GameObject __result,
+		string prefabName,
+		Action<int> keyframesCallback = null
+	)
+	{
+		if (GrimoraSaveUtil.isNotGrimora || !prefabName.Contains("FirstPersonHammer"))
+		{
+			return true;
+		}
+
+		Log.LogDebug($"[FirstPersonController] Creating new grimora first person hammer");
+		GameObject gameObject = Object.Instantiate(
+			AssetUtils.GetPrefab<GameObject>("FirstPersonGrimoraHammer"),
+			__instance.pixelCamera.transform
+		);
+		gameObject.transform.localPosition = Vector3.zero;
+		gameObject.transform.localRotation = Quaternion.identity;
+
+		__result = gameObject;
+		return false;
+	}
+}
