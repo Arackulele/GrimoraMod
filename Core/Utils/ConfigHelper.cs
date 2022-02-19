@@ -1,4 +1,4 @@
-﻿using APIPlugin;
+using APIPlugin;
 using BepInEx;
 using BepInEx.Configuration;
 using DiskCardGame;
@@ -133,7 +133,7 @@ public class ConfigHelper
 		UnlockAllNecessaryEventsToPlay();
 	}
 
-	public int BonesToAdd => BossesDefeated * 2;
+	public int BonesToAdd => BossesDefeated;
 
 	public void HandleHotReloadBefore()
 	{
