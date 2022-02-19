@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
 using static GrimoraMod.GrimoraPlugin;
@@ -48,5 +48,10 @@ public class TurnManagerPatches
 		{
 			yield return ResourcesManager.Instance.AddBones(25);
 		}
+			int bonesToAdd = ConfigHelper.Instance.BonesToAdd;
+			Log.LogDebug($"[SetupPhase] Adding [{bonesToAdd}] bones");
+			yield return ResourcesManager.Instance.AddBones(bonesToAdd);
+
+		yield break;
 	}
 }
