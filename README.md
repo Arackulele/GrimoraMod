@@ -52,6 +52,12 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ## Update Notes
 
+### 2.6.7
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added new Kaycee and Sawyer boss figurines courtesy of `Catboy Stinkbug#4099`.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added new `Flames` artwork and `FlameStrafe` ability icon courtesy of `Cevin_2006`.
+
 ### 2.6.6
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed menu card flying off the screen with one line during creation of menu card: `MenuController.Instance.cards.Add(menuCardGrimora)`

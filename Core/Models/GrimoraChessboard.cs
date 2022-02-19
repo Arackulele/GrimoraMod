@@ -1,5 +1,6 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -23,7 +24,8 @@ public class GrimoraChessboard
 			},
 			{
 				typeof(ChessboardCardRemovePiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.CardRemovalFigurine, GetCardRemovalNodes)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.CardRemovalFigurine,
+					GetCardRemovalNodes)
 			},
 			{
 				typeof(ChessboardChestPiece),
@@ -150,7 +152,7 @@ public class GrimoraChessboard
 
 	public void SetupBoard()
 	{
-		PlaceBossPiece(GetBossSpecialIdForRegion());
+		PlaceBossPiece();
 		PlacePieces<ChessboardBlockerPieceExt>();
 		PlacePieces<ChessboardBoneyardPiece>();
 		PlacePieces<ChessboardCardRemovePiece>();
@@ -212,13 +214,16 @@ public class GrimoraChessboard
 
 	#region PlacingPieces
 
-	public ChessboardEnemyPiece PlaceBossPiece(string bossName, int x = -1, int y = -1)
+	public ChessboardEnemyPiece PlaceBossPiece(string bossName = "", int x = -1, int y = -1)
 	{
+		if (bossName.IsNullOrWhitespace())
+		{
+			bossName = GetBossSpecialIdForRegion();
+		}
+
+		GameObject prefabToUse = BaseBossExt.OpponentTupleBySpecialId[bossName].Item3;
 		int newX = x == -1 ? BossNode.GridX : x;
 		int newY = x == -1 ? BossNode.GridY : y;
-		GameObject prefabToUse = ConfigHelper.Instance.BossesDefeated == 3
-			? ResourceBank.Get<GameObject>("Prefabs/Opponents/Grimora/GrimoraAnim")
-			: PrefabConstants.BossPiece.gameObject;
 		return CreateChessPiece<ChessboardEnemyPiece>(
 			prefabToUse,
 			newX,
@@ -291,7 +296,6 @@ public class GrimoraChessboard
 
 		piece.name = CreateNameOfPiece<T>(specialEncounterId, coordName);
 
-		// Log.LogDebug($"[CreateChessPiece] {piece.name}");
 		ChessboardMapExt.Instance.pieces.Add(piece);
 		return (T)piece;
 	}
@@ -323,12 +327,18 @@ public class GrimoraChessboard
 				if (specialEncounterId.Contains("Boss"))
 				{
 					ActiveBossType = BaseBossExt.OpponentTupleBySpecialId.GetValueSafe(specialEncounterId).Item1;
-					enemyPiece.blueprint = BaseBossExt.OpponentTupleBySpecialId[specialEncounterId].Item3;
-					if (ConfigHelper.Instance.BossesDefeated == 3)
+					enemyPiece.blueprint = BaseBossExt.OpponentTupleBySpecialId[specialEncounterId].Item4;
+					int bossesDefeated = ConfigHelper.Instance.BossesDefeated;
+					switch (bossesDefeated)
 					{
-						// have to set the scale since the prefab is much larger
-						enemyPiece.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
-						enemyPiece.transform.Rotate(new Vector3(0, 215, 0));
+						case 3:
+							// have to set the scale since the Grimora anim prefab is much larger
+							enemyPiece.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+							enemyPiece.transform.Rotate(new Vector3(0, 215, 0));
+							break;
+						default:
+							enemyPiece.transform.localRotation = Quaternion.Euler(0, 90, 0);
+							break;
 					}
 				}
 				else

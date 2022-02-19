@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using DiskCardGame;
+﻿using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
-using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -10,7 +8,7 @@ namespace GrimoraMod;
 public class StartScreenPatches
 {
 	[HarmonyPostfix, HarmonyPatch(nameof(StartScreenThemeSetter.Start))]
-	public static void AddGrimoraModMenuCardButton(StartScreenThemeSetter __instance)
+	public static void SetBackgroundToGrimoraTheme(StartScreenThemeSetter __instance)
 	{
 		var grimoraTheme = __instance.themes[0];
 		if (ColorUtility.TryParseHtmlString("0F2623", out var color))

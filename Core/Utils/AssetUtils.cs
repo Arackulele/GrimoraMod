@@ -24,29 +24,37 @@ public static class AssetUtils
 		Type type = typeof(T);
 
 		T objToReturn = null;
-
-		if (type == typeof(Material))
+		try
 		{
-			objToReturn = AllMats.Single(go => NameMatchesAsset(go, prefabName)) as T;
+			if (type == typeof(Material))
+			{
+				objToReturn = AllMats.Single(go => NameMatchesAsset(go, prefabName)) as T;
+			}
+			else if (type == typeof(GameObject))
+			{
+				objToReturn = AllPrefabs.Single(go => NameMatchesAsset(go, prefabName)) as T;
+			}
+			else if (type == typeof(RuntimeAnimatorController))
+			{
+				objToReturn = AllControllers.Single(go => NameMatchesAsset(go, prefabName)) as T;
+			}
+			else if (type == typeof(Sprite))
+			{
+				objToReturn = AllSprites.Single(go => NameMatchesAsset(go, prefabName)) as T;
+			}
+			else if (type == typeof(Texture))
+			{
+				objToReturn = AllAbilityTextures.Single(go => NameMatchesAsset(go, prefabName)) as T;
+			}
 		}
-		else if (type == typeof(GameObject))
+		catch (Exception e)
 		{
-			objToReturn = AllPrefabs.Single(go => NameMatchesAsset(go, prefabName)) as T;
-		}
-		else if (type == typeof(RuntimeAnimatorController))
-		{
-			objToReturn = AllControllers.Single(go => NameMatchesAsset(go, prefabName)) as T;
-		}
-		else if (type == typeof(Sprite))
-		{
-			objToReturn = AllSprites.Single(go => NameMatchesAsset(go, prefabName)) as T;
-		}
-		else if (type == typeof(Texture))
-		{
-			objToReturn = AllAbilityTextures.Single(go => NameMatchesAsset(go, prefabName)) as T;
+			Log.LogError($"Unable to find prefab [{prefabName}]! This could mean the asset bundle doesn't contain it, or, most likely, your mod manager didn't correctly update the asset bundle files." +
+			             $"If it worked last update, delete your files and download the mod files again. " +
+			             $"There's a weird issue with how mod managers handle asset bundle between mod updates.");
+			throw;
 		}
 
 		return objToReturn;
 	}
-
 }

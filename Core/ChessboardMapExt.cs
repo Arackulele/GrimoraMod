@@ -292,7 +292,7 @@ public class ChessboardMapExt : GameMap
 			return toRemove;
 		});
 
-		yield return new WaitForSeconds(0.02f);
+		yield return new WaitForSeconds(0.05f);
 
 		yield return ShowPiecesThatAreActive();
 	}
