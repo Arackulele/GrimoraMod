@@ -42,11 +42,8 @@ public class ModifyLocalPositionsOfTableObjects
 		    && card.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility))
 		{
 			bool isBonelord = card.InfoName().Equals(NameBonelord);
-			Log.LogDebug($"Setting new scaling and position of [{card.Info.name}]");
 			// Card -> RotatingParent (child zero) -> TombstoneParent -> Cardbase_StatsLayer
 			Transform rotatingParent = card.transform.GetChild(0);
-			Transform skeletonArmAnim = card.transform.GetChild(1);
-			Vector3 skeletonArmAnimPosition = skeletonArmAnim.localPosition;
 
 			float xValPosition = -0.7f;
 			float xValScale = 2.1f;
@@ -54,12 +51,10 @@ public class ModifyLocalPositionsOfTableObjects
 			{
 				xValPosition = -1.4f;
 				xValScale = 3.3f;
-				Log.LogDebug($"[Giant] Setting skeleArm bonelord for [{card.InfoName()}]");
 			}
 
-			skeletonArmAnim.localPosition = new Vector3(xValPosition, skeletonArmAnimPosition.y, skeletonArmAnimPosition.z);
-			rotatingParent.localPosition = new Vector3(xValPosition, 1.05f, 0f);
-			rotatingParent.localScale = new Vector3(xValScale, xValScale, 1f);
+			rotatingParent.localPosition = new Vector3(xValPosition, 1.05f, 0);
+			rotatingParent.localScale = new Vector3(xValScale, xValScale, 1);
 		}
 
 		yield return enumerator;
