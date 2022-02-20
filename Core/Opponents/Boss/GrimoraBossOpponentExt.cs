@@ -236,7 +236,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	private CardInfo CreateModifiedBonelordsHorn()
 	{
 		CardInfo bonelordsHorn = NameBoneLordsHorn.GetCardInfo();
-		bonelordsHorn.mods.Add(new CardModificationInfo() { attackAdjustment = 2 });
+		bonelordsHorn.Mods.Add(new CardModificationInfo() { attackAdjustment = 2 });
 		bonelordsHorn.abilities.Remove(Ability.QuadrupleBones);
 		return bonelordsHorn;
 	}
