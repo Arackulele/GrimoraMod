@@ -170,8 +170,6 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	{
 		AudioController.Instance.FadeOutLoop(3f);
 		AudioController.Instance.StopAllLoops();
-
-
 		AudioController.Instance.SetLoopAndPlay("Bone_Lords_Theme");
 		AudioController.Instance.SetLoopVolumeImmediate(0.1f);
 		AudioController.Instance.FadeInLoop(7f, 0.4f, default(int));
