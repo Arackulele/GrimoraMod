@@ -31,7 +31,6 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		if (!activePlayerCards.IsNullOrEmpty() && _rng.NextBoolean())
 		{
 			var playableCard = activePlayerCards[UnityEngine.Random.Range(0, activePlayerCards.Count)];
-			Log.LogDebug($"[{GetType()}] About to assign ExplodeOnDeath to [{playableCard.Info.name}]");
 			ViewManager.Instance.SwitchToView(View.Board);
 			yield return new WaitForSeconds(0.25f);
 			yield return TextDisplayer.Instance.ShowUntilInput(

@@ -44,7 +44,7 @@ public class KayceeBossOpponent : BaseBossExt
 		);
 
 		ViewManager.Instance.SwitchToView(View.Default);
-		
+
 		PlayTheme();
 	}
 

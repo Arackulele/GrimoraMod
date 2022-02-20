@@ -58,7 +58,7 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 			}
 		}
 
-		var draugrCards 
+		var draugrCards
 			= BoardManager.Instance.GetOpponentCards(pCard => pCard.InfoName().Equals(NameDraugr));
 		Log.LogDebug($"[KayceeSequencer] Draugr cards found [{draugrCards.GetDelimitedString()}]");
 		if (draugrCards.Count >= 2)
