@@ -47,7 +47,6 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			TextDisplayer.MessageAdvanceMode.Input
 		);
 
-		SetSceneEffectsShownGrimora();
 
 		yield return TextDisplayer.Instance.PlayDialogueEvent(
 			"LeshyBossIntro1",
@@ -59,16 +58,18 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		ViewManager.Instance.SwitchToView(View.BossSkull, false, true);
 
-		PlayTheme();
-		
+
 		yield return TextDisplayer.Instance.PlayDialogueEvent(
 			"LeshyBossAddCandle",
 			TextDisplayer.MessageAdvanceMode.Input
 		);
 		yield return new WaitForSeconds(0.4f);
 
-		Log.LogDebug($"Calling bossSkull.EnterHand()");
 		bossSkull.EnterHand();
+
+		SetSceneEffectsShownGrimora();
+
+		PlayTheme();
 
 		yield return new WaitForSeconds(2f);
 		ViewManager.Instance.SwitchToView(View.Default, lockAfter: false);
@@ -77,10 +78,11 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	public override void PlayTheme()
 	{
 		Log.LogDebug($"Playing Grimora theme");
+		AudioController.Instance.FadeOutLoop(3f);
 		AudioController.Instance.StopAllLoops();
 		AudioController.Instance.SetLoopAndPlay("Risen_Again", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
-		AudioController.Instance.FadeInLoop(0.5f, 1f, 1);
+		AudioController.Instance.FadeInLoop(5f, 0.75f, 1);
 	}
 
 	public override IEnumerator StartNewPhaseSequence()
@@ -149,9 +151,10 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		ViewManager.Instance.SwitchToView(View.OpponentQueue, false, true);
 
 		// mimics the moon phase
-		yield return BoardManager.Instance.CreateCardInSlot(CreateModifiedGiant(), oppSlots[1], 0.2f);
+		CardInfo modifiedGiant = CreateModifiedGiant();
+		yield return BoardManager.Instance.CreateCardInSlot(modifiedGiant, oppSlots[1], 0.3f);
 		yield return new WaitForSeconds(0.5f);
-		yield return BoardManager.Instance.CreateCardInSlot(CreateModifiedGiant(), oppSlots[3], 0.2f);
+		yield return BoardManager.Instance.CreateCardInSlot(modifiedGiant, oppSlots[3], 0.3f);
 		yield return new WaitForSeconds(0.5f);
 	}
 
@@ -165,16 +168,21 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 	public IEnumerator StartBoneLordPhase()
 	{
+		AudioController.Instance.FadeOutLoop(3f);
+		AudioController.Instance.StopAllLoops();
+		AudioController.Instance.SetLoopAndPlay("Bone_Lords_Theme");
+		AudioController.Instance.SetLoopVolumeImmediate(0.1f);
+		AudioController.Instance.FadeInLoop(7f, 0.4f, default(int));
+
 		var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
-
-		yield return TextDisplayer.Instance.ShowUntilInput("LET THE BONE LORD COMMETH!",
-			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
-
+		yield return TextDisplayer.Instance.ShowUntilInput(
+			"LET THE BONE LORD COMMETH!",
+			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
+		);
 		ViewManager.Instance.SwitchToView(View.OpponentQueue, false, true);
 
-		yield return BoardManager.Instance.CreateCardInSlot(CreateModifiedBonelord(), oppSlots[2], 0.2f);
+		yield return BoardManager.Instance.CreateCardInSlot(CreateModifiedBonelord(), oppSlots[2], 0.75f);
 		yield return new WaitForSeconds(0.25f);
-
 
 		yield return TextDisplayer.Instance.ShowUntilInput(
 			"RISE MY ARMY! RIIIIIIIIIISE!",

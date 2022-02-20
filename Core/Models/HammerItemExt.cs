@@ -36,7 +36,7 @@ public class HammerItemExt : HammerItem
 				   )
 				{
 					yield return TextDisplayer.Instance.ShowUntilInput(
-						"I can't make it that easy for you! There's no fun if you destroy all this ice!"
+						"I CAN'T MAKE IT THAT EASY FOR YOU! THERE'S NO FUN IF YOU DESTROY ALL THIS ICE!"
 					);
 				}
 				else
@@ -51,20 +51,20 @@ public class HammerItemExt : HammerItem
 		{
 			StartCoroutine(
 				TextDisplayer.Instance.ShowUntilInput(
-					"Don't get too comfortable with that, this Hammer is fragile and will break after the 3rd use!")
+					"DON'T GET TOO COMFORTABLE WITH THAT, THIS HAMMER IS FRAGILE AND WILL BREAK AFTER THE 3RD USE!")
 			);
 		}
 		else if (!_dialoguePlayed && _useCounter == 2)
 		{
 			StartCoroutine(
-				TextDisplayer.Instance.ShowUntilInput("Getting carried away are we? You can only use it one more time.")
+				TextDisplayer.Instance.ShowUntilInput("GETTING CARRIED AWAY ARE WE? YOU CAN ONLY USE IT ONE MORE TIME.")
 			);
 		}
 		else if (!_dialoguePlayed && _useCounter >= 3)
 		{
-			StartCoroutine(
-				TextDisplayer.Instance.ShowUntilInput("The Hammer is now broken and you can no longer use it. I will have it fixed for the next battle though...")
-			);
+			StartCoroutine(TextDisplayer.Instance.ShowUntilInput(
+				"THE HAMMER IS NOW BROKEN AND YOU CAN NO LONGER USE IT. I WILL HAVE IT FIXED FOR THE NEXT BATTLE THOUGH..."
+			));
 			_dialoguePlayed = true;
 		}
 

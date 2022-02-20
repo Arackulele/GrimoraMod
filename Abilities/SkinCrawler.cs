@@ -134,7 +134,7 @@ public class SkinCrawler : AbilityBehaviour
 			{
 				PlayedDialogue = true;
 				ViewManager.Instance.SwitchToView(View.Board);
-				yield return TextDisplayer.Instance.ShowUntilInput("Poor thing couldn't find a host");
+				yield return TextDisplayer.Instance.ShowUntilInput("POOR THING COULDN'T FIND A HOST");
 				yield return Card.Die(false);
 			}
 		}

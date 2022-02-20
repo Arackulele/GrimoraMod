@@ -31,11 +31,13 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		if (!activePlayerCards.IsNullOrEmpty() && _rng.NextBoolean())
 		{
 			var playableCard = activePlayerCards[UnityEngine.Random.Range(0, activePlayerCards.Count)];
-			Log.LogDebug($"[{GetType()}] About to assign ExplodeOnDeath to [{playableCard.Info.name}]");
 			ViewManager.Instance.SwitchToView(View.Board);
 			yield return new WaitForSeconds(0.25f);
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				$"YARRRR, I WILL ENJOY THE KABOOM OF [c:bR]{playableCard.Info.displayedName}[c:]", 1f, 0.5f, Emotion.Anger
+				$"YARRRR, I WILL ENJOY THE KABOOM OF {playableCard.Info.displayedName.BrightRed()}",
+				1f,
+				0.5f,
+				Emotion.Anger
 			);
 			if (!playableCard.TemporaryMods.Exists(mod => mod.abilities.Contains(Ability.ExplodeOnDeath)))
 			{
