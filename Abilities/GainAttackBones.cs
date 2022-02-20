@@ -32,6 +32,6 @@ public class GainAttackBones : VariableStatBehaviour
 
 	public override int[] GetStatValues()
 	{
-		return new[] { ResourcesManager.Instance.PlayerBones };
+		return new[] { ResourcesManager.Instance.PlayerBones, 0 };
 	}
 }
