@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 66145222
+CRC: 4254928430
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 80fc87c0f4a5795bb7615c39e27e2fef
+    Hash: 2638e03dec18c053a90222e50a1d39e2
   TypeTreeHash:
     serializedVersion: 2
     Hash: bc2f737821ec90d33cfdfb0a7a7aba7b
@@ -60,6 +60,7 @@ Assets:
 - Assets/GrimoraMod/ChessboardPieces/Blocker_Grimora.prefab
 - Assets/GrimoraMod/Animations/VfxBoltLightning.prefab
 - Assets/GrimoraMod/ChessboardPieces/ChessboardPiece_ElectricChair.prefab
+- Assets/GrimoraMod/ChessboardPieces/Kaycee/KayceeFigurine.prefab
 - Assets/GrimoraMod/Models/hammer/GrimoraHammer.prefab
 - Assets/GrimoraMod/Models/EnergyCells_Right.prefab
 - Assets/GrimoraMod/Models/hammer/FirstPersonGrimoraHammer.prefab
