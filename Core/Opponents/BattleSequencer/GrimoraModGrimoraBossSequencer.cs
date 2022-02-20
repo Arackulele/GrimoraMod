@@ -12,7 +12,9 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 	private bool hasPlayedArmyDialogue = false;
 
-	private bool playedDeathTouchDialogue;
+	private bool playedDialogueDeathTouch;
+
+	private bool playedDialoguePossessive;
 
 	public override Opponent.Type BossType => BaseBossExt.GrimoraOpponent;
 
@@ -54,7 +56,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 	public override IEnumerator OpponentUpkeep()
 	{
-		if (!playedDeathTouchDialogue &&
+		if (!playedDialogueDeathTouch &&
 		    BoardManager.Instance.GetSlots(true)
 			    .Exists(x => x.CardHasAbility(Ability.Deathtouch))
 		    && BoardManager.Instance.GetSlots(false)
@@ -66,7 +68,18 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 				"DEATH TOUCH WON'T HELP YOU HERE DEAR." +
 				"\nI MADE THESE GIANTS SPECIAL, IMMUNE TO QUITE A FEW DIFFERENT TRICKS!"
 			);
-			playedDeathTouchDialogue = true;
+			playedDialogueDeathTouch = true;
+		}
+		else if (!playedDialoguePossessive
+		         && BoardManager.Instance.GetSlots(true)
+			         .Exists(x => x.CardHasAbility(Possessive.ability))
+		         && BoardManager.Instance.GetSlots(false)
+			         .Exists(slot => slot.Card.InfoName().Equals(NameBonelord))
+		        )
+		{
+			yield return new WaitForSeconds(0.5f);
+			yield return TextDisplayer.Instance.ShowUntilInput("THE BONE LORD CANNOT BE POSSESSED!");
+			playedDialoguePossessive = true;
 		}
 	}
 
