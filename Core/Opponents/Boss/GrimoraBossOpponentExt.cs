@@ -149,9 +149,10 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		ViewManager.Instance.SwitchToView(View.OpponentQueue, false, true);
 
 		// mimics the moon phase
-		yield return BoardManager.Instance.CreateCardInSlot(CreateModifiedGiant(), oppSlots[1], 0.2f);
+		CardInfo modifiedGiant = CreateModifiedGiant();
+		yield return BoardManager.Instance.CreateCardInSlot(modifiedGiant, oppSlots[1], 0.3f);
 		yield return new WaitForSeconds(0.5f);
-		yield return BoardManager.Instance.CreateCardInSlot(CreateModifiedGiant(), oppSlots[3], 0.2f);
+		yield return BoardManager.Instance.CreateCardInSlot(modifiedGiant, oppSlots[3], 0.3f);
 		yield return new WaitForSeconds(0.5f);
 	}
 
