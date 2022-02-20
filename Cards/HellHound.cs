@@ -10,7 +10,6 @@ public partial class GrimoraPlugin
 	private void Add_HellHound()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.SetAsRareCard()
 			.SetAbilities(Ability.WhackAMole, Ability.Reach)
 			.SetAbilities(GainAttackBones.NewSpecialAbility.specialTriggeredAbility)
 			.SetBaseAttackAndHealth(1, 9)
