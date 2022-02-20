@@ -2,7 +2,6 @@
 using APIPlugin;
 using DiskCardGame;
 using HarmonyLib;
-using Sirenix.Utilities;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -48,7 +47,7 @@ public class PatchesForPossessive
 				.ToList();
 
 			__result = new List<CardSlot>();
-			if (!adjSlots.IsNullOrEmpty())
+			if (adjSlots.IsNotEmpty())
 			{
 				CardSlot slotToTarget = adjSlots[UnityEngine.Random.RandomRangeInt(0, adjSlots.Count)];
 				Log.LogDebug($"[OpposingPatches.Possessive] Slot targeted for attack [{slotToTarget.Index}]");

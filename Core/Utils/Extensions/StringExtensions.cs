@@ -1,9 +1,16 @@
 ﻿using DiskCardGame;
+using Sirenix.Utilities;
 
 namespace GrimoraMod;
 
 public static class StringExtensions
 {
+
+	public static bool IsNotEmpty(this string self)
+	{
+		return !self.IsNullOrWhitespace();
+	}
+	
 	public static CardInfo GetCardInfo(this string self)
 	{
 		return CardLoader.GetCardByName(self);

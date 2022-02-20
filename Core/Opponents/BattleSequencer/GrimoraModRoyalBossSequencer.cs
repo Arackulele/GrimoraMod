@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using DiskCardGame;
-using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -28,7 +27,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
 		var activePlayerCards = BoardManager.Instance.GetPlayerCards();
-		if (!activePlayerCards.IsNullOrEmpty() && _rng.NextBoolean())
+		if (activePlayerCards.IsNotEmpty() && _rng.NextBoolean())
 		{
 			var playableCard = activePlayerCards[UnityEngine.Random.Range(0, activePlayerCards.Count)];
 			ViewManager.Instance.SwitchToView(View.Board);

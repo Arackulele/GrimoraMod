@@ -106,7 +106,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 	)
 	{
 		List<CardSlot> opponentQueuedSlots = BoardManager.Instance.GetQueueSlots();
-		if (!opponentQueuedSlots.IsNullOrEmpty())
+		if (opponentQueuedSlots.IsNotEmpty())
 		{
 			ViewManager.Instance.SwitchToView(View.BossCloseup);
 			yield return TextDisplayer.Instance.PlayDialogueEvent("GrimoraBossReanimate1",

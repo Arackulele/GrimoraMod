@@ -30,7 +30,7 @@ public class BaseGameFlowManagerPatches
 		Log.LogDebug($"[GameFlowManager] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");
 
 		AudioController.Instance.Loops.AddRange(AllSounds);
-		
+
 		DisableAttackAndHealthStatShadows();
 
 		SetupPlayableAndSelectableCardPrefabs();
@@ -270,7 +270,7 @@ public class BaseGameFlowManagerPatches
 		}
 
 		bool isBossDefeated = ChessboardMapExt.Instance.BossDefeated;
-		bool piecesExist = !ChessboardMapExt.Instance.pieces.IsNullOrEmpty();
+		bool piecesExist = ChessboardMapExt.Instance.pieces.IsNotEmpty();
 
 		Log.LogDebug($"[TransitionTo] IsBossDefeated [{isBossDefeated}] Pieces exist [{piecesExist}]");
 

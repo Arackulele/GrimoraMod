@@ -1,4 +1,5 @@
 ﻿using DiskCardGame;
+using Sirenix.Utilities;
 
 namespace GrimoraMod;
 
@@ -23,5 +24,10 @@ public static class CardRelatedExtension
 	public static T GetRandomItem<T>(this List<T> self)
 	{
 		return self.Randomize().ToList()[SeededRandom.Range(0, self.Count, RandomUtils.GenerateRandomSeed())];
+	}
+
+	public static bool IsNotEmpty<T>(this List<T> self)
+	{
+		return !self.IsNullOrEmpty();
 	}
 }
