@@ -14,7 +14,7 @@ public class SawyerBossOpponent : BaseBossExt
 
 	public override string SpecialEncounterId => "SawyerBoss";
 
-	public override string DefeatedPlayerDialogue => "My dogs will enjoy your bones!";
+	public override string DefeatedPlayerDialogue => "MY DOGS WILL ENJOY YOUR BONES!";
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
@@ -30,7 +30,7 @@ public class SawyerBossOpponent : BaseBossExt
 
 		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
-			"Look away, Look away! If you want to fight, get it over quick!",
+			"LOOK AWAY, LOOK AWAY! IF YOU WANT TO FIGHT, GET IT OVER QUICK!",
 			-0.65f,
 			0.4f
 		);
@@ -71,7 +71,7 @@ public class SawyerBossOpponent : BaseBossExt
 
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"Please, I don't want to fight anymore! Get it over with!",
+				"PLEASE, I DON'T WANT TO FIGHT ANYMORE! GET IT OVER WITH!",
 				-0.65f,
 				0.4f
 			);
@@ -109,7 +109,7 @@ public class SawyerBossOpponent : BaseBossExt
 		if (wasDefeated)
 		{
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"Thanks for getting it over with, and don't ever return!",
+				"THANKS FOR GETTING IT OVER WITH, AND DON'T EVER RETURN!",
 				-0.65f,
 				0.4f
 			);
@@ -119,19 +119,18 @@ public class SawyerBossOpponent : BaseBossExt
 
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"The next area won't be so easy.",
+				"THE NEXT AREA WON'T BE SO EASY.",
 				-0.65f,
 				0.4f
 			);
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"I asked Royal to do his best at making it impossible.",
+				"I ASKED ROYAL TO DO HIS BEST AT MAKING IT IMPOSSIBLE.",
 				-0.65f,
 				0.4f
 			);
 		}
 		else
 		{
-			Log.LogDebug($"[{GetType()}] Defeated player dialogue");
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				DefeatedPlayerDialogue,
 				-0.65f,

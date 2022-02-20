@@ -167,8 +167,10 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	{
 		var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
 
-		yield return TextDisplayer.Instance.ShowUntilInput("LET THE BONE LORD COMMETH!",
-			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
+		yield return TextDisplayer.Instance.ShowUntilInput(
+			"LET THE BONE LORD COMMETH!",
+			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
+			);
 
 		ViewManager.Instance.SwitchToView(View.OpponentQueue, false, true);
 

@@ -13,7 +13,7 @@ public class KayceeBossOpponent : BaseBossExt
 	public override Type Opponent => KayceeOpponent;
 	public override string SpecialEncounterId => "KayceeBoss";
 
-	public override string DefeatedPlayerDialogue => "Youuuuuuur, painnnfulllll deaaathhh awaiiitttsss youuuuuuu!";
+	public override string DefeatedPlayerDialogue => "YOUUUUUUUR, PAINNNFULLLLL DEAAATHHH AWAIIITTTSSS YOUUUUUUU!";
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{

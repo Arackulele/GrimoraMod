@@ -115,7 +115,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		if (_rng.NextBoolean() && !hasPlayedArmyDialogue)
 		{
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"Only a few more turns before I can bring my army back...",
+				"ONLY A FEW MORE TURNS BEFORE I CAN BRING MY ARMY BACK...",
 				letterAnimation: TextDisplayer.LetterAnimation.None
 			);
 			hasPlayedArmyDialogue = true;

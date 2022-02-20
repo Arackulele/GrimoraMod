@@ -15,7 +15,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 	public override string SpecialEncounterId => "RoyalBoss";
 
-	public override string DefeatedPlayerDialogue => "Arrg! Walk off the plank yee dirty Scallywag!!!";
+	public override string DefeatedPlayerDialogue => "ARRG! WALK OFF THE PLANK YEE DIRTY SCALLYWAG!!!";
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
@@ -32,8 +32,8 @@ public class RoyalBossOpponentExt : BaseBossExt
 		SetSceneEffectsShownRoyal();
 
 		yield return FaceZoomSequence();
-		yield return TextDisplayer.Instance.ShowUntilInput("Var, I see you made it to me ship challenger!");
-		yield return TextDisplayer.Instance.ShowUntilInput("I've been waiting for a worthy fight!");
+		yield return TextDisplayer.Instance.ShowUntilInput("VAR, I SEE YOU MADE IT TO ME SHIP CHALLENGER!");
+		yield return TextDisplayer.Instance.ShowUntilInput("I'VE BEEN WAITING FOR A WORTHY FIGHT!");
 
 		cannons = Instantiate(
 			ResourceBank.Get<GameObject>("Prefabs/Environment/TableEffects/CannonTableEffects")
@@ -81,7 +81,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 	{
 		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
-			"Yee be a tough nut to crack!\nReady for Round 2?",
+			"YEE BE A TOUGH NUT TO CRACK!\nREADY FOR ROUND 2?",
 			-0.65f,
 			0.4f
 		);
@@ -96,7 +96,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 		{
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"I overestimated me skill, good luck challenger.",
+				"I OVERESTIMATED ME SKILL, GOOD LUCK CHALLENGER.",
 				-0.65f,
 				1f
 			);
@@ -116,15 +116,14 @@ public class RoyalBossOpponentExt : BaseBossExt
 			ViewManager.Instance.SwitchToView(View.BossCloseup);
 			yield return new WaitForSeconds(0.05f);
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"Hello again!\nI am excited for you to see this last one.", -0.65f, 0.4f
+				"HELLO AGAIN!\nI AM EXCITED FOR YOU TO SEE THIS LAST ONE.", -0.65f, 0.4f
 			);
 
-			yield return TextDisplayer.Instance.ShowUntilInput("I put it together myself.");
-			yield return TextDisplayer.Instance.ShowUntilInput("Let's see if you can beat all odds and win!");
+			yield return TextDisplayer.Instance.ShowUntilInput("I PUT IT TOGETHER MYSELF.");
+			yield return TextDisplayer.Instance.ShowUntilInput("LET'S SEE IF YOU CAN BEAT ALL ODDS AND WIN!");
 		}
 		else
 		{
-			Log.LogDebug($"[{GetType()}] Defeated player dialogue");
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				DefeatedPlayerDialogue,
 				-0.65f,
