@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1266562086
+CRC: 1311651762
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 01fb403b57a5be4c6669eacd3e311e61
+    Hash: 127690f17462164213f9770a42298e10
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -57,6 +57,7 @@ Assets:
 - Assets/GrimoraMod/Cards/Flames_emission.png
 - Assets/GrimoraMod/Cards/Ripper_emission.png
 - Assets/GrimoraMod/Cards/Family_emission.png
+- Assets/GrimoraMod/Cards/HellHound.png
 - Assets/GrimoraMod/Cards/DanseMacabre.png
 - Assets/GrimoraMod/Cards/PlagueDoctor.png
 - Assets/GrimoraMod/Cards/Obol.png
@@ -95,6 +96,7 @@ Assets:
 - Assets/GrimoraMod/Cards/VengefulSpirit_emission.png
 - Assets/GrimoraMod/Cards/GhostShip_emission.png
 - Assets/GrimoraMod/Cards/Wyvern_emission.png
+- Assets/GrimoraMod/Cards/HellHound_emission.png
 - Assets/GrimoraMod/Cards/BooHag.png
 - Assets/GrimoraMod/Cards/Bonepile.png
 - Assets/GrimoraMod/Cards/SkeletonArmy_emission.png
