@@ -12,26 +12,11 @@ public class GravestoneCardAnimationControllerPatches
 	[HarmonyPatch(nameof(GravestoneCardAnimationController.PlayAttackAnimation))]
 	public static bool Prefix(ref GravestoneCardAnimationController __instance, bool attackPlayer, CardSlot targetSlot)
 	{
-		if (__instance.PlayableCard.Info.HasTrait(Trait.Giant))
-		{
-			float xValPosition = -0.7f;
-			Transform skeletonArm = __instance.transform.GetChild(1);
-			Vector3 skeletonArmAnimPosition = skeletonArm.localPosition;
-			if (ConfigHelper.Instance.HasIncreaseSlotsMod && __instance.Card.InfoName().Equals(NameBonelord))
-			{
-				xValPosition = -1.4f;
-				Log.LogDebug($"[Giant] Setting skeleArm bonelord");
-			}
-			
-			skeletonArm.localPosition = new Vector3(xValPosition, skeletonArmAnimPosition.y, skeletonArmAnimPosition.z);
-		}
+		// SetSkeletonArmAttackPositionForGiantCards(__instance);
+
 		__instance.Anim.Play("shake", 0, 0f);
 		__instance.armAnim.gameObject.SetActive(value: true);
 
-
-		// target slot = 3 (far right)
-		// player slot = 0, 3 - 0 == 3
-		// player slot, 0, 3 * 1 == 3
 		int numToDetermineRotation = (
 			                             targetSlot.Index // 0
 			                             -
@@ -93,6 +78,23 @@ public class GravestoneCardAnimationControllerPatches
 		return false;
 	}
 
+	private static void SetSkeletonArmAttackPositionForGiantCards(GravestoneCardAnimationController __instance)
+	{
+		if (__instance.PlayableCard.Info.HasTrait(Trait.Giant))
+		{
+			float xValPosition = -0.7f;
+			Transform skeletonArm = __instance.transform.GetChild(1);
+			Vector3 skeletonArmAnimPosition = skeletonArm.localPosition;
+			if (ConfigHelper.Instance.HasIncreaseSlotsMod && __instance.Card.InfoName().Equals(NameBonelord))
+			{
+				xValPosition = -1.4f;
+				Log.LogDebug($"[Giant] Setting skeleArm bonelord");
+			}
+
+			skeletonArm.localPosition = new Vector3(xValPosition, skeletonArmAnimPosition.y, skeletonArmAnimPosition.z);
+		}
+	}
+
 	[HarmonyPrefix, HarmonyPatch(nameof(GravestoneCardAnimationController.PlayDeathAnimation))]
 	public static bool ChangeDeathAnimationToNotNullOut(
 		GravestoneCardAnimationController __instance,
@@ -130,7 +132,7 @@ public class GravestoneCardAnimBaseClassPatches
 			controller.Anim.ResetTrigger(Hover);
 			controller.Anim.SetTrigger(Hover);
 		}
-		
+
 		controller.Anim.SetBool(Hovering, hovering);
 
 		return false;
