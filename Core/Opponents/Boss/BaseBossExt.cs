@@ -93,16 +93,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 			bossSkullTransform.localRotation = Quaternion.Euler(85.85f, 227.76f, 262.77f);
 			bossSkullTransform.localScale = new Vector3(0.14f, 0.14f, 0.14f);
 
-			try
-			{
-				RoyalBossSkull.SetActive(false);
-			}
-			catch (Exception e)
-			{
-				Log.LogError("Was unable to find Royal's skull or set it as inactive?");
-				throw;
-			}
-
+			RoyalBossSkull.SetActive(false);
 			yield return ShowBossSkull();
 		}
 	}
