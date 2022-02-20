@@ -59,6 +59,8 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		ViewManager.Instance.SwitchToView(View.BossSkull, false, true);
 
+		PlayTheme();
+		
 		yield return TextDisplayer.Instance.PlayDialogueEvent(
 			"LeshyBossAddCandle",
 			TextDisplayer.MessageAdvanceMode.Input
@@ -70,6 +72,15 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		yield return new WaitForSeconds(2f);
 		ViewManager.Instance.SwitchToView(View.Default, lockAfter: false);
+	}
+
+	public override void PlayTheme()
+	{
+		Log.LogDebug($"Playing Grimora theme");
+		AudioController.Instance.StopAllLoops();
+		AudioController.Instance.SetLoopAndPlay("Risen_Again", 1);
+		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
+		AudioController.Instance.FadeInLoop(0.5f, 1f, 1);
 	}
 
 	public override IEnumerator StartNewPhaseSequence()

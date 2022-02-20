@@ -18,7 +18,6 @@ public class SawyerBossOpponent : BaseBossExt
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
-		AudioController.Instance.SetLoopAndPlay("gbc_battle_undead", 1);
 		SpawnScenery("CratesTableEffects");
 		yield return new WaitForSeconds(0.1f);
 
@@ -37,7 +36,17 @@ public class SawyerBossOpponent : BaseBossExt
 		);
 
 		ViewManager.Instance.SwitchToView(View.Default);
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+
+		PlayTheme();
+	}
+
+	public override void PlayTheme()
+	{
+		Log.LogDebug($"Playing sawyer theme");
+		AudioController.Instance.StopAllLoops();
+		AudioController.Instance.SetLoopAndPlay("Dogbite", 1);
+		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
+		AudioController.Instance.FadeInLoop(0.5f, 1f, 1);
 	}
 
 	private static void SetSceneEffectsShownSawyer()
@@ -110,9 +119,15 @@ public class SawyerBossOpponent : BaseBossExt
 
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"The next area won't be so easy. I asked Royal to do his best at making it impossible.",
+				"The next area won't be so easy.",
 				-0.65f,
-				0.4f);
+				0.4f
+			);
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				"I asked Royal to do his best at making it impossible.",
+				-0.65f,
+				0.4f
+			);
 		}
 		else
 		{

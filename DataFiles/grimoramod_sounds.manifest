@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 616293861
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: a4550697a82c84ed89a9d967fa2af343
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 3f7d0c5e0986ec71841622bcb2f9be1c
+HashAppended: 0
+ClassTypes:
+- Class: 83
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/GrimoraMod/Sounds/Royal_Ruckus.ogg
+- Assets/GrimoraMod/Sounds/Dogbite.ogg
+- Assets/GrimoraMod/Sounds/Frostburn.ogg
+- Assets/GrimoraMod/Sounds/Risen_Again.ogg
+Dependencies: []

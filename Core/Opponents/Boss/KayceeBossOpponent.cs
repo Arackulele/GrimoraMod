@@ -25,16 +25,11 @@ public class KayceeBossOpponent : BaseBossExt
 			}
 		};
 
-		AudioController.Instance.SetLoopAndPlay("gbc_battle_undead");
-		AudioController.Instance.SetLoopAndPlay("gbc_battle_undead", 1);
-		yield return new WaitForSeconds(0.5f);
-
 		ViewManager.Instance.SwitchToView(View.Default);
 		yield return new WaitForSeconds(1f);
 		SetSceneEffectsShownKaycee();
 
 		yield return base.IntroSequence(encounter);
-		yield return new WaitForSeconds(0.5f);
 
 		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
@@ -49,7 +44,17 @@ public class KayceeBossOpponent : BaseBossExt
 		);
 
 		ViewManager.Instance.SwitchToView(View.Default);
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+		
+		PlayTheme();
+	}
+
+	public override void PlayTheme()
+	{
+		Log.LogDebug($"Playing kaycee theme");
+		AudioController.Instance.StopAllLoops();
+		AudioController.Instance.SetLoopAndPlay("Frostburn", 1);
+		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
+		AudioController.Instance.FadeInLoop(0.5f, 0.5f, 1);
 	}
 
 	private static void SetSceneEffectsShownKaycee()
@@ -80,7 +85,7 @@ public class KayceeBossOpponent : BaseBossExt
 			new(),
 			new(),
 			new() { bp_Draugr, bp_Skeleton, bp_Draugr, bp_Revenant },
-			new() { bp_Skeleton, bp_Skeleton,  },
+			new() { bp_Skeleton, bp_Skeleton, },
 			new() { bp_Skeleton },
 			new() { bp_Skeleton },
 			new() { bp_Skeleton },
@@ -110,7 +115,7 @@ public class KayceeBossOpponent : BaseBossExt
 		if (wasDefeated)
 		{
 			// before the mask gets put away
-			yield return TextDisplayer.Instance.ShowUntilInput("Oh come on dude, I'm still Cold!", -0.65f, 0.4F);
+			yield return TextDisplayer.Instance.ShowUntilInput("Oh come on dude, I'm still Cold!", -0.65f, 0.4f);
 			yield return TextDisplayer.Instance.ShowUntilInput("Let's fight again soon!", -0.65f, 0.4f);
 
 			// this will put the mask away
@@ -122,7 +127,7 @@ public class KayceeBossOpponent : BaseBossExt
 				-0.65f,
 				0.4f
 			);
-			yield return TextDisplayer.Instance.ShowUntilInput("He says it is terrible", -0.65f, 0.4f);
+			yield return TextDisplayer.Instance.ShowUntilInput("He says it is terrible.", -0.65f, 0.4f);
 		}
 		else
 		{

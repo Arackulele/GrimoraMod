@@ -12,7 +12,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 		{
 			{
 				"KayceeBoss", new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
-					KayceeOpponent, 
+					KayceeOpponent,
 					typeof(GrimoraModKayceeBossSequencer),
 					PrefabConstants.BossPieceKaycee,
 					BlueprintUtils.BuildKayceeBossInitialBlueprint()
@@ -20,7 +20,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 			},
 			{
 				"SawyerBoss", new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
-					SawyerOpponent, 
+					SawyerOpponent,
 					typeof(GrimoraModSawyerBossSequencer),
 					PrefabConstants.BossPieceSawyer,
 					BlueprintUtils.BuildSawyerBossInitialBlueprint()
@@ -28,7 +28,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 			},
 			{
 				"RoyalBoss", new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
-					RoyalOpponent, 
+					RoyalOpponent,
 					typeof(GrimoraModRoyalBossSequencer),
 					PrefabConstants.BossPieceRoyal.gameObject,
 					BlueprintUtils.BuildRoyalBossInitialBlueprint()
@@ -36,7 +36,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 			},
 			{
 				"GrimoraBoss", new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
-					GrimoraOpponent, 
+					GrimoraOpponent,
 					typeof(GrimoraModGrimoraBossSequencer),
 					PrefabConstants.BossPieceGrimora,
 					BlueprintUtils.BuildGrimoraBossInitialBlueprint()
@@ -44,7 +44,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 			},
 			{
 				"GrimoraModBattleSequencer", new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
-					0, 
+					0,
 					typeof(GrimoraModBattleSequencer),
 					null,
 					null
@@ -80,6 +80,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
+		AudioController.Instance.FadeOutLoop(0.75f);
 		yield return base.IntroSequence(encounter);
 
 		// Royal boss has a specific sequence to follow so that it flows easier
@@ -106,9 +107,6 @@ public abstract class BaseBossExt : Part1BossOpponent
 			}
 
 			yield return ShowBossSkull();
-
-			AudioController.Instance.FadeOutLoop(0.75f);
-			RunState.CurrentMapRegion.FadeOutAmbientAudio();
 		}
 	}
 
@@ -186,6 +184,8 @@ public abstract class BaseBossExt : Part1BossOpponent
 
 		yield break;
 	}
+
+	public abstract void PlayTheme();
 
 	public virtual IEnumerator ReplaceBlueprintCustom(EncounterBlueprintData blueprintData)
 	{
