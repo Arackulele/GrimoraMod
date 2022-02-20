@@ -2,7 +2,7 @@
 	"name": "GrimoraMod",
 	"version_number": "2.7.1",
 	"website_url": "https://github.com/Arackulele/GrimoraMod",
-	"description": "Card update + Fixes! Probably the biggest and most ambitious mod. Gives Grimora a full act!",
+	"description": "New Soundtrack + Mechanics! Probably the biggest and most ambitious mod. Gives Grimora a full act!",
 	"dependencies": [
 		"API_dev-API-1.13.4",
 		"MADH95Mods-SigilArtPatch-1.5.1",

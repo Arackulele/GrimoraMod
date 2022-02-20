@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()
 			.SetAbilities(CreateArmyOfSkeletons.ability)
-			.SetBaseAttackAndHealth(1, 3)
+			.SetBaseAttackAndHealth(1, 2)
 			.SetBoneCost(5)
 			.SetDescription($"RISE MY ARMY, RIIIIIISE".BrightRed())
 			.SetNames(NameSkeletonArmy, "Skeleton Army")

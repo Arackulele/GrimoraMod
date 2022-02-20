@@ -1,4 +1,4 @@
-﻿using APIPlugin;
+using APIPlugin;
 using DiskCardGame;
 
 namespace GrimoraMod;
@@ -10,7 +10,8 @@ public partial class GrimoraPlugin
 	private void Add_ZombieGeck()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.SetAsRareCard()
+			//Removing Zomb geck for theming reasons, this was only here as filler
+			//.SetAsRareCard()
 			.SetAbilities(Ability.Brittle)
 			.SetBaseAttackAndHealth(2, 1)
 			.SetBoneCost(1)
