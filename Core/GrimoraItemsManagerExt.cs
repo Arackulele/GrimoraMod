@@ -45,7 +45,7 @@ public class GrimoraItemsManagerExt : ItemsManager
 			ext.hammerSlot = part3ItemsManager.hammerSlot;
 			part3ItemsManager.hammerSlot.transform.SetParent(ext.transform);
 
-			float xVal = Harmony.HasAnyPatches("julianperge.inscryption.act1.increaseCardSlots") ? -8.75f : -7.5f;
+			float xVal = ConfigHelper.Instance.HasIncreaseSlotsMod ? -8.75f : -7.5f;
 			ext.hammerSlot.gameObject.transform.localPosition = new Vector3(xVal, 1.25f, -0.48f);
 			ext.hammerSlot.gameObject.transform.rotation = Quaternion.Euler(0, 20, -90);
 		}

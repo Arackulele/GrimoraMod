@@ -23,8 +23,17 @@ public class GrimoraGiant : SpecialCardBehaviour
 
 	public override IEnumerator OnResolveOnBoard()
 	{
-		BoardManager.Instance.OpponentSlotsCopy[PlayableCard.Slot.Index - 1].Card = PlayableCard;
-		BoardManager.Instance.OpponentSlotsCopy[PlayableCard.Slot.Index].Card = PlayableCard;
+		int slotsToSet = 2;
+		if (ConfigHelper.Instance.HasIncreaseSlotsMod && Card.InfoName().Equals(NameBonelord))
+		{
+			slotsToSet = 3;
+		}
+
+		for (int i = 0; i < slotsToSet; i++)
+		{
+			BoardManager.Instance.OpponentSlotsCopy[PlayableCard.Slot.Index - i].Card = PlayableCard;
+		}
+
 		yield break;
 	}
 
@@ -35,8 +44,17 @@ public class GrimoraGiant : SpecialCardBehaviour
 
 	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
 	{
-		BoardManager.Instance.OpponentSlotsCopy[PlayableCard.Slot.Index - 1].Card = null;
-		BoardManager.Instance.OpponentSlotsCopy[PlayableCard.Slot.Index].Card = null;
+		int slotsToSet = 2;
+		if (ConfigHelper.Instance.HasIncreaseSlotsMod && Card.InfoName().Equals(NameBonelord))
+		{
+			slotsToSet = 3;
+		}
+
+		for (int i = 0; i < slotsToSet; i++)
+		{
+			BoardManager.Instance.OpponentSlotsCopy[PlayableCard.Slot.Index - i].Card = null;
+		}
+
 		yield break;
 	}
 }

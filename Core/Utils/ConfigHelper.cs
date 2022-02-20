@@ -2,6 +2,7 @@ using APIPlugin;
 using BepInEx;
 using BepInEx.Configuration;
 using DiskCardGame;
+using HarmonyLib;
 using Sirenix.Utilities;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -144,6 +145,8 @@ public class ConfigHelper
 		UnlockAllNecessaryEventsToPlay();
 	}
 
+	public bool HasIncreaseSlotsMod => Harmony.HasAnyPatches("julianperge.inscryption.act1.increaseCardSlots");
+	
 	public int BonesToAdd => BossesDefeated;
 
 	public void HandleHotReloadBefore()

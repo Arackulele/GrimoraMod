@@ -154,7 +154,20 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		CardInfo modifiedGiant = CreateModifiedGiant();
 		yield return BoardManager.Instance.CreateCardInSlot(modifiedGiant, oppSlots[1], 0.3f);
 		yield return new WaitForSeconds(0.5f);
-		yield return BoardManager.Instance.CreateCardInSlot(modifiedGiant, oppSlots[3], 0.3f);
+		if (ConfigHelper.Instance.HasIncreaseSlotsMod)
+		{
+			yield return TextDisplayer.Instance.ShowUntilInput("OH? FIVE LANES? HOW BOLD.");
+			yield return BoardManager.Instance.CreateCardInSlot(modifiedGiant, oppSlots[4], 0.3f);
+
+			yield return BoardManager.Instance.CreateCardInSlot(NameObol.GetCardInfo(), oppSlots[2], 0.2f);
+			CardSlot thirdLaneQueueSlot = BoardManager.Instance.GetQueueSlots()[2];
+			yield return TurnManager.Instance.Opponent.QueueCard(NameObol.GetCardInfo(), thirdLaneQueueSlot);
+		}
+		else
+		{
+			yield return BoardManager.Instance.CreateCardInSlot(modifiedGiant, oppSlots[3], 0.3f);
+		}
+
 		yield return new WaitForSeconds(0.5f);
 	}
 
@@ -181,7 +194,10 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		);
 		ViewManager.Instance.SwitchToView(View.OpponentQueue, false, true);
 
-		yield return BoardManager.Instance.CreateCardInSlot(CreateModifiedBonelord(), oppSlots[2], 0.75f);
+		int bonelordSlotIndex = ConfigHelper.Instance.HasIncreaseSlotsMod ? 3 : 2;
+		yield return BoardManager.Instance.CreateCardInSlot(
+			CreateModifiedBonelord(), oppSlots[bonelordSlotIndex], 0.75f
+		);
 		yield return new WaitForSeconds(0.25f);
 
 		yield return TextDisplayer.Instance.ShowUntilInput(
@@ -190,7 +206,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		);
 
 
-		oppSlots.RemoveRange(1, 2); // slot 1, slot 4 remain
+		oppSlots.RemoveRange(1, ConfigHelper.Instance.HasIncreaseSlotsMod ? 3 : 2); // slot 1, slot 4 remain
 		var leftAndRightQueueSlots = GetFarLeftAndFarRightQueueSlots();
 
 		CardInfo bonelordsHorn = CreateModifiedBonelordsHorn();
@@ -228,6 +244,6 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	private List<CardSlot> GetFarLeftAndFarRightQueueSlots()
 	{
 		var qSlots = BoardManager.Instance.GetQueueSlots();
-		return new List<CardSlot> { qSlots[0], qSlots[3] };
+		return new List<CardSlot> { qSlots[0], qSlots[ConfigHelper.Instance.HasIncreaseSlotsMod ? 4 : 3] };
 	}
 }

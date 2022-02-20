@@ -41,16 +41,25 @@ public class ModifyLocalPositionsOfTableObjects
 		    && card.Info.HasTrait(Trait.Giant)
 		    && card.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility))
 		{
+			bool isBonelord = card.InfoName().Equals(NameBonelord);
 			Log.LogDebug($"Setting new scaling and position of [{card.Info.name}]");
-			// Card -> RotatingParent -> TombstoneParent -> Cardbase_StatsLayer
+			// Card -> RotatingParent (child zero) -> TombstoneParent -> Cardbase_StatsLayer
 			Transform rotatingParent = card.transform.GetChild(0);
-			Log.LogDebug($"Transforming [{rotatingParent.name}]");
+			Transform skeletonArmAnim = card.transform.GetChild(1);
+			Vector3 skeletonArmAnimPosition = skeletonArmAnim.localPosition;
 
-			rotatingParent.localPosition = new Vector3(-0.7f, 1.05f, 0f);
-			// GrimoraPlugin.Log.LogDebug($"Successfully set new localPosition for the giant");
+			float xValPosition = -0.7f;
+			float xValScale = 2.1f;
+			if (ConfigHelper.Instance.HasIncreaseSlotsMod && isBonelord)
+			{
+				xValPosition = -1.4f;
+				xValScale = 3.3f;
+				Log.LogDebug($"[Giant] Setting skeleArm bonelord for [{card.InfoName()}]");
+			}
 
-			rotatingParent.localScale = new Vector3(2.1f, 2.1f, 1f);
-			// GrimoraPlugin.Log.LogDebug($"Successfully set new scaling for the giant");
+			skeletonArmAnim.localPosition = new Vector3(xValPosition, skeletonArmAnimPosition.y, skeletonArmAnimPosition.z);
+			rotatingParent.localPosition = new Vector3(xValPosition, 1.05f, 0f);
+			rotatingParent.localScale = new Vector3(xValScale, xValScale, 1f);
 		}
 
 		yield return enumerator;
