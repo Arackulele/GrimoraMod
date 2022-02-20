@@ -12,7 +12,7 @@ public partial class GrimoraPlugin
 		NewCard.Add(CardBuilder.Builder
 			.SetAsRareCard()
 			.SetAbilities(Ability.WhackAMole, Ability.Reach, GainAttackBones.ability)
-			.SetBaseAttackAndHealth(1, 8)
+			.SetBaseAttackAndHealth(1, 9)
 			.SetBoneCost(5)
 			.SetDescription("A rabid dog, killed one of my ghouls.")
 			.SetNames(NameHellHound, "Hell Hound")
