@@ -10,6 +10,8 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 {
 	private readonly RandomEx _rng = new();
 
+	private bool hasPlayedArmyDialogue = false;
+
 	private bool playedDeathTouchDialogue;
 
 	public override Opponent.Type BossType => BaseBossExt.GrimoraOpponent;
@@ -110,12 +112,13 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
-		if (_rng.NextBoolean())
+		if (_rng.NextBoolean() && !hasPlayedArmyDialogue)
 		{
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"Only a few more turns before I can bring my army back...",
 				letterAnimation: TextDisplayer.LetterAnimation.None
 			);
+			hasPlayedArmyDialogue = true;
 		}
 	}
 }
