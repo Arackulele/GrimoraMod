@@ -283,7 +283,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 	{
 		return GrimoraSaveUtil.DeckList
 			.Where(info => (cardInfoPredicate is null || cardInfoPredicate.Invoke(info))
-			               && !info.mods.Exists(mod => mod.singletonId == singletonId))
+			               && info.Mods is not null && !info.Mods.Exists(mod => mod.singletonId == singletonId))
 			.Randomize()
 			.ToList();
 	}
@@ -337,12 +337,12 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			if (isForSingleCard)
 			{
 				cardToReturn = cards[0];
-				cardToReturn.mods.Add(modificationInfo);
-				dialogueOnAtLeastOneCard = dialogueOnAtLeastOneCard.Replace("{0}", $"{cardToReturn.displayedName}");
+				cardToReturn.Mods.Add(modificationInfo);
+				dialogueOnAtLeastOneCard = dialogueOnAtLeastOneCard.Replace("{0}", $"{cardToReturn.DisplayedNameLocalized}");
 			}
 			else
 			{
-				cards.ForEach(info => info.mods.Add(modificationInfo));
+				cards.ForEach(info => info.Mods.Add(modificationInfo));
 			}
 
 			StartCoroutine(TextDisplayer.Instance.ShowUntilInput(
