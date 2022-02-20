@@ -14,7 +14,7 @@ public class SawyerBossOpponent : BaseBossExt
 
 	public override string SpecialEncounterId => "SawyerBoss";
 
-	public override string DefeatedPlayerDialogue => "MY DOGS WILL ENJOY YOUR BONES!";
+	public override string DefeatedPlayerDialogue => "My dogs will enjoy your bones!";
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
@@ -30,7 +30,7 @@ public class SawyerBossOpponent : BaseBossExt
 
 		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
-			"LOOK AWAY, LOOK AWAY! IF YOU WANT TO FIGHT, GET IT OVER QUICK!",
+			"Look away, Look away! If you want to fight, get it over quick!",
 			-0.65f,
 			0.4f
 		);
@@ -71,14 +71,17 @@ public class SawyerBossOpponent : BaseBossExt
 
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"PLEASE, I DON'T WANT TO FIGHT ANYMORE! GET IT OVER WITH!",
+				"Please, he has arrived!RUN",
 				-0.65f,
 				0.4f
 			);
 			yield return ClearQueue();
 			yield return ClearBoard();
+			yield return Singleton<BoardManager>.Instance.CreateCardInSlot(NameHellHound.GetCardInfo(), Singleton<BoardManager>.Instance.OpponentSlotsCopy[2], 1.0f, true);
+
 
 			yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
+			yield return ResourcesManager.Instance.AddBones(2);
 		}
 	}
 
@@ -87,15 +90,15 @@ public class SawyerBossOpponent : BaseBossExt
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Bonehound, bp_Bonehound },
+			new() { bp_Zombie },
 			new(),
+			new() { bp_Skeleton },
 			new(),
+			new() { bp_Zombie },
 			new(),
-			new() { bp_Bonehound, bp_Draugr, bp_Draugr },
+			new() { bp_Skeleton },
 			new(),
-			new(),
-			new(),
-			new() { bp_Bonehound, bp_Draugr, bp_Draugr },
+			new() { bp_Zombie },
 			new(),
 			new(),
 			new() { bp_Bonehound },
@@ -109,7 +112,7 @@ public class SawyerBossOpponent : BaseBossExt
 		if (wasDefeated)
 		{
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"THANKS FOR GETTING IT OVER WITH, AND DON'T EVER RETURN!",
+				"Thanks for getting it over with, and don't ever return!",
 				-0.65f,
 				0.4f
 			);
@@ -119,18 +122,19 @@ public class SawyerBossOpponent : BaseBossExt
 
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"THE NEXT AREA WON'T BE SO EASY.",
+				"The next area won't be so easy.",
 				-0.65f,
 				0.4f
 			);
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"I ASKED ROYAL TO DO HIS BEST AT MAKING IT IMPOSSIBLE.",
+				"I asked Royal to do his best at making it impossible.",
 				-0.65f,
 				0.4f
 			);
 		}
 		else
 		{
+			Log.LogDebug($"[{GetType()}] Defeated player dialogue");
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				DefeatedPlayerDialogue,
 				-0.65f,
