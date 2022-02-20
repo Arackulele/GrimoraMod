@@ -48,7 +48,7 @@ public class CreateArmyOfSkeletons : AbilityBehaviour
 	public static NewAbility Create()
 	{
 		const string rulebookDescription =
-			"When [creature] is played, a Skeleton is created on each empty space. [define:Skeleton]";
+			"When [creature] is played, a Skeleton is created in each empty space on the owner's side. [define:Skeleton]";
 
 		return ApiUtils.CreateAbility<CreateArmyOfSkeletons>(rulebookDescription);
 	}
