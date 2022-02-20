@@ -80,7 +80,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		AudioController.Instance.StopAllLoops();
 		AudioController.Instance.SetLoopAndPlay("Risen_Again", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
-		AudioController.Instance.FadeInLoop(0.5f, 1f, 1);
+		AudioController.Instance.FadeInLoop(5f, 0.75f, 1);
 	}
 
 	public override IEnumerator StartNewPhaseSequence()
