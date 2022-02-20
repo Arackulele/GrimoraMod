@@ -99,15 +99,12 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		}
 		else
 		{
+			yield return TextDisplayer.Instance.ShowUntilInput("OH! I LOVE THIS ONE!");
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"OH! I LOVE THIS ONE!", -0.65f
-				);
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				$"YOU STRAP ONE OF YOUR CARDS TO THE CHAIR, {"EMPOWERING".Blue()} IT!", -0.65f
+				$"YOU STRAP ONE OF YOUR CARDS TO THE CHAIR, {"EMPOWERING".Blue()} IT!"
 			);
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"OF COURSE, IT DOESN'T HURT.\nYOU CAN'T DIE TWICE AFTER ALL.",
-				-0.65f
+				"OF COURSE, IT DOESN'T HURT.\nYOU CAN'T DIE TWICE AFTER ALL."
 			);
 
 			yield return WhileNotFinishedBuffingAndDestroyedCardIsNull();
