@@ -107,16 +107,16 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		{
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"A LONE GRAVE SITS SOLEMNLY IN FRONT OF YOU.", -0.65f
-				);
+			);
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"IN FRONT OF IT IS A MOUND OF EARTH, LEFT BY SOMEONE WHO'S ALREADY PASSED ON.", -0.65f
-				);
+			);
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				$"PERHAPS A MEMBER OF YOUR UNDEAD HORDE COULD {"DIG THEM UP?".BrightRed()}", -0.65f
-				);
+			);
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"THIS WOULDN'T BE WITHOUT REPERCUSSIONS OF COURSE, AS DEATH IS NEVER PERMANENT.", -0.65f
-				);
+			);
 
 			yield return confirmStone.WaitUntilConfirmation();
 			bool finishedBuffing = false;
