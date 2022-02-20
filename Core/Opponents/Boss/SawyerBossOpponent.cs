@@ -119,9 +119,15 @@ public class SawyerBossOpponent : BaseBossExt
 
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"The next area won't be so easy. I asked Royal to do his best at making it impossible.",
+				"The next area won't be so easy.",
 				-0.65f,
-				0.4f);
+				0.4f
+			);
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				"I asked Royal to do his best at making it impossible.",
+				-0.65f,
+				0.4f
+			);
 		}
 		else
 		{
