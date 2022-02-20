@@ -9,7 +9,7 @@ public partial class GrimoraPlugin
 	private void Add_DanseMacabre()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.SetAsRareCard()
+			.SetAsNormalCard()
 			.SetAbilities(AlternatingStrike.ability, Erratic.ability)
 			.SetBaseAttackAndHealth(3, 3)
 			.SetBoneCost(8)
