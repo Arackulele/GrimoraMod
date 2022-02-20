@@ -47,7 +47,6 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			TextDisplayer.MessageAdvanceMode.Input
 		);
 
-		SetSceneEffectsShownGrimora();
 
 		yield return TextDisplayer.Instance.PlayDialogueEvent(
 			"LeshyBossIntro1",
@@ -59,7 +58,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		ViewManager.Instance.SwitchToView(View.BossSkull, false, true);
 
-		
+
 		yield return TextDisplayer.Instance.PlayDialogueEvent(
 			"LeshyBossAddCandle",
 			TextDisplayer.MessageAdvanceMode.Input
@@ -67,7 +66,9 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		yield return new WaitForSeconds(0.4f);
 
 		bossSkull.EnterHand();
-		
+
+		SetSceneEffectsShownGrimora();
+
 		PlayTheme();
 
 		yield return new WaitForSeconds(2f);
