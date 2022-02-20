@@ -57,6 +57,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		GiantStrike.Create();
 		GrimoraRandomAbility.Create();
 		PayEnergyForWyvern.Create();
+		GainAttackBones.Create();
 
 		#endregion
 
@@ -82,6 +83,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_GhostShip();
 		Add_GraveDigger();
 		Add_HeadlessHorseman();
+		Add_HellHound();
 		Add_Hydra();
 		Add_Mummy();
 		Add_Necromancer();

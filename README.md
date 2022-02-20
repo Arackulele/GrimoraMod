@@ -15,10 +15,12 @@
 - If you are not starting from a new save, this mod will check for certain story events and determine if it needs to unlock those.
 - I suggest restarting your game at least once if you haven't actually gotten to the finale.
 
+- If you want to discuss the mod further, join our Discord server! <https://discord.gg/Xf8CBuS8a8>
+
 ## Reporting Issues
 
 - If you would to help report issues, please raise a thread here with as much detail as you can provide: <https://github.com/Arackulele/GrimoraMod/issues>
-- You may also post in the modding discord general thread: <https://discord.com/channels/903472928883093545/914480438389661747>
+- Bug reports can also be submitted on the Discord Server: <https://discord.gg/Xf8CBuS8a8>
 
 ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
@@ -53,11 +55,15 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ## Update Notes
 
-### 2.6.7
+### 2.7.0
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Potentially fixed issue interacting with nodes at x0 y0 by just moving them to any other place on the board. Not sure why x0 y0 has issues with interaction.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) New boss themes courtesy of `Akisephila (Addie)`
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New boss themes courtesy of `Akisephila (Addie Brahem)`
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) You now gain +1 `Starting Bone` for each Boss you have defeated in the current Run.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) The `Sawyer` Boss now has unique Mehanics, like stealing Bones for you and spawning a cerain hound of his.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Added new Kaycee and Sawyer boss figurines courtesy of `Catboy Stinkbug#4099`.
   - Model updates for Sawyer courtesy of `Pink#9824`
@@ -263,6 +269,8 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - **Skin Crawler** - When [creature] resolves, if possible, will hide under an adjacent card providing a +1 buff. Otherwise, it perishes. Cards on the left take priority.
 
 ## Special thanks to
+
+- kisephila (Addie Brahem) for the Soundtrack
 
 - LavaErrorDoggo for making a lot of the artwork,
 
