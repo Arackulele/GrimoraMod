@@ -18,7 +18,6 @@ public class SawyerBossOpponent : BaseBossExt
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
-		AudioController.Instance.SetLoopAndPlay("gbc_battle_undead", 1);
 		SpawnScenery("CratesTableEffects");
 		yield return new WaitForSeconds(0.1f);
 
@@ -42,7 +41,7 @@ public class SawyerBossOpponent : BaseBossExt
 		Log.LogDebug($"Playing sawyer theme");
 		AudioController.Instance.SetLoopAndPlay("Dogbite", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
-		AudioController.Instance.FadeInLoop(0.5f, 0.75f, 1);
+		AudioController.Instance.FadeInLoop(0.5f, 0.5f, 1);
 	}
 
 	private static void SetSceneEffectsShownSawyer()

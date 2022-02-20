@@ -50,7 +50,7 @@ public class KayceeBossOpponent : BaseBossExt
 		Log.LogDebug($"Playing kaycee theme");
 		AudioController.Instance.SetLoopAndPlay("Frostburn", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
-		AudioController.Instance.FadeInLoop(0.5f, 0.75f, 1);
+		AudioController.Instance.FadeInLoop(0.5f, 0.5f, 1);
 	}
 
 	private static void SetSceneEffectsShownKaycee()
