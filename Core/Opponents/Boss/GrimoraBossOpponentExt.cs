@@ -77,6 +77,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	public override void PlayTheme()
 	{
 		Log.LogDebug($"Playing Grimora theme");
+		AudioController.Instance.FadeOutLoop(3f);
 		AudioController.Instance.StopAllLoops();
 		AudioController.Instance.SetLoopAndPlay("Risen_Again", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
