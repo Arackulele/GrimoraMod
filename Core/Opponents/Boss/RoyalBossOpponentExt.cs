@@ -93,6 +93,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 	{
 		if (wasDefeated)
 		{
+			AudioController.Instance.FadeOutLoop(5f);
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"I OVERESTIMATED ME SKILL, GOOD LUCK CHALLENGER.",
