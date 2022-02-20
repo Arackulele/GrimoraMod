@@ -43,6 +43,8 @@ public class GrimoraItemsManagerExt : ItemsManager
 			);
 
 			ext.hammerSlot = part3ItemsManager.hammerSlot;
+			Vector3 sizeCopy = ext.hammerSlot.GetComponent<BoxCollider>().size;
+			ext.hammerSlot.GetComponent<BoxCollider>().size = new Vector3(1f, sizeCopy.y, sizeCopy.z); 
 			part3ItemsManager.hammerSlot.transform.SetParent(ext.transform);
 
 			float xVal = ConfigHelper.Instance.HasIncreaseSlotsMod ? -8.75f : -7.5f;
