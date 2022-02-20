@@ -36,9 +36,14 @@ public class SawyerBossOpponent : BaseBossExt
 		);
 
 		ViewManager.Instance.SwitchToView(View.Default);
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 		
+		PlayTheme();
+	}
+
+	public override void PlayTheme()
+	{
 		Log.LogDebug($"Playing sawyer theme");
+		AudioController.Instance.StopAllLoops();
 		AudioController.Instance.SetLoopAndPlay("Dogbite", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
 		AudioController.Instance.FadeInLoop(0.5f, 0.5f, 1);

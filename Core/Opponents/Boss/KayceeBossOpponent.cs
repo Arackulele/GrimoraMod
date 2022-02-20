@@ -45,9 +45,14 @@ public class KayceeBossOpponent : BaseBossExt
 		);
 
 		ViewManager.Instance.SwitchToView(View.Default);
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 		
+		PlayTheme();
+	}
+
+	public override void PlayTheme()
+	{
 		Log.LogDebug($"Playing kaycee theme");
+		AudioController.Instance.StopAllLoops();
 		AudioController.Instance.SetLoopAndPlay("Frostburn", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
 		AudioController.Instance.FadeInLoop(0.5f, 0.5f, 1);
@@ -81,7 +86,7 @@ public class KayceeBossOpponent : BaseBossExt
 			new(),
 			new(),
 			new() { bp_Draugr, bp_Skeleton, bp_Draugr, bp_Revenant },
-			new() { bp_Skeleton, bp_Skeleton,  },
+			new() { bp_Skeleton, bp_Skeleton, },
 			new() { bp_Skeleton },
 			new() { bp_Skeleton },
 			new() { bp_Skeleton },

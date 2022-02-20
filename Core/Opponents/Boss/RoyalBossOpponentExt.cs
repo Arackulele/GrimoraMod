@@ -48,8 +48,14 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 		yield return new WaitForSeconds(2f);
 
+		PlayTheme();
+	}
+
+	public override void PlayTheme()
+	{
 		Log.LogDebug($"Playing royal theme");
-		AudioController.Instance.SetLoopAndPlay("Royal_Theme", 1);
+		AudioController.Instance.StopAllLoops();
+		AudioController.Instance.SetLoopAndPlay("Royal_Ruckus", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
 		AudioController.Instance.FadeInLoop(0.5f, 0.5f, 1);
 	}

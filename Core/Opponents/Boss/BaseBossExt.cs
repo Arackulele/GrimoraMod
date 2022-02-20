@@ -185,6 +185,8 @@ public abstract class BaseBossExt : Part1BossOpponent
 		yield break;
 	}
 
+	public abstract void PlayTheme();
+
 	public virtual IEnumerator ReplaceBlueprintCustom(EncounterBlueprintData blueprintData)
 	{
 		Blueprint = blueprintData;
