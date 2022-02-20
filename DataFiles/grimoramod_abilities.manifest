@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 667644553
+CRC: 3282534387
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 5991b220224804838b8fa30001ea096b
+    Hash: 74bb0797aefce53a8cfb0091ecac16d4
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7859cd501ea75098bcf7e53f1b477c26
@@ -24,5 +24,6 @@ Assets:
 - Assets/GrimoraMod/Abilities/ability_SkinCrawler.png
 - Assets/GrimoraMod/Abilities/ability_Possessive.png
 - Assets/GrimoraMod/Abilities/ability_Erratic.png
+- Assets/GrimoraMod/Abilities/ability_GainAttackBones.png
 - Assets/GrimoraMod/Abilities/ability_AreaOfEffectStrike.png
 Dependencies: []
