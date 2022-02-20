@@ -101,7 +101,7 @@ public class KayceeBossOpponent : BaseBossExt
 		{
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"I'm still not feeling Warmer!",
+				"I'M STILL NOT FEELING [c:R]WARMER![c:]",
 				-0.65f,
 				0.4f
 			);
@@ -115,23 +115,22 @@ public class KayceeBossOpponent : BaseBossExt
 		if (wasDefeated)
 		{
 			// before the mask gets put away
-			yield return TextDisplayer.Instance.ShowUntilInput("Oh come on dude, I'm still Cold!", -0.65f, 0.4f);
-			yield return TextDisplayer.Instance.ShowUntilInput("Let's fight again soon!", -0.65f, 0.4f);
+			yield return TextDisplayer.Instance.ShowUntilInput("OH COME ON DUDE, I'M STILL [c:B]COLD![c:]", -0.65f, 0.4f);
+			yield return TextDisplayer.Instance.ShowUntilInput("LET'S FIGHT AGAIN SOON!", -0.65f, 0.4f);
 
 			// this will put the mask away
 			yield return base.OutroSequence(true);
 
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"This next area was made by one of my ghouls, Sawyer.",
+				"THIS NEXT AREA WAS MADE BY ONE OF MY GHOULS, SAWYER.",
 				-0.65f,
 				0.4f
 			);
-			yield return TextDisplayer.Instance.ShowUntilInput("He says it is terrible.", -0.65f, 0.4f);
+			yield return TextDisplayer.Instance.ShowUntilInput("HE SAYS IT IS TERRIBLE.", -0.65f, 0.4f);
 		}
 		else
 		{
-			Log.LogDebug($"[{GetType()}] Defeated player dialogue");
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				DefeatedPlayerDialogue,
 				-0.65f,
