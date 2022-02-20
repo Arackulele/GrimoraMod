@@ -27,7 +27,7 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
 		var playerCardsWithAttacks
-			= BoardManager.Instance.GetPlayerCards().Where(pCard => pCard.Attack > 0).ToList();
+			= BoardManager.Instance.GetPlayerCards(pCard => pCard.Attack > 0);
 
 		_freezeCounter++;
 		if (playerCardsWithAttacks.IsNotEmpty())
