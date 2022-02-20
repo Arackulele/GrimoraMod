@@ -43,9 +43,10 @@ public class SawyerBossOpponent : BaseBossExt
 	public override void PlayTheme()
 	{
 		Log.LogDebug($"Playing sawyer theme");
-		AudioController.Instance.SetLoopAndPlay("Dogbite");
-		AudioController.Instance.SetLoopVolumeImmediate(0f);
-		AudioController.Instance.FadeInLoop(5f, 1f);
+		AudioController.Instance.StopAllLoops();
+		AudioController.Instance.SetLoopAndPlay("Dogbite", 1);
+		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
+		AudioController.Instance.SetLoopVolume(1f, 5f, 1);
 	}
 
 	private static void SetSceneEffectsShownSawyer()
