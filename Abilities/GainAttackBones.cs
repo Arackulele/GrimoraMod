@@ -2,6 +2,8 @@ using System.Collections;
 using APIPlugin;
 using DiskCardGame;
 using Sirenix.Utilities;
+using BepInEx;
+using BepInEx.Logging;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -12,6 +14,7 @@ public class GainAttackBones : AbilityBehaviour
 
 	public override Ability Ability => ability;
 
+
 	public override bool RespondsToTurnEnd(bool playerTurnEnd)
 	{
 		return base.Card != null && base.Card.OpponentCard != playerTurnEnd;
@@ -20,8 +23,15 @@ public class GainAttackBones : AbilityBehaviour
 
 	public override IEnumerator OnTurnEnd(bool playerTurnEnd)
 	{
+		//clearing mods so it doesnt stack
+		Card.TemporaryMods.Clear();
+
+		new WaitForSeconds(0.1f);
+
 		int boneamount = Singleton<ResourcesManager>.Instance.PlayerBones;
-		Card.AddTemporaryMod(new CardModificationInfo(boneamount, +0));
+		Card.AddTemporaryMod(new CardModificationInfo(boneamount, 0));
+
+		GrimoraPlugin.Log.LogWarning("Bone Damage Triggered");
 		yield break;
 	}
 
