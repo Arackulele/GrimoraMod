@@ -100,16 +100,16 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		}
 		else
 		{
-			yield return TextDisplayer.Instance.ShowUntilInput("Oh! I love this one!", -0.65f);
-			yield return new WaitForSeconds(0.1f);
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				"OH! I LOVE THIS ONE!", -0.65f
+				);
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				$"YOU STRAP ONE OF YOUR CARDS TO THE CHAIR, {"EMPOWERING".Blue()} IT!", -0.65f
 			);
-			yield return new WaitForSeconds(0.1f);
-			yield return TextDisplayer.Instance.ShowUntilInput("Of course, it doesn't hurt.\nYou can't die twice after all.",
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				"OF COURSE, IT DOESN'T HURT.\nYOU CAN'T DIE TWICE AFTER ALL.",
 				-0.65f
 			);
-			yield return new WaitForSeconds(0.1f);
 
 			yield return WhileNotFinishedBuffingAndDestroyedCardIsNull();
 		}
@@ -152,10 +152,10 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			}
 
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"Surely your creature could become more powerful...", -0.66f
+				"SURELY YOUR CREATURE COULD BECOME MORE POWERFUL...", -0.66f
 			);
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"But you would need to risk another moment under the shock.", -0.66f
+				"BUT YOU WOULD NEED TO RISK ANOTHER MOMENT UNDER THE SHOCK.", -0.66f
 			);
 			yield return new WaitForSeconds(0.1f);
 
@@ -163,7 +163,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			{
 				case 1:
 					TextDisplayer.Instance.ShowMessage(
-						"Push your luck for one more ability?\nOr pull away?",
+						"PUSH YOUR LUCK FOR ONE MORE ABILITY?\nOR PULL AWAY?",
 						Emotion.Neutral,
 						TextDisplayer.LetterAnimation.WavyJitter
 					);
@@ -210,7 +210,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			// "You looked away as a grotesque feeding frenzy ensued."
 			// "Blood and bones flew left and right as you retreated from the scene."
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"Bones flew left and right as you retreated from the scene", -0.65f
+				"BONES FLEW LEFT AND RIGHT AS YOU RETREATED FROM THE SCENE.", -0.65f
 			);
 
 			yield return new WaitForSeconds(0.1f);
@@ -447,7 +447,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		newSequencer.campfireCardLight.color = new Color(0, 1, 1, 1);
 		newSequencer.campfireCardLight.range = 8;
 
-		// TODO: fix creation of leve
+		// TODO: fix creation of lever
 		// newSequencer.confirmStone = CreateLever(cardStatObj);
 		newSequencer.confirmStone = oldSequencer.confirmStone;
 		newSequencer.confirmStone.confirmView = View.CardMergeSlots;

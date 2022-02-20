@@ -10,7 +10,7 @@ public class CreateArmyOfSkeletons : AbilityBehaviour
 
 	public override Ability Ability => ability;
 
-	private const string CannotSpawnDialogue = "Blocked in all slots. No army this time.";
+	private const string CannotSpawnDialogue = "BLOCKED IN ALL SLOTS. NO ARMY THIS TIME.";
 
 	public override bool RespondsToResolveOnBoard()
 	{
