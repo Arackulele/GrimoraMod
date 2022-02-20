@@ -80,14 +80,11 @@ public abstract class BaseBossExt : Part1BossOpponent
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
-		AudioController.Instance.FadeOutLoop(0.75f);
 		yield return base.IntroSequence(encounter);
 
 		// Royal boss has a specific sequence to follow so that it flows easier
 		if (BossMasksByType.TryGetValue(Opponent, out GameObject mask))
 		{
-			Log.LogDebug($"[{GetType()}] Setting royal skull inactive");
-
 			Log.LogDebug($"[{GetType()}] Creating skull");
 			GrimoraAnimationController.Instance.bossSkull = Instantiate(mask, GrimoraRightWrist.transform);
 			var bossSkullTransform = GrimoraBossSkull.transform;
