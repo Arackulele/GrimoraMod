@@ -30,7 +30,6 @@ public class KayceeBossOpponent : BaseBossExt
 		SetSceneEffectsShownKaycee();
 
 		yield return base.IntroSequence(encounter);
-		yield return new WaitForSeconds(0.5f);
 
 		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
@@ -116,7 +115,7 @@ public class KayceeBossOpponent : BaseBossExt
 		if (wasDefeated)
 		{
 			// before the mask gets put away
-			yield return TextDisplayer.Instance.ShowUntilInput("Oh come on dude, I'm still Cold!", -0.65f, 0.4F);
+			yield return TextDisplayer.Instance.ShowUntilInput("Oh come on dude, I'm still Cold!", -0.65f, 0.4f);
 			yield return TextDisplayer.Instance.ShowUntilInput("Let's fight again soon!", -0.65f, 0.4f);
 
 			// this will put the mask away
