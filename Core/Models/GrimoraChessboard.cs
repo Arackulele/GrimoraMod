@@ -49,7 +49,7 @@ public class GrimoraChessboard
 	private readonly Dictionary<int, Func<GameObject>> _bossByIndex = new()
 	{
 		{ 0, () => AssetUtils.GetPrefab<GameObject>("Blocker_Kaycee") },
-		{ 1, () => AssetUtils.GetPrefab<GameObject>("Blocker_Sawyer") },
+		{ 1, () => AssetUtils.GetPrefab<GameObject>("Sawyer_BlockerPiece") },
 		{ 2, () => AssetUtils.GetPrefab<GameObject>("Blocker_Royal") },
 		{ 3, () => AssetUtils.GetPrefab<GameObject>("Blocker_Grimora") },
 	};
