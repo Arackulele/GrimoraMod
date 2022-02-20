@@ -80,6 +80,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
+		AudioController.Instance.FadeOutLoop(0.75f);
 		yield return base.IntroSequence(encounter);
 
 		// Royal boss has a specific sequence to follow so that it flows easier
@@ -106,9 +107,6 @@ public abstract class BaseBossExt : Part1BossOpponent
 			}
 
 			yield return ShowBossSkull();
-
-			AudioController.Instance.FadeOutLoop(0.75f);
-			RunState.CurrentMapRegion.FadeOutAmbientAudio();
 		}
 	}
 
