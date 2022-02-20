@@ -127,7 +127,7 @@ public class KayceeBossOpponent : BaseBossExt
 				-0.65f,
 				0.4f
 			);
-			yield return TextDisplayer.Instance.ShowUntilInput("He says it is terrible", -0.65f, 0.4f);
+			yield return TextDisplayer.Instance.ShowUntilInput("He says it is terrible.", -0.65f, 0.4f);
 		}
 		else
 		{
