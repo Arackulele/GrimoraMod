@@ -187,8 +187,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			yield return new WaitForSeconds(0.1f);
 			if (confirmStone.SelectionConfirmed)
 			{
-				const float changeToDestroyCard = 0.5f;
-				if (SeededRandom.Value(SaveManager.SaveFile.GetCurrentRandomSeed()) > changeToDestroyCard)
+				if (UnityEngine.Random.value > 0.5f)
 				{
 					destroyedCard = selectionSlot.Card.Info;
 					selectionSlot.Card.Anim.PlayDeathAnimation();
