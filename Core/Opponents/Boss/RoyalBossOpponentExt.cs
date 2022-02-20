@@ -79,7 +79,6 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 	public override IEnumerator StartNewPhaseSequence()
 	{
-		Log.LogDebug($"StartNewPhaseSequence started for RoyalBoss");
 		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
 			"Yee be a tough nut to crack!\nReady for Round 2?",
@@ -87,25 +86,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 			0.4f
 		);
 
-
-		var activePlayerCards = BoardManager.Instance.GetPlayerCards();
-
-		// foreach (var slot in playerSlotsWithCards)
-		// {
-		// 	slot.Card.Anim.PlayDeathAnimation();
-		// }
-
-		// var blueprint = BuildInitialBlueprint();
-
-		// this.Blueprint = blueprint;
-
-		// List<List<CardInfo>> plan = EncounterBuilder.BuildOpponentTurnPlan(this.Blueprint, 0, false);
-
-		// this.ReplaceAndAppendTurnPlan(plan);
-
 		yield return QueueNewCards();
-
-		yield break;
 	}
 
 
