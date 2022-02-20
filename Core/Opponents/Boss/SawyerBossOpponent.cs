@@ -66,26 +66,29 @@ public class SawyerBossOpponent : BaseBossExt
 
 	public override IEnumerator StartNewPhaseSequence()
 	{
-		InstantiateBossBehaviour<SawyerBehaviour>();
-		yield return FaceZoomSequence();
-		yield return TextDisplayer.Instance.ShowUntilInput(
-			$"PLEASE, HE HAS ARRIVED! {"RUN!".Red()}",
-			-0.65f,
-			0.4f
-		);
 		yield return ClearQueue();
 		yield return ClearBoard();
+
+		InstantiateBossBehaviour<SawyerBehaviour>();
+		yield return FaceZoomSequence();
+		yield return TextDisplayer.Instance.ShowUntilInput($"PLEASE, HE HAS ARRIVED! {"RUN!".Red()}");
+
+		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 		yield return BoardManager.Instance.CreateCardInSlot(
 			NameHellHound.GetCardInfo(),
 			BoardManager.Instance.OpponentSlotsCopy[2],
 			1.0f
 		);
-		yield return new WaitForSeconds(0.4f);
+		yield return new WaitForSeconds(0.8f);
 
 		yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
-		ViewManager.Instance.SwitchToView(View.BoneTokens);
+
+		ViewManager.Instance.SwitchToView(View.BoneTokens, lockAfter: false);
+		yield return new WaitForSeconds(0.4f);
 		yield return ResourcesManager.Instance.AddBones(2);
 		yield return new WaitForSeconds(0.4f);
+
+		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 	}
 
 	public EncounterBlueprintData BuildNewPhaseBlueprint()
