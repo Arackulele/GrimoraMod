@@ -221,14 +221,8 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			// "Another gnashed their teeth.",
 			// "Without a word, you pulled the [c:bR][v:1][c:] away from the fire and left.",
 			// yield return TextDisplayer.Instance.PlayDialogueEvent("StatBoostOutro", TextDisplayer.MessageAdvanceMode.Input);
-
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				$"THE SHOCK EMPOWERED THE POOR {selectionSlot.Card.Info.DisplayedNameLocalized.BrightRed()}, ENHANCING ITS ABILITIES.",
-				-0.65f
-			);
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				$"YOU EVER SO CAREFULLY PULL THE {selectionSlot.Card.Info.DisplayedNameLocalized.BrightRed()} AWAY FROM THE ELECTRICITY AND LEFT.",
-				-0.65f
+				$"YOU EVER SO CAREFULLY PULL THE {selectionSlot.Card.Info.DisplayedNameLocalized.BrightRed()} AWAY FROM THE ELECTRICITY AND LEAVE."
 			);
 
 			yield return new WaitForSeconds(0.1f);
