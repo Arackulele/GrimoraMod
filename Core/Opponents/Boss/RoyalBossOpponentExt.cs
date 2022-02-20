@@ -53,7 +53,6 @@ public class RoyalBossOpponentExt : BaseBossExt
 	public override void PlayTheme()
 	{
 		Log.LogDebug($"Playing royal theme");
-		AudioController.Instance.StopAllLoops();
 		AudioController.Instance.SetLoopAndPlay("Royal_Ruckus");
 		AudioController.Instance.SetLoopVolumeImmediate(0f);
 		AudioController.Instance.FadeInLoop(5f, 0.75f);

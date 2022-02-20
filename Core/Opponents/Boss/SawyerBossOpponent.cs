@@ -43,7 +43,6 @@ public class SawyerBossOpponent : BaseBossExt
 	public override void PlayTheme()
 	{
 		Log.LogDebug($"Playing sawyer theme");
-		AudioController.Instance.StopAllLoops();
 		AudioController.Instance.SetLoopAndPlay("Dogbite");
 		AudioController.Instance.SetLoopVolumeImmediate(0f);
 		AudioController.Instance.FadeInLoop(5f, 1f);
