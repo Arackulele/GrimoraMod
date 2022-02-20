@@ -25,10 +25,6 @@ public class KayceeBossOpponent : BaseBossExt
 			}
 		};
 
-		AudioController.Instance.SetLoopAndPlay("gbc_battle_undead");
-		AudioController.Instance.SetLoopAndPlay("gbc_battle_undead", 1);
-		yield return new WaitForSeconds(0.5f);
-
 		ViewManager.Instance.SwitchToView(View.Default);
 		yield return new WaitForSeconds(1f);
 		SetSceneEffectsShownKaycee();
@@ -50,6 +46,11 @@ public class KayceeBossOpponent : BaseBossExt
 
 		ViewManager.Instance.SwitchToView(View.Default);
 		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+		
+		Log.LogDebug($"Playing kaycee theme");
+		AudioController.Instance.SetLoopAndPlay("Frostburn", 1);
+		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
+		AudioController.Instance.FadeInLoop(0.5f, 0.75f, 1);
 	}
 
 	private static void SetSceneEffectsShownKaycee()

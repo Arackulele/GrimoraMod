@@ -47,6 +47,11 @@ public class RoyalBossOpponentExt : BaseBossExt
 		ViewManager.Instance.SwitchToView(View.Default);
 
 		yield return new WaitForSeconds(2f);
+
+		Log.LogDebug($"Playing royal theme");
+		AudioController.Instance.SetLoopAndPlay("Royal_Theme", 1);
+		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
+		AudioController.Instance.FadeInLoop(0.5f, 0.75f, 1);
 	}
 
 	private static void SetSceneEffectsShownRoyal()

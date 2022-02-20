@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2994129200
+CRC: 3226157583
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 118c005758cf764d57f2639c5ac1f67b
+    Hash: 69c13824b51c4e4f9ab4c1d0d60e7bd9
   TypeTreeHash:
     serializedVersion: 2
     Hash: 3f7d0c5e0986ec71841622bcb2f9be1c
@@ -13,5 +13,7 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
+- Assets/GrimoraMod/Sounds/Dogbite.ogg
 - Assets/GrimoraMod/Sounds/Royal_Theme.ogg
+- Assets/GrimoraMod/Sounds/Frostburn.ogg
 Dependencies: []

@@ -29,6 +29,8 @@ public class BaseGameFlowManagerPatches
 
 		Log.LogDebug($"[GameFlowManager] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");
 
+		AudioController.Instance.Loops.AddRange(AllSounds);
+		
 		DisableAttackAndHealthStatShadows();
 
 		SetupPlayableAndSelectableCardPrefabs();
