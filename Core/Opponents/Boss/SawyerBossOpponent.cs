@@ -67,24 +67,26 @@ public class SawyerBossOpponent : BaseBossExt
 
 	public override IEnumerator StartNewPhaseSequence()
 	{
-		{
-			InstantiateBossBehaviour<SawyerBehaviour>();
-			yield return FaceZoomSequence();
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				"PLEASE, HE HAS ARRIVED![c:R]RUN[c:]",
-				-0.65f,
-				0.4f
-			);
-			yield return ClearQueue();
-			yield return ClearBoard();
-			yield return Singleton<BoardManager>.Instance.CreateCardInSlot(NameHellHound.GetCardInfo(), Singleton<BoardManager>.Instance.OpponentSlotsCopy[2], 1.0f, true);
-			yield return new WaitForSeconds(0.4f);
+		InstantiateBossBehaviour<SawyerBehaviour>();
+		yield return FaceZoomSequence();
+		yield return TextDisplayer.Instance.ShowUntilInput(
+			"PLEASE, HE HAS ARRIVED! [c:R]RUN[c:]",
+			-0.65f,
+			0.4f
+		);
+		yield return ClearQueue();
+		yield return ClearBoard();
+		yield return BoardManager.Instance.CreateCardInSlot(
+			NameHellHound.GetCardInfo(),
+			BoardManager.Instance.OpponentSlotsCopy[2],
+			1.0f
+		);
+		yield return new WaitForSeconds(0.4f);
 
-			yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
-			ViewManager.Instance.SwitchToView(View.BoneTokens);
-			yield return ResourcesManager.Instance.AddBones(2);
-			yield return new WaitForSeconds(0.4f);
-		}
+		yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
+		ViewManager.Instance.SwitchToView(View.BoneTokens);
+		yield return ResourcesManager.Instance.AddBones(2);
+		yield return new WaitForSeconds(0.4f);
 	}
 
 	public EncounterBlueprintData BuildNewPhaseBlueprint()
