@@ -33,12 +33,12 @@ public class KayceeBossOpponent : BaseBossExt
 
 		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
-			"[c:bB]Brrrr![c:] I've been freezing for ages!",
+			$"{"BRRRR!".BrightBlue()} I'VE BEEN FREEZING FOR AGES!",
 			-0.65f,
 			0.4f
 		);
 		yield return TextDisplayer.Instance.ShowUntilInput(
-			"Let's turn up the [c:R]heat[c:] for a good fight!",
+			$"LET'S TURN UP THE {"HEAT".Red()} FOR A GOOD FIGHT!",
 			-0.65f,
 			0.4f
 		);
@@ -101,7 +101,7 @@ public class KayceeBossOpponent : BaseBossExt
 		{
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"I'M STILL NOT FEELING [c:R]WARMER![c:]",
+				$"I'M STILL NOT FEELING {"WARMER!".Red()}",
 				-0.65f,
 				0.4f
 			);
@@ -115,7 +115,11 @@ public class KayceeBossOpponent : BaseBossExt
 		if (wasDefeated)
 		{
 			// before the mask gets put away
-			yield return TextDisplayer.Instance.ShowUntilInput("OH COME ON DUDE, I'M STILL [c:B]COLD![c:]", -0.65f, 0.4f);
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				$"OH COME ON DUDE, I'M STILL {"COLD!".Blue()}",
+				-0.65f,
+				0.4f
+			);
 			yield return TextDisplayer.Instance.ShowUntilInput("LET'S FIGHT AGAIN SOON!", -0.65f, 0.4f);
 
 			// this will put the mask away

@@ -27,7 +27,7 @@ public class GrimoraModSawyerBossSequencer : GrimoraModBossBattleSequencer
 		if (new RandomEx().NextBoolean() && isBonehoundOnBoard && ResourcesManager.Instance.PlayerBones > 5)
 		{
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"PLEASE, WON'T YOU SPARE SOME BONES FOR [c:R]BONEHOUND[c:]?",
+				$"PLEASE, WON'T YOU SPARE SOME BONES FOR {"BONEHOUND".Red()}?",
 				-0.65f,
 				0.4f
 			);
