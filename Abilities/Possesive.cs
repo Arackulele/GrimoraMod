@@ -31,28 +31,3 @@ public class Possessive : AbilityBehaviour
 		return ApiUtils.CreateAbility<Possessive>(rulebookDescription);
 	}
 }
-
-[HarmonyPatch]
-public class PatchesForPossessive
-{
-	[HarmonyPostfix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetOpposingSlots))]
-	public static void PossessiveGetOpposingSlotsPatch(PlayableCard __instance, ref List<CardSlot> __result)
-	{
-		if (__instance.Slot.opposingSlot.Card is not null
-		    && __instance.Slot.opposingSlot.Card.HasAbility(Possessive.ability))
-		{
-			var adjSlots = BoardManager.Instance
-				.GetAdjacentSlots(__instance.Slot)
-				.Where(_ => _.Card is not null)
-				.ToList();
-
-			__result = new List<CardSlot>();
-			if (adjSlots.IsNotEmpty())
-			{
-				CardSlot slotToTarget = adjSlots[UnityEngine.Random.RandomRangeInt(0, adjSlots.Count)];
-				Log.LogDebug($"[OpposingPatches.Possessive] Slot targeted for attack [{slotToTarget.Index}]");
-				__result.Add(slotToTarget);
-			}
-		}
-	}
-}
