@@ -3,7 +3,7 @@
 - A giant Mod made by xXxStoner420BongMasterxXx and Arackulele, with modeling from `Pink#9824`, that builds upon the finale with Grimora's
   chessboard.
 
-- **MOST IMPORTANT**: **!!!YOu will probably encounter some Bugs!!!**
+- **MOST IMPORTANT**: **!!!You will probably encounter some Bugs!!!**
 - **IMPORTANT**: **ENABLE ENERGY DRONE IN API CONFIG IN ORDER FOR IT TO SHOW UP**
 - **BEWARE**:
 
@@ -40,20 +40,38 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - The main culprit from what the team can tell, is that it's an issue with updating the asset bundles. The only recommendation we have now is to uninstall the mod completely, and redownload. Mod managers seem to be really finnicky.
 
-### Grimora's dialogue is unfinished and still the one from the finale and part 1 dialogue in some cases
-
-- Ongoing process to add new dialogue.
-
 ### Current save file is already at the finale with Grimora
 
 - Make a backup of your save, then delete your current save. Having your current save already at the finale seems to break the mod.
 - Possibly fixed in 2.6.4 update.
 
-### Bonelord art overlaps abilites
+### Bonelord art overlaps abilities
 
 - Bonelord does what he wants.
 
 ## Update Notes
+
+### 2.7.1
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Made `HellHound` no longer selectable in rare chest. Hope you had fun while it lasted!
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Amoeba` showing up as both a rare and normal card..
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added new Sawyer blocker piece courtesy of `Catboy Stinkbug#4099`.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added short and long dialogue outros for `Boneyard` sequencer courtesy of `Mr. Etc.#3925` & `Bt Y#0895`.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Increased collider box for the hammer so that it's much easier to click.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added head movement for Kaycee and Sawyer boss pieces.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Tweaked how the boss themes are played slightly.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Cannon theme for Royal is played first, then the main theme. Flows better. Thanks to `Catboy Stinkbug` for the suggestion.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Changed ability for `HellHound` to be a `VariableStateBehaviour` SpecialBehaviour.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Moved playing boss themes to start of IntroSequence as opposed to end.
 
 ### 2.7.0
 
@@ -61,9 +79,9 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) New boss themes courtesy of `Akisephila (Addie Brahem)`
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) You now gain +1 `Starting Bone` for each Boss you have defeated in the current Run.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) You now gain +1 `Starting Bone` for each boss you have defeated in the current run.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) The `Sawyer` Boss now has unique Mehanics, like stealing Bones for you and spawning a cerain hound of his.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) The `Sawyer` boss now has unique mechanics, like stealing bones for you and spawning a certain hound of his.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Added new Kaycee and Sawyer boss figurines courtesy of `Catboy Stinkbug#4099`.
   - Model updates for Sawyer courtesy of `Pink#9824`
@@ -270,16 +288,16 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ## Special thanks to
 
-- kisephila (Addie Brahem) for the Soundtrack
+- kisephila (Addie Brahem) for the Soundtrack.
 
-- LavaErrorDoggo for making a lot of the artwork,
+- LavaErrorDoggo for making a lot of the artwork.
 
 - JulianMods (xXxStoner420BongMasterxXx) for refactoring the code.
 
-- Cevin_2006 for additional card art,
+- Cevin_2006 for additional card art.
 
-- Bt Y#0895 for currently working on artwork for the mod,
+- Bt Y#0895 for currently working on artwork for the mod.
 
 - Kopie for being a former developer.
 
-- Draconis17#3692 for the new energy cells game object,
+- Draconis17#3692 for the new energy cells game object.
