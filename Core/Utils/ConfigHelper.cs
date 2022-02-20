@@ -31,6 +31,10 @@ public class ConfigHelper
 		"Tombstone_Wall1,Tombstone_Wall2,Tombstone_Wall3,Tombstone_Wall4,Tombstone_Wall5," +
 		"Tombstone_South1,Tombstone_South2,Tombstone_South3,";
 
+	private ConfigEntry<bool> _configEndlessMode;
+	
+	public bool isEndlessModeEnabled => _configEndlessMode.Value;
+	
 	private ConfigEntry<bool> _configCardsLeftInDeck;
 	
 	public bool EnableCardsLeftInDeckView => _configCardsLeftInDeck.Value;
@@ -112,6 +116,13 @@ public class ConfigHelper
 			false,
 			new ConfigDescription(
 				"If the dll is placed in BepInEx/scripts, this will allow running certain commands that should only ever be ran to re-add abilities/cards back in the game correctly.")
+		);
+		
+		_configEndlessMode = GrimoraConfigFile.Bind(
+			Name,
+			"Enable Endless Mode",
+			false,
+			new ConfigDescription("For players who want to continue playing with their deck after defeating Grimora.")
 		);
 
 		var list = _configCurrentRemovedPieces.Value.Split(',').ToList();
