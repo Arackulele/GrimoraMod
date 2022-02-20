@@ -34,16 +34,8 @@ public class KayceeBossOpponent : BaseBossExt
 		yield return base.IntroSequence(encounter);
 
 		yield return FaceZoomSequence();
-		yield return TextDisplayer.Instance.ShowUntilInput(
-			$"{"BRRRR!".BrightBlue()} I'VE BEEN FREEZING FOR AGES!",
-			-0.65f,
-			0.4f
-		);
-		yield return TextDisplayer.Instance.ShowUntilInput(
-			$"LET'S TURN UP THE {"HEAT".Red()} FOR A GOOD FIGHT!",
-			-0.65f,
-			0.4f
-		);
+		yield return TextDisplayer.Instance.ShowUntilInput($"{"BRRRR!".BrightBlue()} I'VE BEEN FREEZING FOR AGES!");
+		yield return TextDisplayer.Instance.ShowUntilInput($"LET'S TURN UP THE {"HEAT".Red()} FOR A GOOD FIGHT!");
 
 		ViewManager.Instance.SwitchToView(View.Default);
 	}
@@ -100,11 +92,7 @@ public class KayceeBossOpponent : BaseBossExt
 	{
 		{
 			yield return FaceZoomSequence();
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				$"I'M STILL NOT FEELING {"WARMER!".Red()}",
-				-0.65f,
-				0.4f
-			);
+			yield return TextDisplayer.Instance.ShowUntilInput($"I'M STILL NOT FEELING {"WARMER!".Red()}");
 
 			yield return base.ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
 		}
@@ -115,31 +103,19 @@ public class KayceeBossOpponent : BaseBossExt
 		if (wasDefeated)
 		{
 			// before the mask gets put away
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				$"OH COME ON DUDE, I'M STILL {"COLD!".Blue()}",
-				-0.65f,
-				0.4f
-			);
-			yield return TextDisplayer.Instance.ShowUntilInput("LET'S FIGHT AGAIN SOON!", -0.65f, 0.4f);
+			yield return TextDisplayer.Instance.ShowUntilInput($"OH COME ON DUDE, I'M STILL {"COLD!".Blue()}");
+			yield return TextDisplayer.Instance.ShowUntilInput("LET'S FIGHT AGAIN SOON!");
 
 			// this will put the mask away
 			yield return base.OutroSequence(true);
 
 			yield return FaceZoomSequence();
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				"THIS NEXT AREA WAS MADE BY ONE OF MY GHOULS, SAWYER.",
-				-0.65f,
-				0.4f
-			);
-			yield return TextDisplayer.Instance.ShowUntilInput("HE SAYS IT IS TERRIBLE.", -0.65f, 0.4f);
+			yield return TextDisplayer.Instance.ShowUntilInput("THIS NEXT AREA WAS MADE BY ONE OF MY GHOULS, SAWYER."); 
+			yield return TextDisplayer.Instance.ShowUntilInput("HE SAYS IT IS TERRIBLE.");
 		}
 		else
 		{
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				DefeatedPlayerDialogue,
-				-0.65f,
-				0.4f
-			);
+			yield return TextDisplayer.Instance.ShowUntilInput(DefeatedPlayerDialogue);
 		}
 	}
 }
