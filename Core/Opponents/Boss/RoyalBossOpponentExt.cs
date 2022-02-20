@@ -19,8 +19,6 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
-		PlayTheme();
-
 		yield return base.IntroSequence(encounter);
 
 		GrimoraAnimationController.Instance.SetHeadBool("face_happy", true);
@@ -44,6 +42,8 @@ public class RoyalBossOpponentExt : BaseBossExt
 			AudioController.Instance.PlaySound2D("boss_royal");
 			yield return new WaitForSeconds(0.1f);
 		}
+		
+		PlayTheme();
 
 		ViewManager.Instance.SwitchToView(View.Default);
 
