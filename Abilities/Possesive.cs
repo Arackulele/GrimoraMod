@@ -23,7 +23,6 @@ public class Possessive : AbilityBehaviour
 		yield break;
 	}
 
-
 	public static NewAbility Create()
 	{
 		const string rulebookDescription =
@@ -40,8 +39,6 @@ public class PatchesForPossessive
 	[HarmonyPostfix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetOpposingSlots))]
 	public static void PossessiveGetOpposingSlotsPatch(PlayableCard __instance, ref List<CardSlot> __result)
 	{
-		// Log.LogDebug($"Starting GetOpposingSlotsPatch");
-		
 		if (__instance.Slot.opposingSlot.Card is not null
 		    && __instance.Slot.opposingSlot.Card.HasAbility(Possessive.ability))
 		{
@@ -58,8 +55,5 @@ public class PatchesForPossessive
 				__result.Add(slotToTarget);
 			}
 		}
-
-		// Log.LogDebug($"[GetOpposingSlotsPatch] Opposing slots sorted." +
-		//              $" [{string.Join(",", __result.Select(_ => _.Index))}]");
 	}
 }
