@@ -70,7 +70,7 @@ public class SawyerBossOpponent : BaseBossExt
 		InstantiateBossBehaviour<SawyerBehaviour>();
 		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
-			"PLEASE, HE HAS ARRIVED! [c:R]RUN[c:]",
+			$"PLEASE, HE HAS ARRIVED! {"RUN!".Red()}",
 			-0.65f,
 			0.4f
 		);
