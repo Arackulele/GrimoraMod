@@ -2,6 +2,7 @@ using APIPlugin;
 using BepInEx;
 using BepInEx.Configuration;
 using DiskCardGame;
+using HarmonyLib;
 using Sirenix.Utilities;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -144,6 +145,8 @@ public class ConfigHelper
 		UnlockAllNecessaryEventsToPlay();
 	}
 
+	public bool HasIncreaseSlotsMod => Harmony.HasAnyPatches("julianperge.inscryption.act1.increaseCardSlots");
+	
 	public int BonesToAdd => BossesDefeated;
 
 	public void HandleHotReloadBefore()
@@ -153,14 +156,14 @@ public class ConfigHelper
 			return;
 		}
 
-		if (!CardLoader.allData.IsNullOrEmpty())
+		if (CardLoader.allData.IsNotEmpty())
 		{
 			int removedNewCards = NewCard.cards.RemoveAll(card => card.name.StartsWith("GrimoraMod_"));
 			int removedCardLoader = CardLoader.allData.RemoveAll(info => info.name.StartsWith("GrimoraMod_"));
 			Log.LogDebug($"All data is not null. Removed [{removedNewCards}] NewCards, [{removedCardLoader}] CardLoader");
 		}
 
-		if (!AbilitiesUtil.allData.IsNullOrEmpty())
+		if (AbilitiesUtil.allData.IsNotEmpty())
 		{
 			int removed = NewAbility.abilities.RemoveAll(ab => ab.id.ToString().StartsWith(GUID));
 			AbilitiesUtil.allData.RemoveAll(info =>
@@ -180,7 +183,7 @@ public class ConfigHelper
 			return;
 		}
 
-		if (!CardLoader.allData.IsNullOrEmpty())
+		if (CardLoader.allData.IsNotEmpty())
 		{
 			CardLoader.allData = CardLoader.allData.Concat(
 					NewCard.cards.Where(card => card.name.StartsWith("GrimoraMod_"))
@@ -189,7 +192,7 @@ public class ConfigHelper
 				.ToList();
 		}
 
-		if (!AbilitiesUtil.allData.IsNullOrEmpty())
+		if (AbilitiesUtil.allData.IsNotEmpty())
 		{
 			Log.LogDebug($"All data is not null, concatting GrimoraMod abilities");
 			AbilitiesUtil.allData = AbilitiesUtil.allData

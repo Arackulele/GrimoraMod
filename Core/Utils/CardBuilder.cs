@@ -29,8 +29,7 @@ public class CardBuilder
 
 	internal CardBuilder SetTribes(params Tribe[] tribes)
 	{
-		_cardInfo.tribes ??= new List<Tribe>();
-		tribes.DoIf(tribe => !_cardInfo.tribes.Contains(tribe), tribe => _cardInfo.tribes.Add(tribe));
+		_cardInfo.tribes = tribes?.ToList();
 		return this;
 	}
 
@@ -120,11 +119,7 @@ public class CardBuilder
 
 	internal CardBuilder SetMetaCategories(params CardMetaCategory[] categories)
 	{
-		_cardInfo.metaCategories ??= new List<CardMetaCategory>();
-		categories.DoIf(
-			category => !_cardInfo.metaCategories.Contains(category),
-			category => _cardInfo.metaCategories.Add(category)
-		);
+		_cardInfo.metaCategories = categories?.ToList();
 		return this;
 	}
 
@@ -136,12 +131,7 @@ public class CardBuilder
 
 	internal CardBuilder SetAbilities(params SpecialTriggeredAbility[] specialTriggeredAbilities)
 	{
-		_cardInfo.specialAbilities ??= new List<SpecialTriggeredAbility>();
-		specialTriggeredAbilities.DoIf(
-			tribe => !_cardInfo.specialAbilities.Contains(tribe),
-			tribe => _cardInfo.specialAbilities.Add(tribe)
-		);
-
+		_cardInfo.specialAbilities = specialTriggeredAbilities?.ToList();
 		return this;
 	}
 
@@ -187,9 +177,7 @@ public class CardBuilder
 
 	internal CardBuilder SetTraits(params Trait[] traits)
 	{
-		_cardInfo.traits ??= new List<Trait>();
-		traits.DoIf(trait => !_cardInfo.traits.Contains(trait), trait => _cardInfo.traits.Add(trait));
-
+		_cardInfo.traits = traits?.ToList();
 		return this;
 	}
 

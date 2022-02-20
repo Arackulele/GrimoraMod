@@ -49,7 +49,7 @@ public class GrimoraChessboard
 	private readonly Dictionary<int, Func<GameObject>> _bossByIndex = new()
 	{
 		{ 0, () => AssetUtils.GetPrefab<GameObject>("Blocker_Kaycee") },
-		{ 1, () => AssetUtils.GetPrefab<GameObject>("Blocker_Sawyer") },
+		{ 1, () => AssetUtils.GetPrefab<GameObject>("Sawyer_BlockerPiece") },
 		{ 2, () => AssetUtils.GetPrefab<GameObject>("Blocker_Royal") },
 		{ 3, () => AssetUtils.GetPrefab<GameObject>("Blocker_Grimora") },
 	};
@@ -338,6 +338,16 @@ public class GrimoraChessboard
 							break;
 						default:
 							enemyPiece.transform.localRotation = Quaternion.Euler(0, 90, 0);
+							GameObject head = enemyPiece.transform.GetChild(0).Find("Head").gameObject;
+							if (head.GetComponent<SineWaveMovement>() is null)
+							{
+								SineWaveMovement wave = head.AddComponent<SineWaveMovement>();
+								wave.speed = 1;
+								wave.xMagnitude = 0;
+								wave.yMagnitude = 0.1f;
+								wave.zMagnitude = 0;
+							}
+
 							break;
 					}
 				}

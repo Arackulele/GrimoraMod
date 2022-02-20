@@ -20,7 +20,7 @@ public class RuleBookControllerPatches
 		Log.LogDebug($"[RuleBookController.Start] About to start adding all rulebooks");
 		List<int> abilitiesNoCategory = AbilitiesUtil.AllData
 			// this is needed because Sinkhole and another ability will throw IndexOutOfBounds exceptions
-			.Where(info => !string.IsNullOrEmpty(info.LocalizedRulebookDescription))
+			.Where(info => info.LocalizedRulebookDescription.IsNotEmpty())
 			.ForEach(x =>
 			{
 				if (x.ability == Ability.DoubleDeath)

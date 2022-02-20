@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using DiskCardGame;
-using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -28,10 +27,10 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
 		var playerCardsWithAttacks
-			= BoardManager.Instance.GetPlayerCards().Where(pCard => pCard.Attack > 0).ToList();
+			= BoardManager.Instance.GetPlayerCards(pCard => pCard.Attack > 0);
 
 		_freezeCounter++;
-		if (!playerCardsWithAttacks.IsNullOrEmpty())
+		if (playerCardsWithAttacks.IsNotEmpty())
 		{
 			if (_freezeCounter >= 3)
 			{

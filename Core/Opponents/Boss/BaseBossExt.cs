@@ -80,14 +80,11 @@ public abstract class BaseBossExt : Part1BossOpponent
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
-		AudioController.Instance.FadeOutLoop(0.75f);
 		yield return base.IntroSequence(encounter);
 
 		// Royal boss has a specific sequence to follow so that it flows easier
 		if (BossMasksByType.TryGetValue(Opponent, out GameObject mask))
 		{
-			Log.LogDebug($"[{GetType()}] Setting royal skull inactive");
-
 			Log.LogDebug($"[{GetType()}] Creating skull");
 			GrimoraAnimationController.Instance.bossSkull = Instantiate(mask, GrimoraRightWrist.transform);
 			var bossSkullTransform = GrimoraBossSkull.transform;
@@ -96,16 +93,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 			bossSkullTransform.localRotation = Quaternion.Euler(85.85f, 227.76f, 262.77f);
 			bossSkullTransform.localScale = new Vector3(0.14f, 0.14f, 0.14f);
 
-			try
-			{
-				RoyalBossSkull.SetActive(false);
-			}
-			catch (Exception e)
-			{
-				Log.LogError("Was unable to find Royal's skull or set it as inactive?");
-				throw;
-			}
-
+			RoyalBossSkull.SetActive(false);
 			yield return ShowBossSkull();
 		}
 	}
@@ -120,30 +108,22 @@ public abstract class BaseBossExt : Part1BossOpponent
 				ConfigHelper.Instance.BossesDefeated = 0;
 			}
 
-			Log.LogDebug($"[{GetType()}] SaveFile is Grimora");
-
 			AudioController.Instance.PlaySound2D("glitch_error", MixerGroup.TableObjectsSFX);
 
-			Log.LogDebug($"[{GetType()}] Glitching mask");
 			yield return HideBossSkull();
 
-			Log.LogDebug($"[{GetType()}] Destroying scenery");
 			DestroyScenery();
 
-			Log.LogDebug($"[{GetType()}] Set Scene Effects");
 			SetSceneEffectsShown(false);
 
-			Log.LogDebug($"[{GetType()}] Stopping audio");
 			AudioController.Instance.StopAllLoops();
 
 			yield return new WaitForSeconds(0.75f);
 
-			Log.LogDebug($"[{GetType()}] CleanUpBossBehaviours");
 			CleanUpBossBehaviours();
 
 			ViewManager.Instance.SwitchToView(View.Default, false, true);
 
-			Log.LogDebug($"[{GetType()}] Resetting table colors");
 			TableVisualEffectsManager.Instance.ResetTableColors();
 			yield return new WaitForSeconds(0.25f);
 
@@ -159,9 +139,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 	public IEnumerator ShowBossSkull()
 	{
 		yield return new WaitForSeconds(0.1f);
-		Log.LogDebug($"[{GetType()}] Calling ShowBossSkull");
 		GrimoraAnimationController.Instance.ShowBossSkull();
-		Log.LogDebug($"[{GetType()}] Setting Head Trigger");
 		GrimoraAnimationController.Instance.headAnim.ResetTrigger(HideSkull);
 		GrimoraAnimationController.Instance.SetHeadTrigger("show_skull");
 		yield return new WaitForSeconds(0.05f);
@@ -175,9 +153,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 	{
 		if (GrimoraBossSkull is not null)
 		{
-			Log.LogDebug($"[{GetType()}] Calling GlitchOutBossSkull");
 			GrimoraAnimationController.Instance.GlitchOutBossSkull();
-
 			GrimoraAnimationController.Instance.headAnim.ResetTrigger(ShowSkull);
 			GrimoraAnimationController.Instance.SetHeadTrigger("hide_skull");
 		}

@@ -2,7 +2,6 @@
 using APIPlugin;
 using DiskCardGame;
 using HarmonyLib;
-using Sirenix.Utilities;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -23,7 +22,6 @@ public class Possessive : AbilityBehaviour
 		yield break;
 	}
 
-
 	public static NewAbility Create()
 	{
 		const string rulebookDescription =
@@ -40,8 +38,6 @@ public class PatchesForPossessive
 	[HarmonyPostfix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetOpposingSlots))]
 	public static void PossessiveGetOpposingSlotsPatch(PlayableCard __instance, ref List<CardSlot> __result)
 	{
-		// Log.LogDebug($"Starting GetOpposingSlotsPatch");
-		
 		if (__instance.Slot.opposingSlot.Card is not null
 		    && __instance.Slot.opposingSlot.Card.HasAbility(Possessive.ability))
 		{
@@ -51,15 +47,12 @@ public class PatchesForPossessive
 				.ToList();
 
 			__result = new List<CardSlot>();
-			if (!adjSlots.IsNullOrEmpty())
+			if (adjSlots.IsNotEmpty())
 			{
 				CardSlot slotToTarget = adjSlots[UnityEngine.Random.RandomRangeInt(0, adjSlots.Count)];
 				Log.LogDebug($"[OpposingPatches.Possessive] Slot targeted for attack [{slotToTarget.Index}]");
 				__result.Add(slotToTarget);
 			}
 		}
-
-		// Log.LogDebug($"[GetOpposingSlotsPatch] Opposing slots sorted." +
-		//              $" [{string.Join(",", __result.Select(_ => _.Index))}]");
 	}
 }

@@ -20,7 +20,7 @@ public class BoneLordsReign : AbilityBehaviour
 	public override IEnumerator OnPlayFromHand()
 	{
 		var activePlayerCards = BoardManager.Instance.GetPlayerCards();
-		if (!activePlayerCards.IsNullOrEmpty())
+		if (activePlayerCards.IsNotEmpty())
 		{
 			yield return PreSuccessfulTriggerSequence();
 			ViewManager.Instance.SwitchToView(View.Board);

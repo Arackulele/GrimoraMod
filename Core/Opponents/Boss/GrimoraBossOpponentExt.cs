@@ -1,6 +1,5 @@
 using System.Collections;
 using DiskCardGame;
-using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -39,25 +38,21 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
-		AudioController.Instance.SetLoopVolume(1f, 0.5f);
-		yield return new WaitForSeconds(1f);
+		PlayTheme();
 
 		yield return TextDisplayer.Instance.PlayDialogueEvent(
 			"RoyalBossPreIntro",
 			TextDisplayer.MessageAdvanceMode.Input
 		);
 
-
 		yield return TextDisplayer.Instance.PlayDialogueEvent(
 			"LeshyBossIntro1",
 			TextDisplayer.MessageAdvanceMode.Input
 		);
 
-		// Log.LogDebug($"[{GetType()}] Calling base IntroSequence, this creates and sets the candle skull");
 		yield return base.IntroSequence(encounter);
 
 		ViewManager.Instance.SwitchToView(View.BossSkull, false, true);
-
 
 		yield return TextDisplayer.Instance.PlayDialogueEvent(
 			"LeshyBossAddCandle",
@@ -69,8 +64,6 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		SetSceneEffectsShownGrimora();
 
-		PlayTheme();
-
 		yield return new WaitForSeconds(2f);
 		ViewManager.Instance.SwitchToView(View.Default, lockAfter: false);
 	}
@@ -78,11 +71,9 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	public override void PlayTheme()
 	{
 		Log.LogDebug($"Playing Grimora theme");
-		AudioController.Instance.FadeOutLoop(3f);
-		AudioController.Instance.StopAllLoops();
-		AudioController.Instance.SetLoopAndPlay("Risen_Again", 1);
-		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
-		AudioController.Instance.FadeInLoop(5f, 0.75f, 1);
+		AudioController.Instance.SetLoopAndPlay("Risen_Again");
+		AudioController.Instance.SetLoopVolumeImmediate(0f);
+		AudioController.Instance.FadeInLoop(10f, 0.75f);
 	}
 
 	public override IEnumerator StartNewPhaseSequence()
@@ -116,8 +107,8 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	private IEnumerator StartPlayerCardWeakeningPhase()
 	{
 		var playerCardsThatAreValidToWeaken
-			= BoardManager.Instance.GetPlayerCards(pCard => pCard.Health > 1).ToList();
-		if (!playerCardsThatAreValidToWeaken.IsNullOrEmpty())
+			= BoardManager.Instance.GetPlayerCards(pCard => pCard.Health > 1);
+		if (playerCardsThatAreValidToWeaken.IsNotEmpty())
 		{
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"I WILL MAKE YOU WEAK!",
@@ -154,7 +145,20 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		CardInfo modifiedGiant = CreateModifiedGiant();
 		yield return BoardManager.Instance.CreateCardInSlot(modifiedGiant, oppSlots[1], 0.3f);
 		yield return new WaitForSeconds(0.5f);
-		yield return BoardManager.Instance.CreateCardInSlot(modifiedGiant, oppSlots[3], 0.3f);
+		if (ConfigHelper.Instance.HasIncreaseSlotsMod)
+		{
+			yield return TextDisplayer.Instance.ShowUntilInput("OH? FIVE LANES? HOW BOLD.");
+			yield return BoardManager.Instance.CreateCardInSlot(modifiedGiant, oppSlots[4], 0.3f);
+
+			yield return BoardManager.Instance.CreateCardInSlot(NameObol.GetCardInfo(), oppSlots[2], 0.2f);
+			CardSlot thirdLaneQueueSlot = BoardManager.Instance.GetQueueSlots()[2];
+			yield return TurnManager.Instance.Opponent.QueueCard(NameObol.GetCardInfo(), thirdLaneQueueSlot);
+		}
+		else
+		{
+			yield return BoardManager.Instance.CreateCardInSlot(modifiedGiant, oppSlots[3], 0.3f);
+		}
+
 		yield return new WaitForSeconds(0.5f);
 	}
 
@@ -181,7 +185,10 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		);
 		ViewManager.Instance.SwitchToView(View.OpponentQueue, false, true);
 
-		yield return BoardManager.Instance.CreateCardInSlot(CreateModifiedBonelord(), oppSlots[2], 0.75f);
+		int bonelordSlotIndex = ConfigHelper.Instance.HasIncreaseSlotsMod ? 3 : 2;
+		yield return BoardManager.Instance.CreateCardInSlot(
+			CreateModifiedBonelord(), oppSlots[bonelordSlotIndex], 0.75f
+		);
 		yield return new WaitForSeconds(0.25f);
 
 		yield return TextDisplayer.Instance.ShowUntilInput(
@@ -190,7 +197,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		);
 
 
-		oppSlots.RemoveRange(1, 2); // slot 1, slot 4 remain
+		oppSlots.RemoveRange(1, ConfigHelper.Instance.HasIncreaseSlotsMod ? 3 : 2); // slot 1, slot 4 remain
 		var leftAndRightQueueSlots = GetFarLeftAndFarRightQueueSlots();
 
 		CardInfo bonelordsHorn = CreateModifiedBonelordsHorn();
@@ -220,7 +227,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	private CardInfo CreateModifiedBonelordsHorn()
 	{
 		CardInfo bonelordsHorn = NameBoneLordsHorn.GetCardInfo();
-		bonelordsHorn.mods.Add(new CardModificationInfo() { attackAdjustment = 2 });
+		bonelordsHorn.Mods.Add(new CardModificationInfo() { attackAdjustment = 2 });
 		bonelordsHorn.abilities.Remove(Ability.QuadrupleBones);
 		return bonelordsHorn;
 	}
@@ -228,6 +235,6 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	private List<CardSlot> GetFarLeftAndFarRightQueueSlots()
 	{
 		var qSlots = BoardManager.Instance.GetQueueSlots();
-		return new List<CardSlot> { qSlots[0], qSlots[3] };
+		return new List<CardSlot> { qSlots[0], qSlots[ConfigHelper.Instance.HasIncreaseSlotsMod ? 4 : 3] };
 	}
 }

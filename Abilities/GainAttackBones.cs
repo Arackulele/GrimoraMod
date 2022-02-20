@@ -1,49 +1,37 @@
-using System.Collections;
 using APIPlugin;
 using DiskCardGame;
-using Sirenix.Utilities;
-using BepInEx;
-using BepInEx.Logging;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
-public class GainAttackBones : AbilityBehaviour
+public class GainAttackBones : VariableStatBehaviour
 {
-	public static Ability ability;
+	public static readonly NewSpecialAbility NewSpecialAbility = Create();
 
-	public override Ability Ability => ability;
+	private static SpecialStatIcon SpecialStatIcon;
 
+	public override SpecialStatIcon IconType => SpecialStatIcon;
 
-	public override bool RespondsToTurnEnd(bool playerTurnEnd)
+	public static NewSpecialAbility Create()
 	{
-		return base.Card != null && base.Card.OpponentCard != playerTurnEnd;
+		StatIconInfo info = ScriptableObject.CreateInstance<StatIconInfo>();
+		info.appliesToAttack = true;
+		info.appliesToHealth = false;
+		info.rulebookName = "HellHound's Thirst";
+		info.rulebookDescription = "[creature] gains 1 attack for each bone the player currently has.";
+		info.iconGraphic = AllAbilityTextures.Single(_ => _.name.Equals("ability_GainAttackBones"));
+
+		var sId = SpecialAbilityIdentifier.GetID(GUID, "GrimoraMod_GainAttackBones");
+
+		var specialAbility = new NewSpecialAbility(typeof(GainAttackBones), sId, info);
+		SpecialStatIcon = specialAbility.statIconInfo.iconType;
+
+		return specialAbility;
 	}
 
-
-	public override IEnumerator OnTurnEnd(bool playerTurnEnd)
+	public override int[] GetStatValues()
 	{
-		//clearing mods so it doesnt stack
-		Card.TemporaryMods.Clear();
-
-		new WaitForSeconds(0.1f);
-
-		int boneamount = Singleton<ResourcesManager>.Instance.PlayerBones;
-		Card.AddTemporaryMod(new CardModificationInfo(boneamount, 0));
-
-		GrimoraPlugin.Log.LogWarning("Bone Damage Triggered");
-		yield break;
+		return new[] { ResourcesManager.Instance.PlayerBones, 0 };
 	}
-
-	public static NewAbility Create()
-		{
-			const string rulebookDescription =
-				"[creature] gains 1 attack for each bone the player currently has.";
-
-			return ApiUtils.CreateAbility<GainAttackBones>(
-				rulebookDescription, "GainAttackBones"
-			);
-	} 
-
 }
-

@@ -13,6 +13,8 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 	private readonly CardInfo _revenantCardReward = NameRevenant.GetCardInfo();
 
+	private bool hasPlayedLongOutro = false;
+
 	private void Start()
 	{
 		SetMaterials();
@@ -107,16 +109,16 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		{
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"A LONE GRAVE SITS SOLEMNLY IN FRONT OF YOU.", -0.65f
-				);
+			);
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"IN FRONT OF IT IS A MOUND OF EARTH, LEFT BY SOMEONE WHO'S ALREADY PASSED ON.", -0.65f
-				);
+			);
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				$"PERHAPS A MEMBER OF YOUR UNDEAD HORDE COULD {"DIG THEM UP?".BrightRed()}", -0.65f
-				);
+			);
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"THIS WOULDN'T BE WITHOUT REPERCUSSIONS OF COURSE, AS DEATH IS NEVER PERMANENT.", -0.65f
-				);
+			);
 
 			yield return confirmStone.WaitUntilConfirmation();
 			bool finishedBuffing = false;
@@ -139,7 +141,21 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 				finishedBuffing = true;
 			}
 
-			yield return TextDisplayer.Instance.PlayDialogueEvent("StatBoostOutro", TextDisplayer.MessageAdvanceMode.Input);
+			if (hasPlayedLongOutro)
+			{
+				yield return TextDisplayer.Instance.ShowUntilInput("MARVELOUS! THEY CAME CRAWLING BACK AFTER YOU BURIED THEM.");
+				yield return TextDisplayer.Instance.ShowUntilInput("THEY STILL CARE ABOUT YOU IT SEEMS!");
+			}
+			else
+			{
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					$"TORN FROM ITS ETERNAL RESPITE WITH A RELUCTANT GROAN, THE {selectionSlot.Card.Info.DisplayedNameLocalized.Red()} SHAMBLES BACK TO ITS RIGHTFUL PLACE AMONG YOUR HORDE."
+				);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					"ITS BONES HOLLOWED THROUGH BY THE CREATURES OF THE SOIL, LEAVING THE DEAR THING A ROTTED HUSK OF ITS FORMER SELF.");
+				yield return TextDisplayer.Instance.ShowUntilInput("THOUGH THE WEIGHT OF CONSEQUENCE ALSO SEEMS LIFTED...");
+				hasPlayedLongOutro = true;
+			}
 		}
 
 		yield return OutroEnvTeardown();

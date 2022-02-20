@@ -50,8 +50,11 @@ public class HammerItemExt : HammerItem
 		if (!_dialoguePlayed && _useCounter == 1)
 		{
 			StartCoroutine(
+				TextDisplayer.Instance.ShowUntilInput("DON'T GET TOO ACCUSTOMED TO THAT HAMMER, DEAR.")
+			);
+			StartCoroutine(
 				TextDisplayer.Instance.ShowUntilInput(
-					"DON'T GET TOO COMFORTABLE WITH THAT, THIS HAMMER IS FRAGILE AND WILL BREAK AFTER THE 3RD USE!")
+					"THE FRAIL THING WILL SHATTER AFTER EXCESSIVE USE. THREE STRIKES, AND IT'S OUT..")
 			);
 		}
 		else if (!_dialoguePlayed && _useCounter == 2)
