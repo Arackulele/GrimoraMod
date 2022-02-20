@@ -104,21 +104,4 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 			yield return new WaitForSeconds(0.5f);
 		}
 	}
-
-	public override bool RespondsToUpkeep(bool playerUpkeep)
-	{
-		return !playerUpkeep;
-	}
-
-	public override IEnumerator OnUpkeep(bool playerUpkeep)
-	{
-		if (_rng.NextBoolean() && !hasPlayedArmyDialogue)
-		{
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				"ONLY A FEW MORE TURNS BEFORE I CAN BRING MY ARMY BACK...",
-				letterAnimation: TextDisplayer.LetterAnimation.None
-			);
-			hasPlayedArmyDialogue = true;
-		}
-	}
 }
