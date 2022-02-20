@@ -55,15 +55,11 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ## Update Notes
 
-### 2.7.0
+### 2.6.7
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Potentially fixed issue interacting with nodes at x0 y0 by just moving them to any other place on the board. Not sure why x0 y0 has issues with interaction.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) New boss themes courtesy of `Akisephila (Addie Brahem)`
-
-- ![Feature](https://i.imgur.com/uL9uYNV.png) You now gain +1 `Starting Bone` for each Boss you have defeated in the current Run.
-
-- ![Feature](https://i.imgur.com/uL9uYNV.png) The `Sawyer` Boss now has unique Mehanics, like stealing Bones for you and spawning a cerain hound of his.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New boss themes courtesy of `Akisephila (Addie)`
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Added new Kaycee and Sawyer boss figurines courtesy of `Catboy Stinkbug#4099`.
   - Model updates for Sawyer courtesy of `Pink#9824`
@@ -269,8 +265,6 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - **Skin Crawler** - When [creature] resolves, if possible, will hide under an adjacent card providing a +1 buff. Otherwise, it perishes. Cards on the left take priority.
 
 ## Special thanks to
-
-- kisephila (Addie Brahem) for the Soundtrack
 
 - LavaErrorDoggo for making a lot of the artwork,
 
