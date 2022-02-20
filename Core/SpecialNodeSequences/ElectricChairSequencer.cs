@@ -142,7 +142,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			selectionSlot.Card.SetInteractionEnabled(false);
 			yield return new WaitForSeconds(0.75f);
 
-			if (numBuffsGiven == 2)
+			if (numBuffsGiven == 2 || selectionSlot.Card.Info.Abilities.Count == 4)
 			{
 				break;
 			}
