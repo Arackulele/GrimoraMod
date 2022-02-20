@@ -179,13 +179,11 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		yield return TextDisplayer.Instance.ShowUntilInput(
 			"LET THE BONE LORD COMMETH!",
 			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
-			);
-
+		);
 		ViewManager.Instance.SwitchToView(View.OpponentQueue, false, true);
 
-		yield return BoardManager.Instance.CreateCardInSlot(CreateModifiedBonelord(), oppSlots[2], 0.2f);
+		yield return BoardManager.Instance.CreateCardInSlot(CreateModifiedBonelord(), oppSlots[2], 0.75f);
 		yield return new WaitForSeconds(0.25f);
-
 
 		yield return TextDisplayer.Instance.ShowUntilInput(
 			"RISE MY ARMY! RIIIIIIIIIISE!",
