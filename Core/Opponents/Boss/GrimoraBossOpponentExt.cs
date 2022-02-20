@@ -59,7 +59,6 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		ViewManager.Instance.SwitchToView(View.BossSkull, false, true);
 
-		PlayTheme();
 		
 		yield return TextDisplayer.Instance.PlayDialogueEvent(
 			"LeshyBossAddCandle",
@@ -67,8 +66,9 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		);
 		yield return new WaitForSeconds(0.4f);
 
-		Log.LogDebug($"Calling bossSkull.EnterHand()");
 		bossSkull.EnterHand();
+		
+		PlayTheme();
 
 		yield return new WaitForSeconds(2f);
 		ViewManager.Instance.SwitchToView(View.Default, lockAfter: false);
