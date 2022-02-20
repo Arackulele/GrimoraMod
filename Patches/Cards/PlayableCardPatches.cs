@@ -38,6 +38,20 @@ public class PlayableCardPatches
 				// it will now be right to left, counter-clockwise
 				__result.Reverse();
 			}
+
+			if (hasAlternatingStrike)
+			{
+				List<CardSlot> alternatedResult = new List<CardSlot>()
+				{
+					__result[4],
+					__result[0],
+					__result[3],
+					__result[1],
+					__result[2],
+				};
+
+				__result = alternatedResult;
+			}
 		}
 		else if (hasInvertedStrike)
 		{
