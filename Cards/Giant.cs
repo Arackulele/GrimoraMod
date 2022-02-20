@@ -54,7 +54,7 @@ public class ModifyLocalPositionsOfTableObjects
 			}
 
 			rotatingParent.localPosition = new Vector3(xValPosition, 1.05f, 0);
-			rotatingParent.localScale = new Vector3(xValScale, xValScale, 1);
+			rotatingParent.localScale = new Vector3(xValScale, 2.1f, 1);
 		}
 
 		yield return enumerator;
