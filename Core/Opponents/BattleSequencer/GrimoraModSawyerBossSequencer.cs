@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using UnityEngine;
 
@@ -21,13 +21,15 @@ public class GrimoraModSawyerBossSequencer : GrimoraModBossBattleSequencer
 		return playerUpkeep;
 	}
 
+	private int bonestakenCounter = 0;
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
-		bool isBonehoundOnBoard = BoardManager.Instance.opponentSlots.Exists(info => info.name.Equals("Bonehound"));
-		if (new RandomEx().NextBoolean() && isBonehoundOnBoard && ResourcesManager.Instance.PlayerBones > 5)
+		bonestakenCounter++;
+
+		if ( bonestakenCounter == 1)
 		{
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				$"PLEASE, WON'T YOU SPARE SOME BONES FOR {"BONEHOUND".Red()}?",
+				"PLEASE, WON'T YOU SPARE SOME BONES FOR [c:R]BONEHOUND[c:]?",
 				-0.65f,
 				0.4f
 			);
@@ -35,6 +37,7 @@ public class GrimoraModSawyerBossSequencer : GrimoraModBossBattleSequencer
 			yield return new WaitForSeconds(0.1f);
 			yield return ResourcesManager.Instance.SpendBones(1);
 			yield return new WaitForSeconds(1f);
+			bonestakenCounter = 0;
 		}
 	}
 }
