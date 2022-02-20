@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(CreateArmyOfSkeletons.ability)
 			.SetBaseAttackAndHealth(1, 3)
 			.SetBoneCost(5)
-			.SetDescription("[c:bR]RISE MY ARMY, RIIIIIISE[c:]")
+			.SetDescription($"RISE MY ARMY, RIIIIIISE".BrightRed())
 			.SetNames(NameSkeletonArmy, "Skeleton Army")
 			.Build()
 		);

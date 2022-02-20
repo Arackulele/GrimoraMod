@@ -104,7 +104,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			yield return TextDisplayer.Instance.ShowUntilInput("Oh! I love this one!", -0.65f);
 			yield return new WaitForSeconds(0.1f);
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"You strap one of your cards to the chair, [c:B]empowering[c:] it!", -0.65f
+				$"YOU STRAP ONE OF YOUR CARDS TO THE CHAIR, {"EMPOWERING".Blue()} IT!", -0.65f
 			);
 			yield return new WaitForSeconds(0.1f);
 			yield return TextDisplayer.Instance.ShowUntilInput("Of course, it doesn't hurt.\nYou can't die twice after all.",
@@ -226,11 +226,11 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			// yield return TextDisplayer.Instance.PlayDialogueEvent("StatBoostOutro", TextDisplayer.MessageAdvanceMode.Input);
 
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				$"The shock empowered the poor [c:bR]{selectionSlot.Card.Info.DisplayedNameLocalized}[c:], enhancing its abilities.",
+				$"THE SHOCK EMPOWERED THE POOR {selectionSlot.Card.Info.DisplayedNameLocalized.BrightRed()}, ENHANCING ITS ABILITIES.",
 				-0.65f
 			);
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				$"You ever so carefully pull the [c:bR]{selectionSlot.Card.Info.DisplayedNameLocalized}[c:] away from the electricity and left.",
+				$"YOU EVER SO CAREFULLY PULL THE {selectionSlot.Card.Info.DisplayedNameLocalized.BrightRed()} AWAY FROM THE ELECTRICITY AND LEFT.",
 				-0.65f
 			);
 

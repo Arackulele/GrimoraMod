@@ -37,7 +37,7 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 			{
 				ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 				yield return TextDisplayer.Instance.ShowUntilInput(
-					"It's time for your cards to freeze! CHILLED TO THE BONE!"
+					$"IT'S TIME FOR YOUR CARDS TO FREEZE! {"CHILLED".Blue()} TO THE BONE!"
 				);
 				foreach (var card in playerCardsWithAttacks)
 				{
@@ -64,7 +64,9 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 		if (draugrCards.Count >= 2)
 		{
 			ViewManager.Instance.SwitchToView(View.Board);
-			yield return TextDisplayer.Instance.ShowUntilInput("ALL THIS ICE IS TAKING UP TOO MUCH SPACE!");
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				$"ALL THIS {"ICE".BrightBlue()} IS TAKING UP TOO MUCH SPACE!"
+			);
 			foreach (var card in draugrCards)
 			{
 				yield return card.Die(false);
