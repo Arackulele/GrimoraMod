@@ -10,6 +10,8 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 {
 	private readonly RandomEx _rng = new();
 
+	private bool hasPlayedArmyDialogue = false;
+
 	private bool playedDeathTouchDialogue;
 
 	public override Opponent.Type BossType => BaseBossExt.GrimoraOpponent;
@@ -35,6 +37,13 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 				yield return TextDisplayer.Instance.PlayDialogueEvent(
 					"FinaleGrimoraBattleWon", TextDisplayer.MessageAdvanceMode.Input
 				);
+			}
+
+			if (!ConfigHelper.Instance.isEndlessModeEnabled)
+			{
+				yield return new WaitForSeconds(0.5f);
+				Log.LogInfo($"Player won against Grimora! Resetting run...");
+				ConfigHelper.Instance.ResetRun();
 			}
 		}
 		else
@@ -83,13 +92,12 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer
 	)
 	{
-		Log.LogDebug($"[{GetType()}] Other Card [{card.Info.name}] is happening");
 		List<CardSlot> opponentQueuedSlots = BoardManager.Instance.GetQueueSlots();
-		Log.LogDebug($"[{GetType()}] Opponent Slots count [{opponentQueuedSlots.Count}]");
 		if (!opponentQueuedSlots.IsNullOrEmpty())
 		{
 			ViewManager.Instance.SwitchToView(View.BossCloseup);
-			TextDisplayer.Instance.PlayDialogueEvent("GrimoraBossReanimate1", TextDisplayer.MessageAdvanceMode.Input);
+			yield return TextDisplayer.Instance.PlayDialogueEvent("GrimoraBossReanimate1",
+				TextDisplayer.MessageAdvanceMode.Input);
 
 			CardSlot slot = opponentQueuedSlots[UnityEngine.Random.Range(0, opponentQueuedSlots.Count)];
 			yield return TurnManager.Instance.Opponent.QueueCard(card.Info, slot);
@@ -104,14 +112,13 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
-		if (_rng.NextBoolean())
+		if (_rng.NextBoolean() && !hasPlayedArmyDialogue)
 		{
-			TextDisplayer.Instance.ShowUntilInput(
+			yield return TextDisplayer.Instance.ShowUntilInput(
 				"Only a few more turns before I can bring my army back...",
 				letterAnimation: TextDisplayer.LetterAnimation.None
 			);
+			hasPlayedArmyDialogue = true;
 		}
-
-		yield break;
 	}
 }
