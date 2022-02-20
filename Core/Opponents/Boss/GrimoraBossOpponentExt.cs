@@ -72,7 +72,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	{
 		Log.LogDebug($"Playing Grimora theme");
 		AudioController.Instance.StopAllLoops();
-		AudioController.Instance.SetLoopAndPlay("Risen_Again", 1);
+		AudioController.Instance.SetLoopAndPlay("Grimoras_Theme", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
 		AudioController.Instance.SetLoopVolume(0.7f, 10f, 1);
 	}
