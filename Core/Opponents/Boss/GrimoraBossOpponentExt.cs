@@ -165,6 +165,12 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 	public IEnumerator StartBoneLordPhase()
 	{
+		AudioController.Instance.FadeOutLoop(2f);
+		AudioController.Instance.StopAllLoops();
+		AudioController.Instance.SetLoopAndPlay("Bone_Lords_Theme");
+		AudioController.Instance.SetLoopVolumeImmediate(0f);
+		AudioController.Instance.FadeInLoop(1f, 0.7f, default(int));
+		
 		var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
 
 		yield return TextDisplayer.Instance.ShowUntilInput(
