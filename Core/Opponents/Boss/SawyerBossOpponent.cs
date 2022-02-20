@@ -3,6 +3,7 @@ using DiskCardGame;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
 using static GrimoraMod.GrimoraPlugin;
+using static GrimoraMod.GrimoraModSawyerBossSequencer;
 
 namespace GrimoraMod;
 
@@ -68,20 +69,21 @@ public class SawyerBossOpponent : BaseBossExt
 	{
 		{
 			InstantiateBossBehaviour<SawyerBehaviour>();
-
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"Please, he has arrived!RUN",
+				"PLEASE, HE HAS ARRIVED![c:R]RUN[c:]",
 				-0.65f,
 				0.4f
 			);
 			yield return ClearQueue();
 			yield return ClearBoard();
 			yield return Singleton<BoardManager>.Instance.CreateCardInSlot(NameHellHound.GetCardInfo(), Singleton<BoardManager>.Instance.OpponentSlotsCopy[2], 1.0f, true);
-
+			yield return new WaitForSeconds(0.4f);
 
 			yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
+			ViewManager.Instance.SwitchToView(View.BoneTokens);
 			yield return ResourcesManager.Instance.AddBones(2);
+			yield return new WaitForSeconds(0.4f);
 		}
 	}
 
