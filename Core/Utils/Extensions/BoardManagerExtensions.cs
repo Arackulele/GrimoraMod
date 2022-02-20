@@ -31,7 +31,7 @@ public static class BoardManagerExtensions
 	{
 		return manager
 			.OpponentSlotsCopy
-			.Where(slot => slot.Card != null)
+			.Where(slot => slot.Card != null && (filterOnPredicate is null || filterOnPredicate.Invoke(slot.Card)))
 			.Select(slot => slot.Card)
 			.ToList();
 	}
