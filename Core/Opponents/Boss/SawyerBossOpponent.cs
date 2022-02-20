@@ -36,7 +36,7 @@ public class SawyerBossOpponent : BaseBossExt
 		);
 
 		ViewManager.Instance.SwitchToView(View.Default);
-		
+
 		PlayTheme();
 	}
 
@@ -46,7 +46,7 @@ public class SawyerBossOpponent : BaseBossExt
 		AudioController.Instance.StopAllLoops();
 		AudioController.Instance.SetLoopAndPlay("Dogbite", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
-		AudioController.Instance.FadeInLoop(0.5f, 0.5f, 1);
+		AudioController.Instance.FadeInLoop(0.5f, 1f, 1);
 	}
 
 	private static void SetSceneEffectsShownSawyer()
