@@ -17,6 +17,8 @@ public class KayceeBossOpponent : BaseBossExt
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
+		PlayTheme();
+
 		encounter.startConditions = new List<EncounterData.StartCondition>()
 		{
 			new()
@@ -44,17 +46,15 @@ public class KayceeBossOpponent : BaseBossExt
 		);
 
 		ViewManager.Instance.SwitchToView(View.Default);
-
-		PlayTheme();
 	}
 
 	public override void PlayTheme()
 	{
 		Log.LogDebug($"Playing kaycee theme");
 		AudioController.Instance.StopAllLoops();
-		AudioController.Instance.SetLoopAndPlay("Frostburn", 1);
-		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
-		AudioController.Instance.FadeInLoop(0.5f, 0.5f, 1);
+		AudioController.Instance.SetLoopAndPlay("Frostburn");
+		AudioController.Instance.SetLoopVolumeImmediate(0f);
+		AudioController.Instance.FadeInLoop(5f, 0.5f);
 	}
 
 	private static void SetSceneEffectsShownKaycee()

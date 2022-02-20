@@ -3,7 +3,6 @@ using DiskCardGame;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
 using static GrimoraMod.GrimoraPlugin;
-using static GrimoraMod.GrimoraModSawyerBossSequencer;
 
 namespace GrimoraMod;
 
@@ -19,6 +18,8 @@ public class SawyerBossOpponent : BaseBossExt
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
+		PlayTheme();
+
 		SpawnScenery("CratesTableEffects");
 		yield return new WaitForSeconds(0.1f);
 
@@ -31,23 +32,21 @@ public class SawyerBossOpponent : BaseBossExt
 
 		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
-			"Look away, Look away! If you want to fight, get it over quick!",
+			"LOOK AWAY, LOOK AWAY! IF YOU WANT TO FIGHT, GET IT OVER QUICK!",
 			-0.65f,
 			0.4f
 		);
 
 		ViewManager.Instance.SwitchToView(View.Default);
-
-		PlayTheme();
 	}
 
 	public override void PlayTheme()
 	{
 		Log.LogDebug($"Playing sawyer theme");
 		AudioController.Instance.StopAllLoops();
-		AudioController.Instance.SetLoopAndPlay("Dogbite", 1);
-		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
-		AudioController.Instance.FadeInLoop(0.5f, 1f, 1);
+		AudioController.Instance.SetLoopAndPlay("Dogbite");
+		AudioController.Instance.SetLoopVolumeImmediate(0f);
+		AudioController.Instance.FadeInLoop(5f, 1f);
 	}
 
 	private static void SetSceneEffectsShownSawyer()
@@ -115,35 +114,18 @@ public class SawyerBossOpponent : BaseBossExt
 	{
 		if (wasDefeated)
 		{
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				"Thanks for getting it over with, and don't ever return!",
-				-0.65f,
-				0.4f
-			);
+			yield return TextDisplayer.Instance.ShowUntilInput("THANKS FOR GETTING IT OVER WITH, AND DON'T EVER RETURN!");
 
 			yield return new WaitForSeconds(0.5f);
 			yield return base.OutroSequence(true);
 
 			yield return FaceZoomSequence();
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				"The next area won't be so easy.",
-				-0.65f,
-				0.4f
-			);
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				"I asked Royal to do his best at making it impossible.",
-				-0.65f,
-				0.4f
-			);
+			yield return TextDisplayer.Instance.ShowUntilInput("THE NEXT AREA WON'T BE SO EASY.");
+			yield return TextDisplayer.Instance.ShowUntilInput("I ASKED ROYAL TO DO HIS BEST AT MAKING IT IMPOSSIBLE.");
 		}
 		else
 		{
-			Log.LogDebug($"[{GetType()}] Defeated player dialogue");
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				DefeatedPlayerDialogue,
-				-0.65f,
-				0.4f
-			);
+			yield return TextDisplayer.Instance.ShowUntilInput(DefeatedPlayerDialogue);
 		}
 	}
 }

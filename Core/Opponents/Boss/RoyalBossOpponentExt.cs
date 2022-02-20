@@ -19,7 +19,8 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
-		// Log.LogDebug($"[{GetType()}] Calling base IntroSequence, this creates and sets the candle skull");
+		PlayTheme();
+
 		yield return base.IntroSequence(encounter);
 
 		GrimoraAnimationController.Instance.SetHeadBool("face_happy", true);
@@ -47,17 +48,15 @@ public class RoyalBossOpponentExt : BaseBossExt
 		ViewManager.Instance.SwitchToView(View.Default);
 
 		yield return new WaitForSeconds(2f);
-
-		PlayTheme();
 	}
 
 	public override void PlayTheme()
 	{
 		Log.LogDebug($"Playing royal theme");
 		AudioController.Instance.StopAllLoops();
-		AudioController.Instance.SetLoopAndPlay("Royal_Ruckus", 1);
-		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
-		AudioController.Instance.FadeInLoop(0.5f, 0.75f, 1);
+		AudioController.Instance.SetLoopAndPlay("Royal_Ruckus");
+		AudioController.Instance.SetLoopVolumeImmediate(0f);
+		AudioController.Instance.FadeInLoop(5f, 0.75f);
 	}
 
 	private static void SetSceneEffectsShownRoyal()

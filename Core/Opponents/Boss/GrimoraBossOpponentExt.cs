@@ -1,6 +1,5 @@
 using System.Collections;
 using DiskCardGame;
-using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -39,25 +38,21 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
-		AudioController.Instance.SetLoopVolume(1f, 0.5f);
-		yield return new WaitForSeconds(1f);
+		PlayTheme();
 
 		yield return TextDisplayer.Instance.PlayDialogueEvent(
 			"RoyalBossPreIntro",
 			TextDisplayer.MessageAdvanceMode.Input
 		);
 
-
 		yield return TextDisplayer.Instance.PlayDialogueEvent(
 			"LeshyBossIntro1",
 			TextDisplayer.MessageAdvanceMode.Input
 		);
 
-		// Log.LogDebug($"[{GetType()}] Calling base IntroSequence, this creates and sets the candle skull");
 		yield return base.IntroSequence(encounter);
 
 		ViewManager.Instance.SwitchToView(View.BossSkull, false, true);
-
 
 		yield return TextDisplayer.Instance.PlayDialogueEvent(
 			"LeshyBossAddCandle",
@@ -69,8 +64,6 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		SetSceneEffectsShownGrimora();
 
-		PlayTheme();
-
 		yield return new WaitForSeconds(2f);
 		ViewManager.Instance.SwitchToView(View.Default, lockAfter: false);
 	}
@@ -80,9 +73,9 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		Log.LogDebug($"Playing Grimora theme");
 		AudioController.Instance.FadeOutLoop(3f);
 		AudioController.Instance.StopAllLoops();
-		AudioController.Instance.SetLoopAndPlay("Risen_Again", 1);
-		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
-		AudioController.Instance.FadeInLoop(5f, 0.75f, 1);
+		AudioController.Instance.SetLoopAndPlay("Risen_Again");
+		AudioController.Instance.SetLoopVolumeImmediate(0f);
+		AudioController.Instance.FadeInLoop(10f, 0.75f);
 	}
 
 	public override IEnumerator StartNewPhaseSequence()
