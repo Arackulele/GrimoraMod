@@ -57,7 +57,6 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		Ability.GuardDog,
 		Ability.IceCube,
 		Ability.MoveBeside,
-		Ability.PreventAttack,
 		Ability.QuadrupleBones,
 		Ability.Reach,
 		Ability.Sentry,
