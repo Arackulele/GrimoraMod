@@ -328,6 +328,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			VideoCameraRig.Instance.PlayCameraAnim("refocus_quick");
 		}
 
+		// TODO: Change campfire sound and light to electricity?
 		AudioController.Instance.PlaySound3D(
 			"campfire_light",
 			MixerGroup.TableObjectsSFX,
@@ -382,23 +383,19 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			return;
 		}
 
-		Log.LogDebug("[ElectricChair] Creating boneyard burial");
 		GameObject cardStatObj = Instantiate(
 			PrefabConstants.CardStatBoostSequencer,
 			SpecialNodeHandler.Instance.transform
 		);
 		cardStatObj.name = "ElectricChairSequencer_Grimora";
 
-		Log.LogDebug("[ElectricChair] getting selection slot");
 		var selectionSlot = cardStatObj.transform.GetChild(1);
 
-		Log.LogDebug("[ElectricChair] getting stake ring");
 		var stakeRing = cardStatObj.transform.Find("StakeRing");
 
 		// destroying things
 
-		Log.LogDebug("[ElectricChair] destroying fireanim");
-		Destroy(selectionSlot.GetChild(1).gameObject); //FireAnim 
+		Destroy(selectionSlot.GetChild(1).gameObject); // FireAnim 
 		for (int i = 0; i < cardStatObj.transform.childCount; i++)
 		{
 			var child = cardStatObj.transform.GetChild(i);
@@ -408,7 +405,6 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			}
 		}
 
-		Log.LogDebug($"[ElectricChair] destroying existing stake rings [{stakeRing.childCount}]");
 		for (int i = 0; i < stakeRing.childCount; i++)
 		{
 			// don't need the stake rings
@@ -447,9 +443,10 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		newSequencer.selectionSlot.cardSelector.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
 		newSequencer.selectionSlot.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
 		var stoneQuad = selectionSlot.transform.Find("Quad").GetComponent<MeshRenderer>();
-		stoneQuad.material = AssetUtils.GetPrefab<Material>("ElectricChair_Stat_AbilityBoost");
-		stoneQuad.sharedMaterial = AssetUtils.GetPrefab<Material>("ElectricChair_Stat_AbilityBoost");
-		
+		Material abilityBoostMat = AssetUtils.GetPrefab<Material>("ElectricChair_Stat_AbilityBoost");
+		stoneQuad.material = abilityBoostMat;
+		stoneQuad.sharedMaterial = abilityBoostMat;
+
 		newSequencer.retrieveCardInteractable = oldSequencer.retrieveCardInteractable;
 		newSequencer.retrieveCardInteractable.transform.localPosition = new Vector3(0, 7.2f, 1.2f);
 		newSequencer.retrieveCardInteractable.transform.localRotation = Quaternion.Euler(270, 0, 0);
