@@ -21,10 +21,9 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	{
 		Color purple = GameColors.Instance.purple;
 		Color darkPurple = GameColors.Instance.darkPurple;
-		Color cardLightColorPurple = new Color(0.55f, 0.1f, 0.72f, 1);
 		TableVisualEffectsManager.Instance.ChangeTableColors(
 			darkPurple,
-			cardLightColorPurple,
+			GrimoraColors.GrimoraBossCardLight,
 			purple,
 			darkPurple,
 			darkPurple,

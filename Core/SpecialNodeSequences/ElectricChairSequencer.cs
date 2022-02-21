@@ -389,13 +389,10 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		);
 		cardStatObj.name = "ElectricChairSequencer_Grimora";
 
-		var selectionSlot = cardStatObj.transform.GetChild(1);
-
-		var stakeRing = cardStatObj.transform.Find("StakeRing");
+		var oldSequencer = cardStatObj.GetComponent<CardStatBoostSequencer>();
 
 		// destroying things
-
-		Destroy(selectionSlot.GetChild(1).gameObject); // FireAnim 
+		Destroy(oldSequencer.selectionSlot.transform.Find("FireAnim").gameObject);
 		for (int i = 0; i < cardStatObj.transform.childCount; i++)
 		{
 			var child = cardStatObj.transform.GetChild(i);
@@ -405,21 +402,21 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			}
 		}
 
-		for (int i = 0; i < stakeRing.childCount; i++)
+		for (int i = 0; i < oldSequencer.stakeRingParent.transform.childCount; i++)
 		{
 			// don't need the stake rings
-			Destroy(stakeRing.GetChild(i).gameObject);
+			Destroy(oldSequencer.stakeRingParent.transform.GetChild(i).gameObject);
 		}
 
-		var oldSequencer = cardStatObj.GetComponent<CardStatBoostSequencer>();
 
 		var newSequencer = cardStatObj.AddComponent<ElectricChairSequencer>();
 
 		newSequencer.campfireLight = oldSequencer.campfireLight;
 		newSequencer.campfireLight.transform.localPosition = new Vector3(0, 6.75f, 0.63f);
-		newSequencer.campfireLight.color = new Color(0, 1, 1, 1);
+		newSequencer.campfireLight.color = GrimoraColors.ElectricChairLight;
+
 		newSequencer.campfireCardLight = oldSequencer.campfireCardLight;
-		newSequencer.campfireCardLight.color = new Color(0, 1, 1, 1);
+		newSequencer.campfireCardLight.color = GrimoraColors.ElectricChairLight;
 		newSequencer.campfireCardLight.range = 8;
 
 		// TODO: fix creation of lever
@@ -442,7 +439,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		newSequencer.selectionSlot.transform.localRotation = Quaternion.Euler(270, 0, 0);
 		newSequencer.selectionSlot.cardSelector.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
 		newSequencer.selectionSlot.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
-		var stoneQuad = selectionSlot.transform.Find("Quad").GetComponent<MeshRenderer>();
+		var stoneQuad = newSequencer.selectionSlot.transform.Find("Quad").GetComponent<MeshRenderer>();
 		Material abilityBoostMat = AssetUtils.GetPrefab<Material>("ElectricChair_Stat_AbilityBoost");
 		stoneQuad.material = abilityBoostMat;
 		stoneQuad.sharedMaterial = abilityBoostMat;

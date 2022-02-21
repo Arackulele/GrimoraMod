@@ -41,7 +41,7 @@ public class GravestoneRenderStatsLayerPatches
 		int energyCellsLeftLength = energyCellsLeft.materials.Length;
 		for (int i = 0; i < energyCellsLeftLength; i++)
 		{
-			Color value = i < energyCost ? GrimoraTextColor : new Color(0, 0, 0, 0);
+			Color value = i < energyCost ? GrimoraTextColor : GrimoraColors.AlphaZeroBlack;
 			energyCellsLeft.materials[energyCellsLeftLength - i - 1].color = value;
 		}
 
@@ -50,7 +50,7 @@ public class GravestoneRenderStatsLayerPatches
 			int energyCellsRightLength = energyCellsRight.materials.Length;
 			for (int i = 0; i < energyCellsRightLength; i++)
 			{
-				Color value = i < energyCost - 3 ? GrimoraTextColor : new Color(0, 0, 0, 0);
+				Color value = i < energyCost - 3 ? GrimoraTextColor : GrimoraColors.AlphaZeroBlack;
 				GrimoraPlugin.Log.LogDebug($"[UpdateEnergyCost] Setting color [{value}]");
 				energyCellsRight.materials[energyCellsRightLength - i - 1].color = value;
 			}

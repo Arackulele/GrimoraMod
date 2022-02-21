@@ -9,7 +9,6 @@ namespace GrimoraMod;
 public class CardAppearanceBehaviourPatch
 {
 	public static Texture2D GravestoneGold = GravestoneTexture();
-	public static readonly int Albedo = Shader.PropertyToID("_Albedo");
 
 	internal static Texture2D GravestoneTexture()
 	{
@@ -28,7 +27,7 @@ public class CardAppearanceBehaviourPatch
 		}
 
 		var renderer = __instance.Card.GetComponentInChildren<GravestoneRenderStatsLayer>();
-		renderer.Material.SetTexture(Albedo, GravestoneGold);
+		renderer.Material.SetAlbedoTexture(GravestoneGold);
 		Log.LogDebug($"[RareCardBackground] {renderer} Set new gravestone layer for rare cards");
 
 		return false;
@@ -41,10 +40,11 @@ public class CardAppearanceBehaviourPatch
 		{
 			return true;
 		}
+
 		__instance.ApplyAppearance();
 
 		var renderer = __instance.Card.GetComponentInChildren<GravestoneRenderStatsLayer>();
-		renderer.Material.SetTexture(Albedo, GravestoneGold);
+		renderer.Material.SetAlbedoTexture(GravestoneGold);
 		Log.LogDebug($"[RareCardBackground] {renderer} Set new gravestone layer for rare cards");
 
 		return false;
@@ -88,8 +88,9 @@ public class ChangeLogicInCardAbilityIcons
 		{
 			return true;
 		}
-		
-		AbilityIconInteractable[] componentsInChildren = __instance.defaultIconGroups[3].GetComponentsInChildren<AbilityIconInteractable>();
+
+		AbilityIconInteractable[] componentsInChildren =
+			__instance.defaultIconGroups[3].GetComponentsInChildren<AbilityIconInteractable>();
 		foreach (AbilityIconInteractable abilityIconInteractable in componentsInChildren)
 		{
 			AbilityInfo info = AbilitiesUtil.GetInfo(abilityIconInteractable.Ability);
@@ -119,7 +120,7 @@ public class ChangeLogicInCardAbilityIcons
 		{
 			return true;
 		}
-		
+
 		Log.LogDebug($"[CardAbilityIcons] DefaultIconGroups [{__instance.defaultIconGroups.Count}]");
 
 		__instance.abilityIcons.Clear();
@@ -211,9 +212,10 @@ public class ChangeLogicInCardAbilityIcons
 			{
 				indexToStartAt = 0;
 			}
-			
+
 			GameObject obj = __instance.defaultIconGroups[3];
-			Log.LogDebug($"[CardAbilityIcons] IconGroup {__instance.defaultIconGroups[0]} Distinct abilities count [{distinctAbilitiesCopy.Count}]");
+			Log.LogDebug(
+				$"[CardAbilityIcons] IconGroup {__instance.defaultIconGroups[0]} Distinct abilities count [{distinctAbilitiesCopy.Count}]");
 			Log.LogDebug($"[CardAbilityIcons] Setting defaultIconGroup zero active");
 			obj.SetActive(value: true);
 			Log.LogDebug($"[CardAbilityIcons] Getting AbilityIconInteractable in children");
@@ -226,7 +228,8 @@ public class ChangeLogicInCardAbilityIcons
 				Log.LogDebug($"[CardAbilityIcons] [{i}] Component{componentsInChildren[i]} Setting material");
 				componentsInChildren[i].SetMaterial(__instance.defaultIconMat);
 				Log.LogDebug($"[CardAbilityIcons] [{i}] Assigning ability");
-				componentsInChildren[i].AssignAbility(distinctAbilitiesCopy[indexToStartAt == 1 ? i - 1 : i], info, playableCard);
+				componentsInChildren[i]
+					.AssignAbility(distinctAbilitiesCopy[indexToStartAt == 1 ? i - 1 : i], info, playableCard);
 				Log.LogDebug($"[CardAbilityIcons] [{i}] Adding to ability icons list");
 				__instance.abilityIcons.Add(componentsInChildren[i]);
 			}

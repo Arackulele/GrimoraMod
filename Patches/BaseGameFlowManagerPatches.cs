@@ -10,7 +10,6 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(GameFlowManager))]
 public class BaseGameFlowManagerPatches
 {
-
 	[HarmonyPrefix, HarmonyPatch(nameof(GameFlowManager.Start))]
 	public static void PrefixStart(GameFlowManager __instance)
 	{
@@ -55,20 +54,20 @@ public class BaseGameFlowManagerPatches
 	private static void SetupPlayableAndSelectableCardPrefabs()
 	{
 		PrefabConstants.GrimoraPlayableCard
-				.transform
-				.Find("SkeletonAttackAnim")
-				.GetComponent<Animator>()
-				.runtimeAnimatorController = PrefabConstants.SkeletonArmController;
+			.transform
+			.Find("SkeletonAttackAnim")
+			.GetComponent<Animator>()
+			.runtimeAnimatorController = PrefabConstants.SkeletonArmController;
 
 		PrefabConstants.GrimoraPlayableCard
-				.GetComponent<GravestoneCardAnimationController>()
-				.Anim
-				.runtimeAnimatorController = PrefabConstants.GraveStoneController;
-		
+			.GetComponent<GravestoneCardAnimationController>()
+			.Anim
+			.runtimeAnimatorController = PrefabConstants.GraveStoneController;
+
 		PrefabConstants.GrimoraSelectableCard
-				.GetComponent<GravestoneCardAnimationController>()
-				.Anim
-				.runtimeAnimatorController = PrefabConstants.GraveStoneController;
+			.GetComponent<GravestoneCardAnimationController>()
+			.Anim
+			.runtimeAnimatorController = PrefabConstants.GraveStoneController;
 
 		CardSpawner.Instance.giantPlayableCardPrefab = PrefabConstants.GrimoraPlayableCard;
 	}
@@ -183,7 +182,7 @@ public class BaseGameFlowManagerPatches
 				Transform energyCell = moduleEnergy.GetChild(i);
 				energyCell.gameObject.GetComponent<MeshFilter>().mesh = null;
 				var energyCellCase = energyCell.GetChild(0);
-				energyCellCase.GetChild(0).GetComponent<MeshRenderer>().material.SetColor(EmissionColor, grimoraTextColor);
+				energyCellCase.GetChild(0).GetComponent<MeshRenderer>().material.SetEmissionColor(resourceEnergy.baseCellColor);
 				energyCellCase.GetChild(1).GetComponent<MeshFilter>().mesh = null;
 				energyCellCase.GetChild(2).GetComponent<MeshFilter>().mesh = null;
 			}
