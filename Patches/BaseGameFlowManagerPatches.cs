@@ -2,7 +2,6 @@
 using DiskCardGame;
 using GrimoraMod.Consumables;
 using HarmonyLib;
-using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -11,13 +10,6 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(GameFlowManager))]
 public class BaseGameFlowManagerPatches
 {
-	private static readonly RuntimeAnimatorController GraveStoneController =
-		AssetUtils.GetPrefab<RuntimeAnimatorController>("GravestoneCardAnim - Copy");
-
-	private static readonly RuntimeAnimatorController SkeletonArmController =
-		AssetUtils.GetPrefab<RuntimeAnimatorController>("SkeletonAttackAnim");
-
-	private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
 
 	[HarmonyPrefix, HarmonyPatch(nameof(GameFlowManager.Start))]
 	public static void PrefixStart(GameFlowManager __instance)
@@ -63,12 +55,20 @@ public class BaseGameFlowManagerPatches
 	private static void SetupPlayableAndSelectableCardPrefabs()
 	{
 		PrefabConstants.GrimoraPlayableCard
-			.transform.Find("SkeletonAttackAnim").GetComponent<Animator>().runtimeAnimatorController = SkeletonArmController;
+				.transform
+				.Find("SkeletonAttackAnim")
+				.GetComponent<Animator>()
+				.runtimeAnimatorController = PrefabConstants.SkeletonArmController;
 
 		PrefabConstants.GrimoraPlayableCard
-			.GetComponent<GravestoneCardAnimationController>().Anim.runtimeAnimatorController = GraveStoneController;
+				.GetComponent<GravestoneCardAnimationController>()
+				.Anim
+				.runtimeAnimatorController = PrefabConstants.GraveStoneController;
+		
 		PrefabConstants.GrimoraSelectableCard
-			.GetComponent<GravestoneCardAnimationController>().Anim.runtimeAnimatorController = GraveStoneController;
+				.GetComponent<GravestoneCardAnimationController>()
+				.Anim
+				.runtimeAnimatorController = PrefabConstants.GraveStoneController;
 
 		CardSpawner.Instance.giantPlayableCardPrefab = PrefabConstants.GrimoraPlayableCard;
 	}
@@ -168,10 +168,9 @@ public class BaseGameFlowManagerPatches
 				BoardManager3D.Instance.gameObject.transform
 			);
 
-			Color grimoraTextColor = new Color(0.420f, 1f, 0.63f);
 			resourceEnergy.name = "Grimora Resource Modules";
-			resourceEnergy.baseCellColor = grimoraTextColor;
-			resourceEnergy.highlightedCellColor = new Color(1, 1, 0.23f);
+			resourceEnergy.baseCellColor = GrimoraColors.GrimoraText;
+			resourceEnergy.highlightedCellColor = GrimoraColors.ResourceEnergyCell;
 
 			Animator animator = resourceEnergy.GetComponentInChildren<Animator>();
 			animator.enabled = false;

@@ -27,6 +27,17 @@ public static class PrefabConstants
 	#endregion
 
 
+	#region Controllers
+
+	public static readonly RuntimeAnimatorController GraveStoneController
+		= AssetUtils.GetPrefab<RuntimeAnimatorController>("GravestoneCardAnim - Copy");
+
+	public static readonly RuntimeAnimatorController SkeletonArmController
+		= AssetUtils.GetPrefab<RuntimeAnimatorController>("SkeletonAttackAnim");
+
+	#endregion
+
+
 	#region BossPieces
 
 	public static readonly GameObject BossPieceGrimora
