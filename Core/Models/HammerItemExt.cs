@@ -60,7 +60,7 @@ public class HammerItemExt : HammerItem
 					);
 					StartCoroutine(
 						TextDisplayer.Instance.ShowUntilInput(
-							"THE FRAIL THING WILL SHATTER AFTER EXCESSIVE USE. THREE STRIKES, AND IT'S OUT..")
+							"THE FRAIL THING WILL SHATTER AFTER EXCESSIVE USE. THREE STRIKES, AND IT'S OUT.")
 					);
 				}
 				else if (_useCounter == 2)
