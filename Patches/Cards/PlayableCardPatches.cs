@@ -43,11 +43,11 @@ public class PlayableCardPatches
 			{
 				List<CardSlot> alternatedResult = new List<CardSlot>()
 				{
-					__result[4],
-					__result[0],
-					__result[3],
-					__result[1],
-					__result[2],
+					__result[4], // right adj
+					__result[0], // left adj
+					__result[3], // right opposing
+					__result[1], // left opposing
+					__result[2], // center
 				};
 
 				__result = alternatedResult;
