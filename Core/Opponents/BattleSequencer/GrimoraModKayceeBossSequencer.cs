@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -22,17 +22,22 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 		return playerUpkeep;
 	}
 
-	private int _freezeCounter = 0;
+	private int _freezeCounter = 1;
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
 		var playerCardsWithAttacks
 			= BoardManager.Instance.GetPlayerCards(pCard => pCard.Attack > 0);
 
-		_freezeCounter++;
+		foreach (var card in playerCardsWithAttacks)
+		{
+			_freezeCounter++;
+		}
+		Log.LogWarning(_freezeCounter);
+
 		if (playerCardsWithAttacks.IsNotEmpty())
 		{
-			if (_freezeCounter >= 3)
+			if (_freezeCounter >= 4)
 			{
 				ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 				yield return TextDisplayer.Instance.ShowUntilInput(
