@@ -10,7 +10,7 @@ public static class BlueprintUtils
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Bonehound = new()
 	{
-		card = CardLoader.GetCardByName("Bonehound")
+		card = CardLoader.GetCardByName(NameBonehound)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Bonelord = new()
