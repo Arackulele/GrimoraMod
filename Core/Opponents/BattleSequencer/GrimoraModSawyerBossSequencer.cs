@@ -22,22 +22,21 @@ public class GrimoraModSawyerBossSequencer : GrimoraModBossBattleSequencer
 	}
 
 
-	public int bonestakenCounter = 0;
+	public int bonesTakenCounter = 0;
+
 	public override IEnumerator OnTurnEnd(bool playerTurnEnd)
 	{
-		bonestakenCounter++;
+		bonesTakenCounter++;
 
-		if ( bonestakenCounter == 2)
+		if (bonesTakenCounter >= 2 && ResourcesManager.Instance.PlayerBones >= 2)
 		{
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"PLEASE, WON'T YOU SPARE SOME BONES FOR A POOR GHOUL LIKE ME?",
-				-0.65f,
-				0.4f
+				"PLEASE, WON'T YOU SPARE SOME BONES FOR A POOR GHOUL LIKE ME?"
 			);
 			ViewManager.Instance.SwitchToView(View.BoneTokens);
-			yield return new WaitForSeconds(0.4f);
+			yield return new WaitForSeconds(0.75f);
 			yield return ResourcesManager.Instance.SpendBones(1);
-			bonestakenCounter = 0;
+			bonesTakenCounter = 0;
 		}
 	}
 }

@@ -7,6 +7,6 @@ public class SawyerBehaviour : BossBehaviour
 {
 	public IEnumerator OnOtherCardDie(CardSlot otherCard)
 	{
-		yield return BoardManager.Instance.CreateCardInSlot("Bonehound".GetCardInfo(), otherCard);
+		yield return BoardManager.Instance.CreateCardInSlot(GrimoraPlugin.NameBonehound.GetCardInfo(), otherCard);
 	}
 }

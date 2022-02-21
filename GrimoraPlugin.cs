@@ -16,7 +16,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 {
 	public const string GUID = "arackulele.inscryption.grimoramod";
 	public const string Name = "GrimoraMod";
-	private const string Version = "2.7.1";
+	private const string Version = "2.7.2";
 
 	internal static ManualLogSource Log;
 
@@ -54,17 +54,19 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		BoneLordsReign.Create();
 		CreateArmyOfSkeletons.Create();
 		FlameStrafe.Create();
+		GainAttackBones.Create();
 		GiantStrike.Create();
 		GrimoraRandomAbility.Create();
 		PayEnergyForWyvern.Create();
-		GainAttackBones.Create();
 
 		#endregion
 
 		#region AddingCards
 
 		Add_ArmoredZombie();
-		Add_Bonepile(); // Bt Y#0895		
+		Add_Banshee();
+		Add_Bonepile(); // Bt Y#0895
+		Add_Bonehound();
 		Add_BonePrince();
 		Add_Bonelord();
 		Add_BonelordsHorn();
@@ -181,7 +183,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		List<string> cardsToResizeArtwork = new List<string>
 		{
-			"Amoeba", "Banshee", "Maggots"
+			"Amoeba", "Maggots"
 		};
 
 		foreach (var cardName in cardsToResizeArtwork)
@@ -193,8 +195,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 				.SetBaseAttackAndHealth(cardInfo.baseAttack, cardInfo.baseHealth)
 				.SetBoneCost(cardInfo.bonesCost)
 				.SetDescription(cardInfo.description)
-				.SetNames("GrimoraMod_" + cardInfo.name, cardInfo.displayedName,
-					(cardName == "Banshee" ? cardInfo.portraitTex : null))
+				.SetNames("GrimoraMod_" + cardInfo.name, cardInfo.displayedName)
 				.SetTribes(cardInfo.tribes.ToArray());
 
 			if (cardName == "Amoeba")

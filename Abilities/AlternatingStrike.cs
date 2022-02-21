@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using APIPlugin;
 using DiskCardGame;
-using HarmonyLib;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -51,32 +50,5 @@ public class AlternatingStrike : AbilityBehaviour
 			"[creature] alternates between striking the opposing space to the left and right from it.";
 
 		return ApiUtils.CreateAbility<AlternatingStrike>(rulebookDescription);
-	}
-}
-
-[HarmonyPatch]
-public class PatchesForAlternatingStrike
-{
-	[HarmonyPostfix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetOpposingSlots))]
-	public static void AlternatingStrikeGetOpposingSlotsPatch(PlayableCard __instance, ref List<CardSlot> __result)
-	{
-		if (__instance.HasAbility(AlternatingStrike.ability))
-		{
-			__result.Clear();
-			bool isAttackingLeft = __instance.GetComponent<AlternatingStrike>().isAttackingLeft;
-			CardSlot slotToAttack = BoardManager.Instance.GetAdjacent(__instance.Slot.opposingSlot, isAttackingLeft);
-			if (slotToAttack is null)
-			{
-				// if in far left slot, adj slot left will be null
-				// if in far left slot and attacked right last, need to keep attack to the right slot
-				Log.LogDebug($"[AlternatingStrike.Patch]" +
-				             $" SlotToAttack is null. Changing [{isAttackingLeft}] to [{!isAttackingLeft}]");
-				slotToAttack = BoardManager.Instance.GetAdjacent(__instance.Slot.opposingSlot, !isAttackingLeft);
-			}
-
-			__result.Add(slotToAttack);
-			// __instance.GetComponent<AlternatingStrike>().isAttackingLeft = isAttackingLeft;
-			Log.LogDebug($"[AlternatingStrike.Patch] Attacking slot [{slotToAttack.Index}]");
-		}
 	}
 }

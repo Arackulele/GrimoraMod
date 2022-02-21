@@ -12,22 +12,18 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 {
 	private static readonly int Exit = Animator.StringToHash("exit");
 
-	public new IEnumerator RemoveSequence()
+	private IEnumerator InitialSetup()
 	{
-		Log.LogDebug($"Starting removal sequence");
 		sacrificeSlot.Disable();
-		Log.LogDebug($"Setting rulebook on board");
-		TableRuleBook.Instance.SetOnBoard(onBoard: true);
+		TableRuleBook.Instance.SetOnBoard(true);
 
 		ViewManager.Instance.Controller.SwitchToControlMode(ViewController.ControlMode.CardMerging);
 		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
 		yield return new WaitForSeconds(0.3f);
 
-		Log.LogDebug($"stoneCircleAnim is active");
-		stoneCircleAnim.gameObject.SetActive(value: true);
+		stoneCircleAnim.gameObject.SetActive(true);
 		yield return new WaitForSeconds(0.5f);
 
-		Log.LogDebug($"Spawning cards");
 		yield return deckPile.SpawnCards(GrimoraSaveUtil.DeckList.Count, 0.5f);
 		ViewManager.Instance.SwitchToView(View.CardMergeSlots);
 
@@ -37,10 +33,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			0.1f
 		);
 
-		Log.LogDebug($"sacrificeSlot reveal and enable");
 		sacrificeSlot.RevealAndEnable();
-
-		Log.LogDebug($"sacrificeSlot clear delegates");
 		sacrificeSlot.ClearDelegates();
 
 		SelectCardFromDeckSlot selectCardFromDeckSlot = sacrificeSlot;
@@ -62,12 +55,15 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			});
 		gamepadGrid.enabled = true;
 		yield return confirmStone.WaitUntilConfirmation();
-
-		Log.LogDebug($"sacrificeSlot disable");
+	}
+	
+	public new IEnumerator RemoveSequence()
+	{
+		yield return InitialSetup();
+		
 		sacrificeSlot.Disable();
 
-		Log.LogDebug($"rulebook controller set shown to false");
-		RuleBookController.Instance.SetShown(shown: false);
+		RuleBookController.Instance.SetShown(false);
 		yield return new WaitForSeconds(0.25f);
 		SpecialCardBehaviour[] components = sacrificeSlot.Card.GetComponents<SpecialCardBehaviour>();
 		foreach (SpecialCardBehaviour specialCardBehaviour in components)
@@ -77,13 +73,10 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 		CardInfo sacrificedInfo = sacrificeSlot.Card.Info;
 
-		Log.LogDebug($"Removing card from deck");
 		GrimoraSaveUtil.RemoveCard(sacrificedInfo);
 
-		Log.LogDebug($"Playing death animation");
-		sacrificeSlot.Card.Anim.PlayDeathAnimation(playSound: false);
+		sacrificeSlot.Card.Anim.PlayDeathAnimation(false);
 
-		Log.LogDebug($"Sound 3D");
 		AudioController.Instance.PlaySound3D(
 			"sacrifice_default",
 			MixerGroup.TableObjectsSFX,
@@ -91,13 +84,11 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		);
 		yield return new WaitForSeconds(0.5f);
 
-		Log.LogDebug($"Destroy card");
 		sacrificeSlot.DestroyCard();
 
 		yield return new WaitForSeconds(0.5f);
 
-		Log.LogDebug($"Skull eyes active");
-		skullEyes.SetActive(value: true);
+		skullEyes.SetActive(true);
 		AudioController.Instance.PlaySound2D("creepy_rattle_lofi");
 		yield return new WaitForSeconds(0.5f);
 
@@ -110,14 +101,14 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			Log.LogDebug($"Spawning card");
 			SelectableCard boonCard = SpawnCard(transform);
 			Log.LogDebug($"boon card game object is now active");
-			boonCard.gameObject.SetActive(value: true);
+			boonCard.gameObject.SetActive(true);
 
 			boonCard.SetInfo(sacrificedInfo.HasTrait(Trait.Goat)
 				? BoonsUtil.CreateCardForBoon(BoonData.Type.StartingBones)
 				: randomCard);
 
 			Log.LogDebug($"boon card is now inactive");
-			boonCard.SetEnabled(enabled: false);
+			boonCard.SetEnabled(false);
 			gamepadGrid.Rows[0].interactables.Add(boonCard);
 			boonCard.transform.position = sacrificeSlot.transform.position + Vector3.up * 3f;
 			boonCard.Anim.Play("fly_on");
@@ -127,7 +118,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			yield return new WaitForSeconds(0.5f);
 
 			Log.LogDebug($"boon card is now active");
-			boonCard.SetEnabled(enabled: true);
+			boonCard.SetEnabled(true);
 
 			boonCard.CursorSelectEnded = (Action<MainInputInteractable>)Delegate.Combine(
 				boonCard.CursorSelectEnded,
@@ -155,6 +146,12 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			Destroy(boonCard.gameObject);
 		}
 
+
+		yield return OutroSequence();
+	}
+
+	private IEnumerator OutroSequence()
+	{
 		Log.LogDebug($"Destroying deck pile");
 		yield return deckPile.DestroyCards();
 
@@ -170,10 +167,10 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		yield return new WaitForSeconds(0.75f);
 
 		Log.LogDebug($"stoneCircleAnim.gameObject false");
-		stoneCircleAnim.gameObject.SetActive(value: false);
+		stoneCircleAnim.gameObject.SetActive(false);
 
 		Log.LogDebug($"skullEyes.SetActive(value: false);");
-		skullEyes.SetActive(value: false);
+		skullEyes.SetActive(false);
 
 		Log.LogDebug($"confirmStone.SetStoneInactive");
 		confirmStone.SetStoneInactive();
@@ -184,9 +181,9 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 	private new void OnBoonSelected(MainInputInteractable boonCard)
 	{
 		BoonData data = BoonsUtil.GetData(((SelectableCard)boonCard).Info.boon);
-		RuleBookController.Instance.SetShown(shown: false);
-		boonCard.SetEnabled(enabled: false);
-		((SelectableCard)boonCard).SetInteractionEnabled(interactionEnabled: false);
+		RuleBookController.Instance.SetShown(false);
+		boonCard.SetEnabled(false);
+		((SelectableCard)boonCard).SetInteractionEnabled(false);
 
 		boonTaken = true;
 	}
@@ -360,7 +357,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 	private new void OnSlotSelected(MainInputInteractable slot)
 	{
 		gamepadGrid.enabled = false;
-		sacrificeSlot.SetEnabled(enabled: false);
+		sacrificeSlot.SetEnabled(false);
 		sacrificeSlot.ShowState(HighlightedInteractable.State.NonInteractable);
 		confirmStone.Exit();
 		((SelectCardFromDeckSlot)slot).SelectFromCards(GrimoraSaveUtil.DeckListCopy, OnSelectionEnded, false);
@@ -400,8 +397,6 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		Destroy(oldRemoveSequencer);
 
 		SpecialNodeHandler.Instance.cardRemoveSequencer = cardRemoveSequencer;
-
-		// AddDecalRenders();
 	}
 
 	private static void AddDecalRenders()

@@ -66,40 +66,6 @@ public class AreaOfEffectStrike : AbilityBehaviour
 [HarmonyPatch]
 public class PatchesForAreaOfEffectStrike
 {
-	[HarmonyPostfix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetOpposingSlots))]
-	public static void AreaOfEffectStrikeGetOpposingSlotsPatch(PlayableCard __instance, ref List<CardSlot> __result)
-	{
-		if (__instance.HasAbility(AreaOfEffectStrike.ability))
-		{
-			// Log.LogDebug($"[GetOpposingSlotsPatch] Adding adj slots from [{__instance.Slot.Index}]");
-			var toLeftSlot = BoardManager.Instance.GetAdjacent(__instance.Slot, true);
-			var toRightSlot = BoardManager.Instance.GetAdjacent(__instance.Slot, false);
-
-			// insert at beginning
-			if (toLeftSlot is not null)
-			{
-				__result.Insert(0, toLeftSlot);
-			}
-
-			// insert at end
-			if (toRightSlot is not null)
-			{
-				__result.Insert(__result.Count, toRightSlot);
-			}
-		}
-	}
-
-	[HarmonyPostfix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.HasTriStrike))]
-	public static void PlayableCardHasTriStrikePatches(PlayableCard __instance, ref bool __result)
-	{
-		// Log.LogDebug($"Setting player is attacker to [{playerIsAttacker}] Board is [{board}]");
-		if (__instance.HasAbility(AreaOfEffectStrike.ability))
-		{
-			// Log.LogDebug($"[PlayableCardHasTriStrikePatches] Has area of effect strike ability");
-			__result = true;
-		}
-	}
-
 	[HarmonyPostfix, HarmonyPatch(typeof(CombatPhaseManager), nameof(CombatPhaseManager.SlotAttackSequence))]
 	public static IEnumerator MinusDamageDealtThisPhase(
 		IEnumerator enumerator,

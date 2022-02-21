@@ -34,7 +34,7 @@ public class Erratic : Strafe
 		yield return StartCoroutine(MoveToSlot(destination, movingLeft ? toLeftIsValid : toRightIsValid));
 		if (destination != null)
 		{
-			Log.LogDebug($"[Erratic] Attempting to move from slot [{base.Card.Slot.Index}] to slot [{destination.Index}]");
+			Log.LogDebug($"[Erratic] Attempting to move from slot [{Card.Slot.Index}] to slot [{destination.Index}]");
 			yield return PreSuccessfulTriggerSequence();
 			yield return LearnAbility();
 		}

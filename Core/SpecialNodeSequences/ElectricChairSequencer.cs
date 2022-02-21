@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using DiskCardGame;
 using Pixelplacement;
 using Sirenix.Utilities;
@@ -7,20 +8,10 @@ using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
+[SuppressMessage("ReSharper", "InconsistentNaming")]
 public class ElectricChairSequencer : CardStatBoostSequencer
 {
 	public static ElectricChairSequencer Instance => FindObjectOfType<ElectricChairSequencer>();
-
-	private void Start()
-	{
-		var stoneQuad = selectionSlot.transform.Find("Quad").GetComponent<MeshRenderer>();
-		stoneQuad.material = AssetUtils.GetPrefab<Material>("ElectricChair_Stat_AbilityBoost");
-		stoneQuad.sharedMaterial = AssetUtils.GetPrefab<Material>("ElectricChair_Stat_AbilityBoost");
-
-		var confirmStoneButton = transform.Find("ConfirmStoneButton");
-		var positionCopy = confirmStoneButton.position;
-		confirmStoneButton.position = new Vector3(positionCopy.x, positionCopy.y, -0.5f);
-	}
 
 	public static readonly List<Ability> AbilitiesToChoseRandomly = new()
 	{
@@ -99,15 +90,12 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		}
 		else
 		{
+			yield return TextDisplayer.Instance.ShowUntilInput("OH! I LOVE THIS ONE!");
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"OH! I LOVE THIS ONE!", -0.65f
-				);
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				$"YOU STRAP ONE OF YOUR CARDS TO THE CHAIR, {"EMPOWERING".Blue()} IT!", -0.65f
+				$"YOU STRAP ONE OF YOUR CARDS TO THE CHAIR, {"EMPOWERING".Blue()} IT!"
 			);
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"OF COURSE, IT DOESN'T HURT.\nYOU CAN'T DIE TWICE AFTER ALL.",
-				-0.65f
+				"OF COURSE, IT DOESN'T HURT.\nYOU CAN'T DIE TWICE AFTER ALL."
 			);
 
 			yield return WhileNotFinishedBuffingAndDestroyedCardIsNull();
@@ -137,15 +125,14 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 				MixerGroup.TableObjectsSFX,
 				selectionSlot.transform.position
 			);
-			selectionSlot.Card.Anim.PlayTransformAnimation();
 			ApplyModToCard(selectionSlot.Card.Info);
-			selectionSlot.Card.RenderCard();
-			yield return new WaitForSeconds(0.15f);
+			selectionSlot.Card.Anim.PlayTransformAnimation();
+			yield return new WaitForSeconds(0.5f);
 			selectionSlot.Card.SetInfo(selectionSlot.Card.Info);
 			selectionSlot.Card.SetInteractionEnabled(false);
 			yield return new WaitForSeconds(0.75f);
 
-			if (numBuffsGiven == 2)
+			if (numBuffsGiven == 2 || selectionSlot.Card.Info.Abilities.Count == 4)
 			{
 				break;
 			}
@@ -341,6 +328,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			VideoCameraRig.Instance.PlayCameraAnim("refocus_quick");
 		}
 
+		// TODO: Change campfire sound and light to electricity?
 		AudioController.Instance.PlaySound3D(
 			"campfire_light",
 			MixerGroup.TableObjectsSFX,
@@ -395,23 +383,16 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			return;
 		}
 
-		Log.LogDebug("[ElectricChair] Creating boneyard burial");
 		GameObject cardStatObj = Instantiate(
 			PrefabConstants.CardStatBoostSequencer,
 			SpecialNodeHandler.Instance.transform
 		);
 		cardStatObj.name = "ElectricChairSequencer_Grimora";
 
-		Log.LogDebug("[ElectricChair] getting selection slot");
-		var selectionSlot = cardStatObj.transform.GetChild(1);
-
-		Log.LogDebug("[ElectricChair] getting stake ring");
-		var stakeRing = cardStatObj.transform.Find("StakeRing");
+		var oldSequencer = cardStatObj.GetComponent<CardStatBoostSequencer>();
 
 		// destroying things
-
-		Log.LogDebug("[ElectricChair] destroying fireanim");
-		Destroy(selectionSlot.GetChild(1).gameObject); //FireAnim 
+		Destroy(oldSequencer.selectionSlot.transform.Find("FireAnim").gameObject);
 		for (int i = 0; i < cardStatObj.transform.childCount; i++)
 		{
 			var child = cardStatObj.transform.GetChild(i);
@@ -421,28 +402,31 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			}
 		}
 
-		Log.LogDebug($"[ElectricChair] destroying existing stake rings [{stakeRing.childCount}]");
-		for (int i = 0; i < stakeRing.childCount; i++)
+		for (int i = 0; i < oldSequencer.stakeRingParent.transform.childCount; i++)
 		{
 			// don't need the stake rings
-			Destroy(stakeRing.GetChild(i).gameObject);
+			Destroy(oldSequencer.stakeRingParent.transform.GetChild(i).gameObject);
 		}
 
-		var oldSequencer = cardStatObj.GetComponent<CardStatBoostSequencer>();
 
 		var newSequencer = cardStatObj.AddComponent<ElectricChairSequencer>();
 
 		newSequencer.campfireLight = oldSequencer.campfireLight;
 		newSequencer.campfireLight.transform.localPosition = new Vector3(0, 6.75f, 0.63f);
-		newSequencer.campfireLight.color = new Color(0, 1, 1, 1);
+		newSequencer.campfireLight.color = GrimoraColors.ElectricChairLight;
+
 		newSequencer.campfireCardLight = oldSequencer.campfireCardLight;
-		newSequencer.campfireCardLight.color = new Color(0, 1, 1, 1);
+		newSequencer.campfireCardLight.color = GrimoraColors.ElectricChairLight;
 		newSequencer.campfireCardLight.range = 8;
 
 		// TODO: fix creation of lever
 		// newSequencer.confirmStone = CreateLever(cardStatObj);
 		newSequencer.confirmStone = oldSequencer.confirmStone;
 		newSequencer.confirmStone.confirmView = View.CardMergeSlots;
+		// ConfirmStoneButton -> Anim -> model -> ConfirmButton -> Quad
+		var confirmStoneButton = newSequencer.transform.Find("ConfirmStoneButton");
+		var positionCopy = confirmStoneButton.position;
+		confirmStoneButton.position = new Vector3(positionCopy.x, positionCopy.y, -0.5f);
 
 		newSequencer.figurines = new List<CompositeFigurine>();
 		newSequencer.figurines.AddRange(CreateElectricChair(cardStatObj));
@@ -455,8 +439,15 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		newSequencer.selectionSlot.transform.localRotation = Quaternion.Euler(270, 0, 0);
 		newSequencer.selectionSlot.cardSelector.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
 		newSequencer.selectionSlot.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
+		var stoneQuad = newSequencer.selectionSlot.transform.Find("Quad").GetComponent<MeshRenderer>();
+		Material abilityBoostMat = AssetUtils.GetPrefab<Material>("ElectricChair_Stat_AbilityBoost");
+		stoneQuad.material = abilityBoostMat;
+		stoneQuad.sharedMaterial = abilityBoostMat;
 
 		newSequencer.retrieveCardInteractable = oldSequencer.retrieveCardInteractable;
+		newSequencer.retrieveCardInteractable.transform.localPosition = new Vector3(0, 7.2f, 1.2f);
+		newSequencer.retrieveCardInteractable.transform.localRotation = Quaternion.Euler(270, 0, 0);
+
 		newSequencer.stakeRingParent = oldSequencer.stakeRingParent;
 		// this will throw an exception if we don't remove the specific renderer for fire anim
 		newSequencer.selectionSlot.specificRenderers.RemoveAt(1);

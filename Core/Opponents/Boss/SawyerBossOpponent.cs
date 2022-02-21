@@ -51,15 +51,17 @@ public class SawyerBossOpponent : BaseBossExt
 
 	private static void SetSceneEffectsShownSawyer()
 	{
+		Color orange = GameColors.Instance.orange;
+		Color yellow = GameColors.Instance.yellow;
 		TableVisualEffectsManager.Instance.ChangeTableColors(
 			GameColors.Instance.darkGold,
-			GameColors.Instance.orange,
-			GameColors.Instance.yellow,
-			GameColors.Instance.yellow,
-			GameColors.Instance.orange,
-			GameColors.Instance.yellow,
+			orange,
+			yellow,
+			yellow,
+			orange,
+			yellow,
 			GameColors.Instance.brown,
-			GameColors.Instance.orange,
+			orange,
 			GameColors.Instance.brown
 		);
 	}
@@ -71,7 +73,7 @@ public class SawyerBossOpponent : BaseBossExt
 
 		InstantiateBossBehaviour<SawyerBehaviour>();
 		yield return FaceZoomSequence();
-		yield return TextDisplayer.Instance.ShowUntilInput($"PLEASE, HE HAS ARRIVED! {"RUN!".Red()}");
+		yield return TextDisplayer.Instance.ShowUntilInput($"OH NO, HE HAS ARRIVED! {"RUN!".Red()}");
 
 		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 		yield return BoardManager.Instance.CreateCardInSlot(

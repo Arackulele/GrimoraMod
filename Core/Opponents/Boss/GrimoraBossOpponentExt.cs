@@ -21,10 +21,9 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	{
 		Color purple = GameColors.Instance.purple;
 		Color darkPurple = GameColors.Instance.darkPurple;
-		Color cardLightColorPurple = new Color(0.55f, 0.1f, 0.72f, 1);
 		TableVisualEffectsManager.Instance.ChangeTableColors(
 			darkPurple,
-			cardLightColorPurple,
+			GrimoraColors.GrimoraBossCardLight,
 			purple,
 			darkPurple,
 			darkPurple,
@@ -72,7 +71,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	{
 		Log.LogDebug($"Playing Grimora theme");
 		AudioController.Instance.StopAllLoops();
-		AudioController.Instance.SetLoopAndPlay("Risen_Again", 1);
+		AudioController.Instance.SetLoopAndPlay("Grimoras_Theme", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
 		AudioController.Instance.SetLoopVolume(0.7f, 10f, 1);
 	}

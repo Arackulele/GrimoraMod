@@ -32,6 +32,10 @@ public class ConfigHelper
 		"Tombstone_Wall1,Tombstone_Wall2,Tombstone_Wall3,Tombstone_Wall4,Tombstone_Wall5," +
 		"Tombstone_South1,Tombstone_South2,Tombstone_South3,";
 
+	private ConfigEntry<int> _configHammerDialogue;
+
+	public int HammerDialogueOption => _configHammerDialogue.Value;
+	
 	private ConfigEntry<bool> _configEndlessMode;
 	
 	public bool isEndlessModeEnabled => _configEndlessMode.Value;
@@ -124,6 +128,17 @@ public class ConfigHelper
 			"Enable Endless Mode",
 			false,
 			new ConfigDescription("For players who want to continue playing with their deck after defeating Grimora.")
+		);
+		
+		_configHammerDialogue = GrimoraConfigFile.Bind(
+			Name,
+			"Hammer Dialogue Option",
+			1,
+			new ConfigDescription("How you want the hammer dialogue to be handled." 
+			                      + "\n0 = Disable entirely. Does not play the dialogue ever." 
+			                      + "\n1 = Play only once. Will only play the dialogue once. Resets if you leave and then re-enter the game."
+			                      + "\n2 = Play each battle. Will play each dialogue after you use the hammer, for each battle."
+			)
 		);
 
 		var list = _configCurrentRemovedPieces.Value.Split(',').ToList();
