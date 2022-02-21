@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using DiskCardGame;
 using Pixelplacement;
 using Sirenix.Utilities;
@@ -7,20 +8,10 @@ using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
+[SuppressMessage("ReSharper", "InconsistentNaming")]
 public class ElectricChairSequencer : CardStatBoostSequencer
 {
 	public static ElectricChairSequencer Instance => FindObjectOfType<ElectricChairSequencer>();
-
-	private void Start()
-	{
-		var stoneQuad = selectionSlot.transform.Find("Quad").GetComponent<MeshRenderer>();
-		stoneQuad.material = AssetUtils.GetPrefab<Material>("ElectricChair_Stat_AbilityBoost");
-		stoneQuad.sharedMaterial = AssetUtils.GetPrefab<Material>("ElectricChair_Stat_AbilityBoost");
-
-		var confirmStoneButton = transform.Find("ConfirmStoneButton");
-		var positionCopy = confirmStoneButton.position;
-		confirmStoneButton.position = new Vector3(positionCopy.x, positionCopy.y, -0.5f);
-	}
 
 	public static readonly List<Ability> AbilitiesToChoseRandomly = new()
 	{
@@ -134,10 +125,9 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 				MixerGroup.TableObjectsSFX,
 				selectionSlot.transform.position
 			);
-			selectionSlot.Card.Anim.PlayTransformAnimation();
 			ApplyModToCard(selectionSlot.Card.Info);
-			selectionSlot.Card.RenderCard();
-			yield return new WaitForSeconds(0.15f);
+			selectionSlot.Card.Anim.PlayTransformAnimation();
+			yield return new WaitForSeconds(0.5f);
 			selectionSlot.Card.SetInfo(selectionSlot.Card.Info);
 			selectionSlot.Card.SetInteractionEnabled(false);
 			yield return new WaitForSeconds(0.75f);
@@ -440,6 +430,10 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		// newSequencer.confirmStone = CreateLever(cardStatObj);
 		newSequencer.confirmStone = oldSequencer.confirmStone;
 		newSequencer.confirmStone.confirmView = View.CardMergeSlots;
+		// ConfirmStoneButton -> Anim -> model -> ConfirmButton -> Quad
+		var confirmStoneButton = newSequencer.transform.Find("ConfirmStoneButton");
+		var positionCopy = confirmStoneButton.position;
+		confirmStoneButton.position = new Vector3(positionCopy.x, positionCopy.y, -0.5f);
 
 		newSequencer.figurines = new List<CompositeFigurine>();
 		newSequencer.figurines.AddRange(CreateElectricChair(cardStatObj));
@@ -452,8 +446,14 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		newSequencer.selectionSlot.transform.localRotation = Quaternion.Euler(270, 0, 0);
 		newSequencer.selectionSlot.cardSelector.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
 		newSequencer.selectionSlot.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
-
+		var stoneQuad = selectionSlot.transform.Find("Quad").GetComponent<MeshRenderer>();
+		stoneQuad.material = AssetUtils.GetPrefab<Material>("ElectricChair_Stat_AbilityBoost");
+		stoneQuad.sharedMaterial = AssetUtils.GetPrefab<Material>("ElectricChair_Stat_AbilityBoost");
+		
 		newSequencer.retrieveCardInteractable = oldSequencer.retrieveCardInteractable;
+		newSequencer.retrieveCardInteractable.transform.localPosition = new Vector3(0, 7.2f, 1.2f);
+		newSequencer.retrieveCardInteractable.transform.localRotation = Quaternion.Euler(270, 0, 0);
+
 		newSequencer.stakeRingParent = oldSequencer.stakeRingParent;
 		// this will throw an exception if we don't remove the specific renderer for fire anim
 		newSequencer.selectionSlot.specificRenderers.RemoveAt(1);
