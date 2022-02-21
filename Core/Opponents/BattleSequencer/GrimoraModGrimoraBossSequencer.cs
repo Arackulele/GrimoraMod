@@ -109,8 +109,10 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		if (opponentQueuedSlots.IsNotEmpty())
 		{
 			ViewManager.Instance.SwitchToView(View.BossCloseup);
-			yield return TextDisplayer.Instance.PlayDialogueEvent("GrimoraBossReanimate1",
-				TextDisplayer.MessageAdvanceMode.Input);
+			yield return TextDisplayer.Instance.PlayDialogueEvent(
+				"GrimoraBossReanimate1",
+				TextDisplayer.MessageAdvanceMode.Input
+			);
 
 			CardSlot slot = opponentQueuedSlots[UnityEngine.Random.Range(0, opponentQueuedSlots.Count)];
 			yield return TurnManager.Instance.Opponent.QueueCard(card.Info, slot);
