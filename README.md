@@ -26,12 +26,6 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ## Known Issues
 
-### Hoarder (Tutor) ability does not work with Corpse Eater (5$ USD reward for anyone who can actually figure out why this ability doesn't work in Grimora's act)
-
-- There is no immediate reason as to why this doesn't work. The array of cards that are placed have the exact same code logic as if the card was placed manually by the player.
-- The created game object could be causing the issue, but there is nothing that stands out as to what the cause is, even after debugging with prefix and postfix patches.
-- Here's where the game object is added into the scene: <https://github.com/Arackulele/GrimoraMod/blob/c6572542ab04398740791cd0e075bf6571396549/Patches/BaseGameFlowManagerPatches.cs#L74>
-
 ### Boss skull between fights doesn't reset colors
 
 - Unfortunately this one is a bit hard to track down, as the table colors get reset after each fight. Not sure why the boss skull doesn't have the color reset.
@@ -53,9 +47,14 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ### 2.7.2
 
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with hammer interaction when a card in your hand has `Corpse Eater` and `Hoarder`.
+  - When the hammer is used, it disables the cursor so you can't interact with anything until the hammer sequence finishes. The problem is that with `Corpse Eater` and `Hoarder`, is that the hammer sequence doesn't finish until after you choose a card from the `Hoarder` sequence, but you can't choose a card because the hammer disabled it. Hence, softlock.
+
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue where you could spam click the Deck View button and continue overlapping the cards in your deck.
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with Sawyer taking a bone when a player would have zero bones, causing the PlayerBones to go in the negative. This would cause the player to be unable to play zero cost bone cards like Skeleton. Sawyer will now only take 1 bone from the player if the player has at least 2 bones or more.
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with Sawyer taking a bone when a player would have zero bones, causing the PlayerBones to go in the negative.
+  - This would cause the player to be unable to play zero cost bone cards like Skeleton.
+  - Sawyer will now only take 1 bone from the player if the player has at least 2 bones or more.
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with `Electric Chair` where it was possible to add 2 more abilities if the electrocuted card had 3 abilities to start.
 
@@ -64,9 +63,13 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
   - 1 = Play only once for the entire session. (default)
   - 2 = Play dialogue each battle.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Re-positioned `retrieveCardInteractable` in Electric Chair sequencer so that it's easier to take the card away from the chair. Before, the slot was still positioned as if it was on the ground flat, so that you had to click between the chair and the stone.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Tweaked Kaycee boss logic so the card freezing is less frustrating.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Zomb-Geck` no longer appears as a rare card. Was more or less meant as filler until more cards were added. Maybe used for future event?
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Re-positioned `retrieveCardInteractable` in Electric Chair sequencer so that it's easier to take the card away from the chair.
+  - Before, the slot was still positioned as if it was on the ground flat, so that you had to click between the chair and the stone.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Zomb-Geck` no longer appears as a rare card. Was more or less meant as filler until more cards were added.
+  - Maybe used for future event?
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Added extra logic for when a card has `Area of Effect Strike` and `Inverted Strike` and `Alternating Strike`.
   - If `AOE Strike` and `Inverted Strike`, the slots to attack be will now be done in a counter-clockwise manner. For example,`left adj, left opposing, center, right opposing, right adj` now becomes `right adj, right opposing, center, left opposing, left adj`.

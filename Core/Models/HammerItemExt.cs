@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using HarmonyLib;
 using Pixelplacement;
 using UnityEngine;
 
@@ -50,7 +51,7 @@ public class HammerItemExt : HammerItem
 		if (hammerOption != 0)
 		{
 			bool hasNotPlayedOnce = hammerOption == 1 && ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue;
-			if(hasNotPlayedOnce || hammerOption == 2)
+			if (hasNotPlayedOnce || hammerOption == 2)
 			{
 				if (_useCounter == 1)
 				{
@@ -84,5 +85,25 @@ public class HammerItemExt : HammerItem
 	public override bool ExtraActivationPrerequisitesMet()
 	{
 		return _useCounter < 3 && GetValidTargets().Count > 0;
+	}
+}
+
+[HarmonyPatch(typeof(SelectableCardArray))]
+public class FixCursorInteractionWithHammer
+{
+	[HarmonyPrefix, HarmonyPatch(nameof(SelectableCardArray.SelectCardFrom))]
+	public static void SelectCardFromLogging(
+		List<CardInfo> cards,
+		CardPile pile,
+		Action<SelectableCard> cardSelectedCallback,
+		Func<bool> cancelCondition = null,
+		bool forPositiveEffect = true
+	)
+	{
+		if (InteractionCursor.Instance.InteractionDisabled)
+		{
+			GrimoraPlugin.Log.LogDebug($"Cursor interaction is disabled, re-enabling so you can select a card.");
+			InteractionCursor.Instance.InteractionDisabled = false;
+		}
 	}
 }

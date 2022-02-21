@@ -29,11 +29,8 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 		var playerCardsWithAttacks
 			= BoardManager.Instance.GetPlayerCards(pCard => pCard.Attack > 0);
 
-		foreach (var card in playerCardsWithAttacks)
-		{
-			_freezeCounter++;
-		}
-		Log.LogWarning(_freezeCounter);
+		_freezeCounter += playerCardsWithAttacks.Count;
+		Log.LogWarning($"[Kaycee] Freeze counter [{_freezeCounter}]");
 
 		if (playerCardsWithAttacks.IsNotEmpty())
 		{
