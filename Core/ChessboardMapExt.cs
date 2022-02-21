@@ -20,7 +20,7 @@ public class ChessboardMapExt : GameMap
 		= piece => Instance.pieces.Exists(active => active.gridXPos == piece.gridXPos && active.gridYPos == piece.gridYPos);
 
 	public bool hasNotPlayedAllHammerDialogue = true;
-	
+
 	public GrimoraChessboard ActiveChessboard { get; set; }
 
 	private List<GrimoraChessboard> _chessboards;
@@ -109,21 +109,24 @@ public class ChessboardMapExt : GameMap
 			);
 		}
 
-		if (deckViewBtn)
+		if (ViewManager.Instance.Controller.LockState == ViewLockState.Unlocked)
 		{
-			switch (ViewManager.Instance.CurrentView)
+			if (deckViewBtn)
 			{
-				case View.MapDeckReview:
-					ViewManager.Instance.SwitchToView(View.MapDefault);
-					break;
-				case View.MapDefault:
-					ViewManager.Instance.SwitchToView(View.MapDeckReview);
-					break;
+				switch (ViewManager.Instance.CurrentView)
+				{
+					case View.MapDeckReview:
+						ViewManager.Instance.SwitchToView(View.MapDefault);
+						break;
+					case View.MapDefault:
+						ViewManager.Instance.SwitchToView(View.MapDeckReview);
+						break;
+				}
 			}
-		}
-		else if (resetRunBtn)
-		{
-			ConfigHelper.Instance.ResetRun();
+			else if (resetRunBtn)
+			{
+				ConfigHelper.Instance.ResetRun();
+			}
 		}
 
 		if (ConfigHelper.Instance.EnableCardsLeftInDeckView && _toggleCardsLeftInDeck)
