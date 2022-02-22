@@ -132,7 +132,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			);
 			ApplyModToCard(selectionSlot.Card.Info);
 			selectionSlot.Card.Anim.PlayTransformAnimation();
-			yield return new WaitForSeconds(0.5f);
+			yield return new WaitForSeconds(0.15f);
 			selectionSlot.Card.SetInfo(selectionSlot.Card.Info);
 			selectionSlot.Card.SetInteractionEnabled(false);
 			yield return new WaitForSeconds(0.75f);
