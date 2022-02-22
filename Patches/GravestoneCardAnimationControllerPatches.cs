@@ -158,7 +158,7 @@ public class GravestoneCardAnimBaseClassPatches
 			return true;
 		}
 
-		((GravestoneCardAnimationController)__instance).SetTrigger("flip");
+		__instance.Anim.Play("card_flip");
 		return false;
 	}
 }
