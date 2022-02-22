@@ -15,6 +15,11 @@ public static class CardRelatedExtension
 	{
 		return cardSlot.Card is not null && cardSlot.Card.Info.specialAbilities.Contains(ability);
 	}
+
+	public static bool CardInSlotIs(this CardSlot cardSlot, string cardName)
+	{
+		return cardSlot.Card is not null && cardSlot.Card.InfoName().Equals(cardName);
+	}
 	
 	public static string InfoName(this Card card)
 	{
