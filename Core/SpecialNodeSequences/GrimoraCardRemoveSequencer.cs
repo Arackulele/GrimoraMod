@@ -23,6 +23,11 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 		stoneCircleAnim.gameObject.SetActive(true);
 		yield return new WaitForSeconds(0.5f);
+		if (!ProgressionData.LearnedMechanic(GrimoraMechanics.CardRemoval))
+		{
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				"HE WILL PROVIDE A HELPFUL OR HARMFUL CURSE UPON YOUR ARMY IF YOU LEAVE HIM AN OFFERING.");
+		}
 
 		yield return deckPile.SpawnCards(GrimoraSaveUtil.DeckList.Count, 0.5f);
 		ViewManager.Instance.SwitchToView(View.CardMergeSlots);
@@ -32,6 +37,10 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			GameColors.Instance.orange,
 			0.1f
 		);
+		if (!ProgressionData.LearnedMechanic(GrimoraMechanics.CardRemoval))
+		{
+			yield return TextDisplayer.Instance.ShowUntilInput("I HOPE FOR YOUR SAKE HE IS FEELING GENEROUS.");
+		}
 
 		sacrificeSlot.RevealAndEnable();
 		sacrificeSlot.ClearDelegates();
@@ -56,11 +65,11 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		gamepadGrid.enabled = true;
 		yield return confirmStone.WaitUntilConfirmation();
 	}
-	
+
 	public new IEnumerator RemoveSequence()
 	{
 		yield return InitialSetup();
-		
+
 		sacrificeSlot.Disable();
 
 		RuleBookController.Instance.SetShown(false);
@@ -90,10 +99,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 		skullEyes.SetActive(true);
 		AudioController.Instance.PlaySound2D("creepy_rattle_lofi");
-		yield return new WaitForSeconds(0.5f);
 
-		yield return TextDisplayer.Instance.ShowUntilInput("SACRIFICE A CARD FOR THE BONE LORD, AND HE MAY JUST REWARD YOU!");
-		
 		if (!sacrificedInfo.HasTrait(Trait.Pelt))
 		{
 			CardInfo randomCard = GetRandomCardForEffect();
@@ -115,7 +121,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 			Log.LogDebug($"Placing card on slot");
 			sacrificeSlot.PlaceCardOnSlot(boonCard.transform, 0.5f);
-			yield return new WaitForSeconds(0.5f);
+			yield return new WaitForSeconds(0.25f);
 
 			Log.LogDebug($"boon card is now active");
 			boonCard.SetEnabled(true);
@@ -146,6 +152,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			Destroy(boonCard.gameObject);
 		}
 
+		ProgressionData.SetMechanicLearned(GrimoraMechanics.CardRemoval);
 
 		yield return OutroSequence();
 	}

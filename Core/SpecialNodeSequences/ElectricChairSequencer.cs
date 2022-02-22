@@ -90,17 +90,22 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		}
 		else
 		{
-			yield return TextDisplayer.Instance.ShowUntilInput("OH! I LOVE THIS ONE!");
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				$"YOU STRAP ONE OF YOUR CARDS TO THE CHAIR, {"EMPOWERING".Blue()} IT!"
-			);
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				"OF COURSE, IT DOESN'T HURT.\nYOU CAN'T DIE TWICE AFTER ALL."
-			);
+			if(!ProgressionData.LearnedMechanic(GrimoraMechanics.ElectricChar))
+			{
+				yield return TextDisplayer.Instance.ShowUntilInput("OH! I LOVE THIS ONE!");
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					$"YOU STRAP ONE OF YOUR CARDS TO THE CHAIR, {"EMPOWERING".Blue()} IT!"
+				);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					"OF COURSE, IT DOESN'T HURT.\nYOU CAN'T DIE TWICE AFTER ALL."
+				);
+			}
 
 			yield return WhileNotFinishedBuffingAndDestroyedCardIsNull();
 		}
 
+		ProgressionData.SetMechanicLearned(GrimoraMechanics.ElectricChar);
+		
 		yield return OutroEnvTeardown();
 		if (GameFlowManager.Instance != null)
 		{
