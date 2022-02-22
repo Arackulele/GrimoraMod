@@ -14,7 +14,7 @@ public class LitFuse : ExplodeOnDeath
 
 	public override bool RespondsToUpkeep(bool playerUpkeep)
 	{
-		return true;
+		return !Card.OpponentCard && playerUpkeep || Card.OpponentCard && !playerUpkeep;
 	}
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
