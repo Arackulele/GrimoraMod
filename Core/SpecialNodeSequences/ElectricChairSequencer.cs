@@ -286,14 +286,14 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private new static List<CardInfo> GetValidCards()
 	{
-		List<CardInfo> list = GrimoraSaveUtil.DeckListCopy;
-		list.RemoveAll(card => card.Abilities.Count == 4
+		List<CardInfo> deckCopy = GrimoraSaveUtil.DeckListCopy;
+		deckCopy.RemoveAll(card => card.Abilities.Count == 4
 		                       || card.SpecialAbilities.Contains(SpecialTriggeredAbility.RandomCard)
 		                       || card.traits.Contains(Trait.Pelt)
 		                       || card.traits.Contains(Trait.Terrain)
 		);
 
-		return list;
+		return deckCopy;
 	}
 
 	private IEnumerator InitialSetup()
