@@ -19,9 +19,7 @@ public class PayEnergyForWyvern : ActivatedAbilityBehaviour
 
 	public static NewAbility Create()
 	{
-		const string rulebookDescription =
-			"Pay 3 Energy for [creature] to summon a Wyvern in your hand. " +
-			"More wyverns. Wyverns everywhere.";
+		const string rulebookDescription = "Pay 3 Energy for [creature] to summon a Wyvern in your hand.";
 
 		return ApiUtils.CreateAbility<PayEnergyForWyvern>(rulebookDescription, activated: true);
 	}
