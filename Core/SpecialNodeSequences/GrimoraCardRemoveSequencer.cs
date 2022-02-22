@@ -390,16 +390,16 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		var cardRemoveSequencer = cardRemoveSequencerObj.AddComponent<GrimoraCardRemoveSequencer>();
 
 		cardRemoveSequencer.gamepadGrid = oldRemoveSequencer.gamepadGrid;
-		cardRemoveSequencer.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
+		cardRemoveSequencer.selectableCardPrefab = AssetConstants.GrimoraSelectableCard;
 		cardRemoveSequencer.confirmStone = oldRemoveSequencer.confirmStone;
 		cardRemoveSequencer.sacrificeSlot = oldRemoveSequencer.sacrificeSlot;
-		cardRemoveSequencer.sacrificeSlot.cardSelector.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
-		cardRemoveSequencer.sacrificeSlot.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
+		cardRemoveSequencer.sacrificeSlot.cardSelector.selectableCardPrefab = AssetConstants.GrimoraSelectableCard;
+		cardRemoveSequencer.sacrificeSlot.pile.cardbackPrefab = AssetConstants.GrimoraCardBack;
 		cardRemoveSequencer.skullEyes = oldRemoveSequencer.skullEyes;
 		cardRemoveSequencer.stoneCircleAnim = oldRemoveSequencer.stoneCircleAnim;
 
 		cardRemoveSequencer.deckPile = oldRemoveSequencer.deckPile;
-		cardRemoveSequencer.deckPile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
+		cardRemoveSequencer.deckPile.cardbackPrefab = AssetConstants.GrimoraCardBack;
 
 		Destroy(oldRemoveSequencer);
 

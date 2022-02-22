@@ -53,23 +53,23 @@ public class BaseGameFlowManagerPatches
 
 	private static void SetupPlayableAndSelectableCardPrefabs()
 	{
-		PrefabConstants.GrimoraPlayableCard
+		AssetConstants.GrimoraPlayableCard
 			.transform
 			.Find("SkeletonAttackAnim")
 			.GetComponent<Animator>()
-			.runtimeAnimatorController = PrefabConstants.SkeletonArmController;
+			.runtimeAnimatorController = AssetConstants.SkeletonArmController;
 
-		PrefabConstants.GrimoraPlayableCard
+		AssetConstants.GrimoraPlayableCard
 			.GetComponent<GravestoneCardAnimationController>()
 			.Anim
-			.runtimeAnimatorController = PrefabConstants.GraveStoneController;
+			.runtimeAnimatorController = AssetConstants.GraveStoneController;
 
-		PrefabConstants.GrimoraSelectableCard
+		AssetConstants.GrimoraSelectableCard
 			.GetComponent<GravestoneCardAnimationController>()
 			.Anim
-			.runtimeAnimatorController = PrefabConstants.GraveStoneController;
+			.runtimeAnimatorController = AssetConstants.GraveStoneController;
 
-		CardSpawner.Instance.giantPlayableCardPrefab = PrefabConstants.GrimoraPlayableCard;
+		CardSpawner.Instance.giantPlayableCardPrefab = AssetConstants.GrimoraPlayableCard;
 	}
 
 	private static void AddCardSelectorObjectForTutor()
@@ -82,7 +82,7 @@ public class BaseGameFlowManagerPatches
 			boardCardSelection.arrayWidth = 5;
 			boardCardSelection.cardsTilt = 0;
 			boardCardSelection.leftAnchor = -2.5f;
-			boardCardSelection.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
+			boardCardSelection.selectableCardPrefab = AssetConstants.GrimoraSelectableCard;
 
 			boardCardSelection.transform.SetParent(BoardManager.Instance.transform);
 			boardCardSelection.transform.position = new Vector3(0.81f, 5.01f, -3.45f);
@@ -212,7 +212,7 @@ public class BaseGameFlowManagerPatches
 		{
 			// DeckReviewSequencer reviewSequencer = deckReviewSequencerObj.GetComponent<DeckReviewSequencer>();
 			SelectableCardArray cardArray = DeckReviewSequencer.Instance.GetComponentInChildren<SelectableCardArray>();
-			cardArray.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
+			cardArray.selectableCardPrefab = AssetConstants.GrimoraSelectableCard;
 		}
 	}
 
@@ -231,9 +231,9 @@ public class BaseGameFlowManagerPatches
 		rareCardChoicesSelector.name = rareCardChoicesSelector.name.Replace("(Clone)", "_Grimora");
 
 		RareCardChoicesSequencer sequencer = rareCardChoicesSelector.GetComponent<RareCardChoicesSequencer>();
-		sequencer.deckPile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
+		sequencer.deckPile.cardbackPrefab = AssetConstants.GrimoraCardBack;
 		sequencer.choiceGenerator = rareCardChoicesSelector.AddComponent<GrimoraRareChoiceGenerator>();
-		sequencer.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
+		sequencer.selectableCardPrefab = AssetConstants.GrimoraSelectableCard;
 
 		SpecialNodeHandler.Instance.rareCardChoiceSequencer = sequencer;
 		Log.LogDebug($"[AddRareCardSequencerToScene] Finished adding GrimoraRareChoiceGenerator");

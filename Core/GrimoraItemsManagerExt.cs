@@ -77,7 +77,7 @@ public class AddNewHammerExt
 
 			Log.LogDebug($"Adding new HammerItemExt");
 			HammerItemExt grimoraHammer = Object.Instantiate(
-				AssetUtils.GetPrefab<GameObject>("GrimoraHammer"),
+				AssetConstants.GrimoraHammer,
 				__instance.transform
 			).AddComponent<HammerItemExt>();
 			Log.LogDebug($"Setting data to old hammer data");

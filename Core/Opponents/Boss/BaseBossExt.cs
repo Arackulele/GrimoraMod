@@ -14,7 +14,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 				"KayceeBoss", new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
 					KayceeOpponent,
 					typeof(GrimoraModKayceeBossSequencer),
-					PrefabConstants.BossPieceKaycee,
+					AssetConstants.BossPieceKaycee,
 					BlueprintUtils.BuildKayceeBossInitialBlueprint()
 				)
 			},
@@ -22,7 +22,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 				"SawyerBoss", new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
 					SawyerOpponent,
 					typeof(GrimoraModSawyerBossSequencer),
-					PrefabConstants.BossPieceSawyer,
+					AssetConstants.BossPieceSawyer,
 					BlueprintUtils.BuildSawyerBossInitialBlueprint()
 				)
 			},
@@ -30,7 +30,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 				"RoyalBoss", new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
 					RoyalOpponent,
 					typeof(GrimoraModRoyalBossSequencer),
-					PrefabConstants.BossPieceRoyal.gameObject,
+					AssetConstants.BossPieceRoyal.gameObject,
 					BlueprintUtils.BuildRoyalBossInitialBlueprint()
 				)
 			},
@@ -38,7 +38,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 				"GrimoraBoss", new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
 					GrimoraOpponent,
 					typeof(GrimoraModGrimoraBossSequencer),
-					PrefabConstants.BossPieceGrimora,
+					AssetConstants.BossPieceGrimora,
 					BlueprintUtils.BuildGrimoraBossInitialBlueprint()
 				)
 			},
@@ -63,9 +63,8 @@ public abstract class BaseBossExt : Part1BossOpponent
 
 	public static readonly Dictionary<Type, GameObject> BossMasksByType = new()
 	{
-		{ SawyerOpponent, AssetUtils.GetPrefab<GameObject>("SawyerBossSkull") },
-		{ KayceeOpponent, AssetUtils.GetPrefab<GameObject>("KayceeBossSkull") },
-		// { RoyalOpponent, PrefabPathRoyalBossSkull }
+		{ SawyerOpponent, AssetConstants.BossSkullSawyer },
+		{ KayceeOpponent, AssetConstants.BossSkullKaycee }
 	};
 
 	private static readonly int ShowSkull = Animator.StringToHash("show_skull");

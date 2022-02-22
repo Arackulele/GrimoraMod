@@ -13,30 +13,6 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 	private readonly CardInfo _revenantCardReward = NameRevenant.GetCardInfo();
 
-	private void Start()
-	{
-		SetMaterials();
-	}
-
-	private void SetMaterials()
-	{
-		Material statBoostBoneyard = AssetUtils.GetPrefab<Material>("StatBoostBoneyard");
-		selectionSlot.specificRenderers[0].material = statBoostBoneyard;
-		selectionSlot.specificRenderers[0].sharedMaterial = statBoostBoneyard;
-		selectionSlot.transform.localPosition = new Vector3(0, 5.13f, 0.51f);
-		selectionSlot.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
-		selectionSlot.transform.localRotation = Quaternion.Euler(0, 0, 0);
-
-		var stoneQuad = confirmStone.transform.Find("Quad").GetComponent<MeshRenderer>();
-		Material shovelForButton = AssetUtils.GetPrefab<Material>("BoneyardBurialShovel");
-		stoneQuad.material = shovelForButton;
-		stoneQuad.sharedMaterial = shovelForButton;
-		selectionSlot.defaultColor = GrimoraColors.GrimoraText;
-		selectionSlot.baseColor = GrimoraColors.GrimoraText;
-		stoneQuad.transform.localScale = new Vector3(1.75f, 1.75f, 1.75f);
-		stoneQuad.transform.localRotation = Quaternion.Euler(90, 0, 0);
-	}
-
 	private IEnumerator InitialSetup()
 	{
 		stakeRingParent.SetActive(false);
@@ -207,7 +183,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 	private IEnumerator NoValidCardsSequence()
 	{
 		revenantCard = Instantiate(
-			PrefabConstants.GrimoraSelectableCard,
+			AssetConstants.GrimoraSelectableCard,
 			new Vector3(0, 12, 1.75f),
 			Quaternion.identity,
 			transform
@@ -315,7 +291,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		}
 
 		GameObject cardStatObj = Instantiate(
-			PrefabConstants.CardStatBoostSequencer,
+			AssetConstants.CardStatBoostSequencer,
 			SpecialNodeHandler.Instance.transform
 		);
 		cardStatObj.name = "BoneyardBurialSequencer_Grimora";
@@ -341,7 +317,6 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 			Destroy(oldSequencer.stakeRingParent.transform.GetChild(i).gameObject);
 		}
 
-
 		var newSequencer = cardStatObj.AddComponent<BoneyardBurialSequencer>();
 
 		newSequencer.campfireLight = oldSequencer.campfireLight;
@@ -354,12 +329,29 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		newSequencer.figurines.AddRange(CreateTombstones(cardStatObj));
 
 		newSequencer.pile = oldSequencer.pile;
-		newSequencer.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
+		newSequencer.pile.cardbackPrefab = AssetConstants.GrimoraCardBack;
 
 		newSequencer.selectionSlot = oldSequencer.selectionSlot;
-		newSequencer.selectionSlot.cardSelector.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
-		newSequencer.selectionSlot.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
-		newSequencer.selectionSlot.specificRenderers.RemoveAt(1);
+		Material selectionSlotMat = AssetConstants.BoneyardSelectionSlot;
+
+		var selectionSlot = newSequencer.selectionSlot;
+		selectionSlot.cardSelector.selectableCardPrefab = AssetConstants.GrimoraSelectableCard;
+		selectionSlot.pile.cardbackPrefab = AssetConstants.GrimoraCardBack;
+		selectionSlot.specificRenderers.RemoveAt(1);
+		selectionSlot.specificRenderers[0].material = selectionSlotMat;
+		selectionSlot.specificRenderers[0].sharedMaterial = selectionSlotMat;
+		selectionSlot.transform.localPosition = new Vector3(0, 5.13f, 0.51f);
+		selectionSlot.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+		selectionSlot.transform.localRotation = Quaternion.Euler(0, 0, 0);
+		selectionSlot.defaultColor = GrimoraColors.GrimoraText;
+		selectionSlot.baseColor = GrimoraColors.GrimoraText;
+
+		var stoneQuad = newSequencer.confirmStone.transform.Find("Quad").GetComponent<MeshRenderer>();
+		Material shovelForConfirmButton = AssetConstants.BoneyardConfirmButton;
+		stoneQuad.material = shovelForConfirmButton;
+		stoneQuad.sharedMaterial = shovelForConfirmButton;
+		stoneQuad.transform.localScale = new Vector3(1.75f, 1.75f, 1.75f);
+		stoneQuad.transform.localRotation = Quaternion.Euler(90, 0, 0);
 
 		newSequencer.retrieveCardInteractable = oldSequencer.retrieveCardInteractable;
 
@@ -375,7 +367,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		Log.LogDebug($"[Boneyard] creating gravedigger");
 
 		CompositeFigurine gravediggerFigurine = Instantiate(
-			PrefabConstants.BoneyardFigurine,
+			AssetConstants.BoneyardFigurine,
 			new Vector3(0, 5, 2.5f),
 			Quaternion.Euler(0, 180, 0),
 			cardStatObj.transform
@@ -392,7 +384,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 	{
 		Log.LogDebug($"[Boneyard] creating grave");
 		CompositeFigurine grave = Instantiate(
-			PrefabConstants.BoneyardGrave,
+			AssetConstants.BoneyardGrave,
 			new Vector3(0, 4f, 0.6f),
 			Quaternion.Euler(0, 90, 0),
 			cardStatObj.transform
@@ -407,22 +399,22 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 	private static List<CompositeFigurine> CreateTombstones(GameObject cardStatObj)
 	{
 		var stakeRing = cardStatObj.transform.Find("StakeRing");
-		var tombstone1 = Instantiate(PrefabConstants.Tombstone3, stakeRing).AddComponent<CompositeFigurine>();
+		var tombstone1 = Instantiate(AssetConstants.Tombstone3, stakeRing).AddComponent<CompositeFigurine>();
 		tombstone1.transform.localPosition = new Vector3(-3, 0, -2.5f);
 		tombstone1.transform.localRotation = Quaternion.Euler(0, 90, 0);
 		tombstone1.transform.localScale = new Vector3(10, 10, 10);
 
-		var tombstone2 = Instantiate(PrefabConstants.Tombstone3, stakeRing).AddComponent<CompositeFigurine>();
+		var tombstone2 = Instantiate(AssetConstants.Tombstone3, stakeRing).AddComponent<CompositeFigurine>();
 		tombstone2.transform.localPosition = new Vector3(-1.8f, 0, 0);
 		tombstone2.transform.localRotation = Quaternion.Euler(0, 135, 0);
 		tombstone2.transform.localScale = new Vector3(10, 10, 10);
 
-		var tombstone3 = Instantiate(PrefabConstants.Tombstone3, stakeRing).AddComponent<CompositeFigurine>();
+		var tombstone3 = Instantiate(AssetConstants.Tombstone3, stakeRing).AddComponent<CompositeFigurine>();
 		tombstone3.transform.localPosition = new Vector3(1.8f, 0, 0);
 		tombstone3.transform.localRotation = Quaternion.Euler(0, -135, 0);
 		tombstone3.transform.localScale = new Vector3(10, 10, 10);
 
-		var tombstone4 = Instantiate(PrefabConstants.Tombstone3, stakeRing).AddComponent<CompositeFigurine>();
+		var tombstone4 = Instantiate(AssetConstants.Tombstone3, stakeRing).AddComponent<CompositeFigurine>();
 		tombstone4.transform.localPosition = new Vector3(3f, 0, -2.5f);
 		tombstone3.transform.localRotation = Quaternion.Euler(0, 90, 0);
 		tombstone4.transform.localScale = new Vector3(10, 10, 10);

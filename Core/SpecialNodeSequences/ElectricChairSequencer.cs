@@ -388,7 +388,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		}
 
 		GameObject cardStatObj = Instantiate(
-			PrefabConstants.CardStatBoostSequencer,
+			AssetConstants.CardStatBoostSequencer,
 			SpecialNodeHandler.Instance.transform
 		);
 		cardStatObj.name = "ElectricChairSequencer_Grimora";
@@ -436,15 +436,15 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		newSequencer.figurines.AddRange(CreateElectricChair(cardStatObj));
 
 		newSequencer.pile = oldSequencer.pile;
-		newSequencer.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
+		newSequencer.pile.cardbackPrefab = AssetConstants.GrimoraCardBack;
 
 		newSequencer.selectionSlot = oldSequencer.selectionSlot;
 		newSequencer.selectionSlot.transform.localPosition = new Vector3(0, 7.2f, 1.2f);
 		newSequencer.selectionSlot.transform.localRotation = Quaternion.Euler(270, 0, 0);
-		newSequencer.selectionSlot.cardSelector.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
-		newSequencer.selectionSlot.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
+		newSequencer.selectionSlot.cardSelector.selectableCardPrefab = AssetConstants.GrimoraSelectableCard;
+		newSequencer.selectionSlot.pile.cardbackPrefab = AssetConstants.GrimoraCardBack;
 		var stoneQuad = newSequencer.selectionSlot.transform.Find("Quad").GetComponent<MeshRenderer>();
-		Material abilityBoostMat = AssetUtils.GetPrefab<Material>("ElectricChair_Stat_AbilityBoost");
+		Material abilityBoostMat = AssetConstants.ElectricChairSelectionSlot;
 		stoneQuad.material = abilityBoostMat;
 		stoneQuad.sharedMaterial = abilityBoostMat;
 
@@ -463,7 +463,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	{
 		Log.LogDebug("[ElectricChair] creating chair");
 		CompositeFigurine chairFigurine = Instantiate(
-			PrefabConstants.ElectricChairForSelectionSlot,
+			AssetConstants.ElectricChairForSelectionSlot,
 			new Vector3(-0.05f, 4.9f, 1.2f),
 			Quaternion.Euler(0, 180, 0),
 			cardStatObj.transform

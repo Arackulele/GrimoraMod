@@ -6,7 +6,7 @@ using static GrimoraMod.GrimoraPlugin;
 namespace GrimoraMod;
 
 [SuppressMessage("ReSharper", "InconsistentNaming")]
-public static class PrefabConstants
+public static class AssetConstants
 {
 	public const string PathChessboardMap = "Prefabs/Map/ChessboardMap";
 	public const string PathSpecialNodes = "Prefabs/SpecialNodeSequences";
@@ -73,6 +73,11 @@ public static class PrefabConstants
 
 	public static readonly GameObject BoneyardGrave = AssetUtils.GetPrefab<GameObject>("BoneyardBurialGrave");
 
+	public static readonly Material BoneyardSelectionSlot = AssetUtils.GetPrefab<Material>("Boneyard_SelectionSlot");
+
+	public static readonly Material BoneyardConfirmButton =
+		AssetUtils.GetPrefab<Material>("Boneyard_ConfirmButton_Shovel");
+
 	public static readonly GameObject BoneyardFigurine = AssetUtils.GetPrefab<GameObject>("ChessboardPiece_Boneyard");
 
 	public static readonly GameObject Tombstone3 =
@@ -85,10 +90,36 @@ public static class PrefabConstants
 
 	public static readonly GameObject ElectricChair = AssetUtils.GetPrefab<GameObject>("ChessboardPiece_ElectricChair");
 
+	public static readonly Material ElectricChairSelectionSlot =
+		AssetUtils.GetPrefab<Material>("ElectricChair_SelectionSlot");
+
 	public static readonly GameObject ElectricChairForSelectionSlot = AssetUtils.GetPrefab<GameObject>("ElectricChairV2");
 
 	#endregion
 
+
+	#region Menu
+
+	public static readonly Sprite MenuCardGrimora = AssetUtils.GetPrefab<Sprite>("MenuCard");
+
+	public static readonly Sprite TitleSprite = AssetUtils.GetPrefab<Sprite>("menutext_grimora_mod");
+
+	#endregion
+
+
+	#region Skulls
+
+	public static readonly GameObject BossSkullKaycee = AssetUtils.GetPrefab<GameObject>("KayceeBossSkull");
+
+	public static readonly GameObject BossSkullSawyer = AssetUtils.GetPrefab<GameObject>("SawyerBossSkull");
+
+	#endregion
+
+
+	public static readonly GameObject GrimoraFirstPersonHammer =
+		AssetUtils.GetPrefab<GameObject>("FirstPersonGrimoraHammer");
+
+	public static readonly GameObject GrimoraHammer = AssetUtils.GetPrefab<GameObject>("GrimoraHammer");
 
 	public static readonly GameObject CardStatBoostSequencer =
 		ResourceBank.Get<GameObject>($"{PathSpecialNodes}/CardStatBoostSequencer");
