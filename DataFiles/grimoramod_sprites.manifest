@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2094591137
+CRC: 704278962
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 127690f17462164213f9770a42298e10
+    Hash: edbbc0e43554ff9a6bca1b578969a75e
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -22,6 +22,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Dybbuk_emission.png
 - Assets/GrimoraMod_Unity/Cards/Obol_emission.png
 - Assets/GrimoraMod_Unity/Cards/Mummy_emission.png
+- Assets/GrimoraMod_Unity/Cards/UnluckyPirate.png
 - Assets/GrimoraMod_Unity/Cards/DrownedSoul_emission.png
 - Assets/GrimoraMod_Unity/Cards/Dybbuk.png
 - Assets/GrimoraMod_Unity/Cards/Skelemaniac_emission.png
@@ -32,6 +33,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/BonePrince_emission.png
 - Assets/GrimoraMod_Unity/Cards/Ember_Spirit_emission.png
 - Assets/GrimoraMod_Unity/Cards/MudWorm.png
+- Assets/GrimoraMod_Unity/Cards/UnluckyPirate_emission.png
 - Assets/GrimoraMod_Unity/Cards/Boneseed.png
 - Assets/GrimoraMod_Unity/Cards/Flames.png
 - Assets/GrimoraMod_Unity/Cards/UndeadWolf.png
@@ -44,7 +46,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Wyvern.png
 - Assets/GrimoraMod_Unity/Cards/GhostShip.png
 - Assets/GrimoraMod_Unity/Cards/Draugr_emission.png
-- Assets/GrimoraMod_Unity/Menu/MenuCard.png
+- Assets/GrimoraMod_Unity/Menu/MenuCard_Grimora.png
 - Assets/GrimoraMod_Unity/Cards/Bonepile_emission.png
 - Assets/GrimoraMod_Unity/Cards/DrownedSoul.png
 - Assets/GrimoraMod_Unity/Cards/GravestoneCard_Base_Lowered2.png

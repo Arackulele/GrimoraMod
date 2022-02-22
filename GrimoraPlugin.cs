@@ -57,6 +57,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		GainAttackBones.Create();
 		GiantStrike.Create();
 		GrimoraRandomAbility.Create();
+		LitFuse.Create();
 		PayEnergyForWyvern.Create();
 
 		#endregion
@@ -107,6 +108,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_SporeDigger();
 		Add_Summoner();
 		Add_TombRobber();
+		Add_UnluckyPirate();
 		Add_Wendigo();
 		Add_Wyvern();
 		Add_ZombieGeck();
@@ -178,7 +180,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		Destroy(gameObject, 6f);
 	}
-	
+
 	private static void LoadAssets()
 	{
 		Log.LogDebug($"Loading assets into static vars");
