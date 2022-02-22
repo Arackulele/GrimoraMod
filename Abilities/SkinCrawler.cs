@@ -130,13 +130,14 @@ public class SkinCrawler : AbilityBehaviour
 		}
 		else
 		{
+			ViewManager.Instance.SwitchToView(View.Board);
 			if (!PlayedDialogue)
 			{
 				PlayedDialogue = true;
-				ViewManager.Instance.SwitchToView(View.Board);
 				yield return TextDisplayer.Instance.ShowUntilInput("POOR THING COULDN'T FIND A HOST");
-				yield return Card.Die(false);
 			}
+
+			yield return Card.Die(false);
 		}
 	}
 
