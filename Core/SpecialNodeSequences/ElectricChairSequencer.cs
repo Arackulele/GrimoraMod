@@ -103,7 +103,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 				ProgressionData.SetMechanicLearned(GrimoraMechanics.ElectricChar);
 			}
 
-			yield return WhileNotFinishedBuffingAndDestroyedCardIsNull();
+			yield return UntilFinishedBuffingOrCardIsDestroyed();
 		}
 
 		yield return OutroEnvTeardown();
@@ -113,7 +113,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		}
 	}
 
-	private IEnumerator WhileNotFinishedBuffingAndDestroyedCardIsNull()
+	private IEnumerator UntilFinishedBuffingOrCardIsDestroyed()
 	{
 		yield return confirmStone.WaitUntilConfirmation();
 		CardInfo destroyedCard = null;
