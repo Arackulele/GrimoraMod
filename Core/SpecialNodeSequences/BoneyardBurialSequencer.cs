@@ -58,35 +58,6 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		stakeRingParent.SetActive(true);
 		ExplorableAreaManager.Instance.HandLight.gameObject.SetActive(true);
 		campfireLight.gameObject.SetActive(true);
-		selectionSlot.gameObject.SetActive(true);
-		selectionSlot.RevealAndEnable();
-		selectionSlot.ClearDelegates();
-
-		SelectCardFromDeckSlot selectCardFromDeckSlot = selectionSlot;
-		selectCardFromDeckSlot.CursorSelectStarted =
-			(Action<MainInputInteractable>)Delegate.Combine(
-				selectCardFromDeckSlot.CursorSelectStarted,
-				new Action<MainInputInteractable>(OnSlotSelected)
-			);
-		if (UnityEngine.Random.value < 0.25f && VideoCameraRig.Instance != null)
-		{
-			VideoCameraRig.Instance.PlayCameraAnim("refocus_quick");
-		}
-
-		AudioController.Instance.PlaySound3D(
-			"campfire_light",
-			MixerGroup.TableObjectsSFX,
-			selectionSlot.transform.position
-		);
-		AudioController.Instance.SetLoopAndPlay("campfire_loop", 1);
-		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
-		AudioController.Instance.FadeInLoop(0.5f, 0.75f, 1);
-		InteractionCursor.Instance.SetEnabled(false);
-		yield return new WaitForSeconds(0.25f);
-
-		yield return pile.SpawnCards(GrimoraSaveUtil.DeckList.Count, 0.5f);
-		TableRuleBook.Instance.SetOnBoard(true);
-		InteractionCursor.Instance.SetEnabled(true);
 	}
 
 	public IEnumerator BurialSequence()
@@ -120,6 +91,36 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 					"THIS WOULDN'T BE WITHOUT REPERCUSSIONS OF COURSE, AS DEATH IS NEVER PERMANENT.", -0.65f
 				);
 			}
+
+			selectionSlot.gameObject.SetActive(true);
+			selectionSlot.RevealAndEnable();
+			selectionSlot.ClearDelegates();
+
+			SelectCardFromDeckSlot selectCardFromDeckSlot = selectionSlot;
+			selectCardFromDeckSlot.CursorSelectStarted =
+				(Action<MainInputInteractable>)Delegate.Combine(
+					selectCardFromDeckSlot.CursorSelectStarted,
+					new Action<MainInputInteractable>(OnSlotSelected)
+				);
+			if (UnityEngine.Random.value < 0.25f && VideoCameraRig.Instance != null)
+			{
+				VideoCameraRig.Instance.PlayCameraAnim("refocus_quick");
+			}
+
+			AudioController.Instance.PlaySound3D(
+				"campfire_light",
+				MixerGroup.TableObjectsSFX,
+				selectionSlot.transform.position
+			);
+			AudioController.Instance.SetLoopAndPlay("campfire_loop", 1);
+			AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
+			AudioController.Instance.FadeInLoop(0.5f, 0.75f, 1);
+			InteractionCursor.Instance.SetEnabled(false);
+			yield return new WaitForSeconds(0.25f);
+
+			yield return pile.SpawnCards(GrimoraSaveUtil.DeckList.Count, 0.5f);
+			TableRuleBook.Instance.SetOnBoard(true);
+			InteractionCursor.Instance.SetEnabled(true);
 
 			yield return confirmStone.WaitUntilConfirmation();
 			bool finishedBuffing = false;
