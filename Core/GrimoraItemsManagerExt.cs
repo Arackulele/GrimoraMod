@@ -110,7 +110,7 @@ public class FirstPersonHammerPatch
 
 		Log.LogDebug($"[FirstPersonController] Creating new grimora first person hammer");
 		GameObject gameObject = Object.Instantiate(
-			AssetUtils.GetPrefab<GameObject>("FirstPersonGrimoraHammer"),
+			AssetConstants.GrimoraFirstPersonHammer,
 			__instance.pixelCamera.transform
 		);
 		gameObject.transform.localPosition = Vector3.zero;
