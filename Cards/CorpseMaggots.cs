@@ -9,7 +9,7 @@ public partial class GrimoraPlugin
 
 	private void Add_CorpseMaggots()
 	{
-		CardInfo cardInfo = NameCorpseMaggots.GetCardInfo();
+		CardInfo cardInfo = "Maggots".GetCardInfo();
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()
 			.SetAbilities(cardInfo.abilities.ToArray())

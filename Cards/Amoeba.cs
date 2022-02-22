@@ -9,7 +9,7 @@ public partial class GrimoraPlugin
 
 	private void Add_Amoeba()
 	{
-		CardInfo cardInfo = NameAmoeba.GetCardInfo();
+		CardInfo cardInfo = "Amoeba".GetCardInfo();
 		NewCard.Add(CardBuilder.Builder
 			.SetAsRareCard()
 			.SetAbilities(GrimoraRandomAbility.ability)
