@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 3282534387
+CRC: 2001319210
 Hashes:
   AssetFileHash:
     serializedVersion: 2
@@ -13,17 +13,17 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/GrimoraMod/Abilities/ability_InvertedStrike.png
-- Assets/GrimoraMod/Abilities/ability_FlameStrafe.png
-- Assets/GrimoraMod/Abilities/ability_PayBonesForSkeleton.png
-- Assets/GrimoraMod/Abilities/ability_AlternatingStrike.png
-- Assets/GrimoraMod/Abilities/ability_GiantStrike.png
-- Assets/GrimoraMod/Abilities/ability_CreateArmyOfSkeletons.png
-- Assets/GrimoraMod/Abilities/ability_PayEnergyForWyvern.png
-- Assets/GrimoraMod/Abilities/ability_BoneLordsReign.png
-- Assets/GrimoraMod/Abilities/ability_SkinCrawler.png
-- Assets/GrimoraMod/Abilities/ability_Possessive.png
-- Assets/GrimoraMod/Abilities/ability_Erratic.png
-- Assets/GrimoraMod/Abilities/ability_GainAttackBones.png
-- Assets/GrimoraMod/Abilities/ability_AreaOfEffectStrike.png
+- Assets/GrimoraMod_Unity/Abilities/ability_InvertedStrike.png
+- Assets/GrimoraMod_Unity/Abilities/ability_FlameStrafe.png
+- Assets/GrimoraMod_Unity/Abilities/ability_PayBonesForSkeleton.png
+- Assets/GrimoraMod_Unity/Abilities/ability_AlternatingStrike.png
+- Assets/GrimoraMod_Unity/Abilities/ability_GiantStrike.png
+- Assets/GrimoraMod_Unity/Abilities/ability_CreateArmyOfSkeletons.png
+- Assets/GrimoraMod_Unity/Abilities/ability_PayEnergyForWyvern.png
+- Assets/GrimoraMod_Unity/Abilities/ability_BoneLordsReign.png
+- Assets/GrimoraMod_Unity/Abilities/ability_SkinCrawler.png
+- Assets/GrimoraMod_Unity/Abilities/ability_Possessive.png
+- Assets/GrimoraMod_Unity/Abilities/ability_Erratic.png
+- Assets/GrimoraMod_Unity/Abilities/ability_GainAttackBones.png
+- Assets/GrimoraMod_Unity/Abilities/ability_AreaOfEffectStrike.png
 Dependencies: []

@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 359967258
+CRC: 780300495
 Hashes:
   AssetFileHash:
     serializedVersion: 2
@@ -17,7 +17,7 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/GrimoraMod/Materials/BoneyardBurialShovel.mat
-- Assets/GrimoraMod/Materials/ElectricChair_Stat_AbilityBoost.mat
-- Assets/GrimoraMod/Materials/StatBoostBoneyard.mat
+- Assets/GrimoraMod_Unity/Materials/BoneyardBurialShovel.mat
+- Assets/GrimoraMod_Unity/Materials/ElectricChair_Stat_AbilityBoost.mat
+- Assets/GrimoraMod_Unity/Materials/StatBoostBoneyard.mat
 Dependencies: []
