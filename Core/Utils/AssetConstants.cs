@@ -100,7 +100,7 @@ public static class AssetConstants
 
 	#region Menu
 
-	public static readonly Sprite MenuCardGrimora = AssetUtils.GetPrefab<Sprite>("MenuCard");
+	public static readonly Sprite MenuCardGrimora = AssetUtils.GetPrefab<Sprite>("MenuCard_Grimora");
 
 	public static readonly Sprite TitleSprite = AssetUtils.GetPrefab<Sprite>("menutext_grimora_mod");
 
