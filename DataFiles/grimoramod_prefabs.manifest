@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 581590196
+CRC: 2852552098
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 36ddd2e6ddd1394bbd59e4a5da864922
+    Hash: c55a968a320a0f477bf50123c5f8c2fe
   TypeTreeHash:
     serializedVersion: 2
     Hash: bc2f737821ec90d33cfdfb0a7a7aba7b
@@ -47,25 +47,25 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/GrimoraMod/ChessboardPieces/Sawyer/SawyerFigurine.prefab
-- Assets/GrimoraMod/Models/sawyer/SawyerBossSkull.prefab
-- Assets/GrimoraMod/ChessboardPieces/Kaycee/Blocker_Kaycee.prefab
-- Assets/GrimoraMod/BoneyardBurialGrave.obj
-- Assets/GrimoraMod/ElectricChairV2.prefab
-- Assets/GrimoraMod/ChessboardPieces/ChessboardPiece_GoatEye.prefab
-- Assets/GrimoraMod/Models/kaycee/KayceeBossSkull.prefab
-- Assets/GrimoraMod/ChessboardPieces/Sawyer/Blocker_Sawyer.prefab
-- Assets/GrimoraMod/ChessboardPieces/ChessboardPiece_CardRemove.prefab
+- Assets/GrimoraMod_Unity/ChessboardPieces/Sawyer/SawyerFigurine.prefab
+- Assets/GrimoraMod_Unity/Models/sawyer/SawyerBossSkull.prefab
+- Assets/GrimoraMod_Unity/ChessboardPieces/Kaycee/Blocker_Kaycee.prefab
+- Assets/GrimoraMod_Unity/BoneyardBurialGrave.obj
+- Assets/GrimoraMod_Unity/ElectricChairV2.prefab
+- Assets/GrimoraMod_Unity/ChessboardPieces/ChessboardPiece_GoatEye.prefab
+- Assets/GrimoraMod_Unity/Models/kaycee/KayceeBossSkull.prefab
+- Assets/GrimoraMod_Unity/ChessboardPieces/Sawyer/Blocker_Sawyer.prefab
+- Assets/GrimoraMod_Unity/ChessboardPieces/ChessboardPiece_CardRemove.prefab
 - Assets/Resources/animation/Prefabs/Hexalantern.prefab
-- Assets/GrimoraMod/ChessboardPieces/Blocker_Grimora.prefab
-- Assets/GrimoraMod/Animations/VfxBoltLightning.prefab
-- Assets/GrimoraMod/ChessboardPieces/ChessboardPiece_ElectricChair.prefab
-- Assets/GrimoraMod/ChessboardPieces/Kaycee/KayceeFigurine.prefab
-- Assets/GrimoraMod/Models/hammer/GrimoraHammer.prefab
-- Assets/GrimoraMod/Models/EnergyCells_Right.prefab
-- Assets/GrimoraMod/Models/hammer/FirstPersonGrimoraHammer.prefab
-- Assets/GrimoraMod/Models/EnergyCells_Left.prefab
-- Assets/GrimoraMod/ChessboardPieces/Sawyer/Sawyer_BlockerPiece.prefab
-- Assets/GrimoraMod/ChessboardPieces/Royal/Blocker_Royal.prefab
-- Assets/GrimoraMod/ChessboardPieces/ChessboardPiece_Boneyard.prefab
+- Assets/GrimoraMod_Unity/ChessboardPieces/Blocker_Grimora.prefab
+- Assets/GrimoraMod_Unity/Animations/VfxBoltLightning.prefab
+- Assets/GrimoraMod_Unity/ChessboardPieces/ChessboardPiece_ElectricChair.prefab
+- Assets/GrimoraMod_Unity/ChessboardPieces/Kaycee/KayceeFigurine.prefab
+- Assets/GrimoraMod_Unity/Models/hammer/GrimoraHammer.prefab
+- Assets/GrimoraMod_Unity/Models/EnergyCells_Right.prefab
+- Assets/GrimoraMod_Unity/Models/hammer/FirstPersonGrimoraHammer.prefab
+- Assets/GrimoraMod_Unity/Models/EnergyCells_Left.prefab
+- Assets/GrimoraMod_Unity/ChessboardPieces/Sawyer/Sawyer_BlockerPiece.prefab
+- Assets/GrimoraMod_Unity/ChessboardPieces/Royal/Blocker_Royal.prefab
+- Assets/GrimoraMod_Unity/ChessboardPieces/ChessboardPiece_Boneyard.prefab
 Dependencies: []
