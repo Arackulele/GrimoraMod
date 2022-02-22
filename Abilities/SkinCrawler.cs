@@ -23,14 +23,12 @@ public class SkinCrawler : AbilityBehaviour
 		if (slot.Card is not null)
 		{
 			PlayableCard card = slot.Card;
-			Log.LogDebug($"[GetSkinCrawlerFromSlot] Checking child components of [{slot.Card.InfoName()}]");
 			for (int i = 0; i < card.transform.childCount; i++)
 			{
 				SkinCrawler skinCrawler = card.transform.GetChild(i).GetComponent<SkinCrawler>();
 				if (skinCrawler is not null)
 				{
 					// now we get the card itself to add to the list
-					Log.LogDebug($"[GetSkinCrawlerFromSlot] --> has skin crawler");
 					return skinCrawler;
 				}
 			}
