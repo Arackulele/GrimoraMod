@@ -6,7 +6,7 @@ public class ChessboardCardRemovePiece : ChessboardPieceExt
 {
 	public ChessboardCardRemovePiece()
 	{
-		NodeData = new CardRemoveNodeData();
+		NodeData = new GrimoraCardRemoveNodeData();
 	}
 
 }
