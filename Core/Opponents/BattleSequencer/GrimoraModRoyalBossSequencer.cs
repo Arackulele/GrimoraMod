@@ -38,15 +38,10 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 				0.5f,
 				Emotion.Anger
 			);
-			if (!playableCard.TemporaryMods.Exists(mod => mod.abilities.Contains(Ability.ExplodeOnDeath)))
+			if (!playableCard.TemporaryMods.Exists(mod => mod.abilities.Contains(LitFuse.ability)))
 			{
-				playableCard.AddTemporaryMod(new CardModificationInfo(Ability.ExplodeOnDeath));
+				playableCard.AddTemporaryMod(new CardModificationInfo(LitFuse.ability));
 			}
-
-			playableCard.Anim.StrongNegationEffect();
-			yield return new WaitForSeconds(0.25f);
-			yield return playableCard.TakeDamage(1, null);
-			yield return new WaitForSeconds(0.5f);
 		}
 	}
 }
