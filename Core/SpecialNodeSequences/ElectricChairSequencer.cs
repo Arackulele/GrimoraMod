@@ -103,7 +103,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 				ProgressionData.SetMechanicLearned(GrimoraMechanics.ElectricChar);
 			}
 
-			yield return WhileNotFinishedBuffingAndDestroyedCardIsNull();
+			yield return UntilFinishedBuffingOrCardIsDestroyed();
 		}
 
 		yield return OutroEnvTeardown();
