@@ -51,6 +51,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Possessive.Create(); // Bt Y#0895
 		SkinCrawler.Create(); // Bt Y#0895
 
+		ActivatedEnergyDrawWyvern.Create();
 		BoneLordsReign.Create();
 		CreateArmyOfSkeletons.Create();
 		FlameStrafe.Create();
@@ -58,7 +59,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		GiantStrike.Create();
 		GrimoraRandomAbility.Create();
 		LitFuse.Create();
-		PayEnergyForWyvern.Create();
 
 		#endregion
 

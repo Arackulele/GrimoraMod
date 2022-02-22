@@ -20,7 +20,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		CreateArmyOfSkeletons.ability,
 		Erratic.ability,
 		InvertedStrike.ability,
-		PayEnergyForWyvern.ability,
+		ActivatedEnergyDrawWyvern.ability,
 		Possessive.ability,
 		SkinCrawler.ability,
 		Ability.ActivatedDealDamage,

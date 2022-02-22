@@ -5,7 +5,7 @@ using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
-public class PayEnergyForWyvern : ActivatedAbilityBehaviour
+public class ActivatedEnergyDrawWyvern : ActivatedAbilityBehaviour
 {
 	public static Ability ability;
 
@@ -21,6 +21,7 @@ public class PayEnergyForWyvern : ActivatedAbilityBehaviour
 	{
 		const string rulebookDescription = "Pay 3 Energy for [creature] to summon a Wyvern in your hand.";
 
-		return ApiUtils.CreateAbility<PayEnergyForWyvern>(rulebookDescription, activated: true);
+		return ApiUtils.CreateAbility<ActivatedEnergyDrawWyvern>
+			(rulebookDescription, "Screeching Call", true);
 	}
 }

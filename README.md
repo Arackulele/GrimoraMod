@@ -156,6 +156,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 #### Sigils
 
+- **Activated Energy Draw Wyvern** - Pay 3 Energy for [creature] to summon a Wyvern in your hand.
 - **Alternating Strike** - [creature] alternates between striking the opposing space to the left and right from it.
 - **Area Of Effect Strike** - [creature] will strike it's adjacent slots, and each opposing space to the left, right, and center of it.
 - **Create Army Of Skeletons** - When [creature] is played, a Skeleton is created in each empty space on the owner's side.
@@ -163,7 +164,6 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - **FlameStrafe** - Whenever [creature] moves, it leaves a trail of embers. The warmth of the Embers shall enlighten nearby cards.
 - **Inverted Strike** - [creature] will strike the opposing slot as if the board was flipped. A card in the far left slot will attack the opposing far right slot.
 - **Lit Fuse** - [creature] loses 1 health per turn. When [creature] dies, the creature opposing it, as well as adjacent friendly creatures, are dealt 10 damage.
-- **Pay Energy For Wyvern** - Pay 3 Energy for [creature] to summon a Wyvern in your hand.
 - **Possessive** - [creature] cannot be attacked from the opposing slot. The opposing slot instead attacks one of it's adjacent slots if possible.
 - **Skin Crawler** - When [creature] resolves, if possible, will hide under an adjacent card providing a +1 buff. Otherwise, it perishes. Cards on the left take priority.
 
