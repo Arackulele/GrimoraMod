@@ -30,6 +30,6 @@ public class LitFuse : ExplodeOnDeath
 			"[creature] loses 1 health per turn. " +
 			"When [creature] dies, the creature opposing it, as well as adjacent friendly creatures, are dealt 10 damage.";
 
-		return ApiUtils.CreateAbility<InvertedStrike>(rulebookDescription);
+		return ApiUtils.CreateAbility<LitFuse>(rulebookDescription);
 	}
 }
