@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3158624204
+CRC: 399336809
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 9eefdc945af74ac3d6c86c58a6f452ec
+    Hash: 5f4ddfb55c8f90ec6850bf00510a2961
   TypeTreeHash:
     serializedVersion: 2
     Hash: 22357172b8cea85847937e8f62d0c077
@@ -18,6 +18,6 @@ ClassTypes:
 SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/GrimoraMod_Unity/Materials/Boneyard_ConfirmButton_Shovel.mat
-- Assets/GrimoraMod_Unity/Materials/ElectricChair_Stat_AbilityBoost.mat
+- Assets/GrimoraMod_Unity/Materials/ElectricChair_SelectionSlot.mat
 - Assets/GrimoraMod_Unity/Materials/Boneyard_SelectionSlot.mat
 Dependencies: []
