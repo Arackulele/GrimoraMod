@@ -74,7 +74,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		         && BoardManager.Instance.GetSlots(true)
 			         .Exists(x => x.CardHasAbility(Possessive.ability))
 		         && BoardManager.Instance.GetSlots(false)
-			         .Exists(slot => slot.Card.InfoName().Equals(NameBonelord))
+			         .Exists(slot => slot.Card is not null && slot.Card.InfoName().Equals(NameBonelord))
 		        )
 		{
 			yield return new WaitForSeconds(0.5f);
