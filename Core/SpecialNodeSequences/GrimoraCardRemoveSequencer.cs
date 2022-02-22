@@ -234,7 +234,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			{
 				cardThatWillHaveEffectApplied = ApplyEffectToCards(
 					"grimora_card_bones_increase",
-					"I hope this doesn't hurt too much. [c:bR]{0}[c:] cost has increased!",
+					"I hope this doesn't hurt too much.\n[c:bR]{0}[c:] cost has increased!",
 					$"YOU DON'T HAVE ANYMORE CARDS TO {"INCREASE THEIR BONE COST".BrightRed()}, HOW SAD. NOW PLEASE LEAVE."
 				);
 
@@ -257,7 +257,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			{
 				cardThatWillHaveEffectApplied = ApplyEffectToCards(
 					"grimora_card_health_increase",
-					"The Bone Lord has been generous. [c:bR]{0}[c:] base health has increased!",
+					"The Bone Lord has been generous.\n[c:bR]{0}[c:] base health has increased!",
 					$"YOU DON'T HAVE ANYMORE CARDS TO {"GAIN HP".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
 					filterCardsOnPredicate: info => info.Health > 0
 				);
@@ -269,7 +269,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			{
 				cardThatWillHaveEffectApplied = ApplyEffectToCards(
 					"grimora_card_health_decrease",
-					"Be glad the Bone Lord doesn't take more. [c:bR]{0}[c:] base health has decreased!",
+					"Be glad the Bone Lord doesn't take more.\n[c:bR]{0}[c:] base health has decreased!",
 					$"YOU DON'T HAVE ANYMORE CARDS TO {"LOSE HP".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
 					filterCardsOnPredicate: info => info.Health > 1
 				);
