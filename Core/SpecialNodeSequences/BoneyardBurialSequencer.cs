@@ -13,8 +13,6 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 	private readonly CardInfo _revenantCardReward = NameRevenant.GetCardInfo();
 
-	private bool hasPlayedLongOutro = false;
-
 	private void Start()
 	{
 		SetMaterials();
@@ -144,7 +142,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 				finishedBuffing = true;
 			}
 
-			if (hasPlayedLongOutro)
+			if (ProgressionData.LearnedMechanic(GrimoraMechanics.Boneyard))
 			{
 				yield return TextDisplayer.Instance.ShowUntilInput("MARVELOUS! THEY CAME CRAWLING BACK AFTER YOU BURIED THEM.");
 				yield return TextDisplayer.Instance.ShowUntilInput("THEY STILL CARE ABOUT YOU IT SEEMS!");
@@ -157,11 +155,11 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 				yield return TextDisplayer.Instance.ShowUntilInput(
 					"ITS BONES HOLLOWED THROUGH BY THE CREATURES OF THE SOIL, LEAVING THE DEAR THING A ROTTED HUSK OF ITS FORMER SELF.");
 				yield return TextDisplayer.Instance.ShowUntilInput("THOUGH THE WEIGHT OF CONSEQUENCE ALSO SEEMS LIFTED...");
-				hasPlayedLongOutro = true;
+
+				ProgressionData.SetMechanicLearned(GrimoraMechanics.Boneyard);
 			}
 		}
-		
-		ProgressionData.SetMechanicLearned(GrimoraMechanics.Boneyard);
+
 
 		yield return OutroEnvTeardown();
 

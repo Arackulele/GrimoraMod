@@ -40,6 +40,8 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		if (!ProgressionData.LearnedMechanic(GrimoraMechanics.CardRemoval))
 		{
 			yield return TextDisplayer.Instance.ShowUntilInput("I HOPE FOR YOUR SAKE HE IS FEELING GENEROUS.");
+
+			ProgressionData.SetMechanicLearned(GrimoraMechanics.CardRemoval);
 		}
 
 		sacrificeSlot.RevealAndEnable();
@@ -151,8 +153,6 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			Log.LogDebug($"Destroying boon card game object");
 			Destroy(boonCard.gameObject);
 		}
-
-		ProgressionData.SetMechanicLearned(GrimoraMechanics.CardRemoval);
 
 		yield return OutroSequence();
 	}
