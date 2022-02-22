@@ -44,7 +44,7 @@ public class GrimoraItemsManagerExt : ItemsManager
 
 			ext.hammerSlot = part3ItemsManager.hammerSlot;
 			Vector3 extentsCopy = ext.hammerSlot.GetComponent<BoxCollider>().extents;
-			ext.hammerSlot.GetComponent<BoxCollider>().extents = new Vector3(1f, extentsCopy.y, extentsCopy.z); 
+			ext.hammerSlot.GetComponent<BoxCollider>().extents = new Vector3(1f, extentsCopy.y, extentsCopy.z);
 			part3ItemsManager.hammerSlot.transform.SetParent(ext.transform);
 
 			float xVal = ConfigHelper.Instance.HasIncreaseSlotsMod ? -8.75f : -7.5f;
@@ -68,23 +68,27 @@ public class AddNewHammerExt
 	[HarmonyPrefix]
 	public static bool InitHammerExtAfter(ItemSlot __instance, ItemData data, bool skipDropAnimation = false)
 	{
-		if (GrimoraSaveUtil.isGrimora && data.prefabId.Equals("HammerItem"))
+		if (GrimoraSaveUtil.isGrimora)
 		{
 			if (__instance.Item != null)
 			{
 				Object.Destroy(__instance.Item.gameObject);
 			}
 
-			Log.LogDebug($"Adding new HammerItemExt");
-			HammerItemExt grimoraHammer = Object.Instantiate(
-				AssetConstants.GrimoraHammer,
-				__instance.transform
-			).AddComponent<HammerItemExt>();
-			Log.LogDebug($"Setting data to old hammer data");
-			grimoraHammer.Data = ResourceBank.Get<Item>("Prefabs/Items/" + data.PrefabId).Data;
-			__instance.Item = grimoraHammer;
-			__instance.Item.SetData(data);
-			__instance.Item.PlayEnterAnimation();
+			if (data.prefabId.Equals("HammerItem"))
+			{
+				Log.LogDebug($"Adding new HammerItemExt");
+				HammerItemExt grimoraHammer = Object.Instantiate(
+					AssetConstants.GrimoraHammer,
+					__instance.transform
+				).AddComponent<HammerItemExt>();
+				Log.LogDebug($"Setting data to old hammer data");
+				grimoraHammer.Data = ResourceBank.Get<Item>("Prefabs/Items/" + data.PrefabId).Data;
+				__instance.Item = grimoraHammer;
+				__instance.Item.SetData(data);
+				__instance.Item.PlayEnterAnimation();
+			}
+
 			return false;
 		}
 
