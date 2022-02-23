@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3126550988
+CRC: 565688552
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 457cde79172e04dacffeffde28135d5a
+    Hash: 4f606354e2e584ceefd9764403b1b112
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -27,6 +27,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Dybbuk.png
 - Assets/GrimoraMod_Unity/Cards/Skelemaniac_emission.png
 - Assets/GrimoraMod_Unity/Cards/Sarcophagus.png
+- Assets/GrimoraMod_Unity/Cards/DeathKnell_emission.png
 - Assets/GrimoraMod_Unity/Cards/Franknstein.png
 - Assets/GrimoraMod_Unity/Cards/DeadPets.png
 - Assets/GrimoraMod_Unity/Cards/Silbon_emission.png
@@ -67,6 +68,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/PlagueDoctor_emission.png
 - Assets/GrimoraMod_Unity/Cards/Mummy.png
 - Assets/GrimoraMod_Unity/Cards/ArmoredZombie.png
+- Assets/GrimoraMod_Unity/Cards/DeathKnell.png
 - Assets/GrimoraMod_Unity/Cards/Summoner.png
 - Assets/GrimoraMod_Unity/Cards/Family.png
 - Assets/GrimoraMod_Unity/Cards/SkeletonArmy.png
