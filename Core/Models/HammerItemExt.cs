@@ -20,8 +20,6 @@ public class HammerItemExt : HammerItem
 
 	private int _useCounter = 0;
 
-	public int UseCounter => _useCounter;
-
 	public override IEnumerator OnValidTargetSelected(CardSlot targetSlot, GameObject firstPersonItem)
 	{
 		firstPersonItem.GetComponentInChildren<Animator>().SetTrigger(Hit);
