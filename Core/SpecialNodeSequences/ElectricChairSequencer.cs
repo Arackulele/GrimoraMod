@@ -288,9 +288,9 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	{
 		List<CardInfo> deckCopy = GrimoraSaveUtil.DeckListCopy;
 		deckCopy.RemoveAll(card => card.Abilities.Count == 4
-		                       || card.SpecialAbilities.Contains(SpecialTriggeredAbility.RandomCard)
-		                       || card.traits.Contains(Trait.Pelt)
-		                       || card.traits.Contains(Trait.Terrain)
+		                           || card.SpecialAbilities.Contains(SpecialTriggeredAbility.RandomCard)
+		                           || card.traits.Contains(Trait.Pelt)
+		                           || card.traits.Contains(Trait.Terrain)
 		);
 
 		return deckCopy;
@@ -461,7 +461,6 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private static IEnumerable<CompositeFigurine> CreateElectricChair(GameObject cardStatObj)
 	{
-		Log.LogDebug("[ElectricChair] creating chair");
 		CompositeFigurine chairFigurine = Instantiate(
 			AssetConstants.ElectricChairForSelectionSlot,
 			new Vector3(-0.05f, 4.9f, 1.2f),

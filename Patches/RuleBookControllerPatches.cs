@@ -17,7 +17,6 @@ public class RuleBookControllerPatches
 		}
 
 		List<RuleBookPageInfo> pageInfos = new List<RuleBookPageInfo>();
-		Log.LogDebug($"[RuleBookController.Start] About to start adding all rulebooks");
 		List<int> abilitiesNoCategory = AbilitiesUtil.AllData
 			// this is needed because Sinkhole and another ability will throw IndexOutOfBounds exceptions
 			.Where(info => info.LocalizedRulebookDescription.IsNotEmpty())

@@ -364,8 +364,6 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 	private static CompositeFigurine CreateGravediggerFigurine(GameObject cardStatObj)
 	{
-		Log.LogDebug($"[Boneyard] creating gravedigger");
-
 		CompositeFigurine gravediggerFigurine = Instantiate(
 			AssetConstants.BoneyardFigurine,
 			new Vector3(0, 5, 2.5f),
@@ -382,7 +380,6 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 	private static CompositeFigurine CreateGrave(GameObject cardStatObj)
 	{
-		Log.LogDebug($"[Boneyard] creating grave");
 		CompositeFigurine grave = Instantiate(
 			AssetConstants.BoneyardGrave,
 			new Vector3(0, 4f, 0.6f),

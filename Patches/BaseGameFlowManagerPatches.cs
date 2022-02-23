@@ -76,7 +76,6 @@ public class BaseGameFlowManagerPatches
 	{
 		if (BoardManager.Instance is not null && BoardManager.Instance.cardSelector is null)
 		{
-			Log.LogDebug($"[AddCardSelectorObjectForTutor] Creating BoardCardSelection object");
 			SelectableCardArray boardCardSelection
 				= new GameObject("BoardCardSelection").AddComponent<SelectableCardArray>();
 			boardCardSelection.arrayWidth = 5;
@@ -223,7 +222,6 @@ public class BaseGameFlowManagerPatches
 			return;
 		}
 
-		Log.LogDebug($"[AddRareCardSequencerToScene] Creating new rare choice generator");
 		GameObject rareCardChoicesSelector = Object.Instantiate(
 			ResourceBank.Get<GameObject>("Prefabs/SpecialNodeSequences/RareCardChoiceSelector"),
 			SpecialNodeHandler.Instance.transform
@@ -236,7 +234,6 @@ public class BaseGameFlowManagerPatches
 		sequencer.selectableCardPrefab = AssetConstants.GrimoraSelectableCard;
 
 		SpecialNodeHandler.Instance.rareCardChoiceSequencer = sequencer;
-		Log.LogDebug($"[AddRareCardSequencerToScene] Finished adding GrimoraRareChoiceGenerator");
 	}
 
 	[HarmonyPostfix, HarmonyPatch(nameof(GameFlowManager.TransitionTo))]

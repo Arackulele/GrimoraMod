@@ -31,11 +31,8 @@ public class GrimoraItemsManagerExt : ItemsManager
 
 		if (ext is null)
 		{
-			Log.LogDebug($"[AddHammer] Creating hammer and GrimoraItemsManagerExt");
-
 			ext = GrimoraItemsManager.Instance.gameObject.AddComponent<GrimoraItemsManagerExt>();
 			ext.consumableSlots = currentItemsManager.consumableSlots;
-			Log.LogDebug($"[AddHammer] Destroying old manager");
 			Destroy(currentItemsManager);
 
 			Part3ItemsManager part3ItemsManager = Instantiate(
@@ -54,11 +51,8 @@ public class GrimoraItemsManagerExt : ItemsManager
 
 		if (FindObjectOfType<Part3ItemsManager>() is not null)
 		{
-			Log.LogDebug($"[AddHammer] Destroying existing part3ItemsManager");
 			Destroy(FindObjectOfType<Part3ItemsManager>().gameObject);
 		}
-
-		Log.LogDebug($"[AddHammer] Finished adding hammer");
 	}
 }
 

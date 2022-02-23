@@ -417,7 +417,5 @@ public class ChessboardMapExt : GameMap
 			piece.gameObject.SetActive(false);
 			Destroy(piece.gameObject);
 		}
-
-		Log.LogDebug($"[ChangeChessboardToExtendedClass] Finished adding ChessboardMapExt");
 	}
 }
