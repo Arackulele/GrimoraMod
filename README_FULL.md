@@ -625,18 +625,50 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed
   Blueprints
 
-## Special thanks to
+## Full Credits
 
-- LavaErrorDoggo for making a lot of the Artwork
+### Misc:
 
-- YisusWhy for the epic Bone Lord Artwork
+- kisephila (Addie Brahem) for the Soundtrack
+
+- Cactus (cactus#0003) for making the official Trailer
+
+- Arackulele for Balancing, polish, and other miscellanious things
 
 - JulianMods (xXxStoner420BongMasterxXx) for refactoring the code.
 
-- Cevin_2006 for additional Card Art
+### Code:
 
-- Bt Y#0895 for currently working on Artwork for the mod
+- JulianMods (xXxStoner420BongMasterxXx) for being the Main Developer
 
-- Kopie for being a former developer.
+- Arackulele for additional programming
 
-- Draconis17#3692 for the new energy cells game object!
+### Artists:
+
+- LavaErrorDoggo (LavaErrorDoggo#1564) for making the Original Act 2 Cards but in full Size Artwork
+
+- Bt Y#0895 for currently working on artwork for the mod
+
+- Cevin_2006 (Cevin2006™ (◕‿◕)#7971) for additional Card art
+
+- Arackulele for additional Card art
+
+- Lich Underling (Lich underling#7678) for additional Card Art
+
+### 3D Models
+
+- Pink (Pink#6999) for making the Boss Skull Models , currently working on a full crypt 3D Model, etc
+
+- Catboy Stinkbug (Catboy Stinkbug#4099) for the Board Skull 3D Models
+
+- Draconis17#3692 for the new energy cells game object.
+
+### Dialogue:
+
+Primordial Clok-Roo (The Primordial Clok-Roo#2156) for a ton of future Dialogue
+
+- Bob the Nerd (BobTheNerd10#2164) for some event dialogue
+
+- Arackulele, for the original Dialogue
+
+- JulianMods (xXxStoner420BongMasterxXx) for additional Dialogue
