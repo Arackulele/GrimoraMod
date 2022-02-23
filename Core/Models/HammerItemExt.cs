@@ -8,8 +8,19 @@ namespace GrimoraMod;
 
 public class HammerItemExt : HammerItem
 {
+	private static readonly int Glossiness = Shader.PropertyToID("_GlossMapScale");
 	private static readonly int Hit = Animator.StringToHash("hit");
+
+	private readonly int _hammerOption = ConfigHelper.Instance.HammerDialogueOption;
+
+	private bool HasNotPlayedDialogueOnce =>
+		_hammerOption == 1 && ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue;
+
+	private Material HammerHandleMat => transform.Find("Handle").GetComponent<MeshRenderer>().material;
+
 	private int _useCounter = 0;
+
+	public int UseCounter => _useCounter;
 
 	public override IEnumerator OnValidTargetSelected(CardSlot targetSlot, GameObject firstPersonItem)
 	{
@@ -47,39 +58,41 @@ public class HammerItemExt : HammerItem
 			}
 		}
 
-		int hammerOption = ConfigHelper.Instance.HammerDialogueOption;
-		if (hammerOption != 0)
+		if (_useCounter == 1)
 		{
-			bool hasNotPlayedOnce = hammerOption == 1 && ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue;
-			if (hasNotPlayedOnce || hammerOption == 2)
-			{
-				if (_useCounter == 1)
-				{
-					StartCoroutine(
-						TextDisplayer.Instance.ShowUntilInput("DON'T GET TOO ACCUSTOMED TO THAT HAMMER, DEAR.")
-					);
-					StartCoroutine(
-						TextDisplayer.Instance.ShowUntilInput(
-							"THE FRAIL THING WILL SHATTER AFTER EXCESSIVE USE. THREE STRIKES, AND IT'S OUT.")
-					);
-				}
-				else if (_useCounter == 2)
-				{
-					StartCoroutine(
-						TextDisplayer.Instance.ShowUntilInput("GETTING CARRIED AWAY ARE WE? YOU CAN ONLY USE IT ONE MORE TIME.")
-					);
-				}
-				else if (_useCounter >= 3)
-				{
-					StartCoroutine(TextDisplayer.Instance.ShowUntilInput(
-						"THE HAMMER IS NOW BROKEN AND YOU CAN NO LONGER USE IT. I WILL HAVE IT FIXED FOR THE NEXT BATTLE THOUGH..."
-					));
-					ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue = false;
-				}
-			}
+			PlayDialogue(
+				"DON'T GET TOO ACCUSTOMED TO THAT HAMMER, DEAR.",
+				"THE FRAIL THING WILL SHATTER AFTER EXCESSIVE USE. THREE STRIKES, AND IT'S OUT."
+			);
+			HammerHandleMat.SetFloat(Glossiness, 0.6f);
+		}
+		else if (_useCounter == 2)
+		{
+			PlayDialogue("GETTING CARRIED AWAY ARE WE? YOU CAN ONLY USE IT ONE MORE TIME.");
+			HammerHandleMat.SetFloat(Glossiness, 1f);
+		}
+		else if (_useCounter >= 3)
+		{
+			PlayDialogue(
+				"THE HAMMER IS NOW BROKEN AND YOU CAN NO LONGER USE IT. I WILL HAVE IT FIXED FOR THE NEXT BATTLE THOUGH..."
+			);
+			ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue = false;
+			gameObject.SetActive(false);
 		}
 
 		yield return new WaitForSeconds(0.65f);
+	}
+
+
+	public void PlayDialogue(params string[] dialogue)
+	{
+		if (HasNotPlayedDialogueOnce || _hammerOption == 2)
+		{
+			foreach (var line in dialogue)
+			{
+				StartCoroutine(TextDisplayer.Instance.ShowThenClear(line, 5f));
+			}
+		}
 	}
 
 	public override bool ExtraActivationPrerequisitesMet()
