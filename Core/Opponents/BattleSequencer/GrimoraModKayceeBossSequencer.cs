@@ -22,7 +22,7 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 		return playerUpkeep;
 	}
 
-	private int _freezeCounter = 1;
+	private int _freezeCounter = 2;
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{

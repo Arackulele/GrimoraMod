@@ -71,7 +71,7 @@ public class KayceeBossOpponent : BaseBossExt
 		{
 			new() { bp_Draugr, bp_Draugr },
 			new() { bp_Draugr, bp_Draugr },
-			new() { bp_Skeleton },
+			new() { bp_Zombie },
 			new(),
 			new() { bp_Skeleton, bp_Revenant, bp_Draugr },
 			new(),
