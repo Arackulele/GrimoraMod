@@ -4,9 +4,9 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameLoyalPirate = "GrimoraMod_LoyalPirate";
+	public const string NameExplodingPirate = "GrimoraMod_ExplodingPirate";
 	
-	private void Add_LoyalPirate()
+	private void Add_ExplodingPirate()
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsNormalCard()
@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(0, 2)
 			.SetBoneCost(1)
 			.SetDescription("THAT'S WHAT HAPPENS WHEN YOU PLAY WITH BOMBS!")
-			.SetNames(NameLoyalPirate, "Loyal Pirate")
+			.SetNames(NameExplodingPirate, "Exploding Pirate")
 			.Build()
 		);
 	}

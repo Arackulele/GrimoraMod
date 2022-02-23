@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 835241044
+CRC: 3828857145
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b85813b70145eee63e015736d1126595
+    Hash: b7e360611d464e28b87f49e95bab361b
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7859cd501ea75098bcf7e53f1b477c26
@@ -23,6 +23,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Abilities/ability_ActivatedEnergyDrawWyvern.png
 - Assets/GrimoraMod_Unity/Abilities/ability_BoneLordsReign.png
 - Assets/GrimoraMod_Unity/Abilities/ability_SkinCrawler.png
+- Assets/GrimoraMod_Unity/Abilities/ability_LitFuse_Blind.png
 - Assets/GrimoraMod_Unity/Abilities/ability_Possessive.png
 - Assets/GrimoraMod_Unity/Abilities/ability_Erratic.png
 - Assets/GrimoraMod_Unity/Abilities/ability_GainAttackBones.png

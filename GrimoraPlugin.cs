@@ -81,6 +81,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_DrownedSoul();
 		Add_Dybbuk(); // Bt Y#0895
 		Add_Ember_spirit();
+		Add_ExplodingPirate();
 		Add_Family();
 		Add_Flames();
 		Add_Franknstein();
@@ -108,7 +109,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_SporeDigger();
 		Add_Summoner();
 		Add_TombRobber();
-		Add_LoyalPirate();
 		Add_Wendigo();
 		Add_Wyvern();
 		Add_ZombieGeck();
