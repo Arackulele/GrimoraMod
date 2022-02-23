@@ -60,21 +60,19 @@ public class HammerItemExt : HammerItem
 
 		if (_useCounter == 1)
 		{
-			PlayDialogue(
-				"DON'T GET TOO ACCUSTOMED TO THAT HAMMER, DEAR.",
-				"THE FRAIL THING WILL SHATTER AFTER EXCESSIVE USE. THREE STRIKES, AND IT'S OUT."
-			);
+			yield return TextDisplayer.Instance.ShowUntilInput("DON'T GET TOO ACCUSTOMED TO THAT HAMMER, DEAR.");
+			yield return PlayDialogue("THE FRAIL THING WILL SHATTER AFTER EXCESSIVE USE. THREE STRIKES, AND IT'S OUT.");
 			HammerHandleMat.SetFloat(Glossiness, 0.6f);
 		}
 		else if (_useCounter == 2)
 		{
-			PlayDialogue("GETTING CARRIED AWAY ARE WE? YOU CAN ONLY USE IT ONE MORE TIME.");
+			yield return PlayDialogue("GETTING CARRIED AWAY ARE WE? YOU CAN ONLY USE IT ONE MORE TIME.");
 			HammerHandleMat.SetFloat(Glossiness, 1f);
 		}
 		else if (_useCounter >= 3)
 		{
-			PlayDialogue(
-				"THE HAMMER IS NOW BROKEN AND YOU CAN NO LONGER USE IT. I WILL HAVE IT FIXED FOR THE NEXT BATTLE THOUGH..."
+			yield return PlayDialogue(
+				"THE HAMMER IS NOW BROKEN DEAR. I WILL HAVE IT FIXED FOR THE NEXT BATTLE THOUGH..."
 			);
 			ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue = false;
 			gameObject.SetActive(false);
@@ -84,14 +82,11 @@ public class HammerItemExt : HammerItem
 	}
 
 
-	public void PlayDialogue(params string[] dialogue)
+	public IEnumerator PlayDialogue(string dialogue)
 	{
 		if (HasNotPlayedDialogueOnce || _hammerOption == 2)
 		{
-			foreach (var line in dialogue)
-			{
-				StartCoroutine(TextDisplayer.Instance.ShowThenClear(line, 5f));
-			}
+			yield return TextDisplayer.Instance.ShowThenClear(dialogue, 3f);
 		}
 	}
 
