@@ -108,7 +108,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_SporeDigger();
 		Add_Summoner();
 		Add_TombRobber();
-		Add_UnluckyPirate();
+		Add_LoyalPirate();
 		Add_Wendigo();
 		Add_Wyvern();
 		Add_ZombieGeck();
