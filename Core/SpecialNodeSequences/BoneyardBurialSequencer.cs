@@ -13,32 +13,6 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 	private readonly CardInfo _revenantCardReward = NameRevenant.GetCardInfo();
 
-	private bool hasPlayedLongOutro = false;
-
-	private void Start()
-	{
-		SetMaterials();
-	}
-
-	private void SetMaterials()
-	{
-		Material statBoostBoneyard = AssetUtils.GetPrefab<Material>("StatBoostBoneyard");
-		selectionSlot.specificRenderers[0].material = statBoostBoneyard;
-		selectionSlot.specificRenderers[0].sharedMaterial = statBoostBoneyard;
-		selectionSlot.transform.localPosition = new Vector3(0, 5.13f, 0.51f);
-		selectionSlot.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
-		selectionSlot.transform.localRotation = Quaternion.Euler(0, 0, 0);
-
-		var stoneQuad = confirmStone.transform.Find("Quad").GetComponent<MeshRenderer>();
-		Material shovelForButton = AssetUtils.GetPrefab<Material>("BoneyardBurialShovel");
-		stoneQuad.material = shovelForButton;
-		stoneQuad.sharedMaterial = shovelForButton;
-		selectionSlot.defaultColor = GrimoraColors.GrimoraText;
-		selectionSlot.baseColor = GrimoraColors.GrimoraText;
-		stoneQuad.transform.localScale = new Vector3(1.75f, 1.75f, 1.75f);
-		stoneQuad.transform.localRotation = Quaternion.Euler(90, 0, 0);
-	}
-
 	private IEnumerator InitialSetup()
 	{
 		stakeRingParent.SetActive(false);
@@ -60,35 +34,6 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		stakeRingParent.SetActive(true);
 		ExplorableAreaManager.Instance.HandLight.gameObject.SetActive(true);
 		campfireLight.gameObject.SetActive(true);
-		selectionSlot.gameObject.SetActive(true);
-		selectionSlot.RevealAndEnable();
-		selectionSlot.ClearDelegates();
-
-		SelectCardFromDeckSlot selectCardFromDeckSlot = selectionSlot;
-		selectCardFromDeckSlot.CursorSelectStarted =
-			(Action<MainInputInteractable>)Delegate.Combine(
-				selectCardFromDeckSlot.CursorSelectStarted,
-				new Action<MainInputInteractable>(OnSlotSelected)
-			);
-		if (UnityEngine.Random.value < 0.25f && VideoCameraRig.Instance != null)
-		{
-			VideoCameraRig.Instance.PlayCameraAnim("refocus_quick");
-		}
-
-		AudioController.Instance.PlaySound3D(
-			"campfire_light",
-			MixerGroup.TableObjectsSFX,
-			selectionSlot.transform.position
-		);
-		AudioController.Instance.SetLoopAndPlay("campfire_loop", 1);
-		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
-		AudioController.Instance.FadeInLoop(0.5f, 0.75f, 1);
-		InteractionCursor.Instance.SetEnabled(false);
-		yield return new WaitForSeconds(0.25f);
-
-		yield return pile.SpawnCards(GrimoraSaveUtil.DeckList.Count, 0.5f);
-		TableRuleBook.Instance.SetOnBoard(true);
-		InteractionCursor.Instance.SetEnabled(true);
 	}
 
 	public IEnumerator BurialSequence()
@@ -107,18 +52,51 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		}
 		else
 		{
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				"A LONE GRAVE SITS SOLEMNLY IN FRONT OF YOU.", -0.65f
+			if (!ProgressionData.LearnedMechanic(GrimoraMechanics.Boneyard))
+			{
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					"A LONE GRAVE SITS SOLEMNLY IN FRONT OF YOU.", -0.65f
+				);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					"IN FRONT OF IT IS A MOUND OF EARTH, LEFT BY SOMEONE WHO'S ALREADY PASSED ON.", -0.65f
+				);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					$"PERHAPS A MEMBER OF YOUR UNDEAD HORDE COULD {"DIG THEM UP?".BrightRed()}", -0.65f
+				);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					"THIS WOULDN'T BE WITHOUT REPERCUSSIONS OF COURSE, AS DEATH IS NEVER PERMANENT.", -0.65f
+				);
+			}
+
+			selectionSlot.gameObject.SetActive(true);
+			selectionSlot.RevealAndEnable();
+			selectionSlot.ClearDelegates();
+
+			SelectCardFromDeckSlot selectCardFromDeckSlot = selectionSlot;
+			selectCardFromDeckSlot.CursorSelectStarted =
+				(Action<MainInputInteractable>)Delegate.Combine(
+					selectCardFromDeckSlot.CursorSelectStarted,
+					new Action<MainInputInteractable>(OnSlotSelected)
+				);
+			if (UnityEngine.Random.value < 0.25f && VideoCameraRig.Instance != null)
+			{
+				VideoCameraRig.Instance.PlayCameraAnim("refocus_quick");
+			}
+
+			AudioController.Instance.PlaySound3D(
+				"campfire_light",
+				MixerGroup.TableObjectsSFX,
+				selectionSlot.transform.position
 			);
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				"IN FRONT OF IT IS A MOUND OF EARTH, LEFT BY SOMEONE WHO'S ALREADY PASSED ON.", -0.65f
-			);
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				$"PERHAPS A MEMBER OF YOUR UNDEAD HORDE COULD {"DIG THEM UP?".BrightRed()}", -0.65f
-			);
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				"THIS WOULDN'T BE WITHOUT REPERCUSSIONS OF COURSE, AS DEATH IS NEVER PERMANENT.", -0.65f
-			);
+			AudioController.Instance.SetLoopAndPlay("campfire_loop", 1);
+			AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
+			AudioController.Instance.FadeInLoop(0.5f, 0.75f, 1);
+			InteractionCursor.Instance.SetEnabled(false);
+			yield return new WaitForSeconds(0.25f);
+
+			yield return pile.SpawnCards(GrimoraSaveUtil.DeckList.Count, 0.5f);
+			TableRuleBook.Instance.SetOnBoard(true);
+			InteractionCursor.Instance.SetEnabled(true);
 
 			yield return confirmStone.WaitUntilConfirmation();
 			bool finishedBuffing = false;
@@ -141,7 +119,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 				finishedBuffing = true;
 			}
 
-			if (hasPlayedLongOutro)
+			if (ProgressionData.LearnedMechanic(GrimoraMechanics.Boneyard))
 			{
 				yield return TextDisplayer.Instance.ShowUntilInput("MARVELOUS! THEY CAME CRAWLING BACK AFTER YOU BURIED THEM.");
 				yield return TextDisplayer.Instance.ShowUntilInput("THEY STILL CARE ABOUT YOU IT SEEMS!");
@@ -154,9 +132,11 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 				yield return TextDisplayer.Instance.ShowUntilInput(
 					"ITS BONES HOLLOWED THROUGH BY THE CREATURES OF THE SOIL, LEAVING THE DEAR THING A ROTTED HUSK OF ITS FORMER SELF.");
 				yield return TextDisplayer.Instance.ShowUntilInput("THOUGH THE WEIGHT OF CONSEQUENCE ALSO SEEMS LIFTED...");
-				hasPlayedLongOutro = true;
+
+				ProgressionData.SetMechanicLearned(GrimoraMechanics.Boneyard);
 			}
 		}
+
 
 		yield return OutroEnvTeardown();
 
@@ -203,7 +183,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 	private IEnumerator NoValidCardsSequence()
 	{
 		revenantCard = Instantiate(
-			PrefabConstants.GrimoraSelectableCard,
+			AssetConstants.GrimoraSelectableCard,
 			new Vector3(0, 12, 1.75f),
 			Quaternion.identity,
 			transform
@@ -311,7 +291,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		}
 
 		GameObject cardStatObj = Instantiate(
-			PrefabConstants.CardStatBoostSequencer,
+			AssetConstants.CardStatBoostSequencer,
 			SpecialNodeHandler.Instance.transform
 		);
 		cardStatObj.name = "BoneyardBurialSequencer_Grimora";
@@ -337,7 +317,6 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 			Destroy(oldSequencer.stakeRingParent.transform.GetChild(i).gameObject);
 		}
 
-
 		var newSequencer = cardStatObj.AddComponent<BoneyardBurialSequencer>();
 
 		newSequencer.campfireLight = oldSequencer.campfireLight;
@@ -350,12 +329,29 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		newSequencer.figurines.AddRange(CreateTombstones(cardStatObj));
 
 		newSequencer.pile = oldSequencer.pile;
-		newSequencer.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
+		newSequencer.pile.cardbackPrefab = AssetConstants.GrimoraCardBack;
 
 		newSequencer.selectionSlot = oldSequencer.selectionSlot;
-		newSequencer.selectionSlot.cardSelector.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
-		newSequencer.selectionSlot.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
-		newSequencer.selectionSlot.specificRenderers.RemoveAt(1);
+		Material selectionSlotMat = AssetConstants.BoneyardSelectionSlot;
+
+		var selectionSlot = newSequencer.selectionSlot;
+		selectionSlot.cardSelector.selectableCardPrefab = AssetConstants.GrimoraSelectableCard;
+		selectionSlot.pile.cardbackPrefab = AssetConstants.GrimoraCardBack;
+		selectionSlot.specificRenderers.RemoveAt(1);
+		selectionSlot.specificRenderers[0].material = selectionSlotMat;
+		selectionSlot.specificRenderers[0].sharedMaterial = selectionSlotMat;
+		selectionSlot.transform.localPosition = new Vector3(0, 5.13f, 0.51f);
+		selectionSlot.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+		selectionSlot.transform.localRotation = Quaternion.Euler(0, 0, 0);
+		selectionSlot.defaultColor = GrimoraColors.GrimoraText;
+		selectionSlot.baseColor = GrimoraColors.GrimoraText;
+
+		var stoneQuad = newSequencer.confirmStone.transform.Find("Quad").GetComponent<MeshRenderer>();
+		Material shovelForConfirmButton = AssetConstants.BoneyardConfirmButton;
+		stoneQuad.material = shovelForConfirmButton;
+		stoneQuad.sharedMaterial = shovelForConfirmButton;
+		stoneQuad.transform.localScale = new Vector3(1.75f, 1.75f, 1.75f);
+		stoneQuad.transform.localRotation = Quaternion.Euler(90, 0, 0);
 
 		newSequencer.retrieveCardInteractable = oldSequencer.retrieveCardInteractable;
 
@@ -368,10 +364,8 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 	private static CompositeFigurine CreateGravediggerFigurine(GameObject cardStatObj)
 	{
-		Log.LogDebug($"[Boneyard] creating gravedigger");
-
 		CompositeFigurine gravediggerFigurine = Instantiate(
-			PrefabConstants.BoneyardFigurine,
+			AssetConstants.BoneyardFigurine,
 			new Vector3(0, 5, 2.5f),
 			Quaternion.Euler(0, 180, 0),
 			cardStatObj.transform
@@ -386,9 +380,8 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 	private static CompositeFigurine CreateGrave(GameObject cardStatObj)
 	{
-		Log.LogDebug($"[Boneyard] creating grave");
 		CompositeFigurine grave = Instantiate(
-			PrefabConstants.BoneyardGrave,
+			AssetConstants.BoneyardGrave,
 			new Vector3(0, 4f, 0.6f),
 			Quaternion.Euler(0, 90, 0),
 			cardStatObj.transform
@@ -403,22 +396,22 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 	private static List<CompositeFigurine> CreateTombstones(GameObject cardStatObj)
 	{
 		var stakeRing = cardStatObj.transform.Find("StakeRing");
-		var tombstone1 = Instantiate(PrefabConstants.Tombstone3, stakeRing).AddComponent<CompositeFigurine>();
+		var tombstone1 = Instantiate(AssetConstants.Tombstone3, stakeRing).AddComponent<CompositeFigurine>();
 		tombstone1.transform.localPosition = new Vector3(-3, 0, -2.5f);
 		tombstone1.transform.localRotation = Quaternion.Euler(0, 90, 0);
 		tombstone1.transform.localScale = new Vector3(10, 10, 10);
 
-		var tombstone2 = Instantiate(PrefabConstants.Tombstone3, stakeRing).AddComponent<CompositeFigurine>();
+		var tombstone2 = Instantiate(AssetConstants.Tombstone3, stakeRing).AddComponent<CompositeFigurine>();
 		tombstone2.transform.localPosition = new Vector3(-1.8f, 0, 0);
 		tombstone2.transform.localRotation = Quaternion.Euler(0, 135, 0);
 		tombstone2.transform.localScale = new Vector3(10, 10, 10);
 
-		var tombstone3 = Instantiate(PrefabConstants.Tombstone3, stakeRing).AddComponent<CompositeFigurine>();
+		var tombstone3 = Instantiate(AssetConstants.Tombstone3, stakeRing).AddComponent<CompositeFigurine>();
 		tombstone3.transform.localPosition = new Vector3(1.8f, 0, 0);
 		tombstone3.transform.localRotation = Quaternion.Euler(0, -135, 0);
 		tombstone3.transform.localScale = new Vector3(10, 10, 10);
 
-		var tombstone4 = Instantiate(PrefabConstants.Tombstone3, stakeRing).AddComponent<CompositeFigurine>();
+		var tombstone4 = Instantiate(AssetConstants.Tombstone3, stakeRing).AddComponent<CompositeFigurine>();
 		tombstone4.transform.localPosition = new Vector3(3f, 0, -2.5f);
 		tombstone3.transform.localRotation = Quaternion.Euler(0, 90, 0);
 		tombstone4.transform.localScale = new Vector3(10, 10, 10);

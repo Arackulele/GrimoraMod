@@ -91,10 +91,10 @@ public class MenuControllerPatches
 		);
 		menuCardGrimora.name = "MenuCard_Grimora";
 
-		menuCardGrimora.GetComponent<SpriteRenderer>().sprite = AssetUtils.GetPrefab<Sprite>("MenuCard");
+		menuCardGrimora.GetComponent<SpriteRenderer>().sprite = AssetConstants.MenuCardGrimora;
 		menuCardGrimora.menuAction = MenuAction.Continue;
 		menuCardGrimora.titleText = "Start Grimora Mod";
-		menuCardGrimora.titleSprite = AssetUtils.GetPrefab<Sprite>("menutext_grimora_mod");
+		menuCardGrimora.titleSprite = AssetConstants.TitleSprite;
 
 		Vector3 cardRowLocalPosition = cardRow.transform.localPosition;
 		cardRow.transform.localPosition = new Vector3(-0.23f, cardRowLocalPosition.y, cardRowLocalPosition.z);

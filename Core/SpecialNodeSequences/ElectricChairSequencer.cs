@@ -20,7 +20,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		CreateArmyOfSkeletons.ability,
 		Erratic.ability,
 		InvertedStrike.ability,
-		PayEnergyForWyvern.ability,
+		ActivatedEnergyDrawWyvern.ability,
 		Possessive.ability,
 		SkinCrawler.ability,
 		Ability.ActivatedDealDamage,
@@ -90,15 +90,20 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		}
 		else
 		{
-			yield return TextDisplayer.Instance.ShowUntilInput("OH! I LOVE THIS ONE!");
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				$"YOU STRAP ONE OF YOUR CARDS TO THE CHAIR, {"EMPOWERING".Blue()} IT!"
-			);
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				"OF COURSE, IT DOESN'T HURT.\nYOU CAN'T DIE TWICE AFTER ALL."
-			);
+			if (!ProgressionData.LearnedMechanic(GrimoraMechanics.ElectricChar))
+			{
+				yield return TextDisplayer.Instance.ShowUntilInput("OH! I LOVE THIS ONE!");
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					$"YOU STRAP ONE OF YOUR CARDS TO THE CHAIR, {"EMPOWERING".Blue()} IT!"
+				);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					"OF COURSE, IT DOESN'T HURT.\nYOU CAN'T DIE TWICE AFTER ALL."
+				);
 
-			yield return WhileNotFinishedBuffingAndDestroyedCardIsNull();
+				ProgressionData.SetMechanicLearned(GrimoraMechanics.ElectricChar);
+			}
+
+			yield return UntilFinishedBuffingOrCardIsDestroyed();
 		}
 
 		yield return OutroEnvTeardown();
@@ -108,7 +113,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		}
 	}
 
-	private IEnumerator WhileNotFinishedBuffingAndDestroyedCardIsNull()
+	private IEnumerator UntilFinishedBuffingOrCardIsDestroyed()
 	{
 		yield return confirmStone.WaitUntilConfirmation();
 		CardInfo destroyedCard = null;
@@ -127,7 +132,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			);
 			ApplyModToCard(selectionSlot.Card.Info);
 			selectionSlot.Card.Anim.PlayTransformAnimation();
-			yield return new WaitForSeconds(0.5f);
+			yield return new WaitForSeconds(0.15f);
 			selectionSlot.Card.SetInfo(selectionSlot.Card.Info);
 			selectionSlot.Card.SetInteractionEnabled(false);
 			yield return new WaitForSeconds(0.75f);
@@ -281,14 +286,14 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private new static List<CardInfo> GetValidCards()
 	{
-		List<CardInfo> list = GrimoraSaveUtil.DeckListCopy;
-		list.RemoveAll(card => card.Abilities.Count == 4
-		                       || card.SpecialAbilities.Contains(SpecialTriggeredAbility.RandomCard)
-		                       || card.traits.Contains(Trait.Pelt)
-		                       || card.traits.Contains(Trait.Terrain)
+		List<CardInfo> deckCopy = GrimoraSaveUtil.DeckListCopy;
+		deckCopy.RemoveAll(card => card.Abilities.Count == 4
+		                           || card.SpecialAbilities.Contains(SpecialTriggeredAbility.RandomCard)
+		                           || card.traits.Contains(Trait.Pelt)
+		                           || card.traits.Contains(Trait.Terrain)
 		);
 
-		return list;
+		return deckCopy;
 	}
 
 	private IEnumerator InitialSetup()
@@ -383,7 +388,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		}
 
 		GameObject cardStatObj = Instantiate(
-			PrefabConstants.CardStatBoostSequencer,
+			AssetConstants.CardStatBoostSequencer,
 			SpecialNodeHandler.Instance.transform
 		);
 		cardStatObj.name = "ElectricChairSequencer_Grimora";
@@ -431,15 +436,15 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		newSequencer.figurines.AddRange(CreateElectricChair(cardStatObj));
 
 		newSequencer.pile = oldSequencer.pile;
-		newSequencer.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
+		newSequencer.pile.cardbackPrefab = AssetConstants.GrimoraCardBack;
 
 		newSequencer.selectionSlot = oldSequencer.selectionSlot;
 		newSequencer.selectionSlot.transform.localPosition = new Vector3(0, 7.2f, 1.2f);
 		newSequencer.selectionSlot.transform.localRotation = Quaternion.Euler(270, 0, 0);
-		newSequencer.selectionSlot.cardSelector.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
-		newSequencer.selectionSlot.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
+		newSequencer.selectionSlot.cardSelector.selectableCardPrefab = AssetConstants.GrimoraSelectableCard;
+		newSequencer.selectionSlot.pile.cardbackPrefab = AssetConstants.GrimoraCardBack;
 		var stoneQuad = newSequencer.selectionSlot.transform.Find("Quad").GetComponent<MeshRenderer>();
-		Material abilityBoostMat = AssetUtils.GetPrefab<Material>("ElectricChair_Stat_AbilityBoost");
+		Material abilityBoostMat = AssetConstants.ElectricChairSelectionSlot;
 		stoneQuad.material = abilityBoostMat;
 		stoneQuad.sharedMaterial = abilityBoostMat;
 
@@ -456,9 +461,8 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private static IEnumerable<CompositeFigurine> CreateElectricChair(GameObject cardStatObj)
 	{
-		Log.LogDebug("[ElectricChair] creating chair");
 		CompositeFigurine chairFigurine = Instantiate(
-			PrefabConstants.ElectricChairForSelectionSlot,
+			AssetConstants.ElectricChairForSelectionSlot,
 			new Vector3(-0.05f, 4.9f, 1.2f),
 			Quaternion.Euler(0, 180, 0),
 			cardStatObj.transform

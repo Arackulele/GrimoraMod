@@ -51,18 +51,20 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Possessive.Create(); // Bt Y#0895
 		SkinCrawler.Create(); // Bt Y#0895
 
+		ActivatedEnergyDrawWyvern.Create();
 		BoneLordsReign.Create();
 		CreateArmyOfSkeletons.Create();
 		FlameStrafe.Create();
 		GainAttackBones.Create();
 		GiantStrike.Create();
 		GrimoraRandomAbility.Create();
-		PayEnergyForWyvern.Create();
+		LitFuse.Create();
 
 		#endregion
 
 		#region AddingCards
 
+		Add_Amoeba();
 		Add_ArmoredZombie();
 		Add_Banshee();
 		Add_Bonepile(); // Bt Y#0895
@@ -71,6 +73,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Bonelord();
 		Add_BonelordsHorn();
 		Add_BooHag(); // Bt Y#0895
+		Add_CorpseMaggots();
 		Add_DanseMacabre(); // Bt Y#0895
 		Add_DeadHand();
 		Add_DeadPets();
@@ -78,6 +81,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_DrownedSoul();
 		Add_Dybbuk(); // Bt Y#0895
 		Add_Ember_spirit();
+		Add_ExplodingPirate();
 		Add_Family();
 		Add_Flames();
 		Add_Franknstein();
@@ -111,8 +115,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Zombie();
 
 		#endregion
-
-		ResizeArtworkForVanillaBoneCards();
 
 		if (ConfigHelper.Instance.isHotReloadEnabled)
 		{
@@ -178,36 +180,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		Destroy(gameObject, 6f);
 	}
-
-	private static void ResizeArtworkForVanillaBoneCards()
-	{
-		List<string> cardsToResizeArtwork = new List<string>
-		{
-			"Amoeba", "Maggots"
-		};
-
-		foreach (var cardName in cardsToResizeArtwork)
-		{
-			CardInfo cardInfo = cardName.GetCardInfo();
-			CardBuilder builder = CardBuilder.Builder
-				.SetAsNormalCard()
-				.SetAbilities(cardInfo.abilities.ToArray())
-				.SetBaseAttackAndHealth(cardInfo.baseAttack, cardInfo.baseHealth)
-				.SetBoneCost(cardInfo.bonesCost)
-				.SetDescription(cardInfo.description)
-				.SetNames("GrimoraMod_" + cardInfo.name, cardInfo.displayedName)
-				.SetTribes(cardInfo.tribes.ToArray());
-
-			if (cardName == "Amoeba")
-			{
-				builder.SetAsRareCard();
-				builder.SetAbilities(GrimoraRandomAbility.ability);
-			}
-
-			NewCard.Add(builder.Build());
-		}
-	}
-
 
 	private static void LoadAssets()
 	{

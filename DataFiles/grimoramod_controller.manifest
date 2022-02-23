@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 110870015
+CRC: 799932012
 Hashes:
   AssetFileHash:
     serializedVersion: 2
@@ -16,8 +16,8 @@ ClassTypes:
 SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/Resources/animation/cards/gravestonecard/gravestonecard_arm_attack_creature.anim
-- Assets/GrimoraMod/Animations/GravestoneCardAnim - Copy.controller
-- Assets/GrimoraMod/Animations/gravestonecard_flip.anim
+- Assets/GrimoraMod_Unity/Animations/GravestoneCardAnim - Copy.controller
+- Assets/GrimoraMod_Unity/Animations/gravestonecard_flip.anim
 - Assets/Resources/animation/cards/gravestonecard/gravestonecard_die.anim
 - Assets/Resources/animation/cards/gravestonecard/gravestonecard_arm_attack_player.anim
 - Assets/Resources/animation/cards/gravestonecard/gravestonecard_flip_faceup.anim

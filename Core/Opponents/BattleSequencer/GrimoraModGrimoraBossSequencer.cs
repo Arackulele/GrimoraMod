@@ -57,8 +57,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 	public override IEnumerator OpponentUpkeep()
 	{
 		if (!playedDialogueDeathTouch &&
-		    BoardManager.Instance.GetSlots(true)
-			    .Exists(x => x.CardHasAbility(Ability.Deathtouch))
+		    BoardManager.Instance.GetSlots(true).Exists(x => x.CardHasAbility(Ability.Deathtouch))
 		    && BoardManager.Instance.GetSlots(false)
 			    .Exists(slot => slot.CardHasSpecialAbility(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility))
 		   )
@@ -71,10 +70,8 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 			playedDialogueDeathTouch = true;
 		}
 		else if (!playedDialoguePossessive
-		         && BoardManager.Instance.GetSlots(true)
-			         .Exists(x => x.CardHasAbility(Possessive.ability))
-		         && BoardManager.Instance.GetSlots(false)
-			         .Exists(slot => slot.Card.InfoName().Equals(NameBonelord))
+		         && BoardManager.Instance.GetSlots(true).Exists(x => x.CardHasAbility(Possessive.ability))
+		         && BoardManager.Instance.GetSlots(false).Exists(slot => slot.CardInSlotIs(NameBonelord))
 		        )
 		{
 			yield return new WaitForSeconds(0.5f);
@@ -109,8 +106,10 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		if (opponentQueuedSlots.IsNotEmpty())
 		{
 			ViewManager.Instance.SwitchToView(View.BossCloseup);
-			yield return TextDisplayer.Instance.PlayDialogueEvent("GrimoraBossReanimate1",
-				TextDisplayer.MessageAdvanceMode.Input);
+			yield return TextDisplayer.Instance.PlayDialogueEvent(
+				"GrimoraBossReanimate1",
+				TextDisplayer.MessageAdvanceMode.Input
+			);
 
 			CardSlot slot = opponentQueuedSlots[UnityEngine.Random.Range(0, opponentQueuedSlots.Count)];
 			yield return TurnManager.Instance.Opponent.QueueCard(card.Info, slot);

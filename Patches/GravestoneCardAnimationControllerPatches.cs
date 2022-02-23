@@ -147,9 +147,7 @@ public class GravestoneCardAnimBaseClassPatches
 			yield break;
 		}
 
-		yield return new WaitForSeconds(0.6f);
 		__instance.Anim.Play("card_flip_inair");
-		yield return new WaitForSeconds(0.15f);
 	}
 
 	[HarmonyPrefix, HarmonyPatch(nameof(CardAnimationController.PlayTransformAnimation))]
@@ -160,7 +158,7 @@ public class GravestoneCardAnimBaseClassPatches
 			return true;
 		}
 
-		((GravestoneCardAnimationController)__instance).SetTrigger("flip");
+		__instance.Anim.Play("card_flip");
 		return false;
 	}
 }

@@ -20,28 +20,28 @@ public class GrimoraChessboard
 			},
 			{
 				typeof(ChessboardBoneyardPiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.BoneyardFigurine, GetBoneyardNodes)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.BoneyardFigurine, GetBoneyardNodes)
 			},
 			{
 				typeof(ChessboardCardRemovePiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.CardRemovalFigurine,
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.CardRemovalFigurine,
 					GetCardRemovalNodes)
 			},
 			{
 				typeof(ChessboardChestPiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.ChestPiece.gameObject, GetChestNodes)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.ChestPiece.gameObject, GetChestNodes)
 			},
 			{
 				typeof(ChessboardElectricChairPiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.ElectricChair, GetElectricChairNodes)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.ElectricChair, GetElectricChairNodes)
 			},
 			{
 				typeof(ChessboardEnemyPiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.EnemyPiece.gameObject, GetEnemyNodes)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.EnemyPiece.gameObject, GetEnemyNodes)
 			},
 			{
 				typeof(ChessboardGoatEyePiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.GoatEyeFigurine, GetGoatEyeNodes)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.GoatEyeFigurine, GetGoatEyeNodes)
 			}
 		};
 	}
@@ -63,8 +63,8 @@ public class GrimoraChessboard
 		{
 			// the reason for doing this is because the materials are massive if in our own asset bundle, 5MB+ total
 			// so lets just use the already existing material in the game
-			2 => PrefabConstants.WoodenBoxMaterial,
-			3 => PrefabConstants.AncientStonesMaterial,
+			2 => AssetConstants.WoodenBoxMaterial,
+			3 => AssetConstants.AncientStonesMaterial,
 			_ => blockerPrefab.GetComponentInChildren<MeshRenderer>().material
 		};
 
@@ -283,7 +283,7 @@ public class GrimoraChessboard
 
 		if (typeof(T) == typeof(ChessboardBlockerPieceExt))
 		{
-			piece.anim = PrefabConstants.EnemyPiece.anim;
+			piece.anim = AssetConstants.EnemyPiece.anim;
 		}
 
 		piece.gridXPos = x;

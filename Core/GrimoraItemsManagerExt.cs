@@ -31,11 +31,8 @@ public class GrimoraItemsManagerExt : ItemsManager
 
 		if (ext is null)
 		{
-			Log.LogDebug($"[AddHammer] Creating hammer and GrimoraItemsManagerExt");
-
 			ext = GrimoraItemsManager.Instance.gameObject.AddComponent<GrimoraItemsManagerExt>();
 			ext.consumableSlots = currentItemsManager.consumableSlots;
-			Log.LogDebug($"[AddHammer] Destroying old manager");
 			Destroy(currentItemsManager);
 
 			Part3ItemsManager part3ItemsManager = Instantiate(
@@ -44,7 +41,7 @@ public class GrimoraItemsManagerExt : ItemsManager
 
 			ext.hammerSlot = part3ItemsManager.hammerSlot;
 			Vector3 extentsCopy = ext.hammerSlot.GetComponent<BoxCollider>().extents;
-			ext.hammerSlot.GetComponent<BoxCollider>().extents = new Vector3(1f, extentsCopy.y, extentsCopy.z); 
+			ext.hammerSlot.GetComponent<BoxCollider>().extents = new Vector3(1f, extentsCopy.y, extentsCopy.z);
 			part3ItemsManager.hammerSlot.transform.SetParent(ext.transform);
 
 			float xVal = ConfigHelper.Instance.HasIncreaseSlotsMod ? -8.75f : -7.5f;
@@ -54,11 +51,8 @@ public class GrimoraItemsManagerExt : ItemsManager
 
 		if (FindObjectOfType<Part3ItemsManager>() is not null)
 		{
-			Log.LogDebug($"[AddHammer] Destroying existing part3ItemsManager");
 			Destroy(FindObjectOfType<Part3ItemsManager>().gameObject);
 		}
-
-		Log.LogDebug($"[AddHammer] Finished adding hammer");
 	}
 }
 
@@ -68,23 +62,27 @@ public class AddNewHammerExt
 	[HarmonyPrefix]
 	public static bool InitHammerExtAfter(ItemSlot __instance, ItemData data, bool skipDropAnimation = false)
 	{
-		if (GrimoraSaveUtil.isGrimora && data.prefabId.Equals("HammerItem"))
+		if (GrimoraSaveUtil.isGrimora)
 		{
 			if (__instance.Item != null)
 			{
 				Object.Destroy(__instance.Item.gameObject);
 			}
 
-			Log.LogDebug($"Adding new HammerItemExt");
-			HammerItemExt grimoraHammer = Object.Instantiate(
-				AssetUtils.GetPrefab<GameObject>("GrimoraHammer"),
-				__instance.transform
-			).AddComponent<HammerItemExt>();
-			Log.LogDebug($"Setting data to old hammer data");
-			grimoraHammer.Data = ResourceBank.Get<Item>("Prefabs/Items/" + data.PrefabId).Data;
-			__instance.Item = grimoraHammer;
-			__instance.Item.SetData(data);
-			__instance.Item.PlayEnterAnimation();
+			if (data.prefabId.Equals("HammerItem"))
+			{
+				Log.LogDebug($"Adding new HammerItemExt");
+				HammerItemExt grimoraHammer = Object.Instantiate(
+					AssetConstants.GrimoraHammer,
+					__instance.transform
+				).AddComponent<HammerItemExt>();
+				Log.LogDebug($"Setting data to old hammer data");
+				grimoraHammer.Data = ResourceBank.Get<Item>("Prefabs/Items/" + data.PrefabId).Data;
+				__instance.Item = grimoraHammer;
+				__instance.Item.SetData(data);
+				__instance.Item.PlayEnterAnimation();
+			}
+
 			return false;
 		}
 
@@ -110,7 +108,7 @@ public class FirstPersonHammerPatch
 
 		Log.LogDebug($"[FirstPersonController] Creating new grimora first person hammer");
 		GameObject gameObject = Object.Instantiate(
-			AssetUtils.GetPrefab<GameObject>("FirstPersonGrimoraHammer"),
+			AssetConstants.GrimoraFirstPersonHammer,
 			__instance.pixelCamera.transform
 		);
 		gameObject.transform.localPosition = Vector3.zero;

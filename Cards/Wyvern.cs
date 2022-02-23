@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsRareCard()
-			.SetAbilities(PayEnergyForWyvern.ability)
+			.SetAbilities(ActivatedEnergyDrawWyvern.ability)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(4)
 			.SetDescription("A SKELETAL BEAST, IT CALLS IN MORE OF ITS KIND.")

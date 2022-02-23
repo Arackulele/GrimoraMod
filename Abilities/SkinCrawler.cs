@@ -64,7 +64,7 @@ public class SkinCrawler : AbilityBehaviour
 			PlayableCard cardToPick = slotToPick.Card;
 			CardSlot cardSlotToPick = slotToPick.Card.Slot;
 
-			ViewManager.Instance.SwitchToView(View.Board);
+			ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 
 			yield return new WaitForSeconds(0.4f);
 			// to the left and up, like something is being added under it
@@ -83,21 +83,28 @@ public class SkinCrawler : AbilityBehaviour
 
 			// move pack from current position to the baseCardSlotPosition
 			// Log.LogDebug($"[SkinCrawler] moving BooHag to [{toRightSlotTransform.position}]");
-			TweenBase tween = Tween.Position(
+			TweenBase tweenMoveIntoCardSlot = Tween.Position(
 				Card.transform,
-				cardSlotToPick.transform.position + new Vector3(0f, 0f, 0.31f),
+				cardSlotToPick.transform.position,
 				0.4f,
 				0f,
 				Tween.EaseOut
 			);
 
-			while (tween.Status is not Tween.TweenStatus.Finished)
+			while (tweenMoveIntoCardSlot.Status is not Tween.TweenStatus.Finished)
 			{
 				// Log.LogDebug($"[SkinCrawler] playing negation effect in loop");
 				cardToPick.Anim.StrongNegationEffect();
 				yield return new WaitForSeconds(0.1f);
 			}
 
+			TweenBase tweenMoveUpward = Tween.Position(
+				Card.transform,
+				cardSlotToPick.transform.position + new Vector3(0f, 0f, 0.31f),
+				0.2f,
+				0f,
+				Tween.EaseOut
+			);
 			yield return new WaitForSeconds(0.1f);
 
 			// rotate base card with it's original rotation values so that it lays flat on the board again
@@ -130,25 +137,36 @@ public class SkinCrawler : AbilityBehaviour
 		}
 		else
 		{
+			ViewManager.Instance.SwitchToView(View.Board);
 			if (!PlayedDialogue)
 			{
 				PlayedDialogue = true;
-				ViewManager.Instance.SwitchToView(View.Board);
 				yield return TextDisplayer.Instance.ShowUntilInput("POOR THING COULDN'T FIND A HOST");
-				yield return Card.Die(false);
 			}
+
+			yield return Card.Die(false);
 		}
+
+		ViewManager.Instance.SwitchToView(View.Default, lockAfter: false);
 	}
 
-	public override bool RespondsToOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat,
-		PlayableCard killer)
+	public override bool RespondsToOtherCardDie(
+		PlayableCard card,
+		CardSlot deathSlot,
+		bool fromCombat,
+		PlayableCard killer
+	)
 	{
 		// Log.LogDebug($"[SkinCrawler] Checking if Boo Hag should respond to other card dying.");
 		return hidingUnderCard != null && card.Slot == hidingUnderCard.Slot;
 	}
 
-	public override IEnumerator OnOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat,
-		PlayableCard killer)
+	public override IEnumerator OnOtherCardDie(
+		PlayableCard card,
+		CardSlot deathSlot,
+		bool fromCombat,
+		PlayableCard killer
+	)
 	{
 		hidingUnderCard = null;
 		Card.Anim.StrongNegationEffect();

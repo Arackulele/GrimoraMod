@@ -8,6 +8,13 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(DrawNewHand))]
 public class DrawNewHandPatch
 {
+	[HarmonyPrefix, HarmonyPatch(nameof(DrawNewHand.RespondsToResolveOnBoard))]
+	public static bool OnlyDrawNewCardsForPlayer(DrawNewHand __instance, ref bool __result)
+	{
+		__result = !__instance.Card.OpponentCard;
+		return false;
+	}
+
 	[HarmonyPostfix, HarmonyPatch(nameof(DrawNewHand.OnResolveOnBoard))]
 	public static IEnumerator PostfixChangeViewAndCorrectVisuals(IEnumerator enumerator, DrawNewHand __instance)
 	{
