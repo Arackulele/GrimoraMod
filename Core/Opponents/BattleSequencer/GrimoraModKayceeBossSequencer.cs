@@ -49,8 +49,8 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 						healthAdjustment = 1 - card.Health,
 						abilities = new List<Ability>() { Ability.IceCube }
 					};
-					card.Info.iceCubeParams = new IceCubeParams() { creatureWithin = card.Info };
 					card.AddTemporaryMod(modInfo);
+					card.Info.iceCubeParams = new IceCubeParams() { creatureWithin = card.Info };
 					card.Anim.PlayTransformAnimation();
 					yield return new WaitForSeconds(0.05f);
 					card.RenderCard();
