@@ -182,18 +182,50 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - **Possessive** - [creature] cannot be attacked from the opposing slot. The opposing slot instead attacks one of it's adjacent slots if possible.
 - **Skin Crawler** - When [creature] resolves, if possible, will hide under an adjacent card providing a +1 buff. Otherwise, it perishes. Cards on the left take priority.
 
-## Special thanks to
+## Full Credits
 
-- kisephila (Addie Brahem) for the Soundtrack.
+### Misc:
 
-- LavaErrorDoggo for making a lot of the artwork.
+- kisephila (Addie Brahem) for the Soundtrack
+
+- Cactus (cactus#0003) for making the official Trailer
+
+- Arackulele for Balancing, polish, and other miscellanious things
 
 - JulianMods (xXxStoner420BongMasterxXx) for refactoring the code.
 
-- Cevin_2006 for additional card art.
+### Code:
 
-- Bt Y#0895 for currently working on artwork for the mod.
+- JulianMods (xXxStoner420BongMasterxXx) for being the Main Developer
 
-- Kopie for being a former developer.
+- Arackulele for additional programming
+
+### Artists:
+
+- LavaErrorDoggo (LavaErrorDoggo#1564) for making the Original Act 2 Cards but in full Size Artwork
+
+- Bt Y#0895 for currently working on artwork for the mod
+
+- Cevin_2006 (Cevin2006™ (◕‿◕)#7971) for additional Card art
+
+- Arackulele for additional Card art
+
+- Lich Underling (Lich underling#7678) for additional Card Art
+
+### 3D Models
+
+- Pink (Pink#6999) for making the Boss Skull Models , currently working on a full crypt 3D Model, etc
+
+- Catboy Stinkbug (Catboy Stinkbug#4099) for the Board Skull 3D Models
 
 - Draconis17#3692 for the new energy cells game object.
+
+### Dialogue:
+
+Primordial Clok-Roo (The Primordial Clok-Roo#2156) for a ton of future Dialogue
+
+- Bob the Nerd (BobTheNerd10#2164) for some event dialogue
+
+- Arackulele, for the original Dialogue
+
+- JulianMods (xXxStoner420BongMasterxXx) for additional Dialogue
