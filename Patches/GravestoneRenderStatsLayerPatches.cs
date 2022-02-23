@@ -51,7 +51,6 @@ public class GravestoneRenderStatsLayerPatches
 			for (int i = 0; i < energyCellsRightLength; i++)
 			{
 				Color value = i < energyCost - 3 ? GrimoraTextColor : GrimoraColors.AlphaZeroBlack;
-				GrimoraPlugin.Log.LogDebug($"[UpdateEnergyCost] Setting color [{value}]");
 				energyCellsRight.materials[energyCellsRightLength - i - 1].color = value;
 			}
 		}
