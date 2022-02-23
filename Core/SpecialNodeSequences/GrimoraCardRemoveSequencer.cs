@@ -166,7 +166,6 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		stoneCircleAnim.SetTrigger(Exit);
 
 		ExplorableAreaManager.Instance.ResetHangingLightsToZoneColors(0.25f);
-		// dustEmission.rateOverTime = new ParticleSystem.MinMaxCurve(0f, 0f);
 		yield return new WaitForSeconds(0.25f);
 
 		Log.LogDebug($"Confirm stone exit");
