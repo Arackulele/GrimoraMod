@@ -222,7 +222,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ### Dialogue:
 
-Primordial Clok-Roo (The Primordial Clok-Roo#2156) for a ton of future Dialogue
+- Primordial Clok-Roo (The Primordial Clok-Roo#2156) for a ton of future Dialogue
 
 - Bob the Nerd (BobTheNerd10#2164) for some event dialogue
 
