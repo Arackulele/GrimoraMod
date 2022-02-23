@@ -229,3 +229,9 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - Arackulele, for the original Dialogue
 
 - JulianMods (xXxStoner420BongMasterxXx) for additional Dialogue
+
+### Additional Credits:
+
+- Blind, the Bound Demon (Blind, the Bound Demon#6475) for Gameplay footage
+- 
+- The people of the Grimora Mod Discord Server, for Ideas , voting on features and being awesome
