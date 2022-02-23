@@ -13,6 +13,12 @@ public class IceCubePatches
 		IEnumerator enumerator, IceCube __instance, bool wasSacrifice, PlayableCard killer
 	)
 	{
+		if (GrimoraSaveUtil.isNotGrimora)
+		{
+			yield return enumerator;
+			yield break;
+		}
+
 		yield return __instance.PreSuccessfulTriggerSequence();
 		yield return new WaitForSeconds(0.3f);
 		CardInfo creatureToSpawn = "Opossum".GetCardInfo();
@@ -20,6 +26,7 @@ public class IceCubePatches
 		{
 			creatureToSpawn = __instance.Card.Info.iceCubeParams.creatureWithin;
 		}
+
 		yield return BoardManager.Instance.CreateCardInSlot(creatureToSpawn, __instance.Card.Slot, 0.15f);
 		yield return __instance.LearnAbility(0.5f);
 	}
