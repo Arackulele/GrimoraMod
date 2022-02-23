@@ -181,7 +181,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - **Lit Fuse** - [creature] loses 1 health per turn. When [creature] dies, the creature opposing it, as well as adjacent friendly creatures, are dealt 10 damage.
 - **Possessive** - [creature] cannot be attacked from the opposing slot. The opposing slot instead attacks one of it's adjacent slots if possible.
 - **Skin Crawler** - When [creature] resolves, if possible, will hide under an adjacent card providing a +1 buff. Otherwise, it perishes. Cards on the left take priority.
-
+- 
 ## Full Credits
 
 ### Misc:
@@ -224,7 +224,9 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - Primordial Clok-Roo (The Primordial Clok-Roo#2156) for a ton of future Dialogue
 
-- Bob the Nerd (BobTheNerd10#2164) for some event dialogue
+- Bob the Nerd (BobTheNerd10#2164) for some dialogue
+
+- Spooky Pig (Mr. Etc.#3925) for event dialogue
 
 - Arackulele, for the original Dialogue
 
@@ -233,5 +235,5 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 ### Additional Credits:
 
 - Blind, the Bound Demon (Blind, the Bound Demon#6475) for Gameplay footage
-- 
+
 - The people of the Grimora Mod Discord Server, for Ideas , voting on features and being awesome
