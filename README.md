@@ -188,10 +188,10 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - **Lit Fuse** - [creature] loses 1 health per turn. When [creature] dies, the creature opposing it, as well as adjacent friendly creatures, are dealt 10 damage.
 - **Possessive** - [creature] cannot be attacked from the opposing slot. The opposing slot instead attacks one of it's adjacent slots if possible.
 - **Skin Crawler** - When [creature] resolves, if possible, will hide under an adjacent card providing a +1 buff. Otherwise, it perishes. Cards on the left take priority.
-- 
+
 ## Full Credits
 
-### Misc:
+### Misc
 
 - kisephila (Addie Brahem) for the Soundtrack
 
@@ -201,13 +201,13 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - JulianMods (xXxStoner420BongMasterxXx) for refactoring the code.
 
-### Code:
+### Code
 
 - JulianMods (xXxStoner420BongMasterxXx) for being the Main Developer
 
 - Arackulele for additional programming
 
-### Artists:
+### Artists
 
 - LavaErrorDoggo (LavaErrorDoggo#1564) for making the Original Act 2 Cards but in full Size Artwork
 
@@ -227,7 +227,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - Draconis17#3692 for the new energy cells game object.
 
-### Dialogue:
+### Dialogue
 
 - Primordial Clok-Roo (The Primordial Clok-Roo#2156) for a ton of future Dialogue
 
@@ -239,7 +239,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - JulianMods (xXxStoner420BongMasterxXx) for additional Dialogue
 
-### Additional Credits:
+### Additional Credits
 
 - Blind, the Bound Demon (Blind, the Bound Demon#6475) for Gameplay footage
 
