@@ -64,55 +64,55 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		#region AddingCards
 
-		Add_Amoeba();
-		Add_ArmoredZombie();
-		Add_Banshee();
+		Add_Amoeba(); // vanilla
+		Add_ArmoredZombie(); // Ara
+		Add_Banshee(); // vanilla
 		Add_Bonepile(); // Bt Y#0895
-		Add_Bonehound();
-		Add_BonePrince();
-		Add_Bonelord();
-		Add_BonelordsHorn();
+		Add_Bonehound(); // vanilla
+		Add_BonePrince(); // LavaErrorDoggo#1564
+		Add_Bonelord(); // Ryan S Art
+		Add_BonelordsHorn(); // LavaErrorDoggo#1564
 		Add_BooHag(); // Bt Y#0895
-		Add_CorpseMaggots();
+		Add_CorpseMaggots(); // vanilla
 		Add_DanseMacabre(); // Bt Y#0895
-		Add_DeadHand();
-		Add_DeadPets();
-		Add_Draugr();
-		Add_DrownedSoul();
+		Add_DeadHand(); // Ara?
+		Add_DeadPets(); // LavaErrorDoggo#1564
+		Add_Draugr(); // Bt Y#0895
+		Add_DrownedSoul(); // LavaErrorDoggo#1564
 		Add_Dybbuk(); // Bt Y#0895
-		Add_Ember_spirit();
-		Add_ExplodingPirate();
-		Add_Family();
-		Add_Flames();
-		Add_Franknstein();
+		Add_EmberSpirit(); // // Cevin2006™ (◕‿◕)#7971
+		Add_ExplodingPirate(); // Lich underling#7678, then Ara
+		Add_Family(); // LavaErrorDoggo#1564
+		Add_Flames(); // Ara
+		Add_Franknstein(); // vanilla
 		Add_Giant(); // Bt Y#0895
-		Add_GhostShip();
-		Add_GraveDigger();
-		Add_HeadlessHorseman();
+		Add_GhostShip(); // LavaErrorDoggo#1564
+		Add_GraveDigger(); // vanilla
+		Add_HeadlessHorseman(); // LavaErrorDoggo#1564
 		Add_HellHound();
-		Add_Hydra();
-		Add_Mummy();
-		Add_Necromancer();
+		Add_Hydra(); // LavaErrorDoggo#1564 ?
+		Add_Mummy(); // Bt Y#0895
+		Add_Necromancer(); // Bt Y#0895
 		Add_Obol(); // Bt Y#0895
-		Add_PlagueDoctor();
-		Add_Poltergeist();
+		Add_PlagueDoctor(); // Cevin2006™ (◕‿◕)#7971
+		Add_Poltergeist(); // Cevin2006™ (◕‿◕)#7971
 		Add_Project(); // Bt Y#0895
 		Add_Revenant(); // vanilla
-		Add_MudWorm();
+		Add_MudWorm(); // LavaErrorDoggo#1564
 		Add_Ripper(); // Bt Y#0895
-		Add_Sarcophagus();
+		Add_Sarcophagus(); // Bt Y#0895
 		Add_Silbon(); // Bt Y#0895
 		Add_ScreamingSkull(); // Bt Y#0895
-		Add_VengefulSpirit();
-		Add_SkeletonArmy();
-		Add_Skelemagus();
-		Add_SporeDigger();
-		Add_Summoner();
-		Add_TombRobber();
-		Add_Wendigo();
-		Add_Wyvern();
-		Add_ZombieGeck();
-		Add_Zombie();
+		Add_VengefulSpirit(); // Cevin2006™ (◕‿◕)#7971
+		Add_SkeletonArmy(); // LavaErrorDoggo#1564 ?
+		Add_Skelemagus(); // LavaErrorDoggo#1564 ?
+		Add_SporeDigger(); // LavaErrorDoggo#1564
+		Add_Summoner(); // Ara
+		Add_TombRobber(); // LavaErrorDoggo#1564
+		Add_Wendigo(); // Cevin2006™ (◕‿◕)#7971
+		Add_Wyvern(); // Cevin2006™ (◕‿◕)#7971
+		Add_ZombieGeck(); // LavaErrorDoggo#1564 ?
+		Add_Zombie(); // Ara
 
 		#endregion
 
