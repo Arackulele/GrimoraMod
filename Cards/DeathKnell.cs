@@ -15,7 +15,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(SpecialTriggeredAbility.BellProximity)
 			.SetBaseAttackAndHealth(2, 2)
 			.SetBoneCost(8)
-			// .SetDescription("")
+			.SetDescription("FOR WHOM THE BELL TOLLS?")
 			.SetNames(NameDeathKnell, "Death Knell")
 			.Build()
 		);
