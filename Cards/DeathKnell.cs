@@ -12,6 +12,7 @@ public partial class GrimoraPlugin
 		NewCard.Add(CardBuilder.Builder
 			.SetAsRareCard()
 			.SetAbilities(Ability.CreateBells)
+			.SetAbilities(SpecialTriggeredAbility.BellProximity)
 			.SetBaseAttackAndHealth(2, 2)
 			.SetBoneCost(8)
 			// .SetDescription("")
