@@ -77,6 +77,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_DanseMacabre(); // Bt Y#0895
 		Add_DeadHand(); // Ara?
 		Add_DeadPets(); // LavaErrorDoggo#1564
+		Add_DeathKnell(); // Bt Y#0895
 		Add_Draugr(); // Bt Y#0895
 		Add_DrownedSoul(); // LavaErrorDoggo#1564
 		Add_Dybbuk(); // Bt Y#0895
