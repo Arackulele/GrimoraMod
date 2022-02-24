@@ -97,8 +97,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_PlagueDoctor();
 		Add_Poltergeist();
 		Add_Project(); // Bt Y#0895
-		Add_Revenant();
-		Add_RingWorm();
+		Add_Revenant(); // vanilla
+		Add_MudWorm();
 		Add_Ripper(); // Bt Y#0895
 		Add_Sarcophagus();
 		Add_Silbon(); // Bt Y#0895
