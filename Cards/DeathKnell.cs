@@ -12,9 +12,10 @@ public partial class GrimoraPlugin
 		NewCard.Add(CardBuilder.Builder
 			.SetAsRareCard()
 			.SetAbilities(Ability.CreateBells)
-			.SetBaseAttackAndHealth(2, 2)
+			.SetAbilities(SpecialTriggeredAbility.BellProximity)
+			.SetBaseAttackAndHealth(0, 2)
 			.SetBoneCost(8)
-			// .SetDescription("")
+			.SetDescription("FOR WHOM THE BELL TOLLS?")
 			.SetNames(NameDeathKnell, "Death Knell")
 			.Build()
 		);
