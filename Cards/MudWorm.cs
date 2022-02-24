@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 	private void Add_RingWorm()
 	{
 		NewCard.Add(CardBuilder.Builder
-			.SetAsNormalCard()
+			// .SetAsNormalCard()
 			.SetAbilities(Ability.DebuffEnemy)
 			.SetBaseAttackAndHealth(2, 1)
 			.SetBoneCost(5)
