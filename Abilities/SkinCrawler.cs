@@ -148,6 +148,7 @@ public class SkinCrawler : AbilityBehaviour
 		}
 
 		ViewManager.Instance.SwitchToView(View.Default, lockAfter: false);
+		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 	}
 
 	public override bool RespondsToOtherCardDie(
