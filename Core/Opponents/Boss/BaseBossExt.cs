@@ -160,8 +160,6 @@ public abstract class BaseBossExt : Part1BossOpponent
 		yield return new WaitForSeconds(0.05f);
 
 		ViewManager.Instance.SwitchToView(View.BossCloseup, false, true);
-
-		yield return new WaitForSeconds(1f);
 	}
 
 	public IEnumerator HideBossSkull()
