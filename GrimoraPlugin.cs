@@ -1,6 +1,5 @@
 global using Object = UnityEngine.Object;
 using System.Reflection;
-using APIPlugin;
 using BepInEx;
 using BepInEx.Logging;
 using DiskCardGame;
@@ -39,6 +38,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
 
 		ConfigHelper.Instance.BindConfig();
+
+		LoadAssets();
 
 		LoadCards();
 
