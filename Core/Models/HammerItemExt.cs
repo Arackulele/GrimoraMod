@@ -74,6 +74,7 @@ public class HammerItemExt : HammerItem
 			ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue = false;
 			gameObject.SetActive(false);
 		}
+		TextDisplayer.Instance.Clear();
 
 		yield return new WaitForSeconds(0.65f);
 	}
