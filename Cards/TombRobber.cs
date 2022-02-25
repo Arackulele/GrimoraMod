@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(Ability.ExplodeOnDeath)
+			.SetAbilities(ActivatedDrawSkeletonGrimora.NewAbility.ability)
 			.SetBaseAttackAndHealth(0, 1)
 			.SetDescription("NOTHING... NOTHING AGAIN... NO TREASURE IS LEFT ANYMORE.")
 			.SetNames(NameTombRobber, "Tomb Robber")
