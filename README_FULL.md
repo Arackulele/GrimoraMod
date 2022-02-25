@@ -629,7 +629,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ### Misc:
 
-- kisephila (Addie Brahem) for the Soundtrack
+- Akisephila (Addie Brahem) for the Soundtrack
 
 - Cactus (cactus#0003) for making the official Trailer
 
