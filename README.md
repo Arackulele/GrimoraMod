@@ -108,6 +108,8 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) New ability icon for `Skeleton Horde` courtesy of `Blind, the Bound Demon#6475`.
 
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New card, `Catacomb` from `Bt Y#0895`. 10 cost, 0/10 with `Lammergeier` (affects attack only).
+
 - ![Feature](https://i.imgur.com/uL9uYNV.png) New card, `Death Knell` from `Bt Y#0895`. 8 cost, 0/2 with `Bell Ringer` and `Bellist`.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) New `Mummy` and `Sarcophagus` art courtesy of `Bt Y#0895`!
