@@ -1,6 +1,5 @@
 global using Object = UnityEngine.Object;
 using System.Reflection;
-using APIPlugin;
 using BepInEx;
 using BepInEx.Logging;
 using DiskCardGame;
@@ -42,28 +41,22 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		LoadAssets();
 
-		#region AddingAbilities
+		LoadCards();
 
-		AlternatingStrike.Create(); // Bt Y#0895
-		AreaOfEffectStrike.Create(); // Bt Y#0895
-		Erratic.Create(); // Bt Y#0895
-		InvertedStrike.Create(); // Bt Y#0895
-		Possessive.Create(); // Bt Y#0895
-		SkinCrawler.Create(); // Bt Y#0895
+		if (ConfigHelper.Instance.isHotReloadEnabled)
+		{
+			Transform cardRow = MenuController.Instance.cardRow;
+			if (cardRow.Find("MenuCard_Grimora") is null)
+			{
+				MenuController.Instance.cards.Add(MenuControllerPatches.CreateButton(MenuController.Instance));
+			}
+		}
 
-		ActivatedEnergyDrawWyvern.Create();
-		BoneLordsReign.Create();
-		CreateArmyOfSkeletons.Create();
-		FlameStrafe.Create();
-		GainAttackBones.Create();
-		GiantStrike.Create();
-		GrimoraRandomAbility.Create();
-		LitFuse.Create();
+		ConfigHelper.Instance.HandleHotReloadAfter();
+	}
 
-		#endregion
-
-		#region AddingCards
-
+	private void LoadCards()
+	{
 		Add_Amoeba(); // vanilla
 		Add_ArmoredZombie(); // Ara
 		Add_Banshee(); // vanilla
@@ -73,11 +66,13 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Bonelord(); // Ryan S Art
 		Add_BonelordsHorn(); // LavaErrorDoggo#1564
 		Add_BooHag(); // Bt Y#0895
+		Add_Catacomb(); // Bt Y#0895
 		Add_CorpseMaggots(); // vanilla
 		Add_DanseMacabre(); // Bt Y#0895
 		Add_DeadHand(); // Ara?
 		Add_DeadPets(); // LavaErrorDoggo#1564
 		Add_DeathKnell(); // Bt Y#0895
+		Add_DeathKnellBell(); // Bt Y#0895
 		Add_Draugr(); // Bt Y#0895
 		Add_DrownedSoul(); // LavaErrorDoggo#1564
 		Add_Dybbuk(); // Bt Y#0895
@@ -114,19 +109,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Wyvern(); // Cevin2006™ (◕‿◕)#7971
 		Add_ZombieGeck(); // LavaErrorDoggo#1564 ?
 		Add_Zombie(); // Ara
-
-		#endregion
-
-		if (ConfigHelper.Instance.isHotReloadEnabled)
-		{
-			Transform cardRow = MenuController.Instance.cardRow;
-			if (cardRow.Find("MenuCard_Grimora") is null)
-			{
-				MenuController.Instance.cards.Add(MenuControllerPatches.CreateButton(MenuController.Instance));
-			}
-		}
-
-		ConfigHelper.Instance.HandleHotReloadAfter();
 	}
 
 	private void OnDestroy()
@@ -154,6 +136,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Destroy(FindObjectOfType<GrimoraRareChoiceGenerator>());
 		Destroy(FindObjectOfType<SpecialNodeHandler>());
 		FindObjectsOfType<ChessboardPiece>().ForEach(_ => Destroy(_.gameObject));
+		GC.Collect();
 	}
 
 	public static void SpawnParticlesOnCard(PlayableCard target, Texture2D tex, bool reduceY = false)

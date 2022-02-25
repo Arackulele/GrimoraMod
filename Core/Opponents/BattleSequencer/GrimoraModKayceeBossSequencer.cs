@@ -76,5 +76,6 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 		}
 
 		ViewManager.Instance.SwitchToView(View.Default);
+		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 	}
 }

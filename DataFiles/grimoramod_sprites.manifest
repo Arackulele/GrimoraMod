@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3762173130
+CRC: 516052368
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 0d7ee0caec467b219f664e2edcdd0425
+    Hash: 98b25a4d9a471ec58faf2c0ac85d3594
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -58,6 +58,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/DeadHand.png
 - Assets/GrimoraMod_Unity/Cards/BonelordsHorn_emission.png
 - Assets/GrimoraMod_Unity/Cards/Flames_emission.png
+- Assets/GrimoraMod_Unity/Cards/Catacomb_emission.png
 - Assets/GrimoraMod_Unity/Cards/Ripper_emission.png
 - Assets/GrimoraMod_Unity/Cards/Family_emission.png
 - Assets/GrimoraMod_Unity/Cards/HellHound.png
@@ -67,6 +68,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Skelemagus_emission.png
 - Assets/GrimoraMod_Unity/Cards/PlagueDoctor_emission.png
 - Assets/GrimoraMod_Unity/Cards/Mummy.png
+- Assets/GrimoraMod_Unity/Cards/Catacomb.png
 - Assets/GrimoraMod_Unity/Cards/ArmoredZombie.png
 - Assets/GrimoraMod_Unity/Cards/DeathKnell.png
 - Assets/GrimoraMod_Unity/Cards/Summoner.png
@@ -98,6 +100,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Ripper.png
 - Assets/GrimoraMod_Unity/Cards/DeadPets_emission.png
 - Assets/GrimoraMod_Unity/Cards/VengefulSpirit_emission.png
+- Assets/GrimoraMod_Unity/Cards/DeathKnell_Bell.png
 - Assets/GrimoraMod_Unity/Cards/GhostShip_emission.png
 - Assets/GrimoraMod_Unity/Cards/Wyvern_emission.png
 - Assets/GrimoraMod_Unity/Cards/HellHound_emission.png

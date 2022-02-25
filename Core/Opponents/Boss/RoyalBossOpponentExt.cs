@@ -23,9 +23,6 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 		GrimoraAnimationController.Instance.SetHeadBool("face_happy", true);
 
-		GrimoraAnimationController.Instance.bossSkull = RoyalBossSkull;
-		RoyalBossSkull.SetActive(true);
-
 		yield return ShowBossSkull();
 
 		SetSceneEffectsShownRoyal();
@@ -39,10 +36,10 @@ public class RoyalBossOpponentExt : BaseBossExt
 		);
 		if (!ConfigHelper.Instance.isDevModeEnabled)
 		{
-			AudioController.Instance.PlaySound2D("boss_royal");
+			AudioController.Instance.PlaySound2D("boss_royal", volume: 0.5f);
 			yield return new WaitForSeconds(0.1f);
 		}
-		
+
 		PlayTheme();
 
 		ViewManager.Instance.SwitchToView(View.Default);
@@ -56,7 +53,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 		AudioController.Instance.StopAllLoops();
 		AudioController.Instance.SetLoopAndPlay("Royal_Ruckus", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
-		AudioController.Instance.SetLoopVolume(0.75f, 5f, 1);
+		AudioController.Instance.SetLoopVolume(0.8f, 5f, 1);
 	}
 
 	private static void SetSceneEffectsShownRoyal()

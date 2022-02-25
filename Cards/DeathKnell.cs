@@ -1,5 +1,4 @@
-﻿using APIPlugin;
-using DiskCardGame;
+﻿using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -9,15 +8,14 @@ public partial class GrimoraPlugin
 
 	private void Add_DeathKnell()
 	{
-		NewCard.Add(CardBuilder.Builder
+		CardBuilder.Builder
 			.SetAsRareCard()
-			.SetAbilities(Ability.CreateBells)
-			.SetAbilities(SpecialTriggeredAbility.BellProximity)
+			.SetAbilities(CreateKnells.ability)
+			.SetAbilities(SpecialTriggeredAbility.BellProximity, SpecialTriggeredAbility.Daus)
 			.SetBaseAttackAndHealth(0, 2)
 			.SetBoneCost(8)
 			.SetDescription("FOR WHOM THE BELL TOLLS?")
 			.SetNames(NameDeathKnell, "Death Knell")
-			.Build()
-		);
+			.Build();
 	}
 }

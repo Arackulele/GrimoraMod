@@ -27,7 +27,14 @@ public class IceCubePatches
 			creatureToSpawn = __instance.Card.Info.iceCubeParams.creatureWithin;
 		}
 
-		yield return BoardManager.Instance.CreateCardInSlot(creatureToSpawn, __instance.Card.Slot, 0.15f);
+		CardSlot slot = __instance.Card.Slot;
+		SkinCrawler skinCrawler = SkinCrawler.GetSkinCrawlerFromCard(__instance.Card);
+		yield return BoardManager.Instance.CreateCardInSlot(creatureToSpawn, slot, 0.15f);
+		if (skinCrawler is not null)
+		{
+			GrimoraPlugin.Log.LogDebug($"[IceCube] SkinCrawler exists in card [{__instance.Card}] ");
+			yield return skinCrawler.AssignSkinCrawlerCardToHost(slot);
+		}
 		yield return __instance.LearnAbility(0.5f);
 	}
 }

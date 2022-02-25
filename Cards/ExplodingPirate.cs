@@ -1,6 +1,4 @@
-﻿using APIPlugin;
-
-namespace GrimoraMod;
+﻿namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
@@ -8,14 +6,13 @@ public partial class GrimoraPlugin
 	
 	private void Add_ExplodingPirate()
 	{
-		NewCard.Add(CardBuilder.Builder
+		CardBuilder.Builder
 			.SetAsNormalCard()
 			.SetAbilities(LitFuse.ability)
 			.SetBaseAttackAndHealth(0, 2)
 			.SetBoneCost(1)
 			.SetDescription("THAT'S WHAT HAPPENS WHEN YOU PLAY WITH BOMBS!")
 			.SetNames(NameExplodingPirate, "Exploding Pirate")
-			.Build()
-		);
+			.Build();
 	}
 }

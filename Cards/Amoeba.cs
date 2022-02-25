@@ -1,5 +1,4 @@
-﻿using APIPlugin;
-using DiskCardGame;
+﻿using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -10,7 +9,7 @@ public partial class GrimoraPlugin
 	private void Add_Amoeba()
 	{
 		CardInfo cardInfo = "Amoeba".GetCardInfo();
-		NewCard.Add(CardBuilder.Builder
+		CardBuilder.Builder
 			.SetAsRareCard()
 			.SetAbilities(GrimoraRandomAbility.ability)
 			.SetBaseAttackAndHealth(cardInfo.baseAttack, cardInfo.baseHealth)
@@ -18,7 +17,6 @@ public partial class GrimoraPlugin
 			.SetDescription(cardInfo.description)
 			.SetNames(NameAmoeba, cardInfo.displayedName)
 			.SetTribes(cardInfo.tribes.ToArray())
-			.Build()
-		);
+			.Build();
 	}
 }

@@ -64,7 +64,8 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		SetSceneEffectsShownGrimora();
 
 		yield return new WaitForSeconds(2f);
-		ViewManager.Instance.SwitchToView(View.Default, lockAfter: false);
+		ViewManager.Instance.SwitchToView(View.Default);
+		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 	}
 
 	public override void PlayTheme()
@@ -73,7 +74,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		AudioController.Instance.StopAllLoops();
 		AudioController.Instance.SetLoopAndPlay("Grimoras_Theme", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
-		AudioController.Instance.SetLoopVolume(0.7f, 10f, 1);
+		AudioController.Instance.SetLoopVolume(0.8f, 10f, 1);
 	}
 
 	public override IEnumerator StartNewPhaseSequence()
@@ -160,6 +161,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		}
 
 		yield return new WaitForSeconds(0.5f);
+		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 	}
 
 	private CardInfo CreateModifiedGiant()
@@ -174,9 +176,9 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	{
 		AudioController.Instance.FadeOutLoop(3f);
 		AudioController.Instance.StopAllLoops();
-		AudioController.Instance.SetLoopAndPlay("Bone_Lords_Theme");
-		AudioController.Instance.SetLoopVolumeImmediate(0.1f);
-		AudioController.Instance.FadeInLoop(7f, 0.4f, default(int));
+		AudioController.Instance.SetLoopAndPlay("Bone_Lords_Theme", 1);
+		AudioController.Instance.SetLoopVolumeImmediate(0.1f, 1);
+		AudioController.Instance.FadeInLoop(7f, 0.5f, 1);
 
 		var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
 		yield return TextDisplayer.Instance.ShowUntilInput(
@@ -207,6 +209,8 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			yield return BoardManager.Instance.CreateCardInSlot(bonelordsHorn, oppSlots[i], 0.2f);
 			yield return new WaitForSeconds(0.25f);
 		}
+		
+		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 	}
 
 	private CardInfo CreateModifiedBonelord()

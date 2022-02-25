@@ -7,6 +7,7 @@ namespace GrimoraMod;
 
 public class LitFuse : ExplodeOnDeath
 {
+	public static readonly NewAbility NewAbility = Create();
 
 	public static Ability ability;
 
@@ -19,11 +20,13 @@ public class LitFuse : ExplodeOnDeath
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
-		ViewManager.Instance.SwitchToView(View.Board);
+		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 		yield return new WaitForSeconds(0.25f);
 		yield return Card.TakeDamage(1, null);
+		yield return new WaitForSeconds(0.25f);
+		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 	}
-	
+
 	public static NewAbility Create()
 	{
 		const string rulebookDescription =

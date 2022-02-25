@@ -7,6 +7,8 @@ namespace GrimoraMod;
 
 public class GrimoraRandomAbility : AbilityBehaviour
 {
+	public static readonly NewAbility NewAbility = Create();
+
 	public static Ability ability;
 	public override Ability Ability => ability;
 
@@ -21,7 +23,7 @@ public class GrimoraRandomAbility : AbilityBehaviour
 		yield return Card.FlipInHand(AddMod);
 		yield return LearnAbility(0.5f);
 	}
-	
+
 	private void AddMod()
 	{
 		Card.Status.hiddenAbilities.Add(Ability);
@@ -31,14 +33,16 @@ public class GrimoraRandomAbility : AbilityBehaviour
 		{
 			cardModificationInfo2 = Card.Info.Mods.Find(x => x.HasAbility(Ability));
 		}
+
 		if (cardModificationInfo2 != null)
 		{
 			cardModificationInfo.fromTotem = cardModificationInfo2.fromTotem;
 			cardModificationInfo.fromCardMerge = cardModificationInfo2.fromCardMerge;
 		}
+
 		Card.AddTemporaryMod(cardModificationInfo);
 	}
-	
+
 	private Ability ChooseAbility()
 	{
 		Ability randomAbility = Ability.RandomAbility;
@@ -53,6 +57,7 @@ public class GrimoraRandomAbility : AbilityBehaviour
 				return Ability.Sharp;
 			}
 		}
+
 		GrimoraPlugin.Log.LogDebug($"[GrimoraRandomAbility] Random ability chosen [{randomAbility}]");
 		return randomAbility;
 	}

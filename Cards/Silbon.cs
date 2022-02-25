@@ -1,5 +1,4 @@
-﻿using APIPlugin;
-using DiskCardGame;
+﻿using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -9,14 +8,13 @@ public partial class GrimoraPlugin
 
 	private void Add_Silbon()
 	{
-		NewCard.Add(CardBuilder.Builder
+		CardBuilder.Builder
 			.SetAsRareCard()
 			.SetAbilities(InvertedStrike.ability, Ability.Strafe)
 			.SetBaseAttackAndHealth(3, 2)
 			.SetBoneCost(7)
 			.SetDescription("A SKILLED HUNTER. WHAT DID IT HUNT? THAT IS UNKNOWN...")
 			.SetNames(NameSilbon, "Silbon")
-			.Build()
-		);
+			.Build();
 	}
 }

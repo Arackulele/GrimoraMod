@@ -11,55 +11,84 @@ namespace GrimoraMod;
 
 public class SkinCrawler : AbilityBehaviour
 {
+	public static readonly NewAbility NewAbility = Create();
+
 	public static Ability ability;
 
-	public static bool PlayedDialogue = false;
 	public override Ability Ability => ability;
 
-	private PlayableCard hidingUnderCard;
+	private CardSlot _slotHidingUnderCard = null;
 
-	public static SkinCrawler GetSkinCrawlerFromSlot(CardSlot slot)
+	private bool cardDoesNotHaveSkinCrawlerChild = false;
+
+	public static SkinCrawler GetSkinCrawlerFromCard(PlayableCard playableCard)
 	{
-		if (slot.Card is not null)
+		for (int i = 0; i < playableCard.transform.childCount; i++)
 		{
-			PlayableCard card = slot.Card;
-			for (int i = 0; i < card.transform.childCount; i++)
+			SkinCrawler skinCrawler = playableCard.transform.GetChild(i).GetComponent<SkinCrawler>();
+			if (skinCrawler is not null)
 			{
-				SkinCrawler skinCrawler = card.transform.GetChild(i).GetComponent<SkinCrawler>();
-				if (skinCrawler is not null)
-				{
-					// now we get the card itself to add to the list
-					return skinCrawler;
-				}
+				// now we get the card itself to add to the list
+				return skinCrawler;
 			}
 		}
 
 		return null;
 	}
 
-	public override bool RespondsToResolveOnBoard()
+	public static SkinCrawler GetSkinCrawlerFromSlot(CardSlot slot)
 	{
-		return true;
+		if (slot is not null && slot.Card is not null)
+		{
+			return GetSkinCrawlerFromCard(slot.Card);
+		}
+
+		return null;
 	}
 
-	public override IEnumerator OnResolveOnBoard()
+	private CardSlot GetValidHostSlot()
 	{
-		// CardSlot toLeft = BoardManager.Instance.GetAdjacent(base.Card.Slot, adjacentOnLeft: true);
-		// Log.LogDebug($"[SkinCrawler] Checking if adj slots from [{base.Card.Slot}] are not null");
+		Log.LogDebug($"[SkinCrawler] Checking if adj slots from [{Card.Slot}] are not null");
 		CardSlot slotToPick = null;
+		CardSlot centerSlot = null;
+		if (_slotHidingUnderCard is not null)
+		{
+			centerSlot = Card.OpponentCard
+				? BoardManager.Instance.OpponentSlotsCopy[_slotHidingUnderCard.Index]
+				: BoardManager.Instance.PlayerSlotsCopy[_slotHidingUnderCard.Index];
+		}
+
+		Log.LogDebug($"[SkinCrawler] Slot for SkinCrawler [{Card.Slot}]");
 		CardSlot toLeftSlot = BoardManager.Instance.GetAdjacent(Card.Slot, true);
 		CardSlot toRightSlot = BoardManager.Instance.GetAdjacent(Card.Slot, false);
 
 		if (toLeftSlot is not null && toLeftSlot.Card is not null)
 		{
 			slotToPick = toLeftSlot;
+			Log.LogDebug($"[SkinCrawler] LeftSlot is not null, has card [{slotToPick.Card.InfoName()}]");
 		}
 		else if (toRightSlot is not null && toRightSlot.Card is not null)
 		{
 			slotToPick = toRightSlot;
+			Log.LogDebug($"[SkinCrawler] RightSlot is not null, has card [{slotToPick.Card.InfoName()}]");
+		}
+		else if (centerSlot is not null && centerSlot.Card is not null)
+		{
+			slotToPick = centerSlot;
+			Log.LogDebug($"[SkinCrawler] Center is not null, has card [{slotToPick.Card.InfoName()}]");
 		}
 
-		if (slotToPick is not null && GetSkinCrawlerFromSlot(slotToPick) is null)
+		if (GetSkinCrawlerFromSlot(slotToPick) is not null)
+		{
+			return null;
+		}
+
+		return slotToPick;
+	}
+
+	public IEnumerator AssignSkinCrawlerCardToHost(CardSlot slotToPick)
+	{
+		if (slotToPick is not null)
 		{
 			PlayableCard cardToPick = slotToPick.Card;
 			CardSlot cardSlotToPick = slotToPick.Card.Slot;
@@ -119,36 +148,73 @@ public class SkinCrawler : AbilityBehaviour
 			Log.LogDebug($"[SkinCrawler] Assigning [{cardToPick.Info.name}] to slot");
 			yield return BoardManager.Instance.AssignCardToSlot(cardToPick, cardSlotToPick);
 
-			// Log.LogDebug($"[SkinCrawler] Adding temporary mod");
 			cardToPick.AddTemporaryMod(new CardModificationInfo() { attackAdjustment = 1, healthAdjustment = 1 });
 
-			yield return new WaitUntil(() =>
-				!Tween.activeTweens.Exists((TweenBase t) => t.targetInstanceID == cardToPick.transform.GetInstanceID())
+			yield return new WaitUntil(
+				() => !Tween.activeTweens.Exists(t => t.targetInstanceID == cardToPick.transform.GetInstanceID())
 			);
 
 			Log.LogDebug($"[SkinCrawler] Setting Boo Hag as child of card");
-			transform.SetParent(cardToPick.transform); // now a child of the playable card
+			transform.SetParent(cardToPick.transform);
 			Log.LogDebug($"[SkinCrawler] Setting Boo Hag slot [{Card.Slot.Index}] to null");
+			// Card.UnassignFromSlot();
 			BoardManager.Instance.playerSlots[Card.Slot.Index].Card = null;
 			Log.LogDebug($"[SkinCrawler] Setting Boo Hag slot to [{cardSlotToPick}]");
-			Card.Slot = cardSlotToPick;
-
-			hidingUnderCard = cardToPick;
-		}
-		else
-		{
-			ViewManager.Instance.SwitchToView(View.Board);
-			if (!PlayedDialogue)
-			{
-				PlayedDialogue = true;
-				yield return TextDisplayer.Instance.ShowUntilInput("POOR THING COULDN'T FIND A HOST");
-			}
-
-			yield return Card.Die(false);
+			_slotHidingUnderCard = cardSlotToPick;
 		}
 
-		ViewManager.Instance.SwitchToView(View.Default, lockAfter: false);
+		yield return new WaitForSeconds(0.25f);
+		ViewManager.Instance.SwitchToView(View.Default);
 		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+	}
+
+	public override bool RespondsToOtherCardPreDeath(CardSlot deathSlot, bool fromCombat, PlayableCard killer)
+	{
+		// boo hag in slot 1
+		// boo hag under card in slot 2
+		// draugr dies in slot 2
+		// 
+		SkinCrawler crawler = GetSkinCrawlerFromSlot(deathSlot);
+		return crawler is null
+		       && BoardManager.Instance.GetAdjacentSlots(Card.Slot)
+			       .Exists(slot => slot is not null && slot == deathSlot);
+	}
+
+	public override IEnumerator OnOtherCardPreDeath(CardSlot deathSlot, bool fromCombat, PlayableCard killer)
+	{
+		Log.LogDebug($"[Crawler.OnOtherCardPreDeath] Setting cardDoesNotHaveSkinCrawlerChild to true");
+		cardDoesNotHaveSkinCrawlerChild = true;
+		yield break;
+	}
+
+	public override bool RespondsToOtherCardAssignedToSlot(PlayableCard otherCard)
+	{
+		Log.LogDebug(
+			$"[Crawler.RespondsToOtherCardAssignedToSlot]"
+			+ $" This {Card.GetNameAndSlot()} OtherCard {otherCard.GetNameAndSlot()}"
+		);
+		return cardDoesNotHaveSkinCrawlerChild
+		       && otherCard.Slot != Card.Slot
+		       && BoardManager.Instance.GetAdjacentSlots(Card.Slot)
+			       .Exists(slot => slot is not null && slot.Card == otherCard);
+	}
+
+	public override IEnumerator OnOtherCardAssignedToSlot(PlayableCard otherCard)
+	{
+		cardDoesNotHaveSkinCrawlerChild = false;
+		Log.LogDebug($"[Crawler.OnOtherCardAssignedToSlot] Will now buff [{otherCard.InfoName()}]");
+		yield return AssignSkinCrawlerCardToHost(otherCard.Slot);
+	}
+
+
+	public override bool RespondsToResolveOnBoard()
+	{
+		return true;
+	}
+
+	public override IEnumerator OnResolveOnBoard()
+	{
+		yield return AssignSkinCrawlerCardToHost(GetValidHostSlot());
 	}
 
 	public override bool RespondsToOtherCardDie(
@@ -158,8 +224,9 @@ public class SkinCrawler : AbilityBehaviour
 		PlayableCard killer
 	)
 	{
-		// Log.LogDebug($"[SkinCrawler] Checking if Boo Hag should respond to other card dying.");
-		return hidingUnderCard != null && card.Slot == hidingUnderCard.Slot;
+		Log.LogDebug($"[Crawler.RespondsToOtherCardDie] Card [{card.InfoName()}] has died in slot [{deathSlot}]");
+		SkinCrawler crawler = GetSkinCrawlerFromCard(card);
+		return crawler is not null && crawler.GetComponent<PlayableCard>() == Card;
 	}
 
 	public override IEnumerator OnOtherCardDie(
@@ -169,23 +236,19 @@ public class SkinCrawler : AbilityBehaviour
 		PlayableCard killer
 	)
 	{
-		hidingUnderCard = null;
-		Card.Anim.StrongNegationEffect();
-		Log.LogDebug($"[SkinCrawler] Resolving [{Card}] to deathSlot [{deathSlot.Index}]");
+		Log.LogDebug($"[SkinCrawler.OnOtherCardDie] Resolving [{Card}] to deathSlot [{deathSlot.Index}]");
 		CardInfo infoCopy = Card.Info;
-		Log.LogDebug($"[SkinCrawler] Destroying existing card");
+		Log.LogDebug($"[SkinCrawler.OnOtherCardDie] Destroying existing card to create a new one");
 		Object.Destroy(Card.gameObject);
-		Log.LogDebug($"[SkinCrawler] Creating new card");
-		yield return BoardManager.Instance.CreateCardInSlot(infoCopy, deathSlot, 0f);
-		// BoardManager.Instance.playerSlots[deathSlot.Index].Card = base.Card;
+		Log.LogDebug($"[SkinCrawler.OnOtherCardDie] Creating new card");
+		yield return BoardManager.Instance.CreateCardInSlot(infoCopy, deathSlot, 0);
 	}
 
 	public static NewAbility Create()
 	{
 		const string rulebookDescription =
-			"When [creature] resolves, if possible, " +
-			"will hide under an adjacent card providing a +1 buff. " +
-			"Otherwise, it perishes. Cards on the left take priority.";
+			"When one of your creatures is placed in an adjacent space to [creature], "
+			+ "[creature] will hide under it providing a +1 buff. Cards on the left take priority.";
 
 		return ApiUtils.CreateAbility<SkinCrawler>(rulebookDescription);
 	}
@@ -204,6 +267,9 @@ public class SkinCrawlerPatches
 			if (skinCrawler is not null)
 			{
 				// now we get the card itself to add to the list
+				Log.LogDebug(
+					$"[CardsOnBoard] Card [{card.InfoName()}] at slot [{card.slot.Index}] has a child with skin crawler"
+				);
 				newList.Add(skinCrawler.GetComponent<PlayableCard>());
 			}
 		}

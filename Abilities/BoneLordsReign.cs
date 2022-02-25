@@ -8,6 +8,8 @@ namespace GrimoraMod;
 
 public class BoneLordsReign : AbilityBehaviour
 {
+	public static readonly NewAbility NewAbility = Create();
+	
 	public static Ability ability;
 
 	public override Ability Ability => ability;

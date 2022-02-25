@@ -20,6 +20,7 @@ public class CardBuilder
 		}
 
 		AllGrimoraModCards.Add(_cardInfo);
+		NewCard.Add(_cardInfo);
 		return _cardInfo;
 	}
 
@@ -114,6 +115,12 @@ public class CardBuilder
 	internal CardBuilder SetDescription(string description)
 	{
 		_cardInfo.description = description;
+		return this;
+	}
+
+	internal CardBuilder SetAppearance(params CardAppearanceBehaviour.Appearance[] appearance)
+	{
+		_cardInfo.appearanceBehaviour = appearance.ToList();
 		return this;
 	}
 

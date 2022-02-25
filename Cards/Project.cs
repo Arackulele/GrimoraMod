@@ -1,5 +1,4 @@
-﻿using APIPlugin;
-using DiskCardGame;
+﻿using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -9,14 +8,13 @@ public partial class GrimoraPlugin
 
 	private void Add_Project()
 	{
-		NewCard.Add(CardBuilder.Builder
+		CardBuilder.Builder
 			.SetAsNormalCard()
 			.SetAbilities(Erratic.ability, Ability.SplitStrike)
 			.SetBaseAttackAndHealth(1, 3)
 			.SetBoneCost(5)
 			.SetDescription("AN EXPERIMENT GONE WRONG, OR RIGHT. IT DEPENDS ON YOUR WORLD VIEW.")
 			.SetNames(NameProject, "Project")
-			.Build()
-		);
+			.Build();
 	}
 }

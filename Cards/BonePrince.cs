@@ -1,5 +1,4 @@
-﻿using APIPlugin;
-using DiskCardGame;
+﻿using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -9,13 +8,12 @@ public partial class GrimoraPlugin
 
 	private void Add_BonePrince()
 	{
-		NewCard.Add(CardBuilder.Builder
+		CardBuilder.Builder
 			.SetBaseAttackAndHealth(2, 1)
 			.SetBoneCost(1)
 			.SetDescription("MY, WHAT A LOVELY PRINCE!")
 			.SetMetaCategories(CardMetaCategory.GBCPlayable)
 			.SetNames(NameBonePrince, "Bone Prince")
-			.Build()
-		);
+			.Build();
 	}
 }

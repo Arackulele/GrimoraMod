@@ -72,6 +72,8 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 #### Bosses
 
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) _Actually_ fixed the boss skull that Grimora holds glitching out exception that I thought I fixed in 2.6.6.
+
 ##### Kaycee
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with cards that have been ice cubed by Kaycee not having all their abilities intact when being broken out of the ice.
@@ -87,6 +89,10 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
   - This would cause the player to be unable to play zero cost bone cards like Skeleton.
   - Sawyer will now only take 1 bone from the player if the player has at least 2 bones or more.
 
+##### Royal
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Reduced cannon theme to half volume so your eardrums don't hurt.
+
 ##### Grimora
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed potential softlock in Grimora's fight if a card had `Possessive`.
@@ -95,16 +101,24 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 #### Ability/Card Changes
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Skin Crawler` ability not dying after the first time the dialogue is played. Forgot to move the card dying part outside the check for if the dialogue has not been played yet...
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed multiple issues with `Skin Crawler` ability.
+  - New description: When one of your creatures is placed in an adjacent space to [creature], [creature] will hide under it providing a +1 buff. Cards on the left take priority.
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with `Handy` ability drawing a new hand for the player if the card would die and then reanimated during the first phase of Grimora's fight.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) New card, `Death Knell` from `Bt Y#0895`. Has `Bell Ringer` and `Bellist`.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New ability icon for `Skeleton Horde` courtesy of `Blind, the Bound Demon#6475`.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New card, `Catacomb` from `Bt Y#0895`. 10 cost, 0/10 with `Lammergeier` (affects attack only).
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New card, `Death Knell` from `Bt Y#0895`. 8 cost, 0/2 with `Bell Ringer` and `Bellist`.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) New `Mummy` and `Sarcophagus` art courtesy of `Bt Y#0895`!
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Added `Exploding Pirate` card. 1 Bone, 2/2 with `Lit Fuse` sigil. Initial art from `Lich underling#7678`, with modifications from `Ara`.
   - `Lit Fuse`: [creature] loses 1 health per turn. When [creature] dies, the creature opposing it, as well as adjacent friendly creatures, are dealt 10 damage.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Changed `Tomb Robber` ability to now be `Disinter`: Pay 2 bones to create a skeleton in your hand.
+  - Similar to the act 2 ability, but nerfed to cost 2 bones instead of 1.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Nerfed `Wendigo` attack from 2 to 1, and set as a normal type of card.
 
@@ -115,7 +129,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Added `Bonehound` to normal card pool.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Updated `Skeleton Army` ability description to better clarify what it does.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Updated `Skeleton Army` ability, `Skeleton Horde`, description to better clarify what it does.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Added extra logic for when a card has `Area of Effect Strike` and `Inverted Strike` and `Alternating Strike`.
   - If `AOE Strike` and `Inverted Strike`, the slots to attack be will now be done in a counter-clockwise manner. For example,`left adj, left opposing, center, right opposing, right adj` now becomes `right adj, right opposing, center, left opposing, left adj`.
