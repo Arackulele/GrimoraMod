@@ -52,6 +52,6 @@ public class CreateArmyOfSkeletons : AbilityBehaviour
 		const string rulebookDescription =
 			"When [creature] is played, a Skeleton is created in each empty space on the owner's side. [define:Skeleton]";
 
-		return ApiUtils.CreateAbility<CreateArmyOfSkeletons>(rulebookDescription);
+		return ApiUtils.CreateAbility<CreateArmyOfSkeletons>(rulebookDescription, "Skeleton Horde");
 	}
 }
