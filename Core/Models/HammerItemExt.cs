@@ -50,7 +50,7 @@ public class HammerItemExt : HammerItem
 				}
 				else
 				{
-					yield return targetSlot.Card.TakeDamage(100, null);
+					yield return targetSlot.Card.Die(false);
 					_useCounter++;
 				}
 			}
@@ -58,7 +58,6 @@ public class HammerItemExt : HammerItem
 
 		if (_useCounter == 1)
 		{
-			yield return TextDisplayer.Instance.ShowUntilInput("DON'T GET TOO ACCUSTOMED TO THAT HAMMER, DEAR.");
 			yield return PlayDialogue("THE FRAIL THING WILL SHATTER AFTER EXCESSIVE USE. THREE STRIKES, AND IT'S OUT.");
 			HammerHandleMat.SetFloat(Glossiness, 0.6f);
 		}

@@ -16,6 +16,7 @@ public class CreateKnells : CreateBells
 		const string rulebookDescription = "When [creature] is played, a Chime is created on each empty adjacent space." +
 		                                   $" [define:{GrimoraPlugin.NameDeathKnellBell}]";
 
-		return ApiUtils.CreateAbility<Erratic>(rulebookDescription);
+		return ApiUtils.CreateAbility<CreateKnells>
+			(rulebookDescription, rulebookIcon: AbilitiesUtil.LoadAbilityIcon(Ability.CreateBells.ToString()));
 	}
 }

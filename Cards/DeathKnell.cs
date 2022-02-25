@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAsRareCard()
 			.SetAbilities(CreateKnells.ability)
 			.SetAbilities(SpecialTriggeredAbility.BellProximity, SpecialTriggeredAbility.Daus)
-			.SetBaseAttackAndHealth(1, 2)
+			.SetBaseAttackAndHealth(0, 2)
 			.SetBoneCost(8)
 			.SetDescription("FOR WHOM THE BELL TOLLS?")
 			.SetNames(NameDeathKnell, "Death Knell")
