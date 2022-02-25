@@ -36,7 +36,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 		);
 		if (!ConfigHelper.Instance.isDevModeEnabled)
 		{
-			AudioController.Instance.PlaySound2D("boss_royal");
+			AudioController.Instance.PlaySound2D("boss_royal", volume: 0.5f);
 			yield return new WaitForSeconds(0.1f);
 		}
 
