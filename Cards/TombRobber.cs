@@ -1,6 +1,4 @@
-﻿using DiskCardGame;
-
-namespace GrimoraMod;
+﻿namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
@@ -10,7 +8,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(ActivatedDrawSkeletonGrimora.NewAbility.ability)
+			.SetAbilities(ActivatedDrawSkeletonGrimora.ability)
 			.SetBaseAttackAndHealth(0, 1)
 			.SetDescription("NOTHING... NOTHING AGAIN... NO TREASURE IS LEFT ANYMORE.")
 			.SetNames(NameTombRobber, "Tomb Robber")
