@@ -32,6 +32,12 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	// Gets populated in CardBuilder.Build()
 	public static List<CardInfo> AllGrimoraModCards = new();
 
+	private static CardInfo AddCardToPool(CardInfo cardInfo)
+	{
+		NewCard.Add(cardInfo);
+		return cardInfo;
+	}
+	
 	private void Awake()
 	{
 		Log = Logger;
