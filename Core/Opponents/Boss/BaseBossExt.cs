@@ -142,7 +142,6 @@ public abstract class BaseBossExt : Part1BossOpponent
 			TableVisualEffectsManager.Instance.ResetTableColors();
 			yield return new WaitForSeconds(0.25f);
 
-			Log.LogDebug($"Setting post battle special node to a rare code node data");
 			TurnManager.Instance.PostBattleSpecialNode = new ChooseRareCardNodeData();
 		}
 		else
