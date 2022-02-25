@@ -1,6 +1,6 @@
 ﻿using APIPlugin;
 using DiskCardGame;
-using UnityEngine;
+using static DiskCardGame.CardAppearanceBehaviour;
 
 namespace GrimoraMod;
 
@@ -10,9 +10,12 @@ public partial class GrimoraPlugin
 
 	private void Add_DeathKnellBell()
 	{
-		new CustomCard("DausBell")
-		{
-			tex = AssetUtils.GetPrefab<Sprite>("DeathKnell_Bell").texture
-		};
+		NewCard.Add(CardBuilder.Builder
+			.SetAppearance(Appearance.TerrainBackground, Appearance.TerrainLayout)
+			.SetBaseAttackAndHealth(0, 1)
+			.SetNames(NameDeathKnellBell, "Chime")
+			.SetTraits(Trait.Structure, Trait.Terrain)
+			.Build()
+		);
 	}
 }

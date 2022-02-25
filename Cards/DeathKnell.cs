@@ -11,8 +11,8 @@ public partial class GrimoraPlugin
 	{
 		NewCard.Add(CardBuilder.Builder
 			.SetAsRareCard()
-			.SetAbilities(Ability.CreateBells)
-			.SetAbilities(SpecialTriggeredAbility.BellProximity)
+			.SetAbilities(CreateKnells.ability)
+			.SetAbilities(SpecialTriggeredAbility.BellProximity, SpecialTriggeredAbility.Daus)
 			.SetBaseAttackAndHealth(1, 2)
 			.SetBoneCost(8)
 			.SetDescription("FOR WHOM THE BELL TOLLS?")

@@ -46,6 +46,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		AlternatingStrike.Create(); // Bt Y#0895
 		AreaOfEffectStrike.Create(); // Bt Y#0895
+		CreateKnells.Create(); // Bt Y#0895
 		Erratic.Create(); // Bt Y#0895
 		InvertedStrike.Create(); // Bt Y#0895
 		Possessive.Create(); // Bt Y#0895

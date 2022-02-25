@@ -117,6 +117,12 @@ public class CardBuilder
 		return this;
 	}
 
+	internal CardBuilder SetAppearance(params CardAppearanceBehaviour.Appearance[] appearance)
+	{
+		_cardInfo.appearanceBehaviour = appearance.ToList();
+		return this;
+	}
+
 	internal CardBuilder SetMetaCategories(params CardMetaCategory[] categories)
 	{
 		_cardInfo.metaCategories = categories?.ToList();
