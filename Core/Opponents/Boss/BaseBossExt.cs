@@ -53,7 +53,13 @@ public abstract class BaseBossExt : Part1BossOpponent
 		};
 
 	public GameObject RoyalBossSkull => GrimoraRightWrist.transform.GetChild(6).gameObject;
-	public GameObject GrimoraBossSkull => GrimoraAnimationController.Instance.bossSkull;
+
+	public GameObject GrimoraRightHandBossSkull
+	{
+		get => GrimoraAnimationController.Instance.bossSkull;
+		set => GrimoraAnimationController.Instance.bossSkull = value;
+	}
+
 	public GameObject GrimoraRightWrist => GameObject.Find("Grimora_RightWrist");
 
 	public const Type KayceeOpponent = (Type)1001;
@@ -63,8 +69,9 @@ public abstract class BaseBossExt : Part1BossOpponent
 
 	public static readonly Dictionary<Type, GameObject> BossMasksByType = new()
 	{
+		{ KayceeOpponent, AssetConstants.BossSkullKaycee },
 		{ SawyerOpponent, AssetConstants.BossSkullSawyer },
-		{ KayceeOpponent, AssetConstants.BossSkullKaycee }
+		{ RoyalOpponent, null },
 	};
 
 	private static readonly int ShowSkull = Animator.StringToHash("show_skull");
@@ -82,17 +89,26 @@ public abstract class BaseBossExt : Part1BossOpponent
 		yield return base.IntroSequence(encounter);
 
 		// Royal boss has a specific sequence to follow so that it flows easier
-		if (BossMasksByType.TryGetValue(Opponent, out GameObject mask))
+		if (BossMasksByType.TryGetValue(Opponent, out GameObject skull))
 		{
 			Log.LogDebug($"[{GetType()}] Creating skull");
-			GrimoraAnimationController.Instance.bossSkull = Instantiate(mask, GrimoraRightWrist.transform);
-			var bossSkullTransform = GrimoraBossSkull.transform;
+			if (this is RoyalBossOpponentExt)
+			{
+				GrimoraRightHandBossSkull = RoyalBossSkull;
+				RoyalBossSkull.SetActive(true);
+			}
+			else
+			{
+				GrimoraRightHandBossSkull = Instantiate(skull, GrimoraRightWrist.transform);
+				RoyalBossSkull.SetActive(false);
+			}
+
+			var bossSkullTransform = GrimoraRightHandBossSkull.transform;
 
 			bossSkullTransform.localPosition = new Vector3(-0.0044f, 0.18f, -0.042f);
 			bossSkullTransform.localRotation = Quaternion.Euler(85.85f, 227.76f, 262.77f);
 			bossSkullTransform.localScale = new Vector3(0.14f, 0.14f, 0.14f);
 
-			RoyalBossSkull.SetActive(false);
 			yield return ShowBossSkull();
 		}
 	}
@@ -150,11 +166,12 @@ public abstract class BaseBossExt : Part1BossOpponent
 
 	public IEnumerator HideBossSkull()
 	{
-		if (GrimoraBossSkull is not null)
+		if (GrimoraRightHandBossSkull is not null)
 		{
 			GrimoraAnimationController.Instance.GlitchOutBossSkull();
 			GrimoraAnimationController.Instance.headAnim.ResetTrigger(ShowSkull);
 			GrimoraAnimationController.Instance.SetHeadTrigger("hide_skull");
+			GrimoraRightHandBossSkull = null;
 		}
 
 		yield break;
