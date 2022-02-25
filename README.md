@@ -89,6 +89,10 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
   - This would cause the player to be unable to play zero cost bone cards like Skeleton.
   - Sawyer will now only take 1 bone from the player if the player has at least 2 bones or more.
 
+##### Royal
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Reduced cannon theme to half volume so your eardrums don't hurt.
+
 ##### Grimora
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed potential softlock in Grimora's fight if a card had `Possessive`.
