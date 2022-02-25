@@ -102,6 +102,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 #### Ability/Card Changes
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed multiple issues with `Skin Crawler` ability.
+  - New description: When one of your creatures is placed in an adjacent space to [creature], [creature] will hide under it providing a +1 buff. Cards on the left take priority.
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with `Handy` ability drawing a new hand for the player if the card would die and then reanimated during the first phase of Grimora's fight.
 
