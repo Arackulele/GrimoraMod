@@ -6,6 +6,17 @@ namespace GrimoraMod;
 public static class CardRelatedExtension
 {
 
+	public static string GetNameAndSlot(this PlayableCard playableCard)
+	{
+		string printedNameAndSlot = $"[{playableCard.InfoName()}]";
+		if (playableCard.Slot is not null)
+		{
+			printedNameAndSlot += $" Slot [{playableCard.Slot.name}]";
+		}
+
+		return printedNameAndSlot;
+	}
+	
 	public static bool CardHasAbility(this CardSlot cardSlot, Ability ability)
 	{
 		return cardSlot.Card is not null && cardSlot.Card.HasAbility(ability);
@@ -13,7 +24,7 @@ public static class CardRelatedExtension
 	
 	public static bool CardHasSpecialAbility(this CardSlot cardSlot, SpecialTriggeredAbility ability)
 	{
-		return cardSlot.Card is not null && cardSlot.Card.Info.specialAbilities.Contains(ability);
+		return cardSlot.Card is not null && cardSlot.Card.Info.SpecialAbilities.Contains(ability);
 	}
 
 	public static bool CardInSlotIs(this CardSlot cardSlot, string cardName)
