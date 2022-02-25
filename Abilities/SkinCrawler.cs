@@ -147,7 +147,7 @@ public class SkinCrawler : AbilityBehaviour
 			yield return Card.Die(false);
 		}
 
-		ViewManager.Instance.SwitchToView(View.Default, lockAfter: false);
+		ViewManager.Instance.SwitchToView(View.Default);
 		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 	}
 

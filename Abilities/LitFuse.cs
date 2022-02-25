@@ -19,9 +19,11 @@ public class LitFuse : ExplodeOnDeath
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
-		ViewManager.Instance.SwitchToView(View.Board);
+		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 		yield return new WaitForSeconds(0.25f);
 		yield return Card.TakeDamage(1, null);
+		yield return new WaitForSeconds(0.25f);
+		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 	}
 	
 	public static NewAbility Create()

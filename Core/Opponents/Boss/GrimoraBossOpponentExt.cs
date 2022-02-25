@@ -64,7 +64,8 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		SetSceneEffectsShownGrimora();
 
 		yield return new WaitForSeconds(2f);
-		ViewManager.Instance.SwitchToView(View.Default, lockAfter: false);
+		ViewManager.Instance.SwitchToView(View.Default);
+		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 	}
 
 	public override void PlayTheme()
@@ -160,6 +161,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		}
 
 		yield return new WaitForSeconds(0.5f);
+		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 	}
 
 	private CardInfo CreateModifiedGiant()
@@ -207,6 +209,8 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			yield return BoardManager.Instance.CreateCardInSlot(bonelordsHorn, oppSlots[i], 0.2f);
 			yield return new WaitForSeconds(0.25f);
 		}
+		
+		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 	}
 
 	private CardInfo CreateModifiedBonelord()
