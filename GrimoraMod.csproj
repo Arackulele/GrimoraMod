@@ -10,7 +10,7 @@
 		<RootNamespace>GrimoraMod</RootNamespace>
 		<LangVersion>10</LangVersion>
 		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
-		<Configurations>Debug;Release;HotReload</Configurations>
+		<Configurations>Debug;Release;HotReload;Thunderstore</Configurations>
 		<Platforms>AnyCPU</Platforms>
 	</PropertyGroup>
 
@@ -47,7 +47,7 @@
 		<Message Text="Copied build files" Importance="High" />
 	</Target>
 
-	<Target Name="ZipFiles" AfterTargets="Build">
+	<Target Name="ZipFiles" AfterTargets="Build" Condition="$(Configuration) == 'Thunderstore' ">
 		<Exec Command="7z u -tzip GrimoraMod.zip .\DataFiles .\README.md .\manifest.json .\icon.png $(TargetDir)$(ProjectName).dll" />
 	</Target>
 
