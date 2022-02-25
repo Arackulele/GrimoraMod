@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3949175276
+CRC: 904201798
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8da411f059ce7b56b94f0f71672b1923
+    Hash: ebd46978c80160402ec15ecdb5930947
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -98,6 +98,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Ripper.png
 - Assets/GrimoraMod_Unity/Cards/DeadPets_emission.png
 - Assets/GrimoraMod_Unity/Cards/VengefulSpirit_emission.png
+- Assets/GrimoraMod_Unity/Cards/DeathKnell_Bell.png
 - Assets/GrimoraMod_Unity/Cards/GhostShip_emission.png
 - Assets/GrimoraMod_Unity/Cards/Wyvern_emission.png
 - Assets/GrimoraMod_Unity/Cards/HellHound_emission.png
