@@ -74,7 +74,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		AudioController.Instance.StopAllLoops();
 		AudioController.Instance.SetLoopAndPlay("Grimoras_Theme", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
-		AudioController.Instance.SetLoopVolume(0.5f, 10f, 1);
+		AudioController.Instance.SetLoopVolume(0.8f, 10f, 1);
 	}
 
 	public override IEnumerator StartNewPhaseSequence()
@@ -178,7 +178,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		AudioController.Instance.StopAllLoops();
 		AudioController.Instance.SetLoopAndPlay("Bone_Lords_Theme", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0.1f, 1);
-		AudioController.Instance.FadeInLoop(7f, 0.3f, 1);
+		AudioController.Instance.FadeInLoop(7f, 0.5f, 1);
 
 		var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
 		yield return TextDisplayer.Instance.ShowUntilInput(

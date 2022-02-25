@@ -53,7 +53,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 		AudioController.Instance.StopAllLoops();
 		AudioController.Instance.SetLoopAndPlay("Royal_Ruckus", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
-		AudioController.Instance.SetLoopVolume(0.5f, 5f, 1);
+		AudioController.Instance.SetLoopVolume(0.8f, 5f, 1);
 	}
 
 	private static void SetSceneEffectsShownRoyal()

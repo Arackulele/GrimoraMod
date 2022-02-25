@@ -46,7 +46,7 @@ public class SawyerBossOpponent : BaseBossExt
 		AudioController.Instance.StopAllLoops();
 		AudioController.Instance.SetLoopAndPlay("Dogbite", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
-		AudioController.Instance.SetLoopVolume(0.75f, 5f, 1);
+		AudioController.Instance.SetLoopVolume(0.9f, 3f, 1);
 	}
 
 	private static void SetSceneEffectsShownSawyer()
