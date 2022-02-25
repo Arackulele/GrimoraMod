@@ -33,10 +33,12 @@ public class GrimoraModSawyerBossSequencer : GrimoraModBossBattleSequencer
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"PLEASE, WON'T YOU SPARE SOME BONES FOR A POOR GHOUL LIKE ME?"
 			);
-			ViewManager.Instance.SwitchToView(View.BoneTokens);
+			ViewManager.Instance.SwitchToView(View.BoneTokens, lockAfter: true);
 			yield return new WaitForSeconds(0.75f);
 			yield return ResourcesManager.Instance.SpendBones(1);
+			yield return new WaitForSeconds(0.75f);
 			bonesTakenCounter = 0;
+			ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 		}
 	}
 }
