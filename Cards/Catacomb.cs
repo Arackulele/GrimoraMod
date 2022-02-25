@@ -1,6 +1,4 @@
-﻿using DiskCardGame;
-
-namespace GrimoraMod;
+﻿namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
@@ -10,7 +8,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAsRareCard()
-			.SetAbilities(SpecialTriggeredAbility.Lammergeier)
+			.SetAbilities(LammergeierAttack.NewSpecialAbility.specialTriggeredAbility)
 			.SetBaseAttackAndHealth(0, 10)
 			.SetBoneCost(10)
 			.SetNames(NameCatacomb, "Catacomb")
