@@ -136,6 +136,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Destroy(FindObjectOfType<GrimoraRareChoiceGenerator>());
 		Destroy(FindObjectOfType<SpecialNodeHandler>());
 		FindObjectsOfType<ChessboardPiece>().ForEach(_ => Destroy(_.gameObject));
+		GC.Collect();
 	}
 
 	public static void SpawnParticlesOnCard(PlayableCard target, Texture2D tex, bool reduceY = false)
