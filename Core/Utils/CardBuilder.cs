@@ -20,6 +20,7 @@ public class CardBuilder
 		}
 
 		AllGrimoraModCards.Add(_cardInfo);
+		NewCard.Add(_cardInfo);
 		return _cardInfo;
 	}
 

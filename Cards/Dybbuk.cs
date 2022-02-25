@@ -1,5 +1,3 @@
-using APIPlugin;
-
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
@@ -8,14 +6,13 @@ public partial class GrimoraPlugin
 
 	private void Add_Dybbuk()
 	{
-		NewCard.Add(CardBuilder.Builder
+		CardBuilder.Builder
 			.SetAsRareCard()
 			.SetAbilities(Possessive.ability)
 			.SetBaseAttackAndHealth(0, 1)
 			.SetBoneCost(3)
 			.SetDescription("NO ONE KNOWS WHAT EXACTLY THE DYBBUK IS, SOME SAY IT IS BETTER LEFT UNKNOWN.")
 			.SetNames(NameDybbuk, "Dybbuk")
-			.Build()
-		);
+			.Build();
 	}
 }

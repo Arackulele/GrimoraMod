@@ -1,5 +1,4 @@
-﻿using APIPlugin;
-using DiskCardGame;
+﻿using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -9,7 +8,7 @@ public partial class GrimoraPlugin
 
 	private void Add_Sarcophagus()
 	{
-		NewCard.Add(CardBuilder.Builder
+		CardBuilder.Builder
 			.SetAsNormalCard()
 			.SetAbilities(Ability.Evolve)
 			.SetBaseAttackAndHealth(0, 2)
@@ -17,7 +16,6 @@ public partial class GrimoraPlugin
 			.SetEvolve(NameMummy, 1)
 			.SetDescription("THE CYCLE OF THE MUMMY LORD, NEVER ENDING.")
 			.SetNames(NameSarcophagus, "Sarcophagus")
-			.Build()
-		);
+			.Build();
 	}
 }

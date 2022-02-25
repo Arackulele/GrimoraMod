@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using APIPlugin;
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
@@ -13,7 +12,7 @@ public partial class GrimoraPlugin
 
 	private void Add_Giant()
 	{
-		NewCard.Add(CardBuilder.Builder
+		CardBuilder.Builder
 				.SetAsNormalCard()
 				.SetAbilities(Ability.QuadrupleBones, Ability.SplitStrike)
 				.SetBaseAttackAndHealth(2, 7)
@@ -23,7 +22,7 @@ public partial class GrimoraPlugin
 				.SetDescription("TRULY A SIGHT TO BEHOLD.")
 				.Build()
 			// , specialAbilitiesIdsParam: new List<SpecialAbilityIdentifier> { sbIds.id }
-		);
+			;
 	}
 }
 

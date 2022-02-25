@@ -1,5 +1,3 @@
-using APIPlugin;
-
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
@@ -8,14 +6,13 @@ public partial class GrimoraPlugin
 
 	private void Add_Wyvern()
 	{
-		NewCard.Add(CardBuilder.Builder
+		CardBuilder.Builder
 			.SetAsRareCard()
 			.SetAbilities(ActivatedEnergyDrawWyvern.ability)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(4)
 			.SetDescription("A SKELETAL BEAST, IT CALLS IN MORE OF ITS KIND.")
 			.SetNames(NameWyvern, "Wyvern")
-			.Build()
-		);
+			.Build();
 	}
 }

@@ -1,5 +1,4 @@
-﻿using APIPlugin;
-using DiskCardGame;
+﻿using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -9,14 +8,13 @@ public partial class GrimoraPlugin
 
 	private void Add_Family()
 	{
-		NewCard.Add(CardBuilder.Builder
+		CardBuilder.Builder
 			.SetAsNormalCard()
 			.SetAbilities(Ability.QuadrupleBones)
 			.SetBaseAttackAndHealth(1, 2)
 			.SetBoneCost(4)
 			.SetDescription("THE FAMILY WISHES TO REST IN PEACE.")
 			.SetNames(NameFamily, "The Walkers")
-			.Build()
-		);
+			.Build();
 	}
 }

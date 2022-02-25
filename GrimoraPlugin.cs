@@ -32,12 +32,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	// Gets populated in CardBuilder.Build()
 	public static List<CardInfo> AllGrimoraModCards = new();
 
-	private static CardInfo AddCardToPool(CardInfo cardInfo)
-	{
-		NewCard.Add(cardInfo);
-		return cardInfo;
-	}
-	
 	private void Awake()
 	{
 		Log = Logger;
@@ -46,10 +40,22 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		ConfigHelper.Instance.BindConfig();
 
-		LoadAssets();
+		LoadCards();
 
-		#region AddingCards
+		if (ConfigHelper.Instance.isHotReloadEnabled)
+		{
+			Transform cardRow = MenuController.Instance.cardRow;
+			if (cardRow.Find("MenuCard_Grimora") is null)
+			{
+				MenuController.Instance.cards.Add(MenuControllerPatches.CreateButton(MenuController.Instance));
+			}
+		}
 
+		ConfigHelper.Instance.HandleHotReloadAfter();
+	}
+
+	private void LoadCards()
+	{
 		Add_Amoeba(); // vanilla
 		Add_ArmoredZombie(); // Ara
 		Add_Banshee(); // vanilla
@@ -59,6 +65,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Bonelord(); // Ryan S Art
 		Add_BonelordsHorn(); // LavaErrorDoggo#1564
 		Add_BooHag(); // Bt Y#0895
+		Add_Catacomb(); // Bt Y#0895
 		Add_CorpseMaggots(); // vanilla
 		Add_DanseMacabre(); // Bt Y#0895
 		Add_DeadHand(); // Ara?
@@ -101,19 +108,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Wyvern(); // Cevin2006™ (◕‿◕)#7971
 		Add_ZombieGeck(); // LavaErrorDoggo#1564 ?
 		Add_Zombie(); // Ara
-
-		#endregion
-
-		if (ConfigHelper.Instance.isHotReloadEnabled)
-		{
-			Transform cardRow = MenuController.Instance.cardRow;
-			if (cardRow.Find("MenuCard_Grimora") is null)
-			{
-				MenuController.Instance.cards.Add(MenuControllerPatches.CreateButton(MenuController.Instance));
-			}
-		}
-
-		ConfigHelper.Instance.HandleHotReloadAfter();
 	}
 
 	private void OnDestroy()

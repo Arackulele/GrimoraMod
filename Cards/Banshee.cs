@@ -1,5 +1,4 @@
-﻿using APIPlugin;
-using DiskCardGame;
+﻿using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -10,14 +9,13 @@ public partial class GrimoraPlugin
 	private void Add_Banshee()
 	{
 		CardInfo banshee = "Banshee".GetCardInfo();
-		NewCard.Add(CardBuilder.Builder
+		CardBuilder.Builder
 			.SetAsNormalCard()
 			.SetAbilities(banshee.Abilities.ToArray())
 			.SetBaseAttackAndHealth(banshee.Attack, banshee.Health)
 			.SetBoneCost(banshee.BonesCost)
 			.SetDescription("THE SCREAMING TERROR. THEY GO STRAIGHT THROUGH TO ATTACK THEIR PREY.")
 			.SetNames(NameBanshee, "Banshee", banshee.portraitTex)
-			.Build()
-		);
+			.Build();
 	}
 }

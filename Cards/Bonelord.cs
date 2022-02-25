@@ -1,5 +1,3 @@
-using APIPlugin;
-
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
@@ -8,13 +6,12 @@ public partial class GrimoraPlugin
 
 	private void Add_Bonelord()
 	{
-		NewCard.Add(CardBuilder.Builder
+		CardBuilder.Builder
 			.SetAbilities(BoneLordsReign.ability)
 			.SetBaseAttackAndHealth(4, 10)
 			.SetBoneCost(666)
 			.SetDescription("WHEN THE BONE LORD APPEARS, EVERY CREATURE WILL FALL.")
 			.SetNames(NameBonelord, "The Bone Lord")
-			.Build()
-		);
+			.Build();
 	}
 }

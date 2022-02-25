@@ -1,5 +1,4 @@
-﻿using APIPlugin;
-using DiskCardGame;
+﻿using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -9,12 +8,11 @@ public partial class GrimoraPlugin
 
 	private void Add_Flames()
 	{
-		NewCard.Add(CardBuilder.Builder
+		CardBuilder.Builder
 			.SetAbilities(Ability.Brittle, Ability.BuffNeighbours)
 			.SetBaseAttackAndHealth(0, 1)
 			.SetBoneCost(2)
 			.SetNames(NameFlames, "Flames")
-			.Build()
-		);
+			.Build();
 	}
 }
