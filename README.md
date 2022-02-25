@@ -105,12 +105,17 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with `Handy` ability drawing a new hand for the player if the card would die and then reanimated during the first phase of Grimora's fight.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) New card, `Death Knell` from `Bt Y#0895`. 8 cost, 1/2 with `Bell Ringer` and `Bellist`.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New ability icon for `Skeleton Horde` courtesy of `Blind, the Bound Demon#6475`.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New card, `Death Knell` from `Bt Y#0895`. 8 cost, 0/2 with `Bell Ringer` and `Bellist`.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) New `Mummy` and `Sarcophagus` art courtesy of `Bt Y#0895`!
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Added `Exploding Pirate` card. 1 Bone, 2/2 with `Lit Fuse` sigil. Initial art from `Lich underling#7678`, with modifications from `Ara`.
   - `Lit Fuse`: [creature] loses 1 health per turn. When [creature] dies, the creature opposing it, as well as adjacent friendly creatures, are dealt 10 damage.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Changed `Tomb Robber` ability to now be `Disinter`: Pay 2 bones to create a skeleton in your hand.
+  - Similar to the act 2 ability, but nerfed to cost 2 bones instead of 1.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Nerfed `Wendigo` attack from 2 to 1, and set as a normal type of card.
 
@@ -121,7 +126,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Added `Bonehound` to normal card pool.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Updated `Skeleton Army` ability description to better clarify what it does.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Updated `Skeleton Army` ability, `Skeleton Horde`, description to better clarify what it does.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Added extra logic for when a card has `Area of Effect Strike` and `Inverted Strike` and `Alternating Strike`.
   - If `AOE Strike` and `Inverted Strike`, the slots to attack be will now be done in a counter-clockwise manner. For example,`left adj, left opposing, center, right opposing, right adj` now becomes `right adj, right opposing, center, left opposing, left adj`.
