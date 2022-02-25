@@ -72,6 +72,8 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 #### Bosses
 
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) _Actually_ fixed the boss skull that Grimora holds glitching out exception that I thought I fixed in 2.6.6.
+
 ##### Kaycee
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with cards that have been ice cubed by Kaycee not having all their abilities intact when being broken out of the ice.
