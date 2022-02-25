@@ -7,6 +7,7 @@ namespace GrimoraMod;
 
 public class LitFuse : ExplodeOnDeath
 {
+	public static readonly NewAbility NewAbility = Create();
 
 	public static Ability ability;
 
@@ -25,7 +26,7 @@ public class LitFuse : ExplodeOnDeath
 		yield return new WaitForSeconds(0.25f);
 		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 	}
-	
+
 	public static NewAbility Create()
 	{
 		const string rulebookDescription =

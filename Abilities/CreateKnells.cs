@@ -5,6 +5,8 @@ namespace GrimoraMod;
 
 public class CreateKnells : CreateBells
 {
+	public static readonly NewAbility NewAbility = Create();
+	
 	public static Ability ability;
 
 	public override Ability Ability => ability;

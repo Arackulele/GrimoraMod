@@ -42,27 +42,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		LoadAssets();
 
-		#region AddingAbilities
-
-		AlternatingStrike.Create(); // Bt Y#0895
-		AreaOfEffectStrike.Create(); // Bt Y#0895
-		CreateKnells.Create(); // Bt Y#0895
-		Erratic.Create(); // Bt Y#0895
-		InvertedStrike.Create(); // Bt Y#0895
-		Possessive.Create(); // Bt Y#0895
-		SkinCrawler.Create(); // Bt Y#0895
-
-		ActivatedEnergyDrawWyvern.Create();
-		BoneLordsReign.Create();
-		CreateArmyOfSkeletons.Create();
-		FlameStrafe.Create();
-		GainAttackBones.Create();
-		GiantStrike.Create();
-		GrimoraRandomAbility.Create();
-		LitFuse.Create();
-
-		#endregion
-
 		#region AddingCards
 
 		Add_Amoeba(); // vanilla

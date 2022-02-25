@@ -7,6 +7,8 @@ namespace GrimoraMod;
 
 public class AlternatingStrike : AbilityBehaviour
 {
+	public static readonly NewAbility NewAbility = Create();
+
 	public static Ability ability;
 	public override Ability Ability => ability;
 
