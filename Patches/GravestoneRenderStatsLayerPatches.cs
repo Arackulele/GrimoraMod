@@ -14,21 +14,26 @@ public class GravestoneRenderStatsLayerPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(GravestoneRenderStatsLayer.RenderCard))]
 	public static void AddEnergyCellsToCards(GravestoneRenderStatsLayer __instance, CardRenderInfo info)
 	{
+		// RenderStatsLayer in the prefab has zero children
 		if (__instance.transform.childCount == 0)
 		{
 			int energyCost = info.energyCost;
 			if (energyCost > 0)
 			{
 				MeshRenderer energyCellsLeft = Object.Instantiate(
-					EnergyCellsLeft, __instance.gameObject.transform
-				).GetComponent<MeshRenderer>();
+						EnergyCellsLeft,
+						__instance.gameObject.transform
+					)
+					.GetComponent<MeshRenderer>();
 
 				MeshRenderer energyCellsRight = null;
 				if (energyCost > 3)
 				{
 					energyCellsRight = Object.Instantiate(
-						EnergyCellsRight, __instance.gameObject.transform
-					).GetComponent<MeshRenderer>();
+							EnergyCellsRight,
+							__instance.gameObject.transform
+						)
+						.GetComponent<MeshRenderer>();
 				}
 
 				UpdateEnergyCost(energyCost, energyCellsLeft, energyCellsRight);
@@ -41,7 +46,9 @@ public class GravestoneRenderStatsLayerPatches
 		int energyCellsLeftLength = energyCellsLeft.materials.Length;
 		for (int i = 0; i < energyCellsLeftLength; i++)
 		{
-			Color value = i < energyCost ? GrimoraTextColor : GrimoraColors.AlphaZeroBlack;
+			Color value = i < energyCost
+				? GrimoraTextColor
+				: GrimoraColors.AlphaZeroBlack;
 			energyCellsLeft.materials[energyCellsLeftLength - i - 1].color = value;
 		}
 
@@ -50,7 +57,9 @@ public class GravestoneRenderStatsLayerPatches
 			int energyCellsRightLength = energyCellsRight.materials.Length;
 			for (int i = 0; i < energyCellsRightLength; i++)
 			{
-				Color value = i < energyCost - 3 ? GrimoraTextColor : GrimoraColors.AlphaZeroBlack;
+				Color value = i < energyCost - 3
+					? GrimoraTextColor
+					: GrimoraColors.AlphaZeroBlack;
 				energyCellsRight.materials[energyCellsRightLength - i - 1].color = value;
 			}
 		}
