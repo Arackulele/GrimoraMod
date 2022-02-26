@@ -16,6 +16,7 @@ public partial class GrimoraPlugin
 			.SetBoneCost(8)
 			.SetDescription("FOR WHOM THE BELL TOLLS?")
 			.SetNames(NameDeathKnell, "Death Knell")
+			.SetSpecialStatIcon(SpecialStatIcon.Bell)
 			.Build();
 	}
 }
