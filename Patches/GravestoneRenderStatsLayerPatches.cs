@@ -27,7 +27,14 @@ public class GravestoneRenderStatsLayerPatches
 			);
 			statIcons.name = "CardStatIcons_Invisible";
 
-			__instance.GetComponentInParent<PlayableCard>().statIcons = statIcons;
+			if (__instance.GetComponentInParent<PlayableCard>() is not null)
+			{
+				__instance.GetComponentInParent<PlayableCard>().statIcons = statIcons;
+			}
+			else if (__instance.GetComponentInParent<SelectableCard>() is not null)
+			{
+				__instance.GetComponentInParent<SelectableCard>().statIcons = statIcons;
+			}
 		}
 	}
 
