@@ -50,13 +50,6 @@ public class SkinCrawler : AbilityBehaviour
 	{
 		Log.LogDebug($"[SkinCrawler] Checking if adj slots from [{Card.Slot}] are not null");
 		CardSlot slotToPick = null;
-		CardSlot centerSlot = null;
-		if (_slotHidingUnderCard is not null)
-		{
-			centerSlot = Card.OpponentCard
-				? BoardManager.Instance.OpponentSlotsCopy[_slotHidingUnderCard.Index]
-				: BoardManager.Instance.PlayerSlotsCopy[_slotHidingUnderCard.Index];
-		}
 
 		Log.LogDebug($"[SkinCrawler] Slot for SkinCrawler [{Card.Slot}]");
 		CardSlot toLeftSlot = BoardManager.Instance.GetAdjacent(Card.Slot, true);
@@ -71,11 +64,6 @@ public class SkinCrawler : AbilityBehaviour
 		{
 			slotToPick = toRightSlot;
 			Log.LogDebug($"[SkinCrawler] RightSlot is not null, has card [{slotToPick.Card.InfoName()}]");
-		}
-		else if (centerSlot is not null && centerSlot.Card is not null)
-		{
-			slotToPick = centerSlot;
-			Log.LogDebug($"[SkinCrawler] Center is not null, has card [{slotToPick.Card.InfoName()}]");
 		}
 
 		if (GetSkinCrawlerFromSlot(slotToPick) is not null)
