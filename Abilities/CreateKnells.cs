@@ -6,7 +6,7 @@ namespace GrimoraMod;
 public class CreateKnells : CreateBells
 {
 	public static readonly NewAbility NewAbility = Create();
-	
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -15,10 +15,13 @@ public class CreateKnells : CreateBells
 
 	public static NewAbility Create()
 	{
-		const string rulebookDescription = "When [creature] is played, a Chime is created on each empty adjacent space." +
-		                                   $" [define:{GrimoraPlugin.NameDeathKnellBell}]";
+		const string rulebookDescription = "When [creature] is played, a Chime is created on each empty adjacent space."
+		                                   + $" [define:{GrimoraPlugin.NameDeathKnellBell}]";
 
-		return ApiUtils.CreateAbility<CreateKnells>
-			(rulebookDescription, rulebookIcon: AbilitiesUtil.LoadAbilityIcon(Ability.CreateBells.ToString()));
+		return ApiUtils.CreateAbility<CreateKnells>(
+			rulebookDescription,
+			"Bellist",
+			rulebookIcon: AbilitiesUtil.LoadAbilityIcon(Ability.CreateBells.ToString())
+		);
 	}
 }
