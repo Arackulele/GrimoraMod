@@ -100,7 +100,7 @@ public class BaseGameFlowManagerPatches
 		CardStatIcons statIcons = statsParent.GetComponentInChildren<CardStatIcons>();
 		statIcons.attackIconRenderer.transform.localPosition = new Vector3(-0.39f, 0.19f, 0);
 		statIcons.attackIconRenderer.transform.localScale = new Vector3(0.33f, 0.33f, 1);
-		
+
 		statIcons.healthIconRenderer.transform.localPosition = new Vector3(-0.39f, 0.19f, 0);
 		statIcons.healthIconRenderer.transform.localScale = new Vector3(0.33f, 0.33f, 1);
 	}
