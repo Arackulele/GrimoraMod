@@ -14,10 +14,8 @@ public class ChessboardMapExt : GameMap
 
 	private bool _toggleCardsLeftInDeck = false;
 
-	public List<ChessboardPiece> ActivePieces => pieces;
-
-	public readonly Predicate<ChessboardPiece> PieceExistsInActivePieces
-		= piece => Instance.pieces.Exists(active => active.gridXPos == piece.gridXPos && active.gridYPos == piece.gridYPos);
+	public bool HasNotPlayedDialogueOnce =>
+		ConfigHelper.Instance.HammerDialogueOption == 1 && Instance.hasNotPlayedAllHammerDialogue;
 
 	public bool hasNotPlayedAllHammerDialogue = true;
 
