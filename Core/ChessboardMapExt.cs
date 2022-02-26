@@ -53,9 +53,13 @@ public class ChessboardMapExt : GameMap
 	{
 		if (_chessboards == null)
 		{
-			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir(
-				ConfigHelper.Instance.isDevModeEnabled ? "GrimoraChessboardDevMode.json" : "GrimoraChessboardsStatic.json"
-			));
+			string jsonString = File.ReadAllText(
+				FileUtils.FindFileInPluginDir(
+					ConfigHelper.Instance.isDevModeEnabled
+						? "GrimoraChessboardDevMode.json"
+						: "GrimoraChessboardsStatic.json"
+				)
+			);
 
 			_chessboards = ParseJson(
 				SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString)
@@ -101,7 +105,14 @@ public class ChessboardMapExt : GameMap
 		    && CardDrawPiles3D.Instance.Deck is not null)
 		{
 			_toggleCardsLeftInDeck = GUI.Toggle(
-				new Rect(20, (ConfigHelper.Instance.isDevModeEnabled ? 320 : 60), 150, 15),
+				new Rect(
+					20,
+					(ConfigHelper.Instance.isDevModeEnabled
+						? 320
+						: 60),
+					150,
+					15
+				),
 				_toggleCardsLeftInDeck,
 				"Cards Left in Deck"
 			);
@@ -178,14 +189,16 @@ public class ChessboardMapExt : GameMap
 	private void ClearBoardForChangingRegion()
 	{
 		Log.LogDebug($"[CompleteRegionSequence] Clearing and destroying pieces");
-		pieces.RemoveAll(delegate(ChessboardPiece piece)
-		{
-			// piece.gameObject.SetActive(false);
-			piece.MapNode.OccupyingPiece = null;
-			Destroy(piece.gameObject);
+		pieces.RemoveAll(
+			delegate(ChessboardPiece piece)
+			{
+				// piece.gameObject.SetActive(false);
+				piece.MapNode.OccupyingPiece = null;
+				Destroy(piece.gameObject);
 
-			return true;
-		});
+				return true;
+			}
+		);
 
 		// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Clearing removedPiecesConfig");
 		ConfigHelper.Instance.ResetRemovedPieces();
@@ -277,23 +290,25 @@ public class ChessboardMapExt : GameMap
 			.Where(p => !removedList.Contains(p.name))
 			.ToList();
 
-		pieces.RemoveAll(delegate(ChessboardPiece piece)
-		{
-			bool toRemove = false;
-			if (activePieces.Contains(piece))
+		pieces.RemoveAll(
+			delegate(ChessboardPiece piece)
 			{
-				piece.gameObject.SetActive(true);
-			}
-			else
-			{
-				piece.gameObject.SetActive(false);
-				piece.MapNode.OccupyingPiece = null;
-				toRemove = true;
-			}
+				bool toRemove = false;
+				if (activePieces.Contains(piece))
+				{
+					piece.gameObject.SetActive(true);
+				}
+				else
+				{
+					piece.gameObject.SetActive(false);
+					piece.MapNode.OccupyingPiece = null;
+					toRemove = true;
+				}
 
-			piece.Hide(true);
-			return toRemove;
-		});
+				piece.Hide(true);
+				return toRemove;
+			}
+		);
 
 		yield return new WaitForSeconds(0.05f);
 
@@ -351,7 +366,8 @@ public class ChessboardMapExt : GameMap
 		if (string.Equals(
 			    navGrid.zones[0, 0].name,
 			    "ChessBoardMapNode",
-			    StringComparison.OrdinalIgnoreCase)
+			    StringComparison.OrdinalIgnoreCase
+		    )
 		   )
 		{
 			var zones = ChessboardNavGrid.instance.zones;
