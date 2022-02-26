@@ -167,7 +167,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private static void LoadAssets()
 	{
-		Log.LogDebug($"Loading assets into static vars");
+		Log.LogInfo($"Loading asset bundles");
 		AllAbilityTextures = AssetUtils.LoadAssetBundle<Texture>("grimoramod_abilities");
 
 		AllMats = AssetUtils.LoadAssetBundle<Material>("grimoramod_mats");
