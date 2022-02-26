@@ -19,7 +19,6 @@ namespace GrimoraMod
 			// Pascal split will make names like "AreaOfEffectStrike" => "Area Of Effect Strike" 
 			// "Possessive" => "Possessive" 
 			info.rulebookName = rulebookName.Contains(" ") ? rulebookName : rulebookName.SplitPascalCase();
-			Log.LogDebug($"[CreateAbility] Rulebook name is [{info.rulebookName}]");
 			info.rulebookDescription = rulebookDescription;
 			info.metaCategories = new List<AbilityMetaCategory>()
 			{
@@ -55,7 +54,6 @@ namespace GrimoraMod
 			FieldInfo field = type.GetField("ability",
 				BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance
 			);
-			// GrimoraPlugin.Log.LogDebug($"Setting static field [{field.Name}] for [{type}] with value [{newAbility.ability}]");
 			field.SetValue(null, newAbility.ability);
 
 			return newAbility;
