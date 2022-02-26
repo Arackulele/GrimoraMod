@@ -8,8 +8,28 @@ namespace GrimoraMod;
 public class GravestoneRenderStatsLayerPatches
 {
 	private static readonly Color GrimoraTextColor = new(0.420f, 1f, 0.63f, 0.25f);
+
+	private static readonly CardStatIcons CardStatIcons = ResourceBank.Get<CardStatIcons>(
+		"Prefabs/Cards/CardSurfaceInteraction/CardStatIcons_Invisible"
+	);
+
 	private static readonly GameObject EnergyCellsLeft = AssetUtils.GetPrefab<GameObject>("EnergyCells_Left");
 	private static readonly GameObject EnergyCellsRight = AssetUtils.GetPrefab<GameObject>("EnergyCells_Right");
+
+	[HarmonyPrefix, HarmonyPatch(nameof(GravestoneRenderStatsLayer.RenderCard))]
+	public static void PrefixAddStatIcons(ref GravestoneRenderStatsLayer __instance, CardRenderInfo info)
+	{
+		if (__instance.transform.parent.Find("CardStatIcons_Invisible") is null)
+		{
+			CardStatIcons statIcons = Object.Instantiate(
+				CardStatIcons,
+				__instance.transform.parent
+			);
+			statIcons.name = "CardStatIcons_Invisible";
+
+			__instance.GetComponentInParent<PlayableCard>().statIcons = statIcons;
+		}
+	}
 
 	[HarmonyPostfix, HarmonyPatch(nameof(GravestoneRenderStatsLayer.RenderCard))]
 	public static void AddEnergyCellsToCards(GravestoneRenderStatsLayer __instance, CardRenderInfo info)

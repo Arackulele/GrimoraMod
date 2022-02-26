@@ -28,6 +28,12 @@ public class CardBuilder
 	{
 	}
 
+	internal CardBuilder SetSpecialStatIcon(SpecialStatIcon statIcon)
+	{
+		_cardInfo.specialStatIcon = statIcon;
+		return this;
+	}
+
 	internal CardBuilder SetTribes(params Tribe[] tribes)
 	{
 		_cardInfo.tribes = tribes?.ToList();
