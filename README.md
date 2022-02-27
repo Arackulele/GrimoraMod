@@ -49,6 +49,42 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ## Update Notes
 
+### 2.7.4
+
+#### Bosses
+
+##### Grimora
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Hopefully fixed issue with phase 2 not spawning the twin giants. Cards will no longer be weakened going into phase 2.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Modified phase 2 twin giant initial attack and health.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed reanimation sequence entirely. With `Double Death` especially, the difficulty ramp for the first phase due to this mechanic is just too overwhelming and can heavily swing the board in Grimora's favor.
+
+#### Ability/Card Changes
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Reworked the logic for `Skin Crawler`, again.
+  - Fixed potential softlock if `Boo Hag` is hiding under a card when you die.
+  - New description: [creature] will attempt to find a host in an adjacent friendly slot, hiding under it providing a +1/+1 buff. Cards on the left take priority.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Adjusted `Death Knell` emission art to line up.
+  - Also added the bell SpecialStatIcon for the attack so that you know what it actually does now.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New `Summoner` art from `Cevin2006™ (◕‿◕)#7971`.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added multiple new basic cards. All art from `Bt Y#0895`.
+  - Centurion: 1/4, 6 Bones, `Armored`.
+  - Dalgyal: 0/2, 2 Energy, `Sentry`. Description courtesy `TheGreenDigi#8672`.
+  - Deadeye: 1/1, 5 Bones, `Hoarder`. Description courtesy `TheGreenDigi#8672`.
+  - FesteringWretch: 1/1, 3 Bones, `Stinky`. Description courtesy `Blind, the Bound Demon#6475`.
+  - Manananggal: 3/3, 8 Bones, `Flying`. Description courtesy `TheGreenDigi#8672`.
+  - Will 'O' The Wisp. 0/1, 1 Bone, `Spirit Bearer` (Gain Battery but themed for Grimora). Description courtesy `Blind, the Bound Demon#6475`.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Inverted Strike` and `AOE Strike` icons are now flipped when played by the opponent.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Corrected visual issue with `Possessive` sigil where the opposing card would look like it's attacking the adjacent slots of the card bearing `Possessive`, and not the adjacent friendly slots.
+  - Updated description to: [creature] cannot be attacked from the opposing slot. The opposing slot, if possible, instead attacks one of its adjacent friendly cards.
+
 ### 2.7.2
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed visual issue with energy decals showing through other cards in `Deck View`.
