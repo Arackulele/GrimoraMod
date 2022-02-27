@@ -58,7 +58,7 @@ public class HammerItemExt : HammerItem
 
 		if (_useCounter == 1)
 		{
-			yield return PlayDialogue("THE FRAIL THING WILL SHATTER AFTER EXCESSIVE USE. THREE STRIKES, AND IT'S OUT, FOR THIS FIGHT AT LEAST.");
+			yield return PlayDialogue("THE FRAIL THING WILL SHATTER AFTER EXCESSIVE USE. THREE STRIKES, AND IT'S OUT, FOR THIS BATTLE AT LEAST.");
 			HammerHandleMat.SetFloat(Glossiness, 0.6f);
 		}
 		else if (_useCounter == 2)
