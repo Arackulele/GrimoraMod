@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(1, 4)
 			.SetBoneCost(6)
 			.SetNames(NameCenturion, "Centurion")
-			// .SetDescription("NOT YOUR ORDINARY UNDEAD, THEY SEARCHED THROUGH A SCRAPYARD FOR THIS GEAR.")
+			.SetDescription("A heavily armoured Centurion, last of his century, leader to none.")
 			.Build();
 	}
 }
