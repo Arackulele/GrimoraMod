@@ -67,6 +67,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_BonelordsHorn();    // LavaErrorDoggo#1564
 		Add_BooHag();           // Bt Y#0895
 		Add_Catacomb();         // Bt Y#0895
+		Add_Centurion();        // Bt Y#0895
 		Add_CorpseMaggots();    // vanilla
 		Add_Dalgyal();          // Bt Y#0895
 		Add_DanseMacabre();     // Bt Y#0895
