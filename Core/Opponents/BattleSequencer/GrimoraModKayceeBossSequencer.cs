@@ -34,9 +34,12 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 
 		if (playerCardsWithAttacks.IsNotEmpty())
 		{
-			if (_freezeCounter >= 4)
+			if (_freezeCounter >= 5)
 			{
 				ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					$"Y-Your strikes are only making me {"c-colder".Blue()}!"
+				);
 				yield return TextDisplayer.Instance.ShowUntilInput(
 					$"IT'S TIME FOR YOUR CARDS TO FREEZE! {"CHILLED".Blue()} TO THE BONE!"
 				);
