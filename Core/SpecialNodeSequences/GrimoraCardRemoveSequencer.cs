@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using Pixelplacement;
 using Sirenix.Utilities;
@@ -203,7 +203,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		switch (rngValue)
 		{
 			// decrease entire deck by 1
-			case <= 0.005f:
+			case <= 0.02f:
 			{
 				// grimora_deck_decrease_cost
 				cardThatWillHaveEffectApplied = ApplyEffectToCards(
@@ -216,31 +216,33 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 				break;
 			}
-			// increase entire deck by 1
-			case <= 0.01f:
-			{
-				cardThatWillHaveEffectApplied = ApplyEffectToCards(
-					"grimora_deck_bones_increase",
-					$"OH MY, THE BONE LORD HAS NO EMPATHY TODAY. {"INCREASING THE COST OF YOUR ENTIRE DECK BY 1".BrightRed()}, I AM QUITE CURIOUS HOW YOU'LL SURVIVE NOW.",
-					$"YOU'RE QUITE LUCKY. THE BONE LORD {"WANTED".BrightRed()} TO INCREASE YOUR ENTIRE DECK BY 1, BUT I FELT THAT WAS A BIT HARSH SINCE IT ALREADY HAS HAPPENED. YOU BEST THANK ME.",
-					false
-				);
+			/*
+		// increase entire deck by 1
+		case <= 0.01f:
+		{
+			cardThatWillHaveEffectApplied = ApplyEffectToCards(
+				"grimora_deck_bones_increase",
+				$"OH MY, THE BONE LORD HAS NO EMPATHY TODAY. {"INCREASING THE COST OF YOUR ENTIRE DECK BY 1".BrightRed()}, I AM QUITE CURIOUS HOW YOU'LL SURVIVE NOW.",
+				$"YOU'RE QUITE LUCKY. THE BONE LORD {"WANTED".BrightRed()} TO INCREASE YOUR ENTIRE DECK BY 1, BUT I FELT THAT WAS A BIT HARSH SINCE IT ALREADY HAS HAPPENED. YOU BEST THANK ME.",
+				false
+			);
 
-				break;
-			}
-			// card bonesCost increase = 9%~
-			case <= 0.10f:
-			{
-				cardThatWillHaveEffectApplied = ApplyEffectToCards(
-					"grimora_card_bones_increase",
-					"I hope this doesn't hurt too much.\n[c:bR]{0}[c:] cost has increased!",
-					$"YOU DON'T HAVE ANYMORE CARDS TO {"INCREASE THEIR BONE COST".BrightRed()}, HOW SAD. NOW PLEASE LEAVE."
-				);
+			break;
+		}
+		// card bonesCost increase = 9%~
+		case <= 0.10f:
+		{
+			cardThatWillHaveEffectApplied = ApplyEffectToCards(
+				"grimora_card_bones_increase",
+				"I hope this doesn't hurt too much.\n[c:bR]{0}[c:] cost has increased!",
+				$"YOU DON'T HAVE ANYMORE CARDS TO {"INCREASE THEIR BONE COST".BrightRed()}, HOW SAD. NOW PLEASE LEAVE."
+			);
 
-				break;
-			}
+			break;
+		}
+			*/
 			// card bonesCost reduce = 20% of the time
-			case <= 0.30f:
+			case <= 0.40f:
 			{
 				cardThatWillHaveEffectApplied = ApplyEffectToCards(
 					"grimora_card_bones_decrease",
@@ -252,7 +254,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 				break;
 			}
 			// card gains 1 HP = 10%?
-			case <= 40f:
+			case <= 50f:
 			{
 				cardThatWillHaveEffectApplied = ApplyEffectToCards(
 					"grimora_card_health_increase",
@@ -263,6 +265,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 				break;
 			}
+				/*
 			// card loses 1 HP = 10%?
 			case <= 50f:
 			{
@@ -275,6 +278,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 				break;
 			}
+				*/
 		}
 
 		GrimoraSaveUtil.DeckInfo.UpdateModDictionary();
