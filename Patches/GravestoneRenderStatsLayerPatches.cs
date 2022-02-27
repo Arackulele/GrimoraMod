@@ -1,6 +1,7 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace GrimoraMod;
 
@@ -15,6 +16,9 @@ public class GravestoneRenderStatsLayerPatches
 
 	private static readonly GameObject EnergyCellsLeft = AssetUtils.GetPrefab<GameObject>("EnergyCells_Left");
 	private static readonly GameObject EnergyCellsRight = AssetUtils.GetPrefab<GameObject>("EnergyCells_Right");
+	private static readonly int SrcBlend = Shader.PropertyToID("_SrcBlend");
+	private static readonly int DstBlend = Shader.PropertyToID("_DstBlend");
+	private static readonly int ZWrite = Shader.PropertyToID("_ZWrite");
 
 	[HarmonyPrefix, HarmonyPatch(nameof(GravestoneRenderStatsLayer.RenderCard))]
 	public static void PrefixAddStatIcons(ref GravestoneRenderStatsLayer __instance, CardRenderInfo info)
@@ -68,15 +72,26 @@ public class GravestoneRenderStatsLayerPatches
 		}
 	}
 
-	private static void UpdateEnergyCost(int energyCost, Renderer energyCellsLeft, Renderer energyCellsRight)
+	private static void UpdateEnergyCost(int energyCost, Renderer energyCellsLeft, Renderer energyCellsRight = null)
 	{
 		int energyCellsLeftLength = energyCellsLeft.materials.Length;
 		for (int i = 0; i < energyCellsLeftLength; i++)
 		{
-			Color value = i < energyCost
-				? GrimoraTextColor
-				: GrimoraColors.AlphaZeroBlack;
-			energyCellsLeft.materials[energyCellsLeftLength - i - 1].color = value;
+			if (i < energyCost)
+			{
+				energyCellsLeft.materials[energyCellsLeftLength - i - 1].color = GrimoraTextColor;
+			}
+			else
+			{
+				Material material = energyCellsLeft.materials[energyCellsLeftLength - i - 1];
+				material.SetInt(SrcBlend, (int)BlendMode.One);
+				material.SetInt(DstBlend, (int)BlendMode.Zero);
+				material.SetInt(ZWrite, 1);
+				material.EnableKeyword("_ALPHATEST_ON");
+				material.DisableKeyword("_ALPHABLEND_ON");
+				material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+				material.renderQueue = 2450;
+			}
 		}
 
 		if (energyCellsRight is not null)
@@ -84,10 +99,21 @@ public class GravestoneRenderStatsLayerPatches
 			int energyCellsRightLength = energyCellsRight.materials.Length;
 			for (int i = 0; i < energyCellsRightLength; i++)
 			{
-				Color value = i < energyCost - 3
-					? GrimoraTextColor
-					: GrimoraColors.AlphaZeroBlack;
-				energyCellsRight.materials[energyCellsRightLength - i - 1].color = value;
+				if (i < energyCost - 3)
+				{
+					energyCellsRight.materials[energyCellsRightLength - i - 1].color = GrimoraTextColor;
+				}
+				else
+				{
+					Material material = energyCellsRight.materials[energyCellsRightLength - i - 1];
+					material.SetInt(SrcBlend, (int)BlendMode.One);
+					material.SetInt(DstBlend, (int)BlendMode.Zero);
+					material.SetInt(ZWrite, 1);
+					material.EnableKeyword("_ALPHATEST_ON");
+					material.DisableKeyword("_ALPHABLEND_ON");
+					material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+					material.renderQueue = 2450;
+				}
 			}
 		}
 	}
