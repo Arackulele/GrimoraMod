@@ -5,7 +5,7 @@ using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
-// [HarmonyPatch]
+[HarmonyPatch]
 public class CardAppearanceBehaviourPatch
 {
 	public static readonly Material GravestoneGold = AssetUtils.GetPrefab<Material>("GravestoneCardBack_Rare");
@@ -19,7 +19,7 @@ public class CardAppearanceBehaviourPatch
 		}
 
 		var renderer = __instance.Card.GetComponentInChildren<GravestoneRenderStatsLayer>();
-		renderer.Material = GravestoneGold;
+		renderer.Material.SetAlbedoTexture(GravestoneGold.mainTexture);
 		Log.LogDebug($"[RareCardBackground] Set new gravestone layer for rare card [{__instance.Card.InfoName()}]");
 
 		return false;
