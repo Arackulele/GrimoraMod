@@ -126,6 +126,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AllSprites = null;
 		AllSounds = null;
 		AllGrimoraModCards = new List<CardInfo>();
+		SkinCrawler.SlotsThatHaveCrawlersHidingUnderCards = new List<CardSlot>();
 		Resources.UnloadUnusedAssets();
 		_harmony?.UnpatchSelf();
 		GrimoraModBattleSequencer.ActiveEnemyPiece = null;
