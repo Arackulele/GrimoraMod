@@ -8,15 +8,7 @@ namespace GrimoraMod;
 // [HarmonyPatch]
 public class CardAppearanceBehaviourPatch
 {
-	public static Texture2D GravestoneGold = GravestoneTexture();
-
-	internal static Texture2D GravestoneTexture()
-	{
-		Texture2D texture = new Texture2D(1, 1) { filterMode = FilterMode.Point };
-		texture.LoadImage(FileUtils.ReadFileAsBytes("GravestoneCard_Base_Lowered2", true));
-
-		return texture;
-	}
+	public static readonly Material GravestoneGold = AssetUtils.GetPrefab<Material>("GravestoneCardBack_Rare");
 
 	[HarmonyPrefix, HarmonyPatch(typeof(RareCardBackground), nameof(RareCardBackground.ApplyAppearance))]
 	public static bool CorrectBehaviourForGrimora(ref RareCardBackground __instance)
@@ -27,25 +19,8 @@ public class CardAppearanceBehaviourPatch
 		}
 
 		var renderer = __instance.Card.GetComponentInChildren<GravestoneRenderStatsLayer>();
-		renderer.Material.SetAlbedoTexture(GravestoneGold);
-		Log.LogDebug($"[RareCardBackground] {renderer} Set new gravestone layer for rare cards");
-
-		return false;
-	}
-
-	[HarmonyPrefix, HarmonyPatch(typeof(GiantAnimatedPortrait), nameof(GiantAnimatedPortrait.ApplyAppearance))]
-	public static bool GiantTesting(GiantAnimatedPortrait __instance)
-	{
-		if (GrimoraSaveUtil.isNotGrimora)
-		{
-			return true;
-		}
-
-		__instance.ApplyAppearance();
-
-		var renderer = __instance.Card.GetComponentInChildren<GravestoneRenderStatsLayer>();
-		renderer.Material.SetAlbedoTexture(GravestoneGold);
-		Log.LogDebug($"[RareCardBackground] {renderer} Set new gravestone layer for rare cards");
+		renderer.Material = GravestoneGold;
+		Log.LogDebug($"[RareCardBackground] Set new gravestone layer for rare card [{__instance.Card.InfoName()}]");
 
 		return false;
 	}
@@ -114,7 +89,8 @@ public class ChangeLogicInCardAbilityIcons
 		CardInfo info,
 		List<CardModificationInfo> mods,
 		PlayableCard playableCard,
-		List<Ability> hiddenAbilities)
+		List<Ability> hiddenAbilities
+	)
 	{
 		if (GrimoraSaveUtil.isNotGrimora)
 		{
@@ -171,8 +147,13 @@ public class ChangeLogicInCardAbilityIcons
 			__instance.latchIcon.AssignAbility(ability, info, playableCard);
 		}
 
-		__instance.ApplyAbilitiesToIcons(cardMergeAbilities, __instance.mergeIcons, __instance.emissiveIconMat, info,
-			playableCard);
+		__instance.ApplyAbilitiesToIcons(
+			cardMergeAbilities,
+			__instance.mergeIcons,
+			__instance.emissiveIconMat,
+			info,
+			playableCard
+		);
 		bool isOpponentCard = playableCard != null && playableCard.OpponentCard;
 		foreach (AbilityIconInteractable emissiveTotemIcon in __instance.emissiveTotemIcons)
 		{
@@ -186,20 +167,34 @@ public class ChangeLogicInCardAbilityIcons
 
 		if (isOpponentCard)
 		{
-			__instance.ApplyAbilitiesToIcons(cardTotemAbilities, __instance.emissiveTotemIcons, __instance.emissiveIconMat,
-				info, playableCard);
+			__instance.ApplyAbilitiesToIcons(
+				cardTotemAbilities,
+				__instance.emissiveTotemIcons,
+				__instance.emissiveIconMat,
+				info,
+				playableCard
+			);
 		}
 		else
 		{
-			__instance.ApplyAbilitiesToIcons(cardTotemAbilities, __instance.totemIcons, __instance.totemIconMat, info,
-				playableCard);
+			__instance.ApplyAbilitiesToIcons(
+				cardTotemAbilities,
+				__instance.totemIcons,
+				__instance.totemIconMat,
+				info,
+				playableCard
+			);
 		}
 
 		__instance.PositionModIcons(
 			distinctAbilitiesCopy,
 			cardMergeAbilities,
-			__instance.mergeIcons, cardTotemAbilities,
-			isOpponentCard ? __instance.emissiveTotemIcons : __instance.totemIcons);
+			__instance.mergeIcons,
+			cardTotemAbilities,
+			isOpponentCard
+				? __instance.emissiveTotemIcons
+				: __instance.totemIcons
+		);
 		foreach (GameObject defaultIconGroup in __instance.defaultIconGroups)
 		{
 			defaultIconGroup.SetActive(value: false);
@@ -215,7 +210,8 @@ public class ChangeLogicInCardAbilityIcons
 
 			GameObject obj = __instance.defaultIconGroups[3];
 			Log.LogDebug(
-				$"[CardAbilityIcons] IconGroup {__instance.defaultIconGroups[0]} Distinct abilities count [{distinctAbilitiesCopy.Count}]");
+				$"[CardAbilityIcons] IconGroup {__instance.defaultIconGroups[0]} Distinct abilities count [{distinctAbilitiesCopy.Count}]"
+			);
 			Log.LogDebug($"[CardAbilityIcons] Setting defaultIconGroup zero active");
 			obj.SetActive(value: true);
 			Log.LogDebug($"[CardAbilityIcons] Getting AbilityIconInteractable in children");
@@ -229,18 +225,27 @@ public class ChangeLogicInCardAbilityIcons
 				componentsInChildren[i].SetMaterial(__instance.defaultIconMat);
 				Log.LogDebug($"[CardAbilityIcons] [{i}] Assigning ability");
 				componentsInChildren[i]
-					.AssignAbility(distinctAbilitiesCopy[indexToStartAt == 1 ? i - 1 : i], info, playableCard);
+					.AssignAbility(
+						distinctAbilitiesCopy[indexToStartAt == 1
+							? i - 1
+							: i],
+						info,
+						playableCard
+					);
 				Log.LogDebug($"[CardAbilityIcons] [{i}] Adding to ability icons list");
 				__instance.abilityIcons.Add(componentsInChildren[i]);
 			}
 		}
 
 		Log.LogDebug($"[CardAbilityIcons] Checking if card has single ability");
-		bool hasSingleAbility = distinctAbilitiesCopy.Count == 1 && cardMergeAbilities.Count == 0 &&
-		                        cardTotemAbilities.Count == 0 && info.SpecialStatIcon == SpecialStatIcon.None;
+		bool hasSingleAbility = distinctAbilitiesCopy.Count == 1
+		                        && cardMergeAbilities.Count == 0
+		                        && cardTotemAbilities.Count == 0
+		                        && info.SpecialStatIcon == SpecialStatIcon.None;
 		Log.LogDebug($"[CardAbilityIcons] __instance.SetSingleDefaultAbilityColliderSize");
-		__instance.SetSingleDefaultAbilityColliderSize(hasSingleAbility &&
-		                                               !ProgressionData.LearnedMechanic(MechanicsConcept.Rulebook));
+		__instance.SetSingleDefaultAbilityColliderSize(
+			hasSingleAbility && !ProgressionData.LearnedMechanic(MechanicsConcept.Rulebook)
+		);
 		Log.LogDebug($"[CardAbilityIcons] __instance.DisplayBoonIcon");
 		__instance.DisplayBoonIcon(info);
 
