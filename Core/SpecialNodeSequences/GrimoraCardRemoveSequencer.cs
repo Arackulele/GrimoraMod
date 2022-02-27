@@ -242,7 +242,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		}
 			*/
 			// card bonesCost reduce = 20% of the time
-			case <= 0.40f:
+			case <= 0.5f:
 			{
 				cardThatWillHaveEffectApplied = ApplyEffectToCards(
 					"grimora_card_bones_decrease",
@@ -254,7 +254,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 				break;
 			}
 			// card gains 1 HP = 10%?
-			case <= 50f:
+			case <= 1f:
 			{
 				cardThatWillHaveEffectApplied = ApplyEffectToCards(
 					"grimora_card_health_increase",
