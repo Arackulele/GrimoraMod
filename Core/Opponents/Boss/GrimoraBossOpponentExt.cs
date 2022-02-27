@@ -170,6 +170,13 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		);
 		yield return new WaitForSeconds(0.25f);
 
+		yield return CreateHornsInFarLeftAndRightLanes(oppSlots);
+
+		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+	}
+
+	private IEnumerator CreateHornsInFarLeftAndRightLanes(List<CardSlot> oppSlots)
+	{
 		yield return TextDisplayer.Instance.ShowUntilInput(
 			"RISE MY ARMY! RIIIIIIIIIISE!",
 			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
@@ -191,8 +198,6 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			yield return BoardManager.Instance.CreateCardInSlot(bonelordsHorn, oppSlots[i], 0.2f);
 			yield return new WaitForSeconds(0.25f);
 		}
-
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 	}
 
 	private CardInfo CreateModifiedBonelord()
