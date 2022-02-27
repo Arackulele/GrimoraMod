@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using APIPlugin;
 using DiskCardGame;
-using HarmonyLib;
-using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -15,7 +13,7 @@ public class Possessive : AbilityBehaviour
 
 	public override bool RespondsToSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
 	{
-		return attacker.Slot == base.Card.Slot.opposingSlot;
+		return attacker.Slot == Card.Slot.opposingSlot;
 	}
 
 	public override IEnumerator OnSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
@@ -28,7 +26,7 @@ public class Possessive : AbilityBehaviour
 	{
 		const string rulebookDescription =
 			"[creature] cannot be attacked from the opposing slot. " +
-			"The opposing slot instead attacks one of it's adjacent slots if possible.";
+			"The opposing slot instead attacks one of its adjacent friendly slots if possible.";
 
 		return ApiUtils.CreateAbility<Possessive>(rulebookDescription);
 	}
