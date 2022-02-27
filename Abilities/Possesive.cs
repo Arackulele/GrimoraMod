@@ -26,7 +26,7 @@ public class Possessive : AbilityBehaviour
 	{
 		const string rulebookDescription =
 			"[creature] cannot be attacked from the opposing slot. " +
-			"The opposing slot instead attacks one of its adjacent friendly slots if possible.";
+			"The opposing slot, if possible, instead attacks one of its adjacent friendly cards.";
 
 		return ApiUtils.CreateAbility<Possessive>(rulebookDescription);
 	}
