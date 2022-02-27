@@ -33,6 +33,9 @@ public class GravestoneCardAnimationControllerPatches
 		bool hasInvertedStrikeAndTargetIsFarthestSlot
 			= __instance.PlayableCard.HasAbility(InvertedStrike.ability) && targetSlotIsFarthestAway;
 
+		bool cardIsTargetingAdjFriendly = isPlayerSideBeingAttacked && !isCardOpponents
+		                                  || !isPlayerSideBeingAttacked && isCardOpponents;
+		
 		string directionToAttack = numToDetermineRotation switch
 		{
 			< 0 => "_left",
@@ -46,7 +49,7 @@ public class GravestoneCardAnimationControllerPatches
 		{
 			animToPlay += "_invertedstrike";
 		}
-		else if (__instance.PlayableCard.HasAbility(AreaOfEffectStrike.ability))
+		else if (__instance.PlayableCard.HasAbility(AreaOfEffectStrike.ability) || cardIsTargetingAdjFriendly)
 		{
 			if (isPlayerSideBeingAttacked)
 			{
