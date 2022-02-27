@@ -147,7 +147,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		modifiedGiant.abilities = new List<Ability> { GiantStrike.ability, Ability.Reach };
 		modifiedGiant.specialAbilities.Add(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility);
 		modifiedGiant.baseAttack = 1;
-		modifiedGiant.baseHealth = 10;
+		modifiedGiant.baseHealth = 8;
 		return modifiedGiant;
 	}
 
