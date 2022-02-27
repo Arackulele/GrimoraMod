@@ -94,7 +94,6 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			}
 			case 2:
 			{
-				yield return StartPlayerCardWeakeningPhase();
 
 				yield return StartSpawningGiantsPhase();
 
@@ -103,32 +102,6 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		}
 
 		ViewManager.Instance.SwitchToView(View.Default);
-	}
-
-	private IEnumerator StartPlayerCardWeakeningPhase()
-	{
-		var playerCardsThatAreValidToWeaken
-			= BoardManager.Instance.GetPlayerCards(pCard => pCard.Health > 1);
-		if (playerCardsThatAreValidToWeaken.IsNotEmpty())
-		{
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				"I WILL MAKE YOU WEAK!",
-				letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
-			);
-
-			ViewManager.Instance.SwitchToView(View.Board);
-
-			foreach (var playableCard in playerCardsThatAreValidToWeaken)
-			{
-				int attack = playableCard.Attack == 0 ? 0 : -playableCard.Attack + 1;
-				playableCard.AddTemporaryMod(new CardModificationInfo(attack, -playableCard.Health + 1));
-				playableCard.Anim.StrongNegationEffect();
-				yield return new WaitForSeconds(0.25f);
-				playableCard.Anim.StrongNegationEffect();
-			}
-
-			yield return new WaitForSeconds(0.75f);
-		}
 	}
 
 	private IEnumerator StartSpawningGiantsPhase()
