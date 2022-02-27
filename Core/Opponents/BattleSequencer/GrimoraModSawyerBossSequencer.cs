@@ -28,7 +28,7 @@ public class GrimoraModSawyerBossSequencer : GrimoraModBossBattleSequencer
 	{
 		bonesTakenCounter++;
 
-		if (bonesTakenCounter >= 2 && ResourcesManager.Instance.PlayerBones >= 2)
+		if (bonesTakenCounter >= 2 && ResourcesManager.Instance.PlayerBones >= 3)
 		{
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"PLEASE, WON'T YOU SPARE SOME BONES FOR A POOR GHOUL LIKE ME?"

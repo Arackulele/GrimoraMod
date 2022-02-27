@@ -73,7 +73,7 @@ public class SawyerBossOpponent : BaseBossExt
 
 		InstantiateBossBehaviour<SawyerBehaviour>();
 		yield return FaceZoomSequence();
-		yield return TextDisplayer.Instance.ShowUntilInput($"OH NO, HE HAS ARRIVED! {"RUN!".Red()}");
+		yield return TextDisplayer.Instance.ShowUntilInput($"OH NO, HE HAS ARRIVED! HE IS THIRSTY FOR YOUR {"BONES!".Red()} ");
 
 		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 		yield return BoardManager.Instance.CreateCardInSlot(
@@ -87,7 +87,7 @@ public class SawyerBossOpponent : BaseBossExt
 
 		ViewManager.Instance.SwitchToView(View.BoneTokens, lockAfter: false);
 		yield return new WaitForSeconds(0.4f);
-		yield return ResourcesManager.Instance.AddBones(2);
+		yield return ResourcesManager.Instance.AddBones(1);
 		yield return new WaitForSeconds(0.4f);
 
 		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;

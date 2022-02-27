@@ -9,7 +9,8 @@ public partial class GrimoraPlugin
 	private void Add_Wendigo()
 	{
 		CardBuilder.Builder
-			.SetAsNormalCard()
+			//Removed for now as its not fun, maybe at a special event later
+			//.SetAsNormalCard()
 			.SetAbilities(Ability.DebuffEnemy, Ability.Strafe)
 			.SetBaseAttackAndHealth(1, 2)
 			.SetBoneCost(5)

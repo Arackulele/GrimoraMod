@@ -1,4 +1,4 @@
-﻿namespace GrimoraMod;
+namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
@@ -7,7 +7,7 @@ public partial class GrimoraPlugin
 	private static void Add_Catacomb()
 	{
 		CardBuilder.Builder
-			.SetAsRareCard()
+			.SetAsNormalCard()
 			.SetAbilities(LammergeierAttack.NewSpecialAbility.specialTriggeredAbility)
 			.SetBaseAttackAndHealth(0, 10)
 			.SetBoneCost(10)

@@ -283,15 +283,15 @@ public static class BlueprintUtils
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Skeleton },
+			new() {  },
 			new() { bp_Zombie },
 			new() { bp_Draugr },
 			new() { bp_Skeleton },
 			new() { },
 			new() { bp_Skeleton },
+			new() {  },
 			new() { bp_Revenant },
-			new() { },
-			new() { bp_Skeleton, bp_Skeleton },
+			new() { bp_Skeleton },
 			new() { bp_Skeleton, bp_Draugr },
 			new() { },
 			new() { bp_Skeleton },
