@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.Flying)
 			.SetBaseAttackAndHealth(3, 3)
 			.SetBoneCost(8)
-			.SetDescription("THEY HAVE LEARNED THE ANCIENT SPELL OF DEATH.")
+			.SetDescription("THIS MONSTROUS CREATURE ABANDONED ITS LEGS TO HUNT FOR ITS NEXT VICTIM.")
 			.SetNames(NameManananggal, "Manananggal")
 			.Build();
 	}
