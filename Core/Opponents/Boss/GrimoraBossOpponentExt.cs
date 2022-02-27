@@ -94,9 +94,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			}
 			case 2:
 			{
-
 				yield return StartSpawningGiantsPhase();
-
 				break;
 			}
 		}
@@ -160,9 +158,13 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		);
 		ViewManager.Instance.SwitchToView(View.OpponentQueue, false, true);
 
-		int bonelordSlotIndex = ConfigHelper.Instance.HasIncreaseSlotsMod ? 3 : 2;
+		int bonelordSlotIndex = ConfigHelper.Instance.HasIncreaseSlotsMod
+			? 3
+			: 2;
 		yield return BoardManager.Instance.CreateCardInSlot(
-			CreateModifiedBonelord(), oppSlots[bonelordSlotIndex], 0.75f
+			CreateModifiedBonelord(),
+			oppSlots[bonelordSlotIndex],
+			0.75f
 		);
 		yield return new WaitForSeconds(0.25f);
 
@@ -172,7 +174,12 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		);
 
 
-		oppSlots.RemoveRange(1, ConfigHelper.Instance.HasIncreaseSlotsMod ? 3 : 2); // slot 1, slot 4 remain
+		oppSlots.RemoveRange(
+			1,
+			ConfigHelper.Instance.HasIncreaseSlotsMod
+				? 3
+				: 2
+		); // slot 1, slot 4 remain
 		var leftAndRightQueueSlots = GetFarLeftAndFarRightQueueSlots();
 
 		CardInfo bonelordsHorn = CreateModifiedBonelordsHorn();
@@ -182,7 +189,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			yield return BoardManager.Instance.CreateCardInSlot(bonelordsHorn, oppSlots[i], 0.2f);
 			yield return new WaitForSeconds(0.25f);
 		}
-		
+
 		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 	}
 
@@ -212,6 +219,12 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	private List<CardSlot> GetFarLeftAndFarRightQueueSlots()
 	{
 		var qSlots = BoardManager.Instance.GetQueueSlots();
-		return new List<CardSlot> { qSlots[0], qSlots[ConfigHelper.Instance.HasIncreaseSlotsMod ? 4 : 3] };
+		CardSlot farRightSlot = qSlots[ConfigHelper.Instance.HasIncreaseSlotsMod
+			? 4
+			: 3];
+		return new List<CardSlot>
+		{
+			qSlots[0], farRightSlot
+		};
 	}
 }
