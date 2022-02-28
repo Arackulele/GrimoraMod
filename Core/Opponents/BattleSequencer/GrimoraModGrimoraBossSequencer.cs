@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -97,23 +97,34 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 	{
 		return !card.OpponentCard && TurnManager.Instance.Opponent.NumLives == 3;
 	}
-
+	private bool GrimoraInscrybeCard = false;
 	public override IEnumerator OnOtherCardDie(
 		PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer
 	)
 	{
-		List<CardSlot> opponentQueuedSlots = BoardManager.Instance.GetQueueSlots();
-		if (opponentQueuedSlots.IsNotEmpty())
-		{
-			ViewManager.Instance.SwitchToView(View.BossCloseup);
-			yield return TextDisplayer.Instance.PlayDialogueEvent(
-				"GrimoraBossReanimate1",
-				TextDisplayer.MessageAdvanceMode.Input
-			);
+		bool GrimoraInscrybeCard = false;
 
-			CardSlot slot = opponentQueuedSlots[UnityEngine.Random.Range(0, opponentQueuedSlots.Count)];
-			yield return TurnManager.Instance.Opponent.QueueCard(card.Info, slot);
-			yield return new WaitForSeconds(0.5f);
+		if (GrimoraInscrybeCard == true)
+		{
+			List<CardSlot> opponentQueuedSlots = BoardManager.Instance.GetQueueSlots();
+			if (opponentQueuedSlots.IsNotEmpty())
+			{
+				ViewManager.Instance.SwitchToView(View.BossCloseup);
+				yield return TextDisplayer.Instance.PlayDialogueEvent(
+					"GrimoraBossReanimate1",
+					TextDisplayer.MessageAdvanceMode.Input
+				);
+
+				CardSlot slot = opponentQueuedSlots[UnityEngine.Random.Range(0, opponentQueuedSlots.Count)];
+				yield return TurnManager.Instance.Opponent.QueueCard(card.Info, slot);
+				yield return GrimoraInscrybeCard == false;
+				yield return new WaitForSeconds(0.5f);
+			}
+
+		}
+		else
+		{
+			yield return GrimoraInscrybeCard == true;
 		}
 	}
 }
