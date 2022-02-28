@@ -124,6 +124,14 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		int numBuffsGiven = 0;
 		while (!finishedBuffing && destroyedCard == null)
 		{
+			Vector3 rulebookLocalPos = TableRuleBook.Instance.gameObject.transform.position;
+			Tween.Position(
+				TableRuleBook.Instance.gameObject.transform,
+				new Vector3(rulebookLocalPos.x, rulebookLocalPos.y, 1),
+				0.25f,
+				0f
+			);
+
 			numBuffsGiven++;
 			selectionSlot.Disable();
 			RuleBookController.Instance.SetShown(false);
