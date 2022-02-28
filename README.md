@@ -26,6 +26,10 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ## Known Issues
 
+### Teeth stay on board after a card with AOE Strike attacks
+
+- No idea how to fix, just a visual bug however so it doesn't affect gameplay.
+
 ### A card with Area of Effect Strike, Tri Strike, and Sniper sigils only allows 3 attacks
 
 - Believe it or not, this is how the vanilla game code for the `Sniper` ability is handled. It doesn't base it off how many attacks you're doing, it hard codes to either 2 for `Split Strike` or 3 for `Tri Strike`.
@@ -48,6 +52,12 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - Bonelord does what he wants.
 
 ## Update Notes
+
+### 2.7.5
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Added try/catch blocks for `ProgressionData.UnlockAll` and `PlayGlitchOutAnimation` for better error logging.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed `Skin Crawler` from sigil pool. Until I can spend an entire day or 2 debugging this ability, it will be removed for the time being. It is the cause of way too many outlier softlocks or issues during battle and it's both frustrating for the player and myself personally.
 
 ### 2.7.4
 
