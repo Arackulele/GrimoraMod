@@ -125,8 +125,14 @@ public class ChessboardMapExt : GameMap
 				switch (ViewManager.Instance.CurrentView)
 				{
 					case View.MapDeckReview:
-						ViewManager.Instance.SwitchToView(View.MapDefault);
+						ViewManager.Instance.SwitchToView(
+							SpecialNodeHandler.Instance.cardChoiceSequencer.transform.childCount > 1
+								? View.Choices
+								: View.MapDefault
+						);
+
 						break;
+					case View.Choices:
 					case View.MapDefault:
 						ViewManager.Instance.SwitchToView(View.MapDeckReview);
 						break;
@@ -338,6 +344,7 @@ public class ChessboardMapExt : GameMap
 	{
 		switch (oldView)
 		{
+			case View.Choices when newView == View.MapDeckReview:
 			case View.MapDefault when newView == View.MapDeckReview:
 			{
 				if (MapNodeManager.Instance != null)
@@ -348,6 +355,7 @@ public class ChessboardMapExt : GameMap
 				DeckReviewSequencer.Instance.SetDeckReviewShown(true, transform, DefaultPosition);
 				break;
 			}
+			case View.MapDeckReview when newView == View.Choices:
 			case View.MapDeckReview when newView == View.MapDefault:
 			{
 				DeckReviewSequencer.Instance.SetDeckReviewShown(false, transform, DefaultPosition);
