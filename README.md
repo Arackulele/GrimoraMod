@@ -53,8 +53,6 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed cards with flying no longer flying after attacking.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) New card, `Hellhand` courtesy of `Bt Y#0895`. 1/1, 5 Bones, Brittle Latch.
-
 - ![Feature](https://i.imgur.com/uL9uYNV.png) New art for `Disinter` and `Screeching Call`, courtesy of `Blind, the Bound Demon#6475`.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) New art for multiple cards.
