@@ -51,9 +51,13 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ### 2.7.4
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed negative effects from Card Remove sequence.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Can now view your deck during normal or rare card choices.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added `Bellist` and `Spirit Bearer` to Electric Chair ability pool.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Added new rare card appearance!
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed negative effects from Card Remove sequence. Community feedback overall did not like sacrificing a card and still getting fucked over (Bone Lord was a little too harsh...).
 
 #### Bosses
 
@@ -73,7 +77,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Reduced twin giant attack from 2 to 1. Increased health by 1.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed reanimation sequence entirely. With `Double Death` especially, the difficulty ramp for the first phase due to this mechanic is just too overwhelming and can heavily swing the board in Grimora's favor.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed reanimation sequence entirely. With `Double Death` especially, the difficulty ramp for the first phase due to this mechanic is just too overwhelming and can heavily swing the board in Grimora's favor in just 2-3 turns.
 
 #### Ability/Card Changes
 
@@ -82,7 +86,8 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
   - New description: [creature] will attempt to find a host in an adjacent friendly slot, hiding under it providing a +1/+1 buff. Cards on the left take priority.
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Adjusted `Death Knell` emission art to line up.
-  - Also added the bell SpecialStatIcon for the attack so that you know what it actually does now.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Added special stat icons for `Catacomb` and `Death Knell`.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Multiple new card arts
   - `Bone Lord's Horn` art from `Cevin2006™ (◕‿◕)#7971`.
