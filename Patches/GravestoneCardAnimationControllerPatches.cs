@@ -9,9 +9,6 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(GravestoneCardAnimationController))]
 public class GravestoneCardAnimationControllerPatches
 {
-	private static readonly int Hover = Animator.StringToHash("hover");
-	private static readonly int Hovering = Animator.StringToHash("hovering");
-	
 	[HarmonyPatch(nameof(GravestoneCardAnimationController.PlayAttackAnimation))]
 	public static bool Prefix(ref GravestoneCardAnimationController __instance, bool attackPlayer, CardSlot targetSlot)
 	{
@@ -81,15 +78,8 @@ public class GravestoneCardAnimationControllerPatches
 			new AudioParams.Pitch(AudioParams.Pitch.Variation.Small),
 			new AudioParams.Repetition(0.05f));
 
-		bool isHovering = __instance.Anim.GetBool(Hovering);
-		if (isHovering)
-		{
-			__instance.Anim.ResetTrigger(Hover);
-			__instance.Anim.SetTrigger(Hover);
-		}
+		__instance.UpdateHoveringForCard();
 
-		__instance.Anim.SetBool(Hovering, isHovering);
-		
 		return false;
 	}
 
@@ -129,9 +119,6 @@ public class GravestoneCardAnimationControllerPatches
 [HarmonyPatch(typeof(CardAnimationController))]
 public class GravestoneCardAnimBaseClassPatches
 {
-	private static readonly int Hover = Animator.StringToHash("hover");
-	private static readonly int Hovering = Animator.StringToHash("hovering");
-
 	[HarmonyPrefix, HarmonyPatch(nameof(CardAnimationController.SetHovering))]
 	public static bool ChangeSetHoveringForGraveCards(CardAnimationController __instance, bool hovering)
 	{
@@ -140,29 +127,21 @@ public class GravestoneCardAnimBaseClassPatches
 			return true;
 		}
 
-		GravestoneCardAnimationController controller = (GravestoneCardAnimationController)__instance;
-
-		if (hovering)
-		{
-			controller.Anim.ResetTrigger(Hover);
-			controller.Anim.SetTrigger(Hover);
-		}
-
-		controller.Anim.SetBool(Hovering, hovering);
+		((GravestoneCardAnimationController)__instance).UpdateHoveringForCard(hovering);
 
 		return false;
 	}
 
-	[HarmonyPostfix, HarmonyPatch(nameof(CardAnimationController.FlipInAir))]
-	public static IEnumerator PlayCardFlipInHandAnim(IEnumerator enumerator, CardAnimationController __instance)
+	[HarmonyPrefix, HarmonyPatch(nameof(CardAnimationController.FlipInAir))]
+	public static bool PlayCardFlipInHandAnim(IEnumerator enumerator, CardAnimationController __instance)
 	{
 		if (GrimoraSaveUtil.isNotGrimora)
 		{
-			yield return enumerator;
-			yield break;
+			return true;
 		}
 
 		__instance.Anim.Play("card_flip_inair");
+		return false;
 	}
 
 	[HarmonyPrefix, HarmonyPatch(nameof(CardAnimationController.PlayTransformAnimation))]

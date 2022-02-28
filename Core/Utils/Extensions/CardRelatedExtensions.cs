@@ -1,11 +1,15 @@
 ﻿using DiskCardGame;
 using Sirenix.Utilities;
+using UnityEngine;
 
 namespace GrimoraMod;
 
 public static class CardRelatedExtension
 {
 
+	private static readonly int Hover = Animator.StringToHash("hover");
+	private static readonly int Hovering = Animator.StringToHash("hovering");
+	
 	public static string GetNameAndSlot(this PlayableCard playableCard)
 	{
 		string printedNameAndSlot = $"[{playableCard.Info.displayedName}]";
@@ -45,5 +49,16 @@ public static class CardRelatedExtension
 	public static bool IsNotEmpty<T>(this List<T> self)
 	{
 		return !self.IsNullOrEmpty();
+	}
+
+	public static void UpdateHoveringForCard(this GravestoneCardAnimationController controller, bool hovering = false)
+	{
+		if (hovering || controller.Anim.GetBool(Hovering))
+		{
+			controller.Anim.ResetTrigger(Hover);
+			controller.Anim.SetTrigger(Hover);
+		}
+
+		controller.Anim.SetBool(Hovering, hovering);
 	}
 }
