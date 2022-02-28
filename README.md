@@ -38,10 +38,6 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - Unfortunately this one is a bit hard to track down, as the table colors get reset after each fight. Not sure why the boss skull doesn't have the color reset.
 
-### Rare card choosing breaks/throws exceptions
-
-- The main culprit from what the team can tell, is that it's an issue with updating the asset bundles. The only recommendation we have now is to uninstall the mod completely, and redownload. Mod managers seem to be really finnicky.
-
 ### Current save file is already at the finale with Grimora
 
 - Make a backup of your save, then delete your current save. Having your current save already at the finale seems to break the mod.
@@ -52,6 +48,15 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - Bonelord does what he wants.
 
 ## Update Notes
+
+### 2.7.6
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New card, `Hellhand` courtesy of `Bt Y#0895`. 1/1, 5 Bones, Brittle Latch.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New art for multiple cards.
+  - GhostShip, courtesy of `Cevin2006™ (◕‿◕)#7971`.
+  - Poltergeist, courtesy of `Cevin2006™ (◕‿◕)#7971`.
+  - The Walkers, courtesy of `Catboy Stinkbug#4099`.
 
 ### 2.7.5
 
