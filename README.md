@@ -55,6 +55,11 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ### 2.7.5
 
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added more debugging tools for adding Grimora Mod cards to either your hand or deck. There is now also a dropdown for custom added cards.
+  - Enable developer mode in config file.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Skeleton` is now the default card that will spawn from `Ice Cube`.
+
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Added try/catch blocks for `ProgressionData.UnlockAll` and `PlayGlitchOutAnimation` for better error logging.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed `Skin Crawler` from sigil pool. Until I can spend an entire day or 2 debugging this ability, it will be removed for the time being. It is the cause of way too many outlier softlocks or issues during battle and it's both frustrating for the player and myself personally.

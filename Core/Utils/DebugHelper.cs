@@ -10,16 +10,27 @@ public class DebugHelper : ManagedBehaviour
 {
 	private static readonly string[] AllGrimoraCardNames 
 		= AllGrimoraModCards.Select(card => card.name.Replace("GrimoraMod_", "")).ToArray();
+
+	private static readonly string[] AllGrimoraCustomCardNames
+		= CardLoader.allData
+			.FindAll(info => info.name.StartsWith("GrimoraMod_") && !AllGrimoraModCards.Exists(modInfo => modInfo.name == info.name))
+			.Select(info => info.name.Replace("GrimoraMod_", ""))
+			.ToArray(); 
 	
-	private bool _toggleDebugCardsHand;
+	private bool _toggleDebugBaseModCardsDeck;
+	
+	private bool _toggleDebugBaseModCardsHand;
+	
+	private bool _toggleDebugCustomCardsDeck;
+	
+	private bool _toggleDebugCustomCardsHand;
 	
 	private bool _toggleDebugTools;
 
 	private readonly string[] _btnTools =
 	{
 		"Win Round", "Lose Round",
-		"Clear Deck", "Add Bones", "Reset Removed Pieces",
-		"Grimora Cards 1", "Grimora Cards 2", "Grimora Cards 3", "Grimora Cards 4"
+		"Clear Deck", "Add Bones", "Reset Removed Pieces"
 	};
 
 	private bool _toggleDebugChests;
@@ -82,10 +93,28 @@ public class DebugHelper : ManagedBehaviour
 			"Debug Enemies"
 		);
 
-		_toggleDebugCardsHand = GUI.Toggle(
-			new Rect(Screen.width - 120, 20, 120, 20),
-			_toggleDebugCardsHand,
-			"Cards To Hand"
+		_toggleDebugBaseModCardsHand = GUI.Toggle(
+			new Rect(Screen.width - 200, 20, 200, 20),
+			_toggleDebugBaseModCardsHand,
+			"Base Mod Cards To Hand"
+		);
+		
+		_toggleDebugBaseModCardsDeck = GUI.Toggle(
+			new Rect(Screen.width - 200, 40, 200, 20),
+			_toggleDebugBaseModCardsDeck,
+			"Base Mod Cards To Deck"
+		);
+		
+		_toggleDebugCustomCardsHand = GUI.Toggle(
+			new Rect(Screen.width - 200, 60, 200, 20),
+			_toggleDebugCustomCardsHand,
+			"Custom Mod Cards To Hand"
+		);
+		
+		_toggleDebugCustomCardsDeck = GUI.Toggle(
+			new Rect(Screen.width - 200, 80, 200, 20),
+			_toggleDebugCustomCardsDeck,
+			"Custom Mod Cards To Deck"
 		);
 
 		if (_toggleDebugTools)
@@ -122,13 +151,6 @@ public class DebugHelper : ManagedBehaviour
 						break;
 					case "Reset Removed Pieces":
 						ConfigHelper.Instance.ResetRemovedPieces();
-						break;
-					case "Grimora Cards 1":
-					case "Grimora Cards 2":
-					case "Grimora Cards 3":
-					case "Grimora Cards 4":
-						GrimoraSaveUtil.ClearDeck();
-						AddCardsToDeck(int.Parse(selectedBtn.Substring(selectedBtn.Length - 2)) - 1);
 						break;
 				}
 			}
@@ -201,10 +223,10 @@ public class DebugHelper : ManagedBehaviour
 			}
 		}
 
-		if (_toggleDebugCardsHand)
+		if (_toggleDebugBaseModCardsHand && !_toggleDebugCustomCardsHand && !_toggleDebugBaseModCardsDeck && !_toggleDebugCustomCardsDeck)
 		{
 			int selectedButton = GUI.SelectionGrid(
-				new Rect(Screen.width - 420, 40, 400, Screen.height - 300),
+				new Rect(Screen.width - 420, 100, 400, Screen.height - 300),
 				-1,
 				AllGrimoraCardNames,
 				3
@@ -213,6 +235,51 @@ public class DebugHelper : ManagedBehaviour
 			if (selectedButton >= 0)
 			{
 				StartCoroutine(CardSpawner.Instance.SpawnCardToHand(("GrimoraMod_"+ AllGrimoraCardNames[selectedButton]).GetCardInfo()));
+			}
+		}
+
+		if (_toggleDebugCustomCardsHand && !_toggleDebugBaseModCardsHand && !_toggleDebugBaseModCardsDeck && !_toggleDebugCustomCardsDeck)
+		{
+			int selectedButton = GUI.SelectionGrid(
+				new Rect(Screen.width - 420, 100, 400, Screen.height - 300),
+				-1,
+				AllGrimoraCustomCardNames,
+				3
+			);
+
+			if (selectedButton >= 0)
+			{
+				StartCoroutine(CardSpawner.Instance.SpawnCardToHand(("GrimoraMod_"+ AllGrimoraCustomCardNames[selectedButton]).GetCardInfo()));
+			}
+		}
+
+		if (_toggleDebugBaseModCardsDeck && !_toggleDebugCustomCardsDeck && !_toggleDebugCustomCardsHand && !_toggleDebugBaseModCardsHand)
+		{
+			int selectedButton = GUI.SelectionGrid(
+				new Rect(Screen.width - 420, 100, 400, Screen.height - 300),
+				-1,
+				AllGrimoraCardNames,
+				3
+			);
+
+			if (selectedButton >= 0)
+			{
+				GrimoraSaveUtil.AddCard(("GrimoraMod_"+ AllGrimoraCardNames[selectedButton]).GetCardInfo());
+			}
+		}
+		
+		if (_toggleDebugCustomCardsDeck && !_toggleDebugBaseModCardsDeck && !_toggleDebugCustomCardsHand && !_toggleDebugBaseModCardsHand)
+		{
+			int selectedButton = GUI.SelectionGrid(
+				new Rect(Screen.width - 420, 100, 400, Screen.height - 300),
+				-1,
+				AllGrimoraCustomCardNames,
+				3
+			);
+
+			if (selectedButton >= 0)
+			{
+				GrimoraSaveUtil.AddCard(("GrimoraMod_"+ AllGrimoraCustomCardNames[selectedButton]).GetCardInfo());
 			}
 		}
 	}
