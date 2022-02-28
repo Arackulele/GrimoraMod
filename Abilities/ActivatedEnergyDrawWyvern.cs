@@ -12,7 +12,7 @@ public class ActivatedEnergyDrawWyvern : ActivatedAbilityBehaviour
 	public static Ability ability;
 
 	public override Ability Ability => ability;
-	public override int EnergyCost => 3;
+	public override int EnergyCost => 2;
 
 	public override IEnumerator Activate()
 	{

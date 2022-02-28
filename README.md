@@ -51,13 +51,27 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ### 2.7.4
 
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed negative effects from Card Remove sequence.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added new rare card appearance!
+
 #### Bosses
+
+##### Kaycee
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Added more dialogue to better indicate how the mechanics work.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Slight nerf to freeze mechanic from 4 to 5.
+
+##### Sawyer
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Added more dialogue to better indicate how the mechanics work. Player now only gets 1 bone at the start of phase 2.
 
 ##### Grimora
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Hopefully fixed issue with phase 2 not spawning the twin giants. Cards will no longer be weakened going into phase 2.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Modified phase 2 twin giant initial attack and health.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Reduced twin giant attack from 2 to 1. Increased health by 1.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed reanimation sequence entirely. With `Double Death` especially, the difficulty ramp for the first phase due to this mechanic is just too overwhelming and can heavily swing the board in Grimora's favor.
 
@@ -70,15 +84,26 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Adjusted `Death Knell` emission art to line up.
   - Also added the bell SpecialStatIcon for the attack so that you know what it actually does now.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) New `Summoner` art from `Cevin2006™ (◕‿◕)#7971`.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Multiple new card arts
+  - `Bone Lord's Horn` art from `Cevin2006™ (◕‿◕)#7971`.
+  - `Bone Prince` art from `Cevin2006™ (◕‿◕)#7971`.
+  - `Headless Horseman` art from `Cevin2006™ (◕‿◕)#7971`.
+  - `Hydra` art from `Cevin2006™ (◕‿◕)#7971`.
+  - `Skelemagus` art from `Cevin2006™ (◕‿◕)#7971`.
+  - `Summoner` art from `Cevin2006™ (◕‿◕)#7971`.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Added multiple new basic cards. All art from `Bt Y#0895`.
-  - Centurion: 1/4, 6 Bones, `Armored`.
-  - Dalgyal: 0/2, 2 Energy, `Sentry`. Description courtesy `TheGreenDigi#8672`.
-  - Deadeye: 1/1, 5 Bones, `Hoarder`. Description courtesy `TheGreenDigi#8672`.
-  - FesteringWretch: 1/1, 3 Bones, `Stinky`. Description courtesy `Blind, the Bound Demon#6475`.
-  - Manananggal: 3/3, 8 Bones, `Flying`. Description courtesy `TheGreenDigi#8672`.
-  - Will 'O' The Wisp. 0/1, 1 Bone, `Spirit Bearer` (Gain Battery but themed for Grimora). Description courtesy `Blind, the Bound Demon#6475`.
+  - Centurion: 1/4, 6 Bones, `Armored`. Description courtesy of `Bt Y#0895`.
+  - Compound Fracture: 1/2, 4 Bones, `Sharp Quills`. Description courtesy of `BONG MASTER`.
+  - Dalgyal: 0/2, 2 Energy, `Sentry`. Description courtesy of `TheGreenDigi#8672`.
+  - Deadeye: 1/1, 5 Bones, `Hoarder`. Description courtesy of `TheGreenDigi#8672`.
+  - FesteringWretch: 1/1, 3 Bones, `Stinky`. Description courtesy of `Blind, the Bound Demon#6475`.
+  - Manananggal: 3/3, 8 Bones, `Flying`. Description courtesy of `TheGreenDigi#8672`.
+  - Will 'O' The Wisp. 0/1, 1 Bone, `Spirit Bearer` (Gain Battery but themed for Grimora). Description courtesy of `Blind, the Bound Demon#6475`.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Reduced cost of `Wyvern` to 3 bones from 4. Reduced energy cost of `Screeching Call` from 3 to 2.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Wendigo` has been removed from the card pool.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Inverted Strike` and `AOE Strike` icons are now flipped when played by the opponent.
 
