@@ -15,14 +15,16 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	public static readonly List<Ability> AbilitiesToChoseRandomly = new()
 	{
+		ActivatedEnergyDrawWyvern.ability,
 		AlternatingStrike.ability,
 		AreaOfEffectStrike.ability,
 		CreateArmyOfSkeletons.ability,
+		CreateKnells.ability,
 		Erratic.ability,
 		InvertedStrike.ability,
-		ActivatedEnergyDrawWyvern.ability,
 		Possessive.ability,
 		SkinCrawler.ability,
+		SpiritBearer.ability,
 		Ability.ActivatedDealDamage,
 		Ability.ActivatedDrawSkeleton,
 		Ability.ActivatedHeal,
