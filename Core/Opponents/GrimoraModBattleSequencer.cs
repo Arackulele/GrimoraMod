@@ -154,7 +154,14 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 	private static void GlitchOutCard(Card c)
 	{
-		(c.Anim as GravestoneCardAnimationController)?.PlayGlitchOutAnimation();
+		try
+		{
+			(c.Anim as GravestoneCardAnimationController)?.PlayGlitchOutAnimation();
+		}
+		catch (Exception e)
+		{
+			Log.LogError($"Was unable to play glitch out for card [{c.InfoName()}], just destroying it instead.");
+		}
 		Destroy(c.gameObject, 0.25f);
 	}
 }
