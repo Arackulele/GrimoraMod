@@ -12,8 +12,8 @@ public class DebugHelper : ManagedBehaviour
 	private readonly string[] _btnTools =
 	{
 		"Win Round", "Lose Round",
-		"Add All Grimora Cards", "Clear Deck",
-		"Add Bones", "Reset Removed Pieces"
+		"Clear Deck", "Add Bones", "Reset Removed Pieces",
+		"Grimora Cards 1", "Grimora Cards 2", "Grimora Cards 3", "Grimora Cards 4"
 	};
 
 	private bool _toggleDebugChests;
@@ -37,6 +37,20 @@ public class DebugHelper : ManagedBehaviour
 		"Place Enemies"
 	};
 
+	private void AddCardsToDeck(int section)
+	{
+		int startingIndex = section * 15;
+		// 3 * 15 == 45
+		// total count 59
+		// 59 - 45 == 14
+		GrimoraSaveUtil.DeckList.AddRange(
+			GrimoraPlugin.AllGrimoraModCards.GetRange(
+				startingIndex,
+				Math.Min(15, GrimoraPlugin.AllGrimoraModCards.Count - startingIndex)
+			)
+		);
+	}
+
 	private void OnGUI()
 	{
 		if (!ConfigHelper.Instance.isDevModeEnabled)
@@ -45,19 +59,19 @@ public class DebugHelper : ManagedBehaviour
 		}
 
 		_toggleDebugTools = GUI.Toggle(
-			new Rect(20, 60, 100, 20),
+			new Rect(20, 60, 120, 20),
 			_toggleDebugTools,
 			"Debug Tools"
 		);
 
 		_toggleDebugChests = GUI.Toggle(
-			new Rect(20, 180, 100, 20),
+			new Rect(20, 180, 120, 20),
 			_toggleDebugChests,
 			"Debug Chests"
 		);
 
 		_toggleEnemies = GUI.Toggle(
-			new Rect(20, 300, 100, 20),
+			new Rect(20, 300, 120, 20),
 			_toggleEnemies,
 			"Debug Enemies"
 		);
@@ -65,7 +79,7 @@ public class DebugHelper : ManagedBehaviour
 		if (_toggleDebugTools)
 		{
 			int selectedButton = GUI.SelectionGrid(
-				new Rect(25, 80, 300, 60),
+				new Rect(25, 80, 300, 90),
 				-1,
 				_btnTools,
 				2
@@ -74,7 +88,8 @@ public class DebugHelper : ManagedBehaviour
 			if (selectedButton >= 0)
 			{
 				// Log.LogDebug($"[OnGUI] Calling button [{selectedButton}]");
-				switch (_btnTools[selectedButton])
+				string selectedBtn = _btnTools[selectedButton];
+				switch (selectedBtn)
 				{
 					case "Win Round":
 						LifeManager.Instance.StartCoroutine(
@@ -86,13 +101,6 @@ public class DebugHelper : ManagedBehaviour
 							LifeManager.Instance.ShowDamageSequence(10, 1, true)
 						);
 						break;
-					case "Add All Grimora Cards":
-						GrimoraSaveUtil.ClearDeck();
-						GrimoraSaveUtil.DeckList.AddRange(
-							NewCard.cards.FindAll(card => card.name.StartsWith("GrimoraMod_"))
-						);
-						SaveManager.SaveToFile();
-						break;
 					case "Clear Deck":
 						GrimoraSaveUtil.ClearDeck();
 						SaveManager.SaveToFile();
@@ -102,6 +110,13 @@ public class DebugHelper : ManagedBehaviour
 						break;
 					case "Reset Removed Pieces":
 						ConfigHelper.Instance.ResetRemovedPieces();
+						break;
+					case "Grimora Cards 1":
+					case "Grimora Cards 2":
+					case "Grimora Cards 3":
+					case "Grimora Cards 4":
+						GrimoraSaveUtil.ClearDeck();
+						AddCardsToDeck(int.Parse(selectedBtn.Substring(selectedBtn.Length - 2)) - 1);
 						break;
 				}
 			}
