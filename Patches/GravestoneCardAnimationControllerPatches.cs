@@ -9,6 +9,9 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(GravestoneCardAnimationController))]
 public class GravestoneCardAnimationControllerPatches
 {
+	private static readonly int Hover = Animator.StringToHash("hover");
+	private static readonly int Hovering = Animator.StringToHash("hovering");
+	
 	[HarmonyPatch(nameof(GravestoneCardAnimationController.PlayAttackAnimation))]
 	public static bool Prefix(ref GravestoneCardAnimationController __instance, bool attackPlayer, CardSlot targetSlot)
 	{
@@ -78,6 +81,15 @@ public class GravestoneCardAnimationControllerPatches
 			new AudioParams.Pitch(AudioParams.Pitch.Variation.Small),
 			new AudioParams.Repetition(0.05f));
 
+		bool isHovering = __instance.Anim.GetBool(Hovering);
+		if (isHovering)
+		{
+			__instance.Anim.ResetTrigger(Hover);
+			__instance.Anim.SetTrigger(Hover);
+		}
+
+		__instance.Anim.SetBool(Hovering, isHovering);
+		
 		return false;
 	}
 
