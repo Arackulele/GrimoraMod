@@ -49,9 +49,11 @@ public static class AssetUtils
 		}
 		catch (Exception e)
 		{
-			Log.LogError($"Unable to find prefab [{prefabName}]! This could mean the asset bundle doesn't contain it, or, most likely, your mod manager didn't correctly update the asset bundle files." +
-			             $"If it worked last update, delete your files and download the mod files again. " +
-			             $"There's a weird issue with how mod managers handle asset bundle between mod updates.");
+			Log.LogError(
+				$"Unable to find prefab [{prefabName}]! This could mean the asset bundle doesn't contain it, or, most likely, your mod manager didn't correctly update the asset bundle files."
+				+ $"If it worked last update, delete your files and download the mod files again. "
+				+ $"There's a weird issue with how mod managers handle asset bundle between mod updates."
+			);
 			throw;
 		}
 

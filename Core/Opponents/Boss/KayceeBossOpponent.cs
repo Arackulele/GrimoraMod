@@ -110,7 +110,8 @@ public class KayceeBossOpponent : BaseBossExt
 			yield return base.OutroSequence(true);
 
 			yield return FaceZoomSequence();
-			yield return TextDisplayer.Instance.ShowUntilInput("THIS NEXT AREA WAS MADE BY ONE OF MY GHOULS, SAWYER."); 
+			yield return TextDisplayer.Instance.ShowUntilInput("FOR DEFEATING ONE OF MY GHOULS, I WILL REWARD YOU A STARTING BONE IN EACH OF YOUR BATTLES.");
+			yield return TextDisplayer.Instance.ShowUntilInput("THIS NEXT AREA WAS MADE BY ONE OF MY GHOULS, SAWYER.");
 			yield return TextDisplayer.Instance.ShowUntilInput("HE SAYS IT IS TERRIBLE.");
 		}
 		else

@@ -14,10 +14,8 @@ public class ChessboardMapExt : GameMap
 
 	private bool _toggleCardsLeftInDeck = false;
 
-	public List<ChessboardPiece> ActivePieces => pieces;
-
-	public readonly Predicate<ChessboardPiece> PieceExistsInActivePieces
-		= piece => Instance.pieces.Exists(active => active.gridXPos == piece.gridXPos && active.gridYPos == piece.gridYPos);
+	public bool HasNotPlayedDialogueOnce =>
+		ConfigHelper.Instance.HammerDialogueOption == 1 && Instance.hasNotPlayedAllHammerDialogue;
 
 	public bool hasNotPlayedAllHammerDialogue = true;
 
@@ -55,9 +53,13 @@ public class ChessboardMapExt : GameMap
 	{
 		if (_chessboards == null)
 		{
-			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir(
-				ConfigHelper.Instance.isDevModeEnabled ? "GrimoraChessboardDevMode.json" : "GrimoraChessboardsStatic.json"
-			));
+			string jsonString = File.ReadAllText(
+				FileUtils.FindFileInPluginDir(
+					ConfigHelper.Instance.isDevModeEnabled
+						? "GrimoraChessboardDevMode.json"
+						: "GrimoraChessboardsStatic.json"
+				)
+			);
 
 			_chessboards = ParseJson(
 				SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString)
@@ -103,7 +105,14 @@ public class ChessboardMapExt : GameMap
 		    && CardDrawPiles3D.Instance.Deck is not null)
 		{
 			_toggleCardsLeftInDeck = GUI.Toggle(
-				new Rect(20, (ConfigHelper.Instance.isDevModeEnabled ? 320 : 60), 150, 15),
+				new Rect(
+					20,
+					(ConfigHelper.Instance.isDevModeEnabled
+						? 360
+						: 60),
+					150,
+					15
+				),
 				_toggleCardsLeftInDeck,
 				"Cards Left in Deck"
 			);
@@ -116,8 +125,14 @@ public class ChessboardMapExt : GameMap
 				switch (ViewManager.Instance.CurrentView)
 				{
 					case View.MapDeckReview:
-						ViewManager.Instance.SwitchToView(View.MapDefault);
+						ViewManager.Instance.SwitchToView(
+							SpecialNodeHandler.Instance.cardChoiceSequencer.transform.childCount > 1
+								? View.Choices
+								: View.MapDefault
+						);
+
 						break;
+					case View.Choices:
 					case View.MapDefault:
 						ViewManager.Instance.SwitchToView(View.MapDeckReview);
 						break;
@@ -180,14 +195,16 @@ public class ChessboardMapExt : GameMap
 	private void ClearBoardForChangingRegion()
 	{
 		Log.LogDebug($"[CompleteRegionSequence] Clearing and destroying pieces");
-		pieces.RemoveAll(delegate(ChessboardPiece piece)
-		{
-			// piece.gameObject.SetActive(false);
-			piece.MapNode.OccupyingPiece = null;
-			Destroy(piece.gameObject);
+		pieces.RemoveAll(
+			delegate(ChessboardPiece piece)
+			{
+				// piece.gameObject.SetActive(false);
+				piece.MapNode.OccupyingPiece = null;
+				Destroy(piece.gameObject);
 
-			return true;
-		});
+				return true;
+			}
+		);
 
 		// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Clearing removedPiecesConfig");
 		ConfigHelper.Instance.ResetRemovedPieces();
@@ -279,23 +296,25 @@ public class ChessboardMapExt : GameMap
 			.Where(p => !removedList.Contains(p.name))
 			.ToList();
 
-		pieces.RemoveAll(delegate(ChessboardPiece piece)
-		{
-			bool toRemove = false;
-			if (activePieces.Contains(piece))
+		pieces.RemoveAll(
+			delegate(ChessboardPiece piece)
 			{
-				piece.gameObject.SetActive(true);
-			}
-			else
-			{
-				piece.gameObject.SetActive(false);
-				piece.MapNode.OccupyingPiece = null;
-				toRemove = true;
-			}
+				bool toRemove = false;
+				if (activePieces.Contains(piece))
+				{
+					piece.gameObject.SetActive(true);
+				}
+				else
+				{
+					piece.gameObject.SetActive(false);
+					piece.MapNode.OccupyingPiece = null;
+					toRemove = true;
+				}
 
-			piece.Hide(true);
-			return toRemove;
-		});
+				piece.Hide(true);
+				return toRemove;
+			}
+		);
 
 		yield return new WaitForSeconds(0.05f);
 
@@ -325,6 +344,7 @@ public class ChessboardMapExt : GameMap
 	{
 		switch (oldView)
 		{
+			case View.Choices when newView == View.MapDeckReview:
 			case View.MapDefault when newView == View.MapDeckReview:
 			{
 				if (MapNodeManager.Instance != null)
@@ -335,6 +355,7 @@ public class ChessboardMapExt : GameMap
 				DeckReviewSequencer.Instance.SetDeckReviewShown(true, transform, DefaultPosition);
 				break;
 			}
+			case View.MapDeckReview when newView == View.Choices:
 			case View.MapDeckReview when newView == View.MapDefault:
 			{
 				DeckReviewSequencer.Instance.SetDeckReviewShown(false, transform, DefaultPosition);
@@ -353,7 +374,8 @@ public class ChessboardMapExt : GameMap
 		if (string.Equals(
 			    navGrid.zones[0, 0].name,
 			    "ChessBoardMapNode",
-			    StringComparison.OrdinalIgnoreCase)
+			    StringComparison.OrdinalIgnoreCase
+		    )
 		   )
 		{
 			var zones = ChessboardNavGrid.instance.zones;

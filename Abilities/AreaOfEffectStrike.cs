@@ -56,7 +56,7 @@ public class AreaOfEffectStrike : AbilityBehaviour
 		const string rulebookDescription =
 			"[creature] will strike it's adjacent slots, and each opposing space to the left, right, and center of it.";
 
-		return ApiUtils.CreateAbility<AreaOfEffectStrike>(rulebookDescription);
+		return ApiUtils.CreateAbility<AreaOfEffectStrike>(rulebookDescription, flipYIfOpponent: true);
 	}
 }
 
@@ -83,7 +83,10 @@ public class PatchesForAreaOfEffectStrike
 			int dmgDoneToPlayer = slot.Card.GetComponent<AreaOfEffectStrike>().damageDoneToPlayer;
 			Log.LogDebug($"[SlotAttackSequence.AOE] Dealing [{dmgDoneToPlayer}] to player");
 			yield return LifeManager.Instance.ShowDamageSequence(
-				dmgDoneToPlayer, dmgDoneToPlayer, !slot.Card.OpponentCard, 0.2f
+				dmgDoneToPlayer,
+				dmgDoneToPlayer,
+				!slot.Card.OpponentCard,
+				0.2f
 			);
 
 			Log.LogDebug($"[SlotAttackSequence.AOE] Subtracting [{dmgDoneToPlayer}] from DamageDealtThisPhase");

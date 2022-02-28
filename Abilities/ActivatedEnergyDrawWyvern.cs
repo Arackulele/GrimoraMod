@@ -8,11 +8,14 @@ namespace GrimoraMod;
 public class ActivatedEnergyDrawWyvern : ActivatedAbilityBehaviour
 {
 	public static readonly NewAbility NewAbility = Create();
-	
+
 	public static Ability ability;
 
+	private const int ENERGY_COST = 2;
+
 	public override Ability Ability => ability;
-	public override int EnergyCost => 3;
+
+	public override int EnergyCost => ENERGY_COST;
 
 	public override IEnumerator Activate()
 	{
@@ -21,9 +24,8 @@ public class ActivatedEnergyDrawWyvern : ActivatedAbilityBehaviour
 
 	public static NewAbility Create()
 	{
-		const string rulebookDescription = "Pay 3 Energy for [creature] to summon a Wyvern in your hand.";
+		string rulebookDescription = $"Pay {ENERGY_COST} Energy for [creature] to summon a Wyvern in your hand.";
 
-		return ApiUtils.CreateAbility<ActivatedEnergyDrawWyvern>
-			(rulebookDescription, "Screeching Call", true);
+		return ApiUtils.CreateAbility<ActivatedEnergyDrawWyvern>(rulebookDescription, "Screeching Call", true);
 	}
 }

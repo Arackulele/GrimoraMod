@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 399336809
+CRC: 2550490605
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 5f4ddfb55c8f90ec6850bf00510a2961
+    Hash: 57f005f4b5406a61961684da7fd227e6
   TypeTreeHash:
     serializedVersion: 2
     Hash: 22357172b8cea85847937e8f62d0c077
@@ -17,6 +17,7 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
+- Assets/GrimoraMod_Unity/Materials/GravestoneCardBack_Rare.mat
 - Assets/GrimoraMod_Unity/Materials/Boneyard_ConfirmButton_Shovel.mat
 - Assets/GrimoraMod_Unity/Materials/ElectricChair_SelectionSlot.mat
 - Assets/GrimoraMod_Unity/Materials/Boneyard_SelectionSlot.mat

@@ -11,11 +11,6 @@ public class HammerItemExt : HammerItem
 	private static readonly int Glossiness = Shader.PropertyToID("_GlossMapScale");
 	private static readonly int Hit = Animator.StringToHash("hit");
 
-	private readonly int _hammerOption = ConfigHelper.Instance.HammerDialogueOption;
-
-	private bool HasNotPlayedDialogueOnce =>
-		_hammerOption == 1 && ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue;
-
 	private Material HammerHandleMat => transform.Find("Handle").GetComponent<MeshRenderer>().material;
 
 	private int _useCounter = 0;
@@ -74,6 +69,7 @@ public class HammerItemExt : HammerItem
 			ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue = false;
 			gameObject.SetActive(false);
 		}
+
 		TextDisplayer.Instance.Clear();
 
 		yield return new WaitForSeconds(0.65f);
@@ -82,7 +78,7 @@ public class HammerItemExt : HammerItem
 
 	public IEnumerator PlayDialogue(string dialogue)
 	{
-		if (HasNotPlayedDialogueOnce || _hammerOption == 2)
+		if (ChessboardMapExt.Instance.HasNotPlayedDialogueOnce || ConfigHelper.Instance.HammerDialogueOption == 2)
 		{
 			yield return TextDisplayer.Instance.ShowThenClear(dialogue, 3f);
 		}

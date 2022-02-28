@@ -17,6 +17,6 @@ public class InvertedStrike : AbilityBehaviour
 			"[creature] will strike the opposing slot as if the board was flipped. " +
 			"A card in the far left slot will attack the opposing far right slot.";
 
-		return ApiUtils.CreateAbility<InvertedStrike>(rulebookDescription);
+		return ApiUtils.CreateAbility<InvertedStrike>(rulebookDescription, flipYIfOpponent: true);
 	}
 }

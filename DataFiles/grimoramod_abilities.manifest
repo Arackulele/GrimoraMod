@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1808980571
+CRC: 4200130500
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 6f15f0c0b53836bd9f5e4aaf9853a30d
+    Hash: 9ee545d193516a6d66144b8308b59c8e
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7859cd501ea75098bcf7e53f1b477c26
@@ -16,6 +16,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Abilities/ability_InvertedStrike.png
 - Assets/GrimoraMod_Unity/Abilities/ability_FlameStrafe.png
 - Assets/GrimoraMod_Unity/Abilities/ability_PayBonesForSkeleton.png
+- Assets/GrimoraMod_Unity/Abilities/ability_SpiritBearer.png
 - Assets/GrimoraMod_Unity/Abilities/ability_AlternatingStrike.png
 - Assets/GrimoraMod_Unity/Abilities/ability_GiantStrike.png
 - Assets/GrimoraMod_Unity/Abilities/ability_GainAttackBonesHalf.png

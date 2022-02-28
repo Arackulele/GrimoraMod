@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 516052368
+CRC: 3683272749
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 98b25a4d9a471ec58faf2c0ac85d3594
+    Hash: 6c6d69c7455736642db391b03cabd1fe
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -20,16 +20,21 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Elk.png
 - Assets/GrimoraMod_Unity/Cards/Wendigo.png
 - Assets/GrimoraMod_Unity/Cards/Dybbuk_emission.png
+- Assets/GrimoraMod_Unity/Cards/Centurion.png
+- Assets/GrimoraMod_Unity/Cards/Deadeye.png
 - Assets/GrimoraMod_Unity/Cards/Obol_emission.png
 - Assets/GrimoraMod_Unity/Cards/Mummy_emission.png
 - Assets/GrimoraMod_Unity/Cards/ExplodingPirate.png
 - Assets/GrimoraMod_Unity/Cards/DrownedSoul_emission.png
 - Assets/GrimoraMod_Unity/Cards/Dybbuk.png
+- Assets/GrimoraMod_Unity/Cards/Manananggal.png
+- Assets/GrimoraMod_Unity/Cards/CompoundFracture.png
 - Assets/GrimoraMod_Unity/Cards/Skelemaniac_emission.png
 - Assets/GrimoraMod_Unity/Cards/Sarcophagus.png
 - Assets/GrimoraMod_Unity/Cards/DeathKnell_emission.png
 - Assets/GrimoraMod_Unity/Cards/Franknstein.png
 - Assets/GrimoraMod_Unity/Cards/DeadPets.png
+- Assets/GrimoraMod_Unity/Cards/WillOTheWisp.png
 - Assets/GrimoraMod_Unity/Cards/Silbon_emission.png
 - Assets/GrimoraMod_Unity/Cards/BonePrince_emission.png
 - Assets/GrimoraMod_Unity/Cards/Ember_Spirit_emission.png
@@ -44,6 +49,8 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Amoeba_emission.png
 - Assets/GrimoraMod_Unity/Cards/Skeleton.png
 - Assets/GrimoraMod_Unity/Cards/Poltergeist_emission.png
+- Assets/GrimoraMod_Unity/Cards/Dalgyal.png
+- Assets/GrimoraMod_Unity/Cards/Deadeye_emission.png
 - Assets/GrimoraMod_Unity/Cards/Wyvern.png
 - Assets/GrimoraMod_Unity/Cards/GhostShip.png
 - Assets/GrimoraMod_Unity/Cards/Draugr_emission.png
@@ -66,12 +73,16 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/PlagueDoctor.png
 - Assets/GrimoraMod_Unity/Cards/Obol.png
 - Assets/GrimoraMod_Unity/Cards/Skelemagus_emission.png
+- Assets/GrimoraMod_Unity/Cards/Bigbones.png
+- Assets/GrimoraMod_Unity/Cards/Dalgyal_emission.png
 - Assets/GrimoraMod_Unity/Cards/PlagueDoctor_emission.png
 - Assets/GrimoraMod_Unity/Cards/Mummy.png
 - Assets/GrimoraMod_Unity/Cards/Catacomb.png
 - Assets/GrimoraMod_Unity/Cards/ArmoredZombie.png
+- Assets/GrimoraMod_Unity/Cards/FesteringWretch.png
 - Assets/GrimoraMod_Unity/Cards/DeathKnell.png
 - Assets/GrimoraMod_Unity/Cards/Summoner.png
+- Assets/GrimoraMod_Unity/Cards/Manananggal_emission.png
 - Assets/GrimoraMod_Unity/Cards/Family.png
 - Assets/GrimoraMod_Unity/Cards/SkeletonArmy.png
 - Assets/GrimoraMod_Unity/Cards/ArmoredZombie_emission.png
@@ -81,10 +92,13 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Zombie.png
 - Assets/GrimoraMod_Unity/Cards/Sporedigger.png
 - Assets/GrimoraMod_Unity/Menu/Background.png
+- Assets/GrimoraMod_Unity/Cards/FesteringWretch_emission.png
 - Assets/GrimoraMod_Unity/Cards/Revenant.png
 - Assets/GrimoraMod_Unity/Cards/Giant.png
+- Assets/GrimoraMod_Unity/Cards/Summoner_emission.png
 - Assets/GrimoraMod_Unity/Cards/ghoul.png
 - Assets/GrimoraMod_Unity/Cards/BonelordsHorn.png
+- Assets/GrimoraMod_Unity/Cards/Bigbones_emission.png
 - Assets/GrimoraMod_Unity/Menu/menutext_grimora_mod.png
 - Assets/GrimoraMod_Unity/Cards/BonePrince.png
 - Assets/GrimoraMod_Unity/Cards/Skelemagus.png
@@ -95,6 +109,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Project.png
 - Assets/GrimoraMod_Unity/Cards/Wyvern_smaller.png
 - Assets/GrimoraMod_Unity/Cards/Draugr.png
+- Assets/GrimoraMod_Unity/Cards/CompoundFracture_emission.png
 - Assets/GrimoraMod_Unity/Cards/HeadlessHorseman.png
 - Assets/GrimoraMod_Unity/Cards/BoneSerpent.png
 - Assets/GrimoraMod_Unity/Cards/Ripper.png
@@ -105,6 +120,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Wyvern_emission.png
 - Assets/GrimoraMod_Unity/Cards/HellHound_emission.png
 - Assets/GrimoraMod_Unity/Cards/BooHag.png
+- Assets/GrimoraMod_Unity/Cards/WillOTheWisp_emission.png
 - Assets/GrimoraMod_Unity/Cards/Bonepile.png
 - Assets/GrimoraMod_Unity/Cards/SkeletonArmy_emission.png
 - Assets/GrimoraMod_Unity/Cards/Sporedigger_emission.png
@@ -125,4 +141,5 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Amoeba.png
 - Assets/GrimoraMod_Unity/Cards/Hydra.png
 - Assets/GrimoraMod_Unity/Cards/Silbon.png
+- Assets/GrimoraMod_Unity/Cards/Centurion_emission.png
 Dependencies: []

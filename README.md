@@ -49,6 +49,75 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ## Update Notes
 
+### 2.7.4
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Can now access rulebook after adding a new sigil to a card in the Electric Chair sequencer.
+  - This also means that you can right-click the newly added sigil so you can see wtf it is.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Can now view your deck during normal or rare card choices.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added `Bellist` and `Spirit Bearer` to Electric Chair ability pool.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added new rare card appearance!
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed negative effects from Card Remove sequence. Community feedback overall did not like sacrificing a card and still getting fucked over (Bone Lord was a little too harsh...).
+
+#### Bosses
+
+##### Kaycee
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Added more dialogue to better indicate how the mechanics work.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Slight nerf to freeze mechanic from 4 to 5.
+
+##### Sawyer
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Added more dialogue to better indicate how the mechanics work. Player now only gets 1 bone at the start of phase 2.
+
+##### Grimora
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Hopefully fixed issue with phase 2 not spawning the twin giants. Cards will no longer be weakened going into phase 2.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Reduced twin giant attack from 2 to 1. Increased health by 1.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed reanimation sequence entirely. With `Double Death` especially, the difficulty ramp for the first phase due to this mechanic is just too overwhelming and can heavily swing the board in Grimora's favor in just 2-3 turns.
+
+#### Ability/Card Changes
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Reworked the logic for `Skin Crawler`, again.
+  - Fixed potential softlock if `Boo Hag` is hiding under a card when you die.
+  - New description: [creature] will attempt to find a host in an adjacent friendly slot, hiding under it providing a +1/+1 buff. Cards on the left take priority.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Adjusted `Death Knell` emission art to line up.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Added special stat icons for `Catacomb` and `Death Knell`.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Multiple new card arts
+  - `Bone Lord's Horn` art from `Cevin2006™ (◕‿◕)#7971`.
+  - `Bone Prince` art from `Cevin2006™ (◕‿◕)#7971`.
+  - `Headless Horseman` art from `Cevin2006™ (◕‿◕)#7971`.
+  - `Hydra` art from `Cevin2006™ (◕‿◕)#7971`.
+  - `Skelemagus` art from `Cevin2006™ (◕‿◕)#7971`.
+  - `Summoner` art from `Cevin2006™ (◕‿◕)#7971`.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added multiple new basic cards. All art from `Bt Y#0895`.
+  - Centurion: 1/4, 6 Bones, `Armored`. Description courtesy of `Bt Y#0895`.
+  - Compound Fracture: 1/2, 4 Bones, `Sharp Quills`. Description courtesy of `BONG MASTER`.
+  - Dalgyal: 0/2, 2 Energy, `Sentry`. Description courtesy of `TheGreenDigi#8672`.
+  - Deadeye: 1/1, 5 Bones, `Hoarder`. Description courtesy of `TheGreenDigi#8672`.
+  - FesteringWretch: 1/1, 3 Bones, `Stinky`. Description courtesy of `Blind, the Bound Demon#6475`.
+  - Manananggal: 3/3, 8 Bones, `Flying`. Description courtesy of `TheGreenDigi#8672`.
+  - Will 'O' The Wisp. 0/1, 1 Bone, `Spirit Bearer` (Gain Battery but themed for Grimora). Description courtesy of `Blind, the Bound Demon#6475`.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Reduced cost of `Wyvern` to 3 bones from 4. Reduced energy cost of `Screeching Call` from 3 to 2.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Wendigo` has been removed from the card pool.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Inverted Strike` and `AOE Strike` icons are now flipped when played by the opponent.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Corrected visual issue with `Possessive` sigil where the opposing card would look like it's attacking the adjacent slots of the card bearing `Possessive`, and not the adjacent friendly slots.
+  - Updated description to: [creature] cannot be attacked from the opposing slot. The opposing slot, if possible, instead attacks one of its adjacent friendly cards.
+
 ### 2.7.2
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed visual issue with energy decals showing through other cards in `Deck View`.

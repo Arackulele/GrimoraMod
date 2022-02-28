@@ -266,7 +266,6 @@ public class ConfigHelper
 		{
 			Log.LogWarning($"You haven't completed a required event... Starting unlock process");
 			StoryEventsToBeCompleteBeforeStarting.ForEach(evt => StoryEventsData.SetEventCompleted(evt));
-			ProgressionData.UnlockAll();
 			SaveManager.SaveToFile();
 		}
 	}

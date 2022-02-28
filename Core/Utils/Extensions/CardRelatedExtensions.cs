@@ -8,10 +8,10 @@ public static class CardRelatedExtension
 
 	public static string GetNameAndSlot(this PlayableCard playableCard)
 	{
-		string printedNameAndSlot = $"[{playableCard.InfoName()}]";
+		string printedNameAndSlot = $"[{playableCard.Info.displayedName}]";
 		if (playableCard.Slot is not null)
 		{
-			printedNameAndSlot += $" Slot [{playableCard.Slot.name}]";
+			printedNameAndSlot += $" Slot [{playableCard.Slot.Index}]";
 		}
 
 		return printedNameAndSlot;

@@ -15,7 +15,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 {
 	public const string GUID = "arackulele.inscryption.grimoramod";
 	public const string Name = "GrimoraMod";
-	private const string Version = "2.7.2";
+	private const string Version = "2.7.4";
 
 	internal static ManualLogSource Log;
 
@@ -57,58 +57,67 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private void LoadCards()
 	{
-		Add_Amoeba(); // vanilla
-		Add_ArmoredZombie(); // Ara
-		Add_Banshee(); // vanilla
-		Add_Bonepile(); // Bt Y#0895
-		Add_Bonehound(); // vanilla
-		Add_BonePrince(); // LavaErrorDoggo#1564
-		Add_Bonelord(); // Ryan S Art
-		Add_BonelordsHorn(); // LavaErrorDoggo#1564
-		Add_BooHag(); // Bt Y#0895
-		Add_Catacomb(); // Bt Y#0895
-		Add_CorpseMaggots(); // vanilla
-		Add_DanseMacabre(); // Bt Y#0895
-		Add_DeadHand(); // Ara?
-		Add_DeadPets(); // LavaErrorDoggo#1564
-		Add_DeathKnell(); // Bt Y#0895
-		Add_DeathKnellBell(); // Bt Y#0895
-		Add_Draugr(); // Bt Y#0895
-		Add_DrownedSoul(); // LavaErrorDoggo#1564
-		Add_Dybbuk(); // Bt Y#0895
-		Add_EmberSpirit(); // // Cevin2006™ (◕‿◕)#7971
-		Add_ExplodingPirate(); // Lich underling#7678, then Ara
-		Add_Family(); // LavaErrorDoggo#1564
-		Add_Flames(); // Ara
-		Add_Franknstein(); // vanilla
-		Add_Giant(); // Bt Y#0895
-		Add_GhostShip(); // LavaErrorDoggo#1564
-		Add_GraveDigger(); // vanilla
-		Add_HeadlessHorseman(); // LavaErrorDoggo#1564
-		Add_HellHound();
-		Add_Hydra(); // LavaErrorDoggo#1564 ?
-		Add_Mummy(); // Bt Y#0895
-		Add_Necromancer(); // Bt Y#0895
-		Add_Obol(); // Bt Y#0895
-		Add_PlagueDoctor(); // Cevin2006™ (◕‿◕)#7971
-		Add_Poltergeist(); // Cevin2006™ (◕‿◕)#7971
-		Add_Project(); // Bt Y#0895
-		Add_Revenant(); // vanilla
-		Add_MudWorm(); // LavaErrorDoggo#1564
-		Add_Ripper(); // Bt Y#0895
-		Add_Sarcophagus(); // Bt Y#0895
-		Add_Silbon(); // Bt Y#0895
-		Add_ScreamingSkull(); // Bt Y#0895
-		Add_VengefulSpirit(); // Cevin2006™ (◕‿◕)#7971
-		Add_SkeletonArmy(); // LavaErrorDoggo#1564 ?
-		Add_Skelemagus(); // LavaErrorDoggo#1564 ?
-		Add_SporeDigger(); // LavaErrorDoggo#1564
-		Add_Summoner(); // Ara
-		Add_TombRobber(); // LavaErrorDoggo#1564
-		Add_Wendigo(); // Cevin2006™ (◕‿◕)#7971
-		Add_Wyvern(); // Cevin2006™ (◕‿◕)#7971
-		Add_ZombieGeck(); // LavaErrorDoggo#1564 ?
-		Add_Zombie(); // Ara
+		Add_Amoeba();           // vanilla
+		// Add_ArmoredZombie();    // Ara
+		Add_Banshee();          // vanilla
+		Add_Bonepile();         // Bt Y#0895
+		Add_Bonehound();        // vanilla
+		Add_BonePrince();       // Cevin2006™ (◕‿◕)#7971
+		Add_Bonelord();         // Ryan S Art
+		Add_BonelordsHorn();    // Cevin2006™ (◕‿◕)#7971
+		Add_BooHag();           // Bt Y#0895
+		Add_Catacomb();         // Bt Y#0895
+		Add_Centurion();        // Bt Y#0895
+		Add_CompoundFracture(); // Bt Y#0895
+		Add_CorpseMaggots();    // vanilla
+		Add_Dalgyal();          // Bt Y#0895
+		Add_DanseMacabre();     // Bt Y#0895
+		Add_Deadeye();          // Bt Y#0895
+		Add_DeadHand();         // Ara?
+		Add_DeadPets();         // LavaErrorDoggo#1564
+		Add_DeathKnell();       // Bt Y#0895
+		Add_DeathKnellBell();   // Bt Y#0895
+		Add_Draugr();           // Bt Y#0895
+		Add_DrownedSoul();      // LavaErrorDoggo#1564
+		Add_Dybbuk();           // Bt Y#0895
+		Add_EmberSpirit();      // Cevin2006™ (◕‿◕)#7971
+		Add_ExplodingPirate();  // Lich underling#7678, then Ara
+		Add_Family();           // LavaErrorDoggo#1564
+		Add_FesteringWretch();  // Bt Y#0895
+		Add_Flames();           // Ara
+		Add_Franknstein();      // vanilla
+		Add_Giant();            // Bt Y#0895
+		Add_GhostShip();        // LavaErrorDoggo#1564
+		Add_GraveDigger();      // vanilla
+		Add_HeadlessHorseman(); // Cevin2006™ (◕‿◕)#7971
+		Add_HellHound();        // Cevin2006™ (◕‿◕)#7971
+		Add_Hydra();            // Cevin2006™ (◕‿◕)#7971
+		Add_Manananggal();      // Bt Y#0895
+		Add_Mummy();            // Bt Y#0895
+		Add_Necromancer();      // Bt Y#0895
+		Add_Obol();             // Bt Y#0895
+		Add_PlagueDoctor();     // Cevin2006™ (◕‿◕)#7971
+		Add_Poltergeist();      // Cevin2006™ (◕‿◕)#7971
+		Add_Project();          // Bt Y#0895
+		Add_Revenant();         // vanilla
+		Add_MudWorm();          // LavaErrorDoggo#1564
+		Add_Ripper();           // Bt Y#0895
+		Add_Sarcophagus();      // Bt Y#0895
+		Add_Silbon();           // Bt Y#0895
+		Add_ScreamingSkull();   // Bt Y#0895
+		Add_SkeletonArmy();     // LavaErrorDoggo#1564 ?
+		Add_Skelemagus();       // Cevin2006™ (◕‿◕)#7971
+		Add_SporeDigger();      // LavaErrorDoggo#1564
+		Add_Summoner();         // Ara
+		Add_TombRobber();       // LavaErrorDoggo#1564
+		// Add_Wendigo();          // Cevin2006™ (◕‿◕)#7971
+		Add_VengefulSpirit();   // Cevin2006™ (◕‿◕)#7971
+		Add_WillOTheWisp();     // Bt Y#0895
+		Add_Wyvern();           // Cevin2006™ (◕‿◕)#7971
+		// Add_ZombieGeck();       // LavaErrorDoggo#1564 ?
+		Add_Zombie();           // Ara
+		
+		AllGrimoraModCards.Sort((info, cardInfo) => string.Compare(info.name, cardInfo.name, StringComparison.Ordinal));
 	}
 
 	private void OnDestroy()
@@ -120,6 +129,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AllSprites = null;
 		AllSounds = null;
 		AllGrimoraModCards = new List<CardInfo>();
+		SkinCrawler.SlotsThatHaveCrawlersHidingUnderCards = new List<CardSlot>();
 		Resources.UnloadUnusedAssets();
 		_harmony?.UnpatchSelf();
 		GrimoraModBattleSequencer.ActiveEnemyPiece = null;
@@ -159,7 +169,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			particle.transform.position = new Vector3(
 				particle.transform.position.x,
 				particle.transform.position.y - 0.1f,
-				particle.transform.position.z);
+				particle.transform.position.z
+			);
 		}
 
 		Destroy(gameObject, 6f);
@@ -167,7 +178,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private static void LoadAssets()
 	{
-		Log.LogDebug($"Loading assets into static vars");
+		Log.LogInfo($"Loading asset bundles");
 		AllAbilityTextures = AssetUtils.LoadAssetBundle<Texture>("grimoramod_abilities");
 
 		AllMats = AssetUtils.LoadAssetBundle<Material>("grimoramod_mats");
