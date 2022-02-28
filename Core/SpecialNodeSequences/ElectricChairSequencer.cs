@@ -145,7 +145,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			selectionSlot.Card.Anim.PlayTransformAnimation();
 			yield return new WaitForSeconds(0.15f);
 			selectionSlot.Card.SetInfo(selectionSlot.Card.Info);
-			selectionSlot.Card.SetInteractionEnabled(false);
+			selectionSlot.Card.SetInteractionEnabled(true);
 			yield return new WaitForSeconds(0.75f);
 
 			if (numBuffsGiven == 2 || selectionSlot.Card.Info.Abilities.Count == 4)
@@ -474,7 +474,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		stoneQuad.sharedMaterial = abilityBoostMat;
 
 		newSequencer.retrieveCardInteractable = oldSequencer.retrieveCardInteractable;
-		newSequencer.retrieveCardInteractable.transform.localPosition = new Vector3(0, 7.2f, 1.2f);
+		newSequencer.retrieveCardInteractable.transform.localPosition = new Vector3(0, 7.2f, 1.4f);
 		newSequencer.retrieveCardInteractable.transform.localRotation = Quaternion.Euler(270, 0, 0);
 
 		newSequencer.stakeRingParent = oldSequencer.stakeRingParent;
