@@ -7,7 +7,7 @@ public partial class GrimoraPlugin
 	private void Add_BooHag()
 	{
 		CardBuilder.Builder
-			.SetAsNormalCard()
+			// .SetAsNormalCard()
 			.SetAbilities(SkinCrawler.ability)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(5)

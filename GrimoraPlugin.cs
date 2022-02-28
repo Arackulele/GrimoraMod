@@ -15,7 +15,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 {
 	public const string GUID = "arackulele.inscryption.grimoramod";
 	public const string Name = "GrimoraMod";
-	private const string Version = "2.7.4";
+	private const string Version = "2.7.5";
 
 	internal static ManualLogSource Log;
 
@@ -58,7 +58,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	private void LoadCards()
 	{
 		Add_Amoeba();           // vanilla
-		// Add_ArmoredZombie();    // Ara
+		Add_ArmoredZombie();    // Ara
 		Add_Banshee();          // vanilla
 		Add_Bonepile();         // Bt Y#0895
 		Add_Bonehound();        // vanilla
@@ -110,11 +110,11 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_SporeDigger();      // LavaErrorDoggo#1564
 		Add_Summoner();         // Ara
 		Add_TombRobber();       // LavaErrorDoggo#1564
-		// Add_Wendigo();          // Cevin2006™ (◕‿◕)#7971
+		Add_Wendigo();          // Cevin2006™ (◕‿◕)#7971
 		Add_VengefulSpirit();   // Cevin2006™ (◕‿◕)#7971
 		Add_WillOTheWisp();     // Bt Y#0895
 		Add_Wyvern();           // Cevin2006™ (◕‿◕)#7971
-		// Add_ZombieGeck();       // LavaErrorDoggo#1564 ?
+		Add_ZombieGeck();       // LavaErrorDoggo#1564 ?
 		Add_Zombie();           // Ara
 		
 		AllGrimoraModCards.Sort((info, cardInfo) => string.Compare(info.name, cardInfo.name, StringComparison.Ordinal));
