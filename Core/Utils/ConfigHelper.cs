@@ -266,6 +266,20 @@ public class ConfigHelper
 		{
 			Log.LogWarning($"You haven't completed a required event... Starting unlock process");
 			StoryEventsToBeCompleteBeforeStarting.ForEach(evt => StoryEventsData.SetEventCompleted(evt));
+			try
+			{
+				ProgressionData.UnlockAll();
+			}
+			catch (Exception e)
+			{
+				Log.LogError(
+					$"Failed to unlock all necessary mechanics with [ProgressionData.UnlockAll]. "
+					+ $"There's something wrong with your save file or your computer reading data/files. "
+					+ $"This should not throw an exception and I have no idea how to fix this for you."
+					+ $"If the combat bell doesn't show up, restart your game."
+				);
+			}
+
 			SaveManager.SaveToFile();
 		}
 	}
