@@ -154,16 +154,16 @@ public class GravestoneCardAnimBaseClassPatches
 		return false;
 	}
 
-	[HarmonyPrefix, HarmonyPatch(nameof(CardAnimationController.FlipInAir))]
-	public static bool PlayCardFlipInHandAnim(IEnumerator enumerator, CardAnimationController __instance)
+	[HarmonyPostfix, HarmonyPatch(nameof(CardAnimationController.FlipInAir))]
+	public static IEnumerator PlayCardFlipInHandAnim(IEnumerator enumerator, CardAnimationController __instance)
 	{
 		if (GrimoraSaveUtil.isNotGrimora)
 		{
-			return true;
+			yield return enumerator;
+			yield break;
 		}
 
 		__instance.Anim.Play("card_flip_inair");
-		return false;
 	}
 
 	[HarmonyPrefix, HarmonyPatch(nameof(CardAnimationController.PlayTransformAnimation))]
