@@ -108,7 +108,7 @@ public class ChessboardMapExt : GameMap
 				new Rect(
 					20,
 					(ConfigHelper.Instance.isDevModeEnabled
-						? 320
+						? 360
 						: 60),
 					150,
 					15
