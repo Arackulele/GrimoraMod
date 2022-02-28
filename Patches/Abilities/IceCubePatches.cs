@@ -2,6 +2,7 @@
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -21,7 +22,7 @@ public class IceCubePatches
 
 		yield return __instance.PreSuccessfulTriggerSequence();
 		yield return new WaitForSeconds(0.3f);
-		CardInfo creatureToSpawn = "Opossum".GetCardInfo();
+		CardInfo creatureToSpawn = "Skeleton".GetCardInfo();
 		if (__instance.Card.Info.iceCubeParams != null && __instance.Card.Info.iceCubeParams.creatureWithin != null)
 		{
 			creatureToSpawn = __instance.Card.Info.iceCubeParams.creatureWithin;
@@ -29,12 +30,12 @@ public class IceCubePatches
 
 		CardSlot slot = __instance.Card.Slot;
 		SkinCrawler skinCrawler = SkinCrawler.GetSkinCrawlerFromCard(__instance.Card);
-		yield return BoardManager.Instance.CreateCardInSlot(creatureToSpawn, slot, 0.15f);
 		if (skinCrawler is not null)
 		{
-			GrimoraPlugin.Log.LogDebug($"[IceCube] SkinCrawler exists in card [{__instance.Card}] ");
-			yield return skinCrawler.AssignSkinCrawlerCardToHost(slot);
+			Log.LogWarning($"[IceCube] SkinCrawler will now die under [{__instance.Card.InfoName()}]");
+			yield return skinCrawler.GetComponent<PlayableCard>().Die(false);
 		}
+		yield return BoardManager.Instance.CreateCardInSlot(creatureToSpawn, slot, 0.15f);
 		yield return __instance.LearnAbility(0.5f);
 	}
 }
