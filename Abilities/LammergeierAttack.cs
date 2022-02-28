@@ -9,9 +9,7 @@ public class LammergeierAttack : VariableStatBehaviour
 {
 	public static readonly NewSpecialAbility NewSpecialAbility = Create();
 
-	public static SpecialStatIcon SpecialStatIcon;
-
-	public override SpecialStatIcon IconType => SpecialStatIcon;
+	public override SpecialStatIcon IconType => SpecialStatIcon.Bones;
 
 	public static NewSpecialAbility Create()
 	{
@@ -23,7 +21,6 @@ public class LammergeierAttack : VariableStatBehaviour
 		var sId = SpecialAbilityIdentifier.GetID(GUID, "GrimoraMod_LammergeierAttack");
 
 		NewSpecialAbility ability = new NewSpecialAbility(typeof(LammergeierAttack), sId, info);
-		SpecialStatIcon = info.iconType;
 		return ability;
 	}
 
