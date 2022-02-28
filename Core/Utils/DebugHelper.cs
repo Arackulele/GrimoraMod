@@ -2,11 +2,17 @@
 using DiskCardGame;
 using Sirenix.Utilities;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
 public class DebugHelper : ManagedBehaviour
 {
+	private static readonly string[] AllGrimoraCardNames 
+		= AllGrimoraModCards.Select(card => card.name.Replace("GrimoraMod_", "")).ToArray();
+	
+	private bool _toggleDebugCardsHand;
+	
 	private bool _toggleDebugTools;
 
 	private readonly string[] _btnTools =
@@ -44,9 +50,9 @@ public class DebugHelper : ManagedBehaviour
 		// total count 59
 		// 59 - 45 == 14
 		GrimoraSaveUtil.DeckList.AddRange(
-			GrimoraPlugin.AllGrimoraModCards.GetRange(
+			AllGrimoraModCards.GetRange(
 				startingIndex,
-				Math.Min(15, GrimoraPlugin.AllGrimoraModCards.Count - startingIndex)
+				Math.Min(15, AllGrimoraModCards.Count - startingIndex)
 			)
 		);
 	}
@@ -69,11 +75,17 @@ public class DebugHelper : ManagedBehaviour
 			_toggleDebugChests,
 			"Debug Chests"
 		);
-
+		
 		_toggleEnemies = GUI.Toggle(
 			new Rect(20, 300, 120, 20),
 			_toggleEnemies,
 			"Debug Enemies"
+		);
+
+		_toggleDebugCardsHand = GUI.Toggle(
+			new Rect(Screen.width - 120, 20, 120, 20),
+			_toggleDebugCardsHand,
+			"Cards To Hand"
 		);
 
 		if (_toggleDebugTools)
@@ -186,6 +198,21 @@ public class DebugHelper : ManagedBehaviour
 				{
 					ChessboardMapExt.Instance.ActiveChessboard.PlacePiece<ChessboardEnemyPiece>(0, i);
 				}
+			}
+		}
+
+		if (_toggleDebugCardsHand)
+		{
+			int selectedButton = GUI.SelectionGrid(
+				new Rect(Screen.width - 420, 40, 400, Screen.height - 300),
+				-1,
+				AllGrimoraCardNames,
+				3
+			);
+
+			if (selectedButton >= 0)
+			{
+				StartCoroutine(CardSpawner.Instance.SpawnCardToHand(("GrimoraMod_"+ AllGrimoraCardNames[selectedButton]).GetCardInfo()));
 			}
 		}
 	}
