@@ -62,12 +62,13 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Banshee();          // vanilla
 		Add_Bonepile();         // Bt Y#0895
 		Add_Bonehound();        // vanilla
-		Add_BonePrince();       // LavaErrorDoggo#1564
+		Add_BonePrince();       // Cevin2006™ (◕‿◕)#7971
 		Add_Bonelord();         // Ryan S Art
-		Add_BonelordsHorn();    // LavaErrorDoggo#1564
+		Add_BonelordsHorn();    // Cevin2006™ (◕‿◕)#7971
 		Add_BooHag();           // Bt Y#0895
 		Add_Catacomb();         // Bt Y#0895
 		Add_Centurion();        // Bt Y#0895
+		Add_CompoundFracture(); // Bt Y#0895
 		Add_CorpseMaggots();    // vanilla
 		Add_Dalgyal();          // Bt Y#0895
 		Add_DanseMacabre();     // Bt Y#0895
@@ -79,7 +80,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Draugr();           // Bt Y#0895
 		Add_DrownedSoul();      // LavaErrorDoggo#1564
 		Add_Dybbuk();           // Bt Y#0895
-		Add_EmberSpirit();      // // Cevin2006™ (◕‿◕)#7971
+		Add_EmberSpirit();      // Cevin2006™ (◕‿◕)#7971
 		Add_ExplodingPirate();  // Lich underling#7678, then Ara
 		Add_Family();           // LavaErrorDoggo#1564
 		Add_FesteringWretch();  // Bt Y#0895
@@ -88,7 +89,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Giant();            // Bt Y#0895
 		Add_GhostShip();        // LavaErrorDoggo#1564
 		Add_GraveDigger();      // vanilla
-		Add_HeadlessHorseman(); // LavaErrorDoggo#1564
+		Add_HeadlessHorseman(); // Cevin2006™ (◕‿◕)#7971
 		Add_HellHound();        // Cevin2006™ (◕‿◕)#7971
 		Add_Hydra();            // Cevin2006™ (◕‿◕)#7971
 		Add_Manananggal();      // Bt Y#0895
@@ -104,13 +105,13 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Sarcophagus();      // Bt Y#0895
 		Add_Silbon();           // Bt Y#0895
 		Add_ScreamingSkull();   // Bt Y#0895
-		Add_VengefulSpirit();   // Cevin2006™ (◕‿◕)#7971
 		Add_SkeletonArmy();     // LavaErrorDoggo#1564 ?
-		Add_Skelemagus();       // LavaErrorDoggo#1564 ?
+		Add_Skelemagus();       // Cevin2006™ (◕‿◕)#7971
 		Add_SporeDigger();      // LavaErrorDoggo#1564
 		Add_Summoner();         // Ara
 		Add_TombRobber();       // LavaErrorDoggo#1564
 		Add_Wendigo();          // Cevin2006™ (◕‿◕)#7971
+		Add_VengefulSpirit();   // Cevin2006™ (◕‿◕)#7971
 		Add_WillOTheWisp();     // Bt Y#0895
 		Add_Wyvern();           // Cevin2006™ (◕‿◕)#7971
 		Add_ZombieGeck();       // LavaErrorDoggo#1564 ?
