@@ -65,7 +65,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_BonePrince();       // Cevin2006™ (◕‿◕)#7971
 		Add_Bonelord();         // Ryan S Art
 		Add_BonelordsHorn();    // Cevin2006™ (◕‿◕)#7971
-		Add_BooHag();           // Bt Y#0895
+		// Add_BooHag();           // Bt Y#0895
 		Add_Catacomb();         // Bt Y#0895
 		Add_Centurion();        // Bt Y#0895
 		Add_CompoundFracture(); // Bt Y#0895

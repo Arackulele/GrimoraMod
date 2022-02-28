@@ -23,7 +23,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		Erratic.ability,
 		InvertedStrike.ability,
 		Possessive.ability,
-		SkinCrawler.ability,
+		// SkinCrawler.ability,
 		SpiritBearer.ability,
 		Ability.ActivatedDealDamage,
 		Ability.ActivatedDrawSkeleton,
