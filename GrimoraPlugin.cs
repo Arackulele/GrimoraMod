@@ -116,6 +116,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Wyvern();           // Cevin2006™ (◕‿◕)#7971
 		Add_ZombieGeck();       // LavaErrorDoggo#1564 ?
 		Add_Zombie();           // Ara
+		
+		AllGrimoraModCards.Sort((info, cardInfo) => string.Compare(info.name, cardInfo.name, StringComparison.Ordinal));
 	}
 
 	private void OnDestroy()
