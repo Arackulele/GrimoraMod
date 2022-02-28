@@ -86,7 +86,8 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			// no valid cards
 			yield return new WaitForSeconds(1f);
 			yield return TextDisplayer.Instance.PlayDialogueEvent(
-				"GainConsumablesFull", TextDisplayer.MessageAdvanceMode.Input
+				"GainConsumablesFull",
+				TextDisplayer.MessageAdvanceMode.Input
 			);
 			yield return new WaitForSeconds(0.5f);
 		}
@@ -145,10 +146,10 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			}
 
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"SURELY YOUR CREATURE COULD BECOME MORE POWERFUL...", -0.66f
+				"SURELY YOUR CREATURE COULD BECOME MORE POWERFUL..."
 			);
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"BUT YOU WOULD NEED TO RISK ANOTHER MOMENT UNDER THE SHOCK.", -0.66f
+				"BUT YOU WOULD NEED TO RISK ANOTHER MOMENT UNDER THE SHOCK."
 			);
 			yield return new WaitForSeconds(0.1f);
 
@@ -169,12 +170,17 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			GenericMainInputInteractable genericMainInputInteractable = retrieveCardInteractable;
 			genericMainInputInteractable.CursorSelectEnded = (Action<MainInputInteractable>)Delegate.Combine(
 				genericMainInputInteractable.CursorSelectEnded,
-				(Action<MainInputInteractable>)delegate { cancelledByClickingCard = true; });
+				(Action<MainInputInteractable>)delegate { cancelledByClickingCard = true; }
+			);
 			confirmStone.Unpress();
 			StartCoroutine(confirmStone.WaitUntilConfirmation());
-			yield return new WaitUntil(() =>
-				confirmStone.SelectionConfirmed || InputButtons.GetButton(Button.LookDown) ||
-				InputButtons.GetButton(Button.Cancel) || cancelledByClickingCard);
+			yield return new WaitUntil(
+				() =>
+					confirmStone.SelectionConfirmed
+					|| InputButtons.GetButton(Button.LookDown)
+					|| InputButtons.GetButton(Button.Cancel)
+					|| cancelledByClickingCard
+			);
 			TextDisplayer.Instance.Clear();
 			retrieveCardInteractable.gameObject.SetActive(false);
 			confirmStone.Disable();
@@ -202,7 +208,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			// "You looked away as a grotesque feeding frenzy ensued."
 			// "Blood and bones flew left and right as you retreated from the scene."
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"BONES FLEW LEFT AND RIGHT AS YOU RETREATED FROM THE SCENE.", -0.65f
+				"BONES FLEW LEFT AND RIGHT AS YOU RETREATED FROM THE SCENE."
 			);
 
 			yield return new WaitForSeconds(0.1f);
@@ -279,7 +285,10 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	}
 
 	private static bool CheckCardHavingAbilityAndViceVersa(
-		CardInfo card, Ability cardAbility, Ability randomSigil, Ability abilityToCheckAgainst
+		CardInfo card,
+		Ability cardAbility,
+		Ability randomSigil,
+		Ability abilityToCheckAgainst
 	)
 	{
 		return card.HasAbility(cardAbility) && randomSigil == abilityToCheckAgainst
@@ -289,10 +298,11 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	private new static List<CardInfo> GetValidCards()
 	{
 		List<CardInfo> deckCopy = GrimoraSaveUtil.DeckListCopy;
-		deckCopy.RemoveAll(card => card.Abilities.Count == 4
-		                           || card.SpecialAbilities.Contains(SpecialTriggeredAbility.RandomCard)
-		                           || card.traits.Contains(Trait.Pelt)
-		                           || card.traits.Contains(Trait.Terrain)
+		deckCopy.RemoveAll(
+			card => card.Abilities.Count == 4
+			        || card.SpecialAbilities.Contains(SpecialTriggeredAbility.RandomCard)
+			        || card.traits.Contains(Trait.Pelt)
+			        || card.traits.Contains(Trait.Terrain)
 		);
 
 		return deckCopy;
@@ -373,13 +383,18 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		confirmStone.SetStoneInactive();
 		selectionSlot.gameObject.SetActive(false);
 
-		CustomCoroutine.WaitThenExecute(0.4f, delegate
-		{
-			ExplorableAreaManager.Instance.HangingLight.intensity = 0f;
-			ExplorableAreaManager.Instance.HangingLight.gameObject.SetActive(true);
-			ExplorableAreaManager.Instance.HandLight.intensity = 0f;
-			ExplorableAreaManager.Instance.HandLight.gameObject.SetActive(true);
-		});
+		CustomCoroutine.WaitThenExecute(
+			0.4f,
+			delegate
+			{
+				ExplorableAreaManager.Instance.HangingLight.intensity = 0f;
+				ExplorableAreaManager.Instance.HangingLight.gameObject.SetActive(true);
+				ExplorableAreaManager.Instance.HandLight.intensity = 0f;
+				ExplorableAreaManager.Instance.HandLight.gameObject.SetActive(true);
+			}
+		);
+
+		yield return TableRuleBook.Instance.MoveOnBoard();
 	}
 
 	public static void CreateSequencerInScene()
@@ -464,11 +479,12 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	private static IEnumerable<CompositeFigurine> CreateElectricChair(GameObject cardStatObj)
 	{
 		CompositeFigurine chairFigurine = Instantiate(
-			AssetConstants.ElectricChairForSelectionSlot,
-			new Vector3(-0.05f, 4.9f, 1.2f),
-			Quaternion.Euler(0, 180, 0),
-			cardStatObj.transform
-		).AddComponent<CompositeFigurine>();
+				AssetConstants.ElectricChairForSelectionSlot,
+				new Vector3(-0.05f, 4.9f, 1.2f),
+				Quaternion.Euler(0, 180, 0),
+				cardStatObj.transform
+			)
+			.AddComponent<CompositeFigurine>();
 		chairFigurine.name = "Electric Chair Selection Slot";
 		chairFigurine.transform.localScale = new Vector3(1.15f, 1, 0.75f);
 		chairFigurine.gameObject.SetActive(false);
