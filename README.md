@@ -51,6 +51,9 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ### 2.7.4
 
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Can now access rulebook after adding a new sigil to a card in the Electric Chair sequencer.
+  - This also means that you can right-click the newly added sigil so you can see wtf it is.
+
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Can now view your deck during normal or rare card choices.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Added `Bellist` and `Spirit Bearer` to Electric Chair ability pool.
