@@ -11,14 +11,15 @@ public class BoneLordsReign : AbilityBehaviour
 
 	public override Ability Ability => ability;
 
-	public override bool RespondsToPlayFromHand()
+	public override bool RespondsToResolveOnBoard()
 	{
 		return true;
 	}
 
-	public override IEnumerator OnPlayFromHand()
+	public override IEnumerator OnResolveOnBoard()
 	{
 		var activePlayerCards = BoardManager.Instance.GetPlayerCards();
+		GrimoraPlugin.Log.LogDebug($"[BoneLord] Player cards [{activePlayerCards.Count}]");
 		if (activePlayerCards.IsNotEmpty())
 		{
 			yield return PreSuccessfulTriggerSequence();
@@ -26,11 +27,10 @@ public class BoneLordsReign : AbilityBehaviour
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"DID YOU REALLY THINK THE BONE LORD WOULD LET YOU OFF THAT EASILY?!"
 			);
-			foreach (var cardSlot in activePlayerCards)
+			foreach (var playableCard in activePlayerCards)
 			{
-				cardSlot.Anim.StrongNegationEffect();
-				cardSlot.AddTemporaryMod(new CardModificationInfo(1 - Card.Attack, 0));
-				cardSlot.Anim.StrongNegationEffect();
+				playableCard.Anim.StrongNegationEffect();
+				playableCard.AddTempModGrimora(new CardModificationInfo(1 - Card.Attack, 0));
 				yield return new WaitForSeconds(0.1f);
 			}
 		}
@@ -41,8 +41,6 @@ public class BoneLordsReign : AbilityBehaviour
 		const string rulebookDescription =
 			"Whenever [creature] gets played, all enemies attack and health is set to 1.";
 
-		return ApiUtils.CreateAbility<BoneLordsReign>(
-			rulebookDescription, "Bone Lord's Reign"
-		);
+		return ApiUtils.CreateAbility<BoneLordsReign>(rulebookDescription, "Bone Lord's Reign");
 	}
 }
