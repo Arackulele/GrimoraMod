@@ -53,12 +53,13 @@ public static class CardRelatedExtension
 
 	public static void UpdateHoveringForCard(this GravestoneCardAnimationController controller, bool hovering = false)
 	{
-		if (hovering || controller.Anim.GetBool(Hovering))
+		bool isHovering = hovering || controller.Anim.GetBool(Hovering);
+		if (isHovering)
 		{
 			controller.Anim.ResetTrigger(Hover);
 			controller.Anim.SetTrigger(Hover);
 		}
 
-		controller.Anim.SetBool(Hovering, hovering);
+		controller.Anim.SetBool(Hovering, isHovering);
 	}
 }
