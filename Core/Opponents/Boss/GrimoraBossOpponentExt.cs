@@ -116,14 +116,15 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		ViewManager.Instance.SwitchToView(View.OpponentQueue, false, true);
 
 		// mimics the moon phase
-		CardInfo modifiedGiant = CreateModifiedGiant();
+		CardInfo giantOtis = CreateModifiedGiant("Otis");
+		CardInfo giantEphialtes = CreateModifiedGiant("Ephialtes");
 		Log.LogInfo("[Grimora] Creating first giant in slot");
-		yield return BoardManager.Instance.CreateCardInSlot(modifiedGiant, oppSlots[1], 0.3f);
+		yield return BoardManager.Instance.CreateCardInSlot(giantOtis, oppSlots[1], 0.3f);
 		yield return new WaitForSeconds(0.5f);
 		if (ConfigHelper.Instance.HasIncreaseSlotsMod)
 		{
 			yield return TextDisplayer.Instance.ShowUntilInput("OH? FIVE LANES? HOW BOLD.");
-			yield return BoardManager.Instance.CreateCardInSlot(modifiedGiant, oppSlots[4], 0.3f);
+			yield return BoardManager.Instance.CreateCardInSlot(giantEphialtes, oppSlots[4], 0.3f);
 
 			yield return BoardManager.Instance.CreateCardInSlot(NameObol.GetCardInfo(), oppSlots[2], 0.2f);
 			CardSlot thirdLaneQueueSlot = BoardManager.Instance.GetQueueSlots()[2];
@@ -131,7 +132,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		}
 		else
 		{
-			yield return BoardManager.Instance.CreateCardInSlot(modifiedGiant, oppSlots[3], 0.3f);
+			yield return BoardManager.Instance.CreateCardInSlot(giantEphialtes, oppSlots[3], 0.3f);
 		}
 
 		Log.LogInfo("[Grimora] Finished creating giants");
@@ -140,10 +141,11 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 	}
 
-	private CardInfo CreateModifiedGiant()
+	private CardInfo CreateModifiedGiant(string giantName)
 	{
 		Log.LogInfo("[Grimora] Creating modified Giant");
 		CardInfo modifiedGiant = NameGiant.GetCardInfo();
+		modifiedGiant.displayedName = giantName;
 		modifiedGiant.abilities = new List<Ability> { GiantStrike.ability, Ability.Reach };
 		modifiedGiant.specialAbilities.Add(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility);
 		modifiedGiant.baseAttack = 1;
