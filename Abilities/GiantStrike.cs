@@ -5,8 +5,6 @@ namespace GrimoraMod;
 
 public class GiantStrike : AbilityBehaviour
 {
-	public static readonly NewAbility NewAbility = Create();
-
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -15,6 +13,6 @@ public class GiantStrike : AbilityBehaviour
 	{
 		const string rulebookDescription = "[creature] will strike each opposing space.";
 
-		return ApiUtils.CreateAbility<GiantStrike>(rulebookDescription);
+		return ApiUtils.CreateAbility<GiantStrike>(rulebookDescription, flipYIfOpponent: true);
 	}
 }

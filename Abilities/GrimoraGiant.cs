@@ -7,13 +7,15 @@ namespace GrimoraMod;
 
 public class GrimoraGiant : SpecialCardBehaviour
 {
-	public static readonly NewSpecialAbility NewSpecialAbility = Create();
+	public static SpecialTriggeredAbility SpecialTriggeredAbility;
 
 	public static NewSpecialAbility Create()
 	{
 		var sId = SpecialAbilityIdentifier.GetID(GUID, "!GRIMORA_GIANT");
 
-		return new NewSpecialAbility(typeof(GrimoraGiant), sId);
+		var ability = new NewSpecialAbility(typeof(GrimoraGiant), sId);
+		SpecialTriggeredAbility = ability.specialTriggeredAbility;
+		return ability;
 	}
 
 	public override bool RespondsToResolveOnBoard()

@@ -7,11 +7,11 @@ namespace GrimoraMod;
 
 public class GainAttackBones : VariableStatBehaviour
 {
-	public static readonly NewSpecialAbility NewSpecialAbility = Create();
-
 	private static SpecialStatIcon SpecialStatIcon;
 
 	public override SpecialStatIcon IconType => SpecialStatIcon;
+
+	public static SpecialTriggeredAbility SpecialTriggeredAbility;
 
 	public static NewSpecialAbility Create()
 	{
@@ -26,6 +26,7 @@ public class GainAttackBones : VariableStatBehaviour
 
 		var specialAbility = new NewSpecialAbility(typeof(GainAttackBones), sId, info);
 		SpecialStatIcon = specialAbility.statIconInfo.iconType;
+		SpecialTriggeredAbility = specialAbility.specialTriggeredAbility;
 
 		return specialAbility;
 	}

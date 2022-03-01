@@ -41,6 +41,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		LoadAssets();
 
+		LoadAbilities();
+		
 		LoadCards();
 
 		if (ConfigHelper.Instance.isHotReloadEnabled)
@@ -52,7 +54,30 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			}
 		}
 
-		ConfigHelper.Instance.HandleHotReloadAfter();
+		// ConfigHelper.Instance.HandleHotReloadAfter();
+	}
+
+	private void LoadAbilities()
+	{
+		ActivatedDrawSkeletonGrimora.Create();
+		ActivatedEnergyDrawWyvern.Create();
+		AlternatingStrike.Create();
+		AreaOfEffectStrike.Create();
+		BoneLordsReign.Create();
+		CreateArmyOfSkeletons.Create();
+		CreateKnells.Create();
+		Erratic.Create();
+		FlameStrafe.Create();
+		GainAttackBones.Create();
+		GiantStrike.Create();
+		GrimoraGiant.Create();
+		GrimoraRandomAbility.Create();
+		InvertedStrike.Create();
+		LammergeierAttack.Create();
+		LitFuse.Create();
+		Possessive.Create();
+		SkinCrawler.Create();
+		SpiritBearer.Create();
 	}
 
 	private void LoadCards()

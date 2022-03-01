@@ -59,7 +59,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		if (!playedDialogueDeathTouch &&
 		    BoardManager.Instance.GetSlots(true).Exists(x => x.CardHasAbility(Ability.Deathtouch))
 		    && BoardManager.Instance.GetSlots(false)
-			    .Exists(slot => slot.CardHasSpecialAbility(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility))
+			    .Exists(slot => slot.CardHasSpecialAbility(GrimoraGiant.SpecialTriggeredAbility))
 		   )
 		{
 			yield return new WaitForSeconds(0.5f);

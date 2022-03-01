@@ -6,8 +6,6 @@ namespace GrimoraMod;
 
 public class Possessive : AbilityBehaviour
 {
-	public static readonly NewAbility NewAbility = Create();
-
 	public static Ability ability;
 	public override Ability Ability => ability;
 
@@ -25,8 +23,8 @@ public class Possessive : AbilityBehaviour
 	public static NewAbility Create()
 	{
 		const string rulebookDescription =
-			"[creature] cannot be attacked from the opposing slot. " +
-			"The opposing slot, if possible, instead attacks one of its adjacent friendly cards.";
+			"[creature] cannot be attacked from the opposing slot. "
+			+ "The opposing slot, if possible, instead attacks one of its adjacent friendly cards.";
 
 		return ApiUtils.CreateAbility<Possessive>(rulebookDescription);
 	}
