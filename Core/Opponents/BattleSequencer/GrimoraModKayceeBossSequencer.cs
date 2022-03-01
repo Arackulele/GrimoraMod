@@ -27,7 +27,7 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
 		var playerCardsWithAttacks
-			= BoardManager.Instance.GetPlayerCards(pCard => pCard.Attack > 0);
+			= BoardManager.Instance.GetPlayerCards(pCard => pCard.Attack > 0 && !pCard.FaceDown);
 
 		_freezeCounter += playerCardsWithAttacks.Count;
 		Log.LogWarning($"[Kaycee] Freeze counter [{_freezeCounter}]");
