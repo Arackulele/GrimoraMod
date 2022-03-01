@@ -109,7 +109,9 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 		return isPhaseOne || giantDied;
 	}
+
 	private bool GrimoraNecromancy = false;
+
 	public override IEnumerator OnOtherCardDie(
 		PlayableCard card,
 		CardSlot deathSlot,
@@ -120,18 +122,21 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		CardSlot remainingGiantSlot = BoardManager.Instance.OpponentSlotsCopy
 			.Find(slot => slot.Card is not null && card.Slot != slot && slot.Card.InfoName() == NameGiant);
 		List<CardSlot> opponentQueuedSlots = BoardManager.Instance.GetQueueSlots();
-		if (card.InfoName() == NameGiant && remainingGiantSlot is not null)
+		if (card.InfoName() == NameGiant)
 		{
-			PlayableCard lastGiant = remainingGiantSlot.Card;
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				$"Oh dear, you've made {lastGiant.Info.displayedName.Red()} quite angry."
-			);
-			ViewManager.Instance.SwitchToView(View.Board);
-			CardModificationInfo modInfo = new CardModificationInfo { attackAdjustment = 1 };
-			lastGiant.AddTempModGrimora(modInfo);
-			yield return new WaitForSeconds(0.5f);
+			if (remainingGiantSlot is not null)
+			{
+				PlayableCard lastGiant = remainingGiantSlot.Card;
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					$"Oh dear, you've made {lastGiant.Info.displayedName.Red()} quite angry."
+				);
+				ViewManager.Instance.SwitchToView(View.Board);
+				CardModificationInfo modInfo = new CardModificationInfo { attackAdjustment = 1 };
+				lastGiant.AddTempModGrimora(modInfo);
+				yield return new WaitForSeconds(0.5f);
+			}
 		}
-		else if (opponentQueuedSlots.IsNotEmpty() && GrimoraNecromancy == true)
+		else if (opponentQueuedSlots.IsNotEmpty() && GrimoraNecromancy)
 		{
 			ViewManager.Instance.SwitchToView(View.BossCloseup);
 			yield return TextDisplayer.Instance.PlayDialogueEvent(
@@ -144,6 +149,6 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 			yield return GrimoraNecromancy == false;
 			yield return new WaitForSeconds(0.5f);
 		}
-		else GrimoraNecromancy = true;
+		else { GrimoraNecromancy = true; }
 	}
 }
