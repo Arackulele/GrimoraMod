@@ -107,21 +107,23 @@ public class LatchPatches
 			yield return new WaitForSeconds(0.75f);
 			yield return __instance.LearnAbility();
 		}
+
 		cardAnim.armAnim.gameObject.SetActive(false);
 	}
-	
+
 	public static void AimWeaponAnim(Transform armAnim, Vector3 target)
 	{
 		Quaternion lookAt;
 		if (target.x > armAnim.parent.position.x)
 		{
 			// right
-			lookAt = Quaternion.Euler(0, 270, 90);
+			lookAt = Quaternion.Euler(0, 90, 270);
 		}
 		else
 		{
-			lookAt = Quaternion.Euler(0, 90, 270);
+			lookAt = Quaternion.Euler(0, 270, 90);
 		}
-		Tween.LocalRotation(armAnim, lookAt,0.075f, 0f, Tween.EaseInOut);
+
+		Tween.LocalRotation(armAnim, lookAt, 0.075f, 0f, Tween.EaseInOut);
 	}
 }
