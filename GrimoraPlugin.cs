@@ -54,7 +54,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			}
 		}
 
-		// ConfigHelper.Instance.HandleHotReloadAfter();
+		ConfigHelper.Instance.HandleHotReloadAfter();
 	}
 
 	private void LoadAbilities()
@@ -156,6 +156,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AllSprites = null;
 		AllSounds = null;
 		AllGrimoraModCards = new List<CardInfo>();
+		ConfigHelper.Instance.HandleHotReloadBefore();
 		SkinCrawler.SlotsThatHaveCrawlersHidingUnderCards = new List<CardSlot>();
 		Resources.UnloadUnusedAssets();
 		_harmony?.UnpatchSelf();

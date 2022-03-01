@@ -159,8 +159,6 @@ public class ConfigHelper
 
 		ResetConfigDataIfGrimoraHasNotReachedTable();
 
-		HandleHotReloadBefore();
-
 		UnlockAllNecessaryEventsToPlay();
 	}
 
@@ -217,8 +215,7 @@ public class ConfigHelper
 		if (AbilitiesUtil.allData.IsNotEmpty())
 		{
 			Log.LogDebug($"All data is not null, concatting GrimoraMod abilities");
-			AbilitiesUtil.allData = AbilitiesUtil.allData
-				.Concat(
+			AbilitiesUtil.allData = AbilitiesUtil.allData.Concat(
 					NewAbility.abilities.Where(ab => ab.id.ToString().StartsWith(GUID)).Select(_ => _.info)
 				)
 				.ToList();
