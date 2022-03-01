@@ -1,6 +1,7 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -119,7 +120,7 @@ public class PlayableCardPatches
 
 	private static bool SlotHasCardAndIsOpposingGiant(PlayableCard giant, CardSlot cardSlot)
 	{
-		GrimoraPlugin.Log.LogDebug($"[Giants] GiantSlot [{giant.Slot.name}]"
+		Log.LogDebug($"[Giants] GiantSlot [{giant.Slot.name}]"
 		                           + $" opposing slot {cardSlot.name}"
 		                           + $" card {cardSlot.Card is not null}");
 		return cardSlot.Card is not null && cardSlot == giant.Slot.opposingSlot;
@@ -128,7 +129,9 @@ public class PlayableCardPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.GetOpposingSlots))]
 	public static void GrimoraGiantPatch(PlayableCard __instance, ref List<CardSlot> __result)
 	{
-		if (__instance.Slot.CardHasSpecialAbility(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility))
+		if (__instance.Info.HasTrait(Trait.Giant)
+		    && __instance.HasAbility(GiantStrike.ability)
+		    && __instance.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility))
 		{
 			__result = new List<CardSlot>();
 			List<CardSlot> slotsToTarget = __instance.OpponentCard
@@ -155,6 +158,7 @@ public class PlayableCardPatches
 			{
 				__result.Add(slotsToTarget[0]);
 			}
+			Log.LogDebug($"[GiantStrike] Opposing slots is now [{string.Join(",", __result.Select(_ => _.Index))}]");
 		}
 	}
 }
