@@ -120,18 +120,13 @@ public class PlayableCardPatches
 
 	private static bool SlotHasCardAndIsOpposingGiant(PlayableCard giant, CardSlot cardSlot)
 	{
-		Log.LogDebug($"[Giants] GiantSlot [{giant.Slot.name}]"
-		                           + $" opposing slot {cardSlot.name}"
-		                           + $" card {cardSlot.Card is not null}");
-		return cardSlot.Card is not null && cardSlot == giant.Slot.opposingSlot;
+		return cardSlot.Card is not null && (cardSlot == giant.Slot.opposingSlot || cardSlot.Index == giant.Slot.Index - 1);
 	}
 
 	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.GetOpposingSlots))]
 	public static void GrimoraGiantPatch(PlayableCard __instance, ref List<CardSlot> __result)
 	{
-		if (__instance.Info.HasTrait(Trait.Giant)
-		    && __instance.HasAbility(GiantStrike.ability)
-		    && __instance.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility))
+		if (__instance.HasAbility(GiantStrike.ability))
 		{
 			__result = new List<CardSlot>();
 			List<CardSlot> slotsToTarget = __instance.OpponentCard
