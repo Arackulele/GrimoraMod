@@ -51,9 +51,15 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ### 2.7.6
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed hammer dialogue playing each battle instead of only once. Problem was that I was only setting to not play the dialogue, only if you used the hammer the 3rd time. If you only used it once or twice each fight, it will play each fight.
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed hammer dialogue playing each battle instead of only once.
+  - Problem was that I was only setting to not play the dialogue, only if you used the hammer the 3rd time.
+  - If you only used it once or twice each fight, it will play each fight.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed potential softlock if a card with `Sprinter` and `Submerge` dies from `Sentry` after moving into the new slot.
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed cards with flying no longer flying after attacking.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) 3 more `Skeleton` cards are added to side deck.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) New card! `Hellhand`, 1/1, 5 Bones, `Brittle Latch`.
   - THERE WILL BE VISUAL BUGS WITH THE ARM UNTIL I CAN GET IT RIGHT.
@@ -64,6 +70,20 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
   - GhostShip, courtesy of `Cevin2006™ (◕‿◕)#7971`.
   - Poltergeist, courtesy of `Cevin2006™ (◕‿◕)#7971`.
   - The Walkers, courtesy of `Catboy Stinkbug#4099`.
+
+#### Bosses
+
+##### Grimora
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with Twin Giants spawning.
+  - The primary issue seemed to be how the creation of the abilities were done. No more direct static calls!
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) The giants now have personal names! I wouldn't make one mad though...
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Giant Strike` reworked with a new description.
+  - `[creature] will strike each opposing space that is occupied by a creature. If only one creature is in the opposing spaces, this card will strike twice. It will strike directly once if no creatures oppose it.`
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Bonelord` is now 1 attack 20 health.
 
 ### 2.7.5
 
