@@ -90,7 +90,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_GhostShip();        // LavaErrorDoggo#1564
 		Add_GraveDigger();      // vanilla
 		Add_HeadlessHorseman(); // Cevin2006™ (◕‿◕)#7971
-		// Add_Hellhand();					// Bt Y#0895 
+		Add_Hellhand();					// Bt Y#0895 
 		Add_HellHound();        // Cevin2006™ (◕‿◕)#7971
 		Add_Hydra();            // Cevin2006™ (◕‿◕)#7971
 		Add_Manananggal();      // Bt Y#0895

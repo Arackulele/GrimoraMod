@@ -51,7 +51,11 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ### 2.7.6
 
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed hammer dialogue playing each battle instead of only once. Problem was that I was only setting to not play the dialogue only if you used the hammer the 3rd time. If you only used it once or twice each fight, it will play each fight.
+
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed cards with flying no longer flying after attacking.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New card! `Hellhand`, 1/1, 5 Bones, `Brittle Latch`.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) New art for `Disinter` and `Screeching Call`, courtesy of `Blind, the Bound Demon#6475`.
 
