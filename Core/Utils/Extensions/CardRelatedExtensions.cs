@@ -62,4 +62,13 @@ public static class CardRelatedExtension
 
 		controller.Anim.SetBool(Hovering, isHovering);
 	}
+
+	public static void AddTempModGrimora(this PlayableCard playableCard, CardModificationInfo mod)
+	{
+		playableCard.Info.Mods.Add(mod);
+		playableCard.Anim.PlayTransformAnimation();
+		playableCard.RenderCard();
+		playableCard.Info.Mods.Remove(mod);
+		playableCard.AddTemporaryMod(mod);
+	}
 }

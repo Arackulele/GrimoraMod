@@ -96,14 +96,7 @@ public class LatchPatches
 			{
 				abilities = new List<Ability> { Ability.Brittle }
 			};
-			GrimoraPlugin.Log.LogDebug($"Applying brittle");
-			selectedSlot.Card.Info.Mods.Add(cardModificationInfo);
-			selectedSlot.Card.Anim.PlayTransformAnimation();
-			yield return new WaitForSeconds(0.05f);
-			selectedSlot.Card.RenderCard();
-
-			selectedSlot.Card.Info.Mods.Remove(cardModificationInfo);
-			selectedSlot.Card.AddTemporaryMod(cardModificationInfo);
+			selectedSlot.Card.AddTempModGrimora(cardModificationInfo);
 			yield return new WaitForSeconds(0.75f);
 			yield return __instance.LearnAbility();
 		}

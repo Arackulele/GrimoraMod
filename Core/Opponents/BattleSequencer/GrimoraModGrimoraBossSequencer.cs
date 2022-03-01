@@ -92,28 +92,42 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 	}
 
 	public override bool RespondsToOtherCardDie(
-		PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer
+		PlayableCard card,
+		CardSlot deathSlot,
+		bool fromCombat,
+		PlayableCard killer
 	)
 	{
-		return !card.OpponentCard && (TurnManager.Instance.Opponent.NumLives == 3 || card.InfoName() == NameGiant);
+		bool isPhaseOne = !card.OpponentCard && TurnManager.Instance.Opponent.NumLives == 3;
+		bool giantDied = card.Info.HasTrait(Trait.Giant) && card.InfoName() == NameGiant;
+		if (giantDied)
+		{
+			Log.LogDebug($"[GrimoraBoss] Giant died [{card.GetNameAndSlot()}]");
+		}
+
+		return isPhaseOne || giantDied;
 	}
 
 	public override IEnumerator OnOtherCardDie(
-		PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer
+		PlayableCard card,
+		CardSlot deathSlot,
+		bool fromCombat,
+		PlayableCard killer
 	)
 	{
-		List<CardSlot> remainingGiant = BoardManager.Instance.OpponentSlotsCopy
-			.Where(slot => slot.Card is not null && card.Slot != slot && slot.Card.InfoName() == NameGiant)
-			.ToList();
+		CardSlot remainingGiantSlot = BoardManager.Instance.OpponentSlotsCopy
+			.Find(slot => slot.Card is not null && card.Slot != slot && slot.Card.InfoName() == NameGiant);
 		List<CardSlot> opponentQueuedSlots = BoardManager.Instance.GetQueueSlots();
-		if (card.InfoName() == NameGiant && remainingGiant.Count == 1)
+		if (card.InfoName() == NameGiant && remainingGiantSlot is not null)
 		{
+			PlayableCard lastGiant = remainingGiantSlot.Card;
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				$"Oh dear, you've made {card.InfoName().Red()} quite angry."
-				);
+				$"Oh dear, you've made {lastGiant.Info.displayedName.Red()} quite angry."
+			);
 			ViewManager.Instance.SwitchToView(View.Board);
-			card.Anim.StrongNegationEffect();
-			card.AddTemporaryMod(new CardModificationInfo { attackAdjustment = 1});
+			CardModificationInfo modInfo = new CardModificationInfo { attackAdjustment = 1 };
+			lastGiant.AddTempModGrimora(modInfo);
+			yield return new WaitForSeconds(0.5f);
 		}
 		else if (opponentQueuedSlots.IsNotEmpty())
 		{
