@@ -12,7 +12,6 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(2, 1)
 			.SetBoneCost(1)
 			.SetDescription("MY, WHAT A LOVELY PRINCE!")
-			.SetMetaCategories(CardMetaCategory.GBCPlayable)
 			.SetNames(NameBonePrince, "Bone Prince")
 			.Build();
 	}
