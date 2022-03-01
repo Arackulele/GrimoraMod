@@ -34,20 +34,14 @@ public class HammerItemExt : HammerItem
 		{
 			if (_useCounter < 3)
 			{
-				if (TurnManager.Instance.Opponent is not null
-				    && TurnManager.Instance.Opponent is KayceeBossOpponent
-				    && targetSlot.Card.HasAbility(Ability.IceCube)
-				   )
+				if (TurnManager.Instance.Opponent is KayceeBossOpponent && targetSlot.CardHasAbility(Ability.IceCube))
 				{
-					yield return TextDisplayer.Instance.ShowUntilInput(
-						"I CAN'T MAKE IT THAT EASY FOR YOU! THERE'S NO FUN IF YOU DESTROY ALL THIS ICE!"
-					);
+					ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue = 2;
+					_useCounter = 3;
 				}
-				else
-				{
-					yield return targetSlot.Card.Die(false);
-					_useCounter++;
-				}
+
+				yield return targetSlot.Card.Die(false);
+				_useCounter++;
 			}
 		}
 
@@ -73,6 +67,7 @@ public class HammerItemExt : HammerItem
 			gameObject.SetActive(false);
 			ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue = 3;
 		}
+
 		TextDisplayer.Instance.Clear();
 
 		yield return new WaitForSeconds(0.65f);
@@ -94,7 +89,7 @@ public class HammerItemExt : HammerItem
 }
 
 [HarmonyPatch(typeof(SelectableCardArray))]
-public class FixCursorInteractionWithHammer
+public class FixCursorInteractionFromCorpseEaterTutorAfterHammeringACard
 {
 	[HarmonyPrefix, HarmonyPatch(nameof(SelectableCardArray.SelectCardFrom))]
 	public static void SelectCardFromLogging(
