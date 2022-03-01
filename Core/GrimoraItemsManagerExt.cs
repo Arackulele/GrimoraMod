@@ -44,7 +44,9 @@ public class GrimoraItemsManagerExt : ItemsManager
 			ext.hammerSlot.GetComponent<BoxCollider>().extents = new Vector3(1f, extentsCopy.y, extentsCopy.z);
 			part3ItemsManager.hammerSlot.transform.SetParent(ext.transform);
 
-			float xVal = ConfigHelper.HasIncreaseSlotsMod ? -8.75f : -7.5f;
+			float xVal = ConfigHelper.HasIncreaseSlotsMod
+				? -8.75f
+				: -7.5f;
 			ext.hammerSlot.gameObject.transform.localPosition = new Vector3(xVal, 1.25f, -0.48f);
 			ext.hammerSlot.gameObject.transform.rotation = Quaternion.Euler(0, 20, -90);
 		}
@@ -73,9 +75,10 @@ public class AddNewHammerExt
 			{
 				Log.LogDebug($"Adding new HammerItemExt");
 				HammerItemExt grimoraHammer = Object.Instantiate(
-					AssetConstants.GrimoraHammer,
-					__instance.transform
-				).AddComponent<HammerItemExt>();
+						AssetConstants.GrimoraHammer,
+						__instance.transform
+					)
+					.AddComponent<HammerItemExt>();
 				Log.LogDebug($"Setting data to old hammer data");
 				grimoraHammer.Data = ResourceBank.Get<Item>("Prefabs/Items/" + data.PrefabId).Data;
 				__instance.Item = grimoraHammer;
