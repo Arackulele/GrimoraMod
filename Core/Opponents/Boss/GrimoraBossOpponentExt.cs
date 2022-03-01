@@ -39,25 +39,30 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	{
 		PlayTheme();
 
-		yield return TextDisplayer.Instance.PlayDialogueEvent(
-			"RoyalBossPreIntro",
-			TextDisplayer.MessageAdvanceMode.Input
-		);
+		if (!ConfigHelper.Instance.isDevModeEnabled)
+		{
+			yield return TextDisplayer.Instance.PlayDialogueEvent(
+				"RoyalBossPreIntro",
+				TextDisplayer.MessageAdvanceMode.Input
+			);
 
-		yield return TextDisplayer.Instance.PlayDialogueEvent(
-			"LeshyBossIntro1",
-			TextDisplayer.MessageAdvanceMode.Input
-		);
+			yield return TextDisplayer.Instance.PlayDialogueEvent(
+				"LeshyBossIntro1",
+				TextDisplayer.MessageAdvanceMode.Input
+			);
+		}
 
 		yield return base.IntroSequence(encounter);
 
 		ViewManager.Instance.SwitchToView(View.BossSkull, false, true);
-
-		yield return TextDisplayer.Instance.PlayDialogueEvent(
-			"LeshyBossAddCandle",
-			TextDisplayer.MessageAdvanceMode.Input
-		);
-		yield return new WaitForSeconds(0.4f);
+		if (!ConfigHelper.Instance.isDevModeEnabled)
+		{
+			yield return TextDisplayer.Instance.PlayDialogueEvent(
+				"LeshyBossAddCandle",
+				TextDisplayer.MessageAdvanceMode.Input
+			);
+			yield return new WaitForSeconds(0.4f);
+		}
 
 		bossSkull.EnterHand();
 
