@@ -189,7 +189,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			: 2;
 		Log.LogInfo("[Grimora] Creating Bonelord");
 		yield return BoardManager.Instance.CreateCardInSlot(
-			CreateModifiedBonelord(),
+			NameBonelord.GetCardInfo(),
 			oppSlots[bonelordSlotIndex],
 			0.75f
 		);
@@ -224,22 +224,6 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			yield return BoardManager.Instance.CreateCardInSlot(bonelordsHorn, oppSlots[i], 0.2f);
 			yield return new WaitForSeconds(0.25f);
 		}
-	}
-
-	private CardInfo CreateModifiedBonelord()
-	{
-		Log.LogInfo("[Grimora] Creating modified Bonelord");
-		CardInfo bonelord = NameBonelord.GetCardInfo();
-		CardModificationInfo mod = new CardModificationInfo
-		{
-			abilities = new List<Ability> { GiantStrike.ability, Ability.Reach },
-			specialAbilities = new List<SpecialTriggeredAbility> { GrimoraGiant.SpecialTriggeredAbility }
-		};
-
-		bonelord.traits.Add(Trait.Giant);
-		bonelord.Mods.Add(mod);
-
-		return bonelord;
 	}
 
 	private CardInfo CreateModifiedBonelordsHorn()
