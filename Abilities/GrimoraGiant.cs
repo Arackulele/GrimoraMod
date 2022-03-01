@@ -26,7 +26,7 @@ public class GrimoraGiant : SpecialCardBehaviour
 	public override IEnumerator OnResolveOnBoard()
 	{
 		int slotsToSet = 2;
-		if (ConfigHelper.Instance.HasIncreaseSlotsMod && Card.InfoName().Equals(NameBonelord))
+		if (ConfigHelper.HasIncreaseSlotsMod && Card.InfoName().Equals(NameBonelord))
 		{
 			slotsToSet = 3;
 		}
@@ -47,7 +47,7 @@ public class GrimoraGiant : SpecialCardBehaviour
 	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
 	{
 		int slotsToSet = 2;
-		if (ConfigHelper.Instance.HasIncreaseSlotsMod && Card.InfoName().Equals(NameBonelord))
+		if (ConfigHelper.HasIncreaseSlotsMod && Card.InfoName().Equals(NameBonelord))
 		{
 			slotsToSet = 3;
 		}

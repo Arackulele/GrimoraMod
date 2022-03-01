@@ -46,7 +46,7 @@ public class ModifyLocalPositionsOfTableObjects
 
 			float xValPosition = -0.7f;
 			float xValScale = 2.1f;
-			if (ConfigHelper.Instance.HasIncreaseSlotsMod && isBonelord)
+			if (ConfigHelper.HasIncreaseSlotsMod && isBonelord)
 			{
 				xValPosition = -1.4f;
 				xValScale = 3.3f;

@@ -44,7 +44,7 @@ public class GrimoraItemsManagerExt : ItemsManager
 			ext.hammerSlot.GetComponent<BoxCollider>().extents = new Vector3(1f, extentsCopy.y, extentsCopy.z);
 			part3ItemsManager.hammerSlot.transform.SetParent(ext.transform);
 
-			float xVal = ConfigHelper.Instance.HasIncreaseSlotsMod ? -8.75f : -7.5f;
+			float xVal = ConfigHelper.HasIncreaseSlotsMod ? -8.75f : -7.5f;
 			ext.hammerSlot.gameObject.transform.localPosition = new Vector3(xVal, 1.25f, -0.48f);
 			ext.hammerSlot.gameObject.transform.rotation = Quaternion.Euler(0, 20, -90);
 		}

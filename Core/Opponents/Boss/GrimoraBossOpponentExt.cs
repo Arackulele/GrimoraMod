@@ -65,6 +65,12 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		yield return new WaitForSeconds(2f);
 		ViewManager.Instance.SwitchToView(View.Default);
+
+		if (ConfigHelper.HasIncreaseSlotsMod)
+		{
+			yield return TextDisplayer.Instance.ShowUntilInput("OH? FIVE LANES? HOW BOLD.");
+		}
+
 		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 	}
 
