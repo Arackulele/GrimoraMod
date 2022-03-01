@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Text;
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
@@ -15,60 +16,30 @@ public class GravestoneCardAnimationControllerPatches
 		// SetSkeletonArmAttackPositionForGiantCards(__instance);
 
 		__instance.Anim.Play("shake", 0, 0f);
-		__instance.armAnim.gameObject.SetActive(value: true);
+		__instance.armAnim.gameObject.SetActive(true);
 
 		int numToDetermineRotation = (
-			                             targetSlot.Index // 0
-			                             -
-			                             __instance.PlayableCard.Slot.Index // 3
-		                             ) // == -3
-		                             *
-		                             (__instance.PlayableCard.Slot.IsPlayerSlot ? 1 : -1);
+			                             targetSlot.Index                     // 0
+			                             - __instance.PlayableCard.Slot.Index // 3
+		                             )                                      // == -3
+		                             * (__instance.PlayableCard.Slot.IsPlayerSlot
+			                             ? 1
+			                             : -1);
 
+		string typeToAttack = attackPlayer
+			? "attack_player"
+			: "attack_creature";
 		bool isPlayerSideBeingAttacked = targetSlot.IsPlayerSlot;
-		bool isCardOpponents = __instance.PlayableCard.OpponentCard;
-		bool targetSlotIsFarthestAway =
-			Mathf.Abs(numToDetermineRotation) == BoardManager.Instance.PlayerSlotsCopy.Count - 1;
 
-		bool hasInvertedStrikeAndTargetIsFarthestSlot
-			= __instance.PlayableCard.HasAbility(InvertedStrike.ability) && targetSlotIsFarthestAway;
-
-		bool cardIsTargetingAdjFriendly = isPlayerSideBeingAttacked && !isCardOpponents
-		                                  || !isPlayerSideBeingAttacked && isCardOpponents;
-		
-		string directionToAttack = numToDetermineRotation switch
-		{
-			< 0 => "_left",
-			> 0 => "_right",
-			_ => ""
-		};
-
-		string animToPlay = (attackPlayer ? "attack_player" : "attack_creature") + directionToAttack;
-
-		if (hasInvertedStrikeAndTargetIsFarthestSlot)
-		{
-			animToPlay += "_invertedstrike";
-		}
-		else if (__instance.PlayableCard.HasAbility(AreaOfEffectStrike.ability) || cardIsTargetingAdjFriendly)
-		{
-			if (isPlayerSideBeingAttacked)
-			{
-				if (!isCardOpponents)
-				{
-					animToPlay += "_adj";
-				}
-			}
-			else
-			{
-				if (isCardOpponents)
-				{
-					animToPlay += "_adj";
-				}
-			}
-		}
+		var animToPlay = GetAnimToPlay(
+			__instance.PlayableCard,
+			typeToAttack,
+			numToDetermineRotation,
+			isPlayerSideBeingAttacked
+		);
 
 		__instance.armAnim.Play(animToPlay, 0, 0f);
-		string soundId = "gravestone_card_attack_" + (attackPlayer ? "player" : "creature");
+		string soundId = "gravestone_card_" + typeToAttack;
 		AudioController.Instance.PlaySound3D(
 			soundId,
 			MixerGroup.TableObjectsSFX,
@@ -76,9 +47,62 @@ public class GravestoneCardAnimationControllerPatches
 			1f,
 			0f,
 			new AudioParams.Pitch(AudioParams.Pitch.Variation.Small),
-			new AudioParams.Repetition(0.05f));
+			new AudioParams.Repetition(0.05f)
+		);
+
+		__instance.UpdateHoveringForCard();
 
 		return false;
+	}
+
+	private static string GetAnimToPlay(
+		PlayableCard playableCard,
+		string typeToAttack,
+		int numToDetermineRotation,
+		bool isPlayerSideBeingAttacked
+	)
+	{
+		string directionToAttack = numToDetermineRotation switch
+		{
+			< 0 => "_left",
+			> 0 => "_right",
+			_   => ""
+		};
+
+		bool isCardOpponents = playableCard.OpponentCard;
+		bool hasAreaOfEffectStrike = playableCard.HasAbility(AreaOfEffectStrike.ability);
+		bool hasInvertedStrike = playableCard.HasAbility(InvertedStrike.ability);
+		bool targetSlotIsFarthestAway =
+			Mathf.Abs(numToDetermineRotation) == BoardManager.Instance.PlayerSlotsCopy.Count - 1;
+
+		bool cardIsTargetingAdjFriendly = isPlayerSideBeingAttacked && !isCardOpponents
+		                                  || !isPlayerSideBeingAttacked && isCardOpponents;
+
+		StringBuilder animToPlay = new StringBuilder(typeToAttack + directionToAttack);
+
+		if (hasInvertedStrike && targetSlotIsFarthestAway)
+		{
+			animToPlay.Append("_invertedstrike");
+		}
+		else if (hasAreaOfEffectStrike || cardIsTargetingAdjFriendly)
+		{
+			if (isPlayerSideBeingAttacked)
+			{
+				if (!isCardOpponents)
+				{
+					animToPlay.Append("_adj");
+				}
+			}
+			else
+			{
+				if (isCardOpponents)
+				{
+					animToPlay.Append("_adj");
+				}
+			}
+		}
+
+		return animToPlay.ToString();
 	}
 
 	private static void SetSkeletonArmAttackPositionForGiantCards(GravestoneCardAnimationController __instance)
@@ -117,9 +141,6 @@ public class GravestoneCardAnimationControllerPatches
 [HarmonyPatch(typeof(CardAnimationController))]
 public class GravestoneCardAnimBaseClassPatches
 {
-	private static readonly int Hover = Animator.StringToHash("hover");
-	private static readonly int Hovering = Animator.StringToHash("hovering");
-
 	[HarmonyPrefix, HarmonyPatch(nameof(CardAnimationController.SetHovering))]
 	public static bool ChangeSetHoveringForGraveCards(CardAnimationController __instance, bool hovering)
 	{
@@ -128,15 +149,7 @@ public class GravestoneCardAnimBaseClassPatches
 			return true;
 		}
 
-		GravestoneCardAnimationController controller = (GravestoneCardAnimationController)__instance;
-
-		if (hovering)
-		{
-			controller.Anim.ResetTrigger(Hover);
-			controller.Anim.SetTrigger(Hover);
-		}
-
-		controller.Anim.SetBool(Hovering, hovering);
+		((GravestoneCardAnimationController)__instance).UpdateHoveringForCard(hovering);
 
 		return false;
 	}

@@ -38,10 +38,6 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - Unfortunately this one is a bit hard to track down, as the table colors get reset after each fight. Not sure why the boss skull doesn't have the color reset.
 
-### Rare card choosing breaks/throws exceptions
-
-- The main culprit from what the team can tell, is that it's an issue with updating the asset bundles. The only recommendation we have now is to uninstall the mod completely, and redownload. Mod managers seem to be really finnicky.
-
 ### Current save file is already at the finale with Grimora
 
 - Make a backup of your save, then delete your current save. Having your current save already at the finale seems to break the mod.
@@ -52,6 +48,22 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - Bonelord does what he wants.
 
 ## Update Notes
+
+### 2.7.6
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed hammer dialogue playing each battle instead of only once. Problem was that I was only setting to not play the dialogue, only if you used the hammer the 3rd time. If you only used it once or twice each fight, it will play each fight.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed cards with flying no longer flying after attacking.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New card! `Hellhand`, 1/1, 5 Bones, `Brittle Latch`.
+  - THERE WILL BE VISUAL BUGS WITH THE ARM UNTIL I CAN GET IT RIGHT.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New art for `Disinter` and `Screeching Call`, courtesy of `Blind, the Bound Demon#6475`.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New art for multiple cards.
+  - GhostShip, courtesy of `Cevin2006™ (◕‿◕)#7971`.
+  - Poltergeist, courtesy of `Cevin2006™ (◕‿◕)#7971`.
+  - The Walkers, courtesy of `Catboy Stinkbug#4099`.
 
 ### 2.7.5
 

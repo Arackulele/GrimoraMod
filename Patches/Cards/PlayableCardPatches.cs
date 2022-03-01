@@ -1,5 +1,7 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
+using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -113,6 +115,50 @@ public class PlayableCardPatches
 				// Log.LogDebug($"[OpposingPatches.Possessive] Slot targeted for attack [{slotToTarget.Index}]");
 				__result.Add(slotToTarget);
 			}
+		}
+	}
+
+	private static bool SlotHasCardAndIsOpposingGiant(PlayableCard giant, CardSlot cardSlot)
+	{
+		Log.LogDebug($"[Giants] GiantSlot [{giant.Slot.name}]"
+		                           + $" opposing slot {cardSlot.name}"
+		                           + $" card {cardSlot.Card is not null}");
+		return cardSlot.Card is not null && cardSlot == giant.Slot.opposingSlot;
+	}
+
+	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.GetOpposingSlots))]
+	public static void GrimoraGiantPatch(PlayableCard __instance, ref List<CardSlot> __result)
+	{
+		if (__instance.Info.HasTrait(Trait.Giant)
+		    && __instance.HasAbility(GiantStrike.ability)
+		    && __instance.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility))
+		{
+			__result = new List<CardSlot>();
+			List<CardSlot> slotsToTarget = __instance.OpponentCard
+				? BoardManager.Instance.PlayerSlotsCopy
+				: BoardManager.Instance.OpponentSlotsCopy;
+			if (slotsToTarget.Exists(slot => SlotHasCardAndIsOpposingGiant(__instance, slot)))
+			{
+				List<CardSlot> filteredList =
+					slotsToTarget.Where(slot => SlotHasCardAndIsOpposingGiant(__instance, slot)).ToList();
+				if (filteredList.Count == 1)
+				{
+					__result.Add(filteredList[0]);
+					if (filteredList[0].Card.Health > __instance.Attack)
+					{
+						__result.Add(filteredList[0]);
+					}
+				}
+				else
+				{
+					__result.AddRange(filteredList);
+				}
+			}
+			else
+			{
+				__result.Add(slotsToTarget[0]);
+			}
+			Log.LogDebug($"[GiantStrike] Opposing slots is now [{string.Join(",", __result.Select(_ => _.Index))}]");
 		}
 	}
 }

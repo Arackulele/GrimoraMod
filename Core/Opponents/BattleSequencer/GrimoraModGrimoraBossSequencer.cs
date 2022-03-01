@@ -95,16 +95,33 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer
 	)
 	{
-		return !card.OpponentCard && TurnManager.Instance.Opponent.NumLives == 3;
+		return !card.OpponentCard && (TurnManager.Instance.Opponent.NumLives == 3 || card.InfoName() == NameGiant);
 	}
 	private bool GrimoraInscrybeCard = false;
 	public override IEnumerator OnOtherCardDie(
 		PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer
 	)
 	{
+
+		List<CardSlot> remainingGiant = BoardManager.Instance.OpponentSlotsCopy
+			.Where(slot => slot.Card is not null && card.Slot != slot && slot.Card.InfoName() == NameGiant)
+			.ToList();
+		List<CardSlot> opponentQueuedSlots = BoardManager.Instance.GetQueueSlots();
+		if (card.InfoName() == NameGiant && remainingGiant.Count == 1)
+		{
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				$"Oh dear, you've made {card.InfoName().Red()} quite angry."
+				);
+			ViewManager.Instance.SwitchToView(View.Board);
+			card.Anim.StrongNegationEffect();
+			card.AddTemporaryMod(new CardModificationInfo { attackAdjustment = 1});
+		}
+		else if (opponentQueuedSlots.IsNotEmpty())
+
 		bool GrimoraInscrybeCard = false;
 
 		if (GrimoraInscrybeCard == true)
+
 		{
 			List<CardSlot> opponentQueuedSlots = BoardManager.Instance.GetQueueSlots();
 			if (opponentQueuedSlots.IsNotEmpty())
