@@ -19,6 +19,10 @@ public class BaseCardPatches
 		{
 			__instance.SetCardback(ResourceBank.Get<Texture>("Art/Cards/card_back_submerge"));
 		}
+		else
+		{
+			GrimoraPlugin.Log.LogInfo($"[Card.SetCardbackSubmerged] Card [{__instance.name}] IS dead. Not setting cardback.");
+		}
 		
 		return false;
 	}
