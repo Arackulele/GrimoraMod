@@ -72,6 +72,10 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 #### Bosses
 
+##### Kaycee
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Cards with `Waterborne` will now lose that ability when frozen, and regain it back once unfrozen. Can't exactly submerge if you're frozen solid yeah?
+
 ##### Grimora
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with Twin Giants spawning.
@@ -79,8 +83,10 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) The giants now have personal names! I wouldn't make one mad though...
 
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Will now only reanimate every other card.
+
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Giant Strike` reworked with a new description.
-  - `[creature] will strike each opposing space that is occupied by a creature. If only one creature is in the opposing spaces, this card will strike twice. It will strike directly once if no creatures oppose it.`
+  - `[creature] will strike each opposing space that is occupied by a creature. If only one creature is in the opposing spaces, this card will strike twice. This card will strike directly once if no creatures oppose it.`
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Bonelord` is now 1 attack 20 health.
 
