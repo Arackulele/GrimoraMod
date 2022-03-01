@@ -110,7 +110,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		return isPhaseOne || giantDied;
 	}
 
-	private bool GrimoraNecromancy = false;
+	private bool _willReanimateCardThatDied = false;
 
 	public override IEnumerator OnOtherCardDie(
 		PlayableCard card,
@@ -137,7 +137,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 				yield return new WaitForSeconds(0.5f);
 			}
 		}
-		else if (opponentQueuedSlots.IsNotEmpty() && GrimoraNecromancy)
+		else if (opponentQueuedSlots.IsNotEmpty() && _willReanimateCardThatDied)
 		{
 			ViewManager.Instance.SwitchToView(View.BossCloseup);
 			yield return TextDisplayer.Instance.PlayDialogueEvent(
@@ -147,9 +147,9 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 			CardSlot slot = opponentQueuedSlots[UnityEngine.Random.Range(0, opponentQueuedSlots.Count)];
 			yield return TurnManager.Instance.Opponent.QueueCard(card.Info, slot);
-			yield return GrimoraNecromancy == false;
+			yield return _willReanimateCardThatDied == false;
 			yield return new WaitForSeconds(0.5f);
 		}
-		else { GrimoraNecromancy = true; }
+		else { _willReanimateCardThatDied = true; }
 	}
 }
