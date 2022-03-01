@@ -70,6 +70,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		FlameStrafe.Create();
 		GainAttackBones.Create();
 		GiantStrike.Create();
+		GiantStrikeEnraged.Create();
 		GrimoraGiant.Create();
 		GrimoraRandomAbility.Create();
 		InvertedStrike.Create();

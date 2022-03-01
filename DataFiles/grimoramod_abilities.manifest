@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2064608794
+CRC: 2832272869
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8fb5fc0d76db3c8a4011821a73ede838
+    Hash: 281055310ae4704ea0047d1de2a3a1e4
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7859cd501ea75098bcf7e53f1b477c26
@@ -28,5 +28,6 @@ Assets:
 - Assets/GrimoraMod_Unity/Abilities/ability_Erratic.png
 - Assets/GrimoraMod_Unity/Abilities/ability_GainAttackBones.png
 - Assets/GrimoraMod_Unity/Abilities/ability_AreaOfEffectStrike.png
+- Assets/GrimoraMod_Unity/Abilities/ability_GiantStrikeEnraged.png
 - Assets/GrimoraMod_Unity/Abilities/ability_ActivatedDrawSkeletonGrimora.png
 Dependencies: []

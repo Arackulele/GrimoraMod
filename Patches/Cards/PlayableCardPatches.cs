@@ -1,6 +1,5 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
-using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -139,6 +138,7 @@ public class PlayableCardPatches
 				if (filteredList.Count == 1)
 				{
 					__result.Add(filteredList[0]);
+					// single card has health greater than current attack, then attack twice 
 					if (filteredList[0].Card.Health > __instance.Attack)
 					{
 						__result.Add(filteredList[0]);
@@ -146,6 +146,7 @@ public class PlayableCardPatches
 				}
 				else
 				{
+					// add both items in the list
 					__result.AddRange(filteredList);
 				}
 			}
@@ -153,7 +154,18 @@ public class PlayableCardPatches
 			{
 				__result.Add(slotsToTarget[0]);
 			}
+
 			Log.LogDebug($"[GiantStrike] Opposing slots is now [{string.Join(",", __result.Select(_ => _.Index))}]");
+		}
+		else if (__instance.HasAbility(GiantStrikeEnraged.ability))
+		{
+			__result = (__instance.OpponentCard
+					? BoardManager.Instance.PlayerSlotsCopy
+					: BoardManager.Instance.OpponentSlotsCopy)
+				.Where(slot => slot.opposingSlot.Card == __instance)
+				.ToList();
+
+			Log.LogDebug($"[GiantStrikeEnraged] Opposing slots is now [{string.Join(",", __result.Select(_ => _.Index))}]");
 		}
 	}
 }
