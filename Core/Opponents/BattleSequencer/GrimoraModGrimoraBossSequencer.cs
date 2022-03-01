@@ -84,7 +84,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 	{
 		return !card.OpponentCard && (TurnManager.Instance.Opponent.NumLives == 3 || card.InfoName() == NameGiant);
 	}
-
+	private bool GrimoraNecromancy = false;
 	public override IEnumerator OnOtherCardDie(
 		PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer
 	)
@@ -102,7 +102,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 			card.Anim.StrongNegationEffect();
 			card.AddTemporaryMod(new CardModificationInfo { attackAdjustment = 1 });
 		}
-		else if (opponentQueuedSlots.IsNotEmpty())
+		else if (opponentQueuedSlots.IsNotEmpty() && GrimoraNecromancy == true)
 		{
 			ViewManager.Instance.SwitchToView(View.BossCloseup);
 			yield return TextDisplayer.Instance.PlayDialogueEvent(
@@ -111,7 +111,9 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 			);
 			CardSlot slot = opponentQueuedSlots[UnityEngine.Random.Range(0, opponentQueuedSlots.Count)];
 			yield return TurnManager.Instance.Opponent.QueueCard(card.Info, slot);
+			yield return GrimoraNecromancy == false;
 			yield return new WaitForSeconds(0.5f);
 		}
+		else GrimoraNecromancy = true;
 	}
 }
