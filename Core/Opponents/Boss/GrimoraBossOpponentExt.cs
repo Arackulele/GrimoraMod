@@ -17,13 +17,13 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 	public override int StartingLives => 3;
 
-	private static void SetSceneEffectsShownGrimora()
+	private static void SetSceneEffectsShownGrimora(Color cardLightColor)
 	{
 		Color purple = GameColors.Instance.purple;
 		Color darkPurple = GameColors.Instance.darkPurple;
 		TableVisualEffectsManager.Instance.ChangeTableColors(
 			darkPurple,
-			GrimoraColors.GrimoraBossCardLight,
+			cardLightColor,
 			purple,
 			darkPurple,
 			darkPurple,
@@ -61,7 +61,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		bossSkull.EnterHand();
 
-		SetSceneEffectsShownGrimora();
+		SetSceneEffectsShownGrimora(GrimoraColors.GrimoraBossCardLight);
 
 		yield return new WaitForSeconds(2f);
 		ViewManager.Instance.SwitchToView(View.Default);
@@ -121,6 +121,8 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		ViewManager.Instance.SwitchToView(View.OpponentQueue, false, true);
 
+		SetSceneEffectsShownGrimora(GameColors.Instance.lightPurple);
+		
 		// mimics the moon phase
 		CardInfo giantOtis = CreateModifiedGiant("Otis");
 		CardInfo giantEphialtes = CreateModifiedGiant("Ephialtes");
@@ -169,6 +171,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		AudioController.Instance.FadeInLoop(7f, 0.5f, 1);
 
 		var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
+		SetSceneEffectsShownGrimora(GrimoraColors.GrimoraBossCardLight);
 		yield return TextDisplayer.Instance.ShowUntilInput(
 			"LET THE BONE LORD COMMETH!",
 			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
