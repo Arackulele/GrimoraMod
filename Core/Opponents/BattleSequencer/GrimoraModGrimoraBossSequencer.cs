@@ -131,8 +131,9 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 					$"Oh dear, you've made {lastGiant.Info.displayedName.Red()} quite angry."
 				);
 				ViewManager.Instance.SwitchToView(View.Board);
-				CardModificationInfo modInfo = new CardModificationInfo { attackAdjustment = 1 };
-				lastGiant.AddTempModGrimora(modInfo);
+				CardModificationInfo modInfo = new CardModificationInfo(1, 0);
+				lastGiant.AddTemporaryMod(modInfo);
+				lastGiant.Anim.PlayTransformAnimation();
 				yield return new WaitForSeconds(0.5f);
 			}
 		}
