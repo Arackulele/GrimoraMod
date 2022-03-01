@@ -9,7 +9,7 @@ public partial class GrimoraPlugin
 	private void Add_Hellhand()
 	{
 		CardBuilder.Builder
-			.SetAsNormalCard()
+			// .SetAsNormalCard()
 			.SetAbilities(Ability.LatchBrittle)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(5)

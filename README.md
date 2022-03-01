@@ -61,15 +61,14 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) 3 more `Skeleton` cards are added to side deck.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) New card! `Hellhand`, 1/1, 5 Bones, `Brittle Latch`.
-  - THERE WILL BE VISUAL BUGS WITH THE ARM UNTIL I CAN GET IT RIGHT.
-
 - ![Feature](https://i.imgur.com/uL9uYNV.png) New art for `Disinter` and `Screeching Call`, courtesy of `Blind, the Bound Demon#6475`.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) New art for multiple cards.
-  - GhostShip, courtesy of `Cevin2006™ (◕‿◕)#7971`.
+  - Drowned Soul, courtesy of `Bt Y#0895`.
+  - Ghost Ship, courtesy of `Cevin2006™ (◕‿◕)#7971`.
   - Poltergeist, courtesy of `Cevin2006™ (◕‿◕)#7971`.
   - The Walkers, courtesy of `Catboy Stinkbug#4099`.
+  - Zombie, courtesy of `Bt Y#0895`.
 
 #### Bosses
 
