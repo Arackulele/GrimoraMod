@@ -184,7 +184,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		);
 		ViewManager.Instance.SwitchToView(View.OpponentQueue, false, true);
 
-		int bonelordSlotIndex = ConfigHelper.Instance.HasIncreaseSlotsMod
+		int bonelordSlotIndex = ConfigHelper.HasIncreaseSlotsMod
 			? 3
 			: 2;
 		Log.LogInfo("[Grimora] Creating Bonelord");
@@ -211,7 +211,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		oppSlots.RemoveRange(
 			1,
-			ConfigHelper.Instance.HasIncreaseSlotsMod
+			ConfigHelper.HasIncreaseSlotsMod
 				? 3
 				: 2
 		); // slot 1, slot 4 remain
@@ -233,7 +233,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		CardModificationInfo mod = new CardModificationInfo
 		{
 			abilities = new List<Ability> { GiantStrike.ability, Ability.Reach },
-			specialAbilities = new List<SpecialTriggeredAbility> { GrimoraGiant.NewSpecialAbility.specialTriggeredAbility }
+			specialAbilities = new List<SpecialTriggeredAbility> { GrimoraGiant.SpecialTriggeredAbility }
 		};
 
 		bonelord.traits.Add(Trait.Giant);
@@ -255,7 +255,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	{
 		Log.LogInfo("[Grimora] GetFarLeftAndFarRightQueueSlots");
 		var qSlots = BoardManager.Instance.GetQueueSlots();
-		CardSlot farRightSlot = qSlots[ConfigHelper.Instance.HasIncreaseSlotsMod
+		CardSlot farRightSlot = qSlots[ConfigHelper.HasIncreaseSlotsMod
 			? 4
 			: 3];
 		return new List<CardSlot>
