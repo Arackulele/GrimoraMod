@@ -37,7 +37,8 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 				ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
 				yield return new WaitForSeconds(0.5f);
 				yield return TextDisplayer.Instance.PlayDialogueEvent(
-					"FinaleGrimoraBattleWon", TextDisplayer.MessageAdvanceMode.Input
+					"FinaleGrimoraBattleWon",
+					TextDisplayer.MessageAdvanceMode.Input
 				);
 			}
 
@@ -56,16 +57,16 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 	public override IEnumerator OpponentUpkeep()
 	{
-		if (!playedDialogueDeathTouch &&
-		    BoardManager.Instance.GetSlots(true).Exists(x => x.CardHasAbility(Ability.Deathtouch))
+		if (!playedDialogueDeathTouch
+		    && BoardManager.Instance.GetSlots(true).Exists(x => x.CardHasAbility(Ability.Deathtouch))
 		    && BoardManager.Instance.GetSlots(false)
 			    .Exists(slot => slot.CardHasSpecialAbility(GrimoraGiant.SpecialTriggeredAbility))
 		   )
 		{
 			yield return new WaitForSeconds(0.5f);
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"DEATH TOUCH WON'T HELP YOU HERE DEAR." +
-				"\nI MADE THESE GIANTS SPECIAL, IMMUNE TO QUITE A FEW DIFFERENT TRICKS!"
+				"DEATH TOUCH WON'T HELP YOU HERE DEAR."
+				+ "\nI MADE THESE GIANTS SPECIAL, IMMUNE TO QUITE A FEW DIFFERENT TRICKS!"
 			);
 			playedDialogueDeathTouch = true;
 		}
@@ -86,7 +87,8 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		{
 			yield return new WaitForSeconds(0.5f);
 			yield return TextDisplayer.Instance.PlayDialogueEvent(
-				"FinaleGrimoraBattleStart", TextDisplayer.MessageAdvanceMode.Input
+				"FinaleGrimoraBattleStart",
+				TextDisplayer.MessageAdvanceMode.Input
 			);
 		}
 	}
