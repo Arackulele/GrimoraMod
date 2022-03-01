@@ -184,6 +184,7 @@ public class ConfigHelper
 
 		if (AbilitiesUtil.allData.IsNotEmpty())
 		{
+			int removedSpec = NewSpecialAbility.specialAbilities.RemoveAll(ab => ab.id.ToString().StartsWith(GUID));
 			int removed = NewAbility.abilities.RemoveAll(ab => ab.id.ToString().StartsWith(GUID));
 			AbilitiesUtil.allData.RemoveAll(
 				info =>
