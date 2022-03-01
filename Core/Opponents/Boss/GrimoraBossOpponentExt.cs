@@ -232,6 +232,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		CardInfo bonelordsHorn = NameBoneLordsHorn.GetCardInfo();
 		bonelordsHorn.Mods.Add(new CardModificationInfo { attackAdjustment = 2 });
 		bonelordsHorn.abilities.Remove(Ability.QuadrupleBones);
+		bonelordsHorn.iceCubeParams.creatureWithin.abilities.Add(Ability.BuffNeighbours);
 		return bonelordsHorn;
 	}
 
