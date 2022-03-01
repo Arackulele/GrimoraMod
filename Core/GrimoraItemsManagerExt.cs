@@ -96,6 +96,8 @@ public class AddNewHammerExt
 [HarmonyPatch(typeof(FirstPersonAnimationController), nameof(FirstPersonAnimationController.SpawnFirstPersonAnimation))]
 public class FirstPersonHammerPatch
 {
+	public static bool HasPlayedIceDialogue = false;
+
 	[HarmonyPrefix]
 	public static bool InitHammerExtAfter(
 		FirstPersonAnimationController __instance,
@@ -107,6 +109,20 @@ public class FirstPersonHammerPatch
 		if (GrimoraSaveUtil.isNotGrimora || !prefabName.Contains("FirstPersonHammer"))
 		{
 			return true;
+		}
+
+		if (!HasPlayedIceDialogue
+		    && TurnManager.Instance.Opponent is KayceeBossOpponent
+		    && BoardManager.Instance.PlayerSlotsCopy.Exists(slot => slot.CardHasAbility(Ability.IceCube))
+		   )
+		{
+			__instance.StartCoroutine(
+				TextDisplayer.Instance.ShowThenClear(
+					"That hammer doesn't look very sturdy, you'll break it if you bash my ice!",
+					3f
+				)
+			);
+			HasPlayedIceDialogue = true;
 		}
 
 		Log.LogDebug($"[FirstPersonController] Creating new grimora first person hammer");
