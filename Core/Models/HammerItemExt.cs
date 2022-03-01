@@ -51,25 +51,28 @@ public class HammerItemExt : HammerItem
 			}
 		}
 
-		if (_useCounter == 1)
+		if (_useCounter == 1 && ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue == 0)
 		{
-			yield return PlayDialogue("THE FRAIL THING WILL SHATTER AFTER EXCESSIVE USE. THREE STRIKES, AND IT'S OUT, FOR THIS BATTLE AT LEAST.");
+			yield return PlayDialogue(
+				"THE FRAIL THING WILL SHATTER AFTER EXCESSIVE USE. THREE STRIKES, AND IT'S OUT, FOR THIS BATTLE AT LEAST."
+			);
 			HammerHandleMat.SetFloat(Glossiness, 0.6f);
+			ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue = 1;
 		}
-		else if (_useCounter == 2)
+		else if (_useCounter == 2 && ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue == 1)
 		{
 			yield return PlayDialogue("GETTING CARRIED AWAY ARE WE? YOU CAN ONLY USE IT ONE MORE TIME.");
 			HammerHandleMat.SetFloat(Glossiness, 1f);
+			ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue = 2;
 		}
-		else if (_useCounter >= 3)
+		else if (_useCounter >= 3 && ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue == 2)
 		{
 			yield return PlayDialogue(
 				"THE HAMMER IS NOW BROKEN DEAR. I WILL HAVE IT FIXED FOR THE NEXT BATTLE THOUGH..."
 			);
-			ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue = false;
 			gameObject.SetActive(false);
+			ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue = 3;
 		}
-
 		TextDisplayer.Instance.Clear();
 
 		yield return new WaitForSeconds(0.65f);

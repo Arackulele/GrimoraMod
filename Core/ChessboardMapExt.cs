@@ -15,9 +15,9 @@ public class ChessboardMapExt : GameMap
 	private bool _toggleCardsLeftInDeck = false;
 
 	public bool HasNotPlayedDialogueOnce =>
-		ConfigHelper.Instance.HammerDialogueOption == 1 && Instance.hasNotPlayedAllHammerDialogue;
+		ConfigHelper.Instance.HammerDialogueOption == 1 && hasNotPlayedAllHammerDialogue < 3;
 
-	public bool hasNotPlayedAllHammerDialogue = true;
+	public int hasNotPlayedAllHammerDialogue = 0;
 
 	public GrimoraChessboard ActiveChessboard { get; set; }
 
