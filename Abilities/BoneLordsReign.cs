@@ -30,7 +30,10 @@ public class BoneLordsReign : AbilityBehaviour
 			foreach (var playableCard in activePlayerCards)
 			{
 				playableCard.Anim.StrongNegationEffect();
-				playableCard.AddTempModGrimora(new CardModificationInfo(1 - Card.Attack, 0));
+				int attack = playableCard.Attack == 0 ? 0 : 1 - playableCard.Attack;
+				CardModificationInfo mod = new CardModificationInfo(attack, 1 - playableCard.Health);
+				playableCard.AddTemporaryMod(mod);
+				playableCard.Anim.PlayTransformAnimation();
 				yield return new WaitForSeconds(0.1f);
 			}
 		}
