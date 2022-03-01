@@ -209,6 +209,29 @@ public static class BlueprintUtils
 	{
 		card = CardLoader.GetCardByName(NameSilbon)
 	};
+
+	//V2.7.4
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_CompoundFracture = new()
+	{
+		card = CardLoader.GetCardByName(NameCompoundFracture)
+	};
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Centurion = new()
+	{
+		card = CardLoader.GetCardByName(NameCenturion)
+	};
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_FesteringWretch = new()
+	{
+		card = CardLoader.GetCardByName(NameFesteringWretch)
+	};
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Manananggal = new()
+	{
+		card = CardLoader.GetCardByName(NameManananggal)
+	};
+
 	#endregion
 
 	internal static readonly Dictionary<Opponent.Type, List<EncounterBlueprintData>> RegionWithBlueprints = new()
@@ -362,7 +385,7 @@ public static class BlueprintUtils
 		{
 			new() { bp_Skeleton },
 			new(),
-			new() { bp_Zombie },
+			new() { bp_Zombie, bp_Zombie },
 			new() { bp_Zombie },
 			new() { bp_Skeleton },
 			new(),
@@ -379,7 +402,7 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new(),
-			new() { bp_Draugr },
+			new() { bp_CompoundFracture },
 			new(),
 			new() { bp_Draugr, bp_Zombie },
 			new(),
@@ -523,11 +546,11 @@ public static class BlueprintUtils
 		{
 			new() { bp_Silbon },
 			new() { bp_Obol },
-			new() { bp_Silbon },
 			new() { bp_FrankAndStein },
+			new() { bp_Zombie },
 			new() { bp_Family },
 			new(),
-			new() { bp_Skeleton },
+			new() { bp_Bonehound },
 			new(),
 			new() { bp_Skeleton, bp_PlagueDoctor },
 			new(),
@@ -546,7 +569,7 @@ public static class BlueprintUtils
 		{
 			new() { bp_Project },
 			new() { bp_Project },
-			new() { bp_Zombie, bp_Zombie, bp_Zombie },
+			new() { bp_Zombie, bp_Zombie },
 			new() { bp_Revenant },
 			new() { bp_Skeleton },
 			new() { bp_Skeleton, bp_Skeleton, bp_Skeleton, bp_Skeleton },

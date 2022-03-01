@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -109,7 +109,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 		return isPhaseOne || giantDied;
 	}
-
+	private bool GrimoraNecromancy = false;
 	public override IEnumerator OnOtherCardDie(
 		PlayableCard card,
 		CardSlot deathSlot,
@@ -131,7 +131,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 			lastGiant.AddTempModGrimora(modInfo);
 			yield return new WaitForSeconds(0.5f);
 		}
-		else if (opponentQueuedSlots.IsNotEmpty())
+		else if (opponentQueuedSlots.IsNotEmpty() && GrimoraNecromancy == true)
 		{
 			ViewManager.Instance.SwitchToView(View.BossCloseup);
 			yield return TextDisplayer.Instance.PlayDialogueEvent(
@@ -141,7 +141,9 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 			CardSlot slot = opponentQueuedSlots[UnityEngine.Random.Range(0, opponentQueuedSlots.Count)];
 			yield return TurnManager.Instance.Opponent.QueueCard(card.Info, slot);
+			yield return GrimoraNecromancy == false;
 			yield return new WaitForSeconds(0.5f);
 		}
+		else GrimoraNecromancy = true;
 	}
 }
