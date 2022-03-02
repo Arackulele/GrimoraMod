@@ -20,7 +20,7 @@ public class AlternatingStrike : AbilityBehaviour
 	public override IEnumerator OnSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
 	{
 		// if in far left slot, adj slot left will be null
-		CardSlot slotToAttack = BoardManager.Instance.GetAdjacent(base.Card.Slot.opposingSlot, isAttackingLeft);
+		CardSlot slotToAttack = BoardManager.Instance.GetAdjacent(Card.Slot.opposingSlot, isAttackingLeft);
 
 		if (slotToAttack is null)
 		{

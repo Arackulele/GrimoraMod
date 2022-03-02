@@ -20,7 +20,7 @@ public class CreateArmyOfSkeletons : AbilityBehaviour
 	public override IEnumerator OnResolveOnBoard()
 	{
 		ViewManager.Instance.SwitchToView(View.Board);
-		var slots = base.Card.Slot.IsPlayerSlot
+		var slots = Card.Slot.IsPlayerSlot
 			? BoardManager.Instance.PlayerSlotsCopy
 			: BoardManager.Instance.OpponentSlotsCopy;
 		
