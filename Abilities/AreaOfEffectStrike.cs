@@ -17,7 +17,7 @@ public class AreaOfEffectStrike : AbilityBehaviour
 	public override bool RespondsToSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
 	{
 		// check if the attacking card is this card
-		if (attacker.Slot == Card.Slot && slot.Card is null)
+		if (attacker is not null && attacker.Slot == Card.Slot && slot.Card is null)
 		{
 			if (attacker.Slot.IsPlayerSlot)
 			{
