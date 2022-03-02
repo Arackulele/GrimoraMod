@@ -22,9 +22,6 @@ public class BaseGameFlowManagerPatches
 
 		if (CryptManager.Instance is not null)
 		{
-			
-			
-			
 			Log.LogDebug($"Finding structure");
 			CryptManager.Instance.transform.Find("Structure").gameObject.SetActive(false);
 
@@ -47,27 +44,41 @@ public class BaseGameFlowManagerPatches
 				}
 			}
 
-			GameObject east3Zone = navGrid.transform.Find("East_3").gameObject;
+			NavigationZone3D east3Zone = navGrid.transform.Find("East_3").GetComponent<NavigationZone3D>();
+			east3Zone.name = "Far_" + east3Zone.name + "_x4_y3";
+			navGrid.zones[4, 3] = east3Zone;
 			east3Zone.transform.localPosition = new Vector3(34, 0, -25.5f);
 			
-			NavigationZone3D east4Zone = Object.Instantiate(
+			NavigationZone3D farEast4Zone = Object.Instantiate(
 				east3Zone,
 				new Vector3(34, 0, -10),
 				Quaternion.identity
 			).GetComponent<NavigationZone3D>();
-			east4Zone.name = "East_4";
+			navGrid.zones[4, 2] = farEast4Zone;
+			farEast4Zone.name = "Far_East_4_x4_y2";
 			
-			NavigationZone3D east5Zone = Object.Instantiate(
+			NavigationZone3D ferEast5Zone = Object.Instantiate(
 				east3Zone,
 				new Vector3(34, 0, 16),
 				Quaternion.identity
 			).GetComponent<NavigationZone3D>();
-			east5Zone.name = "East_5";
+			zones[4, 1] = ferEast5Zone;
+			ferEast5Zone.name = "Far_East_5_x4_y1";
+			
+			NavigationZone3D farEast6Zone = Object.Instantiate(
+				east3Zone,
+				new Vector3(34, 0, 37),
+				Quaternion.identity
+			).GetComponent<NavigationZone3D>();
+			zones[4, 0] = farEast6Zone;
+			farEast6Zone.name = "Far_East_6_x4_y0";
 			
 			// west
-			GameObject west2Zone = navGrid.transform.Find("West_2").gameObject;
+			NavigationZone3D west2Zone = navGrid.transform.Find("West_2").GetComponent<NavigationZone3D>();
 			west2Zone.transform.localPosition = new Vector3(-40, 0, -25.5f);
-			
+			west2Zone.name += "_x0_y3";
+			zones[1, 3] = null;
+			zones[0, 3] = west2Zone;
 			
 			NavigationZone3D West3Zone = Object.Instantiate(
 				west2Zone,
