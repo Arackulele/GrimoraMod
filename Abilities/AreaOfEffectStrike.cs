@@ -17,7 +17,7 @@ public class AreaOfEffectStrike : AbilityBehaviour
 	public override bool RespondsToSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
 	{
 		// check if the attacking card is this card
-		if (attacker.Slot == base.Card.Slot && slot.Card is null)
+		if (attacker.Slot == Card.Slot && slot.Card is null)
 		{
 			if (attacker.Slot.IsPlayerSlot)
 			{
@@ -34,7 +34,7 @@ public class AreaOfEffectStrike : AbilityBehaviour
 
 	public override IEnumerator OnSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
 	{
-		damageDoneToPlayer += base.Card.Attack;
+		damageDoneToPlayer += Card.Attack;
 		yield break;
 	}
 
