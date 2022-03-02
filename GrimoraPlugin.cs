@@ -138,6 +138,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Summoner();         // Ara
 		Add_TombRobber();       // LavaErrorDoggo#1564
 		Add_Wendigo();          // Cevin2006™ (◕‿◕)#7971
+		Add_Vellum();           // Bt Y#0895
 		Add_VengefulSpirit();   // Cevin2006™ (◕‿◕)#7971
 		Add_WillOTheWisp();     // Bt Y#0895
 		Add_Wyvern();           // Cevin2006™ (◕‿◕)#7971
