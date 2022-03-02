@@ -52,30 +52,15 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 ### 2.7.6
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed hammer dialogue playing each battle instead of only once.
+
   - Problem was that I was only setting to not play the dialogue, only if you used the hammer the 3rd time.
   - If you only used it once or twice each fight, it will play each fight.
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed potential softlock if two `Screaming Skull` cards are on the board and the first one dies to `Leaping Trap`.
-
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed potential softlock if a card with `Sprinter` and `Submerge` dies from `Sentry` after moving into the new slot.
-
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed cards with flying no longer flying after attacking.
-
-- ![Feature](https://i.imgur.com/uL9uYNV.png) `Leaping Trap` now gives a different type of pelt.
-
 - ![Feature](https://i.imgur.com/uL9uYNV.png) If the Electric Chair would give `Swapper` sigil, a new sigil will be randomly chosen if the card has zero attack or fewer than 3 health.
+
   - This helps to avoid a card committing forever sleep on first hit.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) 3 more `Skeleton` cards are added to side deck.
-
-- ![Feature](https://i.imgur.com/uL9uYNV.png) New art for `Disinter` and `Screeching Call`, courtesy of `Blind, the Bound Demon#6475`.
-
-- ![Feature](https://i.imgur.com/uL9uYNV.png) New art for multiple cards.
-  - Drowned Soul, courtesy of `Bt Y#0895`.
-  - Ghost Ship, courtesy of `Cevin2006™ (◕‿◕)#7971`.
-  - Poltergeist, courtesy of `Cevin2006™ (◕‿◕)#7971`.
-  - The Walkers, courtesy of `Catboy Stinkbug#4099`.
-  - Zombie, courtesy of `Bt Y#0895`.
 
 #### Bosses
 
@@ -86,6 +71,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 ##### Grimora
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with Twin Giants spawning.
+
   - The primary issue seemed to be how the creation of the abilities were done. No more direct static calls!
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) The giants now have personal names! I wouldn't make one mad though...
@@ -93,13 +79,35 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Will now only reanimate every other card.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Giant Strike` reworked with a new description.
+
   - `[creature] will strike each opposing space that is occupied by a creature. If only one creature is in the opposing spaces, this card will strike twice. This card will strike directly once if no creatures oppose it.`
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Bonelord` is now 1 attack 20 health.
 
+#### Ability/Card Changes
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed potential softlock if two `Screaming Skull` cards are on the board and the first one dies to `Leaping Trap`.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed potential softlock if a card with `Sprinter` and `Submerge` dies from `Sentry` after moving into the new slot.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed cards with flying no longer flying after attacking.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New art for `Disinter` and `Screeching Call`, courtesy of `Blind, the Bound Demon#6475`.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New art for multiple cards.
+
+  - Drowned Soul, courtesy of `Bt Y#0895`.
+  - Ghost Ship, courtesy of `Cevin2006™ (◕‿◕)#7971`.
+  - Poltergeist, courtesy of `Cevin2006™ (◕‿◕)#7971`.
+  - The Walkers, courtesy of `Catboy Stinkbug#4099`.
+  - Zombie, courtesy of `Bt Y#0895`.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) `Leaping Trap` now gives a different type of pelt.
+
 ### 2.7.5
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Added more debugging tools for adding Grimora Mod cards to either your hand or deck. There is now also a dropdown for custom added cards.
+
   - Enable developer mode in config file.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Skeleton` is now the default card that will spawn from `Ice Cube`.
@@ -111,6 +119,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 ### 2.7.4
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Can now access rulebook after adding a new sigil to a card in the Electric Chair sequencer.
+
   - This also means that you can right-click the newly added sigil so you can see wtf it is.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Can now view your deck during normal or rare card choices.
@@ -144,6 +153,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 #### Ability/Card Changes
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Reworked the logic for `Skin Crawler`, again.
+
   - Fixed potential softlock if `Boo Hag` is hiding under a card when you die.
   - New description: [creature] will attempt to find a host in an adjacent friendly slot, hiding under it providing a +1/+1 buff. Cards on the left take priority.
 
@@ -152,6 +162,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Added special stat icons for `Catacomb` and `Death Knell`.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Multiple new card arts
+
   - `Bone Lord's Horn` art from `Cevin2006™ (◕‿◕)#7971`.
   - `Bone Prince` art from `Cevin2006™ (◕‿◕)#7971`.
   - `Headless Horseman` art from `Cevin2006™ (◕‿◕)#7971`.
@@ -160,6 +171,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
   - `Summoner` art from `Cevin2006™ (◕‿◕)#7971`.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Added multiple new basic cards. All art from `Bt Y#0895`.
+
   - Centurion: 1/4, 6 Bones, `Armored`. Description courtesy of `Bt Y#0895`.
   - Compound Fracture: 1/2, 4 Bones, `Sharp Quills`. Description courtesy of `BONG MASTER`.
   - Dalgyal: 0/2, 2 Energy, `Sentry`. Description courtesy of `TheGreenDigi#8672`.
@@ -186,9 +198,11 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with `Electric Chair` where it was possible to add 2 more abilities if the electrocuted card had 3 abilities to start.
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with hammer interaction when a card in your hand has `Corpse Eater` and `Hoarder`.
+
   - When the hammer is used, it disables the cursor so you can't interact with anything until the hammer sequence finishes. The problem is that with `Corpse Eater` and `Hoarder`, is that the hammer sequence doesn't finish until after you choose a card from the `Hoarder` sequence, but you can't choose a card because the hammer disabled your cursor. Hence, softlock.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Added hammer dialogue option in config file. The hammer also starts to be appear more used after each use.
+
   - 0 = Disable hammer dialogue entirely.
   - 1 = Play only once for the entire session. (default)
   - 2 = Play dialogue each battle.
@@ -205,6 +219,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 ##### Kaycee
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with cards that have been ice cubed by Kaycee not having all their abilities intact when being broken out of the ice.
+
   - The reason for this is that the original `IceCube` logic creates the card in the slot _by the name_ and NOT by the `CardInfo` object. Meaning, whatever the vanilla card attributes are, is what spawns, not the one in your deck.
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed icicle on Kaycee's figurine to now properly move with the head.
@@ -230,6 +245,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 #### Ability/Card Changes
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed multiple issues with `Skin Crawler` ability.
+
   - New description: When one of your creatures is placed in an adjacent space to [creature], [creature] will hide under it providing a +1 buff. Cards on the left take priority.
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with `Handy` ability drawing a new hand for the player if the card would die and then reanimated during the first phase of Grimora's fight.
@@ -243,14 +259,17 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - ![Feature](https://i.imgur.com/uL9uYNV.png) New `Mummy` and `Sarcophagus` art courtesy of `Bt Y#0895`!
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Added `Exploding Pirate` card. 1 Bone, 2/2 with `Lit Fuse` sigil. Initial art from `Lich underling#7678`, with modifications from `Ara`.
+
   - `Lit Fuse`: [creature] loses 1 health per turn. When [creature] dies, the creature opposing it, as well as adjacent friendly creatures, are dealt 10 damage.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Changed `Tomb Robber` ability to now be `Disinter`: Pay 2 bones to create a skeleton in your hand.
+
   - Similar to the act 2 ability, but nerfed to cost 2 bones instead of 1.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Nerfed `Wendigo` attack from 2 to 1, and set as a normal type of card.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Zomb-Geck` no longer appears as a rare card. Was more or less meant as filler until more cards were added.
+
   - Maybe used for future event?
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Added description for `Banshee`.
@@ -296,6 +315,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - ![Feature](https://i.imgur.com/uL9uYNV.png) The `Sawyer` boss now has unique mechanics, like stealing bones for you and spawning a certain hound of his.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Added new Kaycee and Sawyer boss figurines courtesy of `Catboy Stinkbug#4099`.
+
   - Model updates for Sawyer courtesy of `Pink#9824`
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Added new `Flames` artwork and `FlameStrafe` ability icon courtesy of `Cevin2006™ (◕‿◕)#7971`.
