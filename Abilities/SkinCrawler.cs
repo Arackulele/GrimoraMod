@@ -13,8 +13,6 @@ public class SkinCrawler : AbilityBehaviour
 {
 	internal static List<CardSlot> SlotsThatHaveCrawlersHidingUnderCards = new();
 
-	public static readonly NewAbility NewAbility = Create();
-
 	public static Ability ability;
 
 	public override Ability Ability => ability;

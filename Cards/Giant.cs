@@ -38,7 +38,7 @@ public class ModifyLocalPositionsOfTableObjects
 	{
 		if (GrimoraSaveUtil.isGrimora
 		    && card.Info.HasTrait(Trait.Giant)
-		    && card.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility))
+		    && card.Info.SpecialAbilities.Contains(GrimoraGiant.SpecialTriggeredAbility))
 		{
 			bool isBonelord = card.InfoName().Equals(NameBonelord);
 			// Card -> RotatingParent (child zero) -> TombstoneParent -> Cardbase_StatsLayer
@@ -46,7 +46,7 @@ public class ModifyLocalPositionsOfTableObjects
 
 			float xValPosition = -0.7f;
 			float xValScale = 2.1f;
-			if (ConfigHelper.Instance.HasIncreaseSlotsMod && isBonelord)
+			if (ConfigHelper.HasIncreaseSlotsMod && isBonelord)
 			{
 				xValPosition = -1.4f;
 				xValScale = 3.3f;
@@ -67,7 +67,7 @@ public class KayceeModLogicForDeathTouchPrevention
 	public static void AddLogicForDeathTouchToNotKillGiants(int amount, PlayableCard target, ref bool __result)
 	{
 		bool targetIsNotGrimoraGiant =
-			!target.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility);
+			!target.Info.SpecialAbilities.Contains(GrimoraGiant.SpecialTriggeredAbility);
 		__result = __result && targetIsNotGrimoraGiant;
 	}
 }

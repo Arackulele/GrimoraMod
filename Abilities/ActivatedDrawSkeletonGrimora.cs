@@ -5,8 +5,6 @@ namespace GrimoraMod;
 
 public class ActivatedDrawSkeletonGrimora : ActivatedDrawSkeleton
 {
-	public static readonly NewAbility NewAbility = Create();
-
 	public static readonly Ability ability;
 
 	public override Ability Ability => ability;

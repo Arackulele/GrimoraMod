@@ -44,7 +44,9 @@ public class GrimoraItemsManagerExt : ItemsManager
 			ext.hammerSlot.GetComponent<BoxCollider>().extents = new Vector3(1f, extentsCopy.y, extentsCopy.z);
 			part3ItemsManager.hammerSlot.transform.SetParent(ext.transform);
 
-			float xVal = ConfigHelper.Instance.HasIncreaseSlotsMod ? -8.75f : -7.5f;
+			float xVal = ConfigHelper.HasIncreaseSlotsMod
+				? -8.75f
+				: -7.5f;
 			ext.hammerSlot.gameObject.transform.localPosition = new Vector3(xVal, 1.25f, -0.48f);
 			ext.hammerSlot.gameObject.transform.rotation = Quaternion.Euler(0, 20, -90);
 		}
@@ -73,9 +75,10 @@ public class AddNewHammerExt
 			{
 				Log.LogDebug($"Adding new HammerItemExt");
 				HammerItemExt grimoraHammer = Object.Instantiate(
-					AssetConstants.GrimoraHammer,
-					__instance.transform
-				).AddComponent<HammerItemExt>();
+						AssetConstants.GrimoraHammer,
+						__instance.transform
+					)
+					.AddComponent<HammerItemExt>();
 				Log.LogDebug($"Setting data to old hammer data");
 				grimoraHammer.Data = ResourceBank.Get<Item>("Prefabs/Items/" + data.PrefabId).Data;
 				__instance.Item = grimoraHammer;
@@ -93,6 +96,8 @@ public class AddNewHammerExt
 [HarmonyPatch(typeof(FirstPersonAnimationController), nameof(FirstPersonAnimationController.SpawnFirstPersonAnimation))]
 public class FirstPersonHammerPatch
 {
+	public static bool HasPlayedIceDialogue = false;
+
 	[HarmonyPrefix]
 	public static bool InitHammerExtAfter(
 		FirstPersonAnimationController __instance,
@@ -104,6 +109,20 @@ public class FirstPersonHammerPatch
 		if (GrimoraSaveUtil.isNotGrimora || !prefabName.Contains("FirstPersonHammer"))
 		{
 			return true;
+		}
+
+		if (!HasPlayedIceDialogue
+		    && TurnManager.Instance.Opponent is KayceeBossOpponent
+		    && BoardManager.Instance.PlayerSlotsCopy.Exists(slot => slot.CardHasAbility(Ability.IceCube))
+		   )
+		{
+			__instance.StartCoroutine(
+				TextDisplayer.Instance.ShowThenClear(
+					"That hammer doesn't look very sturdy, you'll break it if you bash my ice!",
+					3f
+				)
+			);
+			HasPlayedIceDialogue = true;
 		}
 
 		Log.LogDebug($"[FirstPersonController] Creating new grimora first person hammer");

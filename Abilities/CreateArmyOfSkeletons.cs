@@ -6,8 +6,6 @@ namespace GrimoraMod;
 
 public class CreateArmyOfSkeletons : AbilityBehaviour
 {
-	public static readonly NewAbility NewAbility = Create();
-	
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -22,7 +20,7 @@ public class CreateArmyOfSkeletons : AbilityBehaviour
 	public override IEnumerator OnResolveOnBoard()
 	{
 		ViewManager.Instance.SwitchToView(View.Board);
-		var slots = base.Card.Slot.IsPlayerSlot
+		var slots = Card.Slot.IsPlayerSlot
 			? BoardManager.Instance.PlayerSlotsCopy
 			: BoardManager.Instance.OpponentSlotsCopy;
 		

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2064608794
+CRC: 110849869
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8fb5fc0d76db3c8a4011821a73ede838
+    Hash: 652c2d95541dd7ffc9b3f9b3bcc31fad
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7859cd501ea75098bcf7e53f1b477c26
@@ -13,9 +13,11 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
+- Assets/GrimoraMod_Unity/Abilities/ability_Raider.png
 - Assets/GrimoraMod_Unity/Abilities/ability_InvertedStrike.png
 - Assets/GrimoraMod_Unity/Abilities/ability_FlameStrafe.png
 - Assets/GrimoraMod_Unity/Abilities/ability_SpiritBearer.png
+- Assets/GrimoraMod_Unity/Abilities/ability_HookLineAndSinker.png
 - Assets/GrimoraMod_Unity/Abilities/ability_AlternatingStrike.png
 - Assets/GrimoraMod_Unity/Abilities/ability_GiantStrike.png
 - Assets/GrimoraMod_Unity/Abilities/ability_CreateArmyOfSkeletons.png
@@ -28,5 +30,6 @@ Assets:
 - Assets/GrimoraMod_Unity/Abilities/ability_Erratic.png
 - Assets/GrimoraMod_Unity/Abilities/ability_GainAttackBones.png
 - Assets/GrimoraMod_Unity/Abilities/ability_AreaOfEffectStrike.png
+- Assets/GrimoraMod_Unity/Abilities/ability_GiantStrikeEnraged.png
 - Assets/GrimoraMod_Unity/Abilities/ability_ActivatedDrawSkeletonGrimora.png
 Dependencies: []

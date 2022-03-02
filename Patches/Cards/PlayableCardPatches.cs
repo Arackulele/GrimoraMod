@@ -1,6 +1,5 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
-using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -13,11 +12,12 @@ public class PlayableCardPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.GetOpposingSlots))]
 	public static void AreaOfEffectStrikeGetOpposingSlotsPatch(PlayableCard __instance, ref List<CardSlot> __result)
 	{
+		bool hasRaider = __instance.HasAbility(Raider.ability);
 		bool hasAOEStrike = __instance.HasAbility(AreaOfEffectStrike.ability);
 		bool hasInvertedStrike = __instance.HasAbility(InvertedStrike.ability);
 		bool hasAlternatingStrike = __instance.HasAbility(AlternatingStrike.ability);
 
-		if (hasAOEStrike)
+		if (hasAOEStrike || hasRaider)
 		{
 			var toLeftSlot = BoardManager.Instance.GetAdjacent(__instance.Slot, true);
 			var toRightSlot = BoardManager.Instance.GetAdjacent(__instance.Slot, false);
@@ -41,7 +41,7 @@ public class PlayableCardPatches
 				__result.Reverse();
 			}
 
-			if (hasAlternatingStrike)
+			if (hasAlternatingStrike && hasAOEStrike)
 			{
 				List<CardSlot> alternatedResult = new List<CardSlot>()
 				{
@@ -100,8 +100,7 @@ public class PlayableCardPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.GetOpposingSlots))]
 	public static void PossessiveGetOpposingSlotsPatch(PlayableCard __instance, ref List<CardSlot> __result)
 	{
-		if (__instance.Slot.opposingSlot.Card is not null
-		    && __instance.Slot.opposingSlot.Card.HasAbility(Possessive.ability))
+		if (__instance.Slot.opposingSlot.CardHasAbility(Possessive.ability))
 		{
 			var adjSlots = BoardManager.Instance
 				.GetAdjacentSlots(__instance.Slot)
@@ -120,18 +119,13 @@ public class PlayableCardPatches
 
 	private static bool SlotHasCardAndIsOpposingGiant(PlayableCard giant, CardSlot cardSlot)
 	{
-		Log.LogDebug($"[Giants] GiantSlot [{giant.Slot.name}]"
-		                           + $" opposing slot {cardSlot.name}"
-		                           + $" card {cardSlot.Card is not null}");
-		return cardSlot.Card is not null && cardSlot == giant.Slot.opposingSlot;
+		return cardSlot.Card is not null && (cardSlot == giant.Slot.opposingSlot || cardSlot.Index == giant.Slot.Index - 1);
 	}
 
 	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.GetOpposingSlots))]
 	public static void GrimoraGiantPatch(PlayableCard __instance, ref List<CardSlot> __result)
 	{
-		if (__instance.Info.HasTrait(Trait.Giant)
-		    && __instance.HasAbility(GiantStrike.ability)
-		    && __instance.Info.SpecialAbilities.Contains(GrimoraGiant.NewSpecialAbility.specialTriggeredAbility))
+		if (__instance.HasAbility(GiantStrike.ability))
 		{
 			__result = new List<CardSlot>();
 			List<CardSlot> slotsToTarget = __instance.OpponentCard
@@ -144,6 +138,7 @@ public class PlayableCardPatches
 				if (filteredList.Count == 1)
 				{
 					__result.Add(filteredList[0]);
+					// single card has health greater than current attack, then attack twice 
 					if (filteredList[0].Card.Health > __instance.Attack)
 					{
 						__result.Add(filteredList[0]);
@@ -151,6 +146,7 @@ public class PlayableCardPatches
 				}
 				else
 				{
+					// add both items in the list
 					__result.AddRange(filteredList);
 				}
 			}
@@ -158,7 +154,18 @@ public class PlayableCardPatches
 			{
 				__result.Add(slotsToTarget[0]);
 			}
+
 			Log.LogDebug($"[GiantStrike] Opposing slots is now [{string.Join(",", __result.Select(_ => _.Index))}]");
+		}
+		else if (__instance.HasAbility(GiantStrikeEnraged.ability))
+		{
+			__result = (__instance.OpponentCard
+					? BoardManager.Instance.PlayerSlotsCopy
+					: BoardManager.Instance.OpponentSlotsCopy)
+				.Where(slot => slot.opposingSlot.Card == __instance)
+				.ToList();
+
+			Log.LogDebug($"[GiantStrikeEnraged] Opposing slots is now [{string.Join(",", __result.Select(_ => _.Index))}]");
 		}
 	}
 }

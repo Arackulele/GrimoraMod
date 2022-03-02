@@ -159,12 +159,10 @@ public class ConfigHelper
 
 		ResetConfigDataIfGrimoraHasNotReachedTable();
 
-		HandleHotReloadBefore();
-
 		UnlockAllNecessaryEventsToPlay();
 	}
 
-	public bool HasIncreaseSlotsMod => Harmony.HasAnyPatches("julianperge.inscryption.act1.increaseCardSlots");
+	public static bool HasIncreaseSlotsMod => Harmony.HasAnyPatches("julianperge.inscryption.act1.increaseCardSlots");
 
 	public int BonesToAdd => BossesDefeated;
 
@@ -184,6 +182,7 @@ public class ConfigHelper
 
 		if (AbilitiesUtil.allData.IsNotEmpty())
 		{
+			int removedSpec = NewSpecialAbility.specialAbilities.RemoveAll(ab => ab.id.ToString().StartsWith(GUID));
 			int removed = NewAbility.abilities.RemoveAll(ab => ab.id.ToString().StartsWith(GUID));
 			AbilitiesUtil.allData.RemoveAll(
 				info =>
@@ -216,8 +215,7 @@ public class ConfigHelper
 		if (AbilitiesUtil.allData.IsNotEmpty())
 		{
 			Log.LogDebug($"All data is not null, concatting GrimoraMod abilities");
-			AbilitiesUtil.allData = AbilitiesUtil.allData
-				.Concat(
+			AbilitiesUtil.allData = AbilitiesUtil.allData.Concat(
 					NewAbility.abilities.Where(ab => ab.id.ToString().StartsWith(GUID)).Select(_ => _.info)
 				)
 				.ToList();
@@ -248,9 +246,9 @@ public class ConfigHelper
 		_configBossesDefeated.Value = 0;
 		_configCurrentChessboardIndex.Value = 0;
 		ResetRemovedPieces();
-		Log.LogWarning($"Resetting active chessboard");
 		if (ChessboardMapExt.Instance is not null)
 		{
+			Log.LogWarning($"Resetting active chessboard");
 			ChessboardMapExt.Instance.ActiveChessboard = null;
 			Log.LogWarning($"Resetting pieces");
 			ChessboardMapExt.Instance.pieces.Clear();

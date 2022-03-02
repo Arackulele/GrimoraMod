@@ -7,8 +7,6 @@ namespace GrimoraMod;
 
 public class ActivatedEnergyDrawWyvern : ActivatedAbilityBehaviour
 {
-	public static readonly NewAbility NewAbility = Create();
-
 	public static Ability ability;
 
 	private const int ENERGY_COST = 2;

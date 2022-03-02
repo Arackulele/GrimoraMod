@@ -20,6 +20,81 @@ public class BaseGameFlowManagerPatches
 
 		Log.LogDebug($"[GameFlowManager] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");
 
+		if (CryptManager.Instance is not null)
+		{
+			Log.LogDebug($"Finding structure");
+			CryptManager.Instance.transform.Find("Structure").gameObject.SetActive(false);
+
+			Log.LogDebug($"Creating layout");
+			GameObject newLayout = Object.Instantiate(
+				AssetUtils.GetPrefab<GameObject>("GrimoraNewLayout"),
+				CryptManager.Instance.transform
+			);
+
+			Log.LogDebug($"Getting nav grid");
+			NavigationGrid navGrid = Object.FindObjectsOfType<NavigationGrid>().Single(grid => grid.name == "NavigationGrid");
+			
+			NavigationZone[,] zones = navGrid.zones;
+				
+			for (int i = 0; i < zones.GetLength(0); i++)
+			{
+				for (int j = 0; j < zones.GetLength(1); j++)
+				{
+					Log.LogDebug($"[Zone] x{i}y{j} Name [{zones[i, j]?.name}]");
+				}
+			}
+
+			NavigationZone3D east3Zone = navGrid.transform.Find("East_3").GetComponent<NavigationZone3D>();
+			east3Zone.name = "Far_" + east3Zone.name + "_x4_y3";
+			navGrid.zones[4, 3] = east3Zone;
+			east3Zone.transform.localPosition = new Vector3(34, 0, -25.5f);
+			
+			NavigationZone3D farEast4Zone = Object.Instantiate(
+				east3Zone,
+				new Vector3(34, 0, -10),
+				Quaternion.identity
+			).GetComponent<NavigationZone3D>();
+			navGrid.zones[4, 2] = farEast4Zone;
+			farEast4Zone.name = "Far_East_4_x4_y2";
+			
+			NavigationZone3D ferEast5Zone = Object.Instantiate(
+				east3Zone,
+				new Vector3(34, 0, 16),
+				Quaternion.identity
+			).GetComponent<NavigationZone3D>();
+			zones[4, 1] = ferEast5Zone;
+			ferEast5Zone.name = "Far_East_5_x4_y1";
+			
+			NavigationZone3D farEast6Zone = Object.Instantiate(
+				east3Zone,
+				new Vector3(34, 0, 37),
+				Quaternion.identity
+			).GetComponent<NavigationZone3D>();
+			zones[4, 0] = farEast6Zone;
+			farEast6Zone.name = "Far_East_6_x4_y0";
+			
+			// west
+			NavigationZone3D west2Zone = navGrid.transform.Find("West_2").GetComponent<NavigationZone3D>();
+			west2Zone.transform.localPosition = new Vector3(-40, 0, -25.5f);
+			west2Zone.name += "_x0_y3";
+			zones[1, 3] = null;
+			zones[0, 3] = west2Zone;
+			
+			NavigationZone3D West3Zone = Object.Instantiate(
+				west2Zone,
+				new Vector3(-60, 0, -25.5f),
+				Quaternion.identity
+			).GetComponent<NavigationZone3D>();
+			West3Zone.name = "West_3";
+			
+			NavigationZone3D West4Zone = Object.Instantiate(
+				west2Zone,
+				new Vector3(-80, 0, -25.5f),
+				Quaternion.identity
+			).GetComponent<NavigationZone3D>();
+			West4Zone.name = "West_4";
+		}
+
 		AudioController.Instance.Loops.AddRange(AllSounds);
 
 		DisableAttackAndHealthStatShadows();

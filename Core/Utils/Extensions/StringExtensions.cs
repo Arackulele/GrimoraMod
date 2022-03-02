@@ -21,6 +21,11 @@ public static class StringExtensions
 		return string.Join(",", self.Select(_ => _.name));
 	}
 	
+	public static string GetDelimitedString<T>(this List<T> self)
+	{
+		return string.Join(",", self);
+	}
+	
 	public static string GetDelimitedString(this string[] self)
 	{
 		return string.Join(",", self);

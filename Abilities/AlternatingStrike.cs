@@ -7,8 +7,6 @@ namespace GrimoraMod;
 
 public class AlternatingStrike : AbilityBehaviour
 {
-	public static readonly NewAbility NewAbility = Create();
-
 	public static Ability ability;
 	public override Ability Ability => ability;
 
@@ -16,20 +14,18 @@ public class AlternatingStrike : AbilityBehaviour
 
 	public override bool RespondsToSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
 	{
-		return attacker == base.Card;
+		return attacker is not null && attacker == Card;
 	}
 
 	public override IEnumerator OnSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
 	{
 		// if in far left slot, adj slot left will be null
-		CardSlot slotToAttack = BoardManager.Instance.GetAdjacent(base.Card.Slot.opposingSlot, isAttackingLeft);
+		CardSlot slotToAttack = BoardManager.Instance.GetAdjacent(Card.Slot.opposingSlot, isAttackingLeft);
 
 		if (slotToAttack is null)
 		{
 			isAttackingLeft = !isAttackingLeft;
 			// if in far left slot and attacked right last, need to keep attack to the right slot
-			Log.LogDebug($"[AlternatingStrike.Patch]" +
-			             $" SlotToAttack is null. Changing [{isAttackingLeft}] to [{!isAttackingLeft}]");
 		}
 
 		yield return base.OnSlotTargetedForAttack(slot, attacker);

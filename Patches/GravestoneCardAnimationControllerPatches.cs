@@ -112,7 +112,7 @@ public class GravestoneCardAnimationControllerPatches
 			float xValPosition = -0.7f;
 			Transform skeletonArm = __instance.transform.GetChild(1);
 			Vector3 skeletonArmAnimPosition = skeletonArm.localPosition;
-			if (ConfigHelper.Instance.HasIncreaseSlotsMod && __instance.Card.InfoName().Equals(NameBonelord))
+			if (ConfigHelper.HasIncreaseSlotsMod && __instance.Card.InfoName().Equals(NameBonelord))
 			{
 				xValPosition = -1.4f;
 				Log.LogDebug($"[Giant] Setting skeleArm bonelord");

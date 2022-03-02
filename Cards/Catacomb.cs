@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(LammergeierAttack.NewSpecialAbility.specialTriggeredAbility)
+			.SetAbilities(LammergeierAttack.SpecialTriggeredAbility)
 			.SetBaseAttackAndHealth(0, 10)
 			.SetBoneCost(10)
 			.SetNames(NameCatacomb, "Catacomb")

@@ -289,7 +289,8 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private static bool HasAbilityComboThatWillBreakTheGame(CardInfo card, Ability randomSigil)
 	{
-		return CheckCardHavingAbilityAndViceVersa(card, Ability.StrafePush, randomSigil, SkinCrawler.ability);
+		return CheckCardHavingAbilityAndViceVersa(card, Ability.StrafePush, randomSigil, SkinCrawler.ability)
+			|| randomSigil == Ability.SwapStats && (card.Attack < 1 || card.Health < 3);
 	}
 
 	private static bool CheckCardHavingAbilityAndViceVersa(

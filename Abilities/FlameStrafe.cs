@@ -7,8 +7,6 @@ namespace GrimoraMod;
 
 public class FlameStrafe : Strafe
 {
-	public static readonly NewAbility NewAbility = Create();
-	
 	public static Ability ability;
 
 	public override Ability Ability => ability;
