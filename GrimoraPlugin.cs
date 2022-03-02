@@ -126,6 +126,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_PlagueDoctor();     // Cevin2006™ (◕‿◕)#7971
 		Add_Poltergeist();      // Cevin2006™ (◕‿◕)#7971
 		Add_Project();          // Bt Y#0895
+		Add_RaidingPirate();    // Bt Y#0895
 		Add_Revenant();         // vanilla
 		Add_MudWorm();          // LavaErrorDoggo#1564
 		Add_Ripper();           // Bt Y#0895

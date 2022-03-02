@@ -12,11 +12,12 @@ public class PlayableCardPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.GetOpposingSlots))]
 	public static void AreaOfEffectStrikeGetOpposingSlotsPatch(PlayableCard __instance, ref List<CardSlot> __result)
 	{
+		bool hasRaider = __instance.HasAbility(Raider.ability);
 		bool hasAOEStrike = __instance.HasAbility(AreaOfEffectStrike.ability);
 		bool hasInvertedStrike = __instance.HasAbility(InvertedStrike.ability);
 		bool hasAlternatingStrike = __instance.HasAbility(AlternatingStrike.ability);
 
-		if (hasAOEStrike)
+		if (hasAOEStrike || hasRaider)
 		{
 			var toLeftSlot = BoardManager.Instance.GetAdjacent(__instance.Slot, true);
 			var toRightSlot = BoardManager.Instance.GetAdjacent(__instance.Slot, false);
@@ -40,7 +41,7 @@ public class PlayableCardPatches
 				__result.Reverse();
 			}
 
-			if (hasAlternatingStrike)
+			if (hasAlternatingStrike && hasAOEStrike)
 			{
 				List<CardSlot> alternatedResult = new List<CardSlot>()
 				{
