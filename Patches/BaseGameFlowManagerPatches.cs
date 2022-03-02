@@ -20,6 +20,70 @@ public class BaseGameFlowManagerPatches
 
 		Log.LogDebug($"[GameFlowManager] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");
 
+		if (CryptManager.Instance is not null)
+		{
+			
+			
+			
+			Log.LogDebug($"Finding structure");
+			CryptManager.Instance.transform.Find("Structure").gameObject.SetActive(false);
+
+			Log.LogDebug($"Creating layout");
+			GameObject newLayout = Object.Instantiate(
+				AssetUtils.GetPrefab<GameObject>("GrimoraNewLayout"),
+				CryptManager.Instance.transform
+			);
+
+			Log.LogDebug($"Getting nav grid");
+			NavigationGrid navGrid = Object.FindObjectsOfType<NavigationGrid>().Single(grid => grid.name == "NavigationGrid");
+			
+			NavigationZone[,] zones = navGrid.zones;
+				
+			for (int i = 0; i < zones.GetLength(0); i++)
+			{
+				for (int j = 0; j < zones.GetLength(1); j++)
+				{
+					Log.LogDebug($"[Zone] x{i}y{j} Name [{zones[i, j]?.name}]");
+				}
+			}
+
+			GameObject east3Zone = navGrid.transform.Find("East_3").gameObject;
+			east3Zone.transform.localPosition = new Vector3(34, 0, -25.5f);
+			
+			NavigationZone3D east4Zone = Object.Instantiate(
+				east3Zone,
+				new Vector3(34, 0, -10),
+				Quaternion.identity
+			).GetComponent<NavigationZone3D>();
+			east4Zone.name = "East_4";
+			
+			NavigationZone3D east5Zone = Object.Instantiate(
+				east3Zone,
+				new Vector3(34, 0, 16),
+				Quaternion.identity
+			).GetComponent<NavigationZone3D>();
+			east5Zone.name = "East_5";
+			
+			// west
+			GameObject west2Zone = navGrid.transform.Find("West_2").gameObject;
+			west2Zone.transform.localPosition = new Vector3(-40, 0, -25.5f);
+			
+			
+			NavigationZone3D West3Zone = Object.Instantiate(
+				west2Zone,
+				new Vector3(-60, 0, -25.5f),
+				Quaternion.identity
+			).GetComponent<NavigationZone3D>();
+			West3Zone.name = "West_3";
+			
+			NavigationZone3D West4Zone = Object.Instantiate(
+				west2Zone,
+				new Vector3(-80, 0, -25.5f),
+				Quaternion.identity
+			).GetComponent<NavigationZone3D>();
+			West4Zone.name = "West_4";
+		}
+
 		AudioController.Instance.Loops.AddRange(AllSounds);
 
 		DisableAttackAndHealthStatShadows();
