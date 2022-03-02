@@ -7,7 +7,7 @@ namespace GrimoraMod;
 public class SteelTrapPatches
 {
 	
-	[HarmonyPrefix, HarmonyPatch(nameof(SteelTrap.CardToDraw))]
+	[HarmonyPrefix, HarmonyPatch(nameof(SteelTrap.CardToDraw), MethodType.Getter)]
 	public static bool ChangeCardToDrawToVellum(ref CardInfo __result)
 	{
 		if (GrimoraSaveUtil.isNotGrimora)
