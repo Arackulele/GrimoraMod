@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1574777539
+CRC: 4143564743
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 01e6241afa7e730589fe2a0974d122e6
+    Hash: 099799808174f84a89b3659727c995d8
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -31,6 +31,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Skelemaniac_emission.png
 - Assets/GrimoraMod_Unity/Cards/Sarcophagus.png
 - Assets/GrimoraMod_Unity/Cards/DeathKnell_emission.png
+- Assets/GrimoraMod_Unity/Cards/PirateFirstMateSnag.png
 - Assets/GrimoraMod_Unity/Cards/DeadPets.png
 - Assets/GrimoraMod_Unity/Cards/WillOTheWisp.png
 - Assets/GrimoraMod_Unity/Cards/Silbon_emission.png
@@ -40,11 +41,13 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/ExplodingPirate_emission.png
 - Assets/GrimoraMod_Unity/Cards/Flames.png
 - Assets/GrimoraMod_Unity/Cards/Giant_emission.png
+- Assets/GrimoraMod_Unity/Cards/PirateSwashbuckler.png
 - Assets/GrimoraMod_Unity/Cards/ScreamingSkull.png
 - Assets/GrimoraMod_Unity/Cards/DanseMacabre_emission.png
 - Assets/GrimoraMod_Unity/Cards/Amoeba_emission.png
 - Assets/GrimoraMod_Unity/Cards/Poltergeist_emission.png
 - Assets/GrimoraMod_Unity/Cards/Dalgyal.png
+- Assets/GrimoraMod_Unity/Cards/PirateCaptainYellowbeard_emission.png
 - Assets/GrimoraMod_Unity/Cards/Deadeye_emission.png
 - Assets/GrimoraMod_Unity/Cards/Wyvern.png
 - Assets/GrimoraMod_Unity/Cards/GhostShip.png
@@ -59,6 +62,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/DeadHand.png
 - Assets/GrimoraMod_Unity/Cards/BonelordsHorn_emission.png
 - Assets/GrimoraMod_Unity/Cards/Flames_emission.png
+- Assets/GrimoraMod_Unity/Cards/PiratePrivateer_emission.png
 - Assets/GrimoraMod_Unity/Cards/Catacomb_emission.png
 - Assets/GrimoraMod_Unity/Cards/Ripper_emission.png
 - Assets/GrimoraMod_Unity/Cards/Family_emission.png
@@ -75,15 +79,18 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/ArmoredZombie.png
 - Assets/GrimoraMod_Unity/Cards/FesteringWretch.png
 - Assets/GrimoraMod_Unity/Cards/DeathKnell.png
+- Assets/GrimoraMod_Unity/Cards/PiratePrivateer.png
 - Assets/GrimoraMod_Unity/Cards/Summoner.png
 - Assets/GrimoraMod_Unity/Cards/Manananggal_emission.png
 - Assets/GrimoraMod_Unity/Cards/Family.png
 - Assets/GrimoraMod_Unity/Cards/SkeletonArmy.png
 - Assets/GrimoraMod_Unity/Cards/ArmoredZombie_emission.png
+- Assets/GrimoraMod_Unity/Cards/PirateFirstMateSnag_emission.png
 - Assets/GrimoraMod_Unity/Cards/VengefulSpirit.png
 - Assets/GrimoraMod_Unity/Cards/Necromancer_emission.png
 - Assets/GrimoraMod_Unity/Cards/Zombie.png
 - Assets/GrimoraMod_Unity/Cards/Sporedigger.png
+- Assets/GrimoraMod_Unity/Cards/PirateCaptainYellowbeard.png
 - Assets/GrimoraMod_Unity/Menu/Background.png
 - Assets/GrimoraMod_Unity/Cards/FesteringWretch_emission.png
 - Assets/GrimoraMod_Unity/Cards/Giant.png
@@ -105,6 +112,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/CompoundFracture_emission.png
 - Assets/GrimoraMod_Unity/Cards/HeadlessHorseman.png
 - Assets/GrimoraMod_Unity/Cards/Ripper.png
+- Assets/GrimoraMod_Unity/Cards/PirateSwashbuckler_emission.png
 - Assets/GrimoraMod_Unity/Cards/DeadPets_emission.png
 - Assets/GrimoraMod_Unity/Cards/VengefulSpirit_emission.png
 - Assets/GrimoraMod_Unity/Cards/DeathKnell_Bell.png
