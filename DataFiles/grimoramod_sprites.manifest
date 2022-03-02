@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1856166984
+CRC: 1574777539
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 5023474a03ac00f29eaa06740aad7a64
+    Hash: 01e6241afa7e730589fe2a0974d122e6
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -95,6 +95,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Menu/menutext_grimora_mod.png
 - Assets/GrimoraMod_Unity/Cards/BonePrince.png
 - Assets/GrimoraMod_Unity/Cards/Skelemagus.png
+- Assets/GrimoraMod_Unity/Cards/Vellum.png
 - Assets/GrimoraMod_Unity/Cards/TombRobber_emission.png
 - Assets/GrimoraMod_Unity/Cards/ZombieGeck_emission.png
 - Assets/GrimoraMod_Unity/Cards/Project_emission.png

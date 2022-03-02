@@ -55,9 +55,16 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
   - Problem was that I was only setting to not play the dialogue, only if you used the hammer the 3rd time.
   - If you only used it once or twice each fight, it will play each fight.
 
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed potential softlock if two `Screaming Skull` cards are on the board and the first one dies to `Leaping Trap`.
+
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed potential softlock if a card with `Sprinter` and `Submerge` dies from `Sentry` after moving into the new slot.
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed cards with flying no longer flying after attacking.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) `Leaping Trap` now gives a different type of pelt.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) If the Electric Chair would give `Swapper` sigil, a new sigil will be randomly chosen if the card has zero attack or fewer than 3 health.
+  - This helps to avoid a card committing forever sleep on first hit.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) 3 more `Skeleton` cards are added to side deck.
 
