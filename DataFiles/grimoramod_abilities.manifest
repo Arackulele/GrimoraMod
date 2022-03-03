@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 110849869
+CRC: 1050420303
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 652c2d95541dd7ffc9b3f9b3bcc31fad
+    Hash: 97f222e2c1c2dbff32ed03ffd47691a8
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7859cd501ea75098bcf7e53f1b477c26
@@ -19,6 +19,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Abilities/ability_SpiritBearer.png
 - Assets/GrimoraMod_Unity/Abilities/ability_HookLineAndSinker.png
 - Assets/GrimoraMod_Unity/Abilities/ability_AlternatingStrike.png
+- Assets/GrimoraMod_Unity/Abilities/ability_BuffCrewMates.png
 - Assets/GrimoraMod_Unity/Abilities/ability_GiantStrike.png
 - Assets/GrimoraMod_Unity/Abilities/ability_CreateArmyOfSkeletons.png
 - Assets/GrimoraMod_Unity/Abilities/ability_LitFuse.png
