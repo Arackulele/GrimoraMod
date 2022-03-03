@@ -14,10 +14,10 @@ public class CryptHelper
 	private const int X5Coord = 15;
 	private const int X6Coord = 34;
 
-	private const int Y3Coord = -28;
-	private const float Y4Coord = -17.5f;
-	private const int Y5Coord = -28;
-	private const int Y6Coord = -43;
+	private const int Z3Coord = -28;
+	private const float Z4Coord = -17.5f;
+	private const int Z5Coord = -28;
+	private const int Z6Coord = -43;
 
 	public static void SetupNewCryptAndZones()
 	{
@@ -119,7 +119,7 @@ public class CryptHelper
 			// x0
 			var farEastRoom = CreateZone(
 				"Far_West_Room_",
-				new Vector3(X0Coord, 0, Y5Coord),
+				new Vector3(X0Coord, 0, Z5Coord),
 				0,
 				5
 			);
@@ -127,7 +127,7 @@ public class CryptHelper
 			// x1
 			var westRoomWestHallway = CreateZone(
 				"West_Room_West_Hallway",
-				new Vector3(X1Coord, 0, Y5Coord),
+				new Vector3(X1Coord, 0, Z5Coord),
 				1,
 				5
 			);
@@ -150,21 +150,21 @@ public class CryptHelper
 
 			var westRoom3 = CreateZone(
 				"West_Room",
-				new Vector3(X2Coord, 0, Y4Coord),
+				new Vector3(X2Coord, 0, Z4Coord),
 				2,
 				4
 			);
 
 			var westRoom4 = CreateZone(
 				"West_Room",
-				new Vector3(X2Coord, 0, Y5Coord),
+				new Vector3(X2Coord, 0, Z5Coord),
 				2,
 				5
 			);
 
 			var westRoom5 = CreateZone(
 				"West_Room",
-				new Vector3(X2Coord, 0, Y6Coord),
+				new Vector3(X2Coord, 0, Z6Coord),
 				2,
 				6
 			);
@@ -173,7 +173,7 @@ public class CryptHelper
 			// x3
 			var centralRoomWestHallway = CreateZone(
 				"Central_Room_West_Hallway",
-				new Vector3(X3Coord, 0, Y5Coord),
+				new Vector3(X3Coord, 0, Z5Coord),
 				3,
 				5
 			);
@@ -199,21 +199,21 @@ public class CryptHelper
 			// x5
 			var centralRoomCenter1 = CreateZone(
 				"Central_Room_Center",
-				new Vector3(X5Coord, 0, Y4Coord),
+				new Vector3(X5Coord, 0, Z4Coord),
 				5,
 				4
 			);
 
 			var centralRoomCenter2 = CreateZone(
 				"Central_Room_Center",
-				new Vector3(X5Coord, 0, Y5Coord),
+				new Vector3(X5Coord, 0, Z5Coord),
 				5,
 				5
 			);
 
 			var centralRoomCenter3 = CreateZone(
 				"Central_Room_Center",
-				new Vector3(X5Coord, 0, Y6Coord),
+				new Vector3(X5Coord, 0, Z6Coord),
 				5,
 				6
 			);
@@ -250,21 +250,21 @@ public class CryptHelper
 
 			var centralRoomEast1 = CreateZone(
 				"Central_Room_East",
-				new Vector3(X6Coord, 0, Y4Coord),
+				new Vector3(X6Coord, 0, Z4Coord),
 				6,
 				4
 			);
 
 			var centralRoomEast2 = CreateZone(
 				"Central_Room_East",
-				new Vector3(X6Coord, 0, Y5Coord),
+				new Vector3(X6Coord, 0, Z5Coord),
 				6,
 				5
 			);
 
 			var centralRoomEast3 = CreateZone(
 				"Central_Room_East",
-				new Vector3(X6Coord, 0, Y6Coord),
+				new Vector3(X6Coord, 0, Z6Coord),
 				6,
 				6
 			);
