@@ -32,7 +32,10 @@ public class RoyalBossOpponentExt : BaseBossExt
 		yield return TextDisplayer.Instance.ShowUntilInput("I'VE BEEN WAITING FOR A WORTHY FIGHT!");
 
 		cannons = Instantiate(
-			ResourceBank.Get<GameObject>("Prefabs/Environment/TableEffects/CannonTableEffects")
+			ResourceBank.Get<GameObject>("Prefabs/Environment/TableEffects/CannonTableEffects"),
+			new Vector3(1.01f, 0, 0),
+			Quaternion.identity,
+			BoardManager3D.Instance.transform
 		);
 		if (!ConfigHelper.Instance.isDevModeEnabled)
 		{
