@@ -63,6 +63,11 @@ public static class CardRelatedExtension
 		controller.Anim.SetBool(Hovering, isHovering);
 	}
 
+	public static bool HasAnyAbilities(this PlayableCard playableCard, params Ability[] abilities)
+	{
+		return playableCard.Info.Abilities.Any(abilities.Contains);
+	}
+
 	public static void AddTempModGrimora(this PlayableCard playableCard, CardModificationInfo mod)
 	{
 		playableCard.Info.Mods.Add(mod);
