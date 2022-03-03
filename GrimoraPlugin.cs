@@ -64,6 +64,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AlternatingStrike.Create();
 		AreaOfEffectStrike.Create();
 		BoneLordsReign.Create();
+		BuffCrewMates.Create();
 		CreateArmyOfSkeletons.Create();
 		CreateKnells.Create();
 		Erratic.Create();
