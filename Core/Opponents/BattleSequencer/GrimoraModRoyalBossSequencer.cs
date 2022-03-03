@@ -13,6 +13,8 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 
 	private GameObject _gameTable = GameObject.Find("GameTable");
 
+	private const int DurationTableSway = 5;
+
 	private int boardSwayCounter = 0;
 
 	public override Opponent.Type BossType => BaseBossExt.RoyalOpponent;
@@ -63,7 +65,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			Tween.Rotation(
 				_gameTable.transform,
 				new Vector3(0, 0, 20),
-				10f,
+				DurationTableSway,
 				1f,
 				startCallback: () =>
 				{
@@ -76,11 +78,11 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 				},
 				completeCallback: () =>
 				{
-					Tween.Rotation(_gameTable.transform, new Vector3(0, 0, 0), 7, 0);
+					Tween.Rotation(_gameTable.transform, new Vector3(0, 0, 0), DurationTableSway, 0);
 					Tween.LocalRotation(
 						GrimoraAnimationController.Instance.transform,
 						new Vector3(0, 180, 0),
-						7,
+						DurationTableSway,
 						0.5f
 					);
 				}
@@ -128,29 +130,36 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			playableCard.RenderCard();
 		}
 
+		Vector3 positionCopy = playableCard.transform.localPosition;
 		if (destination != null && destinationValid)
 		{
 			Log.LogWarning(
 				$"[MoveToSlot] Card [{playableCard.GetNameAndSlot()}] will be moved to slot [{destination.name}]!"
 			);
 
-			Tween.LocalRotation(playableCard.transform, destination.transform.localPosition, 7, 0);
 
 			Log.LogWarning(
 				$"[MoveToSlot] Starting assign card to slot"
 			);
-			yield return BoardManager.Instance.AssignCardToSlot(playableCard, destination, 7);
+
+			Tween.LocalPosition(
+				playableCard.transform,
+				new Vector3(positionCopy.x - destination.transform.localPosition.x, positionCopy.z),
+				DurationTableSway + 2,
+				0,
+				Tween.EaseInStrong
+			);
+			yield return BoardManager.Instance.AssignCardToSlot(playableCard, destination, DurationTableSway);
 			yield return new WaitForSeconds(0.25f);
 		}
 		else
 		{
-			Vector3 positionCopy = playableCard.transform.localPosition;
 			Log.LogWarning($"[MoveToSlot] Card [{playableCard.GetNameAndSlot()}] is about to fucking die me hearty!");
 			TweenBase slidingCard = Tween.LocalPosition(
 				playableCard.transform,
 				new Vector3(positionCopy.x - 6, positionCopy.y, positionCopy.z),
-				9f,
-				0f,
+				DurationTableSway + 2,
+				0,
 				Tween.EaseInStrong
 			);
 			yield return new WaitForSeconds(0.15f);
