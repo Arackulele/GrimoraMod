@@ -55,12 +55,16 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		}
 	}
 
+	private bool SlotContainsTwinGiant(CardSlot cardSlot)
+	{
+		return cardSlot.CardHasSpecialAbility(GrimoraGiant.SpecialTriggeredAbility) && cardSlot.CardInSlotIs(NameGiant);
+	} 
+
 	public override IEnumerator OpponentUpkeep()
 	{
 		if (!playedDialogueDeathTouch
 		    && BoardManager.Instance.GetSlots(true).Exists(x => x.CardHasAbility(Ability.Deathtouch))
-		    && BoardManager.Instance.GetSlots(false)
-			    .Exists(slot => slot.CardHasSpecialAbility(GrimoraGiant.SpecialTriggeredAbility))
+		    && BoardManager.Instance.GetSlots(false).Exists(SlotContainsTwinGiant)
 		   )
 		{
 			yield return new WaitForSeconds(0.5f);
