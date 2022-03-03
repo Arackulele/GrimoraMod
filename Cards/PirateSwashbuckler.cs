@@ -7,6 +7,7 @@ public partial class GrimoraPlugin
 	private void Add_PirateSwashbuckler()
 	{
 		CardBuilder.Builder
+			.SetAsNormalCard()
 			.SetAbilities(Raider.ability)
 			.SetBaseAttackAndHealth(1, 2)
 			.SetNames(NamePirateSwashbuckler, "Swashbuckler")

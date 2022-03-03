@@ -64,6 +64,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AlternatingStrike.Create();
 		AreaOfEffectStrike.Create();
 		BoneLordsReign.Create();
+		BuffCrewMates.Create();
 		CreateArmyOfSkeletons.Create();
 		CreateKnells.Create();
 		Erratic.Create();
@@ -71,9 +72,11 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		GiantStrike.Create();
 		GiantStrikeEnraged.Create();
 		GrimoraRandomAbility.Create();
+		HookLineAndSinker.Create();
 		InvertedStrike.Create();
 		LitFuse.Create();
 		Possessive.Create();
+		Raider.Create();
 		SkinCrawler.Create();
 		SpiritBearer.Create();
 
@@ -90,53 +93,55 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		#region Normal
 
-		Add_ArmoredZombie();       // Ara
-		Add_Banshee();             // vanilla
-		Add_BonePrince();          // Cevin2006™ (◕‿◕)#7971
-		Add_Bonehound();           // vanilla
-		Add_Bonelord();            // Ryan S Art
-		Add_Bonepile();            // Bt Y#0895
-		Add_BooHag();              // Bt Y#0895
-		Add_Catacomb();            // Bt Y#0895
-		Add_Centurion();           // Bt Y#0895
-		Add_CompoundFracture();    // Bt Y#0895
-		Add_CorpseMaggots();       // vanilla
-		Add_Dalgyal();             // Bt Y#0895
-		Add_DanseMacabre();        // Bt Y#0895
-		Add_DeadHand();            // Ara?
-		Add_Deadeye();             // Bt Y#0895
-		Add_Draugr();              // Bt Y#0895
-		Add_DrownedSoul();         // LavaErrorDoggo#1564
-		Add_ExplodingPirate();     // Lich underling#7678, then Ara
-		Add_Family();              // LavaErrorDoggo#1564
-		Add_FesteringWretch();     // Bt Y#0895
-		Add_Flames();              // Ara
-		Add_Franknstein();         // vanilla
-		Add_GhostShip();           // LavaErrorDoggo#1564
-		Add_Giant();               // Bt Y#0895
-		Add_GraveDigger();         // vanilla
-		Add_HellHound();           // Cevin2006™ (◕‿◕)#7971
-		Add_Hellhand();            // Bt Y#0895 
-		Add_Manananggal();         // Bt Y#0895
-		Add_MudWorm();             // LavaErrorDoggo#1564
-		Add_Mummy();               // Bt Y#0895
-		Add_Obol();                // Bt Y#0895
-		Add_PlagueDoctor();        // Cevin2006™ (◕‿◕)#7971
-		Add_Poltergeist();         // Cevin2006™ (◕‿◕)#7971
-		Add_Project();             // Bt Y#0895
-		Add_PirateFirstMateSnag(); // Bt Y#0895
-		Add_PirateSwashbuckler();  // Bt Y#0895
-		Add_Revenant();            // vanilla
-		Add_Sarcophagus();         // Bt Y#0895
-		Add_Skelemagus();          // Cevin2006™ (◕‿◕)#7971
-		Add_SkeletonArmy();        // LavaErrorDoggo#1564 ?
-		Add_Summoner();            // Ara
-		Add_TombRobber();          // LavaErrorDoggo#1564
-		Add_Vellum();              // Bt Y#0895
-		Add_VengefulSpirit();      // Cevin2006™ (◕‿◕)#7971
-		Add_Wendigo();             // Cevin2006™ (◕‿◕)#7971
-		Add_WillOTheWisp();        // Bt Y#0895
-		Add_Zombie();              // Ara
+		Add_ArmoredZombie();            // Ara
+		Add_Banshee();                  // vanilla
+		Add_BonePrince();               // Cevin2006™ (◕‿◕)#7971
+		Add_Bonehound();                // vanilla
+		Add_Bonelord();                 // Ryan S Art
+		Add_Bonepile();                 // Bt Y#0895
+		Add_BooHag();                   // Bt Y#0895
+		Add_Catacomb();                 // Bt Y#0895
+		Add_Centurion();                // Bt Y#0895
+		Add_CompoundFracture();         // Bt Y#0895
+		Add_CorpseMaggots();            // vanilla
+		Add_Dalgyal();                  // Bt Y#0895
+		Add_DanseMacabre();             // Bt Y#0895
+		Add_DeadHand();                 // Ara?
+		Add_Deadeye();                  // Bt Y#0895
+		Add_Draugr();                   // Bt Y#0895
+		Add_DrownedSoul();              // LavaErrorDoggo#1564
+		Add_ExplodingPirate();          // Lich underling#7678, then Ara
+		Add_Family();                   // Catboy Stinkbug#4099
+		Add_FesteringWretch();          // Bt Y#0895
+		Add_Flames();                   // Ara
+		Add_Franknstein();              // vanilla
+		Add_GhostShip();                // Cevin2006™ (◕‿◕)#7971
+		Add_Giant();                    // Bt Y#0895
+		Add_GraveDigger();              // vanilla
+		Add_HellHound();                // Cevin2006™ (◕‿◕)#7971
+		Add_Hellhand();                 // Bt Y#0895 
+		Add_Manananggal();              // Bt Y#0895
+		Add_MudWorm();                  // LavaErrorDoggo#1564
+		Add_Mummy();                    // Bt Y#0895
+		Add_Obol();                     // Bt Y#0895
+		Add_PlagueDoctor();             // Cevin2006™ (◕‿◕)#7971
+		Add_Poltergeist();              // Cevin2006™ (◕‿◕)#7971
+		Add_Project();                  // Bt Y#0895
+		Add_PirateCaptainYellowbeard(); // Bt Y#0895
+		Add_PirateFirstMateSnag();      // Bt Y#0895
+		Add_PiratePrivateer();          // Bt Y#0895
+		Add_PirateSwashbuckler();       // Bt Y#0895
+		Add_Revenant();                 // vanilla
+		Add_Sarcophagus();              // Bt Y#0895
+		Add_Skelemagus();               // Cevin2006™ (◕‿◕)#7971
+		Add_SkeletonArmy();             // LavaErrorDoggo#1564 ?
+		Add_Summoner();                 // Ara
+		Add_TombRobber();               // LavaErrorDoggo#1564
+		Add_Vellum();                   // Bt Y#0895
+		Add_VengefulSpirit();           // Cevin2006™ (◕‿◕)#7971
+		Add_Wendigo();                  // Cevin2006™ (◕‿◕)#7971
+		Add_WillOTheWisp();             // Bt Y#0895
+		Add_Zombie();                   // Bt Y#0895
 
 		#endregion
 

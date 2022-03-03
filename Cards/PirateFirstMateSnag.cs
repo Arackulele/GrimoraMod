@@ -7,8 +7,10 @@ public partial class GrimoraPlugin
 	private void Add_PirateFirstMateSnag()
 	{
 		CardBuilder.Builder
-			// .SetAbilities(Raider.ability)
-			.SetBaseAttackAndHealth(1, 2)
+			.SetAsNormalCard()
+			.SetAbilities(HookLineAndSinker.ability)
+			.SetBaseAttackAndHealth(2, 2)
+			.SetBoneCost(7)
 			.SetNames(NamePirateFirstMateSnag, "Fist Mate Snag")
 			.Build();
 	}
