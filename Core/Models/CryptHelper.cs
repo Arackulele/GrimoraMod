@@ -6,13 +6,13 @@ namespace GrimoraMod;
 
 public class CryptHelper
 {
-	private const int X0Coord = -80;
-	private const int X1Coord = -60;
-	private const int X2Coord = -38;
-	private const int X3Coord = -16;
+	private const int X0Coord = -108;
+	private const int X1Coord = -87;
+	private const int X2Coord = -57;
+	private const float X3Coord = -25.5f;
 	private const int X4Coord = 0;
 	private const int X5Coord = 15;
-	private const int X6Coord = 34;
+	private const float X6Coord = 39.25f;
 
 	private const int Z3Coord = -28;
 	private const float Z4Coord = -17.5f;
