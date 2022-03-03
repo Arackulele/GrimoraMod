@@ -24,14 +24,12 @@ public class BuffCrewMatesPatch
 	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.GetPassiveAttackBuffs))]
 	public static void Postfix(PlayableCard __instance, ref int __result)
 	{
-		if (__instance.OnBoard)
+		if (__instance is not null && __instance.OnBoard)
 		{
 			if (__instance.InfoName() == GrimoraPlugin.NameSkeleton)
 			{
-				GrimoraPlugin.Log.LogDebug($"[CrewMates] Result before [{__result}]");
 				__result += BoardManager.Instance.GetSlots(!__instance.OpponentCard)
 					.Count(slot => slot.CardHasAbility(BuffCrewMates.ability));
-				GrimoraPlugin.Log.LogDebug($"[CrewMates] Result after [{__result}]");
 			}
 		}
 	}
