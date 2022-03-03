@@ -67,23 +67,28 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 				1f,
 				startCallback: () =>
 				{
-					Quaternion currentRotation = GrimoraAnimationController.Instance.transform.localRotation;
 					Tween.LocalRotation(
 						GrimoraAnimationController.Instance.transform,
-						new Vector3(0, 180, currentRotation.z + 20),
+						new Vector3(0, 180, 20),
 						7,
-						1
+						0.5f
 					);
 				},
 				completeCallback: () =>
 				{
 					Tween.Rotation(_gameTable.transform, new Vector3(0, 0, 0), 7, 0);
+					Tween.LocalRotation(
+						GrimoraAnimationController.Instance.transform,
+						new Vector3(0, 180, 0),
+						7,
+						0.5f
+					);
 				}
 			);
 
 			foreach (var playableCard in BoardManager.Instance.GetPlayerCards())
 			{
-				yield return DoStrafe(playableCard, true);
+				yield return StartCoroutine(DoStrafe(playableCard, true));
 			}
 		}
 	}
@@ -103,7 +108,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		bool destinationValid = movingLeft
 			? canMoveLeft
 			: canMoveRight;
-		yield return MoveToSlot(playableCard, destination, destinationValid, movingLeft);
+		yield return StartCoroutine(MoveToSlot(playableCard, destination, destinationValid, movingLeft));
 	}
 
 	protected IEnumerator MoveToSlot(
@@ -129,12 +134,12 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 				$"[MoveToSlot] Card [{playableCard.GetNameAndSlot()}] will be moved to slot [{destination.name}]!"
 			);
 
-			Tween.LocalPosition(playableCard.transform, destination.transform.localPosition, 3, 0);
-			
+			Tween.LocalRotation(playableCard.transform, destination.transform.localPosition, 7, 0);
+
 			Log.LogWarning(
 				$"[MoveToSlot] Starting assign card to slot"
 			);
-			yield return BoardManager.Instance.AssignCardToSlot(playableCard, destination, 3);
+			yield return BoardManager.Instance.AssignCardToSlot(playableCard, destination, 7);
 			yield return new WaitForSeconds(0.25f);
 		}
 		else
@@ -149,8 +154,10 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 				Tween.EaseInStrong
 			);
 			yield return new WaitForSeconds(0.15f);
-			yield return new WaitUntil(() => slidingCard.Status == Tween.TweenStatus.Finished);
-			yield return playableCard.Die(false);
+			CustomCoroutine.WaitOnConditionThenExecute(
+				() => slidingCard.Status == Tween.TweenStatus.Finished,
+				() => StartCoroutine(playableCard.Die(false))
+			);
 		}
 	}
 }
