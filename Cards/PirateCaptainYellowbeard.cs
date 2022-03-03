@@ -7,6 +7,7 @@ public partial class GrimoraPlugin
 	private void Add_PirateCaptainYellowbeard()
 	{
 		CardBuilder.Builder
+			.SetAsRareCard()
 			.SetAbilities(BuffCrewMates.ability)
 			.SetBaseAttackAndHealth(4, 4)
 			.SetBoneCost(10)

@@ -9,6 +9,7 @@ public partial class GrimoraPlugin
 	private void Add_PiratePrivateer()
 	{
 		CardBuilder.Builder
+			.SetAsNormalCard()
 			.SetAbilities(Ability.Sniper)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(4)
