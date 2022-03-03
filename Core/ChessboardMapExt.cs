@@ -101,6 +101,11 @@ public class ChessboardMapExt : GameMap
 			"Reset Run"
 		);
 
+		var getUpFromBoard = GUI.Button(
+			new Rect(200, 0, 100, 50),
+			"Get Up"
+		);
+
 		if (TurnManager.Instance.Opponent is not null
 		    && CardDrawPiles3D.Instance.Deck is not null)
 		{
@@ -141,6 +146,11 @@ public class ChessboardMapExt : GameMap
 			else if (resetRunBtn)
 			{
 				ConfigHelper.Instance.ResetRun();
+			} 
+			else if (getUpFromBoard && GrimoraGameFlowManager.Instance.CurrentGameState == GameState.Map)
+			{
+				Log.LogDebug($"Transitioning to first person");
+				GrimoraGameFlowManager.Instance.TransitionToFirstPerson();
 			}
 		}
 
