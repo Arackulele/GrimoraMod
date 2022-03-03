@@ -54,7 +54,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			}
 		}
 
-		ConfigHelper.Instance.HandleHotReloadAfter();
+		// ConfigHelper.Instance.HandleHotReloadAfter();
 	}
 
 	private void LoadAbilities()
