@@ -39,7 +39,7 @@ public class HookLineAndSinker : AbilityBehaviour
 		}
 
 		killer.SetIsOpponentCard();
-		killer.transform.eulerAngles += new Vector3(0f, 0f, -180f);
+		// killer.transform.eulerAngles += new Vector3(0f, 0f, -180f);
 		CardSlot cardSlot = killer.Slot;
 		yield return BoardManager.Instance.AssignCardToSlot(cardSlot.Card, cardSlot.opposingSlot, 0.25f);
 		yield return new WaitForSeconds(0.25f);
@@ -50,7 +50,7 @@ public class HookLineAndSinker : AbilityBehaviour
 	public static NewAbility Create()
 	{
 		const string rulebookDescription =
-			"When [creature] perishes, the creature in the opposing slot is dragged onto your side of the board.";
+			"When [creature] perishes, the creature in the opposing slot is dragged onto the owner's side of the board.";
 
 		return ApiUtils.CreateAbility<HookLineAndSinker>(rulebookDescription);
 	}
