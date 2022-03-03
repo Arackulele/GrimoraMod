@@ -124,7 +124,10 @@ public class BaseGameFlowManagerPatches
 		// AddBoonLordBoonConsumable();
 
 		// AddCustomEnergy();
+
+		CryptHelper.SetupNewCryptAndZones();
 	}
+
 
 	private static void SetupPlayableAndSelectableCardPrefabs()
 	{
