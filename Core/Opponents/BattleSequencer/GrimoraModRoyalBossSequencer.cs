@@ -13,7 +13,10 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 
 	private GameObject _gameTable = GameObject.Find("GameTable");
 
-	private const int DurationTableSway = 5;
+	private const int DurationTableSway = 4;
+
+	private readonly Vector3 _tableSwayLeft = new(0, 0, 12.5f);
+	private readonly Vector3 _tableSwayRight = new(0, 0, -12.5f);
 
 	private int boardSwayCounter = 0;
 
@@ -52,46 +55,49 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			}
 		}
 
-		if (++boardSwayCounter == 2)
+		if (++boardSwayCounter >= 2)
 		{
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				$"Seven seas for the table!"
 			);
 
-			Vector3 positionCopy = BoardManager3D.Instance.transform.position;
-
+			bool moveLeft = boardSwayCounter % 2 == 0;
 			// z axis for table movement
 			Log.LogDebug($"Rotating left downward");
 			Tween.Rotation(
 				_gameTable.transform,
-				new Vector3(0, 0, 20),
+				moveLeft ? _tableSwayLeft : _tableSwayRight,
 				DurationTableSway,
-				1f,
+				0,
+				Tween.EaseInOut,
 				startCallback: () =>
 				{
-					Tween.LocalRotation(
-						GrimoraAnimationController.Instance.transform,
-						new Vector3(0, 180, 20),
-						7,
-						0.5f
-					);
+					// Tween.LocalRotation(
+					// 	GrimoraAnimationController.Instance.transform,
+					// 	new Vector3(0, 180, 20),
+					// 	DurationTableSway,
+					// 	0.5f
+					// );
+					ViewManager.Instance.SwitchToView(View.Default);
+					ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+					foreach (var playableCard in BoardManager.Instance.AllSlotsCopy.Where(slot => slot.Card is not null).Select(slot => slot.Card))
+					{
+						StartCoroutine(DoStrafe(playableCard, moveLeft));
+					}
 				},
 				completeCallback: () =>
 				{
-					Tween.Rotation(_gameTable.transform, new Vector3(0, 0, 0), DurationTableSway, 0);
-					Tween.LocalRotation(
-						GrimoraAnimationController.Instance.transform,
-						new Vector3(0, 180, 0),
-						DurationTableSway,
-						0.5f
-					);
+					Tween.Rotation(_gameTable.transform, Vector3.zero, DurationTableSway, 0, Tween.EaseIn);
+					// Tween.LocalRotation(
+					// 	GrimoraAnimationController.Instance.transform,
+					// 	new Vector3(0, 180, 0),
+					// 	DurationTableSway,
+					// 	0.5f
+					// );
+					ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+
 				}
 			);
-
-			foreach (var playableCard in BoardManager.Instance.GetPlayerCards())
-			{
-				yield return StartCoroutine(DoStrafe(playableCard, true));
-			}
 		}
 	}
 
@@ -113,7 +119,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		yield return StartCoroutine(MoveToSlot(playableCard, destination, destinationValid, movingLeft));
 	}
 
-	protected IEnumerator MoveToSlot(
+	private IEnumerator MoveToSlot(
 		PlayableCard playableCard,
 		CardSlot destination,
 		bool destinationValid,
@@ -136,36 +142,37 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			Log.LogWarning(
 				$"[MoveToSlot] Card [{playableCard.GetNameAndSlot()}] will be moved to slot [{destination.name}]!"
 			);
-
-
-			Log.LogWarning(
-				$"[MoveToSlot] Starting assign card to slot"
-			);
-
-			Tween.LocalPosition(
-				playableCard.transform,
-				new Vector3(positionCopy.x - destination.transform.localPosition.x, positionCopy.z),
-				DurationTableSway + 2,
-				0,
-				Tween.EaseInStrong
-			);
+			
 			yield return BoardManager.Instance.AssignCardToSlot(playableCard, destination, DurationTableSway);
+			Tween.LocalRotation(
+				playableCard.transform,
+				new Vector3(90, 0, 0),
+				0,
+				0,
+				Tween.EaseIn
+			);
 			yield return new WaitForSeconds(0.25f);
 		}
 		else
 		{
+			float leftOrRightX = movingLeft
+				? positionCopy.x - 6
+				: positionCopy.x + 6; 
 			Log.LogWarning($"[MoveToSlot] Card [{playableCard.GetNameAndSlot()}] is about to fucking die me hearty!");
 			TweenBase slidingCard = Tween.LocalPosition(
 				playableCard.transform,
-				new Vector3(positionCopy.x - 6, positionCopy.y, positionCopy.z),
-				DurationTableSway + 2,
+				new Vector3(leftOrRightX, positionCopy.y, positionCopy.z),
+				DurationTableSway,
 				0,
-				Tween.EaseInStrong
+				Tween.EaseIn
 			);
 			yield return new WaitForSeconds(0.15f);
 			CustomCoroutine.WaitOnConditionThenExecute(
 				() => slidingCard.Status == Tween.TweenStatus.Finished,
-				() => StartCoroutine(playableCard.Die(false))
+				() =>
+				{
+					StartCoroutine(playableCard.Die(false));
+				}
 			);
 		}
 	}
