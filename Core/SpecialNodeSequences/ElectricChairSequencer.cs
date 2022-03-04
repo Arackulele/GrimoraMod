@@ -287,10 +287,23 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		return randomSigil;
 	}
 
+	private static readonly List<Ability> AbilitiesThatShouldNotExistOnZeroAttackCards = new()
+	{
+		AlternatingStrike.ability, AreaOfEffectStrike.ability, InvertedStrike.ability,
+		Ability.Sniper, Ability.SplitStrike, Ability.TriStrike
+	};
+
 	private static bool HasAbilityComboThatWillBreakTheGame(CardInfo card, Ability randomSigil)
 	{
 		return CheckCardHavingAbilityAndViceVersa(card, Ability.StrafePush, randomSigil, SkinCrawler.ability)
-			|| randomSigil == Ability.SwapStats && (card.Attack < 1 || card.Health < 3);
+		       || randomSigil == Ability.SwapStats && (card.Attack < 1 || card.Health < 3)
+		       || card.Attack < 1
+		       && (AbilitiesThatShouldNotExistOnZeroAttackCards.Contains(randomSigil)
+		           || randomSigil == Ability.Deathtouch
+		           && !card.Abilities.Exists(
+			           ab => ab is Ability.Sentry or Ability.Sharp
+		           ))
+			;
 	}
 
 	private static bool CheckCardHavingAbilityAndViceVersa(
