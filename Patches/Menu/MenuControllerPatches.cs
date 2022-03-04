@@ -45,13 +45,14 @@ public class MenuControllerPatches
 			{
 				if (GrimoraSaveUtil.DeckListCopy.Exists(info => info.name.StartsWith("ara_")))
 				{
+					Log.LogWarning($"Card with ara_ exists in DeckList");
 					Log.LogWarning(ErrorMessageFromOldMod);
 					ConfigHelper.ResetDeck();
 				}
 			}
 			catch (Exception e)
 			{
-				Log.LogWarning(ErrorMessageFromOldMod + e);
+				Log.LogWarning($"Exception thrown while attempting to reset deck with a card prefixed with 'ara_', resetting deck");
 				ConfigHelper.ResetDeck();
 			}
 
