@@ -1,6 +1,7 @@
 using System.Collections;
 using DiskCardGame;
 using UnityEngine;
+using static GrimoraMod.BlueprintUtils;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -81,16 +82,48 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 	public override IEnumerator StartNewPhaseSequence()
 	{
+		TurnPlan.Clear();
+		yield return ClearQueue();
+
 		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
-			"YEE BE A TOUGH NUT TO CRACK!\nREADY FOR ROUND 2?",
+			"YARRG, TWAS JUST DA FIRST ROUND!",
 			-0.65f,
 			0.4f
 		);
 
-		yield return QueueNewCards();
+		yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
+
+		yield return TextDisplayer.Instance.ShowUntilInput(
+			"LETS SEE HOW YE FARE 'GAINST ME PERSONAL SHIP AN CREW!"
+		);
+		yield return BoardManager.Instance.CreateCardInSlot(
+			NameGhostShipRoyal.GetCardInfo(),
+			BoardManager.Instance.GetOpponentOpenSlots().GetRandomItem()
+		);
 	}
 
+	public EncounterBlueprintData BuildNewPhaseBlueprint()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_FirstMateSnag },
+			new(),
+			new() { bp_Skeleton, bp_CaptainYellowbeard, bp_Skeleton },
+			new(),
+			new() { bp_CompoundFracture, bp_Skeleton },
+			new(),
+			new() { bp_Skeleton, bp_Skeleton },
+			new(),
+			new() { bp_Skeleton, bp_Skeleton },
+			new(),
+			new() { bp_Skeleton, bp_Skeleton },
+			new(),
+		};
+
+		return blueprint;
+	}
 
 	public override IEnumerator OutroSequence(bool wasDefeated)
 	{
