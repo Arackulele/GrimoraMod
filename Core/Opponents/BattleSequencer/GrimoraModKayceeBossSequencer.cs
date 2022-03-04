@@ -8,7 +8,7 @@ namespace GrimoraMod;
 public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 {
 	private bool playedDialogueSubmerge = false;
-	
+
 	public override Opponent.Type BossType => BaseBossExt.KayceeOpponent;
 
 	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
@@ -47,7 +47,9 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 				);
 				foreach (var card in playerCardsWithAttacks)
 				{
-					int attack = card.Attack == 0 ? 0 : -card.Attack;
+					int attack = card.Attack == 0
+						? 0
+						: -card.Attack;
 					var modInfo = new CardModificationInfo
 					{
 						attackAdjustment = attack,
@@ -57,10 +59,13 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 					card.Info.iceCubeParams = new IceCubeParams { creatureWithin = Internal_CloneSingle(card.Info) as CardInfo };
 					if (!playedDialogueSubmerge && card.HasAbility(Ability.Submerge))
 					{
-						yield return TextDisplayer.Instance.ShowUntilInput($"{card.Info.displayedName} MIGHT HAVE SOME DIFFICULTY SUBMERGING IF IT'S FROZEN SOLID!");
+						yield return TextDisplayer.Instance.ShowUntilInput(
+							$"{card.Info.displayedName.Blue()} MIGHT HAVE SOME DIFFICULTY SUBMERGING IF IT'S FROZEN SOLID!"
+						);
 						card.Info.abilities.Remove(Ability.Submerge);
 						playedDialogueSubmerge = true;
 					}
+
 					card.AddTemporaryMod(modInfo);
 					card.Anim.PlayTransformAnimation();
 					yield return new WaitForSeconds(0.05f);
