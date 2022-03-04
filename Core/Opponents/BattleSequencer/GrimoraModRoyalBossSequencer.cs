@@ -11,7 +11,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 {
 	private readonly RandomEx _rng = new();
 
-	private GameObject _gameTable = GameObject.Find("GameTable");
+	private GameObject GameTable => GameObject.Find("GameTable");
 
 	private const float DurationTableSway = 3.5f;
 
@@ -27,12 +27,12 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		};
 	}
 
-	public override bool RespondsToUpkeep(bool playerUpkeep)
+	public override bool RespondsToTurnEnd(bool playerTurnEnd)
 	{
-		return playerUpkeep;
+		return !playerTurnEnd;
 	}
 
-	public override IEnumerator OnUpkeep(bool playerUpkeep)
+	public override IEnumerator OnTurnEnd(bool playerTurnEnd)
 	{
 		var activePlayerCards = BoardManager.Instance.GetPlayerCards();
 		if (activePlayerCards.IsNotEmpty() && _rng.NextBoolean())
@@ -41,10 +41,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			ViewManager.Instance.SwitchToView(View.Board);
 			yield return new WaitForSeconds(0.25f);
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				$"YARRRR, I WILL ENJOY THE KABOOM OF {playableCard.Info.displayedName.BrightRed()}",
-				1f,
-				0.5f,
-				Emotion.Anger
+				$"YARRRR, I WILL ENJOY THE KABOOM OF {playableCard.Info.displayedName.BrightRed()}"
 			);
 			if (!playableCard.TemporaryMods.Exists(mod => mod.abilities.Contains(LitFuse.ability)))
 			{
@@ -58,11 +55,10 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 				$"Seven seas for the table!"
 			);
 
-			ViewManager.Instance.SwitchToView(View.Default);
-			ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+			ViewManager.Instance.SwitchToView(View.Default, lockAfter: true);
 			bool moveLeft = boardSwayCounter % 2 == 0;
 			// z axis for table movement
-			_gameTable
+			GameTable
 				.GetComponent<Animator>()
 				.Play(
 					moveLeft
@@ -74,7 +70,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 				.Where(slot => slot.Card is not null)
 				.Select(slot => slot.Card)
 				.ToList();
-			
+
 			if (!moveLeft)
 			{
 				// the reason for this is so that the cards are executed right to left and not left to right.
@@ -91,6 +87,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 		}
 	}
+
 
 	protected virtual IEnumerator DoStrafe(PlayableCard playableCard, bool movingLeft)
 	{
@@ -110,7 +107,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		Log.LogInfo(
 			$"[DoStrafe] {playableCard.GetNameAndSlot()} Destination [{destination?.name}] DestValid [{destinationValid}]"
 		);
-		yield return StartCoroutine(MoveToSlot(playableCard, destination, destinationValid, movingLeft));
+		yield return MoveToSlot(playableCard, destination, destinationValid, movingLeft);
 	}
 
 	private IEnumerator MoveToSlot(
@@ -161,14 +158,8 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 				Tween.EaseIn
 			);
 			yield return new WaitForSeconds(0.15f);
-			CustomCoroutine.WaitOnConditionThenExecute(
-				() => slidingCard.Status == Tween.TweenStatus.Finished,
-				() =>
-				{
-					Log.LogInfo($"[MoveToSlot] Killing card playableCard [{playableCard.GetNameAndSlot()}]");
-					StartCoroutine(playableCard.Die(false));
-				}
-			);
+			yield return new WaitUntil(() => slidingCard.Status == Tween.TweenStatus.Finished);
+			yield return playableCard.Die(false);
 		}
 	}
 }
