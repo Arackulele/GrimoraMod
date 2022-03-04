@@ -12,15 +12,15 @@ public class CryptHelper
 	private const float X3Coord = -20f;
 	private const float X4Coord = 0f;
 	private const float X5Coord = 24f;
-	private const float X6Coord = 39.25f;
-	
-	private const float Z0Coord = 50f;
-	private const float Z1Coord = 35f;
-	private const float Z2Coord = 17.5f;
-	private const float Z3Coord = 0f;
-	private const float Z4Coord = -17.5f;
-	private const float Z5Coord = -28f;
-	private const float Z6Coord = -40f; // from editor, minus -2.5. So if editor is -40.5, this Zed value is -43
+	private const float X6Coord = 38.75f;
+
+	private const float Z0Coord = 68f;		// 65.6 in editor
+	private const float Z1Coord = 50f;    // 47.5 in editor
+	private const float Z2Coord = 30.5f;  // 28 in editor
+	private const float Z3Coord = 7.5f;   // 5 in editor
+	private const float Z4Coord = -17.5f; // -15 in editor
+	private const float Z5Coord = -27.5f; // -25 in editor
+	private const float Z6Coord = -40f;   // from editor, minus -2.5. So if editor is -40.5, this Zed value is -43
 
 	public static void SetupNewCryptAndZones()
 	{
@@ -72,36 +72,36 @@ public class CryptHelper
 				Quaternion.identity,
 				lightsParent.transform
 			);
-			
+
 			Object.Instantiate(
 				lightToCopy,
 				new Vector3(-40, 12, 5),
 				Quaternion.identity,
 				lightsParent.transform
 			);
-			
+
 			Object.Instantiate(
 				lightToCopy,
 				new Vector3(-75, 12, -32),
 				Quaternion.identity,
 				lightsParent.transform
 			);
-			
+
 			Object.Instantiate(
 				lightToCopy,
 				new Vector3(35, 12, 6),
 				Quaternion.identity,
 				lightsParent.transform
 			);
-			
+
 			Object.Instantiate(
 				lightToCopy,
 				new Vector3(35, 12, 45),
 				Quaternion.identity,
 				lightsParent.transform
 			);
-			
-			
+
+
 			//
 
 			NavigationZone3D CreateZone(string name, Vector3 position, int x, int y)
@@ -197,6 +197,7 @@ public class CryptHelper
 
 			var tableArea3 = navGrid.transform.Find("TableArea_3").GetComponent<NavigationZone>();
 			tableArea3.name += "_x4_y6";
+			tableArea3.transform.position = new Vector3(0, 0, Z6Coord);
 			navGrid.InsertZone(tableArea3, 4, 6);
 
 
