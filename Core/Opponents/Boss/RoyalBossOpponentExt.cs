@@ -19,6 +19,11 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
+		Log.LogDebug($"Assigning controller to game table");
+		GameObject.Find("GameTable")
+			.AddComponent<Animator>()
+			.runtimeAnimatorController = AssetUtils.GetPrefab<RuntimeAnimatorController>("GrimoraGameTable");
+
 		yield return base.IntroSequence(encounter);
 
 		GrimoraAnimationController.Instance.SetHeadBool("face_happy", true);
