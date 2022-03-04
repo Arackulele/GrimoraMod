@@ -231,6 +231,32 @@ public static class BlueprintUtils
 	{
 		card = CardLoader.GetCardByName(NameManananggal)
 	};
+	
+	#endregion
+	
+	#region Pirates
+	
+	
+	public static readonly EncounterBlueprintData.CardBlueprint bp_CaptainYellowbeard = new()
+	{
+		card = CardLoader.GetCardByName(NamePirateCaptainYellowbeard)
+	};
+	
+	public static readonly EncounterBlueprintData.CardBlueprint bp_FirstMateSnag = new()
+	{
+		card = CardLoader.GetCardByName(NamePirateFirstMateSnag)
+	};
+	
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Privateer = new()
+	{
+		card = CardLoader.GetCardByName(NamePiratePrivateer)
+	};
+	
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Swashbuckler = new()
+	{
+		card = CardLoader.GetCardByName(NamePirateSwashbuckler)
+	};
+	
 
 	#endregion
 
