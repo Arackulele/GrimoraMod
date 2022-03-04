@@ -85,17 +85,18 @@ public class RoyalBossOpponentExt : BaseBossExt
 		TurnPlan.Clear();
 		yield return ClearQueue();
 
+		yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
+
 		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
 			"YARRG, TWAS JUST DA FIRST ROUND!",
 			-0.65f,
 			0.4f
 		);
-
-		yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
-
 		yield return TextDisplayer.Instance.ShowUntilInput(
-			"LETS SEE HOW YE FARE 'GAINST ME PERSONAL SHIP AN CREW!"
+			"LETS SEE HOW YE FARE 'GAINST ME PERSONAL SHIP AN CREW!",
+			-0.65f,
+			0.4f
 		);
 		yield return BoardManager.Instance.CreateCardInSlot(
 			NameGhostShipRoyal.GetCardInfo(),
