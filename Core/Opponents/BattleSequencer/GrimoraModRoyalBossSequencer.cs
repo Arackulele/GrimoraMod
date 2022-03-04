@@ -43,10 +43,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				$"YARRRR, I WILL ENJOY THE KABOOM OF {playableCard.Info.displayedName.BrightRed()}"
 			);
-			if (!playableCard.TemporaryMods.Exists(mod => mod.abilities.Contains(LitFuse.ability)))
-			{
-				playableCard.AddTemporaryMod(new CardModificationInfo(LitFuse.ability));
-			}
+			playableCard.AddTemporaryMod(new CardModificationInfo(LitFuse.ability));
 		}
 
 		if (++boardSwayCounter >= 2)
