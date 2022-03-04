@@ -54,6 +54,8 @@ public class BaseGameFlowManagerPatches
 		// AddCustomEnergy();
 
 		CryptHelper.SetupNewCryptAndZones();
+		
+		GrimoraAnimationController.Instance.transform.SetParent(Object.FindObjectOfType<InputManagerSpawner>().transform);
 	}
 
 
