@@ -6,20 +6,22 @@ namespace GrimoraMod;
 
 public class CryptHelper
 {
-	private const float X0Coord = -90f;
-	private const float X1Coord = -70.5f;
-	private const float X2Coord = -45.25f;
-	private const float X3Coord = -20f;
-	private const float X4Coord = 0f;
-	private const float X5Coord = 24f;
-	private const float X6Coord = 38.75f;
+	private const float LightHeight = 8f;
 
-	private const float Z0Coord = 68f;		// 65.6 in editor
-	private const float Z1Coord = 50f;    // 47.5 in editor
-	private const float Z2Coord = 30.5f;  // 28 in editor
-	private const float Z3Coord = 7.5f;   // 5 in editor
-	private const float Z4Coord = -17.5f; // -15 in editor
-	private const float Z5Coord = -27.5f; // -25 in editor
+	private const float X0Coord = -70f;
+	private const float X1Coord = -56f;
+	private const float X2Coord = -35.75f;
+	private const float X3Coord = -15f;
+	private const float X4Coord = 0f;
+	private const float X5Coord = 18.5f;
+	private const float X6Coord = 30.5f;
+
+	private const float Z0Coord = 57.5f;  // 65.6 in editor
+	private const float Z1Coord = 37.5f;  // 47.5 in editor
+	private const float Z2Coord = 17.5f;  // 28 in editor
+	private const float Z3Coord = 0f;     // 5 in editor
+	private const float Z4Coord = -12.5f; // -15 in editor
+	private const float Z5Coord = -28f;   // -25 in editor
 	private const float Z6Coord = -40f;   // from editor, minus -2.5. So if editor is -40.5, this Zed value is -43
 
 	public static void SetupNewCryptAndZones()
@@ -63,44 +65,67 @@ public class CryptHelper
 			UnityEngine.Object.Destroy(navGrid.transform.Find("West_2").gameObject);
 
 
-			// lights
+			#region Lights
+
 			Transform lightsParent = CryptManager.Instance.transform.Find("Lights");
-			Transform lightToCopy = lightsParent.Find("CryptLight");
-			Object.Instantiate(
+			Light lightToCopy = lightsParent.Find("CryptLight").GetComponent<Light>();
+			Light traderRoomLight = Object.Instantiate(
 				lightToCopy,
-				new Vector3(-40, 12, -30),
+				new Vector3(-70, LightHeight, -27.5f),
 				Quaternion.identity,
 				lightsParent.transform
 			);
+			traderRoomLight.range = 18;
 
-			Object.Instantiate(
-				lightToCopy,
-				new Vector3(-40, 12, 5),
+			Light kayceesRoomLight = Object.Instantiate(
+				traderRoomLight,
+				new Vector3(-35, LightHeight, -27.5f),
 				Quaternion.identity,
 				lightsParent.transform
 			);
+			kayceesRoomLight.name = "kaycees_room";
 
-			Object.Instantiate(
-				lightToCopy,
-				new Vector3(-75, 12, -32),
+			Light wellRoomLight = Object.Instantiate(
+				traderRoomLight,
+				new Vector3(-35, LightHeight, 19),
 				Quaternion.identity,
 				lightsParent.transform
 			);
+			wellRoomLight.name = "well_room";
 
-			Object.Instantiate(
-				lightToCopy,
-				new Vector3(35, 12, 6),
+			Light mirrorRoomLight = Object.Instantiate(
+				traderRoomLight,
+				new Vector3(30, LightHeight, 57.5f),
 				Quaternion.identity,
 				lightsParent.transform
 			);
+			mirrorRoomLight.name = "mirror_room";
 
-			Object.Instantiate(
-				lightToCopy,
-				new Vector3(35, 12, 45),
+			Light doubleCryptRoomLight = Object.Instantiate(
+				traderRoomLight,
+				new Vector3(30, LightHeight, 19),
 				Quaternion.identity,
 				lightsParent.transform
 			);
+			doubleCryptRoomLight.name = "double_crypt_room";
 
+			Light centralRoomEastLight = Object.Instantiate(
+				traderRoomLight,
+				new Vector3(37.5f, LightHeight, -42.5f),
+				Quaternion.identity,
+				lightsParent.transform
+			);
+			centralRoomEastLight.name = "central_room_east";
+			
+			Light centralRoomWestLight = Object.Instantiate(
+				traderRoomLight,
+				new Vector3(-2.5f, LightHeight, -42.5f),
+				Quaternion.identity,
+				lightsParent.transform
+			);
+			centralRoomWestLight.name = "central_room_west";
+
+			#endregion
 
 			//
 
@@ -113,7 +138,7 @@ public class CryptHelper
 						navGrid.transform
 					)
 					.GetComponent<NavigationZone3D>();
-				newZone.name = name + $"_x{x}_y{y}";
+				newZone.name = $"x{x}_y{y}_" + name;
 				Log.LogDebug($"Creating zone [{newZone.name}]");
 
 				navGrid.InsertZone(newZone, x, y);
@@ -121,16 +146,16 @@ public class CryptHelper
 			}
 
 			// x0
-			var farEastRoom = CreateZone(
-				"Far_West_Room_",
+			var zoneTrader = CreateZone(
+				"room_trader",
 				new Vector3(X0Coord, 0, Z5Coord),
 				0,
 				5
 			);
 
 			// x1
-			var westRoomWestHallway = CreateZone(
-				"West_Room_West_Hallway",
+			var zoneKayceeWestHallway = CreateZone(
+				"room_kaycee",
 				new Vector3(X1Coord, 0, Z5Coord),
 				1,
 				5
@@ -138,36 +163,36 @@ public class CryptHelper
 
 
 			// x2
-			var westRoom1 = CreateZone(
-				"West_Room",
+			var zoneKaycee1 = CreateZone(
+				"room_kaycee",
 				new Vector3(X2Coord, 0, Z2Coord),
 				2,
 				2
 			);
 
-			var westRoom2 = CreateZone(
-				"West_Room",
+			var zoneKaycee2 = CreateZone(
+				"room_kaycee",
 				new Vector3(X2Coord, 0, Z3Coord),
 				2,
 				3
 			);
 
-			var westRoom3 = CreateZone(
-				"West_Room",
+			var zoneKaycee3 = CreateZone(
+				"room_kaycee",
 				new Vector3(X2Coord, 0, Z4Coord),
 				2,
 				4
 			);
 
-			var westRoom4 = CreateZone(
-				"West_Room",
+			var zoneKaycee4 = CreateZone(
+				"room_kaycee",
 				new Vector3(X2Coord, 0, Z5Coord),
 				2,
 				5
 			);
 
-			var westRoom5 = CreateZone(
-				"West_Room",
+			var zoneKaycee5 = CreateZone(
+				"room_kaycee",
 				new Vector3(X2Coord, 0, Z6Coord),
 				2,
 				6
@@ -205,7 +230,7 @@ public class CryptHelper
 			// x5
 			var centralRoomCenter1 = CreateZone(
 				"Central_Room_Center",
-				new Vector3(X5Coord, 0, Z4Coord),
+				new Vector3(X5Coord, 0, -11f),
 				5,
 				4
 			);
