@@ -13,10 +13,10 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 
 	private GameObject _gameTable = GameObject.Find("GameTable");
 
-	private const int DurationTableSway = 4;
+	private const float DurationTableSway = 3.5f;
 
-	private readonly Vector3 _tableSwayLeft = new(0, 0, 12.5f);
-	private readonly Vector3 _tableSwayRight = new(0, 0, -12.5f);
+	private readonly Vector3 _tableSwayLeft = new(0, 0, 10);
+	private readonly Vector3 _tableSwayRight = new(0, 0, -10);
 
 	private int boardSwayCounter = 0;
 
@@ -61,49 +61,34 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 				$"Seven seas for the table!"
 			);
 
+			ViewManager.Instance.SwitchToView(View.Default);
+			ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
 			bool moveLeft = boardSwayCounter % 2 == 0;
 			// z axis for table movement
-			Log.LogDebug($"Rotating left downward");
-			Tween.Rotation(
-				_gameTable.transform,
-				moveLeft ? _tableSwayLeft : _tableSwayRight,
-				DurationTableSway,
-				0,
-				Tween.EaseInOut,
-				startCallback: () =>
-				{
-					// Tween.LocalRotation(
-					// 	GrimoraAnimationController.Instance.transform,
-					// 	new Vector3(0, 180, 20),
-					// 	DurationTableSway,
-					// 	0.5f
-					// );
-					ViewManager.Instance.SwitchToView(View.Default);
-					ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
-					foreach (var playableCard in BoardManager.Instance.AllSlotsCopy.Where(slot => slot.Card is not null).Select(slot => slot.Card))
-					{
-						StartCoroutine(DoStrafe(playableCard, moveLeft));
-					}
-				},
-				completeCallback: () =>
-				{
-					Tween.Rotation(_gameTable.transform, Vector3.zero, DurationTableSway, 0, Tween.EaseIn);
-					// Tween.LocalRotation(
-					// 	GrimoraAnimationController.Instance.transform,
-					// 	new Vector3(0, 180, 0),
-					// 	DurationTableSway,
-					// 	0.5f
-					// );
-					ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+			_gameTable
+				.GetComponent<Animator>()
+				.Play(
+					moveLeft
+						? "sway_left"
+						: "sway_right"
+				);
+			
+			var allCardsOnBoard = BoardManager.Instance.AllSlotsCopy
+				.Where(slot => slot.Card is not null)
+				.Select(slot => slot.Card)
+				.ToList();
+			foreach (var playableCard in allCardsOnBoard)
+			{
+				StartCoroutine(DoStrafe(playableCard, moveLeft));
+			}
 
-				}
-			);
+			ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 		}
 	}
 
 	protected virtual IEnumerator DoStrafe(PlayableCard playableCard, bool movingLeft)
 	{
-		Log.LogWarning($"[DoStrafe] starting strafe for card {playableCard.GetNameAndSlot()}");
+		Log.LogInfo($"[DoStrafe] starting strafe for card {playableCard.GetNameAndSlot()}");
 		// check left slot, if null, then play animation of falling of the board and then destroy
 		CardSlot toLeftSlot = BoardManager.Instance.GetAdjacent(playableCard.Slot, true);
 		CardSlot toRightSlot = BoardManager.Instance.GetAdjacent(playableCard.Slot, false);
@@ -113,9 +98,13 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		CardSlot destination = movingLeft
 			? toLeftSlot
 			: toRightSlot;
-		bool destinationValid = movingLeft
-			? canMoveLeft
-			: canMoveRight;
+		bool destinationValid = destination is not null
+		                        && (movingLeft
+			                        ? canMoveLeft
+			                        : canMoveRight);
+		Log.LogInfo(
+			$"[DoStrafe] {playableCard.GetNameAndSlot()} Destination [{destination?.name}] DestValid [{destinationValid}]"
+		);
 		yield return StartCoroutine(MoveToSlot(playableCard, destination, destinationValid, movingLeft));
 	}
 
@@ -139,10 +128,10 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		Vector3 positionCopy = playableCard.transform.localPosition;
 		if (destination != null && destinationValid)
 		{
-			Log.LogWarning(
+			Log.LogInfo(
 				$"[MoveToSlot] Card [{playableCard.GetNameAndSlot()}] will be moved to slot [{destination.name}]!"
 			);
-			
+
 			yield return BoardManager.Instance.AssignCardToSlot(playableCard, destination, DurationTableSway);
 			Tween.LocalRotation(
 				playableCard.transform,
@@ -157,8 +146,8 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		{
 			float leftOrRightX = movingLeft
 				? positionCopy.x - 6
-				: positionCopy.x + 6; 
-			Log.LogWarning($"[MoveToSlot] Card [{playableCard.GetNameAndSlot()}] is about to fucking die me hearty!");
+				: positionCopy.x + 6;
+			Log.LogInfo($"[MoveToSlot] Card [{playableCard.GetNameAndSlot()}] is about to fucking die me hearty!");
 			TweenBase slidingCard = Tween.LocalPosition(
 				playableCard.transform,
 				new Vector3(leftOrRightX, positionCopy.y, positionCopy.z),
@@ -171,6 +160,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 				() => slidingCard.Status == Tween.TweenStatus.Finished,
 				() =>
 				{
+					Log.LogInfo($"[MoveToSlot] Killing card playableCard [{playableCard.GetNameAndSlot()}]");
 					StartCoroutine(playableCard.Die(false));
 				}
 			);
