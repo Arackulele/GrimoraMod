@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(BuffCrewMates.ability)
 			.SetBaseAttackAndHealth(4, 4)
 			.SetBoneCost(10)
-			.SetNames(NamePirateCaptainYellowbeard, "Captain Yellowbeard")
+			.SetNames(NamePirateCaptainYellowbeard, "Yellowbeard")
 			.Build();
 	}
 }
