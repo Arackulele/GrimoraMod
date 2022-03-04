@@ -194,6 +194,7 @@ public class CryptHelper
 			var tableArea2 = navGrid.transform.Find("TableArea_2").GetComponent<NavigationZone>();
 			tableArea2.name += "_x4_y5";
 			navGrid.InsertZone(tableArea2, 4, 5);
+			tableArea2.transform.position = new Vector3(0, 0, Z5Coord);
 
 			var tableArea3 = navGrid.transform.Find("TableArea_3").GetComponent<NavigationZone>();
 			tableArea3.name += "_x4_y6";
