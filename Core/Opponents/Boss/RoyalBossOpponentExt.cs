@@ -119,7 +119,9 @@ public class RoyalBossOpponentExt : BaseBossExt
 			ViewManager.Instance.SwitchToView(View.BossCloseup);
 			yield return new WaitForSeconds(0.05f);
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"HELLO AGAIN!\nI AM EXCITED FOR YOU TO SEE THIS LAST ONE.", -0.65f, 0.4f
+				"HELLO AGAIN!\nI AM EXCITED FOR YOU TO SEE THIS LAST ONE.",
+				-0.65f,
+				0.4f
 			);
 
 			yield return TextDisplayer.Instance.ShowUntilInput("I PUT IT TOGETHER MYSELF.");
