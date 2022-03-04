@@ -14,6 +14,29 @@ public class CreateRoyalsCrewMate : AbilityBehaviour
 
 	private int _timeToSpawnCounter = 0;
 
+	public override bool RespondsToResolveOnBoard()
+	{
+		return true;
+	}
+
+	public override IEnumerator OnResolveOnBoard()
+
+	{
+		yield return TextDisplayer.Instance.ShowUntilInput(
+			$"PREPARE TO BE BOARDED!"
+		);
+		yield return new WaitForSeconds(0.2f);
+
+		var playerOpenSlots = BoardManager.Instance.GetPlayerOpenSlots();
+		if (playerOpenSlots.IsNotEmpty())
+		{
+			yield return BoardManager.Instance.CreateCardInSlot(
+				NamePirateSwashbuckler.GetCardInfo(),
+				playerOpenSlots.GetRandomItem()
+			);
+		}
+	}
+
 	public override bool RespondsToUpkeep(bool playerUpkeep)
 	{
 		return !playerUpkeep;
@@ -27,18 +50,13 @@ public class CreateRoyalsCrewMate : AbilityBehaviour
 		{
 			_timeToSpawnCounter = 0;
 
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				$"PREPARE TO BE BOARDED, YAAAARRRRRR!"
-			);
-			yield return new WaitForSeconds(0.2f);
-
 			yield return BoardManager.Instance.CreateCardInSlot(
 				NamePirateSwashbuckler.GetCardInfo(),
 				playerOpenSlots.GetRandomItem()
 			);
 		}
 	}
-	
+
 	public static NewAbility Create()
 	{
 		const string rulebookDescription = "[creature] will spawn a Swashbuckler every 2 turns."
