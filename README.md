@@ -106,9 +106,9 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
   - Swashbuckler: 1/2, 0 Bones with `Raider`.
 
   - Abilities:
-    - Raider: [creature] will strike it's adjacent slots.
-    - Sea Shanty: [creature] empowers each Skeleton, providing a +1 buff their power.
-    - Hook Line And Sinker: When [creature] perishes, the creature in the opposing slot is dragged onto the owner's side of the board.
+    - Raider: [creature] will strike it's adjacent slots. Icon courtesy of `Blind, the Bound Demon#6475`.
+    - Sea Shanty: [creature] empowers each Skeleton, providing a +1 buff their power. Icon courtesy of `Blind, the Bound Demon#6475`.
+    - Hook Line And Sinker: When [creature] perishes, the creature in the opposing slot is dragged onto the owner's side of the board. Icon courtesy of `Bt Y#0895`.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) New art for `Disinter` and `Screeching Call` abilities, courtesy of `Blind, the Bound Demon#6475`.
 
