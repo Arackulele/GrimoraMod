@@ -16,24 +16,24 @@ public static class StringExtensions
 		return CardLoader.GetCardByName(self);
 	}
 
-	public static string GetDelimitedString<T>(this IEnumerable<T> self) where T : UnityEngine.Object
+	public static string GetDelimitedString<T>(this IEnumerable<T> self, string delimiter = ",") where T : UnityEngine.Object
 	{
-		return string.Join(",", self.Select(_ => _.name));
+		return string.Join(delimiter, self.Select(_ => _.name));
 	}
 	
-	public static string GetDelimitedString<T>(this List<T> self)
+	public static string GetDelimitedString<T>(this List<T> self, string delimiter = ",")
 	{
-		return string.Join(",", self);
+		return string.Join(delimiter, self);
 	}
 	
-	public static string GetDelimitedString(this string[] self)
+	public static string GetDelimitedString(this string[] self, string delimiter = ",")
 	{
-		return string.Join(",", self);
+		return string.Join(delimiter, self);
 	}
 	
-	public static string GetDelimitedString(this IEnumerable<Object> self)
+	public static string GetDelimitedString(this IEnumerable<Object> self, string delimiter = ",")
 	{
-		return string.Join(",", self.Select(_ => _.name));
+		return string.Join(delimiter, self.Select(_ => _.name));
 	}
 
 	#region ColorCodes
