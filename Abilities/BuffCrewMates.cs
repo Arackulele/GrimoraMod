@@ -14,7 +14,7 @@ public class BuffCrewMates : AbilityBehaviour
 	{
 		const string rulebookDescription = "[creature] empowers each Skeleton, providing a +1 buff their power.";
 
-		return ApiUtils.CreateAbility<BuffCrewMates>(rulebookDescription);
+		return ApiUtils.CreateAbility<BuffCrewMates>(rulebookDescription, "Sea Shanty");
 	}
 }
 
