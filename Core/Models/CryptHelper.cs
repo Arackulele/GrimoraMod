@@ -75,7 +75,7 @@ public class CryptHelper
 				Quaternion.identity,
 				lightsParent.transform
 			);
-			traderRoomLight.range = 18;
+			traderRoomLight.range = 24;
 
 			Light kayceesRoomLight = Object.Instantiate(
 				traderRoomLight,
@@ -109,13 +109,21 @@ public class CryptHelper
 			);
 			doubleCryptRoomLight.name = "double_crypt_room";
 
-			Light centralRoomEastLight = Object.Instantiate(
+			Light centralRoomEast1Light = Object.Instantiate(
 				traderRoomLight,
 				new Vector3(37.5f, LightHeight, -42.5f),
 				Quaternion.identity,
 				lightsParent.transform
 			);
-			centralRoomEastLight.name = "central_room_east";
+			centralRoomEast1Light.name = "central_room_east1";
+			
+			Light centralRoomEast2Light = Object.Instantiate(
+				traderRoomLight,
+				new Vector3(37.5f, LightHeight, -10f),
+				Quaternion.identity,
+				lightsParent.transform
+			);
+			centralRoomEast2Light.name = "central_room_east2";
 			
 			Light centralRoomWestLight = Object.Instantiate(
 				traderRoomLight,
