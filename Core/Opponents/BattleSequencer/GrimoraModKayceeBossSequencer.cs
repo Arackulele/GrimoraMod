@@ -7,7 +7,7 @@ namespace GrimoraMod;
 
 public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 {
-	private bool playedDialogueSubmerge = false;
+	private bool _playedDialogueSubmerge = false;
 
 	public override Opponent.Type BossType => BaseBossExt.KayceeOpponent;
 
@@ -45,31 +45,26 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 				yield return TextDisplayer.Instance.ShowUntilInput(
 					$"IT'S TIME FOR YOUR CARDS TO FREEZE! {"CHILLED".Blue()} TO THE BONE!"
 				);
-				foreach (var card in playerCardsWithAttacks)
+				foreach (var playableCard in playerCardsWithAttacks)
 				{
-					int attack = card.Attack == 0
-						? 0
-						: -card.Attack;
-					var modInfo = new CardModificationInfo
-					{
-						attackAdjustment = attack,
-						healthAdjustment = 1 - card.Health,
-						abilities = new List<Ability> { Ability.IceCube }
-					};
-					card.Info.iceCubeParams = new IceCubeParams { creatureWithin = Internal_CloneSingle(card.Info) as CardInfo };
-					if (!playedDialogueSubmerge && card.HasAbility(Ability.Submerge))
+					var modInfo = CreateModForFreeze(playableCard);
+					playableCard.Info.iceCubeParams = new IceCubeParams { creatureWithin = playableCard.Info };
+					if (!_playedDialogueSubmerge && playableCard.HasAbility(Ability.Submerge))
 					{
 						yield return TextDisplayer.Instance.ShowUntilInput(
-							$"{card.Info.displayedName.Blue()} MIGHT HAVE SOME DIFFICULTY SUBMERGING IF IT'S FROZEN SOLID!"
+							$"{playableCard.Info.displayedName.Blue()} MIGHT HAVE SOME DIFFICULTY SUBMERGING IF IT'S FROZEN SOLID!"
 						);
-						card.Info.abilities.Remove(Ability.Submerge);
-						playedDialogueSubmerge = true;
+						RemoveAbilityFromThisCard(playableCard, modInfo);
+						_playedDialogueSubmerge = true;
+					}
+					else
+					{
+						playableCard.AddTemporaryMod(modInfo);
 					}
 
-					card.AddTemporaryMod(modInfo);
-					card.Anim.PlayTransformAnimation();
+					playableCard.Anim.PlayTransformAnimation();
 					yield return new WaitForSeconds(0.05f);
-					card.RenderCard();
+					playableCard.RenderCard();
 					_freezeCounter = 0;
 				}
 			}
@@ -93,5 +88,28 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 
 		ViewManager.Instance.SwitchToView(View.Default);
 		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+	}
+
+	private CardModificationInfo CreateModForFreeze(PlayableCard playableCard)
+	{
+		int attack = playableCard.Attack == 0
+			? 0
+			: -playableCard.Attack;
+		var modInfo = new CardModificationInfo
+		{
+			attackAdjustment = attack,
+			healthAdjustment = 1 - playableCard.Health,
+			abilities = new List<Ability> { Ability.IceCube },
+			negateAbilities = new List<Ability> { Ability.Submerge }
+		};
+
+		return modInfo;
+	}
+
+	private void RemoveAbilityFromThisCard(PlayableCard playableCard, CardModificationInfo modInfo)
+	{
+		CardInfo cardInfoClone = playableCard.Info.Clone() as CardInfo;
+		cardInfoClone.Mods.Add(modInfo);
+		playableCard.SetInfo(cardInfoClone);
 	}
 }
