@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3679791596
+CRC: 2692461317
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 77c33ace6ee8de4a46188b943d99e151
+    Hash: 13d1e17148d3e3357b377fc56955140b
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -28,6 +28,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Dybbuk.png
 - Assets/GrimoraMod_Unity/Cards/Manananggal.png
 - Assets/GrimoraMod_Unity/Cards/CompoundFracture.png
+- Assets/GrimoraMod_Unity/Cards/GhostShip_emission_Nevernamed.png
 - Assets/GrimoraMod_Unity/Cards/Skelemaniac_emission.png
 - Assets/GrimoraMod_Unity/Cards/Sarcophagus.png
 - Assets/GrimoraMod_Unity/Cards/DeathKnell_emission.png
@@ -50,7 +51,6 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/PirateCaptainYellowbeard_emission.png
 - Assets/GrimoraMod_Unity/Cards/Deadeye_emission.png
 - Assets/GrimoraMod_Unity/Cards/Wyvern.png
-- Assets/GrimoraMod_Unity/Cards/GhostShip.png
 - Assets/GrimoraMod_Unity/Cards/Draugr_emission.png
 - Assets/GrimoraMod_Unity/Menu/MenuCard_Grimora.png
 - Assets/GrimoraMod_Unity/Cards/Bonepile_emission.png
@@ -66,6 +66,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Catacomb_emission.png
 - Assets/GrimoraMod_Unity/Cards/Ripper_emission.png
 - Assets/GrimoraMod_Unity/Cards/Family_emission.png
+- Assets/GrimoraMod_Unity/Cards/GhostShip_Nevernamed.png
 - Assets/GrimoraMod_Unity/Cards/HellHound.png
 - Assets/GrimoraMod_Unity/Cards/DanseMacabre.png
 - Assets/GrimoraMod_Unity/Cards/PlagueDoctor.png
@@ -116,7 +117,6 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/DeadPets_emission.png
 - Assets/GrimoraMod_Unity/Cards/VengefulSpirit_emission.png
 - Assets/GrimoraMod_Unity/Cards/DeathKnell_Bell.png
-- Assets/GrimoraMod_Unity/Cards/GhostShip_emission.png
 - Assets/GrimoraMod_Unity/Cards/Wyvern_emission.png
 - Assets/GrimoraMod_Unity/Cards/HellHound_emission.png
 - Assets/GrimoraMod_Unity/Cards/BooHag.png
