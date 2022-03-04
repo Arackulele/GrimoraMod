@@ -51,10 +51,16 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ### 2.7.6
 
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Cards having 4 abilities cannot be chosen for the Boneyard event.
+
+  - Breaks the card rendering unfortunately.
+
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed hammer dialogue playing each battle instead of only once.
 
   - Problem was that I was only setting to not play the dialogue, only if you used the hammer the 3rd time.
   - If you only used it once or twice each fight, it will play each fight.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added button to get up from the chessboard!
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) If the Electric Chair would give `Swapper` sigil, a new sigil will be randomly chosen if the card has zero attack or fewer than 3 health.
 
@@ -92,7 +98,19 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed cards with flying no longer flying after attacking.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) New art for `Disinter` and `Screeching Call`, courtesy of `Blind, the Bound Demon#6475`.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New pirate cards and abilities! Art courtesy `Bt Y#0895`.
+
+  - Captain Yellowbeard: 2/2, 7 Bones with `Sea Shanty`.
+  - First Mate Snag: 2/2, 7 Bones with `Hook Line And Sinker`.
+  - Privateer: 1/1, 4 Bones with `Sniper`.
+  - Swashbuckler: 1/2, 0 Bones with `Raider`.
+
+  - Abilities:
+    - Raider: [creature] will strike it's adjacent slots.
+    - Sea Shanty: [creature] empowers each Skeleton, providing a +1 buff their power.
+    - Hook Line And Sinker: When [creature] perishes, the creature in the opposing slot is dragged onto the owner's side of the board.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New art for `Disinter` and `Screeching Call` abilities, courtesy of `Blind, the Bound Demon#6475`.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) New art for multiple cards.
 
