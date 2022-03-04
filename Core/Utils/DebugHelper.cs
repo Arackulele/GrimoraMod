@@ -82,7 +82,7 @@ public class DebugHelper : ManagedBehaviour
 			"Debug Tools"
 		);
 		
-		if (GrimoraGameFlowManager.Instance.CurrentGameState == GameState.Map)
+		if (GrimoraGameFlowManager.Instance.CurrentGameState != GameState.FirstPerson3D)
 		{
 			_toggleDebugChests = GUI.Toggle(
 				new Rect(20, 180, 120, 20),

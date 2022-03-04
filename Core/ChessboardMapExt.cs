@@ -13,6 +13,8 @@ public class ChessboardMapExt : GameMap
 	[SerializeField] internal List<ChessboardPiece> pieces;
 
 	private bool _toggleCardsLeftInDeck = false;
+	private bool _btnDeckView = false;
+	private bool _btnGetUp = false;
 
 	public bool HasNotPlayedDialogueOnce =>
 		ConfigHelper.Instance.HammerDialogueOption == 1 && hasNotPlayedAllHammerDialogue < 3;
@@ -91,20 +93,56 @@ public class ChessboardMapExt : GameMap
 
 	private void OnGUI()
 	{
-		var deckViewBtn = GUI.Button(
-			new Rect(0, 0, 100, 50),
-			"Deck View"
-		);
+		if (GrimoraGameFlowManager.Instance.CurrentGameState != GameState.FirstPerson3D)
+		{
+			_btnDeckView = GUI.Button(
+				new Rect(0, 0, 100, 50),
+				"Deck View"
+			);
+
+			_btnGetUp = GUI.Button(
+				new Rect(200, 0, 100, 50),
+				"Get Up"
+			);
+
+			if (ViewManager.Instance.Controller.LockState == ViewLockState.Unlocked)
+			{
+				if (_btnDeckView)
+				{
+					switch (ViewManager.Instance.CurrentView)
+					{
+						case View.MapDeckReview:
+							ViewManager.Instance.SwitchToView(
+								SpecialNodeHandler.Instance.cardChoiceSequencer.transform.childCount > 1
+									? View.Choices
+									: View.MapDefault
+							);
+
+							break;
+						case View.Choices:
+						case View.MapDefault:
+							ViewManager.Instance.SwitchToView(View.MapDeckReview);
+							break;
+					}
+				}
+				else if (_btnGetUp)
+				{
+					Log.LogDebug($"Transitioning to first person");
+					GrimoraGameFlowManager.Instance.TransitionToFirstPerson();
+				}
+			}
+		}
+		else
+		{
+			_btnDeckView = false;
+			_btnGetUp = false;
+		}
 
 		var resetRunBtn = GUI.Button(
 			new Rect(100, 0, 100, 50),
 			"Reset Run"
 		);
 
-		var getUpFromBoard = GUI.Button(
-			new Rect(200, 0, 100, 50),
-			"Get Up"
-		);
 
 		if (TurnManager.Instance.Opponent is not null
 		    && CardDrawPiles3D.Instance.Deck is not null)
@@ -123,35 +161,9 @@ public class ChessboardMapExt : GameMap
 			);
 		}
 
-		if (ViewManager.Instance.Controller.LockState == ViewLockState.Unlocked)
+		if (resetRunBtn)
 		{
-			if (deckViewBtn)
-			{
-				switch (ViewManager.Instance.CurrentView)
-				{
-					case View.MapDeckReview:
-						ViewManager.Instance.SwitchToView(
-							SpecialNodeHandler.Instance.cardChoiceSequencer.transform.childCount > 1
-								? View.Choices
-								: View.MapDefault
-						);
-
-						break;
-					case View.Choices:
-					case View.MapDefault:
-						ViewManager.Instance.SwitchToView(View.MapDeckReview);
-						break;
-				}
-			}
-			else if (resetRunBtn)
-			{
-				ConfigHelper.Instance.ResetRun();
-			} 
-			else if (getUpFromBoard && GrimoraGameFlowManager.Instance.CurrentGameState == GameState.Map)
-			{
-				Log.LogDebug($"Transitioning to first person");
-				GrimoraGameFlowManager.Instance.TransitionToFirstPerson();
-			}
+			ConfigHelper.Instance.ResetRun();
 		}
 
 		if (ConfigHelper.Instance.EnableCardsLeftInDeckView && _toggleCardsLeftInDeck)
