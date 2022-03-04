@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(HookLineAndSinker.ability)
 			.SetBaseAttackAndHealth(2, 2)
 			.SetBoneCost(7)
-			.SetNames(NamePirateFirstMateSnag, "Fist Mate Snag")
+			.SetNames(NamePirateFirstMateSnag, "First Mate Snag")
 			.Build();
 	}
 }
