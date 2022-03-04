@@ -16,9 +16,9 @@ public class CryptHelper
 	
 	private const float Z0Coord = 50f;
 	private const float Z1Coord = 35f;
-	private const float Z2Coord = 17f;
-	private const float Z3Coord = -0f;
-	private const float Z4Coord = -16.5f;
+	private const float Z2Coord = 17.5f;
+	private const float Z3Coord = 0f;
+	private const float Z4Coord = -17.5f;
 	private const float Z5Coord = -28f;
 	private const float Z6Coord = -40f; // from editor, minus -2.5. So if editor is -40.5, this Zed value is -43
 
