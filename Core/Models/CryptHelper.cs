@@ -6,18 +6,21 @@ namespace GrimoraMod;
 
 public class CryptHelper
 {
-	private const int X0Coord = -108;
-	private const int X1Coord = -87;
-	private const int X2Coord = -57;
-	private const float X3Coord = -25.5f;
-	private const int X4Coord = 0;
-	private const int X5Coord = 15;
+	private const float X0Coord = -90f;
+	private const float X1Coord = -70.5f;
+	private const float X2Coord = -45.25f;
+	private const float X3Coord = -20f;
+	private const float X4Coord = 0f;
+	private const float X5Coord = 24f;
 	private const float X6Coord = 39.25f;
-
-	private const int Z3Coord = -28;
-	private const float Z4Coord = -17.5f;
-	private const int Z5Coord = -28;
-	private const int Z6Coord = -43;
+	
+	private const float Z0Coord = 50f;
+	private const float Z1Coord = 35f;
+	private const float Z2Coord = 17f;
+	private const float Z3Coord = -0f;
+	private const float Z4Coord = -16.5f;
+	private const float Z5Coord = -28f;
+	private const float Z6Coord = -40f; // from editor, minus -2.5. So if editor is -40.5, this Zed value is -43
 
 	public static void SetupNewCryptAndZones()
 	{
@@ -28,7 +31,7 @@ public class CryptHelper
 
 			Log.LogDebug($"Creating layout");
 			GameObject newLayout = Object.Instantiate(
-				AssetUtils.GetPrefab<GameObject>("GrimoraNewLayout"),
+				AssetUtils.GetPrefab<GameObject>("NewNewLayout"),
 				CryptManager.Instance.transform
 			);
 
@@ -136,14 +139,14 @@ public class CryptHelper
 			// x2
 			var westRoom1 = CreateZone(
 				"West_Room",
-				new Vector3(X2Coord, 0, 15.5f),
+				new Vector3(X2Coord, 0, Z2Coord),
 				2,
 				2
 			);
 
 			var westRoom2 = CreateZone(
 				"West_Room",
-				new Vector3(X2Coord, 0, 0),
+				new Vector3(X2Coord, 0, Z3Coord),
 				2,
 				3
 			);
@@ -222,28 +225,28 @@ public class CryptHelper
 			// x6
 			var mirrorRoom = CreateZone(
 				"Mirror_Room",
-				new Vector3(X6Coord, 0, 50),
+				new Vector3(X6Coord, 0, Z0Coord),
 				6,
 				0
 			);
 
 			var mirrorRoomHallway = CreateZone(
 				"Mirror_Room_Hallway",
-				new Vector3(X6Coord, 0, 35),
+				new Vector3(X6Coord, 0, Z1Coord),
 				6,
 				1
 			);
 
 			var skullRoomEast = CreateZone(
 				"Skull_Room_East",
-				new Vector3(X6Coord, 0, 17),
+				new Vector3(X6Coord, 0, Z2Coord),
 				6,
 				2
 			);
 
 			var skullRoomEastHallway = CreateZone(
 				"Skull_Room_East_Hallway",
-				new Vector3(X6Coord, 0, 0),
+				new Vector3(X6Coord, 0, Z3Coord),
 				6,
 				3
 			);
