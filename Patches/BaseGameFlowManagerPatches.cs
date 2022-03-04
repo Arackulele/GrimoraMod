@@ -10,12 +10,33 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(GameFlowManager))]
 public class BaseGameFlowManagerPatches
 {
+	private const string ErrorMessageFromOldMod =
+		"Due to changing the name prefix from `ara_` to `GrimoraMod_`, your deck needs to be reset. Otherwise exceptions will be thrown.";
+
 	[HarmonyPrefix, HarmonyPatch(nameof(GameFlowManager.Start))]
 	public static void PrefixStart(GameFlowManager __instance)
 	{
 		if (GrimoraSaveUtil.isNotGrimora)
 		{
 			return;
+		}
+
+		// since the card names are now prefixed with GrimoraMod_, any cards that have ara_ will throw an exception
+		try
+		{
+			if (GrimoraSaveUtil.DeckListCopy.Exists(info => info.name.StartsWith("ara_")))
+			{
+				Log.LogWarning($"Card with ara_ exists in DeckList");
+				Log.LogWarning(ErrorMessageFromOldMod);
+				ConfigHelper.ResetDeck();
+			}
+		}
+		catch (Exception e)
+		{
+			Log.LogWarning(
+				$"Exception thrown while attempting to reset deck with a card prefixed with 'ara_', resetting deck. " + e 
+			);
+			ConfigHelper.ResetDeck();
 		}
 
 		Log.LogDebug($"[GameFlowManager] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");

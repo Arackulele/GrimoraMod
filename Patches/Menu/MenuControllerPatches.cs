@@ -10,9 +10,6 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(MenuController))]
 public class MenuControllerPatches
 {
-	private const string ErrorMessageFromOldMod =
-		"Due to changing the name prefix from `ara_` to `GrimoraMod_`, your deck needs to be reset. Otherwise exceptions will be thrown.";
-
 	[HarmonyPrefix, HarmonyPatch(nameof(MenuController.LoadGameFromMenu))]
 	public static bool ContinueActOne(bool newGameGBC)
 	{
@@ -40,22 +37,6 @@ public class MenuControllerPatches
 		}
 		else if (card.titleText == "Start Grimora Mod")
 		{
-			// since the card names are now prefixed with GrimoraMod_, any cards that have ara_ will throw an exception
-			try
-			{
-				if (GrimoraSaveUtil.DeckListCopy.Exists(info => info.name.StartsWith("ara_")))
-				{
-					Log.LogWarning($"Card with ara_ exists in DeckList");
-					Log.LogWarning(ErrorMessageFromOldMod);
-					ConfigHelper.ResetDeck();
-				}
-			}
-			catch (Exception e)
-			{
-				Log.LogWarning($"Exception thrown while attempting to reset deck with a card prefixed with 'ara_', resetting deck");
-				ConfigHelper.ResetDeck();
-			}
-
 			__instance.DoingCardTransition = false;
 			card.transform.parent = __instance.menuSlot.transform;
 			card.SetBorderColor(__instance.slottedBorderColor);
