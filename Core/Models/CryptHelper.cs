@@ -28,6 +28,7 @@ public class CryptHelper
 		{
 			Log.LogDebug($"Finding structure");
 			CryptManager.Instance.transform.Find("Structure").gameObject.SetActive(false);
+			CryptManager.Instance.transform.Find("Interactables").gameObject.SetActive(false);
 
 			Log.LogDebug($"Creating layout");
 			GameObject newLayout = Object.Instantiate(
