@@ -51,7 +51,7 @@ public class MenuControllerPatches
 			}
 			catch (Exception e)
 			{
-				Log.LogWarning(ErrorMessageFromOldMod);
+				Log.LogWarning(ErrorMessageFromOldMod + e);
 				ConfigHelper.ResetDeck();
 			}
 
