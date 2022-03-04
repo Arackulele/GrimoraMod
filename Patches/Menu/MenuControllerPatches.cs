@@ -21,7 +21,11 @@ public class MenuControllerPatches
 			sceneToLoad = SaveManager.SaveFile.currentScene;
 		}
 
-		LoadingScreenManager.LoadScene(newGameGBC ? "GBC_Intro" : sceneToLoad);
+		LoadingScreenManager.LoadScene(
+			newGameGBC
+				? "GBC_Intro"
+				: sceneToLoad
+		);
 		SaveManager.savingDisabled = false;
 
 		return false;
@@ -53,7 +57,7 @@ public class MenuControllerPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(MenuController.Start))]
 	public static void AddGrimoraCard(ref MenuController __instance)
 	{
-		if (SceneManager.GetActiveScene().name.ToLowerInvariant().Contains("start") 
+		if (SceneManager.GetActiveScene().name.ToLowerInvariant().Contains("start")
 		    && !__instance.cards.Exists(card => card.name.ToLowerInvariant().Contains("grimora")))
 		{
 			__instance.cards.Add(CreateButton(__instance));
