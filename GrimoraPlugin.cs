@@ -67,7 +67,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		BuffCrewMates.Create();
 		CreateArmyOfSkeletons.Create();
 		CreateKnells.Create();
-		CreateRoyalsCrewMate.Create();
 		Erratic.Create();
 		FlameStrafe.Create();
 		GiantStrike.Create();
@@ -83,6 +82,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		#region Special
 
+		CreateRoyalsCrewMate.Create();
 		GainAttackBones.Create();
 		GrimoraGiant.Create();
 		LammergeierAttack.Create();

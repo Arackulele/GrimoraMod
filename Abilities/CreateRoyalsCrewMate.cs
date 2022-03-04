@@ -6,11 +6,9 @@ using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
-public class CreateRoyalsCrewMate : AbilityBehaviour
+public class CreateRoyalsCrewMate : SpecialCardBehaviour
 {
-	public static Ability ability;
-
-	public override Ability Ability => ability;
+	public static SpecialTriggeredAbility SpecialTriggeredAbility;
 
 	private int _timeToSpawnCounter = 0;
 
@@ -20,7 +18,6 @@ public class CreateRoyalsCrewMate : AbilityBehaviour
 	}
 
 	public override IEnumerator OnResolveOnBoard()
-
 	{
 		yield return TextDisplayer.Instance.ShowUntilInput(
 			$"PREPARE TO BE BOARDED!"
@@ -57,11 +54,12 @@ public class CreateRoyalsCrewMate : AbilityBehaviour
 		}
 	}
 
-	public static NewAbility Create()
+	public static NewSpecialAbility Create()
 	{
-		const string rulebookDescription = "[creature] will spawn a Swashbuckler every 2 turns."
-		                                   + $" [define:{NamePirateSwashbuckler}]";
+		var sId = SpecialAbilityIdentifier.GetID(GUID, "!GRIMORA_ROYALS_SHIP");
 
-		return ApiUtils.CreateAbility<CreateRoyalsCrewMate>(rulebookDescription, "Captain's Orders");
+		var ability = new NewSpecialAbility(typeof(CreateRoyalsCrewMate), sId);
+		SpecialTriggeredAbility = ability.specialTriggeredAbility;
+		return ability;
 	}
 }

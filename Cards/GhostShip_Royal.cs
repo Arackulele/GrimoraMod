@@ -9,7 +9,7 @@ public partial class GrimoraPlugin
 	private void Add_GhostShipRoyal()
 	{
 		CardBuilder.Builder
-			.SetAbilities(CreateRoyalsCrewMate.ability)
+			.SetAbilities(CreateRoyalsCrewMate.SpecialTriggeredAbility)
 			.SetAppearance(CardAppearanceBehaviour.Appearance.RareCardBackground)
 			.SetBaseAttackAndHealth(0, 10)
 			.SetNames(NameGhostShipRoyal, "")
