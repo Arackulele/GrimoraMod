@@ -1,6 +1,5 @@
 using System.Collections;
 using DiskCardGame;
-using EasyFeedback.APIs;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
 using static GrimoraMod.GrimoraPlugin;
@@ -44,18 +43,22 @@ public class RoyalBossOpponentExt : BaseBossExt
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput("VAR, I SEE YOU MADE IT TO ME SHIP CHALLENGER!");
 			yield return TextDisplayer.Instance.ShowUntilInput("I'VE BEEN WAITING FOR A WORTHY FIGHT!");
-
-			cannons = Instantiate(
-				ResourceBank.Get<GameObject>("Prefabs/Environment/TableEffects/CannonTableEffects"),
-				new Vector3(1.01f, 0, 0),
-				Quaternion.identity,
-				BoardManager3D.Instance.transform
-			);
-
+		}
+		
+		cannons = Instantiate(
+			ResourceBank.Get<GameObject>("Prefabs/Environment/TableEffects/CannonTableEffects"),
+			new Vector3(1.01f, 0, 0),
+			Quaternion.identity,
+			BoardManager3D.Instance.transform
+		);
+		
+		if (!ConfigHelper.Instance.isDevModeEnabled)
+		{
 			AudioController.Instance.PlaySound2D("boss_royal", volume: 0.5f);
 			yield return new WaitForSeconds(0.1f);
-			ViewManager.Instance.SwitchToView(View.Default);
 		}
+
+		ViewManager.Instance.SwitchToView(View.Default);
 
 		PlayTheme();
 	}
