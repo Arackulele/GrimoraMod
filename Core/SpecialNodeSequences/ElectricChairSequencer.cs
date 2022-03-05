@@ -137,9 +137,10 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			RuleBookController.Instance.SetShown(false);
 			yield return new WaitForSeconds(0.25f);
 			AudioController.Instance.PlaySound3D(
-				"card_blessing",
+				"teslacoil_charge",
 				MixerGroup.TableObjectsSFX,
-				selectionSlot.transform.position
+				selectionSlot.transform.position,
+				skipToTime: 0.5f
 			);
 			ApplyModToCard(selectionSlot.Card.Info);
 			selectionSlot.Card.Anim.PlayTransformAnimation();
