@@ -19,14 +19,16 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 
 	public override IEnumerator OnResolveOnBoard()
 	{
-		yield return TextDisplayer.Instance.ShowUntilInput(
-			$"PREPARE TO BE BOARDED!"
-		);
-		yield return new WaitForSeconds(0.2f);
-
 		var playerOpenSlots = BoardManager.Instance.GetPlayerOpenSlots();
 		if (playerOpenSlots.IsNotEmpty())
 		{
+			ViewManager.Instance.SwitchToView(View.Board);
+			yield return TextDisplayer.Instance.ShowThenClear(
+				$"PREPARE TO BE BOARDED!",
+				3f
+			);
+			yield return new WaitForSeconds(0.2f);
+			
 			yield return BoardManager.Instance.CreateCardInSlot(
 				NamePirateSwashbuckler.GetCardInfo(),
 				playerOpenSlots.GetRandomItem()
