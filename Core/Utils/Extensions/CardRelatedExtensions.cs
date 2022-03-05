@@ -67,6 +67,13 @@ public static class CardRelatedExtension
 	{
 		return playableCard.Info.Abilities.Any(abilities.Contains);
 	}
+	
+	public static void RemoveAbilityFromThisCard(this PlayableCard playableCard, CardModificationInfo modInfo)
+	{
+		CardInfo cardInfoClone = playableCard.Info.Clone() as CardInfo;
+		cardInfoClone.Mods.Add(modInfo);
+		playableCard.SetInfo(cardInfoClone);
+	}
 
 	public static void AddTempModGrimora(this PlayableCard playableCard, CardModificationInfo mod)
 	{

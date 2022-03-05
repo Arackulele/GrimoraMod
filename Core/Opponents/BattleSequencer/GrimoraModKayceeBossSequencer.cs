@@ -61,7 +61,7 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 							_playedDialogueSubmerge = true;
 						}
 
-						RemoveAbilityFromThisCard(playableCard, modInfo);
+						playableCard.RemoveAbilityFromThisCard(modInfo);
 					}
 					else if (playableCard.HasAbility(Possessive.ability))
 					{
@@ -73,7 +73,7 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 							_playedDialoguePossessive = true;
 						}
 
-						RemoveAbilityFromThisCard(playableCard, modInfo);
+						playableCard.RemoveAbilityFromThisCard(modInfo);
 					}
 					else
 					{
@@ -122,12 +122,5 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 		};
 
 		return modInfo;
-	}
-
-	private void RemoveAbilityFromThisCard(PlayableCard playableCard, CardModificationInfo modInfo)
-	{
-		CardInfo cardInfoClone = playableCard.Info.Clone() as CardInfo;
-		cardInfoClone.Mods.Add(modInfo);
-		playableCard.SetInfo(cardInfoClone);
 	}
 }
