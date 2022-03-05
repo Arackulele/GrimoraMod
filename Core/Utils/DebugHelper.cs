@@ -48,7 +48,7 @@ public class DebugHelper : ManagedBehaviour
 
 	private readonly string[] _btnChests =
 	{
-		"Card Remove", "Card Choice", "Rare Card Choice"
+		"Card Choice", "Rare Card Choice"
 	};
 
 	private bool _toggleDebug;
