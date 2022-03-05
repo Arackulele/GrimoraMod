@@ -95,40 +95,43 @@ public class ChessboardMapExt : GameMap
 	{
 		if (GrimoraGameFlowManager.Instance.CurrentGameState != GameState.FirstPerson3D)
 		{
-			_btnDeckView = GUI.Button(
-				new Rect(0, 0, 100, 50),
-				"Deck View"
-			);
-
-			_btnGetUp = GUI.Button(
-				new Rect(200, 0, 100, 50),
-				"Get Up"
-			);
-
-			if (ViewManager.Instance.Controller.LockState == ViewLockState.Unlocked)
+			if (GrimoraGameFlowManager.Instance.CurrentGameState != GameState.CardBattle)
 			{
-				if (_btnDeckView)
-				{
-					switch (ViewManager.Instance.CurrentView)
-					{
-						case View.MapDeckReview:
-							ViewManager.Instance.SwitchToView(
-								SpecialNodeHandler.Instance.cardChoiceSequencer.transform.childCount > 1
-									? View.Choices
-									: View.MapDefault
-							);
+				_btnDeckView = GUI.Button(
+					new Rect(0, 0, 100, 50),
+					"Deck View"
+				);
 
-							break;
-						case View.Choices:
-						case View.MapDefault:
-							ViewManager.Instance.SwitchToView(View.MapDeckReview);
-							break;
-					}
-				}
-				else if (_btnGetUp && GrimoraGameFlowManager.Instance.CurrentGameState == GameState.Map)
+				_btnGetUp = GUI.Button(
+					new Rect(200, 0, 100, 50),
+					"Get Up"
+				);
+
+				if (ViewManager.Instance.Controller.LockState == ViewLockState.Unlocked)
 				{
-					Log.LogDebug($"Transitioning to first person");
-					GrimoraGameFlowManager.Instance.TransitionToFirstPerson();
+					if (_btnDeckView)
+					{
+						switch (ViewManager.Instance.CurrentView)
+						{
+							case View.MapDeckReview:
+								ViewManager.Instance.SwitchToView(
+									SpecialNodeHandler.Instance.cardChoiceSequencer.transform.childCount > 1
+										? View.Choices
+										: View.MapDefault
+								);
+
+								break;
+							case View.Choices:
+							case View.MapDefault:
+								ViewManager.Instance.SwitchToView(View.MapDeckReview);
+								break;
+						}
+					}
+					else if (_btnGetUp)
+					{
+						Log.LogDebug($"Transitioning to first person");
+						GrimoraGameFlowManager.Instance.TransitionToFirstPerson();
+					}
 				}
 			}
 		}
