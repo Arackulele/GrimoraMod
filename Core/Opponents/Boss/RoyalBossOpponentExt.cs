@@ -96,19 +96,14 @@ public class RoyalBossOpponentExt : BaseBossExt
 			blueprint.card.Mods.Add(new CardModificationInfo(SeaLegs.ability));
 		}
 
-		yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
 
 		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
-			"YARRG, TWAS JUST DA FIRST ROUND!",
+			"YARRG, TWAS JUST DA FIRST ROUND!\nLETS SEE HOW YE FARE 'GAINST ME PERSONAL SHIP AN CREW!",
 			-0.65f,
 			0.4f
 		);
-		yield return TextDisplayer.Instance.ShowUntilInput(
-			"LETS SEE HOW YE FARE 'GAINST ME PERSONAL SHIP AN CREW!",
-			-0.65f,
-			0.4f
-		);
+		yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
 		yield return BoardManager.Instance.CreateCardInSlot(
 			NameGhostShipRoyal.GetCardInfo(),
 			BoardManager.Instance.GetOpponentOpenSlots().GetRandomItem()
