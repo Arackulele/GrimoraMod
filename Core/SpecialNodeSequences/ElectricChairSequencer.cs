@@ -379,9 +379,6 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			MixerGroup.TableObjectsSFX,
 			selectionSlot.transform.position
 		);
-		AudioController.Instance.SetLoopAndPlay("campfire_loop", 1);
-		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
-		AudioController.Instance.FadeInLoop(0.5f, 0.75f, 1);
 		InteractionCursor.Instance.SetEnabled(false);
 		yield return new WaitForSeconds(0.25f);
 
@@ -395,12 +392,6 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		ViewManager.Instance.SwitchToView(View.Default);
 		yield return new WaitForSeconds(0.25f);
 
-		AudioController.Instance.PlaySound3D(
-			"campfire_putout",
-			MixerGroup.TableObjectsSFX,
-			selectionSlot.transform.position
-		);
-		AudioController.Instance.StopLoop(1);
 		campfireLight.gameObject.SetActive(false);
 		ExplorableAreaManager.Instance.HandLight.gameObject.SetActive(false);
 		yield return pile.DestroyCards();
