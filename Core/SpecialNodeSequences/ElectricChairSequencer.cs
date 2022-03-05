@@ -145,6 +145,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			ApplyModToCard(selectionSlot.Card.Info);
 			selectionSlot.Card.Anim.PlayTransformAnimation();
 			yield return new WaitForSeconds(0.15f);
+			selectionSlot.Card.StatsLayer.SetEmissionColor(GameColors.Instance.blue);
 			selectionSlot.Card.SetInfo(selectionSlot.Card.Info);
 			selectionSlot.Card.SetInteractionEnabled(true);
 			yield return new WaitForSeconds(0.75f);
