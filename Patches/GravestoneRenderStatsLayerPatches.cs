@@ -21,14 +21,22 @@ public class GravestoneRenderStatsLayerPatches
 	private static readonly int ZWrite = Shader.PropertyToID("_ZWrite");
 
 	[HarmonyPostfix, HarmonyPatch(nameof(GravestoneRenderStatsLayer.RenderCard))]
-	public static void ChangeEmissionColorBasedOnModSingletonId(ref GravestoneRenderStatsLayer __instance, CardRenderInfo info)
+	public static void ChangeEmissionColorBasedOnModSingletonId(
+		ref GravestoneRenderStatsLayer __instance,
+		CardRenderInfo info
+	)
 	{
-		if (info.temporaryMods.Exists(mod => mod.singletonId == "GrimoraMod_ElectricChaired"))
+		if (__instance.PlayableCard is not null && __instance.PlayableCard.HasBeenElectricChaired())
+		{
+			__instance.SetEmissionColor(GameColors.Instance.blue);
+		}
+		else if (__instance.GetComponentInParent<SelectableCard>() is not null
+		         && __instance.GetComponentInParent<SelectableCard>().Info.HasBeenElectricChaired())
 		{
 			__instance.SetEmissionColor(GameColors.Instance.blue);
 		}
 	}
-	
+
 	[HarmonyPrefix, HarmonyPatch(nameof(GravestoneRenderStatsLayer.RenderCard))]
 	public static void PrefixAddStatIcons(ref GravestoneRenderStatsLayer __instance, CardRenderInfo info)
 	{
@@ -40,9 +48,9 @@ public class GravestoneRenderStatsLayerPatches
 			);
 			statIcons.name = "CardStatIcons_Invisible";
 
-			if (__instance.GetComponentInParent<PlayableCard>() is not null)
+			if (__instance.PlayableCard is not null)
 			{
-				__instance.GetComponentInParent<PlayableCard>().statIcons = statIcons;
+				__instance.PlayableCard.statIcons = statIcons;
 			}
 			else if (__instance.GetComponentInParent<SelectableCard>() is not null)
 			{

@@ -67,6 +67,16 @@ public static class CardRelatedExtension
 	{
 		return playableCard.Info.Abilities.Any(abilities.Contains);
 	}
+
+	public static bool HasBeenElectricChaired(this PlayableCard playableCard)
+	{
+		return playableCard.Info.Mods.Exists(mod => mod.singletonId == "GrimoraMod_ElectricChaired");
+	}
+	
+	public static bool HasBeenElectricChaired(this CardInfo cardInfo)
+	{
+		return cardInfo.Mods.Exists(mod => mod.singletonId == "GrimoraMod_ElectricChaired");
+	}
 	
 	public static void RemoveAbilityFromThisCard(this PlayableCard playableCard, CardModificationInfo modInfo)
 	{
