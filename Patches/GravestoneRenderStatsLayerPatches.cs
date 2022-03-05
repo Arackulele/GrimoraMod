@@ -20,6 +20,15 @@ public class GravestoneRenderStatsLayerPatches
 	private static readonly int DstBlend = Shader.PropertyToID("_DstBlend");
 	private static readonly int ZWrite = Shader.PropertyToID("_ZWrite");
 
+	[HarmonyPostfix, HarmonyPatch(nameof(GravestoneRenderStatsLayer.RenderCard))]
+	public static void ChangeEmissionColorBasedOnModSingletonId(ref GravestoneRenderStatsLayer __instance, CardRenderInfo info)
+	{
+		if (info.temporaryMods.Exists(mod => mod.singletonId == "GrimoraMod_ElectricChaired"))
+		{
+			__instance.SetEmissionColor(GameColors.Instance.blue);
+		}
+	}
+	
 	[HarmonyPrefix, HarmonyPatch(nameof(GravestoneRenderStatsLayer.RenderCard))]
 	public static void PrefixAddStatIcons(ref GravestoneRenderStatsLayer __instance, CardRenderInfo info)
 	{

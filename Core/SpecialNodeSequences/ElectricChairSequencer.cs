@@ -260,6 +260,8 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		Tween.LocalRotation(ViewManager.Instance.CameraParent, ChairViewInfo.camRotation, 0.16f, 0f, Tween.EaseInOut);
 	}
 
+	#region ApplyingModToCard
+
 	private new static void ApplyModToCard(CardInfo card)
 	{
 		CardModificationInfo cardModificationInfo = new CardModificationInfo
@@ -316,6 +318,9 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		return card.HasAbility(cardAbility) && randomSigil == abilityToCheckAgainst
 		       || card.HasAbility(abilityToCheckAgainst) && randomSigil == cardAbility;
 	}
+
+	#endregion
+
 
 	private new static List<CardInfo> GetValidCards()
 	{
@@ -418,6 +423,8 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 		yield return TableRuleBook.Instance.MoveOnBoard();
 	}
+
+	#region CreatingInScene
 
 	public static void CreateSequencerInScene()
 	{
@@ -530,4 +537,6 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 		return button;
 	}
+
+	#endregion
 }
