@@ -147,8 +147,7 @@ public class ChessboardMapExt : GameMap
 		);
 
 
-		if (TurnManager.Instance.Opponent is not null
-		    && CardDrawPiles3D.Instance.Deck is not null)
+		if (GrimoraGameFlowManager.Instance.CurrentGameState == GameState.CardBattle)
 		{
 			_toggleCardsLeftInDeck = GUI.Toggle(
 				new Rect(
@@ -162,21 +161,21 @@ public class ChessboardMapExt : GameMap
 				_toggleCardsLeftInDeck,
 				"Cards Left in Deck"
 			);
+			
+			if (ConfigHelper.Instance.EnableCardsLeftInDeckView && _toggleCardsLeftInDeck)
+			{
+				GUI.SelectionGrid(
+					new Rect(25, 350, 150, CardDrawPiles3D.Instance.Deck.cards.Count * 25f),
+					-1,
+					CardsLeftInDeck,
+					1
+				);
+			}
 		}
 
 		if (resetRunBtn)
 		{
 			ConfigHelper.Instance.ResetRun();
-		}
-
-		if (ConfigHelper.Instance.EnableCardsLeftInDeckView && _toggleCardsLeftInDeck)
-		{
-			GUI.SelectionGrid(
-				new Rect(25, 350, 150, CardDrawPiles3D.Instance.Deck.cards.Count * 25f),
-				-1,
-				CardsLeftInDeck,
-				1
-			);
 		}
 	}
 
