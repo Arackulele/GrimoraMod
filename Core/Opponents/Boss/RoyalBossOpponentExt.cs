@@ -24,7 +24,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 		{
 			blueprint.card.Mods.Add(new CardModificationInfo(SeaLegs.ability));
 		}
-		
+
 		Log.LogDebug($"Assigning controller to game table");
 		GameObject.Find("GameTable")
 			.AddComponent<Animator>()
@@ -89,6 +89,12 @@ public class RoyalBossOpponentExt : BaseBossExt
 	{
 		TurnPlan.Clear();
 		yield return ClearQueue();
+
+		var newBlueprint = BuildNewPhaseBlueprint();
+		foreach (var blueprint in newBlueprint.turns.SelectMany(cardBlueprints => cardBlueprints))
+		{
+			blueprint.card.Mods.Add(new CardModificationInfo(SeaLegs.ability));
+		}
 
 		yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
 

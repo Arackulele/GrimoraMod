@@ -13,7 +13,8 @@ namespace GrimoraMod
 			string rulebookName,
 			string rulebookDescription,
 			bool activated,
-			bool flipYIfOpponent
+			bool flipYIfOpponent,
+			bool canStack
 		)
 		{
 			AbilityInfo info = ScriptableObject.CreateInstance<AbilityInfo>();
@@ -26,6 +27,7 @@ namespace GrimoraMod
 				: rulebookName.SplitPascalCase();
 			info.rulebookDescription = rulebookDescription;
 			info.powerLevel = 0;
+			info.canStack = canStack;
 			info.metaCategories = new List<AbilityMetaCategory>()
 			{
 				AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part1Rulebook
@@ -39,7 +41,8 @@ namespace GrimoraMod
 			string rulebookName = null,
 			bool activated = false,
 			Texture rulebookIcon = null,
-			bool flipYIfOpponent = false
+			bool flipYIfOpponent = false,
+			bool canStack = false
 		) where T : AbilityBehaviour
 		{
 			rulebookName ??= typeof(T).Name;
@@ -47,7 +50,7 @@ namespace GrimoraMod
 				? rulebookIcon
 				: AssetUtils.GetPrefab<Texture>("ability_" + typeof(T).Name);
 			return CreateAbility<T>(
-				CreateInfoWithDefaultSettings(rulebookName, rulebookDescription, activated, flipYIfOpponent),
+				CreateInfoWithDefaultSettings(rulebookName, rulebookDescription, activated, flipYIfOpponent, canStack),
 				icon
 			);
 		}
