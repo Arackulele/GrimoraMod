@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2856703648
+CRC: 2451074237
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 04856d9000d45b61b8f8f0ada15490e1
+    Hash: c45065292c2ec00e9434c380c1403448
   TypeTreeHash:
     serializedVersion: 2
     Hash: 3f7d0c5e0986ec71841622bcb2f9be1c
@@ -14,8 +14,9 @@ ClassTypes:
 SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/GrimoraMod_Unity/Sounds/Grimoras_Theme.ogg
-- Assets/GrimoraMod_Unity/Sounds/Royal_Ruckus.ogg
+- Assets/GrimoraMod_Unity/Sounds/RoyalRuckus_Phase1.ogg
 - Assets/GrimoraMod_Unity/Sounds/Bone_Lords_Theme.ogg
 - Assets/GrimoraMod_Unity/Sounds/Dogbite.ogg
 - Assets/GrimoraMod_Unity/Sounds/Frostburn.ogg
+- Assets/GrimoraMod_Unity/Sounds/RoyalRuckus_Phase2.ogg
 Dependencies: []

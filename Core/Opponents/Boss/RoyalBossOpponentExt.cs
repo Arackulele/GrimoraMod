@@ -62,9 +62,9 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 	public override void PlayTheme()
 	{
-		Log.LogDebug($"Playing royal theme");
+		Log.LogDebug($"Playing royal theme 1");
 		AudioController.Instance.StopAllLoops();
-		AudioController.Instance.SetLoopAndPlay("Royal_Ruckus", 1);
+		AudioController.Instance.SetLoopAndPlay("RoyalRuckus_Phase1", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
 		AudioController.Instance.SetLoopVolume(0.8f, 5f, 1);
 	}
@@ -97,7 +97,6 @@ public class RoyalBossOpponentExt : BaseBossExt
 			blueprint.card.Mods.Add(new CardModificationInfo(SeaLegs.ability));
 		}
 
-
 		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
 			"YARRG, TWAS JUST DA FIRST ROUND!\nLETS SEE HOW YE FARE 'GAINST ME PERSONAL SHIP AN CREW!",
@@ -111,6 +110,12 @@ public class RoyalBossOpponentExt : BaseBossExt
 			BoardManager.Instance.GetOpponentOpenSlots().GetRandomItem()
 		);
 		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+
+		Log.LogDebug($"Playing royal theme 2");
+		AudioController.Instance.StopAllLoops();
+		AudioController.Instance.SetLoopAndPlay("RoyalRuckus_Phase2", 1);
+		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
+		AudioController.Instance.SetLoopVolume(0.8f, 5f, 1);
 	}
 
 	public EncounterBlueprintData BuildNewPhaseBlueprint()
