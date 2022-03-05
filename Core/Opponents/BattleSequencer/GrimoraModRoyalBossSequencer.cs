@@ -19,6 +19,19 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 
 	public override Opponent.Type BossType => BaseBossExt.RoyalOpponent;
 
+	private void PlayTableSway(bool swayLeft)
+	{
+		GameTable
+			.GetComponent<Animator>()
+			.Play(
+				swayLeft
+					? "sway_left"
+					: "sway_right",
+				0,
+				0f
+			);
+	}
+
 	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
 	{
 		return new EncounterData()
@@ -51,13 +64,8 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			ViewManager.Instance.SwitchToView(View.Default, lockAfter: true);
 			bool moveLeft = boardSwayCounter % 2 == 0;
 			// z axis for table movement
-			GameTable
-				.GetComponent<Animator>()
-				.Play(
-					moveLeft
-						? "sway_left"
-						: "sway_right"
-				);
+
+			PlayTableSway(moveLeft);
 
 			var allCardsOnBoard = BoardManager.Instance.AllSlotsCopy
 				.Where(slot => slot.Card is not null && !slot.CardHasAbility(SeaLegs.ability))
