@@ -203,7 +203,7 @@ public class ConfigHelper
 			return;
 		}
 
-		if (CardLoader.allData.IsNotEmpty())
+		if (CardLoader.allData.IsNotEmpty() && !CardLoader.allData.Exists(card => card.name.StartsWith("GrimoraMod_")))
 		{
 			CardLoader.allData = CardLoader.allData.Concat(
 					NewCard.cards.Where(card => card.name.StartsWith("GrimoraMod_"))
@@ -212,7 +212,7 @@ public class ConfigHelper
 				.ToList();
 		}
 
-		if (AbilitiesUtil.allData.IsNotEmpty())
+		if (AbilitiesUtil.allData.IsNotEmpty() && !AbilitiesUtil.allData.Exists(abInfo => abInfo.ability == ActivatedDrawSkeletonGrimora.ability))
 		{
 			Log.LogDebug($"All data is not null, concatting GrimoraMod abilities");
 			AbilitiesUtil.allData = AbilitiesUtil.allData.Concat(

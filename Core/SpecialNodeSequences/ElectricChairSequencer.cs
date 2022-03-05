@@ -137,13 +137,15 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			RuleBookController.Instance.SetShown(false);
 			yield return new WaitForSeconds(0.25f);
 			AudioController.Instance.PlaySound3D(
-				"card_blessing",
+				"teslacoil_charge",
 				MixerGroup.TableObjectsSFX,
-				selectionSlot.transform.position
+				selectionSlot.transform.position,
+				skipToTime: 0.5f
 			);
 			ApplyModToCard(selectionSlot.Card.Info);
 			selectionSlot.Card.Anim.PlayTransformAnimation();
 			yield return new WaitForSeconds(0.15f);
+			selectionSlot.Card.StatsLayer.SetEmissionColor(GameColors.Instance.blue);
 			selectionSlot.Card.SetInfo(selectionSlot.Card.Info);
 			selectionSlot.Card.SetInteractionEnabled(true);
 			yield return new WaitForSeconds(0.75f);
@@ -197,6 +199,11 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			{
 				if (UnityEngine.Random.value > 0.5f)
 				{
+					AudioController.Instance.PlaySound3D(
+						"teslacoil_overload",
+						MixerGroup.TableObjectsSFX,
+						selectionSlot.transform.position
+					);
 					destroyedCard = selectionSlot.Card.Info;
 					selectionSlot.Card.Anim.PlayDeathAnimation();
 					GrimoraSaveData.Data.deck.RemoveCard(selectionSlot.Card.Info);
@@ -233,6 +240,11 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 				$"YOU EVER SO CAREFULLY PULL THE {selectionSlot.Card.Info.DisplayedNameLocalized.BrightRed()} AWAY FROM THE ELECTRICITY AND LEAVE."
 			);
 
+			AudioController.Instance.PlaySound3D(
+				"teslacoil_spark",
+				MixerGroup.TableObjectsSFX,
+				selectionSlot.transform.position
+			);
 			yield return new WaitForSeconds(0.1f);
 			selectionSlot.FlyOffCard();
 		}
@@ -259,6 +271,8 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		Tween.LocalPosition(ViewManager.Instance.CameraParent, ChairViewInfo.camPosition, 0.16f, 0f, Tween.EaseInOut);
 		Tween.LocalRotation(ViewManager.Instance.CameraParent, ChairViewInfo.camRotation, 0.16f, 0f, Tween.EaseInOut);
 	}
+
+	#region ApplyingModToCard
 
 	private new static void ApplyModToCard(CardInfo card)
 	{
@@ -287,10 +301,23 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		return randomSigil;
 	}
 
+	private static readonly List<Ability> AbilitiesThatShouldNotExistOnZeroAttackCards = new()
+	{
+		AlternatingStrike.ability, AreaOfEffectStrike.ability, InvertedStrike.ability,
+		Ability.Sniper, Ability.SplitStrike, Ability.TriStrike
+	};
+
 	private static bool HasAbilityComboThatWillBreakTheGame(CardInfo card, Ability randomSigil)
 	{
 		return CheckCardHavingAbilityAndViceVersa(card, Ability.StrafePush, randomSigil, SkinCrawler.ability)
-			|| randomSigil == Ability.SwapStats && (card.Attack < 1 || card.Health < 3);
+		       || randomSigil == Ability.SwapStats && (card.Attack < 1 || card.Health < 3)
+		       || card.Attack < 1
+		       && (AbilitiesThatShouldNotExistOnZeroAttackCards.Contains(randomSigil)
+		           || randomSigil == Ability.Deathtouch
+		           && !card.Abilities.Exists(
+			           ab => ab is Ability.Sentry or Ability.Sharp
+		           ))
+			;
 	}
 
 	private static bool CheckCardHavingAbilityAndViceVersa(
@@ -303,6 +330,9 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		return card.HasAbility(cardAbility) && randomSigil == abilityToCheckAgainst
 		       || card.HasAbility(abilityToCheckAgainst) && randomSigil == cardAbility;
 	}
+
+	#endregion
+
 
 	private new static List<CardInfo> GetValidCards()
 	{
@@ -353,12 +383,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			VideoCameraRig.Instance.PlayCameraAnim("refocus_quick");
 		}
 
-		// TODO: Change campfire sound and light to electricity?
-		AudioController.Instance.PlaySound3D(
-			"campfire_light",
-			MixerGroup.TableObjectsSFX,
-			selectionSlot.transform.position
-		);
+		// TODO: Change campfire loop to something electrical like
 		AudioController.Instance.SetLoopAndPlay("campfire_loop", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
 		AudioController.Instance.FadeInLoop(0.5f, 0.75f, 1);
@@ -374,13 +399,9 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	{
 		ViewManager.Instance.SwitchToView(View.Default);
 		yield return new WaitForSeconds(0.25f);
-
-		AudioController.Instance.PlaySound3D(
-			"campfire_putout",
-			MixerGroup.TableObjectsSFX,
-			selectionSlot.transform.position
-		);
+		
 		AudioController.Instance.StopLoop(1);
+
 		campfireLight.gameObject.SetActive(false);
 		ExplorableAreaManager.Instance.HandLight.gameObject.SetActive(false);
 		yield return pile.DestroyCards();
@@ -405,6 +426,8 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 		yield return TableRuleBook.Instance.MoveOnBoard();
 	}
+
+	#region CreatingInScene
 
 	public static void CreateSequencerInScene()
 	{
@@ -517,4 +540,6 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 		return button;
 	}
+
+	#endregion
 }

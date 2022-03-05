@@ -55,12 +55,16 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		}
 	}
 
+	private bool SlotContainsTwinGiant(CardSlot cardSlot)
+	{
+		return cardSlot.CardHasSpecialAbility(GrimoraGiant.SpecialTriggeredAbility) && cardSlot.CardInSlotIs(NameGiant);
+	} 
+
 	public override IEnumerator OpponentUpkeep()
 	{
 		if (!playedDialogueDeathTouch
 		    && BoardManager.Instance.GetSlots(true).Exists(x => x.CardHasAbility(Ability.Deathtouch))
-		    && BoardManager.Instance.GetSlots(false)
-			    .Exists(slot => slot.CardHasSpecialAbility(GrimoraGiant.SpecialTriggeredAbility))
+		    && BoardManager.Instance.GetSlots(false).Exists(SlotContainsTwinGiant)
 		   )
 		{
 			yield return new WaitForSeconds(0.5f);
@@ -136,10 +140,9 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 					abilities = new List<Ability> { GiantStrikeEnraged.ability },
 					attackAdjustment = 1
 				};
-				lastGiant.Info.abilities.Remove(GiantStrike.ability);
-				lastGiant.AddTemporaryMod(modInfo);
 				lastGiant.Anim.PlayTransformAnimation();
-				lastGiant.RenderCard();
+				lastGiant.Info.RemoveBaseAbility(GiantStrike.ability);
+				lastGiant.AddTemporaryMod(modInfo);
 				yield return new WaitForSeconds(0.5f);
 			}
 		}
@@ -153,7 +156,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 			CardSlot slot = opponentQueuedSlots[UnityEngine.Random.Range(0, opponentQueuedSlots.Count)];
 			yield return TurnManager.Instance.Opponent.QueueCard(card.Info, slot);
-			yield return _willReanimateCardThatDied == false;
+			_willReanimateCardThatDied = false;
 			yield return new WaitForSeconds(0.5f);
 		}
 		else { _willReanimateCardThatDied = true; }

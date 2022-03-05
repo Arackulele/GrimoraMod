@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(Ability.Sniper)
+			.SetAbilities(SeaLegs.ability, Ability.Sniper)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(4)
 			.SetNames(NamePiratePrivateer, "Privateer")

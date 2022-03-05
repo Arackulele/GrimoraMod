@@ -12,9 +12,10 @@ public class BuffCrewMates : AbilityBehaviour
 
 	public static NewAbility Create()
 	{
-		const string rulebookDescription = "[creature] empowers each Skeleton, providing a +1 buff their power.";
+		const string rulebookDescription =
+			"[creature] empowers each Skeleton on the owner's side of the board, providing a +1 buff their power.";
 
-		return ApiUtils.CreateAbility<BuffCrewMates>(rulebookDescription);
+		return ApiUtils.CreateAbility<BuffCrewMates>(rulebookDescription, "Sea Shanty");
 	}
 }
 

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1050420303
+CRC: 1663970949
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 97f222e2c1c2dbff32ed03ffd47691a8
+    Hash: 5bc54108fd8930b1f98c6600675d0347
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7859cd501ea75098bcf7e53f1b477c26
@@ -17,6 +17,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Abilities/ability_InvertedStrike.png
 - Assets/GrimoraMod_Unity/Abilities/ability_FlameStrafe.png
 - Assets/GrimoraMod_Unity/Abilities/ability_SpiritBearer.png
+- Assets/GrimoraMod_Unity/Abilities/ability_CreateRoyalsCrewMate.png
 - Assets/GrimoraMod_Unity/Abilities/ability_HookLineAndSinker.png
 - Assets/GrimoraMod_Unity/Abilities/ability_AlternatingStrike.png
 - Assets/GrimoraMod_Unity/Abilities/ability_BuffCrewMates.png
@@ -24,6 +25,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Abilities/ability_CreateArmyOfSkeletons.png
 - Assets/GrimoraMod_Unity/Abilities/ability_LitFuse.png
 - Assets/GrimoraMod_Unity/Abilities/ability_ActivatedEnergyDrawWyvern.png
+- Assets/GrimoraMod_Unity/Abilities/ability_SeaLegs.png
 - Assets/GrimoraMod_Unity/Abilities/ability_BoneLordsReign.png
 - Assets/GrimoraMod_Unity/Abilities/ability_SkinCrawler.png
 - Assets/GrimoraMod_Unity/Abilities/ability_LitFuse_Blind.png

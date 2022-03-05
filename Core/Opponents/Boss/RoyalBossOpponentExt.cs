@@ -1,6 +1,7 @@
 using System.Collections;
 using DiskCardGame;
 using UnityEngine;
+using static GrimoraMod.BlueprintUtils;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -19,6 +20,16 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
+		foreach (var blueprint in encounter.Blueprint.turns.SelectMany(cardBlueprints => cardBlueprints))
+		{
+			blueprint.card.Mods.Add(new CardModificationInfo(SeaLegs.ability));
+		}
+
+		Log.LogDebug($"Assigning controller to game table");
+		GameObject.Find("GameTable")
+			.AddComponent<Animator>()
+			.runtimeAnimatorController = AssetUtils.GetPrefab<RuntimeAnimatorController>("GrimoraGameTable");
+
 		yield return base.IntroSequence(encounter);
 
 		GrimoraAnimationController.Instance.SetHeadBool("face_happy", true);
@@ -27,31 +38,36 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 		SetSceneEffectsShownRoyal();
 
-		yield return FaceZoomSequence();
-		yield return TextDisplayer.Instance.ShowUntilInput("VAR, I SEE YOU MADE IT TO ME SHIP CHALLENGER!");
-		yield return TextDisplayer.Instance.ShowUntilInput("I'VE BEEN WAITING FOR A WORTHY FIGHT!");
-
+		if (!ConfigHelper.Instance.isDevModeEnabled)
+		{
+			yield return FaceZoomSequence();
+			yield return TextDisplayer.Instance.ShowUntilInput("VAR, I SEE YOU MADE IT TO ME SHIP CHALLENGER!");
+			yield return TextDisplayer.Instance.ShowUntilInput("I'VE BEEN WAITING FOR A WORTHY FIGHT!");
+		}
+		
 		cannons = Instantiate(
-			ResourceBank.Get<GameObject>("Prefabs/Environment/TableEffects/CannonTableEffects")
+			ResourceBank.Get<GameObject>("Prefabs/Environment/TableEffects/CannonTableEffects"),
+			new Vector3(1.01f, 0, 0),
+			Quaternion.identity,
+			BoardManager3D.Instance.transform
 		);
+		
 		if (!ConfigHelper.Instance.isDevModeEnabled)
 		{
 			AudioController.Instance.PlaySound2D("boss_royal", volume: 0.5f);
 			yield return new WaitForSeconds(0.1f);
 		}
 
-		PlayTheme();
-
 		ViewManager.Instance.SwitchToView(View.Default);
 
-		yield return new WaitForSeconds(2f);
+		PlayTheme();
 	}
 
 	public override void PlayTheme()
 	{
-		Log.LogDebug($"Playing royal theme");
+		Log.LogDebug($"Playing royal theme 1");
 		AudioController.Instance.StopAllLoops();
-		AudioController.Instance.SetLoopAndPlay("Royal_Ruckus", 1);
+		AudioController.Instance.SetLoopAndPlay("RoyalRuckus_Phase1", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
 		AudioController.Instance.SetLoopVolume(0.8f, 5f, 1);
 	}
@@ -75,16 +91,61 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 	public override IEnumerator StartNewPhaseSequence()
 	{
+		TurnPlan.Clear();
+		yield return ClearQueue();
+
+		var newBlueprint = BuildNewPhaseBlueprint();
+		foreach (var blueprint in newBlueprint.turns.SelectMany(cardBlueprints => cardBlueprints))
+		{
+			blueprint.card.Mods.Add(new CardModificationInfo(SeaLegs.ability));
+		}
+
 		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
-			"YEE BE A TOUGH NUT TO CRACK!\nREADY FOR ROUND 2?",
+			"YARRG, TWAS JUST DA FIRST ROUND!\nLETS SEE HOW YE FARE 'GAINST ME PERSONAL SHIP AN CREW!",
 			-0.65f,
 			0.4f
 		);
+		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
+		yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
+		yield return BoardManager.Instance.CreateCardInSlot(
+			NameGhostShipRoyal.GetCardInfo(),
+			BoardManager.Instance.GetOpponentOpenSlots().GetRandomItem()
+		);
+		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 
-		yield return QueueNewCards();
+		Log.LogDebug($"Playing royal theme 2");
+		AudioController.Instance.StopAllLoops();
+		AudioController.Instance.SetLoopAndPlay("RoyalRuckus_Phase2", 1);
+		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
+		AudioController.Instance.SetLoopVolume(0.8f, 5f, 1);
 	}
 
+	public EncounterBlueprintData BuildNewPhaseBlueprint()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_FirstMateSnag },
+			new(),
+			new(),
+			new() { bp_Skeleton, bp_CaptainYellowbeard, bp_Skeleton },
+			new(),
+			new(),
+			new() { bp_CompoundFracture, bp_Skeleton },
+			new(),
+			new(),
+			new() { bp_Skeleton, bp_Skeleton },
+			new(),
+			new(),
+			new() { bp_Skeleton, bp_Skeleton },
+			new(),
+			new() { bp_Skeleton, bp_Skeleton },
+			new(),
+		};
+
+		return blueprint;
+	}
 
 	public override IEnumerator OutroSequence(bool wasDefeated)
 	{
@@ -113,7 +174,9 @@ public class RoyalBossOpponentExt : BaseBossExt
 			ViewManager.Instance.SwitchToView(View.BossCloseup);
 			yield return new WaitForSeconds(0.05f);
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"HELLO AGAIN!\nI AM EXCITED FOR YOU TO SEE THIS LAST ONE.", -0.65f, 0.4f
+				"HELLO AGAIN!\nI AM EXCITED FOR YOU TO SEE THIS LAST ONE.",
+				-0.65f,
+				0.4f
 			);
 
 			yield return TextDisplayer.Instance.ShowUntilInput("I PUT IT TOGETHER MYSELF.");

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3240634476
+CRC: 1728909528
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 84408a8c8159d08cf67d5b2028a1c456
+    Hash: 10085e8815274db831886860c006db72
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -16,7 +16,7 @@ ClassTypes:
 SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/GrimoraMod_Unity/Cards/Zombie_emission.png
-- Assets/GrimoraMod_Unity/Cards/Wendigo.png
+- Assets/GrimoraMod_Unity/Cards/OldCards/Wendigo.png
 - Assets/GrimoraMod_Unity/Cards/Dybbuk_emission.png
 - Assets/GrimoraMod_Unity/Cards/Centurion.png
 - Assets/GrimoraMod_Unity/Cards/Deadeye.png
@@ -28,6 +28,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Dybbuk.png
 - Assets/GrimoraMod_Unity/Cards/Manananggal.png
 - Assets/GrimoraMod_Unity/Cards/CompoundFracture.png
+- Assets/GrimoraMod_Unity/Cards/GhostShip_emission_Nevernamed.png
 - Assets/GrimoraMod_Unity/Cards/Skelemaniac_emission.png
 - Assets/GrimoraMod_Unity/Cards/Sarcophagus.png
 - Assets/GrimoraMod_Unity/Cards/DeathKnell_emission.png
@@ -50,7 +51,6 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/PirateCaptainYellowbeard_emission.png
 - Assets/GrimoraMod_Unity/Cards/Deadeye_emission.png
 - Assets/GrimoraMod_Unity/Cards/Wyvern.png
-- Assets/GrimoraMod_Unity/Cards/GhostShip.png
 - Assets/GrimoraMod_Unity/Cards/Draugr_emission.png
 - Assets/GrimoraMod_Unity/Menu/MenuCard_Grimora.png
 - Assets/GrimoraMod_Unity/Cards/Bonepile_emission.png
@@ -58,7 +58,8 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Ember_Spirit.png
 - Assets/GrimoraMod_Unity/Cards/Bonelord_emission.png
 - Assets/GrimoraMod_Unity/Cards/BooHag_emission.png
-- Assets/GrimoraMod_Unity/Cards/ZombieGeck.png
+- Assets/GrimoraMod_Unity/Cards/GhostShip_Royal_Cevin2006.png
+- Assets/GrimoraMod_Unity/Cards/OldCards/ZombieGeck.png
 - Assets/GrimoraMod_Unity/Cards/DeadHand.png
 - Assets/GrimoraMod_Unity/Cards/BonelordsHorn_emission.png
 - Assets/GrimoraMod_Unity/Cards/Flames_emission.png
@@ -66,6 +67,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Catacomb_emission.png
 - Assets/GrimoraMod_Unity/Cards/Ripper_emission.png
 - Assets/GrimoraMod_Unity/Cards/Family_emission.png
+- Assets/GrimoraMod_Unity/Cards/GhostShip_Nevernamed.png
 - Assets/GrimoraMod_Unity/Cards/HellHound.png
 - Assets/GrimoraMod_Unity/Cards/DanseMacabre.png
 - Assets/GrimoraMod_Unity/Cards/PlagueDoctor.png
@@ -76,7 +78,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/PlagueDoctor_emission.png
 - Assets/GrimoraMod_Unity/Cards/Mummy.png
 - Assets/GrimoraMod_Unity/Cards/Catacomb.png
-- Assets/GrimoraMod_Unity/Cards/ArmoredZombie.png
+- Assets/GrimoraMod_Unity/Cards/OldCards/ArmoredZombie.png
 - Assets/GrimoraMod_Unity/Cards/FesteringWretch.png
 - Assets/GrimoraMod_Unity/Cards/DeathKnell.png
 - Assets/GrimoraMod_Unity/Cards/PiratePrivateer.png
@@ -84,7 +86,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Manananggal_emission.png
 - Assets/GrimoraMod_Unity/Cards/Family.png
 - Assets/GrimoraMod_Unity/Cards/SkeletonArmy.png
-- Assets/GrimoraMod_Unity/Cards/ArmoredZombie_emission.png
+- Assets/GrimoraMod_Unity/Cards/OldCards/ArmoredZombie_emission.png
 - Assets/GrimoraMod_Unity/Cards/PirateFirstMateSnag_emission.png
 - Assets/GrimoraMod_Unity/Cards/VengefulSpirit.png
 - Assets/GrimoraMod_Unity/Cards/Necromancer_emission.png
@@ -104,7 +106,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Skelemagus.png
 - Assets/GrimoraMod_Unity/Cards/Vellum.png
 - Assets/GrimoraMod_Unity/Cards/TombRobber_emission.png
-- Assets/GrimoraMod_Unity/Cards/ZombieGeck_emission.png
+- Assets/GrimoraMod_Unity/Cards/OldCards/ZombieGeck_emission.png
 - Assets/GrimoraMod_Unity/Cards/Project_emission.png
 - Assets/GrimoraMod_Unity/Cards/Maggots.png
 - Assets/GrimoraMod_Unity/Cards/Project.png
@@ -114,9 +116,9 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Ripper.png
 - Assets/GrimoraMod_Unity/Cards/PirateSwashbuckler_emission.png
 - Assets/GrimoraMod_Unity/Cards/DeadPets_emission.png
+- Assets/GrimoraMod_Unity/Cards/GhostShip_Royal_emission_Cevin2006.png
 - Assets/GrimoraMod_Unity/Cards/VengefulSpirit_emission.png
 - Assets/GrimoraMod_Unity/Cards/DeathKnell_Bell.png
-- Assets/GrimoraMod_Unity/Cards/GhostShip_emission.png
 - Assets/GrimoraMod_Unity/Cards/Wyvern_emission.png
 - Assets/GrimoraMod_Unity/Cards/HellHound_emission.png
 - Assets/GrimoraMod_Unity/Cards/BooHag.png

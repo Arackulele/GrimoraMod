@@ -274,6 +274,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 	{
 		List<CardInfo> list = GrimoraSaveUtil.DeckListCopy;
 		list.RemoveAll(card => card.BonesCost <= 1
+		                       || card.Abilities.Count == 4
 		                       || card.Abilities.Contains(Ability.Brittle)
 		                       || card.SpecialAbilities.Contains(SpecialTriggeredAbility.RandomCard)
 		                       || card.traits.Contains(Trait.Pelt)

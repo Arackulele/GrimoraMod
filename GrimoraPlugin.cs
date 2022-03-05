@@ -54,7 +54,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			}
 		}
 
-		ConfigHelper.Instance.HandleHotReloadAfter();
+		// ConfigHelper.Instance.HandleHotReloadAfter();
 	}
 
 	private void LoadAbilities()
@@ -77,11 +77,13 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		LitFuse.Create();
 		Possessive.Create();
 		Raider.Create();
+		SeaLegs.Create();
 		SkinCrawler.Create();
 		SpiritBearer.Create();
 
 		#region Special
 
+		CreateRoyalsCrewMate.Create();
 		GainAttackBones.Create();
 		GrimoraGiant.Create();
 		LammergeierAttack.Create();
@@ -155,6 +157,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_DeathKnellBell();   // Bt Y#0895
 		Add_Dybbuk();           // Bt Y#0895
 		Add_EmberSpirit();      // Cevin2006™ (◕‿◕)#7971
+		Add_GhostShipRoyal();   // Cevin2006™ (◕‿◕)#7971
 		Add_HeadlessHorseman(); // Cevin2006™ (◕‿◕)#7971
 		Add_Hydra();            // Cevin2006™ (◕‿◕)#7971
 		Add_Necromancer();      // Bt Y#0895

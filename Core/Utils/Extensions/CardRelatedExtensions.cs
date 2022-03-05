@@ -63,6 +63,28 @@ public static class CardRelatedExtension
 		controller.Anim.SetBool(Hovering, isHovering);
 	}
 
+	public static bool HasAnyAbilities(this PlayableCard playableCard, params Ability[] abilities)
+	{
+		return playableCard.Info.Abilities.Any(abilities.Contains);
+	}
+
+	public static bool HasBeenElectricChaired(this PlayableCard playableCard)
+	{
+		return playableCard.Info.Mods.Exists(mod => mod.singletonId == "GrimoraMod_ElectricChaired");
+	}
+	
+	public static bool HasBeenElectricChaired(this CardInfo cardInfo)
+	{
+		return cardInfo.Mods.Exists(mod => mod.singletonId == "GrimoraMod_ElectricChaired");
+	}
+	
+	public static void RemoveAbilityFromThisCard(this PlayableCard playableCard, CardModificationInfo modInfo)
+	{
+		CardInfo cardInfoClone = playableCard.Info.Clone() as CardInfo;
+		cardInfoClone.Mods.Add(modInfo);
+		playableCard.SetInfo(cardInfoClone);
+	}
+
 	public static void AddTempModGrimora(this PlayableCard playableCard, CardModificationInfo mod)
 	{
 		playableCard.Info.Mods.Add(mod);

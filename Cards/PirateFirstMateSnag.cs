@@ -8,10 +8,10 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(HookLineAndSinker.ability)
+			.SetAbilities(HookLineAndSinker.ability, SeaLegs.ability)
 			.SetBaseAttackAndHealth(2, 2)
 			.SetBoneCost(7)
-			.SetNames(NamePirateFirstMateSnag, "Fist Mate Snag")
+			.SetNames(NamePirateFirstMateSnag, "First Mate Snag")
 			.Build();
 	}
 }

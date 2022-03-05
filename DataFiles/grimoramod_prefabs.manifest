@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1768176002
+CRC: 2392724334
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 4fbdbf630ca0a58acdf7779f03ffb0b6
+    Hash: 0100613a3946bc3475da08a71edd853b
   TypeTreeHash:
     serializedVersion: 2
     Hash: bc2f737821ec90d33cfdfb0a7a7aba7b
@@ -57,12 +57,12 @@ Assets:
 - Assets/GrimoraMod_Unity/ChessboardPieces/Sawyer/Blocker_Sawyer.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/ChessboardPiece_CardRemove.prefab
 - Assets/Resources/animation/Prefabs/Hexalantern.prefab
+- Assets/GrimoraMod_Unity/Models/Layout/NewNewLayout.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/Blocker_Grimora.prefab
 - Assets/GrimoraMod_Unity/Animations/VfxBoltLightning.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/ChessboardPiece_ElectricChair.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/Kaycee/KayceeFigurine.prefab
 - Assets/GrimoraMod_Unity/Models/hammer/GrimoraHammer.prefab
-- Assets/GrimoraMod_Unity/Models/Layout/GrimoraNewLayout.prefab
 - Assets/GrimoraMod_Unity/Models/EnergyCells_Right.prefab
 - Assets/GrimoraMod_Unity/Models/hammer/FirstPersonGrimoraHammer.prefab
 - Assets/GrimoraMod_Unity/Models/EnergyCells_Left.prefab

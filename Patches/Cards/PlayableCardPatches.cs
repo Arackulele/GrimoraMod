@@ -22,6 +22,12 @@ public class PlayableCardPatches
 			var toLeftSlot = BoardManager.Instance.GetAdjacent(__instance.Slot, true);
 			var toRightSlot = BoardManager.Instance.GetAdjacent(__instance.Slot, false);
 
+			if (hasRaider)
+			{
+				// by default result will have at least 1 slot, which is the opposing slot
+				__result.Clear();
+			}
+			
 			// insert at beginning
 			if (toLeftSlot is not null)
 			{
