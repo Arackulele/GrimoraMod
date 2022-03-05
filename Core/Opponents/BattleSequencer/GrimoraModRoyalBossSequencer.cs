@@ -27,12 +27,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		};
 	}
 
-	public override bool RespondsToTurnEnd(bool playerTurnEnd)
-	{
-		return playerTurnEnd;
-	}
-
-	public override IEnumerator OnTurnEnd(bool playerTurnEnd)
+	public override IEnumerator OpponentCombatEnd()
 	{
 		var activePlayerCards = BoardManager.Instance.GetPlayerCards();
 		if (activePlayerCards.IsNotEmpty() && _rng.NextBoolean())
@@ -63,15 +58,9 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 						: "sway_right"
 				);
 
-			var opponentQueuedCards = BoardManager.Instance.GetQueueSlots()
-				.Where(slot => slot.Card is not null)
-				.Select(slot => slot.Card)
-				.ToList();
-
 			var allCardsOnBoard = BoardManager.Instance.AllSlotsCopy
 				.Where(slot => slot.Card is not null && !slot.CardHasAbility(SeaLegs.ability))
 				.Select(slot => slot.Card)
-				.Concat(opponentQueuedCards)
 				.ToList();
 
 			if (!moveLeft)
@@ -84,7 +73,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 
 			foreach (var playableCard in allCardsOnBoard)
 			{
-				StartCoroutine(DoStrafe(playableCard, moveLeft));
+				yield return StartCoroutine(DoStrafe(playableCard, moveLeft));
 			}
 
 			ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
