@@ -9,6 +9,8 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 {
 	private bool _playedDialogueSubmerge = false;
 
+	private bool _playedDialoguePossessive = false;
+
 	public override Opponent.Type BossType => BaseBossExt.KayceeOpponent;
 
 	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
@@ -49,13 +51,29 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 				{
 					var modInfo = CreateModForFreeze(playableCard);
 					playableCard.Info.iceCubeParams = new IceCubeParams { creatureWithin = playableCard.Info };
-					if (!_playedDialogueSubmerge && playableCard.HasAbility(Ability.Submerge))
+					if (playableCard.HasAbility(Ability.Submerge))
 					{
-						yield return TextDisplayer.Instance.ShowUntilInput(
-							$"{playableCard.Info.displayedName.Blue()} MIGHT HAVE SOME DIFFICULTY SUBMERGING IF IT'S FROZEN SOLID!"
-						);
+						if (!_playedDialogueSubmerge)
+						{
+							yield return TextDisplayer.Instance.ShowUntilInput(
+								$"{playableCard.Info.displayedName.Blue()} MIGHT HAVE SOME DIFFICULTY SUBMERGING IF IT'S FROZEN SOLID!"
+							);
+							_playedDialogueSubmerge = true;
+						}
+
 						RemoveAbilityFromThisCard(playableCard, modInfo);
-						_playedDialogueSubmerge = true;
+					}
+					else if (playableCard.HasAbility(Possessive.ability))
+					{
+						if (!_playedDialoguePossessive)
+						{
+							yield return TextDisplayer.Instance.ShowUntilInput(
+								$"{playableCard.Info.displayedName.Blue()} CAN'T POSSESS ANYTHING IF IT CAN'T MOVE!"
+							);
+							_playedDialoguePossessive = true;
+						}
+
+						RemoveAbilityFromThisCard(playableCard, modInfo);
 					}
 					else
 					{
@@ -100,7 +118,7 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 			attackAdjustment = attack,
 			healthAdjustment = 1 - playableCard.Health,
 			abilities = new List<Ability> { Ability.IceCube },
-			negateAbilities = new List<Ability> { Ability.Submerge }
+			negateAbilities = new List<Ability> { Ability.Submerge, Possessive.ability }
 		};
 
 		return modInfo;
