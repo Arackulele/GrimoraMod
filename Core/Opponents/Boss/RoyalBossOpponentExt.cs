@@ -20,6 +20,11 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
+		foreach (var blueprint in encounter.Blueprint.turns.SelectMany(cardBlueprints => cardBlueprints))
+		{
+			blueprint.card.Mods.Add(new CardModificationInfo(SeaLegs.ability));
+		}
+		
 		Log.LogDebug($"Assigning controller to game table");
 		GameObject.Find("GameTable")
 			.AddComponent<Animator>()
