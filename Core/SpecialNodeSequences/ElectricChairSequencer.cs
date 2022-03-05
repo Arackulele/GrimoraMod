@@ -199,6 +199,11 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			{
 				if (UnityEngine.Random.value > 0.5f)
 				{
+					AudioController.Instance.PlaySound3D(
+						"teslacoil_overload",
+						MixerGroup.TableObjectsSFX,
+						selectionSlot.transform.position
+					);
 					destroyedCard = selectionSlot.Card.Info;
 					selectionSlot.Card.Anim.PlayDeathAnimation();
 					GrimoraSaveData.Data.deck.RemoveCard(selectionSlot.Card.Info);
@@ -235,6 +240,11 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 				$"YOU EVER SO CAREFULLY PULL THE {selectionSlot.Card.Info.DisplayedNameLocalized.BrightRed()} AWAY FROM THE ELECTRICITY AND LEAVE."
 			);
 
+			AudioController.Instance.PlaySound3D(
+				"teslacoil_spark",
+				MixerGroup.TableObjectsSFX,
+				selectionSlot.transform.position
+			);
 			yield return new WaitForSeconds(0.1f);
 			selectionSlot.FlyOffCard();
 		}
@@ -373,12 +383,10 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			VideoCameraRig.Instance.PlayCameraAnim("refocus_quick");
 		}
 
-		// TODO: Change campfire sound and light to electricity?
-		AudioController.Instance.PlaySound3D(
-			"campfire_light",
-			MixerGroup.TableObjectsSFX,
-			selectionSlot.transform.position
-		);
+		// TODO: Change campfire loop to something electrical like
+		AudioController.Instance.SetLoopAndPlay("campfire_loop", 1);
+		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
+		AudioController.Instance.FadeInLoop(0.5f, 0.75f, 1);
 		InteractionCursor.Instance.SetEnabled(false);
 		yield return new WaitForSeconds(0.25f);
 
@@ -391,6 +399,8 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	{
 		ViewManager.Instance.SwitchToView(View.Default);
 		yield return new WaitForSeconds(0.25f);
+		
+		AudioController.Instance.StopLoop(1);
 
 		campfireLight.gameObject.SetActive(false);
 		ExplorableAreaManager.Instance.HandLight.gameObject.SetActive(false);
