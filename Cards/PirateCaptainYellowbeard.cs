@@ -8,7 +8,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAsRareCard()
-			.SetAbilities(BuffCrewMates.ability)
+			.SetAbilities(BuffCrewMates.ability, SeaLegs.ability)
 			.SetBaseAttackAndHealth(2, 2)
 			.SetBoneCost(7)
 			.SetNames(NamePirateCaptainYellowbeard, "Yellowbeard")

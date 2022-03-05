@@ -64,7 +64,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 				);
 
 			var allCardsOnBoard = BoardManager.Instance.AllSlotsCopy
-				.Where(slot => slot.Card is not null)
+				.Where(slot => slot.Card is not null && !slot.CardHasAbility(SeaLegs.ability))
 				.Select(slot => slot.Card)
 				.ToList();
 
