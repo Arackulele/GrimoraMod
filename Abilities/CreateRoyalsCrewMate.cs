@@ -12,6 +12,8 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 
 	private int _timeToSpawnCounter = 0;
 
+	private readonly CardInfo _swashBuckler = NamePirateSwashbuckler.GetCardInfo();
+
 	public override bool RespondsToResolveOnBoard()
 	{
 		return true;
@@ -22,17 +24,7 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 		var playerOpenSlots = BoardManager.Instance.GetPlayerOpenSlots();
 		if (playerOpenSlots.IsNotEmpty())
 		{
-			ViewManager.Instance.SwitchToView(View.Board);
-			yield return TextDisplayer.Instance.ShowThenClear(
-				$"PREPARE TO BE BOARDED!",
-				3f
-			);
-			yield return new WaitForSeconds(0.2f);
-			
-			yield return BoardManager.Instance.CreateCardInSlot(
-				NamePirateSwashbuckler.GetCardInfo(),
-				playerOpenSlots.GetRandomItem()
-			);
+			yield return SpawnSwashbucklerInPlayerOpenSlot(playerOpenSlots.GetRandomItem());
 		}
 	}
 
@@ -49,11 +41,25 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 		{
 			_timeToSpawnCounter = 0;
 
-			yield return BoardManager.Instance.CreateCardInSlot(
-				NamePirateSwashbuckler.GetCardInfo(),
-				playerOpenSlots.GetRandomItem()
-			);
+			yield return SpawnSwashbucklerInPlayerOpenSlot(playerOpenSlots.GetRandomItem());
 		}
+	}
+
+	private IEnumerator SpawnSwashbucklerInPlayerOpenSlot(CardSlot playerOpenSlot)
+	{
+		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
+		yield return TextDisplayer.Instance.ShowThenClear(
+			$"PREPARE TO BE BOARDED!",
+			3f
+		);
+		yield return new WaitForSeconds(0.2f);
+
+		yield return BoardManager.Instance.CreateCardInSlot(
+			_swashBuckler,
+			playerOpenSlot
+		);
+
+		ViewManager.Instance.SetViewUnlocked();
 	}
 
 	public static NewSpecialAbility Create()
