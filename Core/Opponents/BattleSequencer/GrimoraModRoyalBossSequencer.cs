@@ -42,7 +42,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 
 	public override IEnumerator OpponentCombatEnd()
 	{
-		var activePlayerCards = BoardManager.Instance.GetPlayerCards();
+		var activePlayerCards = BoardManager.Instance.GetPlayerCards(pCard => !pCard.FaceDown);
 		if (activePlayerCards.IsNotEmpty() && _rng.NextBoolean())
 		{
 			var playableCard = activePlayerCards[UnityEngine.Random.Range(0, activePlayerCards.Count)];
