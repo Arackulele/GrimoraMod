@@ -1,5 +1,6 @@
 using System.Collections;
 using DiskCardGame;
+using EasyFeedback.APIs;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
 using static GrimoraMod.GrimoraPlugin;
@@ -103,11 +104,13 @@ public class RoyalBossOpponentExt : BaseBossExt
 			-0.65f,
 			0.4f
 		);
+		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 		yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
 		yield return BoardManager.Instance.CreateCardInSlot(
 			NameGhostShipRoyal.GetCardInfo(),
 			BoardManager.Instance.GetOpponentOpenSlots().GetRandomItem()
 		);
+		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 	}
 
 	public EncounterBlueprintData BuildNewPhaseBlueprint()
