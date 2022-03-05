@@ -16,20 +16,23 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 	private const float DurationTableSway = 3.5f;
 
 	public int boardSwayCounter = 0;
+	public bool boardSwayedLeftLast = false;
 
 	public override Opponent.Type BossType => BaseBossExt.RoyalOpponent;
 
-	private void PlayTableSway(bool swayLeft)
+	private void PlayTableSway()
 	{
 		GameTable
 			.GetComponent<Animator>()
 			.Play(
-				swayLeft
+				!boardSwayedLeftLast
 					? "sway_left"
 					: "sway_right",
 				0,
 				0f
 			);
+
+		boardSwayedLeftLast = !boardSwayedLeftLast;
 	}
 
 	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
@@ -62,17 +65,16 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			);
 
 			ViewManager.Instance.SwitchToView(View.Default, lockAfter: true);
-			bool moveLeft = boardSwayCounter % 2 == 0;
 			// z axis for table movement
 
-			PlayTableSway(moveLeft);
+			PlayTableSway();
 
 			var allCardsOnBoard = BoardManager.Instance.AllSlotsCopy
 				.Where(slot => slot.Card is not null && !slot.CardHasAbility(SeaLegs.ability))
 				.Select(slot => slot.Card)
 				.ToList();
 
-			if (!moveLeft)
+			if (boardSwayedLeftLast)
 			{
 				// the reason for this is so that the cards are executed right to left and not left to right.
 				// if they're executed left to right like how swaying left will is,
@@ -82,7 +84,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 
 			foreach (var playableCard in allCardsOnBoard)
 			{
-				yield return StartCoroutine(DoStrafe(playableCard, moveLeft));
+				yield return StartCoroutine(DoStrafe(playableCard, boardSwayedLeftLast));
 			}
 
 			ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
