@@ -29,7 +29,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 
 	public override bool RespondsToTurnEnd(bool playerTurnEnd)
 	{
-		return !playerTurnEnd;
+		return playerTurnEnd;
 	}
 
 	public override IEnumerator OnTurnEnd(bool playerTurnEnd)
@@ -63,9 +63,15 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 						: "sway_right"
 				);
 
+			var opponentQueuedCards = BoardManager.Instance.GetQueueSlots()
+				.Where(slot => slot.Card is not null)
+				.Select(slot => slot.Card)
+				.ToList();
+
 			var allCardsOnBoard = BoardManager.Instance.AllSlotsCopy
 				.Where(slot => slot.Card is not null && !slot.CardHasAbility(SeaLegs.ability))
 				.Select(slot => slot.Card)
+				.Concat(opponentQueuedCards)
 				.ToList();
 
 			if (!moveLeft)
@@ -143,20 +149,23 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		}
 		else
 		{
-			float leftOrRightX = movingLeft
-				? positionCopy.x - 6
-				: positionCopy.x + 6;
-			Log.LogInfo($"[MoveToSlot] Card {playableCard.GetNameAndSlot()} is about to fucking die me hearty!");
-			TweenBase slidingCard = Tween.LocalPosition(
-				playableCard.transform,
-				new Vector3(leftOrRightX, positionCopy.y, positionCopy.z),
-				DurationTableSway,
-				0,
-				Tween.EaseIn
-			);
-			yield return new WaitForSeconds(0.15f);
-			yield return new WaitUntil(() => slidingCard.Status == Tween.TweenStatus.Finished);
-			yield return playableCard.Die(false);
+			if (!playableCard.InOpponentQueue)
+			{
+				float leftOrRightX = movingLeft
+					? positionCopy.x - 6
+					: positionCopy.x + 6;
+				Log.LogInfo($"[MoveToSlot] Card {playableCard.GetNameAndSlot()} is about to fucking die me hearty!");
+				TweenBase slidingCard = Tween.LocalPosition(
+					playableCard.transform,
+					new Vector3(leftOrRightX, positionCopy.y, positionCopy.z),
+					DurationTableSway,
+					0,
+					Tween.EaseIn
+				);
+				yield return new WaitForSeconds(0.15f);
+				yield return new WaitUntil(() => slidingCard.Status == Tween.TweenStatus.Finished);
+				yield return playableCard.Die(false);
+			}
 		}
 	}
 }
