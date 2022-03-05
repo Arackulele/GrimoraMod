@@ -41,8 +41,9 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			playableCard.AddTemporaryMod(new CardModificationInfo(LitFuse.ability));
 		}
 
-		if (++boardSwayCounter >= 2)
+		if (++boardSwayCounter >= 2 && activePlayerCards.IsNotEmpty())
 		{
+			boardSwayCounter = 0;
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				$"Seven seas for the table!"
 			);
