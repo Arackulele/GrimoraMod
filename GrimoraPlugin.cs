@@ -77,6 +77,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		LitFuse.Create();
 		Possessive.Create();
 		Raider.Create();
+		SeaLegs.Create();
 		SkinCrawler.Create();
 		SpiritBearer.Create();
 
