@@ -178,10 +178,9 @@ public class GrimoraChessboard
 		if (changingRegion || !StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable) || pieceAtSpaceIsNotPlayer)
 		{
 			// the PlayerNode will be different since this is now a different chessboard
-			x = GetPlayerNode().GridX;
-			y = GetPlayerNode().GridY;
-			GrimoraSaveData.Data.gridX = x;
-			GrimoraSaveData.Data.gridY = y;
+			SetSavePositions();
+			x = GrimoraSaveData.Data.gridX;
+			y = GrimoraSaveData.Data.gridY;
 			Log.LogDebug($"[UpdatePlayerMarkerPosition] New x{x}y{y} coords");
 		}
 
