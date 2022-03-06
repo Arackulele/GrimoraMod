@@ -24,8 +24,10 @@ public class GrimoraChessboard
 			},
 			{
 				typeof(ChessboardCardRemovePiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.CardRemovalFigurine,
-					GetCardRemovalNodes)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(
+					() => AssetConstants.CardRemovalFigurine,
+					GetCardRemovalNodes
+				)
 			},
 			{
 				typeof(ChessboardChestPiece),
@@ -222,8 +224,12 @@ public class GrimoraChessboard
 		}
 
 		GameObject prefabToUse = BaseBossExt.OpponentTupleBySpecialId[bossName].Item3;
-		int newX = x == -1 ? BossNode.GridX : x;
-		int newY = x == -1 ? BossNode.GridY : y;
+		int newX = x == -1
+			? BossNode.GridX
+			: x;
+		int newY = x == -1
+			? BossNode.GridY
+			: y;
 		return CreateChessPiece<ChessboardEnemyPiece>(
 			prefabToUse,
 			newX,
@@ -236,7 +242,8 @@ public class GrimoraChessboard
 	{
 		return CreateChessPiece<T>(
 			_nodesByPieceType.GetValueSafe(typeof(T)).Item1.Invoke(),
-			x, y,
+			x,
+			y,
 			id,
 			specialNodeData
 		);
@@ -260,9 +267,11 @@ public class GrimoraChessboard
 
 	private T CreateChessPiece<T>(
 		GameObject prefab,
-		int x, int y,
+		int x,
+		int y,
 		string specialEncounterId = "",
-		SpecialNodeData specialNodeData = null) where T : ChessboardPiece
+		SpecialNodeData specialNodeData = null
+	) where T : ChessboardPiece
 	{
 		string coordName = $"x[{x}]y[{y}]";
 
