@@ -38,7 +38,7 @@ public class HookLineAndSinker : AbilityBehaviour
 			killer.Status.anglerHooked = true;
 		}
 
-		killer.SetIsOpponentCard(killer.OpponentCard);
+		killer.SetIsOpponentCard(!killer.Slot.opposingSlot.IsPlayerSlot);
 		// killer.transform.eulerAngles += new Vector3(0f, 0f, -180f);
 		CardSlot cardSlot = killer.Slot;
 		yield return BoardManager.Instance.AssignCardToSlot(cardSlot.Card, cardSlot.opposingSlot, 0.25f);
