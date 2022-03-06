@@ -177,7 +177,7 @@ public class GrimoraChessboard
 
 		// this is the final possible spawning condition that I can think of.
 		bool hasNotInteractedWithAnyPiece =
-			!ConfigHelper.Instance.RemovedPieces.Exists(piece => piece.Contains("Enemy") || piece.Contains("Chest"));
+			!ConfigHelper.Instance.RemovedPieces.Exists(piece => piece.Contains("EnemyPiece_x") || piece.Contains("ChestPiece_x"));
 
 		if (changingRegion
 		    || !StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable)
