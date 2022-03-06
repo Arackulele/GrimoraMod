@@ -34,7 +34,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 		GrimoraAnimationController.Instance.SetHeadBool("face_happy", true);
 
-		yield return ShowBossSkullFromHand();
+		SetSceneEffectsShownRoyal();
 
 		if (!ConfigHelper.Instance.isDevModeEnabled)
 		{
@@ -165,6 +165,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 			yield return new WaitForSeconds(0.5f);
 			ViewManager.Instance.SwitchToView(View.Default);
 			yield return cannons.GetComponent<CannonTableEffects>().GlitchOutCannons();
+			GlitchOutAssetEffect.GlitchModel(cannons.transform);
 
 			yield return new WaitForSeconds(0.5f);
 

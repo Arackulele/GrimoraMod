@@ -34,10 +34,6 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - Believe it or not, this is how the vanilla game code for the `Sniper` ability is handled. It doesn't base it off how many attacks you're doing, it hard codes to either 2 for `Split Strike` or 3 for `Tri Strike`.
 
-### Boss skull between fights doesn't reset colors
-
-- Unfortunately this one is a bit hard to track down, as the table colors get reset after each fight. Not sure why the boss skull doesn't have the color reset.
-
 ### Current save file is already at the finale with Grimora
 
 - Make a backup of your save, then delete your current save. Having your current save already at the finale seems to break the mod.
