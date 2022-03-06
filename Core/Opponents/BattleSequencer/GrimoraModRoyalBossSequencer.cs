@@ -70,7 +70,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			PlayTableSway();
 
 			var allCardsOnBoard = BoardManager.Instance.AllSlotsCopy
-				.Where(slot => slot.Card is not null && !slot.CardHasAbility(SeaLegs.ability))
+				.Where(slot => !slot.CardHasAbility(SeaLegs.ability))
 				.Select(slot => slot.Card)
 				.ToList();
 
