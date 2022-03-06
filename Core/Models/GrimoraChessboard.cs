@@ -175,8 +175,22 @@ public class GrimoraChessboard
 		                               && nodeAtSpace.OccupyingPiece.GetType() != typeof(PlayerMarker)
 		                               || !nodeAtSpace.isActiveAndEnabled;
 
-		if (changingRegion || !StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable) || pieceAtSpaceIsNotPlayer)
+		// this is the final possible spawning condition that I can think of.
+		bool hasNotInteractedWithAnyPiece =
+			!ConfigHelper.Instance.RemovedPieces.Exists(piece => piece.Contains("Enemy") || piece.Contains("Chest"));
+
+		if (changingRegion
+		    || !StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable)
+		    || pieceAtSpaceIsNotPlayer
+		    || hasNotInteractedWithAnyPiece
+		   )
 		{
+			Log.LogDebug($"[UpdatePlayerMarkerPosition]"
+			             + $" Changing region? [{changingRegion}]"
+			             + $" Not reached table? [{!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable)}]"
+			             + $"PieceAtSpaceIsNotPlayer? [{pieceAtSpaceIsNotPlayer}]"
+			             + $"hasNotInteractedWithAnyPiece? [{hasNotInteractedWithAnyPiece}]"
+			             );
 			// the PlayerNode will be different since this is now a different chessboard
 			SetSavePositions();
 			x = GrimoraSaveData.Data.gridX;
