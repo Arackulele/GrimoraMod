@@ -6,10 +6,9 @@ namespace GrimoraMod;
 
 public static class CardRelatedExtension
 {
-
 	private static readonly int Hover = Animator.StringToHash("hover");
 	private static readonly int Hovering = Animator.StringToHash("hovering");
-	
+
 	public static string GetNameAndSlot(this PlayableCard playableCard)
 	{
 		string printedNameAndSlot = $"[{playableCard.Info.displayedName}]";
@@ -20,22 +19,33 @@ public static class CardRelatedExtension
 
 		return printedNameAndSlot;
 	}
-	
+
 	public static bool CardHasAbility(this CardSlot cardSlot, Ability ability)
 	{
 		return cardSlot.Card is not null && cardSlot.Card.HasAbility(ability);
 	}
-	
+
+	public static bool CardDoesNotHaveAbility(this CardSlot cardSlot, Ability ability)
+	{
+		return cardSlot.Card is null || !cardSlot.CardHasAbility(ability);
+	}
+
+
 	public static bool CardHasSpecialAbility(this CardSlot cardSlot, SpecialTriggeredAbility ability)
 	{
 		return cardSlot.Card is not null && cardSlot.Card.Info.SpecialAbilities.Contains(ability);
+	}
+
+	public static bool CardDoesNotHaveSpecialAbility(this CardSlot cardSlot, SpecialTriggeredAbility ability)
+	{
+		return cardSlot.Card is null || !cardSlot.CardHasSpecialAbility(ability);
 	}
 
 	public static bool CardInSlotIs(this CardSlot cardSlot, string cardName)
 	{
 		return cardSlot.Card is not null && cardSlot.Card.InfoName().Equals(cardName);
 	}
-	
+
 	public static string InfoName(this Card card)
 	{
 		return card.Info.name;
@@ -72,12 +82,12 @@ public static class CardRelatedExtension
 	{
 		return playableCard.Info.Mods.Exists(mod => mod.singletonId == "GrimoraMod_ElectricChaired");
 	}
-	
+
 	public static bool HasBeenElectricChaired(this CardInfo cardInfo)
 	{
 		return cardInfo.Mods.Exists(mod => mod.singletonId == "GrimoraMod_ElectricChaired");
 	}
-	
+
 	public static void RemoveAbilityFromThisCard(this PlayableCard playableCard, CardModificationInfo modInfo)
 	{
 		CardInfo cardInfoClone = playableCard.Info.Clone() as CardInfo;
