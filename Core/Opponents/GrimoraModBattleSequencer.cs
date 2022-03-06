@@ -34,7 +34,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			if (opponent is BaseBossExt ext)
 			{
 				Log.LogDebug($"[{GetType()}] Glitching mask and boss skull");
-				yield return ext.HideBossSkull();
+				yield return ext.HideRightHandBossSkull();
 			}
 
 			StartCoroutine(CardDrawPiles.Instance.CleanUp());
