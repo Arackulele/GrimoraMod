@@ -57,13 +57,13 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 	private bool SlotContainsTwinGiant(CardSlot cardSlot)
 	{
-		return cardSlot.CardHasSpecialAbility(GrimoraGiant.SpecialTriggeredAbility) && cardSlot.CardInSlotIs(NameGiant);
+		return cardSlot.CardIsNotNullAndHasSpecialAbility(GrimoraGiant.SpecialTriggeredAbility) && cardSlot.CardInSlotIs(NameGiant);
 	} 
 
 	public override IEnumerator OpponentUpkeep()
 	{
 		if (!playedDialogueDeathTouch
-		    && BoardManager.Instance.GetSlots(true).Exists(x => x.CardHasAbility(Ability.Deathtouch))
+		    && BoardManager.Instance.GetSlots(true).Exists(x => x.CardIsNotNullAndHasAbility(Ability.Deathtouch))
 		    && BoardManager.Instance.GetSlots(false).Exists(SlotContainsTwinGiant)
 		   )
 		{
@@ -75,7 +75,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 			playedDialogueDeathTouch = true;
 		}
 		else if (!playedDialoguePossessive
-		         && BoardManager.Instance.GetSlots(true).Exists(x => x.CardHasAbility(Possessive.ability))
+		         && BoardManager.Instance.GetSlots(true).Exists(x => x.CardIsNotNullAndHasAbility(Possessive.ability))
 		         && BoardManager.Instance.GetSlots(false).Exists(slot => slot.CardInSlotIs(NameBonelord))
 		        )
 		{

@@ -18,8 +18,8 @@ public class CombatPhaseManagerPatches
 	{
 		yield return enumerator;
 
-		bool cardHasStrikeAdjacentAbility = slot.CardHasAbility(AreaOfEffectStrike.ability)
-		                                    || slot.CardHasAbility(Raider.ability);
+		bool cardHasStrikeAdjacentAbility = slot.CardIsNotNullAndHasAbility(AreaOfEffectStrike.ability)
+		                                    || slot.CardIsNotNullAndHasAbility(Raider.ability);
 		if (cardHasStrikeAdjacentAbility)
 		{
 			yield return new WaitForSeconds(1f);

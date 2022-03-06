@@ -20,25 +20,25 @@ public static class CardRelatedExtension
 		return printedNameAndSlot;
 	}
 
-	public static bool CardHasAbility(this CardSlot cardSlot, Ability ability)
+	public static bool CardIsNotNullAndHasAbility(this CardSlot cardSlot, Ability ability)
 	{
 		return cardSlot.Card is not null && cardSlot.Card.HasAbility(ability);
 	}
 
 	public static bool CardDoesNotHaveAbility(this CardSlot cardSlot, Ability ability)
 	{
-		return cardSlot.Card is null || !cardSlot.CardHasAbility(ability);
+		return cardSlot.Card is not null && !cardSlot.CardIsNotNullAndHasAbility(ability);
 	}
 
 
-	public static bool CardHasSpecialAbility(this CardSlot cardSlot, SpecialTriggeredAbility ability)
+	public static bool CardIsNotNullAndHasSpecialAbility(this CardSlot cardSlot, SpecialTriggeredAbility ability)
 	{
 		return cardSlot.Card is not null && cardSlot.Card.Info.SpecialAbilities.Contains(ability);
 	}
 
 	public static bool CardDoesNotHaveSpecialAbility(this CardSlot cardSlot, SpecialTriggeredAbility ability)
 	{
-		return cardSlot.Card is null || !cardSlot.CardHasSpecialAbility(ability);
+		return cardSlot.Card is null || !cardSlot.CardIsNotNullAndHasSpecialAbility(ability);
 	}
 
 	public static bool CardInSlotIs(this CardSlot cardSlot, string cardName)

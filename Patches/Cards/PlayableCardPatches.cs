@@ -106,7 +106,7 @@ public class PlayableCardPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.GetOpposingSlots))]
 	public static void PossessiveGetOpposingSlotsPatch(PlayableCard __instance, ref List<CardSlot> __result)
 	{
-		if (__instance.Slot.opposingSlot.CardHasAbility(Possessive.ability))
+		if (__instance.Slot.opposingSlot.CardIsNotNullAndHasAbility(Possessive.ability))
 		{
 			var adjSlots = BoardManager.Instance
 				.GetAdjacentSlots(__instance.Slot)

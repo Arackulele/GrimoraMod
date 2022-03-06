@@ -34,7 +34,7 @@ public class HammerItemExt : HammerItem
 		{
 			if (_useCounter < 3)
 			{
-				if (TurnManager.Instance.Opponent is KayceeBossOpponent && targetSlot.CardHasAbility(Ability.IceCube))
+				if (TurnManager.Instance.Opponent is KayceeBossOpponent && targetSlot.CardIsNotNullAndHasAbility(Ability.IceCube))
 				{
 					ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue = 2;
 					_useCounter = 3;
