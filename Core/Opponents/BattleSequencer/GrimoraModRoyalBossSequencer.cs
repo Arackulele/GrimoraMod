@@ -87,7 +87,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 				yield return StartCoroutine(DoStrafe(playableCard, boardSwayedLeftLast));
 			}
 
-			ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+			ViewManager.Instance.SetViewUnlocked();
 		}
 	}
 
