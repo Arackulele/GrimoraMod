@@ -14,7 +14,7 @@ public class GiantStrike : AbilityBehaviour
 		const string rulebookDescription =
 			"[creature] will strike each opposing space that is occupied by a creature. "
 			+ "If only one creature is in the opposing spaces, this card will strike twice. "
-			+ "This card will strike directly once if no creatures oppose it.";
+			+ "This card will strike directly if no creatures oppose it.";
 
 		return ApiUtils.CreateAbility<GiantStrike>(rulebookDescription, flipYIfOpponent: true);
 	}
