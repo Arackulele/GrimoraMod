@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using Pixelplacement;
-using Pixelplacement.TweenSystem;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -13,7 +13,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 
 	private GameObject GameTable => GameObject.Find("GameTable");
 
-	private const float DurationTableSway = 3.5f;
+	public const float DurationTableSway = 3.5f;
 
 	public int boardSwayCounter = 0;
 	public bool boardSwayedLeftLast = false;
@@ -46,7 +46,12 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 	public override IEnumerator OpponentCombatEnd()
 	{
 		var activePlayerCards = BoardManager.Instance.GetPlayerCards(pCard => !pCard.FaceDown);
-		if (activePlayerCards.IsNotEmpty() && _rng.NextBoolean())
+		if (activePlayerCards.IsNullOrEmpty())
+		{
+			yield break;
+		}
+
+		if (_rng.NextBoolean())
 		{
 			var playableCard = activePlayerCards[UnityEngine.Random.Range(0, activePlayerCards.Count)];
 			ViewManager.Instance.SwitchToView(View.Board);
@@ -57,7 +62,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			playableCard.AddTemporaryMod(new CardModificationInfo(LitFuse.ability));
 		}
 
-		if (++boardSwayCounter >= 2 && activePlayerCards.IsNotEmpty())
+		if (++boardSwayCounter >= 2)
 		{
 			boardSwayCounter = 0;
 			yield return TextDisplayer.Instance.ShowUntilInput(
@@ -70,11 +75,13 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			PlayTableSway();
 
 			var allCardsOnBoard = BoardManager.Instance.AllSlotsCopy
-				.Where(slot => slot.CardDoesNotHaveAbility(SeaLegs.ability))
+				.Where(slot => slot.Card is not null && !slot.CardIsNotNullAndHasAbility(SeaLegs.ability))
 				.Select(slot => slot.Card)
 				.ToList();
 
-			if (boardSwayedLeftLast)
+			// Log.LogInfo($"[TableSway] List of cards [{allCardsOnBoard.Join(converter: card => card.GetNameAndSlot())}]");
+
+			if (!boardSwayedLeftLast)
 			{
 				// the reason for this is so that the cards are executed right to left and not left to right.
 				// if they're executed left to right like how swaying left will is,
@@ -91,26 +98,114 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		}
 	}
 
+	private bool SlotHasSpace(CardSlot slot, bool toLeft)
+	{
+		CardSlot adjacent = BoardManager.Instance.GetAdjacent(slot, toLeft);
+		if (adjacent == null)
+		{
+			Log.LogInfo(
+				$"[TableSway.SlotHasSpace] Adjacent slot [{slot.name}] does not have an adjacent slot to the {(toLeft ? "left" : "right")}"
+			);
+			// if beyond far left slot or far right slot, slot does not have space
+			// play death animation?
+			return false;
+		}
+
+		if (adjacent.Card == null)
+		{
+			// if the slot is valid but no card, slot does have space
+			Log.LogInfo(
+				$"[TableSway.SlotHasSpace] Adjacent slot [{slot.name}] is not null but does not have a card to the {(toLeft ? "left" : "right")}"
+			);
+			return true;
+		}
+
+		// if the slot is not null and the slot is occupied, check the adjacent slot of that card
+		Log.LogInfo(
+			$"[TableSway.SlotHasSpace] Checking {(toLeft ? "left" : "right")} adjacent slot of card [{adjacent.Card.InfoName()}]"
+		);
+		return SlotHasSpace(adjacent, toLeft);
+	}
 
 	protected virtual IEnumerator DoStrafe(PlayableCard playableCard, bool movingLeft)
 	{
-		Log.LogInfo($"[DoStrafe] starting strafe for card {playableCard.GetNameAndSlot()}");
-		CardSlot toLeftSlot = BoardManager.Instance.GetAdjacent(playableCard.Slot, true);
-		CardSlot toRightSlot = BoardManager.Instance.GetAdjacent(playableCard.Slot, false);
-		bool canMoveLeft = toLeftSlot != null && toLeftSlot.Card == null;
-		bool canMoveRight = toRightSlot != null && toRightSlot.Card == null;
+		Log.LogInfo(
+			$"[TableSway.DoStrafe] Starting strafe for card {playableCard.GetNameAndSlot()} Moving left? [{movingLeft}]"
+		);
+
+		CardSlot toLeft = BoardManager.Instance.GetAdjacent(playableCard.Slot, true);
+		CardSlot toRight = BoardManager.Instance.GetAdjacent(playableCard.Slot, false);
+		Log.LogInfo(
+			$"[TableSway.DoStrafe] Card {playableCard.GetNameAndSlot()} Checking adjacent slots to left [{toLeft?.name}] to right [{toRight?.name}]"
+		);
+
+		bool toLeftIsNotOccupied = SlotHasSpace(playableCard.Slot, true);
+		bool toRightIsNotOccupied = SlotHasSpace(playableCard.Slot, false);
+		Log.LogInfo(
+			$"[TableSway.DoStrafe] Card {playableCard.GetNameAndSlot()} toLeftIsNotOccupied? [{toLeftIsNotOccupied}] toRightIsNotOccupied [{toRightIsNotOccupied}]"
+		);
 
 		CardSlot destination = movingLeft
-			? toLeftSlot
-			: toRightSlot;
-		bool destinationValid = destination is not null
-		                        && (movingLeft
-			                        ? canMoveLeft
-			                        : canMoveRight);
-		Log.LogInfo(
-			$"[DoStrafe] {playableCard.GetNameAndSlot()} Destination [{destination?.name}] DestValid [{destinationValid}]"
-		);
+			? toLeft
+			: toRight;
+		bool destinationValid = (movingLeft
+			? toLeftIsNotOccupied
+			: toRightIsNotOccupied);
+		if (destination != null && destination.Card != null)
+		{
+			Log.LogInfo(
+				$"[TableSway.DoStrafe] Card {playableCard.GetNameAndSlot()} Destination [{destination?.name}] Destination Valid? [{destinationValid}]"
+			);
+			yield return RecursivePush(playableCard, destination, movingLeft, null);
+		}
+
 		yield return MoveToSlot(playableCard, destination, destinationValid, movingLeft);
+	}
+
+	private IEnumerator RecursivePush(PlayableCard playableCard, CardSlot slot, bool toLeft, Action<bool> canMoveResult)
+	{
+		CardSlot adjacent = BoardManager.Instance.GetAdjacent(slot, toLeft);
+		Log.LogInfo(
+			$"[TableSway.RecursivePush] Card {playableCard.GetNameAndSlot()} Slot [{slot.name}] {(toLeft ? "left" : "right")} Adjacent Slot [{adjacent?.name}]"
+		);
+		if (adjacent == null)
+		{
+			// if beyond far left slot or far right slot, slot does not have space
+			// play death animation?
+			canMoveResult?.Invoke(false);
+			yield break;
+		}
+
+		if (adjacent.Card == null)
+		{
+			// open slot on the board
+			Log.LogInfo(
+				$"[TableSway.RecursivePush] Assigning [{slot.Card.GetNameAndSlot()}] to adjacent slot [{adjacent.name}]"
+			);
+			yield return BoardManager.Instance.AssignCardToSlot(slot.Card, adjacent);
+			canMoveResult?.Invoke(true);
+			yield break;
+		}
+
+		bool canMove = false;
+		yield return RecursivePush(
+			adjacent.Card,
+			adjacent,
+			toLeft,
+			delegate(bool movePossible)
+			{
+				canMove = movePossible;
+			}
+		);
+		if (canMove)
+		{
+			Log.LogInfo(
+				$"[TableSway.RecursivePush] Card {playableCard.GetNameAndSlot()} can move, moving to [{adjacent.name}]"
+			);
+			yield return BoardManager.Instance.AssignCardToSlot(slot.Card, adjacent);
+		}
+
+		canMoveResult?.Invoke(canMove);
 	}
 
 	private IEnumerator MoveToSlot(
@@ -130,11 +225,10 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			playableCard.RenderCard();
 		}
 
-		Vector3 positionCopy = playableCard.transform.localPosition;
 		if (destination != null && destinationValid)
 		{
 			Log.LogInfo(
-				$"[MoveToSlot] Card {playableCard.GetNameAndSlot()} will be moved to slot [{destination.name}]!"
+				$"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} will be moved to slot [{destination.name}]"
 			);
 
 			yield return BoardManager.Instance.AssignCardToSlot(playableCard, destination, DurationTableSway + 2);
@@ -149,22 +243,20 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		}
 		else
 		{
-			if (!playableCard.InOpponentQueue)
+			if (!playableCard.HasAbility(SeaLegs.ability))
 			{
+				Log.LogInfo(
+					$"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} is about to fucking die me hearty!"
+				);
+				Vector3 positionCopy = playableCard.transform.localPosition;
 				float leftOrRightX = movingLeft
 					? positionCopy.x - 6
 					: positionCopy.x + 6;
-				Log.LogInfo($"[MoveToSlot] Card {playableCard.GetNameAndSlot()} is about to fucking die me hearty!");
-				TweenBase slidingCard = Tween.LocalPosition(
-					playableCard.transform,
-					new Vector3(leftOrRightX, positionCopy.y, positionCopy.z),
-					DurationTableSway,
-					0,
-					Tween.EaseIn
+				yield return playableCard.DieCustom(
+					false,
+					royalTableSwayValue: leftOrRightX
 				);
 				yield return new WaitForSeconds(0.15f);
-				yield return new WaitUntil(() => slidingCard.Status == Tween.TweenStatus.Finished);
-				yield return playableCard.Die(false);
 			}
 		}
 	}

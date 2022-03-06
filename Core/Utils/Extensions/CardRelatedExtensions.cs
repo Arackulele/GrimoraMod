@@ -1,4 +1,7 @@
-﻿using DiskCardGame;
+﻿using System.Collections;
+using DiskCardGame;
+using Pixelplacement;
+using Pixelplacement.TweenSystem;
 using Sirenix.Utilities;
 using UnityEngine;
 
@@ -102,5 +105,85 @@ public static class CardRelatedExtension
 		playableCard.RenderCard();
 		playableCard.Info.Mods.Remove(mod);
 		playableCard.AddTemporaryMod(mod);
+	}
+
+	public static IEnumerator DieCustom(
+		this PlayableCard playableCard,
+		bool wasSacrifice,
+		PlayableCard killer = null,
+		bool playSound = true,
+		float royalTableSwayValue = 0f
+	)
+	{
+		if (!playableCard.Dead)
+		{
+			playableCard.Dead = true;
+			CardSlot slotBeforeDeath = playableCard.Slot;
+			if (playableCard.TriggerHandler.RespondsToTrigger(Trigger.PreDeathAnimation, wasSacrifice))
+			{
+				yield return playableCard.TriggerHandler.OnTrigger(Trigger.PreDeathAnimation, wasSacrifice);
+			}
+
+			yield return GlobalTriggerHandler.Instance.TriggerCardsOnBoard(
+				Trigger.OtherCardPreDeath,
+				false,
+				slotBeforeDeath,
+				!wasSacrifice,
+				killer
+			);
+			playableCard.Anim.SetShielded(false);
+			yield return playableCard.Anim.ClearLatchAbility();
+			if (royalTableSwayValue == 0f)
+			{
+				if (playableCard.HasAbility(Ability.PermaDeath))
+				{
+					playableCard.Anim.PlayPermaDeathAnimation(playSound && !wasSacrifice);
+					yield return new WaitForSeconds(1.25f);
+				}
+				else if (playableCard.InOpponentQueue)
+				{
+					playableCard.Anim.PlayQueuedDeathAnimation(playSound && !wasSacrifice);
+				}
+				else
+				{
+					playableCard.Anim.PlayDeathAnimation(playSound && !wasSacrifice);
+				}
+			}
+
+			if (!playableCard.HasAbility(Ability.QuadrupleBones) && slotBeforeDeath.IsPlayerSlot)
+			{
+				yield return ResourcesManager.Instance.AddBones(1, slotBeforeDeath);
+			}
+
+			if (playableCard.TriggerHandler.RespondsToTrigger(Trigger.Die, wasSacrifice, killer))
+			{
+				yield return playableCard.TriggerHandler.OnTrigger(Trigger.Die, wasSacrifice, killer);
+			}
+
+			yield return GlobalTriggerHandler.Instance.TriggerAll(
+				Trigger.OtherCardDie,
+				false,
+				playableCard,
+				slotBeforeDeath,
+				!wasSacrifice,
+				killer
+			);
+			playableCard.UnassignFromSlot();
+			playableCard.StartCoroutine(playableCard.DestroyWhenStackIsClear());
+			if (royalTableSwayValue != 0f)
+			{
+				GrimoraPlugin.Log.LogInfo($"[DieCustom] Waiting until tween is finished to play death animation");
+				Vector3 positionCopy = playableCard.transform.localPosition;
+				TweenBase slidingCard = Tween.LocalPosition(
+					playableCard.transform,
+					new Vector3(royalTableSwayValue, positionCopy.y, positionCopy.z),
+					GrimoraModRoyalBossSequencer.DurationTableSway,
+					0,
+					Tween.EaseIn,
+					completeCallback: () => playableCard.Anim.PlayDeathAnimation(playSound && !wasSacrifice)
+				);
+				
+			}
+		}
 	}
 }
