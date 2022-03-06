@@ -34,7 +34,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 		GrimoraAnimationController.Instance.SetHeadBool("face_happy", true);
 
-		yield return ShowBossSkull();
+		yield return ShowBossSkullFromWrist();
 
 		SetSceneEffectsShownRoyal();
 

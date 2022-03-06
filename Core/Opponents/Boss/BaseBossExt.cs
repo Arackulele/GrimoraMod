@@ -109,7 +109,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 			bossSkullTransform.localRotation = Quaternion.Euler(85.85f, 227.76f, 262.77f);
 			bossSkullTransform.localScale = new Vector3(0.14f, 0.14f, 0.14f);
 
-			yield return ShowBossSkull();
+			yield return ShowBossSkullFromWrist();
 		}
 	}
 
@@ -150,7 +150,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 		}
 	}
 
-	public IEnumerator ShowBossSkull()
+	public IEnumerator ShowBossSkullFromWrist()
 	{
 		yield return new WaitForSeconds(0.1f);
 		GrimoraAnimationController.Instance.ShowBossSkull();
