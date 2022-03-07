@@ -30,7 +30,14 @@ public class CryptHelper
 		{
 			Log.LogDebug($"Finding structure");
 			CryptManager.Instance.transform.Find("Structure").gameObject.SetActive(false);
-			CryptManager.Instance.transform.Find("Interactables").gameObject.SetActive(false);
+			Transform interactbles = CryptManager.Instance.transform.Find("Interactables");
+			for (int i = 0; i < interactbles.transform.childCount; i++)
+			{
+				if (interactbles.transform.GetChild(i).name != "EpitaphPuzzle")
+				{
+					interactbles.transform.GetChild(i).gameObject.SetActive(false);
+				}
+			}
 
 			Log.LogDebug($"Creating layout");
 			GameObject newLayout = Object.Instantiate(
