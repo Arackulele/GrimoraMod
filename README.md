@@ -34,10 +34,6 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - Believe it or not, this is how the vanilla game code for the `Sniper` ability is handled. It doesn't base it off how many attacks you're doing, it hard codes to either 2 for `Split Strike` or 3 for `Tri Strike`.
 
-### Boss skull between fights doesn't reset colors
-
-- Unfortunately this one is a bit hard to track down, as the table colors get reset after each fight. Not sure why the boss skull doesn't have the color reset.
-
 ### Current save file is already at the finale with Grimora
 
 - Make a backup of your save, then delete your current save. Having your current save already at the finale seems to break the mod.
@@ -51,6 +47,10 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ### 2.7.6
 
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) FIXED ANNOYING BLUE LIGHT ON BOSS SKULL AFTER ROYAL'S FIGHT.
+
+  - Apparently when the cannons are created, there is 2 spotlights created that don't get destroyed when they glitch out.
+
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Cards having 4 abilities cannot be chosen for the Boneyard event.
 
   - Breaks the card rendering unfortunately.
@@ -60,6 +60,12 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
   - Problem was that I was only setting to not play the dialogue, only if you used the hammer the 3rd time.
   - If you only used it once or twice each fight, it will play each fight.
 
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Changed campfire sounds to be more electric.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Cards that have been Electric Chaired will now have a permanent blue emission.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Explorable crypt! Although it's mostly the building, and not a whole lot in it at the moment.
+
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Added button to get up from the chessboard!
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) If the Electric Chair would give `Swapper` sigil, a new sigil will be randomly chosen if the card has zero attack or fewer than 3 health.
@@ -68,11 +74,21 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) 3 more `Skeleton` cards are added to side deck.
 
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) If no chess pieces have been interacted with at all, starting position for player piece will be defaulted. Meaning, if you haven't battled or opened a chest, your position will reset back to the start position for that board.
+
 #### Bosses
 
 ##### Kaycee
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Cards with `Waterborne` will now lose that ability when frozen, and regain it back once unfrozen. Can't exactly submerge if you're frozen solid yeah?
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Corrected issue with Submerge being removed from all cards instead of the card that was frozen during Kaycee's fight. (Thanks Magnificus!)
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Cards with `Possessive` or `Waterborne` will now lose that ability when frozen, and regain it back once unfrozen. Causes the lane to die entirely and not be useable...
+
+##### Royal
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Fleshed out more of Royal's first and second phases.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New phase 2 music from `Akisephila (Addie Brahem)`.
 
 ##### Grimora
 
@@ -86,7 +102,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Giant Strike` reworked with a new description.
 
-  - `[creature] will strike each opposing space that is occupied by a creature. If only one creature is in the opposing spaces, this card will strike twice. This card will strike directly once if no creatures oppose it.`
+  - `[creature] will strike each opposing space. If only one creature is in the opposing spaces, this card will strike that creature twice.`
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Bonelord` is now 1 attack 20 health.
 
@@ -98,16 +114,18 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed cards with flying no longer flying after attacking.
 
+- ![Feature](https://i.imgur.com/uL9uYNV.png)
+
 - ![Feature](https://i.imgur.com/uL9uYNV.png) New pirate cards and abilities! Art courtesy `Bt Y#0895`.
 
   - Captain Yellowbeard: 2/2, 7 Bones with `Sea Shanty`.
   - First Mate Snag: 2/2, 7 Bones with `Hook Line And Sinker`.
   - Privateer: 1/1, 4 Bones with `Sniper`.
-  - Swashbuckler: 1/2, 0 Bones with `Raider`.
+  - Swashbuckler: 1/2, 0 Bones with `Raider`. Not obtainable.
 
   - Abilities:
     - Raider: [creature] will strike it's adjacent slots. Icon courtesy of `Blind, the Bound Demon#6475`.
-    - Sea Shanty: [creature] empowers each Skeleton, providing a +1 buff their power. Icon courtesy of `Blind, the Bound Demon#6475`.
+    - Sea Shanty: [creature] empowers each Skeleton on the owner's side of the board, providing a +1 buff their power. Icon courtesy of `Blind, the Bound Demon#6475`.
     - Hook Line And Sinker: When [creature] perishes, the creature in the opposing slot is dragged onto the owner's side of the board. Icon courtesy of `Bt Y#0895`.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) New art for `Disinter` and `Screeching Call` abilities, courtesy of `Blind, the Bound Demon#6475`.

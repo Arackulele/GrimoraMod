@@ -13,38 +13,31 @@ public class HookLineAndSinker : AbilityBehaviour
 
 	public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer)
 	{
-		return killer is not null;
+		return Card.Slot.opposingSlot.Card is not null
+		       && !Card.Slot.opposingSlot.CardIsNotNullAndHasSpecialAbility(GrimoraGiant.SpecialTriggeredAbility);
 	}
 
 	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
 	{
-		ViewManager.Instance.SwitchToView(View.Default);
-		yield return new WaitForSeconds(0.2f);
 		AudioController.Instance.PlaySound3D(
 			"angler_use_hook",
 			MixerGroup.TableObjectsSFX,
-			killer.transform.position
+			killer.transform.position,
+			1f,
+			0.1f
 		);
-		// LeshyAnimationController.Instance.RightArm.SetTrigger("angler_pullhook");
-		yield return new WaitForSeconds(0.75f);
+		yield return new WaitForSeconds(0.51f);
 
-		if (killer.Slot.opposingSlot.Card is not null)
+		CardSlot opposingSlot = Card.Slot.opposingSlot;
+		PlayableCard targetCard = opposingSlot.Card;
+		targetCard.SetIsOpponentCard(!opposingSlot.IsPlayerSlot);
+		yield return BoardManager.Instance.AssignCardToSlot(targetCard, Card.Slot, 0.33f);
+		if (targetCard.FaceDown)
 		{
-			yield return TurnManager.Instance.Opponent.ReturnCardToQueue(killer.Slot.opposingSlot.Card, 0.25f);
+			targetCard.SetFaceDown(false);
+			targetCard.UpdateFaceUpOnBoardEffects();
 		}
-
-		if (killer.Status != null)
-		{
-			killer.Status.anglerHooked = true;
-		}
-
-		killer.SetIsOpponentCard();
-		// killer.transform.eulerAngles += new Vector3(0f, 0f, -180f);
-		CardSlot cardSlot = killer.Slot;
-		yield return BoardManager.Instance.AssignCardToSlot(cardSlot.Card, cardSlot.opposingSlot, 0.25f);
-		yield return new WaitForSeconds(0.25f);
-		yield return new WaitForSeconds(0.4f);
-		// LeshyAnimationController.Instance.RightArm.ResetPosition(0.35f);
+		yield return new WaitForSeconds(0.66f);
 	}
 
 	public static NewAbility Create()

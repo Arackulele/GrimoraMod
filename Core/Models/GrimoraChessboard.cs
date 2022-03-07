@@ -24,8 +24,10 @@ public class GrimoraChessboard
 			},
 			{
 				typeof(ChessboardCardRemovePiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.CardRemovalFigurine,
-					GetCardRemovalNodes)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(
+					() => AssetConstants.CardRemovalFigurine,
+					GetCardRemovalNodes
+				)
 			},
 			{
 				typeof(ChessboardChestPiece),
@@ -173,13 +175,26 @@ public class GrimoraChessboard
 		                               && nodeAtSpace.OccupyingPiece.GetType() != typeof(PlayerMarker)
 		                               || !nodeAtSpace.isActiveAndEnabled;
 
-		if (changingRegion || !StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable) || pieceAtSpaceIsNotPlayer)
+		// this is the final possible spawning condition that I can think of.
+		bool hasNotInteractedWithAnyPiece =
+			!ConfigHelper.Instance.RemovedPieces.Exists(piece => piece.Contains("EnemyPiece_x") || piece.Contains("ChestPiece_x"));
+
+		if (changingRegion
+		    || !StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable)
+		    || pieceAtSpaceIsNotPlayer
+		    || hasNotInteractedWithAnyPiece
+		   )
 		{
+			Log.LogDebug($"[UpdatePlayerMarkerPosition]"
+			             + $" Changing region? [{changingRegion}]"
+			             + $" Not reached table? [{!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable)}]"
+			             + $"PieceAtSpaceIsNotPlayer? [{pieceAtSpaceIsNotPlayer}]"
+			             + $"hasNotInteractedWithAnyPiece? [{hasNotInteractedWithAnyPiece}]"
+			             );
 			// the PlayerNode will be different since this is now a different chessboard
-			x = GetPlayerNode().GridX;
-			y = GetPlayerNode().GridY;
-			GrimoraSaveData.Data.gridX = x;
-			GrimoraSaveData.Data.gridY = y;
+			SetSavePositions();
+			x = GrimoraSaveData.Data.gridX;
+			y = GrimoraSaveData.Data.gridY;
 			Log.LogDebug($"[UpdatePlayerMarkerPosition] New x{x}y{y} coords");
 		}
 
@@ -222,8 +237,12 @@ public class GrimoraChessboard
 		}
 
 		GameObject prefabToUse = BaseBossExt.OpponentTupleBySpecialId[bossName].Item3;
-		int newX = x == -1 ? BossNode.GridX : x;
-		int newY = x == -1 ? BossNode.GridY : y;
+		int newX = x == -1
+			? BossNode.GridX
+			: x;
+		int newY = x == -1
+			? BossNode.GridY
+			: y;
 		return CreateChessPiece<ChessboardEnemyPiece>(
 			prefabToUse,
 			newX,
@@ -236,7 +255,8 @@ public class GrimoraChessboard
 	{
 		return CreateChessPiece<T>(
 			_nodesByPieceType.GetValueSafe(typeof(T)).Item1.Invoke(),
-			x, y,
+			x,
+			y,
 			id,
 			specialNodeData
 		);
@@ -260,9 +280,11 @@ public class GrimoraChessboard
 
 	private T CreateChessPiece<T>(
 		GameObject prefab,
-		int x, int y,
+		int x,
+		int y,
 		string specialEncounterId = "",
-		SpecialNodeData specialNodeData = null) where T : ChessboardPiece
+		SpecialNodeData specialNodeData = null
+	) where T : ChessboardPiece
 	{
 		string coordName = $"x[{x}]y[{y}]";
 

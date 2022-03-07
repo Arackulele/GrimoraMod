@@ -30,7 +30,7 @@ public class BuffCrewMatesPatch
 			if (__instance.InfoName() == GrimoraPlugin.NameSkeleton)
 			{
 				__result += BoardManager.Instance.GetSlots(!__instance.OpponentCard)
-					.Count(slot => slot.CardHasAbility(BuffCrewMates.ability));
+					.Count(slot => slot.CardIsNotNullAndHasAbility(BuffCrewMates.ability));
 			}
 		}
 	}

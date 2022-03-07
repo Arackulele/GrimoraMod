@@ -29,6 +29,7 @@ public class KayceeBossOpponent : BaseBossExt
 
 		ViewManager.Instance.SwitchToView(View.Default);
 		yield return new WaitForSeconds(1f);
+
 		SetSceneEffectsShownKaycee();
 
 		yield return base.IntroSequence(encounter);

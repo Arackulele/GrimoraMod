@@ -34,8 +34,6 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 		GrimoraAnimationController.Instance.SetHeadBool("face_happy", true);
 
-		yield return ShowBossSkull();
-
 		SetSceneEffectsShownRoyal();
 
 		if (!ConfigHelper.Instance.isDevModeEnabled)
@@ -44,14 +42,14 @@ public class RoyalBossOpponentExt : BaseBossExt
 			yield return TextDisplayer.Instance.ShowUntilInput("VAR, I SEE YOU MADE IT TO ME SHIP CHALLENGER!");
 			yield return TextDisplayer.Instance.ShowUntilInput("I'VE BEEN WAITING FOR A WORTHY FIGHT!");
 		}
-		
+
 		cannons = Instantiate(
 			ResourceBank.Get<GameObject>("Prefabs/Environment/TableEffects/CannonTableEffects"),
 			new Vector3(1.01f, 0, 0),
 			Quaternion.identity,
 			BoardManager3D.Instance.transform
 		);
-		
+
 		if (!ConfigHelper.Instance.isDevModeEnabled)
 		{
 			AudioController.Instance.PlaySound2D("boss_royal", volume: 0.5f);
@@ -91,6 +89,8 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 	public override IEnumerator StartNewPhaseSequence()
 	{
+		AudioController.Instance.FadeOutLoop(5, 1);
+
 		TurnPlan.Clear();
 		yield return ClearQueue();
 
@@ -115,7 +115,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 
 		Log.LogDebug($"Playing royal theme 2");
-		AudioController.Instance.StopAllLoops();
+
 		AudioController.Instance.SetLoopAndPlay("RoyalRuckus_Phase2", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
 		AudioController.Instance.SetLoopVolume(0.8f, 5f, 1);
@@ -165,6 +165,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 			yield return new WaitForSeconds(0.5f);
 			ViewManager.Instance.SwitchToView(View.Default);
 			yield return cannons.GetComponent<CannonTableEffects>().GlitchOutCannons();
+			GlitchOutAssetEffect.GlitchModel(cannons.transform);
 
 			yield return new WaitForSeconds(0.5f);
 

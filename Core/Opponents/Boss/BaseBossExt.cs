@@ -109,7 +109,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 			bossSkullTransform.localRotation = Quaternion.Euler(85.85f, 227.76f, 262.77f);
 			bossSkullTransform.localScale = new Vector3(0.14f, 0.14f, 0.14f);
 
-			yield return ShowBossSkull();
+			yield return ShowBossSkullFromHand();
 		}
 	}
 
@@ -125,7 +125,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 
 			AudioController.Instance.PlaySound2D("glitch_error", MixerGroup.TableObjectsSFX);
 
-			yield return HideBossSkull();
+			yield return HideRightHandBossSkull();
 
 			DestroyScenery();
 
@@ -150,7 +150,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 		}
 	}
 
-	public IEnumerator ShowBossSkull()
+	public IEnumerator ShowBossSkullFromHand()
 	{
 		yield return new WaitForSeconds(0.1f);
 		GrimoraAnimationController.Instance.ShowBossSkull();
@@ -161,7 +161,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 		ViewManager.Instance.SwitchToView(View.BossCloseup, false, true);
 	}
 
-	public IEnumerator HideBossSkull()
+	public IEnumerator HideRightHandBossSkull()
 	{
 		if (GrimoraRightHandBossSkull is not null)
 		{
