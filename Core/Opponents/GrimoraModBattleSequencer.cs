@@ -78,7 +78,10 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 			Log.LogDebug($"[GameEnd] Time to rest");
 			yield return TextDisplayer.Instance.ShowThenClear(
-				"It is time to rest.", 2f, 0f, Emotion.Curious
+				"It is time to rest.",
+				2f,
+				0f,
+				Emotion.Curious
 			);
 			yield return new WaitForSeconds(0.75f);
 			Log.LogDebug($"[GameEnd] offset fov");
@@ -87,21 +90,29 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			yield return new WaitForSeconds(1f);
 			ConfigHelper.Instance.ResetRun();
 		}
-
-		yield break;
 	}
 
-	public override bool RespondsToOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat,
-		PlayableCard killer)
+	public override bool RespondsToOtherCardDie(
+		PlayableCard card,
+		CardSlot deathSlot,
+		bool fromCombat,
+		PlayableCard killer
+	)
 	{
 		return deathSlot.IsPlayerSlot;
 	}
 
-	public override IEnumerator OnOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat,
-		PlayableCard killer)
+	public override IEnumerator OnOtherCardDie(
+		PlayableCard card,
+		CardSlot deathSlot,
+		bool fromCombat,
+		PlayableCard killer
+	)
 	{
-		Log.LogDebug($"[GModBattleSequencer] Adding [{card.InfoName()}] to cardsThatHaveDiedThisGame. " +
-		             $"Current count [{_cardsThatHaveDiedThisMatch.Count + 1}]");
+		Log.LogDebug(
+			$"[GModBattleSequencer] Adding [{card.InfoName()}] to cardsThatHaveDiedThisGame. "
+			+ $"Current count [{_cardsThatHaveDiedThisMatch.Count + 1}]"
+		);
 		_cardsThatHaveDiedThisMatch.Add(card.Info);
 		yield break;
 	}
@@ -169,6 +180,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		{
 			Log.LogError($"Was unable to play glitch out for card [{c.InfoName()}], just destroying it instead.");
 		}
+
 		Destroy(c.gameObject, 0.25f);
 	}
 }
