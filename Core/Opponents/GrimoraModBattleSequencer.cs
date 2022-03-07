@@ -35,6 +35,8 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			{
 				Log.LogDebug($"[{GetType()}] Glitching mask and boss skull");
 				yield return ext.HideRightHandBossSkull();
+				yield return new WaitForSeconds(0.5f);
+				GlitchOutAssetEffect.GlitchModel(ext.bossSkull.transform);
 			}
 
 			StartCoroutine(CardDrawPiles.Instance.CleanUp());
