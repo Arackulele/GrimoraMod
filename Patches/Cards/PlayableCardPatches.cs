@@ -152,19 +152,23 @@ public class PlayableCardPatches
 						__result.Add(slotsWithCards[0]);
 					}
 				}
+				else
+				{
+					__result.AddRange(slotsWithCards);
+				}
 			}
 			else
 			{
 				__result.AddRange(slotsToTarget);
 			}
 
-			Log.LogDebug($"[GiantStrike] Opposing slots is now [{string.Join(",", __result.Select(_ => _.Index))}]");
+			Log.LogInfo($"[GiantStrike] Opposing slots is now [{__result.Join(converter: slot => slot.Index.ToString())}]");
 		}
 		else if (__instance.HasAbility(GiantStrikeEnraged.ability))
 		{
 			__result = GetGiantsOpposingSlots(__instance);
 
-			Log.LogDebug($"[GiantStrikeEnraged] Opposing slots is now [{string.Join(",", __result.Select(_ => _.Index))}]");
+			Log.LogInfo($"[GiantStrikeEnraged] Opposing slots is now [{string.Join(",", __result.Select(_ => _.Index))}]");
 		}
 	}
 }
