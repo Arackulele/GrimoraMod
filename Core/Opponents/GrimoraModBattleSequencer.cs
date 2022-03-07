@@ -66,6 +66,11 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			GlitchOutAssetEffect.GlitchModel(TableVisualEffectsManager.Instance.Table.transform);
 			yield return new WaitForSeconds(0.75f);
 
+			if (FindObjectOfType<StinkbugInteractable>() is not null)
+			{
+				FindObjectOfType<StinkbugInteractable>().OnCursorSelectStart();
+			}
+
 			InteractionCursor.Instance.InteractionDisabled = false;
 
 			Log.LogDebug($"[GameEnd] Switching to default view");
