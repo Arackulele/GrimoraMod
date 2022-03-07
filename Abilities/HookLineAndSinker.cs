@@ -19,7 +19,6 @@ public class HookLineAndSinker : AbilityBehaviour
 
 	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
 	{
-		yield return new WaitForSeconds(0.2f);
 		AudioController.Instance.PlaySound3D(
 			"angler_use_hook",
 			MixerGroup.TableObjectsSFX,
