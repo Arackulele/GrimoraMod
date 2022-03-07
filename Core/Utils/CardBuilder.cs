@@ -19,6 +19,8 @@ public class CardBuilder
 			_cardInfo.appearanceBehaviour = CardUtils.getRareAppearance;
 		}
 
+		_cardInfo.temple = CardTemple.Undead;
+
 		AllGrimoraModCards.Add(_cardInfo);
 		NewCard.Add(_cardInfo);
 		return _cardInfo;
