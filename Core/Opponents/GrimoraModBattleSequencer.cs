@@ -48,28 +48,31 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			RuleBookController.Instance.SetShown(false);
 			TableRuleBook.Instance.enabled = false;
 			GlitchOutAssetEffect.GlitchModel(TableRuleBook.Instance.transform);
-			yield return new WaitForSeconds(0.75f);
+			yield return new WaitForSeconds(0.5f);
 
 			GlitchOutAssetEffect.GlitchModel(ResourceDrone.Instance.transform);
-			yield return new WaitForSeconds(0.75f);
+			yield return new WaitForSeconds(0.5f);
 
 			GlitchOutAssetEffect.GlitchModel(((BoardManager3D)BoardManager3D.Instance).Bell.transform);
-			yield return new WaitForSeconds(0.75f);
+			yield return new WaitForSeconds(0.5f);
 
 			GlitchOutAssetEffect.GlitchModel(LifeManager.Instance.Scales3D.transform);
-			yield return new WaitForSeconds(0.75f);
+			yield return new WaitForSeconds(0.5f);
 
 			GlitchOutAssetEffect.GlitchModel(GrimoraItemsManagerExt.Instance.hammerSlot.transform);
-			yield return new WaitForSeconds(0.75f);
+			yield return new WaitForSeconds(0.5f);
 
 			(ResourcesManager.Instance as Part1ResourcesManager).GlitchOutBoneTokens();
 			GlitchOutAssetEffect.GlitchModel(TableVisualEffectsManager.Instance.Table.transform);
-			yield return new WaitForSeconds(0.75f);
+			yield return new WaitForSeconds(0.5f);
 
 			if (FindObjectOfType<StinkbugInteractable>() is not null)
 			{
 				FindObjectOfType<StinkbugInteractable>().OnCursorSelectStart();
 			}
+			
+			GlitchOutAssetEffect.GlitchModel(GameObject.Find("EntireChamber").transform);
+			yield return new WaitForSeconds(0.5f);
 
 			InteractionCursor.Instance.InteractionDisabled = false;
 
