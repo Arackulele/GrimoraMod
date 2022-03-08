@@ -50,7 +50,7 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 		yield return TextDisplayer.Instance.ShowThenClear(
 			$"PREPARE TO BE BOARDED!",
-			2f
+			1.25f
 		);
 		yield return new WaitForSeconds(0.2f);
 
