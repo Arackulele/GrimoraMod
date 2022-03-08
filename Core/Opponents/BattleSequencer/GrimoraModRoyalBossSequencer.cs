@@ -45,7 +45,8 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 
 	public override IEnumerator OpponentCombatEnd()
 	{
-		var activePlayerCards = BoardManager.Instance.GetPlayerCards(pCard => !pCard.FaceDown);
+		var activePlayerCards =
+			BoardManager.Instance.GetPlayerCards(pCard => !pCard.FaceDown && pCard.InfoName() != NamePirateSwashbuckler);
 		if (activePlayerCards.IsNullOrEmpty())
 		{
 			yield break;
