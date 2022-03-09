@@ -80,8 +80,6 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 				.Select(slot => slot.Card)
 				.ToList();
 
-			// Log.LogInfo($"[TableSway] List of cards [{allCardsOnBoard.Join(converter: card => card.GetNameAndSlot())}]");
-
 			if (!boardSwayedLeftLast)
 			{
 				// the reason for this is so that the cards are executed right to left and not left to right.
