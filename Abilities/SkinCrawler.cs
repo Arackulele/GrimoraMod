@@ -154,7 +154,7 @@ public class SkinCrawler : AbilityBehaviour
 
 		yield return new WaitForSeconds(0.25f);
 		ViewManager.Instance.SwitchToView(View.Default);
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+		ViewManager.Instance.SetViewUnlocked();
 	}
 
 

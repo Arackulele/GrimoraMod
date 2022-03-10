@@ -34,7 +34,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 			{
 				Log.LogDebug($"FinaleGrimoraBattleWon has not played yet, playing now.");
 
-				ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+				ViewManager.Instance.SetViewLocked();
 				yield return new WaitForSeconds(0.5f);
 				yield return TextDisplayer.Instance.PlayDialogueEvent(
 					"FinaleGrimoraBattleWon",

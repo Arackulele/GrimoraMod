@@ -38,7 +38,7 @@ public class GrimoraModSawyerBossSequencer : GrimoraModBossBattleSequencer
 			yield return ResourcesManager.Instance.SpendBones(1);
 			yield return new WaitForSeconds(0.75f);
 			bonesTakenCounter = 0;
-			ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+			ViewManager.Instance.SetViewUnlocked();
 		}
 	}
 }

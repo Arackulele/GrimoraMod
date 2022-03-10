@@ -108,7 +108,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 			NameGhostShipRoyal.GetCardInfo(),
 			BoardManager.Instance.GetOpponentOpenSlots().GetRandomItem()
 		);
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+		ViewManager.Instance.SetViewUnlocked();
 
 		Log.LogDebug($"Playing royal theme 2");
 

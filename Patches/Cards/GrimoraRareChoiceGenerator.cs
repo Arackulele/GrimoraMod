@@ -26,7 +26,7 @@ public class RareCardChoicesSequencerPatch
 			yield break;
 		}
 
-		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+		ViewManager.Instance.SetViewLocked();
 		ViewManager.Instance.SwitchToView(View.Default);
 		yield return new WaitForSeconds(1f);
 

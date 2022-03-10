@@ -182,7 +182,7 @@ public class ChessboardMapExt : GameMap
 	public IEnumerator CompleteRegionSequence()
 	{
 		ViewManager.Instance.Controller.SwitchToControlMode(ViewController.ControlMode.Map);
-		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+		ViewManager.Instance.SetViewLocked();
 
 		SaveManager.SaveToFile();
 
@@ -190,7 +190,7 @@ public class ChessboardMapExt : GameMap
 
 		ChangingRegion = true;
 
-		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+		ViewManager.Instance.SetViewLocked();
 
 		ViewManager.Instance.SwitchToView(View.MapDefault);
 
@@ -210,7 +210,7 @@ public class ChessboardMapExt : GameMap
 		// this will call Unrolling and Showing the player Marker
 		yield return GameMap.Instance.ShowMapSequence();
 
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+		ViewManager.Instance.SetViewUnlocked();
 
 		ChangingRegion = false;
 		Log.LogDebug($"[CompleteRegionSequence] No longer ChangingRegion");

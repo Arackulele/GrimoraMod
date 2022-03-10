@@ -50,12 +50,12 @@ public class ChessboardPieceExt : ChessboardPiece
 
 		MapNodeManager.Instance.SetAllNodesInteractable(false);
 
-		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+		ViewManager.Instance.SetViewLocked();
 
 		yield return ChessboardEnemyManager.Instance.KnockPiecesTogether(PlayerMarker.Instance, this, 0.25f);
 		yield return new WaitForSeconds(0.05f);
 
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+		ViewManager.Instance.SetViewUnlocked();
 
 		GameFlowManager.Instance.TransitionToGameState(GameState.SpecialCardSequence, NodeData);
 	}

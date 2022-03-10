@@ -22,7 +22,7 @@ public class LitFuse : ExplodeOnDeath
 		yield return new WaitForSeconds(0.25f);
 		yield return Card.TakeDamage(1, null);
 		yield return new WaitForSeconds(0.25f);
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+		ViewManager.Instance.SetViewUnlocked();
 	}
 
 	public static NewAbility Create()

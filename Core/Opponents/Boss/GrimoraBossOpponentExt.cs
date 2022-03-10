@@ -76,7 +76,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			yield return TextDisplayer.Instance.ShowUntilInput("OH? FIVE LANES? HOW BOLD.");
 		}
 
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+		ViewManager.Instance.SetViewUnlocked();
 	}
 
 	public override void PlayTheme()
@@ -146,7 +146,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		}
 
 		yield return new WaitForSeconds(0.5f);
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+		ViewManager.Instance.SetViewUnlocked();
 	}
 
 	private IEnumerator CreateAndPlaceModifiedGiant(string giantName, CardSlot slotToSpawnIn)
@@ -193,7 +193,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		yield return CreateHornsInFarLeftAndRightLanes(oppSlots);
 
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+		ViewManager.Instance.SetViewUnlocked();
 	}
 
 	private IEnumerator CreateHornsInFarLeftAndRightLanes(List<CardSlot> oppSlots)

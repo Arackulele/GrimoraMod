@@ -90,7 +90,7 @@ public class SawyerBossOpponent : BaseBossExt
 		yield return ResourcesManager.Instance.AddBones(1);
 		yield return new WaitForSeconds(0.4f);
 
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+		ViewManager.Instance.SetViewUnlocked();
 	}
 
 	public EncounterBlueprintData BuildNewPhaseBlueprint()

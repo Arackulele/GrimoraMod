@@ -18,7 +18,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		TableRuleBook.Instance.SetOnBoard(true);
 
 		ViewManager.Instance.Controller.SwitchToControlMode(ViewController.ControlMode.CardMerging);
-		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+		ViewManager.Instance.SetViewLocked();
 		yield return new WaitForSeconds(0.3f);
 
 		stoneCircleAnim.gameObject.SetActive(true);
