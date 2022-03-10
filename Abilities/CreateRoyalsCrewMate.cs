@@ -24,7 +24,7 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 		var playerOpenSlots = BoardManager.Instance.GetPlayerOpenSlots();
 		if (playerOpenSlots.IsNotEmpty())
 		{
-			yield return SpawnSwashbucklerInPlayerOpenSlot(playerOpenSlots.GetRandomItem());
+			yield return SpawnSwashbuckler(playerOpenSlots.GetRandomItem());
 		}
 	}
 
@@ -45,11 +45,11 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 			{
 				slotToSpawnIn = playerOpenSlots.GetRandomItem();
 			}
-			yield return SpawnSwashbucklerInPlayerOpenSlot(slotToSpawnIn);
+			yield return SpawnSwashbuckler(slotToSpawnIn);
 		}
 	}
 
-	private IEnumerator SpawnSwashbucklerInPlayerOpenSlot(CardSlot playerOpenSlot)
+	private IEnumerator SpawnSwashbuckler(CardSlot playerOpenSlot)
 	{
 		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 		yield return TextDisplayer.Instance.ShowThenClear(
