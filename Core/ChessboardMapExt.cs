@@ -161,7 +161,7 @@ public class ChessboardMapExt : GameMap
 				_toggleCardsLeftInDeck,
 				"Cards Left in Deck"
 			);
-			
+
 			if (ConfigHelper.Instance.EnableCardsLeftInDeckView && _toggleCardsLeftInDeck)
 			{
 				GUI.SelectionGrid(
@@ -198,7 +198,6 @@ public class ChessboardMapExt : GameMap
 
 		MapNodeManager.Instance.SetAllNodesInteractable(false);
 
-		// Log.LogDebug($"[CompleteRegionSequence] Looping audio");
 		AudioController.Instance.SetLoopAndPlay("finalegrimora_ambience");
 		AudioController.Instance.SetLoopVolumeImmediate(0f);
 		AudioController.Instance.FadeInLoop(1f, 1f);
@@ -213,24 +212,20 @@ public class ChessboardMapExt : GameMap
 		ViewManager.Instance.SetViewUnlocked();
 
 		ChangingRegion = false;
-		Log.LogDebug($"[CompleteRegionSequence] No longer ChangingRegion");
+		Log.LogInfo($"[CompleteRegionSequence] No longer ChangingRegion");
 	}
 
 	private void ClearBoardForChangingRegion()
 	{
-		Log.LogDebug($"[CompleteRegionSequence] Clearing and destroying pieces");
 		pieces.RemoveAll(
 			delegate(ChessboardPiece piece)
 			{
-				// piece.gameObject.SetActive(false);
 				piece.MapNode.OccupyingPiece = null;
 				Destroy(piece.gameObject);
-
 				return true;
 			}
 		);
 
-		// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Clearing removedPiecesConfig");
 		ConfigHelper.Instance.ResetRemovedPieces();
 	}
 
@@ -307,7 +302,6 @@ public class ChessboardMapExt : GameMap
 		foreach (var zone in ChessboardNavGrid.instance.zones)
 		{
 			zone.gameObject.SetActive(true);
-			// UnityExplorer.ExplorerCore.Log(zone.GetComponent<ChessboardMapNode>().isActiveAndEnabled);
 		}
 	}
 
