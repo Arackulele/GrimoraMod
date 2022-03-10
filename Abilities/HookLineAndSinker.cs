@@ -14,29 +14,31 @@ public class HookLineAndSinker : AbilityBehaviour
 	public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer)
 	{
 		return Card.Slot.opposingSlot.Card is not null
-		       && !Card.Slot.opposingSlot.CardIsNotNullAndHasSpecialAbility(GrimoraGiant.SpecialTriggeredAbility);
+		       && !Card.Slot.opposingSlot.Card.Info.SpecialAbilities.Contains(GrimoraGiant.SpecialTriggeredAbility);
 	}
 
 	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
 	{
+		CardSlot opposingSlot = Card.Slot.opposingSlot;
+		PlayableCard targetCard = opposingSlot.Card;
+
 		AudioController.Instance.PlaySound3D(
 			"angler_use_hook",
 			MixerGroup.TableObjectsSFX,
-			killer.transform.position,
+			targetCard.transform.position,
 			1f,
 			0.1f
 		);
 		yield return new WaitForSeconds(0.51f);
 
-		CardSlot opposingSlot = Card.Slot.opposingSlot;
-		PlayableCard targetCard = opposingSlot.Card;
-		targetCard.SetIsOpponentCard(!opposingSlot.IsPlayerSlot);
+		targetCard.SetIsOpponentCard(!Card.Slot.IsPlayerSlot);
 		yield return BoardManager.Instance.AssignCardToSlot(targetCard, Card.Slot, 0.33f);
 		if (targetCard.FaceDown)
 		{
 			targetCard.SetFaceDown(false);
 			targetCard.UpdateFaceUpOnBoardEffects();
 		}
+
 		yield return new WaitForSeconds(0.66f);
 	}
 
