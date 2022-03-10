@@ -46,7 +46,6 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		Ability.Evolve,
 		Ability.ExplodeOnDeath,
 		Ability.Flying,
-		Ability.GainBattery,
 		Ability.GuardDog,
 		Ability.IceCube,
 		Ability.MoveBeside,
