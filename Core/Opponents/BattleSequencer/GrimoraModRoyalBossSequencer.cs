@@ -123,7 +123,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		Log.LogInfo(
 			$"[TableSway.SlotHasSpace] Checking {(toLeft ? "left" : "right")} adjacent slot of card [{adjacent.Card.InfoName()}]"
 		);
-		return SlotHasSpace(adjacent, toLeft);
+		return SlotHasSpace(adjacent, toLeft) && !adjacent.Card.HasAbility(SeaLegs.ability);
 	}
 
 	protected virtual IEnumerator DoStrafe(PlayableCard playableCard, bool movingLeft)
@@ -153,7 +153,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		if (destination.IsNotNull() && destination.Card.IsNotNull())
 		{
 			Log.LogInfo(
-				$"[TableSway.DoStrafe] Card {playableCard.GetNameAndSlot()} Destination [{destination?.name}] Destination Valid? [{destinationValid}]"
+				$"[TableSway.DoStrafe] Card {playableCard.GetNameAndSlot()} Destination [{destination.name}] Destination Valid? [{destinationValid}]"
 			);
 			yield return RecursivePush(playableCard, destination, movingLeft, null);
 		}
@@ -239,6 +239,12 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 				Tween.EaseIn
 			);
 			yield return new WaitForSeconds(0.25f);
+		}
+		else if (destination.Card.IsNotNull() && destination.Card.HasAbility(SeaLegs.ability))
+		{
+			Log.LogInfo($"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} Destination card is not null and has sea legs");
+			playableCard.Anim.StrongNegationEffect();
+			yield return new WaitForSeconds(0.15f);
 		}
 		else
 		{
