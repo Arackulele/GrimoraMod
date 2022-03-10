@@ -152,13 +152,17 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	private IEnumerator CreateAndPlaceModifiedGiant(string giantName, CardSlot slotToSpawnIn)
 	{
 		Log.LogInfo("[Grimora] Creating modified Giant");
-		CardInfo modifiedGiant = NameGiant.GetCardInfo().Clone() as CardInfo;
-		modifiedGiant.displayedName = giantName;
-		modifiedGiant.abilities = new List<Ability> { GiantStrike.ability, Ability.Reach };
-		modifiedGiant.specialAbilities.Add(GrimoraGiant.SpecialTriggeredAbility);
-		modifiedGiant.Mods.Add(new CardModificationInfo(-1, 1));
-
-		yield return BoardManager.Instance.CreateCardInSlot(modifiedGiant, slotToSpawnIn, 0.3f);
+		PlayableCard playableGiant = CardSpawner.SpawnPlayableCard(NameGiant.GetCardInfo());
+		playableGiant.SetIsOpponentCard();
+		
+		CardInfo infoGiant = NameGiant.GetCardInfo().Clone() as CardInfo;
+		infoGiant.displayedName = giantName;
+		infoGiant.abilities = new List<Ability> { Ability.Reach, GiantStrike.ability };
+		infoGiant.SpecialAbilities.Add(GrimoraGiant.SpecialTriggeredAbility);
+		infoGiant.Mods.Add(new CardModificationInfo(-1, 1));
+		
+		playableGiant.SetInfo(infoGiant);
+		yield return BoardManager.Instance.TransitionAndResolveCreatedCard(playableGiant, slotToSpawnIn, 0.3f);
 		yield return TextDisplayer.Instance.ShowUntilInput($"{giantName}!");
 	}
 
@@ -225,11 +229,16 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	private CardInfo CreateModifiedBonelordsHorn()
 	{
 		Log.LogInfo("[Grimora] Creating modified Bone Lords Horn");
-		CardInfo bonelordsHorn = NameBoneLordsHorn.GetCardInfo().Clone() as CardInfo;
-		bonelordsHorn.Mods.Add(new CardModificationInfo { attackAdjustment = 2 });
-		bonelordsHorn.abilities.Remove(Ability.QuadrupleBones);
-		bonelordsHorn.iceCubeParams.creatureWithin.abilities.Add(Ability.BuffNeighbours);
-		return bonelordsHorn;
+		PlayableCard playableHorn = CardSpawner.SpawnPlayableCard(NameBoneLordsHorn.GetCardInfo());
+		playableHorn.SetIsOpponentCard();
+		
+		CardInfo infoHorn = NameBoneLordsHorn.GetCardInfo().Clone() as CardInfo;
+		infoHorn.Mods.Add(new CardModificationInfo { attackAdjustment = 2 });
+		infoHorn.abilities.Remove(Ability.QuadrupleBones);
+		infoHorn.iceCubeParams.creatureWithin.abilities.Add(Ability.BuffNeighbours);
+		
+		playableHorn.SetInfo(infoHorn);
+		return infoHorn;
 	}
 
 	private List<CardSlot> GetFarLeftAndFarRightQueueSlots()
