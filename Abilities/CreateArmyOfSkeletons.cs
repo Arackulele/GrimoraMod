@@ -12,6 +12,11 @@ public class CreateArmyOfSkeletons : AbilityBehaviour
 
 	private const string CannotSpawnDialogue = "BLOCKED IN ALL SLOTS. NO ARMY THIS TIME.";
 
+	private bool TranslatedDialogueIsNotEnglish()
+	{
+		return Localization.Translate(CannotSpawnDialogue) != CannotSpawnDialogue;
+	}
+
 	public override bool RespondsToResolveOnBoard()
 	{
 		return true;
@@ -30,13 +35,13 @@ public class CreateArmyOfSkeletons : AbilityBehaviour
 		{
 			yield return SpawnCardOnSlot(slot);
 		}
-		
+
 		yield return PreSuccessfulTriggerSequence();
 		if (openSlots.Count > 0)
 		{
 			LearnAbility();
-		} 
-		else if (!HasLearned && (Localization.CurrentLanguage == Language.English || Localization.Translate(CannotSpawnDialogue) != CannotSpawnDialogue))
+		}
+		else if (!HasLearned && (Localization.CurrentLanguage == Language.English || TranslatedDialogueIsNotEnglish()))
 		{
 			yield return TextDisplayer.Instance.ShowUntilInput(CannotSpawnDialogue, -0.65f, 0.4f);
 		}
