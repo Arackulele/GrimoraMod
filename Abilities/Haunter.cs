@@ -87,7 +87,10 @@ public class Haunter : AbilityBehaviour
 		const string rulebookDescription = "When [creature] perishes, it haunts the space it died in. "
 		                                   + "Creatures played on this space gain its old sigils.";
 
-		return ApiUtils.CreateAbility<Haunter>(rulebookDescription);
+		return ApiUtils.CreateAbility<Haunter>(
+			rulebookDescription,
+			rulebookIcon: AbilitiesUtil.LoadAbilityIcon(Ability.Haunter.ToString())
+		);
 	}
 }
 
