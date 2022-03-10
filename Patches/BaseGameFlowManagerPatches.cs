@@ -103,7 +103,7 @@ public class BaseGameFlowManagerPatches
 
 	private static void AddCardSelectorObjectForTutor()
 	{
-		if (BoardManager.Instance is not null && BoardManager.Instance.cardSelector is null)
+		if (BoardManager.Instance.IsNotNull() && BoardManager.Instance.cardSelector is null)
 		{
 			SelectableCardArray boardCardSelection
 				= new GameObject("BoardCardSelection").AddComponent<SelectableCardArray>();
@@ -194,7 +194,7 @@ public class BaseGameFlowManagerPatches
 	{
 		ResourceDrone resourceEnergy = ResourceDrone.Instance;
 
-		if (BoardManager3D.Instance is not null && resourceEnergy is null)
+		if (BoardManager3D.Instance.IsNotNull() && resourceEnergy is null)
 		{
 			resourceEnergy = Object.Instantiate(
 				ResourceBank.Get<ResourceDrone>("Prefabs/CardBattle/ResourceModules"),
@@ -243,7 +243,7 @@ public class BaseGameFlowManagerPatches
 
 	private static void AddDeckReviewSequencerToScene()
 	{
-		if (DeckReviewSequencer.Instance is not null)
+		if (DeckReviewSequencer.Instance.IsNotNull())
 		{
 			// DeckReviewSequencer reviewSequencer = deckReviewSequencerObj.GetComponent<DeckReviewSequencer>();
 			SelectableCardArray cardArray = DeckReviewSequencer.Instance.GetComponentInChildren<SelectableCardArray>();

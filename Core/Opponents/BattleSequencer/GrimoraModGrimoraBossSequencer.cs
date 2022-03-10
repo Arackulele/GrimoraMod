@@ -124,11 +124,11 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 	)
 	{
 		CardSlot remainingGiantSlot = BoardManager.Instance.OpponentSlotsCopy
-			.Find(slot => slot.Card is not null && card.Slot != slot && slot.Card.InfoName() == NameGiant);
+			.Find(slot => slot.Card.IsNotNull() && card.Slot != slot && slot.Card.InfoName() == NameGiant);
 		List<CardSlot> opponentQueuedSlots = BoardManager.Instance.GetQueueSlots();
 		if (card.InfoName() == NameGiant)
 		{
-			if (remainingGiantSlot is not null)
+			if (remainingGiantSlot.IsNotNull())
 			{
 				PlayableCard lastGiant = remainingGiantSlot.Card;
 				yield return TextDisplayer.Instance.ShowUntilInput(

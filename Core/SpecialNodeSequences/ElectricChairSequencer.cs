@@ -110,7 +110,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		}
 
 		yield return OutroEnvTeardown();
-		if (GameFlowManager.Instance != null)
+		if (GameFlowManager.Instance.IsNotNull())
 		{
 			GameFlowManager.Instance.TransitionToGameState(GameState.Map);
 		}
@@ -122,7 +122,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		CardInfo destroyedCard = null;
 		bool finishedBuffing = false;
 		int numBuffsGiven = 0;
-		while (!finishedBuffing && destroyedCard == null)
+		while (!finishedBuffing && destroyedCard.IsNull())
 		{
 			Vector3 rulebookLocalPos = TableRuleBook.Instance.gameObject.transform.position;
 			Tween.Position(
@@ -216,7 +216,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			}
 		}
 
-		if (destroyedCard != null)
+		if (destroyedCard.IsNotNull())
 		{
 			// "Before you could pull away, one of the survivors leapt upon the [c:bR][v:0][c:]."
 			// "Another jabbed it with a spear."
@@ -263,7 +263,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	{
 		selectionSlot.SetShown(true);
 		selectionSlot.ShowState(HighlightedInteractable.State.Interactable);
-		if (selectionSlot.Card != null)
+		if (selectionSlot.Card.IsNotNull())
 		{
 			confirmStone.Enter();
 		}
@@ -378,7 +378,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 				selectCardFromDeckSlot.CursorSelectStarted,
 				new Action<MainInputInteractable>(OnSlotSelected)
 			);
-		if (UnityEngine.Random.value < 0.25f && VideoCameraRig.Instance != null)
+		if (UnityEngine.Random.value < 0.25f && VideoCameraRig.Instance.IsNotNull())
 		{
 			VideoCameraRig.Instance.PlayCameraAnim("refocus_quick");
 		}

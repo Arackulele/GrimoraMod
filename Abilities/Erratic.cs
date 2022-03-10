@@ -14,8 +14,8 @@ public class Erratic : Strafe
 
 	public override IEnumerator DoStrafe(CardSlot toLeft, CardSlot toRight)
 	{
-		bool toLeftIsValid = toLeft is not null && toLeft.Card is null;
-		bool toRightIsValid = toRight is not null && toRight.Card is null;
+		bool toLeftIsValid = toLeft.IsNotNull() && toLeft.Card is null;
+		bool toRightIsValid = toRight.IsNotNull() && toRight.Card is null;
 		if (!toLeftIsValid)
 		{
 			movingLeft = false;
@@ -32,7 +32,7 @@ public class Erratic : Strafe
 
 		CardSlot destination = movingLeft ? toLeft : toRight;
 		yield return StartCoroutine(MoveToSlot(destination, movingLeft ? toLeftIsValid : toRightIsValid));
-		if (destination != null)
+		if (destination.IsNotNull())
 		{
 			Log.LogDebug($"[Erratic] Attempting to move from slot [{Card.Slot.Index}] to slot [{destination.Index}]");
 			yield return PreSuccessfulTriggerSequence();

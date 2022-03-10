@@ -26,7 +26,7 @@ public class CryptHelper
 
 	public static void SetupNewCryptAndZones()
 	{
-		if (CryptManager.Instance is not null)
+		if (CryptManager.Instance.IsNotNull())
 		{
 			Log.LogDebug($"Finding structure");
 			CryptManager.Instance.transform.Find("Structure").gameObject.SetActive(false);

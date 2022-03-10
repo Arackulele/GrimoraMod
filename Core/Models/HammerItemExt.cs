@@ -30,7 +30,7 @@ public class HammerItemExt : HammerItem
 			delegate { firstPersonItem.gameObject.SetActive(false); }
 		);
 
-		if (targetSlot.Card != null)
+		if (targetSlot.Card.IsNotNull())
 		{
 			if (_useCounter < 3)
 			{

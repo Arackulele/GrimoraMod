@@ -86,7 +86,7 @@ public class PlayableCardPatchesForGiant
 		{
 			List<CardSlot> slotsToTarget = BoardManager.Instance.GetSlots(__instance.OpponentCard);
 
-			foreach (var slot in slotsToTarget.Where(slot => slot.Card is not null))
+			foreach (var slot in slotsToTarget.Where(slot => slot.Card.IsNotNull()))
 			{
 				// if(!hasPrinted)
 				// 	Log.LogDebug($"[Giant PlayableCard Patch] Slot [{__instance.Slot.Index}] for stinky");
@@ -106,10 +106,10 @@ public class PlayableCardPatchesForGiant
 
 			// should return farthest left slot
 			CardSlot firstSlotOfGiant = BoardManager.Instance.GetSlots(!__instance.OpponentCard)
-				.First(slot => slot.Card is not null && slot.Card == __instance);
+				.First(slot => slot.Card.IsNotNull() && slot.Card == __instance);
 
 			if (BoardManager.Instance.GetAdjacentSlots(firstSlotOfGiant)
-			    .Exists(slot => slot is not null && slot.Card is not null && slot.Card.HasAbility(Ability.BuffNeighbours)))
+			    .Exists(slot => slot.IsNotNull() && slot.Card.IsNotNull() && slot.Card.HasAbility(Ability.BuffNeighbours)))
 			{
 				__result++;
 			}

@@ -13,7 +13,7 @@ public class FlameStrafe : Strafe
 
 	public override IEnumerator PostSuccessfulMoveSequence(CardSlot cardSlot)
 	{
-		if (cardSlot.Card == null)
+		if (cardSlot.Card.IsNull())
 		{
 			yield return BoardManager.Instance.CreateCardInSlot(NameFlames.GetCardInfo(), cardSlot);
 		}

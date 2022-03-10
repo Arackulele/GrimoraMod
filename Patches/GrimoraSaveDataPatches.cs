@@ -16,9 +16,9 @@ public class GrimoraSaveDataPatches
 		__instance.deck = new DeckInfo();
 		__instance.deck.Cards.Clear();
 		
-		if (CardLoader.allData is not null && CardLoader.allData.Any(info => info.name.StartsWith("GrimoraMod_")))
+		if (CardLoader.allData != null && CardLoader.allData.Any(info => info.name.StartsWith("GrimoraMod_")))
 		{
-			Log.LogDebug($"[GrimoraSaveData.Initialize] All data is not null");
+			Log.LogDebug($"[GrimoraSaveData.Initialize] All data.IsNotNull()");
 			List<CardInfo> defaultCardInfos = new()
 			{
 				NameBonepile.GetCardInfo(),

@@ -121,7 +121,7 @@ public class ChangeLogicInCardAbilityIcons
 		}
 
 		List<Ability> distinctAbilitiesCopy = new List<Ability>(distinctShownAbilities);
-		if (ability != 0 && __instance.latchIcon != null)
+		if (ability != 0 && __instance.latchIcon.IsNotNull())
 		{
 			__instance.latchIcon.AssignAbility(ability, info, playableCard);
 		}
@@ -133,7 +133,7 @@ public class ChangeLogicInCardAbilityIcons
 			info,
 			playableCard
 		);
-		bool isOpponentCard = playableCard != null && playableCard.OpponentCard;
+		bool isOpponentCard = playableCard.IsNotNull() && playableCard.OpponentCard;
 		foreach (AbilityIconInteractable emissiveTotemIcon in __instance.emissiveTotemIcons)
 		{
 			emissiveTotemIcon.gameObject.SetActive(isOpponentCard);

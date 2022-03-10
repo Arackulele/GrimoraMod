@@ -177,7 +177,7 @@ public class ConfigHelper
 		{
 			int removedNewCards = NewCard.cards.RemoveAll(card => card.name.StartsWith("GrimoraMod_"));
 			int removedCardLoader = CardLoader.allData.RemoveAll(info => info.name.StartsWith("GrimoraMod_"));
-			Log.LogDebug($"All data is not null. Removed [{removedNewCards}] NewCards, [{removedCardLoader}] CardLoader");
+			Log.LogDebug($"All data.IsNotNull(). Removed [{removedNewCards}] NewCards, [{removedCardLoader}] CardLoader");
 		}
 
 		if (AbilitiesUtil.allData.IsNotEmpty())
@@ -188,7 +188,7 @@ public class ConfigHelper
 				info =>
 					NewAbility.abilities.Exists(na => na.id.ToString().StartsWith(GUID) && na.ability == info.ability)
 			);
-			Log.LogDebug($"All data is not null, removed [{removed}] abilities");
+			Log.LogDebug($"All data.IsNotNull(), removed [{removed}] abilities");
 		}
 
 		// TODO: I'd prefer not to do this but I'm not sure how to filter out the emissions without literally
@@ -214,7 +214,7 @@ public class ConfigHelper
 
 		if (AbilitiesUtil.allData.IsNotEmpty() && !AbilitiesUtil.allData.Exists(abInfo => abInfo.ability == ActivatedDrawSkeletonGrimora.ability))
 		{
-			Log.LogDebug($"All data is not null, concatting GrimoraMod abilities");
+			Log.LogDebug($"All data.IsNotNull(), concatting GrimoraMod abilities");
 			AbilitiesUtil.allData = AbilitiesUtil.allData.Concat(
 					NewAbility.abilities.Where(ab => ab.id.ToString().StartsWith(GUID)).Select(_ => _.info)
 				)
@@ -246,7 +246,7 @@ public class ConfigHelper
 		_configBossesDefeated.Value = 0;
 		_configCurrentChessboardIndex.Value = 0;
 		ResetRemovedPieces();
-		if (ChessboardMapExt.Instance is not null)
+		if (ChessboardMapExt.Instance.IsNotNull())
 		{
 			Log.LogWarning($"Resetting active chessboard");
 			ChessboardMapExt.Instance.ActiveChessboard = null;

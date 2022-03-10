@@ -70,7 +70,7 @@ public class RareCardChoicesSequencerPatch
 		__instance.SetCollidersEnabled(true);
 		__instance.gamepadGrid.enabled = true;
 		__instance.chosenReward = null;
-		yield return new WaitUntil(() => __instance.chosenReward != null);
+		yield return new WaitUntil(() => __instance.chosenReward.IsNotNull());
 		__instance.chosenReward.transform.parent = null;
 		RuleBookController.Instance.SetShown(false);
 		__instance.gamepadGrid.enabled = false;

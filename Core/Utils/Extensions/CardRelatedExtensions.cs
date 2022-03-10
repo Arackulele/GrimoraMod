@@ -15,7 +15,7 @@ public static class CardRelatedExtension
 	public static string GetNameAndSlot(this PlayableCard playableCard)
 	{
 		string printedNameAndSlot = $"[{playableCard.Info.displayedName}]";
-		if (playableCard.Slot is not null)
+		if (playableCard.Slot.IsNotNull())
 		{
 			printedNameAndSlot += $" Slot [{playableCard.Slot.Index}]";
 		}
@@ -25,18 +25,18 @@ public static class CardRelatedExtension
 
 	public static bool CardIsNotNullAndHasAbility(this CardSlot cardSlot, Ability ability)
 	{
-		return cardSlot.Card is not null && cardSlot.Card.HasAbility(ability);
+		return cardSlot.Card.IsNotNull() && cardSlot.Card.HasAbility(ability);
 	}
 
 	public static bool CardDoesNotHaveAbility(this CardSlot cardSlot, Ability ability)
 	{
-		return cardSlot.Card is not null && !cardSlot.CardIsNotNullAndHasAbility(ability);
+		return cardSlot.Card.IsNotNull() && !cardSlot.CardIsNotNullAndHasAbility(ability);
 	}
 
 
 	public static bool CardIsNotNullAndHasSpecialAbility(this CardSlot cardSlot, SpecialTriggeredAbility ability)
 	{
-		return cardSlot.Card is not null && cardSlot.Card.Info.SpecialAbilities.Contains(ability);
+		return cardSlot.Card.IsNotNull() && cardSlot.Card.Info.SpecialAbilities.Contains(ability);
 	}
 
 	public static bool CardDoesNotHaveSpecialAbility(this CardSlot cardSlot, SpecialTriggeredAbility ability)
@@ -46,7 +46,7 @@ public static class CardRelatedExtension
 
 	public static bool CardInSlotIs(this CardSlot cardSlot, string cardName)
 	{
-		return cardSlot.Card is not null && cardSlot.Card.InfoName().Equals(cardName);
+		return cardSlot.Card.IsNotNull() && cardSlot.Card.InfoName().Equals(cardName);
 	}
 
 	public static string InfoName(this Card card)

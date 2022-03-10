@@ -27,13 +27,13 @@ public class PlayableCardPatches
 			}
 
 			// insert at beginning
-			if (toLeftSlot is not null)
+			if (toLeftSlot.IsNotNull())
 			{
 				__result.Insert(0, toLeftSlot);
 			}
 
 			// insert at end
-			if (toRightSlot is not null)
+			if (toRightSlot.IsNotNull())
 			{
 				__result.Insert(__result.Count, toRightSlot);
 			}
@@ -108,7 +108,7 @@ public class PlayableCardPatches
 		{
 			var adjSlots = BoardManager.Instance
 				.GetAdjacentSlots(__instance.Slot)
-				.Where(_ => _.Card is not null)
+				.Where(_ => _.Card.IsNotNull())
 				.ToList();
 
 			__result = new List<CardSlot>();
@@ -138,10 +138,10 @@ public class PlayableCardPatches
 		{
 			__result = new List<CardSlot>();
 			List<CardSlot> slotsToTarget = GetGiantsOpposingSlots(__instance);
-			if (slotsToTarget.Exists(slot => slot.Card is not null))
+			if (slotsToTarget.Exists(slot => slot.Card.IsNotNull()))
 			{
 				List<CardSlot> slotsWithCards = slotsToTarget
-					.Where(slot => slot.Card is not null)
+					.Where(slot => slot.Card.IsNotNull())
 					.ToList();
 				if (slotsWithCards.Count == 1)
 				{
