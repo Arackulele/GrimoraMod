@@ -96,14 +96,6 @@ public class RoyalBossOpponentExt : BaseBossExt
 		TurnPlan.Clear();
 		yield return ClearQueue();
 
-		var newBlueprint = BuildNewPhaseBlueprint();
-		foreach (var blueprint in newBlueprint.turns.SelectMany(cardBlueprints => cardBlueprints))
-		{
-			CardInfo cardInfoClone = blueprint.card.Clone() as CardInfo;
-			cardInfoClone.Mods.Add(new CardModificationInfo(SeaLegs.ability));
-			blueprint.card = cardInfoClone;
-		}
-
 		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
 			"YARRG, TWAS JUST DA FIRST ROUND!\nLETS SEE HOW YE FARE 'GAINST ME PERSONAL SHIP AN CREW!",
@@ -147,6 +139,13 @@ public class RoyalBossOpponentExt : BaseBossExt
 			new() { bp_Skeleton, bp_Skeleton },
 			new(),
 		};
+		
+		foreach (var bp in blueprint.turns.SelectMany(cardBlueprints => cardBlueprints))
+		{
+			CardInfo cardInfoClone = bp.card.Clone() as CardInfo;
+			cardInfoClone.Mods.Add(new CardModificationInfo(SeaLegs.ability));
+			bp.card = cardInfoClone;
+		}
 
 		return blueprint;
 	}
