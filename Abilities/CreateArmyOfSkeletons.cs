@@ -20,17 +20,19 @@ public class CreateArmyOfSkeletons : AbilityBehaviour
 	public override IEnumerator OnResolveOnBoard()
 	{
 		ViewManager.Instance.SwitchToView(View.Board);
-		var slots = Card.Slot.IsPlayerSlot
-			? BoardManager.Instance.PlayerSlotsCopy
-			: BoardManager.Instance.OpponentSlotsCopy;
-		
-		foreach (var slot in slots.Where(slot => slot.Card is null))
+
+		var openSlots = BoardManager.Instance
+			.GetSlots(Card.Slot.IsPlayerSlot)
+			.Where(slot => slot.Card is null)
+			.ToList();
+
+		foreach (var slot in openSlots)
 		{
 			yield return SpawnCardOnSlot(slot);
 		}
 		
 		yield return PreSuccessfulTriggerSequence();
-		if (slots.Count > 0)
+		if (openSlots.Count > 0)
 		{
 			LearnAbility();
 		} 
@@ -39,7 +41,7 @@ public class CreateArmyOfSkeletons : AbilityBehaviour
 			yield return TextDisplayer.Instance.ShowUntilInput(CannotSpawnDialogue, -0.65f, 0.4f);
 		}
 	}
-	
+
 	private IEnumerator SpawnCardOnSlot(CardSlot slot)
 	{
 		yield return BoardManager.Instance.CreateCardInSlot("Skeleton".GetCardInfo(), slot, 0.15f);
