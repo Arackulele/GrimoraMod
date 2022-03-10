@@ -103,15 +103,24 @@ public class RoyalBossOpponentExt : BaseBossExt
 			0.4f
 		);
 		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
+
 		yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
+
+		yield return BoardManager.Instance.CreateCardInSlot(
+			NamePirateFirstMateSnag.GetCardInfo(),
+			BoardManager.Instance.GetOpponentOpenSlots().GetRandomItem()
+		);
+
+		yield return new WaitForSeconds(0.25f);
+
 		yield return BoardManager.Instance.CreateCardInSlot(
 			NameGhostShipRoyal.GetCardInfo(),
 			BoardManager.Instance.GetOpponentOpenSlots().GetRandomItem()
 		);
+
 		ViewManager.Instance.SetViewUnlocked();
 
 		Log.LogDebug($"Playing royal theme 2");
-
 		AudioController.Instance.SetLoopAndPlay("RoyalRuckus_Phase2", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
 		AudioController.Instance.SetLoopVolume(0.8f, 5f, 1);
@@ -122,7 +131,6 @@ public class RoyalBossOpponentExt : BaseBossExt
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_FirstMateSnag },
 			new(),
 			new(),
 			new() { bp_Skeleton, bp_CaptainYellowbeard, bp_Skeleton },
@@ -139,7 +147,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 			new() { bp_Skeleton, bp_Skeleton },
 			new(),
 		};
-		
+
 		foreach (var bp in blueprint.turns.SelectMany(cardBlueprints => cardBlueprints))
 		{
 			CardInfo cardInfoClone = bp.card.Clone() as CardInfo;
