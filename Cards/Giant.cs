@@ -84,10 +84,7 @@ public class PlayableCardPatchesForGiant
 	{
 		if (__instance.OnBoard && __instance.Info.HasTrait(Trait.Giant))
 		{
-			List<CardSlot> slotsToTarget =
-				__instance.OpponentCard
-					? BoardManager.Instance.PlayerSlotsCopy
-					: BoardManager.Instance.OpponentSlotsCopy;
+			List<CardSlot> slotsToTarget = BoardManager.Instance.GetSlots(__instance.OpponentCard);
 
 			foreach (var slot in slotsToTarget.Where(slot => slot.Card is not null))
 			{
