@@ -72,6 +72,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		GiantStrike.Create();
 		GiantStrikeEnraged.Create();
 		GrimoraRandomAbility.Create();
+		Haunter.Create();
 		HookLineAndSinker.Create();
 		InvertedStrike.Create();
 		LitFuse.Create();
