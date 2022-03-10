@@ -22,7 +22,9 @@ public class RoyalBossOpponentExt : BaseBossExt
 	{
 		foreach (var blueprint in encounter.Blueprint.turns.SelectMany(cardBlueprints => cardBlueprints))
 		{
-			blueprint.card.Mods.Add(new CardModificationInfo(SeaLegs.ability));
+			CardInfo cardInfoClone = blueprint.card.Clone() as CardInfo;
+			cardInfoClone.Mods.Add(new CardModificationInfo(SeaLegs.ability));
+			blueprint.card = cardInfoClone;
 		}
 
 		Log.LogDebug($"Assigning controller to game table");
@@ -97,7 +99,9 @@ public class RoyalBossOpponentExt : BaseBossExt
 		var newBlueprint = BuildNewPhaseBlueprint();
 		foreach (var blueprint in newBlueprint.turns.SelectMany(cardBlueprints => cardBlueprints))
 		{
-			blueprint.card.Mods.Add(new CardModificationInfo(SeaLegs.ability));
+			CardInfo cardInfoClone = blueprint.card.Clone() as CardInfo;
+			cardInfoClone.Mods.Add(new CardModificationInfo(SeaLegs.ability));
+			blueprint.card = cardInfoClone;
 		}
 
 		yield return FaceZoomSequence();
