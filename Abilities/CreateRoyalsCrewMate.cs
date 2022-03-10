@@ -40,8 +40,12 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 		if (_timeToSpawnCounter >= 2 && playerOpenSlots.IsNotEmpty())
 		{
 			_timeToSpawnCounter = 0;
-
-			yield return SpawnSwashbucklerInPlayerOpenSlot(playerOpenSlots.GetRandomItem());
+			CardSlot slotToSpawnIn = playerOpenSlots.FirstOrDefault(slot => slot.opposingSlot.Card.IsNull() || slot.opposingSlot.Card.Attack == 0);
+			if (slotToSpawnIn.IsNull())
+			{
+				slotToSpawnIn = playerOpenSlots.GetRandomItem();
+			}
+			yield return SpawnSwashbucklerInPlayerOpenSlot(slotToSpawnIn);
 		}
 	}
 
