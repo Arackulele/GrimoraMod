@@ -13,14 +13,14 @@ public partial class GrimoraPlugin
 	private void Add_Giant()
 	{
 		CardBuilder.Builder
-				.SetAsNormalCard()
-				.SetAbilities(Ability.QuadrupleBones, Ability.SplitStrike)
-				.SetBaseAttackAndHealth(2, 7)
-				.SetBoneCost(15)
-				.SetNames(NameGiant, "Giant")
-				.SetTraits(Trait.Giant, Trait.Uncuttable)
-				.SetDescription("TRULY A SIGHT TO BEHOLD.")
-				.Build()
+			.SetAsNormalCard()
+			.SetAbilities(Ability.QuadrupleBones, Ability.SplitStrike)
+			.SetBaseAttackAndHealth(2, 7)
+			.SetBoneCost(15)
+			.SetNames(NameGiant, "Giant")
+			.SetTraits(Trait.Giant, Trait.Uncuttable)
+			.SetDescription("TRULY A SIGHT TO BEHOLD.")
+			.Build()
 			// , specialAbilitiesIdsParam: new List<SpecialAbilityIdentifier> { sbIds.id }
 			;
 	}
@@ -33,8 +33,12 @@ public class ModifyLocalPositionsOfTableObjects
 	 HarmonyPatch(typeof(BoardManager3D), nameof(BoardManager3D.TransitionAndResolveCreatedCard))
 	]
 	public static IEnumerator ChangeScaleOfMoonCardToFitAcrossAllSlots(
-		IEnumerator enumerator, PlayableCard card, CardSlot slot,
-		float transitionLength, bool resolveTriggers = true)
+		IEnumerator enumerator,
+		PlayableCard card,
+		CardSlot slot,
+		float transitionLength,
+		bool resolveTriggers = true
+	)
 	{
 		if (GrimoraSaveUtil.isGrimora
 		    && card.Info.HasTrait(Trait.Giant)
@@ -101,6 +105,16 @@ public class PlayableCardPatchesForGiant
 					// G1 SHOULD HAVE THE -1 REVERSED, BUT G2 SHOULD STILL HAVE -1 APPLIED TO ATTACK
 					__result += 1;
 				}
+			}
+
+			// should return farthest left slot
+			CardSlot firstSlotOfGiant = BoardManager.Instance.GetSlots(!__instance.OpponentCard)
+				.First(slot => slot.Card is not null && slot.Card == __instance);
+
+			if (BoardManager.Instance.GetAdjacentSlots(firstSlotOfGiant)
+			    .Exists(slot => slot is not null && slot.Card is not null && slot.Card.HasAbility(Ability.BuffNeighbours)))
+			{
+				__result++;
 			}
 		}
 	}
