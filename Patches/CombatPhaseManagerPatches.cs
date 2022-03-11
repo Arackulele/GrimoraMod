@@ -30,12 +30,14 @@ public class CombatPhaseManagerPatches
 				yield return LifeManager.Instance.ShowDamageSequence(
 					dmgDoneToPlayer,
 					dmgDoneToPlayer,
-					!slot.Card.OpponentCard,
+					slot.IsPlayerSlot,
 					0.2f
 				);
 
 				Log.LogDebug($"[SlotAttackSequence.StrikeAdj] Subtracting [{dmgDoneToPlayer}] from DamageDealtThisPhase");
 				__instance.DamageDealtThisPhase -= dmgDoneToPlayer;
+				yield return (__instance as CombatPhaseManager3D).VisualizeDamageMovingToScales(!slot.IsPlayerSlot);
+				(__instance as CombatPhaseManager3D).damageWeights.Clear();
 			}
 		}
 	}
