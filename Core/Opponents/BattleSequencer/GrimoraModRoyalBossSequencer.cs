@@ -130,7 +130,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 
 		// if the slot.IsNotNull() and the slot is occupied, check the adjacent slot of that card
 		Log.LogInfo(
-			$"[TableSway.SlotHasSpace] Checking {(toLeft ? "left" : "right")} adjacent slot of card [{adjacent.Card.InfoName()}]"
+			$"[TableSway.SlotHasSpace] Checking {(toLeft ? "left" : "right")} adjacent slot of card [{adjacent.Card.GetNameAndSlot()}]"
 		);
 		return SlotHasSpace(adjacent, toLeft) && !adjacent.Card.HasAbility(SeaLegs.ability);
 	}
@@ -156,70 +156,11 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		CardSlot destination = movingLeft
 			? toLeft
 			: toRight;
-		bool destinationValid = (movingLeft
+		bool destinationValid = movingLeft
 			? toLeftIsNotOccupied
-			: toRightIsNotOccupied);
-		if (destination.IsNotNull() && destination.Card.IsNotNull())
-		{
-			Log.LogInfo(
-				$"[TableSway.DoStrafe] Card {playableCard.GetNameAndSlot()} Destination [{destination.name}] Destination Valid? [{destinationValid}]"
-			);
-			yield return RecursivePush(playableCard, destination, movingLeft, null);
-		}
-
-		Log.LogInfo(
-			$"[TableSway.DoStrafe] Starting MoveToSlot for {playableCard.GetNameAndSlot()}"
-		);
-		if (!playableCard.HasAbility(SeaLegs.ability))
-		{
-			yield return MoveToSlot(playableCard, destination, destinationValid, movingLeft);
-		}
-	}
-
-	private IEnumerator RecursivePush(PlayableCard playableCard, CardSlot slot, bool toLeft, Action<bool> canMoveResult)
-	{
-		CardSlot adjacent = BoardManager.Instance.GetAdjacent(slot, toLeft);
-		Log.LogInfo(
-			$"[TableSway.RecursivePush] Card {playableCard.GetNameAndSlot()} Slot [{slot.name}] {(toLeft ? "left" : "right")} Adjacent Slot [{adjacent?.name}]"
-		);
-		if (adjacent.IsNull())
-		{
-			// if beyond far left slot or far right slot, slot does not have space
-			// play death animation?
-			canMoveResult?.Invoke(false);
-			yield break;
-		}
-
-		if (adjacent.Card.IsNull())
-		{
-			// open slot on the board
-			Log.LogInfo(
-				$"[TableSway.RecursivePush] Assigning [{slot.Card.GetNameAndSlot()}] to adjacent slot [{adjacent.name}]"
-			);
-			yield return BoardManager.Instance.AssignCardToSlot(slot.Card, adjacent);
-			canMoveResult?.Invoke(true);
-			yield break;
-		}
-
-		bool canMove = false;
-		yield return RecursivePush(
-			adjacent.Card,
-			adjacent,
-			toLeft,
-			delegate(bool movePossible)
-			{
-				canMove = movePossible;
-			}
-		);
-		if (canMove)
-		{
-			Log.LogInfo(
-				$"[TableSway.RecursivePush] Card {playableCard.GetNameAndSlot()} can move, moving to [{adjacent.name}]"
-			);
-			yield return BoardManager.Instance.AssignCardToSlot(slot.Card, adjacent);
-		}
-
-		canMoveResult?.Invoke(canMove);
+			: toRightIsNotOccupied;
+		
+		yield return MoveToSlot(playableCard, destination, destinationValid, movingLeft);
 	}
 
 	private IEnumerator MoveToSlot(
@@ -229,9 +170,10 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		bool movingLeft
 	)
 	{
-		bool destinationSlotCardHasSeaLegs = destination.IsNotNull()
-		                                     && destination.Card.IsNotNull()
-		                                     && destination.Card.HasAbility(SeaLegs.ability);
+		Log.LogInfo(
+			$"[TableSway.DoStrafe] Starting MoveToSlot method for {playableCard.GetNameAndSlot()} Destination [{destination?.name}] Destination Valid? [{destinationValid}]"
+		);
+
 		if (playableCard.HasAnyAbilities(Ability.Strafe, Ability.StrafePush))
 		{
 			playableCard.RenderInfo.SetAbilityFlipped(
@@ -242,29 +184,34 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			playableCard.RenderCard();
 		}
 
-		if (destination.IsNotNull() && destinationValid)
+		if (destination.IsNotNull())
 		{
-			Log.LogInfo(
-				$"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} will be moved to slot [{destination.name}]"
-			);
+			bool destinationSlotCardHasSeaLegs = destination.Card.IsNotNull()
+			                                     && destination.Card.HasAbility(SeaLegs.ability);
+			if (destinationValid)
+			{
+				Log.LogInfo(
+					$"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} will be moved to slot [{destination.name}]"
+				);
 
-			yield return BoardManager.Instance.AssignCardToSlot(playableCard, destination, DurationTableSway + 2);
-			Tween.LocalRotation(
-				playableCard.transform,
-				new Vector3(90, 0, 0),
-				0,
-				0,
-				Tween.EaseIn
-			);
-			yield return new WaitForSeconds(0.25f);
-		}
-		else if (destinationSlotCardHasSeaLegs)
-		{
-			Log.LogInfo(
-				$"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} Destination card is not null and has sea legs"
-			);
-			playableCard.Anim.StrongNegationEffect();
-			yield return new WaitForSeconds(0.15f);
+				yield return BoardManager.Instance.AssignCardToSlot(playableCard, destination, DurationTableSway + 2);
+				Tween.LocalRotation(
+					playableCard.transform,
+					new Vector3(90, 0, 0),
+					0,
+					0,
+					Tween.EaseIn
+				);
+				yield return new WaitForSeconds(0.25f);
+			}
+			else if (destinationSlotCardHasSeaLegs)
+			{
+				Log.LogInfo(
+					$"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} Destination card is not null and has sea legs"
+				);
+				playableCard.Anim.StrongNegationEffect();
+				yield return new WaitForSeconds(0.15f);
+			}
 		}
 		else
 		{
