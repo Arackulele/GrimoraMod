@@ -110,8 +110,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 				break;
 			}
 		}
-
-		ViewManager.Instance.SwitchToView(View.Default);
+		ViewManager.Instance.SetViewUnlocked();
 	}
 
 	private IEnumerator StartSpawningGiantsPhase()
@@ -146,7 +145,6 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		}
 
 		yield return new WaitForSeconds(0.5f);
-		ViewManager.Instance.SetViewUnlocked();
 	}
 
 	private IEnumerator CreateAndPlaceModifiedGiant(string giantName, CardSlot slotToSpawnIn)
@@ -175,7 +173,14 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		AudioController.Instance.SetLoopVolumeImmediate(0.1f, 1);
 		AudioController.Instance.FadeInLoop(7f, 0.5f, 1);
 
+		ViewManager.Instance.SwitchToView(View.DefaultUpwards, false, true);
+		
 		SetSceneEffectsShownGrimora(GrimoraColors.GrimoraBossCardLight);
+		yield return new WaitForSeconds(0.1f);
+		
+		Log.LogDebug($"Spawning Bonelord effects");
+		GameObject bonelordEffect = Instantiate(AssetUtils.GetPrefab<GameObject>("BonelordTableEffects"));
+		yield return new WaitForSeconds(6f);
 		
 		var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
 		yield return TextDisplayer.Instance.ShowUntilInput(
@@ -196,8 +201,6 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		yield return new WaitForSeconds(0.25f);
 
 		yield return CreateHornsInFarLeftAndRightLanes(oppSlots);
-
-		ViewManager.Instance.SetViewUnlocked();
 	}
 
 	private IEnumerator CreateHornsInFarLeftAndRightLanes(List<CardSlot> oppSlots)

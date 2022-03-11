@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2626739164
+CRC: 3270362005
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 931f559521e00d9cc6b77ff51e1e3462
+    Hash: 411515942d5e4024bc246dd8b309df24
   TypeTreeHash:
     serializedVersion: 2
     Hash: fdf6c57a251b9f6ec27bdd2fe01b033c
@@ -23,7 +23,6 @@ Assets:
 - Assets/Resources/animation/cards/gravestonecard/gravestonecard_flip_faceup.anim
 - Assets/Resources/animation/cards/gravestonecard/gravestonecard_takehit.anim
 - Assets/Resources/animation/cards/gravestonecard/SkeletonAttackAnim.controller
-- Assets/GrimoraMod_Unity/Animations/BonelordAnim.controller
 - Assets/Resources/animation/cards/gravestonecard/gravestonecard_shake.anim
 - Assets/GrimoraMod_Unity/Animations/GrimoraGameTable.controller
 - Assets/Resources/animation/cards/gravestonecard/gravestonecard_flip_facedown.anim
