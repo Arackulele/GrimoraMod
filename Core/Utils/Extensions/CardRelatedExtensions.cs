@@ -137,7 +137,7 @@ public static class CardRelatedExtension
 		deepCopy.traits = cardInfo.traits;
 		deepCopy.tribes = cardInfo.tribes;
 
-		return cardInfo;
+		return deepCopy;
 	}
 
 	public static void AddTempModGrimora(this PlayableCard playableCard, CardModificationInfo mod)
