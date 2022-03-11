@@ -481,7 +481,7 @@ public static class BlueprintUtils
 
 		foreach (var bp in blueprint.turns.SelectMany(cardBlueprints => cardBlueprints))
 		{
-			CardInfo cardInfoClone = bp.card.Clone() as CardInfo;
+			CardInfo cardInfoClone = bp.card.DeepCopy();
 			cardInfoClone.Mods.Add(new CardModificationInfo(SeaLegs.ability));
 			bp.card = cardInfoClone;
 		}

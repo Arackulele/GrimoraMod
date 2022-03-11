@@ -98,6 +98,48 @@ public static class CardRelatedExtension
 		playableCard.SetInfo(cardInfoClone);
 	}
 
+	public static CardInfo DeepCopy(this CardInfo cardInfo)
+	{
+		CardInfo deepCopy = ScriptableObject.CreateInstance<CardInfo>();
+		deepCopy.abilities = cardInfo.abilities;
+		deepCopy.alternatePortrait = cardInfo.alternatePortrait;
+		deepCopy.animatedPortrait = cardInfo.animatedPortrait;
+		deepCopy.appearanceBehaviour = cardInfo.appearanceBehaviour;
+		deepCopy.baseAttack = cardInfo.baseAttack;
+		deepCopy.baseHealth = cardInfo.baseHealth;
+		deepCopy.bonesCost = cardInfo.bonesCost;
+		deepCopy.boon = cardInfo.boon;
+		deepCopy.cardComplexity = cardInfo.cardComplexity;
+		deepCopy.cost = cardInfo.cost;
+		deepCopy.decals = cardInfo.decals;
+		deepCopy.defaultEvolutionName = cardInfo.defaultEvolutionName;
+		deepCopy.description = cardInfo.description;
+		deepCopy.displayedName = cardInfo.displayedName;
+		deepCopy.energyCost = cardInfo.energyCost;
+		deepCopy.evolveParams = cardInfo.evolveParams;
+		deepCopy.flipPortraitForStrafe = cardInfo.flipPortraitForStrafe;
+		deepCopy.gemsCost = cardInfo.gemsCost;
+		deepCopy.get_decals = cardInfo.get_decals;
+		deepCopy.hideAttackAndHealth = cardInfo.hideAttackAndHealth;
+		deepCopy.holoPortraitPrefab = cardInfo.holoPortraitPrefab;
+		deepCopy.iceCubeParams = cardInfo.iceCubeParams;
+		deepCopy.metaCategories = cardInfo.metaCategories;
+		deepCopy.mods = cardInfo.mods;
+		deepCopy.onePerDeck = cardInfo.onePerDeck;
+		deepCopy.pixelPortrait = cardInfo.pixelPortrait;
+		deepCopy.portraitTex = cardInfo.portraitTex;
+		deepCopy.specialAbilities = cardInfo.specialAbilities;
+		deepCopy.specialStatIcon = cardInfo.specialStatIcon;
+		deepCopy.tailParams = cardInfo.tailParams;
+		deepCopy.temple = cardInfo.temple;
+		deepCopy.temporaryDecals = cardInfo.temporaryDecals;
+		deepCopy.titleGraphic = cardInfo.titleGraphic;
+		deepCopy.traits = cardInfo.traits;
+		deepCopy.tribes = cardInfo.tribes;
+
+		return cardInfo;
+	}
+
 	public static void AddTempModGrimora(this PlayableCard playableCard, CardModificationInfo mod)
 	{
 		playableCard.Info.Mods.Add(mod);
@@ -182,7 +224,6 @@ public static class CardRelatedExtension
 					Tween.EaseIn,
 					completeCallback: () => playableCard.Anim.PlayDeathAnimation(playSound && !wasSacrifice)
 				);
-				
 			}
 		}
 	}
