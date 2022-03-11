@@ -43,6 +43,49 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		};
 	}
 
+	private IEnumerator ApplyLitFuseToPlayerCard(PlayableCard playerCard)
+	{
+		ViewManager.Instance.SwitchToView(View.Board);
+		yield return new WaitForSeconds(0.25f);
+		yield return TextDisplayer.Instance.ShowUntilInput(
+			$"YARRRR, I WILL ENJOY THE KABOOM OF {playerCard.Info.displayedName.BrightRed()}"
+		);
+		playerCard.AddTemporaryMod(new CardModificationInfo(LitFuse.ability));
+	}
+
+	private IEnumerator StartBoardSway()
+	{
+		boardSwayCounter = 0;
+		yield return TextDisplayer.Instance.ShowUntilInput(
+			$"Seven seas for the table!"
+		);
+
+		ViewManager.Instance.SwitchToView(View.Default, lockAfter: true);
+		// z axis for table movement
+
+		PlayTableSway();
+
+		var allCardsOnBoard = BoardManager.Instance.AllSlotsCopy
+			.Where(slot => slot.Card.IsNotNull() && !slot.CardIsNotNullAndHasAbility(SeaLegs.ability))
+			.Select(slot => slot.Card)
+			.ToList();
+
+		if (!boardSwayedLeftLast)
+		{
+			// the reason for this is so that the cards are executed right to left and not left to right.
+			// if they're executed left to right like how swaying left will is,
+			//	it will kill cards that have cards next to them 
+			allCardsOnBoard.Reverse();
+		}
+
+		foreach (var playableCard in allCardsOnBoard)
+		{
+			yield return StartCoroutine(DoStrafe(playableCard, boardSwayedLeftLast));
+		}
+
+		ViewManager.Instance.SetViewUnlocked();
+	}
+
 	public override IEnumerator OpponentCombatEnd()
 	{
 		var activePlayerCards =
@@ -52,48 +95,14 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			yield break;
 		}
 
-		if (_rng.NextBoolean())
+		if (_rng.NextBoolean() && _rng.NextBoolean())
 		{
-			var playableCard = activePlayerCards[UnityEngine.Random.Range(0, activePlayerCards.Count)];
-			ViewManager.Instance.SwitchToView(View.Board);
-			yield return new WaitForSeconds(0.25f);
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				$"YARRRR, I WILL ENJOY THE KABOOM OF {playableCard.Info.displayedName.BrightRed()}"
-			);
-			playableCard.AddTemporaryMod(new CardModificationInfo(LitFuse.ability));
+			yield return ApplyLitFuseToPlayerCard(activePlayerCards[UnityEngine.Random.Range(0, activePlayerCards.Count)]);
 		}
 
-		if (++boardSwayCounter >= 2)
+		if (++boardSwayCounter >= 1)
 		{
-			boardSwayCounter = 0;
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				$"Seven seas for the table!"
-			);
-
-			ViewManager.Instance.SwitchToView(View.Default, lockAfter: true);
-			// z axis for table movement
-
-			PlayTableSway();
-
-			var allCardsOnBoard = BoardManager.Instance.AllSlotsCopy
-				.Where(slot => slot.Card.IsNotNull() && !slot.CardIsNotNullAndHasAbility(SeaLegs.ability))
-				.Select(slot => slot.Card)
-				.ToList();
-
-			if (!boardSwayedLeftLast)
-			{
-				// the reason for this is so that the cards are executed right to left and not left to right.
-				// if they're executed left to right like how swaying left will is,
-				//	it will kill cards that have cards next to them 
-				allCardsOnBoard.Reverse();
-			}
-
-			foreach (var playableCard in allCardsOnBoard)
-			{
-				yield return StartCoroutine(DoStrafe(playableCard, boardSwayedLeftLast));
-			}
-
-			ViewManager.Instance.SetViewUnlocked();
+			yield return StartBoardSway();
 		}
 	}
 
