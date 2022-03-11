@@ -479,13 +479,6 @@ public static class BlueprintUtils
 			new() { bp_Revenant }
 		};
 
-		foreach (var bp in blueprint.turns.SelectMany(cardBlueprints => cardBlueprints))
-		{
-			CardInfo cardInfoClone = bp.card.DeepCopy();
-			cardInfoClone.Mods.Add(new CardModificationInfo(SeaLegs.ability));
-			bp.card = cardInfoClone;
-		}
-
 		return blueprint;
 	}
 

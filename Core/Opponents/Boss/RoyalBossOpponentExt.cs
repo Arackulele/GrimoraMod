@@ -140,14 +140,6 @@ public class RoyalBossOpponentExt : BaseBossExt
 			new() { bp_Skeleton, bp_Skeleton },
 			new(),
 		};
-
-		foreach (var bp in blueprint.turns.SelectMany(cardBlueprints => cardBlueprints))
-		{
-			CardInfo cardInfoClone = bp.card.DeepCopy();
-			cardInfoClone.Mods.Add(new CardModificationInfo(SeaLegs.ability));
-			bp.card = cardInfoClone;
-		}
-
 		return blueprint;
 	}
 
