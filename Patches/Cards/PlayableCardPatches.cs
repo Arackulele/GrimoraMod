@@ -29,14 +29,21 @@ public class PlayableCardPatches
 			// insert at beginning
 			if (toLeftSlot.IsNotNull())
 			{
-				__result.Insert(0, toLeftSlot);
+				if (!hasRaider || toLeftSlot.Card.IsNull() || !toLeftSlot.Card.HasAbility(Raider.ability))
+				{
+					__result.Insert(0, toLeftSlot);
+				}
 			}
 
 			// insert at end
 			if (toRightSlot.IsNotNull())
 			{
-				__result.Insert(__result.Count, toRightSlot);
+				if (!hasRaider || toRightSlot.Card.IsNull() || !toRightSlot.Card.HasAbility(Raider.ability))
+				{
+					__result.Insert(__result.Count, toRightSlot);
+				}
 			}
+
 
 			if (hasInvertedStrike)
 			{
