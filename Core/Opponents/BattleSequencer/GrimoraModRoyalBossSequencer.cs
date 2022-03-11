@@ -167,7 +167,13 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			yield return RecursivePush(playableCard, destination, movingLeft, null);
 		}
 
-		yield return MoveToSlot(playableCard, destination, destinationValid, movingLeft);
+		Log.LogInfo(
+			$"[TableSway.DoStrafe] Starting MoveToSlot for {playableCard.GetNameAndSlot()}"
+		);
+		if (!playableCard.HasAbility(SeaLegs.ability))
+		{
+			yield return MoveToSlot(playableCard, destination, destinationValid, movingLeft);
+		}
 	}
 
 	private IEnumerator RecursivePush(PlayableCard playableCard, CardSlot slot, bool toLeft, Action<bool> canMoveResult)
@@ -223,6 +229,9 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		bool movingLeft
 	)
 	{
+		bool destinationSlotCardHasSeaLegs = destination.IsNotNull()
+		                                     && destination.Card.IsNotNull()
+		                                     && destination.Card.HasAbility(SeaLegs.ability);
 		if (playableCard.HasAnyAbilities(Ability.Strafe, Ability.StrafePush))
 		{
 			playableCard.RenderInfo.SetAbilityFlipped(
@@ -249,29 +258,28 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			);
 			yield return new WaitForSeconds(0.25f);
 		}
-		else if (destination.Card.IsNotNull() && destination.Card.HasAbility(SeaLegs.ability))
+		else if (destinationSlotCardHasSeaLegs)
 		{
-			Log.LogInfo($"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} Destination card is not null and has sea legs");
+			Log.LogInfo(
+				$"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} Destination card is not null and has sea legs"
+			);
 			playableCard.Anim.StrongNegationEffect();
 			yield return new WaitForSeconds(0.15f);
 		}
 		else
 		{
-			if (!playableCard.HasAbility(SeaLegs.ability))
-			{
-				Log.LogInfo(
-					$"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} is about to fucking die me hearty!"
-				);
-				Vector3 positionCopy = playableCard.transform.localPosition;
-				float leftOrRightX = movingLeft
-					? positionCopy.x - 6
-					: positionCopy.x + 6;
-				yield return playableCard.DieCustom(
-					false,
-					royalTableSwayValue: leftOrRightX
-				);
-				yield return new WaitForSeconds(0.15f);
-			}
+			Log.LogInfo(
+				$"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} is about to fucking die me hearty!"
+			);
+			Vector3 positionCopy = playableCard.transform.localPosition;
+			float leftOrRightX = movingLeft
+				? positionCopy.x - 6
+				: positionCopy.x + 6;
+			yield return playableCard.DieCustom(
+				false,
+				royalTableSwayValue: leftOrRightX
+			);
+			yield return new WaitForSeconds(0.15f);
 		}
 	}
 }
