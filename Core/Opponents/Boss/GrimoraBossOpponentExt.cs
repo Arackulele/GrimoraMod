@@ -186,13 +186,11 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		CameraEffects.Instance.Shake(0.15f, 5f);
 		yield return TextDisplayer.Instance.ShowThenClear(
 			"LET THE BONE LORD COMMETH!".BrightRed(),
-			5f,
+			4.6f,
 			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
 		);
 
 		var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
-		ViewManager.Instance.SwitchToView(View.OpponentQueue, false, true);
-
 		int bonelordSlotIndex = ConfigHelper.HasIncreaseSlotsMod
 			? 3
 			: 2;
@@ -203,6 +201,8 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 	private IEnumerator GlitchInCard(CardInfo cardInfo, CardSlot slotToSpawnIn)
 	{
+		ViewManager.Instance.SwitchToView(View.OpponentQueue, false, true);
+
 		Log.LogInfo($"[Grimora] Creating [{cardInfo.name}]");
 		PlayableCard playableCard = CardSpawner.SpawnPlayableCard(cardInfo);
 
