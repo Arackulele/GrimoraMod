@@ -110,6 +110,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 				break;
 			}
 		}
+
 		ViewManager.Instance.SetViewUnlocked();
 	}
 
@@ -152,13 +153,13 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		Log.LogInfo("[Grimora] Creating modified Giant");
 		PlayableCard playableGiant = CardSpawner.SpawnPlayableCard(NameGiant.GetCardInfo());
 		playableGiant.SetIsOpponentCard();
-		
+
 		CardInfo infoGiant = NameGiant.GetCardInfo().Clone() as CardInfo;
 		infoGiant.displayedName = giantName;
 		infoGiant.abilities = new List<Ability> { Ability.Reach, GiantStrike.ability };
 		infoGiant.specialAbilities.Add(GrimoraGiant.SpecialTriggeredAbility);
 		infoGiant.Mods.Add(new CardModificationInfo(-1, 1));
-		
+
 		playableGiant.SetInfo(infoGiant);
 		yield return BoardManager.Instance.TransitionAndResolveCreatedCard(playableGiant, slotToSpawnIn, 0.3f);
 		yield return TextDisplayer.Instance.ShowUntilInput($"{giantName}!");
@@ -174,10 +175,10 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		AudioController.Instance.FadeInLoop(7f, 0.5f, 1);
 
 		ViewManager.Instance.SwitchToView(View.DefaultUpwards, false, true);
-		
+
 		SetSceneEffectsShownGrimora(GrimoraColors.GrimoraBossCardLight);
 		yield return new WaitForSeconds(0.1f);
-		
+
 		Log.LogDebug($"Spawning Bonelord effects");
 		GameObject bonelordEffect = Instantiate(AssetUtils.GetPrefab<GameObject>("BonelordTableEffects"));
 		yield return new WaitForSeconds(6f);
@@ -234,12 +235,12 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		Log.LogInfo("[Grimora] Creating modified Bone Lords Horn");
 		PlayableCard playableHorn = CardSpawner.SpawnPlayableCard(NameBoneLordsHorn.GetCardInfo());
 		playableHorn.SetIsOpponentCard();
-		
+
 		CardInfo infoHorn = NameBoneLordsHorn.GetCardInfo().Clone() as CardInfo;
 		infoHorn.Mods.Add(new CardModificationInfo { attackAdjustment = 2 });
 		infoHorn.abilities.Remove(Ability.QuadrupleBones);
 		infoHorn.iceCubeParams.creatureWithin.abilities.Add(Ability.BuffNeighbours);
-		
+
 		playableHorn.SetInfo(infoHorn);
 		return infoHorn;
 	}
