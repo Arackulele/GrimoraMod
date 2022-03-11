@@ -196,15 +196,68 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		int bonelordSlotIndex = ConfigHelper.HasIncreaseSlotsMod
 			? 3
 			: 2;
-		Log.LogInfo("[Grimora] Creating Bonelord");
-		yield return BoardManager.Instance.CreateCardInSlot(
-			NameBonelord.GetCardInfo(),
-			oppSlots[bonelordSlotIndex],
-			0.75f
-		);
-		yield return new WaitForSeconds(0.25f);
+		yield return GlitchInCard(NameBonelord.GetCardInfo(), oppSlots[bonelordSlotIndex]);
 
 		yield return CreateHornsInFarLeftAndRightLanes(oppSlots);
+	}
+
+	private IEnumerator GlitchInCard(CardInfo cardInfo, CardSlot slotToSpawnIn)
+	{
+		Log.LogInfo($"[Grimora] Creating [{cardInfo.name}]");
+		PlayableCard playableCard = CardSpawner.SpawnPlayableCard(cardInfo);
+
+		Log.LogDebug($"Playing glitch in effect for [{cardInfo.name}], setting inactive first");
+		playableCard.gameObject.SetActive(false);
+
+		Log.LogDebug($"Try load glitch3d mat");
+		GlitchOutAssetEffect.TryLoad3DMaterial();
+		Material glitch3DMaterial = GlitchOutAssetEffect.glitch3DMaterial;
+
+		Renderer[] componentsInChildren = playableCard.GetComponentsInChildren<Renderer>();
+		Dictionary<Renderer, Material> originalMats = componentsInChildren.ToDictionary(
+			render => render,
+			render => render.material
+		);
+		Log.LogDebug($"Setting mats to glitch material");
+		foreach (var t in componentsInChildren)
+		{
+			t.material = glitch3DMaterial;
+		}
+
+		AudioController.Instance.PlaySound2D("broken_hum");
+		UIManager.Instance.Effects.GetEffect<ScreenGlitchEffect>().SetIntensity(1f, 1f);
+		yield return BoardManager.Instance.TransitionAndResolveCreatedCard(
+			playableCard,
+			slotToSpawnIn,
+			0f
+		);
+		yield return new WaitForSeconds(0.5f);
+
+		Log.LogDebug($"Glitch sound");
+		GlitchOutAssetEffect.PlayGlitchSound(playableCard.transform.position);
+		Log.LogDebug($"Setting active");
+		playableCard.gameObject.SetActive(true);
+
+		Log.LogDebug($"Setting mats back to original state");
+		foreach (var renderer in componentsInChildren)
+		{
+			renderer.material = originalMats.GetValueSafe(renderer);
+		}
+
+		playableCard.RenderCard();
+
+		Log.LogDebug($"Tween.Shake");
+		Tween.Shake(
+			playableCard.transform,
+			playableCard.transform.localPosition,
+			Vector3.one * 0.2f,
+			0.5f,
+			0f,
+			Tween.LoopType.None,
+			null,
+			null,
+			false
+		);
 	}
 
 	private IEnumerator CreateHornsInFarLeftAndRightLanes(List<CardSlot> oppSlots)
