@@ -181,7 +181,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		Log.LogDebug($"Spawning Bonelord effects");
 		GameObject bonelordEffect = Instantiate(AssetUtils.GetPrefab<GameObject>("BonelordTableEffects"));
-		CameraEffects.Instance.Shake(0.5f, 4f);
+		CameraEffects.Instance.Shake(0.15f, 5f);
 		yield return TextDisplayer.Instance.ShowThenClear(
 			"LET THE BONE LORD COMMETH!".BrightRed(),
 			5f,
