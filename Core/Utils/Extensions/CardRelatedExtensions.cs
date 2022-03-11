@@ -100,18 +100,31 @@ public static class CardRelatedExtension
 
 	public static CardInfo DeepCopy(this CardInfo cardInfo)
 	{
+		if (cardInfo.IsNull())
+		{
+			return cardInfo;
+		}
+		GrimoraPlugin.Log.LogDebug($"[DeepCopy] Creating a deep copy of [{cardInfo.name}]");
 		CardInfo deepCopy = ScriptableObject.CreateInstance<CardInfo>();
-		deepCopy.abilities = cardInfo.abilities;
-		deepCopy.alternatePortrait = cardInfo.alternatePortrait;
-		deepCopy.animatedPortrait = cardInfo.animatedPortrait;
-		deepCopy.appearanceBehaviour = cardInfo.appearanceBehaviour;
+		deepCopy.abilities = new List<Ability>(cardInfo.abilities);
+		if (cardInfo.alternatePortrait.IsNotNull())
+		{
+			deepCopy.alternatePortrait = Object.Internal_CloneSingle(cardInfo.alternatePortrait) as Sprite;
+		}
+
+		if (cardInfo.animatedPortrait.IsNotNull())
+		{
+			deepCopy.animatedPortrait = Object.Internal_CloneSingle(cardInfo.animatedPortrait) as GameObject;
+		}
+
+		deepCopy.appearanceBehaviour = new List<CardAppearanceBehaviour.Appearance>(cardInfo.appearanceBehaviour);
 		deepCopy.baseAttack = cardInfo.baseAttack;
 		deepCopy.baseHealth = cardInfo.baseHealth;
 		deepCopy.bonesCost = cardInfo.bonesCost;
 		deepCopy.boon = cardInfo.boon;
 		deepCopy.cardComplexity = cardInfo.cardComplexity;
 		deepCopy.cost = cardInfo.cost;
-		deepCopy.decals = cardInfo.decals;
+		deepCopy.decals = new List<Texture>(cardInfo.decals);
 		deepCopy.defaultEvolutionName = cardInfo.defaultEvolutionName;
 		deepCopy.description = cardInfo.description;
 		deepCopy.displayedName = cardInfo.displayedName;
@@ -119,23 +132,39 @@ public static class CardRelatedExtension
 		deepCopy.evolveParams = cardInfo.evolveParams;
 		deepCopy.flipPortraitForStrafe = cardInfo.flipPortraitForStrafe;
 		deepCopy.gemsCost = cardInfo.gemsCost;
-		deepCopy.get_decals = cardInfo.get_decals;
+		deepCopy.get_decals = new List<Texture>(cardInfo.get_decals);
 		deepCopy.hideAttackAndHealth = cardInfo.hideAttackAndHealth;
-		deepCopy.holoPortraitPrefab = cardInfo.holoPortraitPrefab;
+		if (cardInfo.holoPortraitPrefab.IsNotNull())
+		{
+			deepCopy.holoPortraitPrefab = Object.Internal_CloneSingle(cardInfo.holoPortraitPrefab) as GameObject;
+		}
+
 		deepCopy.iceCubeParams = cardInfo.iceCubeParams;
-		deepCopy.metaCategories = cardInfo.metaCategories;
-		deepCopy.mods = cardInfo.mods;
+		deepCopy.metaCategories = new List<CardMetaCategory>(cardInfo.metaCategories);
+		deepCopy.mods = new List<CardModificationInfo>(cardInfo.mods);
 		deepCopy.onePerDeck = cardInfo.onePerDeck;
-		deepCopy.pixelPortrait = cardInfo.pixelPortrait;
-		deepCopy.portraitTex = cardInfo.portraitTex;
-		deepCopy.specialAbilities = cardInfo.specialAbilities;
+		if (cardInfo.pixelPortrait.IsNotNull())
+		{
+			deepCopy.pixelPortrait = Object.Internal_CloneSingle(cardInfo.pixelPortrait) as Sprite;
+		}
+
+		if (cardInfo.portraitTex.IsNotNull())
+		{
+			deepCopy.portraitTex = Object.Internal_CloneSingle(cardInfo.portraitTex) as Sprite;
+		}
+
+		deepCopy.specialAbilities = new List<SpecialTriggeredAbility>(cardInfo.specialAbilities);
 		deepCopy.specialStatIcon = cardInfo.specialStatIcon;
 		deepCopy.tailParams = cardInfo.tailParams;
 		deepCopy.temple = cardInfo.temple;
-		deepCopy.temporaryDecals = cardInfo.temporaryDecals;
-		deepCopy.titleGraphic = cardInfo.titleGraphic;
-		deepCopy.traits = cardInfo.traits;
-		deepCopy.tribes = cardInfo.tribes;
+		deepCopy.temporaryDecals = new List<Texture>(cardInfo.temporaryDecals);
+		if (cardInfo.titleGraphic.IsNotNull())
+		{
+			deepCopy.titleGraphic = Object.Internal_CloneSingle(cardInfo.titleGraphic) as Texture;
+		}
+
+		deepCopy.traits = new List<Trait>(cardInfo.traits);
+		deepCopy.tribes = new List<Tribe>(cardInfo.tribes);
 
 		return deepCopy;
 	}
