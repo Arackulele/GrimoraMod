@@ -181,13 +181,16 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		Log.LogDebug($"Spawning Bonelord effects");
 		GameObject bonelordEffect = Instantiate(AssetUtils.GetPrefab<GameObject>("BonelordTableEffects"));
-		yield return new WaitForSeconds(6f);
-		
-		var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
-		yield return TextDisplayer.Instance.ShowUntilInput(
-			"LET THE BONE LORD COMMETH!",
+		CameraEffects.Instance.Shake(0.5f, 4f);
+		yield return TextDisplayer.Instance.ShowThenClear(
+			"LET THE BONE LORD COMMETH!".BrightRed(),
+			5f,
 			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
 		);
+		yield return new WaitForSeconds(5f);
+
+
+		var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
 		ViewManager.Instance.SwitchToView(View.OpponentQueue, false, true);
 
 		int bonelordSlotIndex = ConfigHelper.HasIncreaseSlotsMod
