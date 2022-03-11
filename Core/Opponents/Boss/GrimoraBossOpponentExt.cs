@@ -1,5 +1,7 @@
 using System.Collections;
 using DiskCardGame;
+using HarmonyLib;
+using Pixelplacement;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -187,8 +189,6 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			5f,
 			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
 		);
-		yield return new WaitForSeconds(5f);
-
 
 		var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
 		ViewManager.Instance.SwitchToView(View.OpponentQueue, false, true);
