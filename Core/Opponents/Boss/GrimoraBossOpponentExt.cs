@@ -158,7 +158,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		CardInfo infoGiant = NameGiant.GetCardInfo().Clone() as CardInfo;
 		infoGiant.displayedName = giantName;
 		infoGiant.abilities = new List<Ability> { Ability.Reach, GiantStrike.ability };
-		infoGiant.SpecialAbilities.Add(GrimoraGiant.SpecialTriggeredAbility);
+		infoGiant.specialAbilities.Add(GrimoraGiant.SpecialTriggeredAbility);
 		infoGiant.Mods.Add(new CardModificationInfo(-1, 1));
 		
 		playableGiant.SetInfo(infoGiant);
