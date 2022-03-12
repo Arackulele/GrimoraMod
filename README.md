@@ -57,6 +57,10 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
   - Problem was that I was only setting to not play the dialogue, only if you used the hammer the 3rd time.
   - If you only used it once or twice each fight, it will play each fight.
 
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Giant cards will now be buffed from both side of the card if the adjacent friendly cards have `Leader`.
+
+  - For example, if Bonelord has a Bone Prince on the left and right side of it, then the total buff will be 2 instead of 1
+
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Reset button is now only available to click in the Pause Menu.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Explorable crypt! Although it's mostly the building, and not a whole lot in it at the moment.
