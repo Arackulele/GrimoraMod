@@ -26,6 +26,10 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ## Known Issues
 
+### Unable to right-click stat icons like Ant or Bellist
+
+- Unfortunately this one is also pretty hard to track down. Will have to play around and see what the main differences are because I can't really see what's different between the Act 1 and Grimora's card render.
+
 ### Activated abilities no longer work
 
 - The primary cause of this is whenever another ability gets added to the card. The bug lies in the `Activated Ability Fix` mod, but I'm not sure where.
