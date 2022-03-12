@@ -80,9 +80,15 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 
 	public static NewSpecialAbility Create()
 	{
+		StatIconInfo info = ScriptableObject.CreateInstance<StatIconInfo>();
+		info.iconType = SpecialStatIcon.NUM_ICONS;
+		info.appliesToAttack = false;
+		info.appliesToHealth = false;
+		info.iconGraphic = Texture2D.blackTexture;
+		info.rulebookName = "Royal's Ship";
 		var sId = SpecialAbilityIdentifier.GetID(GUID, "!GRIMORA_ROYALS_SHIP");
 
-		var ability = new NewSpecialAbility(typeof(CreateRoyalsCrewMate), sId);
+		var ability = new NewSpecialAbility(typeof(CreateRoyalsCrewMate), sId, info);
 		SpecialTriggeredAbility = ability.specialTriggeredAbility;
 		return ability;
 	}

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using APIPlugin;
 using DiskCardGame;
+using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -11,9 +12,15 @@ public class GrimoraGiant : SpecialCardBehaviour
 
 	public static NewSpecialAbility Create()
 	{
+		StatIconInfo info = ScriptableObject.CreateInstance<StatIconInfo>();
+		info.iconType = SpecialStatIcon.NUM_ICONS;
+		info.appliesToAttack = false;
+		info.appliesToHealth = false;
+		info.iconGraphic = Texture2D.blackTexture;
+		info.rulebookName = "Grimora's Giant";
 		var sId = SpecialAbilityIdentifier.GetID(GUID, "!GRIMORA_GIANT");
 
-		var ability = new NewSpecialAbility(typeof(GrimoraGiant), sId);
+		var ability = new NewSpecialAbility(typeof(GrimoraGiant), sId, info);
 		SpecialTriggeredAbility = ability.specialTriggeredAbility;
 		return ability;
 	}
