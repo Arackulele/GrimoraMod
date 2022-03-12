@@ -26,10 +26,6 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ## Known Issues
 
-### Teeth stay on board after a card with AOE Strike attacks
-
-- No idea how to fix, just a visual bug however so it doesn't affect gameplay.
-
 ### A card with Area of Effect Strike, Tri Strike, and Sniper sigils only allows 3 attacks
 
 - Believe it or not, this is how the vanilla game code for the `Sniper` ability is handled. It doesn't base it off how many attacks you're doing, it hard codes to either 2 for `Split Strike` or 3 for `Tri Strike`.
@@ -39,13 +35,14 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - Make a backup of your save, then delete your current save. Having your current save already at the finale seems to break the mod.
 - Possibly fixed in 2.6.4 update.
 
-### Bonelord art overlaps abilities
-
-- Bonelord does what he wants.
-
 ## Update Notes
 
 ### 2.7.6
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed teeth not disappearing from cards that attack their owners.
+
+  - For example, AOE Strike and now Raider. The reason being is that teeth only get cleared if `DamageDealtThisPhase` is greater than zero. There is logic for the `CombatPhaseManager.SlotAttackSequence` patch that I made to minus the damage done to this field so that it would correctly add the damage to the scale for the respective owner.
+  - Now there is logic in that patch right after subtracting the damage to call `CombatPhaseManager3D.VisualizeDamageMovingToScales` and clear `damageWeights` so that it will correctly remove the teeth from the board.
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) FIXED ANNOYING BLUE LIGHT ON BOSS SKULL AFTER ROYAL'S FIGHT.
 
@@ -82,7 +79,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Corrected issue with Submerge being removed from all cards instead of the card that was frozen during Kaycee's fight. (Thanks Magnificus!)
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Cards with `Possessive` or `Waterborne` will now lose that ability when frozen, and regain it back once unfrozen. Causes the lane to die entirely and not be useable...
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Cards with `Hook Line and Sinker`, `Possessive`, or `Waterborne` will now lose that ability when frozen, and regain it back once unfrozen. Causes the lane to die entirely and not be useable...
 
 ##### Royal
 
@@ -116,15 +113,16 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png)
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) New pirate cards and abilities! Art courtesy `Bt Y#0895`.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New pirate cards, regular cards, and abilities! Art courtesy `Bt Y#0895`.
 
   - Captain Yellowbeard: 2/2, 7 Bones with `Sea Shanty`.
   - First Mate Snag: 2/2, 7 Bones with `Hook Line And Sinker`.
   - Privateer: 1/1, 4 Bones with `Sniper`.
   - Swashbuckler: 1/2, 0 Bones with `Raider`. Not obtainable.
+  - Vellum: 0/2. Spawned from `Leaping Trap` instead of a normal pelt.
 
   - Abilities:
-    - Raider: [creature] will strike it's adjacent slots. Icon courtesy of `Blind, the Bound Demon#6475`.
+    - Raider: [creature] will strike it's adjacent slots, except other Raiders. Icon courtesy of `Blind, the Bound Demon#6475`.
     - Sea Shanty: [creature] empowers each Skeleton on the owner's side of the board, providing a +1 buff their power. Icon courtesy of `Blind, the Bound Demon#6475`.
     - Hook Line And Sinker: When [creature] perishes, the creature in the opposing slot is dragged onto the owner's side of the board. Icon courtesy of `Bt Y#0895`.
 
@@ -137,8 +135,6 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
   - Poltergeist, courtesy of `Cevin2006™ (◕‿◕)#7971`.
   - The Walkers, courtesy of `Catboy Stinkbug#4099`.
   - Zombie, courtesy of `Bt Y#0895`.
-
-- ![Feature](https://i.imgur.com/uL9uYNV.png) `Leaping Trap` now gives a different type of pelt.
 
 ### 2.7.5
 
