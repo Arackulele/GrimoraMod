@@ -30,10 +30,10 @@ public class GrimoraModSawyerBossSequencer : GrimoraModBossBattleSequencer
 
 		if (bonesTakenCounter >= 2 && ResourcesManager.Instance.PlayerBones >= 3)
 		{
+			ViewManager.Instance.SwitchToView(View.BoneTokens, lockAfter: true);
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"PLEASE, WON'T YOU SPARE SOME BONES FOR A POOR GHOUL LIKE ME?"
 			);
-			ViewManager.Instance.SwitchToView(View.BoneTokens, lockAfter: true);
 			yield return new WaitForSeconds(0.75f);
 			yield return ResourcesManager.Instance.SpendBones(1);
 			yield return new WaitForSeconds(0.75f);
