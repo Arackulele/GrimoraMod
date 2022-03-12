@@ -15,6 +15,7 @@ public class ChessboardMapExt : GameMap
 	private bool _toggleCardsLeftInDeck = false;
 	private bool _btnDeckView = false;
 	private bool _btnGetUp = false;
+	private bool _btnReset = false;
 
 	public bool HasNotPlayedDialogueOnce =>
 		ConfigHelper.Instance.HammerDialogueOption == 1 && hasNotPlayedAllHammerDialogue < 3;
@@ -103,7 +104,7 @@ public class ChessboardMapExt : GameMap
 				);
 
 				_btnGetUp = GUI.Button(
-					new Rect(200, 0, 100, 50),
+					new Rect(100, 0, 100, 50),
 					"Get Up"
 				);
 
@@ -141,10 +142,18 @@ public class ChessboardMapExt : GameMap
 			_btnGetUp = false;
 		}
 
-		var resetRunBtn = GUI.Button(
-			new Rect(100, 0, 100, 50),
-			"Reset Run"
-		);
+		if (PauseMenu.instance.menuParent.activeInHierarchy)
+		{
+			_btnReset = GUI.Button(
+				new Rect(200, 0, 100, 50),
+				"Reset Run"
+			);
+			
+			if (_btnReset)
+			{
+				ConfigHelper.Instance.ResetRun();
+			}
+		}
 
 
 		if (GrimoraGameFlowManager.Instance.CurrentGameState == GameState.CardBattle)
@@ -173,10 +182,7 @@ public class ChessboardMapExt : GameMap
 			}
 		}
 
-		if (resetRunBtn)
-		{
-			ConfigHelper.Instance.ResetRun();
-		}
+
 	}
 
 	public IEnumerator CompleteRegionSequence()
