@@ -20,7 +20,7 @@ public class LatchPatches
 
 		List<CardSlot> validTargets = BoardManager.Instance.AllSlotsCopy;
 		validTargets.RemoveAll(
-			x => x.Card == null || x.Card.Dead || __instance.CardHasLatchMod(x.Card) || x.Card == __instance.Card
+			x => x.Card.IsNull() || x.Card.Dead || __instance.CardHasLatchMod(x.Card) || x.Card == __instance.Card
 		);
 		if (validTargets.Count <= 0)
 		{
@@ -45,7 +45,7 @@ public class LatchPatches
 					selectedSlot = s;
 				}
 			);
-			if (selectedSlot != null && selectedSlot.Card != null)
+			if (selectedSlot.IsNotNull() && selectedSlot.Card.IsNotNull())
 			{
 				AimWeaponAnim(cardAnim.armAnim.transform, selectedSlot.transform.position);
 				yield return new WaitForSeconds(0.3f);
@@ -65,7 +65,7 @@ public class LatchPatches
 				__instance.OnInvalidTarget,
 				delegate(CardSlot s)
 				{
-					if (s.Card != null)
+					if (s.Card.IsNotNull())
 					{
 						AimWeaponAnim(cardAnim.armAnim.transform, s.transform.position);
 					}
@@ -89,7 +89,7 @@ public class LatchPatches
 			0.05f,
 			2
 		);
-		if (selectedSlot != null && selectedSlot.Card != null)
+		if (selectedSlot.IsNotNull() && selectedSlot.Card.IsNotNull())
 		{
 			yield return new WaitForSeconds(0.05f);
 			CardModificationInfo cardModificationInfo = new CardModificationInfo

@@ -24,7 +24,7 @@ public class SkinCrawler : AbilityBehaviour
 		for (int i = 0; i < playableCard.transform.childCount; i++)
 		{
 			SkinCrawler skinCrawler = playableCard.transform.GetChild(i).GetComponent<SkinCrawler>();
-			if (skinCrawler is not null)
+			if (skinCrawler.IsNotNull())
 			{
 				// now we get the card itself to add to the list
 				return skinCrawler;
@@ -36,7 +36,7 @@ public class SkinCrawler : AbilityBehaviour
 
 	public static SkinCrawler GetSkinCrawlerFromSlot(CardSlot slot)
 	{
-		if (slot is not null && slot.Card is not null)
+		if (slot.IsNotNull() && slot.Card.IsNotNull())
 		{
 			return GetSkinCrawlerFromCard(slot.Card);
 		}
@@ -53,20 +53,20 @@ public class SkinCrawler : AbilityBehaviour
 		CardSlot toLeftSlot = BoardManager.Instance.GetAdjacent(Card.Slot, true);
 		CardSlot toRightSlot = BoardManager.Instance.GetAdjacent(Card.Slot, false);
 
-		if (toLeftSlot is not null && toLeftSlot.Card is not null && GetSkinCrawlerFromCard(toLeftSlot.Card) is null)
+		if (toLeftSlot.IsNotNull() && toLeftSlot.Card.IsNotNull() && GetSkinCrawlerFromCard(toLeftSlot.Card) is null)
 		{
 			slotToPick = toLeftSlot;
-			Log.LogDebug($"[SkinCrawler] LeftSlot is not null, has card [{slotToPick.Card.GetNameAndSlot()}]");
+			Log.LogDebug($"[SkinCrawler] LeftSlot.IsNotNull(), has card [{slotToPick.Card.GetNameAndSlot()}]");
 		}
-		else if (toRightSlot is not null
-		         && toRightSlot.Card is not null
+		else if (toRightSlot.IsNotNull()
+		         && toRightSlot.Card.IsNotNull()
 		         && GetSkinCrawlerFromCard(toRightSlot.Card) is null)
 		{
 			slotToPick = toRightSlot;
-			Log.LogDebug($"[SkinCrawler] RightSlot is not null, has card [{slotToPick.Card.GetNameAndSlot()}]");
+			Log.LogDebug($"[SkinCrawler] RightSlot.IsNotNull(), has card [{slotToPick.Card.GetNameAndSlot()}]");
 		}
 
-		if (GetSkinCrawlerFromSlot(slotToPick) is not null)
+		if (GetSkinCrawlerFromSlot(slotToPick).IsNotNull())
 		{
 			return null;
 		}
@@ -76,7 +76,7 @@ public class SkinCrawler : AbilityBehaviour
 
 	public IEnumerator AssignSkinCrawlerCardToHost(CardSlot slotToPick)
 	{
-		if (slotToPick is not null)
+		if (slotToPick.IsNotNull())
 		{
 			PlayableCard cardToPick = slotToPick.Card;
 			CardSlot cardSlotToPick = slotToPick.Card.Slot;
@@ -124,7 +124,7 @@ public class SkinCrawler : AbilityBehaviour
 			);
 			yield return new WaitForSeconds(0.1f);
 
-			// rotate base card with it's original rotation values so that it lays flat on the board again
+			// rotate base card with its original rotation values so that it lays flat on the board again
 			// Log.LogDebug($"[SkinCrawler] rotating [{toRightSlot.Card.Info.name}]");
 			Tween.Rotation(cardToPick.transform, cardRot, 0.1f, 0f, Tween.EaseInOut);
 
@@ -154,14 +154,14 @@ public class SkinCrawler : AbilityBehaviour
 
 		yield return new WaitForSeconds(0.25f);
 		ViewManager.Instance.SwitchToView(View.Default);
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+		ViewManager.Instance.SetViewUnlocked();
 	}
 
 
 	private bool CardIsAdjacent(PlayableCard playableCard)
 	{
 		return BoardManager.Instance.GetAdjacentSlots(Card.Slot)
-			.Exists(slot => slot is not null && slot.Card == playableCard);
+			.Exists(slot => slot.IsNotNull() && slot.Card == playableCard);
 	}
 
 	public override bool RespondsToOtherCardAssignedToSlot(PlayableCard otherCard)
@@ -211,7 +211,7 @@ public class SkinCrawler : AbilityBehaviour
 			+ $"_slotHidingUnderCard [{_slotHidingUnderCard}] is card.Slot? [{_slotHidingUnderCard == card.Slot}]"
 			+ $"Exists in list? [{SlotsThatHaveCrawlersHidingUnderCards.Contains(deathSlot)}]"
 		);
-		return _slotHidingUnderCard is not null
+		return _slotHidingUnderCard.IsNotNull()
 		       && _slotHidingUnderCard == card.Slot
 		       && SlotsThatHaveCrawlersHidingUnderCards.Contains(deathSlot);
 	}
@@ -250,7 +250,7 @@ public class SkinCrawlerPatches
 		foreach (var card in __result)
 		{
 			SkinCrawler skinCrawler = SkinCrawler.GetSkinCrawlerFromSlot(card.Slot);
-			if (skinCrawler is not null)
+			if (skinCrawler.IsNotNull())
 			{
 				// now we get the card itself to add to the list
 				Log.LogDebug(

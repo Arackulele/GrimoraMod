@@ -66,12 +66,12 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		BoneLordsReign.Create();
 		BuffCrewMates.Create();
 		CreateArmyOfSkeletons.Create();
-		CreateKnells.Create();
 		Erratic.Create();
 		FlameStrafe.Create();
 		GiantStrike.Create();
 		GiantStrikeEnraged.Create();
 		GrimoraRandomAbility.Create();
+		Haunter.Create();
 		HookLineAndSinker.Create();
 		InvertedStrike.Create();
 		LitFuse.Create();

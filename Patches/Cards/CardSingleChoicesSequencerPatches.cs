@@ -22,12 +22,12 @@ public class CardSingleChoicesSequencerPatches
 		CardSingleChoicesSequencer __state
 	)
 	{
-		// TODO: this is an exact copy, minus the commented out code at (choice.CardInfo != null) block
+		// TODO: this is an exact copy, minus the commented out code at (choice.CardInfo.IsNotNull()) block
 		if (SaveManager.saveFile.IsGrimora)
 		{
 			CardSingleChoicesSequencer choicesSequencer = __state;
 			CardChoicesNodeData choicesData = nodeData as CardChoicesNodeData;
-			if (StoryEventsData.EventCompleted(StoryEvent.CloverFound) && choicesSequencer.rerollInteractable != null)
+			if (StoryEventsData.EventCompleted(StoryEvent.CloverFound) && choicesSequencer.rerollInteractable.IsNotNull())
 			{
 				choicesSequencer.rerollInteractable.gameObject.SetActive(true);
 				choicesSequencer.rerollInteractable.SetEnabled(false);
@@ -36,7 +36,7 @@ public class CardSingleChoicesSequencerPatches
 
 			choicesSequencer.chosenReward = null;
 			int randomSeed = SaveManager.SaveFile.GetCurrentRandomSeed();
-			while (choicesSequencer.chosenReward == null)
+			while (choicesSequencer.chosenReward.IsNull())
 			{
 				List<CardChoice> choices;
 				if (choicesData.overrideChoices != null)
@@ -62,7 +62,7 @@ public class CardSingleChoicesSequencerPatches
 					card.SetParticlesEnabled(true);
 					card.SetEnabled(false);
 					card.ChoiceInfo = choice;
-					if (choice.CardInfo != null)
+					if (choice.CardInfo.IsNotNull())
 					{
 						card.Initialize(choice.CardInfo, choicesSequencer.OnRewardChosen,
 							choicesSequencer.OnCardFlipped, true,
@@ -106,7 +106,7 @@ public class CardSingleChoicesSequencerPatches
 						Tween.EaseOut);
 					yield return new WaitForSeconds(0.2f);
 					ParticleSystem componentInChildren = card.GetComponentInChildren<ParticleSystem>();
-					if (componentInChildren != null)
+					if (componentInChildren.IsNotNull())
 					{
 						var emmision = componentInChildren.emission;
 						emmision.rateOverTime = 0f;
@@ -146,7 +146,7 @@ public class CardSingleChoicesSequencerPatches
 				choicesSequencer.SetCollidersEnabled(true);
 				choicesSequencer.choicesRerolled = false;
 				choicesSequencer.EnableViewDeck(choicesSequencer.viewControlMode, choicesSequencer.basePosition);
-				yield return new WaitUntil(() => __state.chosenReward != null || __state.choicesRerolled);
+				yield return new WaitUntil(() => __state.chosenReward.IsNotNull() || __state.choicesRerolled);
 				choicesSequencer.DisableViewDeck();
 				choicesSequencer.CleanUpCards();
 			}

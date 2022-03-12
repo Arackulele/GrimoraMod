@@ -15,6 +15,7 @@ public class ChessboardMapExt : GameMap
 	private bool _toggleCardsLeftInDeck = false;
 	private bool _btnDeckView = false;
 	private bool _btnGetUp = false;
+	private bool _btnReset = false;
 
 	public bool HasNotPlayedDialogueOnce =>
 		ConfigHelper.Instance.HammerDialogueOption == 1 && hasNotPlayedAllHammerDialogue < 3;
@@ -103,7 +104,7 @@ public class ChessboardMapExt : GameMap
 				);
 
 				_btnGetUp = GUI.Button(
-					new Rect(200, 0, 100, 50),
+					new Rect(100, 0, 100, 50),
 					"Get Up"
 				);
 
@@ -141,10 +142,18 @@ public class ChessboardMapExt : GameMap
 			_btnGetUp = false;
 		}
 
-		var resetRunBtn = GUI.Button(
-			new Rect(100, 0, 100, 50),
-			"Reset Run"
-		);
+		if (PauseMenu.instance.menuParent.activeInHierarchy)
+		{
+			_btnReset = GUI.Button(
+				new Rect(200, 0, 100, 50),
+				"Reset Run"
+			);
+			
+			if (_btnReset)
+			{
+				ConfigHelper.Instance.ResetRun();
+			}
+		}
 
 
 		if (GrimoraGameFlowManager.Instance.CurrentGameState == GameState.CardBattle)
@@ -161,7 +170,7 @@ public class ChessboardMapExt : GameMap
 				_toggleCardsLeftInDeck,
 				"Cards Left in Deck"
 			);
-			
+
 			if (ConfigHelper.Instance.EnableCardsLeftInDeckView && _toggleCardsLeftInDeck)
 			{
 				GUI.SelectionGrid(
@@ -173,16 +182,13 @@ public class ChessboardMapExt : GameMap
 			}
 		}
 
-		if (resetRunBtn)
-		{
-			ConfigHelper.Instance.ResetRun();
-		}
+
 	}
 
 	public IEnumerator CompleteRegionSequence()
 	{
 		ViewManager.Instance.Controller.SwitchToControlMode(ViewController.ControlMode.Map);
-		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+		ViewManager.Instance.SetViewLocked();
 
 		SaveManager.SaveToFile();
 
@@ -190,7 +196,7 @@ public class ChessboardMapExt : GameMap
 
 		ChangingRegion = true;
 
-		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+		ViewManager.Instance.SetViewLocked();
 
 		ViewManager.Instance.SwitchToView(View.MapDefault);
 
@@ -198,7 +204,6 @@ public class ChessboardMapExt : GameMap
 
 		MapNodeManager.Instance.SetAllNodesInteractable(false);
 
-		// Log.LogDebug($"[CompleteRegionSequence] Looping audio");
 		AudioController.Instance.SetLoopAndPlay("finalegrimora_ambience");
 		AudioController.Instance.SetLoopVolumeImmediate(0f);
 		AudioController.Instance.FadeInLoop(1f, 1f);
@@ -210,27 +215,23 @@ public class ChessboardMapExt : GameMap
 		// this will call Unrolling and Showing the player Marker
 		yield return GameMap.Instance.ShowMapSequence();
 
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+		ViewManager.Instance.SetViewUnlocked();
 
 		ChangingRegion = false;
-		Log.LogDebug($"[CompleteRegionSequence] No longer ChangingRegion");
+		Log.LogInfo($"[CompleteRegionSequence] No longer ChangingRegion");
 	}
 
 	private void ClearBoardForChangingRegion()
 	{
-		Log.LogDebug($"[CompleteRegionSequence] Clearing and destroying pieces");
 		pieces.RemoveAll(
 			delegate(ChessboardPiece piece)
 			{
-				// piece.gameObject.SetActive(false);
 				piece.MapNode.OccupyingPiece = null;
 				Destroy(piece.gameObject);
-
 				return true;
 			}
 		);
 
-		// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Clearing removedPiecesConfig");
 		ConfigHelper.Instance.ResetRemovedPieces();
 	}
 
@@ -307,7 +308,6 @@ public class ChessboardMapExt : GameMap
 		foreach (var zone in ChessboardNavGrid.instance.zones)
 		{
 			zone.gameObject.SetActive(true);
-			// UnityExplorer.ExplorerCore.Log(zone.GetComponent<ChessboardMapNode>().isActiveAndEnabled);
 		}
 	}
 
@@ -371,7 +371,7 @@ public class ChessboardMapExt : GameMap
 			case View.Choices when newView == View.MapDeckReview:
 			case View.MapDefault when newView == View.MapDeckReview:
 			{
-				if (MapNodeManager.Instance != null)
+				if (MapNodeManager.Instance.IsNotNull())
 				{
 					MapNodeManager.Instance.SetAllNodesInteractable(false);
 				}
@@ -383,7 +383,7 @@ public class ChessboardMapExt : GameMap
 			case View.MapDeckReview when newView == View.MapDefault:
 			{
 				DeckReviewSequencer.Instance.SetDeckReviewShown(false, transform, DefaultPosition);
-				if (MapNodeManager.Instance != null)
+				if (MapNodeManager.Instance.IsNotNull())
 				{
 					ChessboardNavGrid.instance.SetPlayerAdjacentNodesActive();
 				}

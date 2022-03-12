@@ -171,7 +171,7 @@ public class GrimoraChessboard
 
 		ChessboardMapNode nodeAtSpace = GetNodeAtSpace(x, y);
 
-		bool pieceAtSpaceIsNotPlayer = nodeAtSpace.OccupyingPiece is not null
+		bool pieceAtSpaceIsNotPlayer = nodeAtSpace.OccupyingPiece.IsNotNull()
 		                               && nodeAtSpace.OccupyingPiece.GetType() != typeof(PlayerMarker)
 		                               || !nodeAtSpace.isActiveAndEnabled;
 
@@ -290,7 +290,7 @@ public class GrimoraChessboard
 
 		ChessboardPiece piece = ChessboardMapExt.Instance.pieces.Find(p => p.gridXPos == x && p.gridYPos == y);
 
-		if (piece is not null)
+		if (piece.IsNotNull())
 		{
 			// Log.LogDebug($"[CreateChessPiece<{typeof(T).Name}>] Skipping x{x}y{y}");
 			return piece.GetComponent<T>();
@@ -298,7 +298,7 @@ public class GrimoraChessboard
 
 		piece = HandlePieceSetup<T>(prefab, specialEncounterId);
 
-		if (piece.anim is null && piece.transform.Find("Anim") is not null)
+		if (piece.anim is null && piece.transform.Find("Anim").IsNotNull())
 		{
 			piece.anim = piece.transform.Find("Anim").GetComponent<Animator>();
 		}
@@ -311,7 +311,7 @@ public class GrimoraChessboard
 		piece.gridXPos = x;
 		piece.gridYPos = y;
 
-		if (specialNodeData is not null)
+		if (specialNodeData != null)
 		{
 			piece.NodeData = specialNodeData;
 		}

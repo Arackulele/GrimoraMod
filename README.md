@@ -26,9 +26,9 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ## Known Issues
 
-### Teeth stay on board after a card with AOE Strike attacks
+### Activated abilities no longer work
 
-- No idea how to fix, just a visual bug however so it doesn't affect gameplay.
+- The primary cause of this is whenever another ability gets added to the card. The bug lies in the `Activated Ability Fix` mod, but I'm not sure where.
 
 ### A card with Area of Effect Strike, Tri Strike, and Sniper sigils only allows 3 attacks
 
@@ -39,50 +39,67 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - Make a backup of your save, then delete your current save. Having your current save already at the finale seems to break the mod.
 - Possibly fixed in 2.6.4 update.
 
-### Bonelord art overlaps abilities
-
-- Bonelord does what he wants.
-
 ## Update Notes
 
 ### 2.7.6
 
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed teeth not disappearing from cards that attack their owners.
+
+  - For example, AOE Strike and now Raider. The reason being is that teeth only get cleared if `DamageDealtThisPhase` is greater than zero. There is logic for the `CombatPhaseManager.SlotAttackSequence` patch that I made to minus the damage done to this field so that it would correctly add the damage to the scale for the respective owner.
+  - Now there is logic in that patch right after subtracting the damage to call `CombatPhaseManager3D.VisualizeDamageMovingToScales` and clear `damageWeights` so that it will correctly remove the teeth from the board.
+
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) FIXED ANNOYING BLUE LIGHT ON BOSS SKULL AFTER ROYAL'S FIGHT.
 
   - Apparently when the cannons are created, there is 2 spotlights created that don't get destroyed when they glitch out.
-
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Cards having 4 abilities cannot be chosen for the Boneyard event.
-
-  - Breaks the card rendering unfortunately.
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed hammer dialogue playing each battle instead of only once.
 
   - Problem was that I was only setting to not play the dialogue, only if you used the hammer the 3rd time.
   - If you only used it once or twice each fight, it will play each fight.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Changed campfire sounds to be more electric.
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Giant cards will now be buffed from both side of the card if the adjacent friendly cards have `Leader`.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Cards that have been Electric Chaired will now have a permanent blue emission.
+  - For example, if Bonelord has a Bone Prince on the left and right side of it, then the total buff will be 2 instead of 1
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Reset button is now only available to click in the Pause Menu.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Explorable crypt! Although it's mostly the building, and not a whole lot in it at the moment.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Added button to get up from the chessboard!
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) If the Electric Chair would give `Swapper` sigil, a new sigil will be randomly chosen if the card has zero attack or fewer than 3 health.
-
-  - This helps to avoid a card committing forever sleep on first hit.
-
 - ![Feature](https://i.imgur.com/uL9uYNV.png) 3 more `Skeleton` cards are added to side deck.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) If no chess pieces have been interacted with at all, starting position for player piece will be defaulted. Meaning, if you haven't battled or opened a chest, your position will reset back to the start position for that board.
 
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Stinkbug will now glitch out when dying if it hasn't been clicked yet.
+
+### Boneyard
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Cards having 4 abilities cannot be chosen for the Boneyard event.
+
+  - Breaks the card rendering unfortunately.
+
+#### Electric Chair
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Changed campfire sounds to be more electric.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Cards that have been Electric Chaired will now have a permanent blue emission.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) If the Electric Chair would give `Swapper` sigil, a new sigil will be randomly chosen if the card has zero attack or fewer than 3 health.
+
+  - This helps to avoid a card committing forever sleep on first hit.
+
 #### Bosses
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Boss skull during boss fight will glitch out when dying.
 
 ##### Kaycee
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Corrected issue with Submerge being removed from all cards instead of the card that was frozen during Kaycee's fight. (Thanks Magnificus!)
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Cards with `Possessive` or `Waterborne` will now lose that ability when frozen, and regain it back once unfrozen. Causes the lane to die entirely and not be useable...
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Cards with `Hook Line and Sinker`, `Possessive`, or `Waterborne` will now lose that ability when frozen, and regain it back once unfrozen. Causes the lane to die entirely and not be useable...
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Chess figurine icicle now looks more ice-like. Ice is hard to look like ice.
 
 ##### Royal
 
@@ -95,6 +112,8 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with Twin Giants spawning.
 
   - The primary issue seemed to be how the creation of the abilities were done. No more direct static calls!
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New Bonelord entrance!
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) The giants now have personal names! I wouldn't make one mad though...
 
@@ -114,17 +133,16 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed cards with flying no longer flying after attacking.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png)
-
-- ![Feature](https://i.imgur.com/uL9uYNV.png) New pirate cards and abilities! Art courtesy `Bt Y#0895`.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New pirate cards, regular cards, and abilities! Art courtesy `Bt Y#0895`.
 
   - Captain Yellowbeard: 2/2, 7 Bones with `Sea Shanty`.
   - First Mate Snag: 2/2, 7 Bones with `Hook Line And Sinker`.
   - Privateer: 1/1, 4 Bones with `Sniper`.
   - Swashbuckler: 1/2, 0 Bones with `Raider`. Not obtainable.
+  - Vellum: 0/2. Spawned from `Leaping Trap` instead of a normal pelt.
 
   - Abilities:
-    - Raider: [creature] will strike it's adjacent slots. Icon courtesy of `Blind, the Bound Demon#6475`.
+    - Raider: [creature] will strike it's adjacent slots, except other Raiders. Icon courtesy of `Blind, the Bound Demon#6475`.
     - Sea Shanty: [creature] empowers each Skeleton on the owner's side of the board, providing a +1 buff their power. Icon courtesy of `Blind, the Bound Demon#6475`.
     - Hook Line And Sinker: When [creature] perishes, the creature in the opposing slot is dragged onto the owner's side of the board. Icon courtesy of `Bt Y#0895`.
 
@@ -138,7 +156,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
   - The Walkers, courtesy of `Catboy Stinkbug#4099`.
   - Zombie, courtesy of `Bt Y#0895`.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) `Leaping Trap` now gives a different type of pelt.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Set all cards to `Undead` temple so they don't show up in Act 1.
 
 ### 2.7.5
 

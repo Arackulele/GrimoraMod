@@ -55,16 +55,20 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 			if (!ProgressionData.LearnedMechanic(GrimoraMechanics.Boneyard))
 			{
 				yield return TextDisplayer.Instance.ShowUntilInput(
-					"A LONE GRAVE SITS SOLEMNLY IN FRONT OF YOU.", -0.65f
+					"A LONE GRAVE SITS SOLEMNLY IN FRONT OF YOU.",
+					-0.65f
 				);
 				yield return TextDisplayer.Instance.ShowUntilInput(
-					"IN FRONT OF IT IS A MOUND OF EARTH, LEFT BY SOMEONE WHO'S ALREADY PASSED ON.", -0.65f
+					"IN FRONT OF IT IS A MOUND OF EARTH, LEFT BY SOMEONE WHO'S ALREADY PASSED ON.",
+					-0.65f
 				);
 				yield return TextDisplayer.Instance.ShowUntilInput(
-					$"PERHAPS A MEMBER OF YOUR UNDEAD HORDE COULD {"DIG THEM UP?".BrightRed()}", -0.65f
+					$"PERHAPS A MEMBER OF YOUR UNDEAD HORDE COULD {"DIG THEM UP?".BrightRed()}",
+					-0.65f
 				);
 				yield return TextDisplayer.Instance.ShowUntilInput(
-					"THIS WOULDN'T BE WITHOUT REPERCUSSIONS OF COURSE, AS DEATH IS NEVER PERMANENT.", -0.65f
+					"THIS WOULDN'T BE WITHOUT REPERCUSSIONS OF COURSE, AS DEATH IS NEVER PERMANENT.",
+					-0.65f
 				);
 			}
 
@@ -78,7 +82,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 					selectCardFromDeckSlot.CursorSelectStarted,
 					new Action<MainInputInteractable>(OnSlotSelected)
 				);
-			if (UnityEngine.Random.value < 0.25f && VideoCameraRig.Instance != null)
+			if (UnityEngine.Random.value < 0.25f && VideoCameraRig.Instance.IsNotNull())
 			{
 				VideoCameraRig.Instance.PlayCameraAnim("refocus_quick");
 			}
@@ -130,7 +134,8 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 					$"TORN FROM ITS ETERNAL RESPITE WITH A RELUCTANT GROAN, THE {selectionSlot.Card.Info.DisplayedNameLocalized.Red()} SHAMBLES BACK TO ITS RIGHTFUL PLACE AMONG YOUR HORDE."
 				);
 				yield return TextDisplayer.Instance.ShowUntilInput(
-					"ITS BONES HOLLOWED THROUGH BY THE CREATURES OF THE SOIL, LEAVING THE DEAR THING A ROTTED HUSK OF ITS FORMER SELF.");
+					"ITS BONES HOLLOWED THROUGH BY THE CREATURES OF THE SOIL, LEAVING THE DEAR THING A ROTTED HUSK OF ITS FORMER SELF."
+				);
 				yield return TextDisplayer.Instance.ShowUntilInput("THOUGH THE WEIGHT OF CONSEQUENCE ALSO SEEMS LIFTED...");
 
 				ProgressionData.SetMechanicLearned(GrimoraMechanics.Boneyard);
@@ -140,7 +145,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 		yield return OutroEnvTeardown();
 
-		if (GameFlowManager.Instance != null)
+		if (GameFlowManager.Instance.IsNotNull())
 		{
 			GameFlowManager.Instance.TransitionToGameState(GameState.Map);
 		}
@@ -171,13 +176,16 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		confirmStone.SetStoneInactive();
 		selectionSlot.gameObject.SetActive(false);
 
-		CustomCoroutine.WaitThenExecute(0.4f, delegate
-		{
-			ExplorableAreaManager.Instance.HangingLight.intensity = 0f;
-			ExplorableAreaManager.Instance.HangingLight.gameObject.SetActive(true);
-			ExplorableAreaManager.Instance.HandLight.intensity = 0f;
-			ExplorableAreaManager.Instance.HandLight.gameObject.SetActive(true);
-		});
+		CustomCoroutine.WaitThenExecute(
+			0.4f,
+			delegate
+			{
+				ExplorableAreaManager.Instance.HangingLight.intensity = 0f;
+				ExplorableAreaManager.Instance.HangingLight.gameObject.SetActive(true);
+				ExplorableAreaManager.Instance.HandLight.intensity = 0f;
+				ExplorableAreaManager.Instance.HandLight.gameObject.SetActive(true);
+			}
+		);
 	}
 
 	private IEnumerator NoValidCardsSequence()
@@ -234,8 +242,15 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 	{
 		Tween.Position(obj, new Vector3(0f, 5.7f + heightOffset, -4.25f), 0.1f, 0f, Tween.EaseInOut);
 		Tween.Rotation(obj, baseRotation, 0.1f, 0f, Tween.EaseInOut);
-		Tween.Rotate(obj, new Vector3(1f, 5f, 3f), Space.World, 3f, 0.1f, Tween.EaseInOut,
-			Tween.LoopType.PingPong);
+		Tween.Rotate(
+			obj,
+			new Vector3(1f, 5f, 3f),
+			Space.World,
+			3f,
+			0.1f,
+			Tween.EaseInOut,
+			Tween.LoopType.PingPong
+		);
 		yield return TextDisplayer.Instance.ShowUntilInput(text);
 	}
 
@@ -264,7 +279,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		selectionSlot.SetShown(true);
 		selectionSlot.ShowState(HighlightedInteractable.State.Interactable);
 		ViewManager.Instance.SwitchToView(View.Default, false, true);
-		if (selectionSlot.Card != null)
+		if (selectionSlot.Card.IsNotNull())
 		{
 			confirmStone.Enter();
 		}
@@ -273,12 +288,13 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 	private new static List<CardInfo> GetValidCards()
 	{
 		List<CardInfo> list = GrimoraSaveUtil.DeckListCopy;
-		list.RemoveAll(card => card.BonesCost <= 1
-		                       || card.Abilities.Count == 4
-		                       || card.Abilities.Contains(Ability.Brittle)
-		                       || card.SpecialAbilities.Contains(SpecialTriggeredAbility.RandomCard)
-		                       || card.traits.Contains(Trait.Pelt)
-		                       || card.traits.Contains(Trait.Terrain)
+		list.RemoveAll(
+			card => card.BonesCost <= 1
+			        || card.Abilities.Count == 4
+			        || card.Abilities.Contains(Ability.Brittle)
+			        || card.SpecialAbilities.Contains(SpecialTriggeredAbility.RandomCard)
+			        || card.traits.Contains(Trait.Pelt)
+			        || card.traits.Contains(Trait.Terrain)
 		);
 
 		return list;
@@ -366,11 +382,12 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 	private static CompositeFigurine CreateGravediggerFigurine(GameObject cardStatObj)
 	{
 		CompositeFigurine gravediggerFigurine = Instantiate(
-			AssetConstants.BoneyardFigurine,
-			new Vector3(0, 5, 2.5f),
-			Quaternion.Euler(0, 180, 0),
-			cardStatObj.transform
-		).AddComponent<CompositeFigurine>();
+				AssetConstants.BoneyardFigurine,
+				new Vector3(0, 5, 2.5f),
+				Quaternion.Euler(0, 180, 0),
+				cardStatObj.transform
+			)
+			.AddComponent<CompositeFigurine>();
 		gravediggerFigurine.name = "Boneyard Gravedigger";
 		gravediggerFigurine.transform.localPosition = new Vector3(0, 5, 2.75f);
 		gravediggerFigurine.transform.localScale = new Vector3(4, 4, 4);
@@ -382,11 +399,12 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 	private static CompositeFigurine CreateGrave(GameObject cardStatObj)
 	{
 		CompositeFigurine grave = Instantiate(
-			AssetConstants.BoneyardGrave,
-			new Vector3(0, 4f, 0.6f),
-			Quaternion.Euler(0, 90, 0),
-			cardStatObj.transform
-		).AddComponent<CompositeFigurine>();
+				AssetConstants.BoneyardGrave,
+				new Vector3(0, 4f, 0.6f),
+				Quaternion.Euler(0, 90, 0),
+				cardStatObj.transform
+			)
+			.AddComponent<CompositeFigurine>();
 		grave.name = "Boneyard Burial Grave";
 		grave.transform.localScale = new Vector3(0.4f, 0.6f, 0.6f);
 		grave.gameObject.SetActive(false);

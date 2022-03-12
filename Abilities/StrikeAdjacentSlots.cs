@@ -12,7 +12,7 @@ public abstract class StrikeAdjacentSlots : AbilityBehaviour
 	public override bool RespondsToSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
 	{
 		// check if the attacking card is this card
-		if (attacker is not null && attacker.Slot == Card.Slot && slot.Card is null)
+		if (attacker.IsNotNull() && attacker.Slot == Card.Slot && slot.Card.IsNull())
 		{
 			if (attacker.Slot.IsPlayerSlot)
 			{

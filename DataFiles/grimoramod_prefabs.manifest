@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1084395923
+CRC: 3330317359
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 0b57e26a2141b5627549a2961da368c6
+    Hash: 80c20bfef6eb41f2cc67903fe4437a70
   TypeTreeHash:
     serializedVersion: 2
     Hash: bc2f737821ec90d33cfdfb0a7a7aba7b
@@ -69,4 +69,5 @@ Assets:
 - Assets/GrimoraMod_Unity/ChessboardPieces/Sawyer/Sawyer_BlockerPiece.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/Royal/Blocker_Royal.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/ChessboardPiece_Boneyard.prefab
+- Assets/GrimoraMod_Unity/Models/BonelordTableEffects.prefab
 Dependencies: []

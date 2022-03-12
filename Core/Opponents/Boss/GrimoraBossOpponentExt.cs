@@ -1,5 +1,7 @@
 using System.Collections;
 using DiskCardGame;
+using HarmonyLib;
+using Pixelplacement;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -76,7 +78,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			yield return TextDisplayer.Instance.ShowUntilInput("OH? FIVE LANES? HOW BOLD.");
 		}
 
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+		ViewManager.Instance.SetViewUnlocked();
 	}
 
 	public override void PlayTheme()
@@ -111,7 +113,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			}
 		}
 
-		ViewManager.Instance.SwitchToView(View.Default);
+		ViewManager.Instance.SetViewUnlocked();
 	}
 
 	private IEnumerator StartSpawningGiantsPhase()
@@ -146,24 +148,22 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		}
 
 		yield return new WaitForSeconds(0.5f);
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 	}
 
 	private IEnumerator CreateAndPlaceModifiedGiant(string giantName, CardSlot slotToSpawnIn)
 	{
 		Log.LogInfo("[Grimora] Creating modified Giant");
-		CardInfo modifiedGiant = NameGiant.GetCardInfo();
-		modifiedGiant.displayedName = giantName;
-		modifiedGiant.abilities = new List<Ability> { GiantStrike.ability, Ability.Reach };
-		modifiedGiant.specialAbilities.Add(GrimoraGiant.SpecialTriggeredAbility);
-		CardModificationInfo modificationInfo = new CardModificationInfo
-		{
-			attackAdjustment = -1,
-			healthAdjustment = 1,
-		};
-		modifiedGiant.Mods.Add(modificationInfo);
+		PlayableCard playableGiant = CardSpawner.SpawnPlayableCard(NameGiant.GetCardInfo());
+		playableGiant.SetIsOpponentCard();
 
-		yield return BoardManager.Instance.CreateCardInSlot(modifiedGiant, slotToSpawnIn, 0.3f);
+		CardInfo infoGiant = NameGiant.GetCardInfo().Clone() as CardInfo;
+		infoGiant.displayedName = giantName;
+		infoGiant.abilities = new List<Ability> { Ability.Reach, GiantStrike.ability };
+		infoGiant.specialAbilities.Add(GrimoraGiant.SpecialTriggeredAbility);
+		infoGiant.Mods.Add(new CardModificationInfo(-1, 1));
+
+		playableGiant.SetInfo(infoGiant);
+		yield return BoardManager.Instance.TransitionAndResolveCreatedCard(playableGiant, slotToSpawnIn, 0.3f);
 		yield return TextDisplayer.Instance.ShowUntilInput($"{giantName}!");
 	}
 
@@ -176,28 +176,88 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		AudioController.Instance.SetLoopVolumeImmediate(0.1f, 1);
 		AudioController.Instance.FadeInLoop(7f, 0.5f, 1);
 
-		var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
+		ViewManager.Instance.SwitchToView(View.DefaultUpwards, false, true);
+
 		SetSceneEffectsShownGrimora(GrimoraColors.GrimoraBossCardLight);
-		yield return TextDisplayer.Instance.ShowUntilInput(
-			"LET THE BONE LORD COMMETH!",
+		yield return new WaitForSeconds(0.1f);
+
+		Log.LogDebug($"Spawning Bonelord effects");
+		GameObject bonelordEffect = Instantiate(AssetUtils.GetPrefab<GameObject>("BonelordTableEffects"));
+		CameraEffects.Instance.Shake(0.15f, 5f);
+		yield return TextDisplayer.Instance.ShowThenClear(
+			"LET THE BONE LORD COMMETH!".BrightRed(),
+			4.6f,
 			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
 		);
-		ViewManager.Instance.SwitchToView(View.OpponentQueue, false, true);
 
+		var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
 		int bonelordSlotIndex = ConfigHelper.HasIncreaseSlotsMod
 			? 3
 			: 2;
-		Log.LogInfo("[Grimora] Creating Bonelord");
-		yield return BoardManager.Instance.CreateCardInSlot(
-			NameBonelord.GetCardInfo(),
-			oppSlots[bonelordSlotIndex],
-			0.75f
-		);
-		yield return new WaitForSeconds(0.25f);
+		yield return GlitchInCard(NameBonelord.GetCardInfo(), oppSlots[bonelordSlotIndex]);
 
 		yield return CreateHornsInFarLeftAndRightLanes(oppSlots);
+	}
 
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+	private IEnumerator GlitchInCard(CardInfo cardInfo, CardSlot slotToSpawnIn)
+	{
+		ViewManager.Instance.SwitchToView(View.OpponentQueue, false, true);
+
+		Log.LogInfo($"[Grimora] Creating [{cardInfo.name}]");
+		PlayableCard playableCard = CardSpawner.SpawnPlayableCard(cardInfo);
+
+		Log.LogDebug($"Playing glitch in effect for [{cardInfo.name}], setting inactive first");
+		playableCard.gameObject.SetActive(false);
+
+		Log.LogDebug($"Try load glitch3d mat");
+		GlitchOutAssetEffect.TryLoad3DMaterial();
+		Material glitch3DMaterial = GlitchOutAssetEffect.glitch3DMaterial;
+
+		Renderer[] componentsInChildren = playableCard.GetComponentsInChildren<Renderer>();
+		Dictionary<Renderer, Material> originalMats = componentsInChildren.ToDictionary(
+			render => render,
+			render => render.material
+		);
+		Log.LogDebug($"Setting mats to glitch material");
+		foreach (var t in componentsInChildren)
+		{
+			t.material = glitch3DMaterial;
+		}
+
+		AudioController.Instance.PlaySound2D("broken_hum");
+		UIManager.Instance.Effects.GetEffect<ScreenGlitchEffect>().SetIntensity(1f, 1f);
+		yield return BoardManager.Instance.TransitionAndResolveCreatedCard(
+			playableCard,
+			slotToSpawnIn,
+			0f
+		);
+		yield return new WaitForSeconds(0.5f);
+
+		Log.LogDebug($"Glitch sound");
+		GlitchOutAssetEffect.PlayGlitchSound(playableCard.transform.position);
+		Log.LogDebug($"Setting active");
+		playableCard.gameObject.SetActive(true);
+
+		Log.LogDebug($"Setting mats back to original state");
+		foreach (var renderer in componentsInChildren)
+		{
+			renderer.material = originalMats.GetValueSafe(renderer);
+		}
+
+		playableCard.RenderCard();
+
+		Log.LogDebug($"Tween.Shake");
+		Tween.Shake(
+			playableCard.transform,
+			playableCard.transform.localPosition,
+			Vector3.one * 0.2f,
+			0.5f,
+			0f,
+			Tween.LoopType.None,
+			null,
+			null,
+			false
+		);
 	}
 
 	private IEnumerator CreateHornsInFarLeftAndRightLanes(List<CardSlot> oppSlots)
@@ -229,11 +289,16 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	private CardInfo CreateModifiedBonelordsHorn()
 	{
 		Log.LogInfo("[Grimora] Creating modified Bone Lords Horn");
-		CardInfo bonelordsHorn = NameBoneLordsHorn.GetCardInfo();
-		bonelordsHorn.Mods.Add(new CardModificationInfo { attackAdjustment = 2 });
-		bonelordsHorn.abilities.Remove(Ability.QuadrupleBones);
-		bonelordsHorn.iceCubeParams.creatureWithin.abilities.Add(Ability.BuffNeighbours);
-		return bonelordsHorn;
+		PlayableCard playableHorn = CardSpawner.SpawnPlayableCard(NameBoneLordsHorn.GetCardInfo());
+		playableHorn.SetIsOpponentCard();
+
+		CardInfo infoHorn = NameBoneLordsHorn.GetCardInfo().Clone() as CardInfo;
+		infoHorn.Mods.Add(new CardModificationInfo { attackAdjustment = 2 });
+		infoHorn.abilities.Remove(Ability.QuadrupleBones);
+		infoHorn.iceCubeParams.creatureWithin.abilities.Add(Ability.BuffNeighbours);
+
+		playableHorn.SetInfo(infoHorn);
+		return infoHorn;
 	}
 
 	private List<CardSlot> GetFarLeftAndFarRightQueueSlots()

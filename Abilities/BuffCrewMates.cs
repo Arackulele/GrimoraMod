@@ -25,7 +25,7 @@ public class BuffCrewMatesPatch
 	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.GetPassiveAttackBuffs))]
 	public static void Postfix(PlayableCard __instance, ref int __result)
 	{
-		if (__instance is not null && __instance.OnBoard)
+		if (__instance.IsNotNull() && __instance.OnBoard)
 		{
 			if (__instance.InfoName() == GrimoraPlugin.NameSkeleton)
 			{

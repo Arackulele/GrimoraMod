@@ -15,7 +15,7 @@ public static class CardRelatedExtension
 	public static string GetNameAndSlot(this PlayableCard playableCard)
 	{
 		string printedNameAndSlot = $"[{playableCard.Info.displayedName}]";
-		if (playableCard.Slot is not null)
+		if (playableCard.Slot.IsNotNull())
 		{
 			printedNameAndSlot += $" Slot [{playableCard.Slot.Index}]";
 		}
@@ -25,18 +25,18 @@ public static class CardRelatedExtension
 
 	public static bool CardIsNotNullAndHasAbility(this CardSlot cardSlot, Ability ability)
 	{
-		return cardSlot.Card is not null && cardSlot.Card.HasAbility(ability);
+		return cardSlot.Card.IsNotNull() && cardSlot.Card.HasAbility(ability);
 	}
 
 	public static bool CardDoesNotHaveAbility(this CardSlot cardSlot, Ability ability)
 	{
-		return cardSlot.Card is not null && !cardSlot.CardIsNotNullAndHasAbility(ability);
+		return cardSlot.Card.IsNotNull() && !cardSlot.CardIsNotNullAndHasAbility(ability);
 	}
 
 
 	public static bool CardIsNotNullAndHasSpecialAbility(this CardSlot cardSlot, SpecialTriggeredAbility ability)
 	{
-		return cardSlot.Card is not null && cardSlot.Card.Info.SpecialAbilities.Contains(ability);
+		return cardSlot.Card.IsNotNull() && cardSlot.Card.Info.SpecialAbilities.Contains(ability);
 	}
 
 	public static bool CardDoesNotHaveSpecialAbility(this CardSlot cardSlot, SpecialTriggeredAbility ability)
@@ -46,7 +46,7 @@ public static class CardRelatedExtension
 
 	public static bool CardInSlotIs(this CardSlot cardSlot, string cardName)
 	{
-		return cardSlot.Card is not null && cardSlot.Card.InfoName().Equals(cardName);
+		return cardSlot.Card.IsNotNull() && cardSlot.Card.InfoName().Equals(cardName);
 	}
 
 	public static string InfoName(this Card card)
@@ -96,6 +96,77 @@ public static class CardRelatedExtension
 		CardInfo cardInfoClone = playableCard.Info.Clone() as CardInfo;
 		cardInfoClone.Mods.Add(modInfo);
 		playableCard.SetInfo(cardInfoClone);
+	}
+
+	public static CardInfo DeepCopy(this CardInfo cardInfo)
+	{
+		if (cardInfo.IsNull())
+		{
+			return cardInfo;
+		}
+		GrimoraPlugin.Log.LogDebug($"[DeepCopy] Creating a deep copy of [{cardInfo.name}]");
+		CardInfo deepCopy = ScriptableObject.CreateInstance<CardInfo>();
+		deepCopy.abilities = new List<Ability>(cardInfo.abilities);
+		if (cardInfo.alternatePortrait.IsNotNull())
+		{
+			deepCopy.alternatePortrait = Object.Internal_CloneSingle(cardInfo.alternatePortrait) as Sprite;
+		}
+
+		if (cardInfo.animatedPortrait.IsNotNull())
+		{
+			deepCopy.animatedPortrait = Object.Internal_CloneSingle(cardInfo.animatedPortrait) as GameObject;
+		}
+
+		deepCopy.appearanceBehaviour = new List<CardAppearanceBehaviour.Appearance>(cardInfo.appearanceBehaviour);
+		deepCopy.baseAttack = cardInfo.baseAttack;
+		deepCopy.baseHealth = cardInfo.baseHealth;
+		deepCopy.bonesCost = cardInfo.bonesCost;
+		deepCopy.boon = cardInfo.boon;
+		deepCopy.cardComplexity = cardInfo.cardComplexity;
+		deepCopy.cost = cardInfo.cost;
+		deepCopy.decals = new List<Texture>(cardInfo.decals);
+		deepCopy.defaultEvolutionName = cardInfo.defaultEvolutionName;
+		deepCopy.description = cardInfo.description;
+		deepCopy.displayedName = cardInfo.displayedName;
+		deepCopy.energyCost = cardInfo.energyCost;
+		deepCopy.evolveParams = cardInfo.evolveParams;
+		deepCopy.flipPortraitForStrafe = cardInfo.flipPortraitForStrafe;
+		deepCopy.gemsCost = cardInfo.gemsCost;
+		deepCopy.get_decals = new List<Texture>(cardInfo.get_decals);
+		deepCopy.hideAttackAndHealth = cardInfo.hideAttackAndHealth;
+		if (cardInfo.holoPortraitPrefab.IsNotNull())
+		{
+			deepCopy.holoPortraitPrefab = Object.Internal_CloneSingle(cardInfo.holoPortraitPrefab) as GameObject;
+		}
+
+		deepCopy.iceCubeParams = cardInfo.iceCubeParams;
+		deepCopy.metaCategories = new List<CardMetaCategory>(cardInfo.metaCategories);
+		deepCopy.mods = new List<CardModificationInfo>(cardInfo.mods);
+		deepCopy.onePerDeck = cardInfo.onePerDeck;
+		if (cardInfo.pixelPortrait.IsNotNull())
+		{
+			deepCopy.pixelPortrait = Object.Internal_CloneSingle(cardInfo.pixelPortrait) as Sprite;
+		}
+
+		if (cardInfo.portraitTex.IsNotNull())
+		{
+			deepCopy.portraitTex = Object.Internal_CloneSingle(cardInfo.portraitTex) as Sprite;
+		}
+
+		deepCopy.specialAbilities = new List<SpecialTriggeredAbility>(cardInfo.specialAbilities);
+		deepCopy.specialStatIcon = cardInfo.specialStatIcon;
+		deepCopy.tailParams = cardInfo.tailParams;
+		deepCopy.temple = cardInfo.temple;
+		deepCopy.temporaryDecals = new List<Texture>(cardInfo.temporaryDecals);
+		if (cardInfo.titleGraphic.IsNotNull())
+		{
+			deepCopy.titleGraphic = Object.Internal_CloneSingle(cardInfo.titleGraphic) as Texture;
+		}
+
+		deepCopy.traits = new List<Trait>(cardInfo.traits);
+		deepCopy.tribes = new List<Tribe>(cardInfo.tribes);
+
+		return deepCopy;
 	}
 
 	public static void AddTempModGrimora(this PlayableCard playableCard, CardModificationInfo mod)
@@ -182,7 +253,6 @@ public static class CardRelatedExtension
 					Tween.EaseIn,
 					completeCallback: () => playableCard.Anim.PlayDeathAnimation(playSound && !wasSacrifice)
 				);
-				
 			}
 		}
 	}

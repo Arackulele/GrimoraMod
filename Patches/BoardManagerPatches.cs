@@ -16,5 +16,30 @@ public class BoardManagerPatches
 	)
 	{
 		card.transform.SetParent(BoardManager.Instance.OpponentQueueSlots[card.QueuedSlot.Index].transform);
+		if (TurnManager.Instance.Opponent is RoyalBossOpponentExt && card.OpponentCard && !card.HasAbility(SeaLegs.ability))
+		{
+			CardInfo copyInfo = card.Info.Clone() as CardInfo;
+			copyInfo.Mods.Add(new CardModificationInfo(SeaLegs.ability));
+
+			card.SetInfo(copyInfo);
+		}
+	}
+
+	[HarmonyPrefix, HarmonyPatch(nameof(BoardManager.ResolveCardOnBoard))]
+	public static void AddSeaLegsToCardsThatDontHaveItForRoyal(
+		PlayableCard card,
+		CardSlot slot,
+		float tweenLength = 0.1f,
+		Action landOnBoardCallback = null,
+		bool resolveTriggers = true
+	)
+	{
+		if (TurnManager.Instance.Opponent is RoyalBossOpponentExt && card.OpponentCard && !card.HasAbility(SeaLegs.ability))
+		{
+			CardInfo copyInfo = card.Info.Clone() as CardInfo;
+			copyInfo.Mods.Add(new CardModificationInfo(SeaLegs.ability));
+
+			card.SetInfo(copyInfo);
+		}
 	}
 }

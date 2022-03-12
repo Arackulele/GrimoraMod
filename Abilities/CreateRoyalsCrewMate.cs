@@ -14,6 +14,23 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 
 	private readonly CardInfo _swashBuckler = NamePirateSwashbuckler.GetCardInfo();
 
+	private CardSlot GetCardSlotForSwashbuckler()
+	{
+		CardSlot slotToSpawnIn = null;
+		var playerOpenSlots = BoardManager.Instance.GetPlayerOpenSlots();
+		if (playerOpenSlots.IsNotEmpty())
+		{
+			slotToSpawnIn =
+				playerOpenSlots.FirstOrDefault(slot => slot.opposingSlot.Card.IsNull() || slot.opposingSlot.Card.Attack == 0);
+			if (slotToSpawnIn.IsNull())
+			{
+				slotToSpawnIn = playerOpenSlots.GetRandomItem();
+			}
+		}
+
+		return slotToSpawnIn;
+	}
+
 	public override bool RespondsToResolveOnBoard()
 	{
 		return true;
@@ -21,10 +38,10 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 
 	public override IEnumerator OnResolveOnBoard()
 	{
-		var playerOpenSlots = BoardManager.Instance.GetPlayerOpenSlots();
-		if (playerOpenSlots.IsNotEmpty())
+		var slotToSpawnIn = GetCardSlotForSwashbuckler();
+		if (slotToSpawnIn.IsNotNull())
 		{
-			yield return SpawnSwashbucklerInPlayerOpenSlot(playerOpenSlots.GetRandomItem());
+			yield return SpawnSwashbuckler(slotToSpawnIn);
 		}
 	}
 
@@ -36,21 +53,20 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
 		_timeToSpawnCounter++;
-		var playerOpenSlots = BoardManager.Instance.GetPlayerOpenSlots();
-		if (_timeToSpawnCounter >= 2 && playerOpenSlots.IsNotEmpty())
+		var slotToSpawnIn =  GetCardSlotForSwashbuckler();
+		if (_timeToSpawnCounter >= 2 && slotToSpawnIn.IsNotNull())
 		{
 			_timeToSpawnCounter = 0;
-
-			yield return SpawnSwashbucklerInPlayerOpenSlot(playerOpenSlots.GetRandomItem());
+			yield return SpawnSwashbuckler(slotToSpawnIn);
 		}
 	}
 
-	private IEnumerator SpawnSwashbucklerInPlayerOpenSlot(CardSlot playerOpenSlot)
+	private IEnumerator SpawnSwashbuckler(CardSlot playerOpenSlot)
 	{
 		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 		yield return TextDisplayer.Instance.ShowThenClear(
 			$"PREPARE TO BE BOARDED!",
-			2f
+			1.25f
 		);
 		yield return new WaitForSeconds(0.2f);
 

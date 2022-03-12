@@ -38,7 +38,7 @@ public class ChestPatches
 
 		MapNodeManager.Instance.SetAllNodesInteractable(false);
 
-		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+		ViewManager.Instance.SetViewLocked();
 
 		PlayerMarker.Instance.Anim.Play("knock against", 0, 0f);
 		yield return new WaitForSeconds(0.05f);
@@ -46,7 +46,7 @@ public class ChestPatches
 		__instance.anim.Play("open", 0, 0f);
 		yield return new WaitForSeconds(0.25f);
 
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+		ViewManager.Instance.SetViewUnlocked();
 
 		GameFlowManager.Instance.TransitionToGameState(GameState.SpecialCardSequence, __instance.NodeData);
 	}

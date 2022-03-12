@@ -14,7 +14,7 @@ public class AlternatingStrike : AbilityBehaviour
 
 	public override bool RespondsToSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
 	{
-		return attacker is not null && attacker == Card;
+		return attacker.IsNotNull() && attacker == Card;
 	}
 
 	public override IEnumerator OnSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)

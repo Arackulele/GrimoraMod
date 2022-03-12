@@ -18,7 +18,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		TableRuleBook.Instance.SetOnBoard(true);
 
 		ViewManager.Instance.Controller.SwitchToControlMode(ViewController.ControlMode.CardMerging);
-		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+		ViewManager.Instance.SetViewLocked();
 		yield return new WaitForSeconds(0.3f);
 
 		stoneCircleAnim.gameObject.SetActive(true);
@@ -290,7 +290,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 	{
 		return GrimoraSaveUtil.DeckList
 			.Where(info => (cardInfoPredicate is null || cardInfoPredicate.Invoke(info))
-			               && info.Mods is not null && !info.Mods.Exists(mod => mod.singletonId == singletonId))
+			               && info.Mods != null && !info.Mods.Exists(mod => mod.singletonId == singletonId))
 			.Randomize()
 			.ToList();
 	}
@@ -377,7 +377,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 	{
 		// TODO: This will work, but it doesn't show the boon art correctly.
 
-		if (SpecialNodeHandler.Instance is null || SpecialNodeHandler.Instance.cardRemoveSequencer is not null)
+		if (SpecialNodeHandler.Instance is null || SpecialNodeHandler.Instance.cardRemoveSequencer.IsNotNull())
 		{
 			return;
 		}

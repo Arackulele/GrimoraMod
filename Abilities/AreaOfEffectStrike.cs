@@ -13,7 +13,7 @@ public class AreaOfEffectStrike : StrikeAdjacentSlots
 	public static NewAbility Create()
 	{
 		const string rulebookDescription =
-			"[creature] will strike it's adjacent slots, and each opposing space to the left, right, and center of it.";
+			"[creature] will strike its adjacent slots, and each opposing space to the left, right, and center of it.";
 
 		return ApiUtils.CreateAbility<AreaOfEffectStrike>(rulebookDescription, flipYIfOpponent: true);
 	}

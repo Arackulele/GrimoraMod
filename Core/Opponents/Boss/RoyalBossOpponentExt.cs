@@ -20,11 +20,6 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
-		foreach (var blueprint in encounter.Blueprint.turns.SelectMany(cardBlueprints => cardBlueprints))
-		{
-			blueprint.card.Mods.Add(new CardModificationInfo(SeaLegs.ability));
-		}
-
 		Log.LogDebug($"Assigning controller to game table");
 		GameObject.Find("GameTable")
 			.AddComponent<Animator>()
@@ -94,12 +89,6 @@ public class RoyalBossOpponentExt : BaseBossExt
 		TurnPlan.Clear();
 		yield return ClearQueue();
 
-		var newBlueprint = BuildNewPhaseBlueprint();
-		foreach (var blueprint in newBlueprint.turns.SelectMany(cardBlueprints => cardBlueprints))
-		{
-			blueprint.card.Mods.Add(new CardModificationInfo(SeaLegs.ability));
-		}
-
 		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
 			"YARRG, TWAS JUST DA FIRST ROUND!\nLETS SEE HOW YE FARE 'GAINST ME PERSONAL SHIP AN CREW!",
@@ -107,15 +96,24 @@ public class RoyalBossOpponentExt : BaseBossExt
 			0.4f
 		);
 		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
+
 		yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
+
+		yield return BoardManager.Instance.CreateCardInSlot(
+			NamePirateFirstMateSnag.GetCardInfo(),
+			BoardManager.Instance.GetOpponentOpenSlots().GetRandomItem()
+		);
+
+		yield return new WaitForSeconds(0.25f);
+
 		yield return BoardManager.Instance.CreateCardInSlot(
 			NameGhostShipRoyal.GetCardInfo(),
 			BoardManager.Instance.GetOpponentOpenSlots().GetRandomItem()
 		);
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+
+		ViewManager.Instance.SetViewUnlocked();
 
 		Log.LogDebug($"Playing royal theme 2");
-
 		AudioController.Instance.SetLoopAndPlay("RoyalRuckus_Phase2", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
 		AudioController.Instance.SetLoopVolume(0.8f, 5f, 1);
@@ -126,7 +124,6 @@ public class RoyalBossOpponentExt : BaseBossExt
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_FirstMateSnag },
 			new(),
 			new(),
 			new() { bp_Skeleton, bp_CaptainYellowbeard, bp_Skeleton },
@@ -143,7 +140,6 @@ public class RoyalBossOpponentExt : BaseBossExt
 			new() { bp_Skeleton, bp_Skeleton },
 			new(),
 		};
-
 		return blueprint;
 	}
 

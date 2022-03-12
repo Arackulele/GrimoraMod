@@ -9,6 +9,8 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 {
 	private bool _playedDialogueSubmerge = false;
 
+	private bool _playedDialogueHookLineAndSinker = false;
+
 	private bool _playedDialoguePossessive = false;
 
 	public override Opponent.Type BossType => BaseBossExt.KayceeOpponent;
@@ -49,36 +51,9 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 				);
 				foreach (var playableCard in playerCardsWithAttacks)
 				{
-					var modInfo = CreateModForFreeze(playableCard);
 					playableCard.Info.iceCubeParams = new IceCubeParams { creatureWithin = playableCard.Info };
-					if (playableCard.HasAbility(Ability.Submerge))
-					{
-						if (!_playedDialogueSubmerge)
-						{
-							yield return TextDisplayer.Instance.ShowUntilInput(
-								$"{playableCard.Info.displayedName.Blue()} MIGHT HAVE SOME DIFFICULTY SUBMERGING IF IT'S FROZEN SOLID!"
-							);
-							_playedDialogueSubmerge = true;
-						}
 
-						playableCard.RemoveAbilityFromThisCard(modInfo);
-					}
-					else if (playableCard.HasAbility(Possessive.ability))
-					{
-						if (!_playedDialoguePossessive)
-						{
-							yield return TextDisplayer.Instance.ShowUntilInput(
-								$"{playableCard.Info.displayedName.Blue()} CAN'T POSSESS ANYTHING IF IT CAN'T MOVE!"
-							);
-							_playedDialoguePossessive = true;
-						}
-
-						playableCard.RemoveAbilityFromThisCard(modInfo);
-					}
-					else
-					{
-						playableCard.AddTemporaryMod(modInfo);
-					}
+					yield return CheckCardForAbilitiesThatBreakWhileBeingFrozen(playableCard);
 
 					playableCard.Anim.PlayTransformAnimation();
 					yield return new WaitForSeconds(0.05f);
@@ -105,7 +80,49 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 		}
 
 		ViewManager.Instance.SwitchToView(View.Default);
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+		ViewManager.Instance.SetViewUnlocked();
+	}
+
+	private IEnumerator CheckCardForAbilitiesThatBreakWhileBeingFrozen(PlayableCard playableCard)
+	{
+		var modInfo = CreateModForFreeze(playableCard);
+		if (playableCard.HasAbility(Ability.Submerge))
+		{
+			if (!_playedDialogueSubmerge)
+			{
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					$"{playableCard.Info.displayedName.Blue()} MIGHT HAVE SOME DIFFICULTY SUBMERGING IF IT'S FROZEN SOLID!"
+				);
+				_playedDialogueSubmerge = true;
+			}
+		}
+		else if (playableCard.HasAbility(Possessive.ability))
+		{
+			if (!_playedDialoguePossessive)
+			{
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					$"{playableCard.Info.displayedName.Blue()} CAN'T POSSESS ANYTHING IF IT CAN'T MOVE!"
+				);
+				_playedDialoguePossessive = true;
+			}
+		}
+		else if (playableCard.HasAbility(HookLineAndSinker.ability))
+		{
+			if (!_playedDialogueHookLineAndSinker)
+			{
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					$"{playableCard.Info.displayedName.Blue()} WILL HAVE A HARD TIME HOOKING ANYTHING IF IT'S FROZEN SOLID!"
+				);
+				_playedDialogueHookLineAndSinker = true;
+			}
+		}
+		else
+		{
+			playableCard.AddTemporaryMod(modInfo);
+			yield break;
+		}
+
+		playableCard.RemoveAbilityFromThisCard(modInfo);
 	}
 
 	private CardModificationInfo CreateModForFreeze(PlayableCard playableCard)
@@ -118,7 +135,7 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 			attackAdjustment = attack,
 			healthAdjustment = 1 - playableCard.Health,
 			abilities = new List<Ability> { Ability.IceCube },
-			negateAbilities = new List<Ability> { Ability.Submerge, Possessive.ability }
+			negateAbilities = new List<Ability> { Ability.Submerge, HookLineAndSinker.ability, Possessive.ability }
 		};
 
 		return modInfo;

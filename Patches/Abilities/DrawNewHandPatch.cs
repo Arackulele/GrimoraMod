@@ -33,7 +33,7 @@ public class DrawNewHandPatch
 		}
 
 		yield return new WaitForSeconds(0.5f);
-		bool drawPile3DIsActive = CardDrawPiles3D.Instance is not null && CardDrawPiles3D.Instance.pile is not null;
+		bool drawPile3DIsActive = CardDrawPiles3D.Instance.IsNotNull() && CardDrawPiles3D.Instance.pile.IsNotNull();
 		for (int i = 0; i < 4; i++)
 		{
 			if (drawPile3DIsActive)
