@@ -124,7 +124,7 @@ public class SkinCrawler : AbilityBehaviour
 			);
 			yield return new WaitForSeconds(0.1f);
 
-			// rotate base card with it's original rotation values so that it lays flat on the board again
+			// rotate base card with its original rotation values so that it lays flat on the board again
 			// Log.LogDebug($"[SkinCrawler] rotating [{toRightSlot.Card.Info.name}]");
 			Tween.Rotation(cardToPick.transform, cardRot, 0.1f, 0f, Tween.EaseInOut);
 

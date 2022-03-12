@@ -14,7 +14,7 @@ public class Raider : StrikeAdjacentSlots
 
 	public static NewAbility Create()
 	{
-		const string rulebookDescription = "[creature] will strike it's adjacent slots, except other Raiders.";
+		const string rulebookDescription = "[creature] will strike its adjacent slots, except other Raiders.";
 
 		return ApiUtils.CreateAbility<Raider>(rulebookDescription);
 	}
