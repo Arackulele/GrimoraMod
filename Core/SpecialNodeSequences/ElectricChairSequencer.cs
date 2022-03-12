@@ -22,6 +22,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		CreateArmyOfSkeletons.ability,
 		CreateKnells.ability,
 		Erratic.ability,
+		GrimoraRandomAbility.ability,
 		InvertedStrike.ability,
 		Possessive.ability,
 		// SkinCrawler.ability,
