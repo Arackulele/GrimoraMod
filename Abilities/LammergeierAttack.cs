@@ -14,7 +14,6 @@ public class LammergeierAttack : VariableStatBehaviour
 	public static NewSpecialAbility Create()
 	{
 		StatIconInfo info = (StatIconInfo)Internal_CloneSingle(StatIconInfo.GetIconInfo(SpecialStatIcon.Bones));
-		Log.LogDebug($"StatIconInfo is null {info}");
 		info.appliesToHealth = false;
 		info.rulebookName = "Lammergeier(Attack)";
 
