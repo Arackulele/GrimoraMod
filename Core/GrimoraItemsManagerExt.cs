@@ -29,7 +29,7 @@ public class GrimoraItemsManagerExt : ItemsManager
 
 		GrimoraItemsManagerExt ext = GrimoraItemsManager.Instance.GetComponent<GrimoraItemsManagerExt>();
 
-		if (ext is null)
+		if (ext.IsNull())
 		{
 			ext = GrimoraItemsManager.Instance.gameObject.AddComponent<GrimoraItemsManagerExt>();
 			ext.consumableSlots = currentItemsManager.consumableSlots;

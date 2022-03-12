@@ -431,7 +431,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	public static void CreateSequencerInScene()
 	{
-		if (SpecialNodeHandler.Instance is null)
+		if (SpecialNodeHandler.Instance.IsNull())
 		{
 			return;
 		}

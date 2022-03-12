@@ -53,14 +53,14 @@ public class SkinCrawler : AbilityBehaviour
 		CardSlot toLeftSlot = BoardManager.Instance.GetAdjacent(Card.Slot, true);
 		CardSlot toRightSlot = BoardManager.Instance.GetAdjacent(Card.Slot, false);
 
-		if (toLeftSlot.IsNotNull() && toLeftSlot.Card.IsNotNull() && GetSkinCrawlerFromCard(toLeftSlot.Card) is null)
+		if (toLeftSlot.IsNotNull() && toLeftSlot.Card.IsNotNull() && GetSkinCrawlerFromCard(toLeftSlot.Card).IsNull())
 		{
 			slotToPick = toLeftSlot;
 			Log.LogDebug($"[SkinCrawler] LeftSlot.IsNotNull(), has card [{slotToPick.Card.GetNameAndSlot()}]");
 		}
 		else if (toRightSlot.IsNotNull()
 		         && toRightSlot.Card.IsNotNull()
-		         && GetSkinCrawlerFromCard(toRightSlot.Card) is null)
+		         && GetSkinCrawlerFromCard(toRightSlot.Card).IsNull())
 		{
 			slotToPick = toRightSlot;
 			Log.LogDebug($"[SkinCrawler] RightSlot.IsNotNull(), has card [{slotToPick.Card.GetNameAndSlot()}]");
@@ -173,7 +173,7 @@ public class SkinCrawler : AbilityBehaviour
 			+ $"otherCard.Slot != Card.Slot [{otherCard.Slot != Card.Slot}]"
 		);
 
-		return _slotHidingUnderCard is null
+		return _slotHidingUnderCard.IsNull()
 		       && !SlotsThatHaveCrawlersHidingUnderCards.Contains(otherCard.Slot)
 		       && otherCard.Slot != Card.Slot
 		       && CardIsAdjacent(otherCard);

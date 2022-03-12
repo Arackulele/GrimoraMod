@@ -35,7 +35,7 @@ public class GrimoraSaveDataPatches
 		}
 		else
 		{
-			Log.LogDebug($"[GrimoraSaveData.Initialize] All data is NULL");
+			Log.LogDebug($"[GrimoraSaveData.Initialize] All data.IsNull()");
 			__instance.deck.AddCard("Gravedigger".GetCardInfo());
 			__instance.deck.AddCard("Gravedigger".GetCardInfo());
 			__instance.deck.AddCard("Gravedigger".GetCardInfo());

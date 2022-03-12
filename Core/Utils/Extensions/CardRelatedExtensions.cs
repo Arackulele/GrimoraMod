@@ -41,7 +41,7 @@ public static class CardRelatedExtension
 
 	public static bool CardDoesNotHaveSpecialAbility(this CardSlot cardSlot, SpecialTriggeredAbility ability)
 	{
-		return cardSlot.Card is null || !cardSlot.CardIsNotNullAndHasSpecialAbility(ability);
+		return cardSlot.Card.IsNull() || !cardSlot.CardIsNotNullAndHasSpecialAbility(ability);
 	}
 
 	public static bool CardInSlotIs(this CardSlot cardSlot, string cardName)

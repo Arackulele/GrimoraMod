@@ -298,7 +298,7 @@ public class GrimoraChessboard
 
 		piece = HandlePieceSetup<T>(prefab, specialEncounterId);
 
-		if (piece.anim is null && piece.transform.Find("Anim").IsNotNull())
+		if (piece.anim.IsNull() && piece.transform.Find("Anim").IsNotNull())
 		{
 			piece.anim = piece.transform.Find("Anim").GetComponent<Animator>();
 		}
@@ -337,7 +337,7 @@ public class GrimoraChessboard
 	{
 		GameObject pieceObj = Object.Instantiate(prefab, ChessboardMapExt.Instance.dynamicElementsParent);
 
-		if (pieceObj.GetComponent<T>() is null)
+		if (pieceObj.GetComponent<T>().IsNull())
 		{
 			pieceObj.AddComponent<T>();
 		}
@@ -361,7 +361,7 @@ public class GrimoraChessboard
 						default:
 							enemyPiece.transform.localRotation = Quaternion.Euler(0, 90, 0);
 							GameObject head = enemyPiece.transform.GetChild(0).Find("Head").gameObject;
-							if (head.GetComponent<SineWaveMovement>() is null)
+							if (head.GetComponent<SineWaveMovement>().IsNull())
 							{
 								SineWaveMovement wave = head.AddComponent<SineWaveMovement>();
 								wave.speed = 1;

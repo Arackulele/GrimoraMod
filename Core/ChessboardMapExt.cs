@@ -439,7 +439,7 @@ public class ChessboardMapExt : GameMap
 	{
 		ChessboardMapExt ext = ChessboardMap.Instance.gameObject.GetComponent<ChessboardMapExt>();
 
-		if (ext is null)
+		if (ext.IsNull())
 		{
 			ChessboardMap boardComp = ChessboardMap.Instance.gameObject.GetComponent<ChessboardMap>();
 			boardComp.pieces.Clear();

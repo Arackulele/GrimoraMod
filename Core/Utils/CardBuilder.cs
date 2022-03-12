@@ -44,7 +44,7 @@ public class CardBuilder
 
 	private CardBuilder SetPortrait(string cardName, Sprite ogCardArt = null)
 	{
-		if (ogCardArt is null)
+		if (ogCardArt.IsNull())
 		{
 			cardName = cardName.Replace("GrimoraMod_", "");
 			// Log.LogDebug($"Looking in AllSprites for [{cardName}]");

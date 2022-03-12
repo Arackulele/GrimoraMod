@@ -14,8 +14,8 @@ public class Erratic : Strafe
 
 	public override IEnumerator DoStrafe(CardSlot toLeft, CardSlot toRight)
 	{
-		bool toLeftIsValid = toLeft.IsNotNull() && toLeft.Card is null;
-		bool toRightIsValid = toRight.IsNotNull() && toRight.Card is null;
+		bool toLeftIsValid = toLeft.IsNotNull() && toLeft.Card.IsNull();
+		bool toRightIsValid = toRight.IsNotNull() && toRight.Card.IsNull();
 		if (!toLeftIsValid)
 		{
 			movingLeft = false;

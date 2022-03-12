@@ -103,7 +103,7 @@ public class BaseGameFlowManagerPatches
 
 	private static void AddCardSelectorObjectForTutor()
 	{
-		if (BoardManager.Instance.IsNotNull() && BoardManager.Instance.cardSelector is null)
+		if (BoardManager.Instance.IsNotNull() && BoardManager.Instance.cardSelector.IsNull())
 		{
 			SelectableCardArray boardCardSelection
 				= new GameObject("BoardCardSelection").AddComponent<SelectableCardArray>();
@@ -194,7 +194,7 @@ public class BaseGameFlowManagerPatches
 	{
 		ResourceDrone resourceEnergy = ResourceDrone.Instance;
 
-		if (BoardManager3D.Instance.IsNotNull() && resourceEnergy is null)
+		if (BoardManager3D.Instance.IsNotNull() && resourceEnergy.IsNull())
 		{
 			resourceEnergy = Object.Instantiate(
 				ResourceBank.Get<ResourceDrone>("Prefabs/CardBattle/ResourceModules"),
@@ -253,7 +253,7 @@ public class BaseGameFlowManagerPatches
 
 	private static void AddRareCardSequencerToScene()
 	{
-		if (SpecialNodeHandler.Instance is null)
+		if (SpecialNodeHandler.Instance.IsNull())
 		{
 			return;
 		}
@@ -289,10 +289,10 @@ public class BaseGameFlowManagerPatches
 			yield break;
 		}
 
-		if (ChessboardMapExt.Instance is null)
+		if (ChessboardMapExt.Instance.IsNull())
 		{
 			// This is required because Unity takes a second to update
-			while (ChessboardMapExt.Instance is null)
+			while (ChessboardMapExt.Instance.IsNull())
 			{
 				yield return new WaitForSeconds(0.25f);
 			}
