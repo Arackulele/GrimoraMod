@@ -46,7 +46,7 @@ public class BaseGameFlowManagerPatches
 			AudioController.Instance.Loops.AddRange(AllSounds);
 		}
 
-		DisableAttackAndHealthStatShadows();
+		DisableAttackAndHealthStatShadowsAndScaleUpStatIcons();
 
 		SetupPlayableAndSelectableCardPrefabs();
 
@@ -119,7 +119,7 @@ public class BaseGameFlowManagerPatches
 		}
 	}
 
-	private static void DisableAttackAndHealthStatShadows()
+	private static void DisableAttackAndHealthStatShadowsAndScaleUpStatIcons()
 	{
 		GravestoneCardDisplayer displayer = Object.FindObjectOfType<GravestoneCardDisplayer>();
 		var statsParent = displayer.transform.Find("Stats");
