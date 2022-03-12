@@ -20,18 +20,15 @@ public class RulebookInfoPatches
 			return;
 		}
 		
-		List<RuleBookPageInfo> pageInfos = new List<RuleBookPageInfo>();
 		List<int> allAbilities = new List<int>();
 		
 		PageRangeInfo pageRangeAbilities = __instance.pageRanges.Find(i => i.type == PageRangeType.Abilities);
 		
 		Log.LogDebug($"Start adding abilities");
-		List<RuleBookPageInfo> resultCopy = new List<RuleBookPageInfo>(__result);
 		allAbilities.AddRange(
 			AbilitiesUtil.AllData
 				// this is needed because Sinkhole and another ability will throw IndexOutOfBounds exceptions
 				.Where(info => info.LocalizedRulebookDescription.IsNotEmpty())
-				.Where(info => !resultCopy.Exists(page => page.ability == info.ability))
 				.ForEach(
 					x =>
 					{
@@ -44,11 +41,12 @@ public class RulebookInfoPatches
 				.Select(x => (int)x.ability)
 				.ToList()
 		);
+		Log.LogDebug($"AllAbilities count [{allAbilities.Count}]");
 		int min = allAbilities.AsQueryable().Min();
 		int max = allAbilities.AsQueryable().Max() + 1;
 
 		Log.LogDebug($"Adding abilities to pageInfos");
-		pageInfos.AddRange(
+		__result.AddRange(
 			__instance.ConstructPages(
 				pageRangeAbilities,
 				max,
@@ -60,8 +58,8 @@ public class RulebookInfoPatches
 		);
 		
 		Log.LogDebug($"Distinct abilities");
-		__result = pageInfos
-			.GroupBy(i => i.ability)
+		__result = __result
+			.GroupBy(i => i.pageId)
 			.Select(i => i.First())
 			.ToList();
 	}
