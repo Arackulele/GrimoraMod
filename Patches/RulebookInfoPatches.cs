@@ -15,6 +15,11 @@ public class RulebookInfoPatches
 		ref List<RuleBookPageInfo> __result
 	)
 	{
+		if (GrimoraSaveUtil.isNotGrimora)
+		{
+			return;
+		}
+		
 		List<RuleBookPageInfo> pageInfos = new List<RuleBookPageInfo>();
 		List<int> allAbilities = new List<int>();
 		
