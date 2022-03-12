@@ -7,7 +7,7 @@ namespace GrimoraMod;
 
 public class GainAttackBones : VariableStatBehaviour
 {
-	private static SpecialStatIcon SpecialStatIcon;
+	public static SpecialStatIcon SpecialStatIcon;
 
 	public override SpecialStatIcon IconType => SpecialStatIcon;
 

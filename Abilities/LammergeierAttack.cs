@@ -7,9 +7,11 @@ namespace GrimoraMod;
 
 public class LammergeierAttack : VariableStatBehaviour
 {
+	public static SpecialStatIcon SpecialStatIcon;
+
 	public static SpecialTriggeredAbility SpecialTriggeredAbility;
 
-	public override SpecialStatIcon IconType => SpecialStatIcon.Bones;
+	public override SpecialStatIcon IconType => SpecialStatIcon;
 
 	public static NewSpecialAbility Create()
 	{
@@ -21,6 +23,7 @@ public class LammergeierAttack : VariableStatBehaviour
 
 		NewSpecialAbility ability = new NewSpecialAbility(typeof(LammergeierAttack), sId, info);
 		SpecialTriggeredAbility = ability.specialTriggeredAbility;
+		SpecialStatIcon = info.iconType;
 		return ability;
 	}
 

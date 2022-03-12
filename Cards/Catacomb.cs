@@ -1,5 +1,3 @@
-using DiskCardGame;
-
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
@@ -15,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetBoneCost(10)
 			.SetNames(NameCatacomb, "Catacomb")
 			.SetDescription("Its power scales in proportion to your Bones.")
-			.SetSpecialStatIcon(SpecialStatIcon.Bones)
+			.SetSpecialStatIcon(LammergeierAttack.SpecialStatIcon)
 			.Build();
 	}
 }
