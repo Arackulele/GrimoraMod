@@ -146,12 +146,6 @@ public class ConfigHelper
 		);
 
 		var list = _configCurrentRemovedPieces.Value.Split(',').ToList();
-		// this is so that for whatever reason the game map gets added to the removal list,
-		//	this will automatically remove those entries
-		if (list.Contains("ChessboardGameMap"))
-		{
-			list.RemoveAll(piece => piece.Equals("ChessboardGameMap"));
-		}
 
 		_configCurrentRemovedPieces.Value = string.Join(",", list.Distinct());
 
@@ -188,7 +182,7 @@ public class ConfigHelper
 				info =>
 					NewAbility.abilities.Exists(na => na.id.ToString().StartsWith(GUID) && na.ability == info.ability)
 			);
-			Log.LogDebug($"All data.IsNotNull(), removed [{removed}] abilities");
+			Log.LogDebug($"All data.IsNotNull(), removed [{removed}] abilities, [{removedSpec}] special");
 		}
 
 		// TODO: I'd prefer not to do this but I'm not sure how to filter out the emissions without literally
