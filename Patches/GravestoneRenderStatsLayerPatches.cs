@@ -47,6 +47,7 @@ public class GravestoneRenderStatsLayerPatches
 				__instance.transform.parent
 			);
 			statIcons.name = "CardStatIcons_Invisible";
+			statIcons.transform.localPosition = new Vector3(-0.11f, -0.72f, 0f);
 
 			if (__instance.PlayableCard.IsNotNull())
 			{
