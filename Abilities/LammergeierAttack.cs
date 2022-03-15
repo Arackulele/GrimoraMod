@@ -19,6 +19,8 @@ public class LammergeierAttack : VariableStatBehaviour
 		StatIconInfo info = ScriptableObject.CreateInstance<StatIconInfo>();
 		info.appliesToHealth = false;
 		info.iconGraphic = ogInfo.iconGraphic;
+		info.rulebookName = ogInfo.name;
+		info.rulebookDescription = ogInfo.rulebookDescription;
 
 		var sId = SpecialAbilityIdentifier.GetID(GUID, "GrimoraMod_LammergeierAttack");
 
