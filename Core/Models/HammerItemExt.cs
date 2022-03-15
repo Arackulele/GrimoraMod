@@ -65,6 +65,7 @@ public class HammerItemExt : HammerItem
 				"THE HAMMER IS NOW BROKEN DEAR. I WILL HAVE IT FIXED FOR THE NEXT BATTLE THOUGH..."
 			);
 			gameObject.SetActive(false);
+			GrimoraItemsManagerExt.Instance.hammerSlot.coll.enabled = false;
 			ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue = 3;
 		}
 
