@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using APIPlugin;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -30,8 +30,17 @@ public class Erratic : Strafe
 			movingLeft = _rng.NextBoolean();
 		}
 
-		CardSlot destination = movingLeft ? toLeft : toRight;
-		yield return StartCoroutine(MoveToSlot(destination, movingLeft ? toLeftIsValid : toRightIsValid));
+		CardSlot destination = movingLeft
+			? toLeft
+			: toRight;
+		yield return StartCoroutine(
+			MoveToSlot(
+				destination,
+				movingLeft
+					? toLeftIsValid
+					: toRightIsValid
+			)
+		);
 		if (destination.IsNotNull())
 		{
 			Log.LogDebug($"[Erratic] Attempting to move from slot [{Card.Slot.Index}] to slot [{destination.Index}]");
@@ -41,7 +50,7 @@ public class Erratic : Strafe
 	}
 
 
-	public static NewAbility Create()
+	public static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription = "At the end of the owner's turn, [creature] will move in a random direction.";
 

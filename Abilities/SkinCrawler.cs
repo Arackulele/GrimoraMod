@@ -2,6 +2,7 @@
 using APIPlugin;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using Pixelplacement;
 using Pixelplacement.TweenSystem;
 using UnityEngine;
@@ -230,7 +231,7 @@ public class SkinCrawler : AbilityBehaviour
 		_slotHidingUnderCard = null;
 	}
 
-	public static NewAbility Create()
+	public static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription =
 			"[creature] will attempt to find a host in an adjacent friendly slot, hiding under it providing a +1/+1 buff."

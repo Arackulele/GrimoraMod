@@ -1,9 +1,8 @@
-using APIPlugin;
 using BepInEx;
 using BepInEx.Configuration;
 using DiskCardGame;
 using HarmonyLib;
-using Sirenix.Utilities;
+using InscryptionAPI.Card;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -169,49 +168,19 @@ public class ConfigHelper
 
 		if (CardLoader.allData.IsNotEmpty())
 		{
-			NewCard.cards.Clear();
+			CardManager.AllCardsCopy.RemoveAll(info => info.name.StartsWith("GrimoraMod_"));
 			int removedCardLoader = CardLoader.allData.RemoveAll(info => info.name.StartsWith("GrimoraMod_"));
 			Log.LogDebug($"All data.IsNotNull(). Removed [{removedCardLoader}] CardLoader");
 		}
 
 		if (AbilitiesUtil.allData.IsNotEmpty())
 		{
-			NewSpecialAbility.specialAbilities.Clear();
-			NewAbility.abilities.Clear();
+			SpecialTriggeredAbilityManager.AllSpecialTriggers.Clear();
 			int removed = AbilitiesUtil.allData.RemoveAll(
-				info => NewAbility.abilities.Exists(na => na.info.rulebookName == info.rulebookName)
+				info => AbilityManager.AllAbilities.Exists(na => na.Info.rulebookName == info.rulebookName)
 			);
+			AbilityManager.AllAbilities.Clear();
 			Log.LogDebug($"All data.IsNotNull() Removed [{removed}] AbilitiesUtil");
-		}
-
-		// TODO: I'd prefer not to do this but I'm not sure how to filter out the emissions without literally
-		//	making a giant list of all the card names.
-		NewCard.emissions.Clear();
-	}
-
-	public void HandleHotReloadAfter()
-	{
-		if (!_configHotReloadEnabled.Value)
-		{
-			return;
-		}
-
-		if (CardLoader.allData.IsNotEmpty() && !CardLoader.allData.Exists(card => card.name.StartsWith("GrimoraMod_")))
-		{
-			CardLoader.allData = CardLoader.allData.Concat(
-					NewCard.cards.Where(card => card.name.StartsWith("GrimoraMod_"))
-				)
-				.Distinct()
-				.ToList();
-		}
-
-		if (AbilitiesUtil.allData.IsNotEmpty() && !AbilitiesUtil.allData.Exists(abInfo => abInfo.ability == ActivatedDrawSkeletonGrimora.ability))
-		{
-			Log.LogDebug($"All data.IsNotNull(), concatting GrimoraMod abilities");
-			AbilitiesUtil.allData = AbilitiesUtil.allData.Concat(
-					NewAbility.abilities.Where(ab => ab.id.ToString().StartsWith(GUID)).Select(_ => _.info)
-				)
-				.ToList();
 		}
 	}
 

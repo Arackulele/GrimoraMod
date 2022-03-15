@@ -1,7 +1,6 @@
 ﻿using System.Collections;
-using APIPlugin;
 using DiskCardGame;
-using static GrimoraMod.GrimoraPlugin;
+using InscryptionAPI.Card;
 
 namespace GrimoraMod;
 
@@ -42,7 +41,7 @@ public class AlternatingStrike : AbilityBehaviour
 		yield return base.OnAttackEnded();
 	}
 
-	public static NewAbility Create()
+	public static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription =
 			"[creature] alternates between striking the opposing space to the left and right from it.";

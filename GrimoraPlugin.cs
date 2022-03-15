@@ -1,17 +1,15 @@
-global using Object = UnityEngine.Object;
 using System.Collections;
 using System.Reflection;
 using BepInEx;
 using BepInEx.Logging;
 using DiskCardGame;
 using HarmonyLib;
-using Sirenix.Utilities;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+global using Object = UnityEngine.Object;
 
 namespace GrimoraMod;
 
-[BepInDependency("cyantist.inscryption.api")]
+[BepInDependency(InscryptionAPI.InscryptionAPIPlugin.ModGUID)]
 [BepInPlugin(GUID, Name, Version)]
 public partial class GrimoraPlugin : BaseUnityPlugin
 {

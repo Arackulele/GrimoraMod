@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using APIPlugin;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -14,7 +14,7 @@ public class HookLineAndSinker : AbilityBehaviour
 	public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer)
 	{
 		return Card.Slot.opposingSlot.Card.IsNotNull()
-		       && !Card.Slot.opposingSlot.Card.Info.SpecialAbilities.Contains(GrimoraGiant.SpecialTriggeredAbility);
+		       && !Card.Slot.opposingSlot.Card.Info.SpecialAbilities.Contains(GrimoraGiant.FullAbility.Id);
 	}
 
 	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
@@ -45,7 +45,7 @@ public class HookLineAndSinker : AbilityBehaviour
 		}
 	}
 
-	public static NewAbility Create()
+	public static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription =
 			"When [creature] perishes, the creature in the opposing slot is dragged onto the owner's side of the board.";

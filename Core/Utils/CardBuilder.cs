@@ -1,6 +1,6 @@
-﻿using APIPlugin;
-using DiskCardGame;
-using HarmonyLib;
+﻿using DiskCardGame;
+using InscryptionAPI.Card;
+using InscryptionAPI.Helpers;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -12,23 +12,12 @@ public class CardBuilder
 
 	private readonly CardInfo _cardInfo = ScriptableObject.CreateInstance<CardInfo>();
 
-	public CardInfo Build(SpecialAbilityIdentifier specialId = null)
+	public CardInfo Build()
 	{
-		if (_cardInfo.metaCategories.Contains(CardMetaCategory.Rare))
-		{
-			_cardInfo.appearanceBehaviour = CardUtils.getRareAppearance;
-		}
-
 		_cardInfo.temple = CardTemple.Undead;
 
-		List<SpecialAbilityIdentifier> specialIds = null;
-		if (specialId != null)
-		{
-			specialIds = new List<SpecialAbilityIdentifier> { specialId };
-		}
-
 		AllGrimoraModCards.Add(_cardInfo);
-		NewCard.Add(_cardInfo, specialAbilitiesIdsParam: specialIds);
+		CardManager.Add(_cardInfo);
 		return _cardInfo;
 	}
 
@@ -57,12 +46,12 @@ public class CardBuilder
 			_cardInfo.portraitTex = AssetUtils.GetPrefab<Sprite>(cardName);
 
 			// TODO: refactor when API 2.0 comes out
-			if (!NewCard.emissions.ContainsKey(cardName) && AllSprites.Exists(_ => _.name.Equals($"{cardName}_emission")))
+			if (AllSprites.Exists(_ => _.name.Equals($"{cardName}_emission")))
 			{
-				NewCard.emissions.Add(
-					cardName,
-					AllSprites.Single(_ => _.name.Equals($"{cardName}_emission"))
-				);
+				AllSprites.Single(_ => _.name.Equals(cardName))
+					.RegisterEmissionForSprite(
+						AllSprites.Single(_ => _.name.Equals($"{cardName}_emission"))
+					);
 			}
 		}
 		else
@@ -167,7 +156,7 @@ public class CardBuilder
 		}
 		catch (Exception e)
 		{
-			cardToLoad = NewCard.cards.Single(_ => _.name.Equals(iceCubeName));
+			cardToLoad = CardManager.AllCardsCopy.Single(_ => _.name.Equals(iceCubeName));
 		}
 
 		_cardInfo.iceCubeParams = new IceCubeParams
@@ -187,7 +176,7 @@ public class CardBuilder
 		}
 		catch (Exception e)
 		{
-			cardToLoad = NewCard.cards.Single(_ => _.name.Equals(evolveInto));
+			cardToLoad = CardManager.AllCardsCopy.Single(_ => _.name.Equals(evolveInto));
 		}
 
 		_cardInfo.evolveParams = new EvolveParams

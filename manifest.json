@@ -4,8 +4,6 @@
 	"website_url": "https://github.com/Arackulele/GrimoraMod",
 	"description": "New Soundtrack + Mechanics! Probably the biggest and most ambitious mod. Gives Grimora a full act!",
 	"dependencies": [
-		"API_dev-API-1.13.4",
-		"MADH95Mods-SigilArtPatch-1.5.1",
-		"MADH95Mods-Activated_Sigil_Fix-1.0.2"
+		"API_dev-API-2.0.0"
 	]
 }

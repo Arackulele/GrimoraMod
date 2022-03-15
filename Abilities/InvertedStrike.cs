@@ -1,6 +1,5 @@
-﻿using APIPlugin;
-using DiskCardGame;
-using HarmonyLib;
+﻿using DiskCardGame;
+using InscryptionAPI.Card;
 
 namespace GrimoraMod;
 
@@ -9,7 +8,7 @@ public class InvertedStrike : AbilityBehaviour
 	public static Ability ability;
 	public override Ability Ability => ability;
 
-	public static NewAbility Create()
+	public static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription =
 			"[creature] will strike the opposing slot as if the board was flipped. "

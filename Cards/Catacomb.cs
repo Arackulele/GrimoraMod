@@ -12,7 +12,7 @@ public partial class GrimoraPlugin
 			.SetBoneCost(10)
 			.SetDescription("Its power scales in proportion to your Bones.")
 			.SetNames(NameCatacomb, "Catacomb")
-			.SetSpecialStatIcon(LammergeierAttack.SpecialStatIcon)
-			.Build(LammergeierAttack.NewSpecialAbility.id);
+			.SetSpecialStatIcon(LammergeierAttack.FullStatIcon.Id)
+			.Build();
 	}
 }

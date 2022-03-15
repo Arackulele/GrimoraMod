@@ -21,7 +21,6 @@ public partial class GrimoraPlugin
 			.SetTraits(Trait.Giant, Trait.Uncuttable)
 			.SetDescription("TRULY A SIGHT TO BEHOLD.")
 			.Build()
-			// , specialAbilitiesIdsParam: new List<SpecialAbilityIdentifier> { sbIds.id }
 			;
 	}
 }
@@ -42,7 +41,7 @@ public class ModifyLocalPositionsOfTableObjects
 	{
 		if (GrimoraSaveUtil.isGrimora
 		    && card.Info.HasTrait(Trait.Giant)
-		    && card.Info.SpecialAbilities.Contains(GrimoraGiant.SpecialTriggeredAbility))
+		    && card.Info.SpecialAbilities.Contains(GrimoraGiant.FullAbility.Id))
 		{
 			bool isBonelord = card.InfoName().Equals(NameBonelord);
 			// Card -> RotatingParent (child zero) -> TombstoneParent -> Cardbase_StatsLayer
@@ -71,7 +70,7 @@ public class KayceeModLogicForDeathTouchPrevention
 	public static void AddLogicForDeathTouchToNotKillGiants(int amount, PlayableCard target, ref bool __result)
 	{
 		bool targetIsNotGrimoraGiant =
-			!target.Info.SpecialAbilities.Contains(GrimoraGiant.SpecialTriggeredAbility);
+			!target.Info.SpecialAbilities.Contains(GrimoraGiant.FullAbility.Id);
 		__result = __result && targetIsNotGrimoraGiant;
 	}
 }

@@ -1,5 +1,5 @@
-﻿using APIPlugin;
-using DiskCardGame;
+﻿using DiskCardGame;
+using InscryptionAPI.Card;
 
 namespace GrimoraMod;
 
@@ -9,7 +9,7 @@ public class GiantStrike : AbilityBehaviour
 
 	public override Ability Ability => ability;
 
-	public static NewAbility Create()
+	public static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription =
 			"[creature] will strike each opposing space. "

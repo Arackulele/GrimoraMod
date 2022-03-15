@@ -63,7 +63,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		Ability.Submerge,
 		Ability.SwapStats,
 		Ability.TailOnHit,
-		Ability.Transformer,
+		// Ability.Transformer,
 		Ability.TriStrike,
 		Ability.Tutor,
 		Ability.WhackAMole
@@ -399,7 +399,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	{
 		ViewManager.Instance.SwitchToView(View.Default);
 		yield return new WaitForSeconds(0.25f);
-		
+
 		AudioController.Instance.StopLoop(1);
 
 		campfireLight.gameObject.SetActive(false);

@@ -1,6 +1,6 @@
 using System.Reflection;
-using APIPlugin;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -36,7 +36,7 @@ namespace GrimoraMod
 			return info;
 		}
 
-		public static NewAbility CreateAbility<T>(
+		public static AbilityManager.FullAbility CreateAbility<T>(
 			string rulebookDescription,
 			string rulebookName = null,
 			bool activated = false,
@@ -55,15 +55,16 @@ namespace GrimoraMod
 			);
 		}
 
-		private static NewAbility CreateAbility<T>(AbilityInfo info, Texture texture) where T : AbilityBehaviour
+		private static AbilityManager.FullAbility CreateAbility<T>(AbilityInfo info, Texture texture)
+			where T : AbilityBehaviour
 		{
 			Type type = typeof(T);
 			// instantiate
-			var newAbility = new NewAbility(
+			var newAbility = AbilityManager.Add(
+				GUID,
 				info,
 				type,
-				texture,
-				GetAbilityId(info.rulebookName)
+				texture
 			);
 
 			// Get static field
@@ -71,14 +72,9 @@ namespace GrimoraMod
 				"ability",
 				BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance
 			);
-			field.SetValue(null, newAbility.ability);
+			field.SetValue(null, newAbility.Id);
 
 			return newAbility;
-		}
-
-		public static AbilityIdentifier GetAbilityId(string rulebookName)
-		{
-			return AbilityIdentifier.GetID(GUID, rulebookName);
 		}
 	}
 }

@@ -1,23 +1,35 @@
-﻿using APIPlugin;
-using DiskCardGame;
+﻿using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
 public class PrintUtils
 {
+	public static string GetAbilityName(Ability ability)
+	{
+		string abilityName = ability.ToString();
+		if (AbilityManager.AllAbilities.Exists(abInfo => abInfo.Info.ability == ability))
+		{
+			abilityName = AbilityManager.AllAbilities.Find(abInfo => abInfo.Id == ability).Info.rulebookName;
+		}
+
+		Log.LogDebug($"Ability name returning is [{abilityName}]");
+		return abilityName;
+	}
+
 	public static void PrintAllCards()
 	{
 		foreach (var info in AllGrimoraModCards)
 		{
-			string abilities1 = NewAbility.abilities
-				.Where(newAb => info.Abilities.Contains(newAb.ability))
-				.Select(newAb => newAb.info.rulebookName)
+			string abilities1 = AbilityManager.AllAbilities
+				.Where(newAb => info.Abilities.Contains(newAb.Id))
+				.Select(newAb => newAb.Info.rulebookName)
 				.Join();
-			string abilities2 = NewSpecialAbility.specialAbilities
-				.Where(newAb => info.SpecialAbilities.Contains(newAb.specialTriggeredAbility))
-				.Select(newAb => newAb.abilityBehaviour.Name)
+			string abilities2 = SpecialTriggeredAbilityManager.AllSpecialTriggers
+				.Where(newAb => info.SpecialAbilities.Contains(newAb.Id))
+				.Select(newAb => newAb.AbilityBehaviour.Name)
 				.Join();
 			string abilities3 = AbilitiesUtil.AllData
 				.Where(abInfo => info.Abilities.Contains(abInfo.ability))
@@ -30,6 +42,5 @@ public class PrintUtils
 				+ $"%{info.metaCategories.GetDelimitedString()}"
 			);
 		}
-		
 	}
 }

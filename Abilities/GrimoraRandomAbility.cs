@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using APIPlugin;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -61,7 +61,7 @@ public class GrimoraRandomAbility : AbilityBehaviour
 	}
 
 
-	public static NewAbility Create()
+	public static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription = "When [creature] is drawn, this sigil is replaced with another sigil at random.";
 		Texture icon = AbilitiesUtil.LoadAbilityIcon(Ability.RandomAbility.ToString());

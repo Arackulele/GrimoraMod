@@ -1,6 +1,5 @@
 using System.Collections;
 using DiskCardGame;
-using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -57,8 +56,8 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 	private bool SlotContainsTwinGiant(CardSlot cardSlot)
 	{
-		return cardSlot.CardIsNotNullAndHasSpecialAbility(GrimoraGiant.SpecialTriggeredAbility) && cardSlot.CardInSlotIs(NameGiant);
-	} 
+		return cardSlot.CardIsNotNullAndHasSpecialAbility(GrimoraGiant.FullAbility.Id) && cardSlot.CardInSlotIs(NameGiant);
+	}
 
 	public override IEnumerator OpponentUpkeep()
 	{

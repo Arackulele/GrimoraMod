@@ -1,6 +1,6 @@
-﻿using APIPlugin;
-using DiskCardGame;
+﻿using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 
 namespace GrimoraMod;
 
@@ -10,7 +10,7 @@ public class BuffCrewMates : AbilityBehaviour
 
 	public override Ability Ability => ability;
 
-	public static NewAbility Create()
+	public static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription =
 			"[creature] empowers each Skeleton on the owner's side of the board, providing a +1 buff their power.";

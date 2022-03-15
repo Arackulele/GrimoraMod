@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using APIPlugin;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -25,11 +25,11 @@ public class LitFuse : ExplodeOnDeath
 		ViewManager.Instance.SetViewUnlocked();
 	}
 
-	public static NewAbility Create()
+	public static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription =
-			"[creature] loses 1 health per turn. " +
-			"When [creature] dies, the creature opposing it, as well as adjacent friendly creatures, are dealt 10 damage.";
+			"[creature] loses 1 health per turn. "
+			+ "When [creature] dies, the creature opposing it, as well as adjacent friendly creatures, are dealt 10 damage.";
 
 		return ApiUtils.CreateAbility<LitFuse>(rulebookDescription);
 	}
