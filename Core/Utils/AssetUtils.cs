@@ -26,7 +26,11 @@ public static class AssetUtils
 		T objToReturn = null;
 		try
 		{
-			if (type == typeof(Material))
+			if (type == typeof(AudioClip))
+			{
+				objToReturn = AllSounds.Single(go => NameMatchesAsset(go, prefabName)) as T;
+			}
+			else if (type == typeof(Material))
 			{
 				objToReturn = AllMats.Single(go => NameMatchesAsset(go, prefabName)) as T;
 			}
