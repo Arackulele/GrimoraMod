@@ -12,15 +12,9 @@ public class GrimoraGiant : SpecialCardBehaviour
 
 	public static NewSpecialAbility Create()
 	{
-		StatIconInfo info = ScriptableObject.CreateInstance<StatIconInfo>();
-		info.iconType = SpecialStatIcon.NUM_ICONS;
-		info.appliesToAttack = false;
-		info.appliesToHealth = false;
-		info.iconGraphic = Texture2D.blackTexture;
-		info.rulebookName = "Grimora's Giant";
 		var sId = SpecialAbilityIdentifier.GetID(GUID, "!GRIMORA_GIANT");
 
-		var ability = new NewSpecialAbility(typeof(GrimoraGiant), sId, info);
+		var ability = new NewSpecialAbility(typeof(GrimoraGiant), sId);
 		SpecialTriggeredAbility = ability.specialTriggeredAbility;
 		return ability;
 	}

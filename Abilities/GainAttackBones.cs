@@ -7,16 +7,15 @@ namespace GrimoraMod;
 
 public class GainAttackBones : VariableStatBehaviour
 {
+	public static NewSpecialAbility NewSpecialAbility;
+
 	public static SpecialStatIcon SpecialStatIcon;
 
 	public override SpecialStatIcon IconType => SpecialStatIcon;
 
-	public static SpecialTriggeredAbility SpecialTriggeredAbility;
-
 	public static NewSpecialAbility Create()
 	{
 		StatIconInfo info = ScriptableObject.CreateInstance<StatIconInfo>();
-		info.appliesToAttack = true;
 		info.appliesToHealth = false;
 		info.rulebookName = "HellHound's Thirst";
 		info.rulebookDescription = "[creature] gains 1 attack for each bone the player currently has.";
@@ -24,11 +23,9 @@ public class GainAttackBones : VariableStatBehaviour
 
 		var sId = SpecialAbilityIdentifier.GetID(GUID, "GrimoraMod_GainAttackBones");
 
-		var specialAbility = new NewSpecialAbility(typeof(GainAttackBones), sId, info);
-		SpecialStatIcon = specialAbility.statIconInfo.iconType;
-		SpecialTriggeredAbility = specialAbility.specialTriggeredAbility;
-
-		return specialAbility;
+		NewSpecialAbility = new NewSpecialAbility(typeof(GainAttackBones), sId, info);
+		SpecialStatIcon = NewSpecialAbility.statIconInfo.iconType;
+		return NewSpecialAbility;
 	}
 
 	public override int[] GetStatValues()

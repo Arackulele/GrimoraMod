@@ -8,12 +8,11 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(LammergeierAttack.SpecialTriggeredAbility)
 			.SetBaseAttackAndHealth(0, 10)
 			.SetBoneCost(10)
-			.SetNames(NameCatacomb, "Catacomb")
 			.SetDescription("Its power scales in proportion to your Bones.")
+			.SetNames(NameCatacomb, "Catacomb")
 			.SetSpecialStatIcon(LammergeierAttack.SpecialStatIcon)
-			.Build();
+			.Build(LammergeierAttack.NewSpecialAbility.id);
 	}
 }
