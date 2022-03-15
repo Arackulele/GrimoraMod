@@ -15,6 +15,16 @@ public class HammerItemExt : HammerItem
 
 	private int _useCounter = 0;
 
+	public override IEnumerator ActivateSequence()
+	{
+		yield return base.ActivateSequence();
+		if (ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue == 3)
+		{
+			GrimoraPlugin.Log.LogDebug($"Disabling hammer collider as all 3 uses have been used");
+			GrimoraItemsManagerExt.Instance.hammerSlot.coll.enabled = false;
+		}
+	}
+
 	public override IEnumerator OnValidTargetSelected(CardSlot targetSlot, GameObject firstPersonItem)
 	{
 		firstPersonItem.GetComponentInChildren<Animator>().SetTrigger(Hit);
@@ -65,7 +75,6 @@ public class HammerItemExt : HammerItem
 				"THE HAMMER IS NOW BROKEN DEAR. I WILL HAVE IT FIXED FOR THE NEXT BATTLE THOUGH..."
 			);
 			gameObject.SetActive(false);
-			GrimoraItemsManagerExt.Instance.hammerSlot.coll.enabled = false;
 			ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue = 3;
 		}
 
