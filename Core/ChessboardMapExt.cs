@@ -148,7 +148,7 @@ public class ChessboardMapExt : GameMap
 				new Rect(200, 0, 100, 50),
 				"Reset Run"
 			);
-			
+
 			if (_btnReset)
 			{
 				ConfigHelper.Instance.ResetRun();
@@ -181,8 +181,6 @@ public class ChessboardMapExt : GameMap
 				);
 			}
 		}
-
-
 	}
 
 	public IEnumerator CompleteRegionSequence()
