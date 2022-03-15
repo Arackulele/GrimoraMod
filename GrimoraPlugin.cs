@@ -241,9 +241,9 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		StartCoroutine(AssetUtils.LoadAssetBundleAsync<AudioClip>("grimoramod_sounds"));
 
-		StartCoroutine(AssetUtils.LoadAssetBundleAsync<RuntimeAnimatorController>("grimoramod_controller"));
+		yield return AssetUtils.LoadAssetBundleAsync<RuntimeAnimatorController>("grimoramod_controller");
 
-		StartCoroutine(AssetUtils.LoadAssetBundleAsync<Material>("grimoramod_mats"));
+		yield return AssetUtils.LoadAssetBundleAsync<Material>("grimoramod_mats");
 
 		yield return AssetUtils.LoadAssetBundleAsync<Texture>("grimoramod_abilities");
 	}
