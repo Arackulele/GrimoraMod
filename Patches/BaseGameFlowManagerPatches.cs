@@ -46,6 +46,12 @@ public class BaseGameFlowManagerPatches
 			AudioController.Instance.Loops.AddRange(AllSounds);
 		}
 
+		GameObject rightWrist = GameObject.Find("Grimora_RightWrist");
+		if (rightWrist && rightWrist.transform.GetChild(6))
+		{
+			Object.Destroy(rightWrist.transform.GetChild(6).gameObject);
+		}
+
 		DisableAttackAndHealthStatShadowsAndScaleUpStatIcons();
 
 		SetupPlayableAndSelectableCardPrefabs();

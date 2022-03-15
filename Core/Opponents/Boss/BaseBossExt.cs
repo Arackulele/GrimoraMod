@@ -52,8 +52,6 @@ public abstract class BaseBossExt : Part1BossOpponent
 			}
 		};
 
-	public GameObject RoyalBossSkull => GrimoraRightWrist.transform.GetChild(6).gameObject;
-
 	public GameObject GrimoraRightHandBossSkull
 	{
 		get => GrimoraAnimationController.Instance.bossSkull;
@@ -71,7 +69,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 	{
 		{ KayceeOpponent, AssetConstants.BossSkullKaycee },
 		{ SawyerOpponent, AssetConstants.BossSkullSawyer },
-		{ RoyalOpponent, null },
+		{ RoyalOpponent, AssetConstants.BossSkullRoyal },
 	};
 
 	private static readonly int ShowSkull = Animator.StringToHash("show_skull");
@@ -92,16 +90,8 @@ public abstract class BaseBossExt : Part1BossOpponent
 		if (BossMasksByType.TryGetValue(Opponent, out GameObject skull))
 		{
 			Log.LogDebug($"[{GetType()}] Creating skull");
-			if (this is RoyalBossOpponentExt)
-			{
-				GrimoraRightHandBossSkull = RoyalBossSkull;
-				RoyalBossSkull.SetActive(true);
-			}
-			else
-			{
-				GrimoraRightHandBossSkull = Instantiate(skull, GrimoraRightWrist.transform);
-				RoyalBossSkull.SetActive(false);
-			}
+
+			GrimoraRightHandBossSkull = Instantiate(skull, GrimoraRightWrist.transform);
 
 			var bossSkullTransform = GrimoraRightHandBossSkull.transform;
 
