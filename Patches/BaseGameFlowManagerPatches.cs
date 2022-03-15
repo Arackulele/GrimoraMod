@@ -334,6 +334,7 @@ public class BaseGameFlowManagerPatches
 			var allAssetsRequest = bundleLoadRequest.assetBundle.LoadAllAssetsAsync<GameObject>();
 			yield return allAssetsRequest;
 			AllPrefabs = allAssetsRequest.allAssets.Cast<GameObject>().ToList();
+			bundleLoadRequest.assetBundle.Unload(false);
 		}
 
 		if (ChessboardMapExt.Instance.IsNull())

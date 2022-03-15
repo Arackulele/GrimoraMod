@@ -1,6 +1,7 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -10,6 +11,7 @@ public class StartScreenPatches
 	// [HarmonyPostfix, HarmonyPatch(nameof(StartScreenThemeSetter.Start))]
 	public static void SetBackgroundToGrimoraTheme(StartScreenThemeSetter __instance)
 	{
+		Log.LogDebug($"Setting new background theme");
 		var grimoraTheme = __instance.themes[0];
 		if (ColorUtility.TryParseHtmlString("0F2623", out var color))
 		{
@@ -17,13 +19,8 @@ public class StartScreenPatches
 		}
 
 		grimoraTheme.bgSpriteWide = AssetUtils.GetPrefab<Sprite>("Background");
-
 		grimoraTheme.triggeringEvent = StoryEvent.PlayerDeletedArchivistFile;
-		__instance.themes.Add(grimoraTheme);
 
-		var findPlayerDeletedArchivistFile = __instance.themes.Find(theme =>
-			theme.triggeringEvent == StoryEvent.PlayerDeletedArchivistFile);
-
-		__instance.SetTheme(findPlayerDeletedArchivistFile);
+		__instance.SetTheme(grimoraTheme);
 	}
 }

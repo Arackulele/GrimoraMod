@@ -54,21 +54,29 @@ public class MenuControllerPatches
 		return true;
 	}
 
-	// [HarmonyPostfix, HarmonyPatch(nameof(MenuController.Start))]
-	public static void AddGrimoraCard(ref MenuController __instance)
+	[HarmonyPostfix, HarmonyPatch(nameof(MenuController.TweenInCards))]
+	public static IEnumerator AddGrimoraCard(IEnumerator enumerator, MenuController __instance)
 	{
-		if (SceneManager.GetActiveScene().name.ToLowerInvariant().Contains("start")
-		    && !__instance.cards.Exists(card => card.name.ToLowerInvariant().Contains("grimora")))
+		yield return new WaitUntil(() => AllSprites != null);
+
+		if (SceneManager.GetActiveScene().name.Equals("Start"))
 		{
-			__instance.cards.Add(CreateButton(__instance));
+			if (__instance.cardRow.Find("MenuCard_Grimora").IsNull())
+			{
+				Log.LogDebug($"Non-hot reload menu button creation");
+				__instance.cards.Add(CreateButton(__instance));
+			}
 		}
+
+		yield return enumerator;
 	}
 
 	public static MenuCard CreateButton(MenuController controller)
 	{
+		Log.LogDebug("Creating MenuCard button");
+
 		GameObject cardRow = controller.transform.Find("CardRow").gameObject;
 
-		// GrimoraPlugin.Log.LogDebug("Finding MenuCard_Continue gameObject");
 		MenuCard menuCardGrimora = Object.Instantiate(
 			ResourceBank.Get<MenuCard>("Prefabs/StartScreen/StartScreenMenuCard"),
 			new Vector3(1.378f, -0.77f, 0),
