@@ -128,7 +128,7 @@ public class ChessboardMapExt : GameMap
 								break;
 						}
 					}
-					else if (_btnGetUp)
+					else if (GrimoraGameFlowManager.Instance.CurrentGameState == GameState.Map && _btnGetUp)
 					{
 						Log.LogDebug($"Transitioning to first person");
 						GrimoraGameFlowManager.Instance.TransitionToFirstPerson();
