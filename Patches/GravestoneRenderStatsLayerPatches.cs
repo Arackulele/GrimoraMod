@@ -40,13 +40,14 @@ public class GravestoneRenderStatsLayerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(GravestoneRenderStatsLayer.RenderCard))]
 	public static void PrefixAddStatIcons(ref GravestoneRenderStatsLayer __instance, CardRenderInfo info)
 	{
-		if (__instance.transform.parent.Find("CardStatIcons_Invisible") is null)
+		if (__instance.transform.parent.Find("CardStatIcons_Invisible").IsNull())
 		{
 			CardStatIcons statIcons = Object.Instantiate(
 				CardStatIcons,
 				__instance.transform.parent
 			);
 			statIcons.name = "CardStatIcons_Invisible";
+			statIcons.transform.localPosition = new Vector3(-0.11f, -0.72f, 0f);
 
 			if (__instance.PlayableCard.IsNotNull())
 			{

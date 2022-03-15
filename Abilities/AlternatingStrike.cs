@@ -22,7 +22,7 @@ public class AlternatingStrike : AbilityBehaviour
 		// if in far left slot, adj slot left will be null
 		CardSlot slotToAttack = BoardManager.Instance.GetAdjacent(Card.Slot.opposingSlot, isAttackingLeft);
 
-		if (slotToAttack is null)
+		if (slotToAttack.IsNull())
 		{
 			isAttackingLeft = !isAttackingLeft;
 			// if in far left slot and attacked right last, need to keep attack to the right slot

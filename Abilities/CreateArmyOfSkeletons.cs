@@ -28,7 +28,7 @@ public class CreateArmyOfSkeletons : AbilityBehaviour
 
 		var openSlots = BoardManager.Instance
 			.GetSlots(Card.Slot.IsPlayerSlot)
-			.Where(slot => slot.Card is null)
+			.Where(slot => slot.Card.IsNull())
 			.ToList();
 
 		foreach (var slot in openSlots)

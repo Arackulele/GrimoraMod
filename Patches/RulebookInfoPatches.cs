@@ -15,18 +15,21 @@ public class RulebookInfoPatches
 		ref List<RuleBookPageInfo> __result
 	)
 	{
-		List<RuleBookPageInfo> pageInfos = new List<RuleBookPageInfo>();
+		if (GrimoraSaveUtil.isNotGrimora)
+		{
+			return;
+		}
+
+		__result.Clear();
 		List<int> allAbilities = new List<int>();
-		
+
 		PageRangeInfo pageRangeAbilities = __instance.pageRanges.Find(i => i.type == PageRangeType.Abilities);
-		
-		Log.LogDebug($"Start adding abilities");
-		List<RuleBookPageInfo> resultCopy = new List<RuleBookPageInfo>(__result);
+
+		Log.LogDebug($"Start adding NewSpecialAbilities");
 		allAbilities.AddRange(
-			AbilitiesUtil.AllData
+			AbilitiesUtil.allData
 				// this is needed because Sinkhole and another ability will throw IndexOutOfBounds exceptions
 				.Where(info => info.LocalizedRulebookDescription.IsNotEmpty())
-				.Where(info => !resultCopy.Exists(page => page.ability == info.ability))
 				.ForEach(
 					x =>
 					{
@@ -39,11 +42,12 @@ public class RulebookInfoPatches
 				.Select(x => (int)x.ability)
 				.ToList()
 		);
+		Log.LogDebug($"AllAbilities count [{allAbilities.Count}]");
 		int min = allAbilities.AsQueryable().Min();
 		int max = allAbilities.AsQueryable().Max() + 1;
 
 		Log.LogDebug($"Adding abilities to pageInfos");
-		pageInfos.AddRange(
+		__result.AddRange(
 			__instance.ConstructPages(
 				pageRangeAbilities,
 				max,
@@ -53,11 +57,31 @@ public class RulebookInfoPatches
 				Localization.Translate("APPENDIX XII, SUBSECTION I - ABILITIES {0}")
 			)
 		);
-		
-		Log.LogDebug($"Distinct abilities");
-		__result = pageInfos
-			.GroupBy(i => i.ability)
-			.Select(i => i.First())
-			.ToList();
+		Log.LogDebug($"[ConstructPageData] Result after adding custom abilities [{__result.Count}]");
+
+		allAbilities.Clear();
+
+		allAbilities.AddRange(
+			StatIconInfo.AllIconInfo
+				.Where(info => info.IsNotNull() && info.rulebookDescription.IsNotEmpty())
+				.Select(info => (int)info.iconType)
+				.ToList()
+		);
+		Log.LogDebug($"SpecialAbilities count [{allAbilities.Join()}]");
+		min = allAbilities.AsQueryable().Min();
+		max = allAbilities.AsQueryable().Max() + 1;
+
+		pageRangeAbilities = __instance.pageRanges.Find(i => i.type == PageRangeType.StatIcons);
+		Log.LogDebug($"Adding special abilities to pageInfos");
+		__result.AddRange(
+			__instance.ConstructPages(
+				pageRangeAbilities,
+				max,
+				min,
+				idx => allAbilities.Contains(idx),
+				__instance.FillStatIconPage,
+				Localization.Translate("APPENDIX XII, SUBSECTION II - VARIABLE STATS {0}")
+			)
+		);
 	}
 }

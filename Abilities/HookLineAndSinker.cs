@@ -31,15 +31,18 @@ public class HookLineAndSinker : AbilityBehaviour
 		);
 		yield return new WaitForSeconds(0.51f);
 
-		targetCard.SetIsOpponentCard(!Card.Slot.IsPlayerSlot);
-		yield return BoardManager.Instance.AssignCardToSlot(targetCard, Card.Slot, 0.33f);
-		if (targetCard.FaceDown)
+		if (targetCard.IsNotNull())
 		{
-			targetCard.SetFaceDown(false);
-			targetCard.UpdateFaceUpOnBoardEffects();
-		}
+			targetCard.SetIsOpponentCard(!Card.Slot.IsPlayerSlot);
+			yield return BoardManager.Instance.AssignCardToSlot(targetCard, Card.Slot, 0.33f);
+			if (targetCard.FaceDown)
+			{
+				targetCard.SetFaceDown(false);
+				targetCard.UpdateFaceUpOnBoardEffects();
+			}
 
-		yield return new WaitForSeconds(0.66f);
+			yield return new WaitForSeconds(0.66f);
+		}
 	}
 
 	public static NewAbility Create()

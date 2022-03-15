@@ -46,7 +46,7 @@ public class GoatEyePatch
 		for (int i = 0; i < 8; i++)
 		{
 			var node = ChessboardNavGrid.instance.zones[i, GrimoraSaveData.Data.gridY].GetComponent<ChessboardMapNode>();
-			if (node.OccupyingPiece is null) continue;
+			if (node.OccupyingPiece.IsNull()) continue;
 			if (!node.OccupyingPiece.name.Contains("Boss") && !PiecesToNotRotate.Contains(node.OccupyingPiece.GetType()))
 			{
 				node.OccupyingPiece.TurnToFacePoint(PlayerMarker.Instance.transform.position, 0.1f);

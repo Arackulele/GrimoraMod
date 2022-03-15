@@ -34,7 +34,7 @@ public class BaseGameFlowManagerPatches
 		catch (Exception e)
 		{
 			Log.LogWarning(
-				$"Exception thrown while attempting to reset deck with a card prefixed with 'ara_', resetting deck. " + e 
+				$"Exception thrown while attempting to reset deck with a card prefixed with 'ara_', resetting deck. " + e
 			);
 			ConfigHelper.ResetDeck();
 		}
@@ -46,7 +46,13 @@ public class BaseGameFlowManagerPatches
 			AudioController.Instance.Loops.AddRange(AllSounds);
 		}
 
-		DisableAttackAndHealthStatShadows();
+		GameObject rightWrist = GameObject.Find("Grimora_RightWrist");
+		if (rightWrist && rightWrist.transform.GetChild(6))
+		{
+			Object.Destroy(rightWrist.transform.GetChild(6).gameObject);
+		}
+
+		DisableAttackAndHealthStatShadowsAndScaleUpStatIcons();
 
 		SetupPlayableAndSelectableCardPrefabs();
 
@@ -77,6 +83,11 @@ public class BaseGameFlowManagerPatches
 		CryptHelper.SetupNewCryptAndZones();
 
 		GrimoraAnimationController.Instance.transform.SetParent(Object.FindObjectOfType<InputManagerSpawner>().transform);
+		
+		Log.LogDebug($"Assigning controller to game table");
+		GameObject.Find("GameTable")
+			.AddComponent<Animator>()
+			.runtimeAnimatorController = AssetUtils.GetPrefab<RuntimeAnimatorController>("GrimoraGameTable");
 	}
 
 
@@ -99,11 +110,32 @@ public class BaseGameFlowManagerPatches
 			.runtimeAnimatorController = AssetConstants.GraveStoneController;
 
 		CardSpawner.Instance.giantPlayableCardPrefab = AssetConstants.GrimoraPlayableCard;
+
+		Vector3 boxColliderSize = new Vector3(0.4f, 0.4f, 0.1f);
+		var cardAbilityIcons = AssetConstants.GrimoraPlayableCard.GetComponentInChildren<CardAbilityIcons>();
+		foreach (var group in cardAbilityIcons.defaultIconGroups)
+		{
+			var childBoxColliders = group.GetComponentsInChildren<BoxCollider>();
+			foreach (var collider in childBoxColliders)
+			{
+				collider.extents = boxColliderSize;
+			}
+		}
+
+		cardAbilityIcons = AssetConstants.GrimoraSelectableCard.GetComponentInChildren<CardAbilityIcons>();
+		foreach (var group in cardAbilityIcons.defaultIconGroups)
+		{
+			var childBoxColliders = group.GetComponentsInChildren<BoxCollider>();
+			foreach (var collider in childBoxColliders)
+			{
+				collider.extents = boxColliderSize;
+			}
+		}
 	}
 
 	private static void AddCardSelectorObjectForTutor()
 	{
-		if (BoardManager.Instance.IsNotNull() && BoardManager.Instance.cardSelector is null)
+		if (BoardManager.Instance.IsNotNull() && BoardManager.Instance.cardSelector.IsNull())
 		{
 			SelectableCardArray boardCardSelection
 				= new GameObject("BoardCardSelection").AddComponent<SelectableCardArray>();
@@ -119,19 +151,30 @@ public class BaseGameFlowManagerPatches
 		}
 	}
 
-	private static void DisableAttackAndHealthStatShadows()
+	private static void DisableAttackAndHealthStatShadowsAndScaleUpStatIcons()
 	{
 		GravestoneCardDisplayer displayer = Object.FindObjectOfType<GravestoneCardDisplayer>();
 		var statsParent = displayer.transform.Find("Stats");
 		statsParent.Find("Attack_Shadow").gameObject.SetActive(false);
 		statsParent.Find("Health_Shadow").gameObject.SetActive(false);
 
-		CardStatIcons statIcons = statsParent.GetComponentInChildren<CardStatIcons>();
+		CardStatIcons statIcons = displayer.StatIcons;
 		statIcons.attackIconRenderer.transform.localPosition = new Vector3(-0.39f, 0.19f, 0);
 		statIcons.attackIconRenderer.transform.localScale = new Vector3(0.33f, 0.33f, 1);
 
 		statIcons.healthIconRenderer.transform.localPosition = new Vector3(-0.39f, 0.19f, 0);
 		statIcons.healthIconRenderer.transform.localScale = new Vector3(0.33f, 0.33f, 1);
+
+		CardAbilityIcons cardAbilityIcons = displayer.AbilityIcons;
+		Vector3 boxColliderSize = new Vector3(0.4f, 0.4f, 0.1f);
+		foreach (var group in cardAbilityIcons.defaultIconGroups)
+		{
+			var childBoxColliders = group.GetComponentsInChildren<BoxCollider>();
+			foreach (var collider in childBoxColliders)
+			{
+				collider.extents = boxColliderSize;
+			}
+		}
 	}
 
 	public static void AddBoonLordBoonConsumable()
@@ -194,7 +237,7 @@ public class BaseGameFlowManagerPatches
 	{
 		ResourceDrone resourceEnergy = ResourceDrone.Instance;
 
-		if (BoardManager3D.Instance.IsNotNull() && resourceEnergy is null)
+		if (BoardManager3D.Instance.IsNotNull() && resourceEnergy.IsNull())
 		{
 			resourceEnergy = Object.Instantiate(
 				ResourceBank.Get<ResourceDrone>("Prefabs/CardBattle/ResourceModules"),
@@ -253,7 +296,7 @@ public class BaseGameFlowManagerPatches
 
 	private static void AddRareCardSequencerToScene()
 	{
-		if (SpecialNodeHandler.Instance is null)
+		if (SpecialNodeHandler.Instance.IsNull())
 		{
 			return;
 		}
@@ -289,10 +332,10 @@ public class BaseGameFlowManagerPatches
 			yield break;
 		}
 
-		if (ChessboardMapExt.Instance is null)
+		if (ChessboardMapExt.Instance.IsNull())
 		{
 			// This is required because Unity takes a second to update
-			while (ChessboardMapExt.Instance is null)
+			while (ChessboardMapExt.Instance.IsNull())
 			{
 				yield return new WaitForSeconds(0.25f);
 			}

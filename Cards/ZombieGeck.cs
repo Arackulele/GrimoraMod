@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			//Removing Zomb geck for theming reasons, this was only here as filler
-			//.SetAsRareCard()
+			.SetAsRareCard()
 			.SetAbilities(Ability.Brittle)
 			.SetBaseAttackAndHealth(2, 1)
 			.SetBoneCost(1)

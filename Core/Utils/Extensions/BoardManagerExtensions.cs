@@ -32,7 +32,7 @@ public static class BoardManagerExtensions
 	{
 		return manager
 			.PlayerSlotsCopy
-			.Where(slot => slot.Card is null && (filterOnPredicate is null || filterOnPredicate.Invoke(slot)))
+			.Where(slot => slot.Card.IsNull() && (filterOnPredicate is null || filterOnPredicate.Invoke(slot)))
 			.ToList();
 	}
 
@@ -54,7 +54,7 @@ public static class BoardManagerExtensions
 	{
 		return manager
 			.OpponentSlotsCopy
-			.Where(slot => slot.Card is null && (filterOnPredicate is null || filterOnPredicate.Invoke(slot)))
+			.Where(slot => slot.Card.IsNull() && (filterOnPredicate is null || filterOnPredicate.Invoke(slot)))
 			.ToList();
 	}
 }

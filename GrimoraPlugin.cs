@@ -1,4 +1,5 @@
 global using Object = UnityEngine.Object;
+using System.Collections;
 using System.Reflection;
 using BepInEx;
 using BepInEx.Logging;
@@ -6,6 +7,7 @@ using DiskCardGame;
 using HarmonyLib;
 using Sirenix.Utilities;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GrimoraMod;
 
@@ -15,7 +17,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 {
 	public const string GUID = "arackulele.inscryption.grimoramod";
 	public const string Name = "GrimoraMod";
-	private const string Version = "2.7.6";
+	private const string Version = "2.8.2";
 
 	internal static ManualLogSource Log;
 
@@ -39,26 +41,42 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		ConfigHelper.Instance.BindConfig();
 
-		LoadAssets();
+		AllSprites = AssetUtils.LoadAssetBundle<Sprite>("grimoramod_sprites");
+	}
+
+	// private IEnumerator HotReloadMenuCardAdd()
+	// {
+	// 	if (ConfigHelper.Instance.isHotReloadEnabled && SceneManager.GetActiveScene().name.Equals("Start"))
+	// 	{
+	// 		if (MenuController.Instance.cardRow.Find("MenuCard_Grimora").IsNull())
+	// 		{
+	// 			Log.LogDebug($"Hot reload menu button creation");
+	// 			MenuController.Instance.cards.Add(MenuControllerPatches.CreateButton(MenuController.Instance));
+	// 		}
+	// 	}
+	// }
+
+	private IEnumerator Start()
+	{
+		yield return LoadEverything();
+
+		// yield return new WaitUntil(() => FindObjectOfType<StartScreenThemeSetter>());
+		// StartScreenPatches.SetBackgroundToGrimoraTheme(FindObjectOfType<StartScreenThemeSetter>());
+	}
+
+	private IEnumerator LoadEverything()
+	{
+		yield return LoadAssetsAsync();
 
 		LoadAbilities();
 
 		LoadCards();
-
-		if (ConfigHelper.Instance.isHotReloadEnabled)
-		{
-			Transform cardRow = MenuController.Instance.cardRow;
-			if (cardRow.Find("MenuCard_Grimora") is null)
-			{
-				MenuController.Instance.cards.Add(MenuControllerPatches.CreateButton(MenuController.Instance));
-			}
-		}
-
-		// ConfigHelper.Instance.HandleHotReloadAfter();
 	}
 
 	private void LoadAbilities()
 	{
+		Log.LogDebug($"Loading abilities");
+
 		ActivatedDrawSkeletonGrimora.Create();
 		ActivatedEnergyDrawWyvern.Create();
 		AlternatingStrike.Create();
@@ -93,9 +111,10 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private void LoadCards()
 	{
+		Log.LogDebug($"Loading cards");
+
 		#region Normal
 
-		Add_ArmoredZombie();            // Ara
 		Add_Banshee();                  // vanilla
 		Add_BonePrince();               // Cevin2006™ (◕‿◕)#7971
 		Add_Bonehound();                // vanilla
@@ -123,7 +142,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_HellHound();                // Cevin2006™ (◕‿◕)#7971
 		Add_Hellhand();                 // Bt Y#0895 
 		Add_Manananggal();              // Bt Y#0895
-		Add_MudWorm();                  // LavaErrorDoggo#1564
 		Add_Mummy();                    // Bt Y#0895
 		Add_Obol();                     // Bt Y#0895
 		Add_PlagueDoctor();             // Cevin2006™ (◕‿◕)#7971
@@ -141,7 +159,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_TombRobber();               // LavaErrorDoggo#1564
 		Add_Vellum();                   // Bt Y#0895
 		Add_VengefulSpirit();           // Cevin2006™ (◕‿◕)#7971
-		Add_Wendigo();                  // Cevin2006™ (◕‿◕)#7971
 		Add_WillOTheWisp();             // Bt Y#0895
 		Add_Zombie();                   // Bt Y#0895
 
@@ -166,7 +183,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Silbon();           // Bt Y#0895
 		Add_SporeDigger();      // LavaErrorDoggo#1564
 		Add_Wyvern();           // Cevin2006™ (◕‿◕)#7971
-		Add_ZombieGeck();       // LavaErrorDoggo#1564 ?
 
 		#endregion
 
@@ -185,21 +201,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		ConfigHelper.Instance.HandleHotReloadBefore();
 		SkinCrawler.SlotsThatHaveCrawlersHidingUnderCards = new List<CardSlot>();
 		Resources.UnloadUnusedAssets();
-		_harmony?.UnpatchSelf();
 		GrimoraModBattleSequencer.ActiveEnemyPiece = null;
-
-		Destroy(ChessboardMapExt.Instance);
-		Destroy(DeckReviewSequencer.Instance);
-		Destroy(ResourceDrone.Instance);
-		Destroy(FindObjectOfType<BoneyardBurialSequencer>());
-		Destroy(FindObjectOfType<DebugHelper>());
-		Destroy(FindObjectOfType<GrimoraModBattleSequencer>());
-		Destroy(FindObjectOfType<GrimoraModBossBattleSequencer>());
-		Destroy(FindObjectOfType<GrimoraCardRemoveSequencer>());
-		Destroy(FindObjectOfType<BoonIconInteractable>());
-		Destroy(FindObjectOfType<GrimoraRareChoiceGenerator>());
-		Destroy(FindObjectOfType<SpecialNodeHandler>());
-		FindObjectsOfType<ChessboardPiece>().ForEach(_ => Destroy(_.gameObject));
+		_harmony?.UnpatchSelf();
 		GC.Collect();
 	}
 
@@ -230,19 +233,18 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Destroy(gameObject, 6f);
 	}
 
-	private static void LoadAssets()
+	private IEnumerator LoadAssetsAsync()
 	{
 		Log.LogInfo($"Loading asset bundles");
-		AllAbilityTextures = AssetUtils.LoadAssetBundle<Texture>("grimoramod_abilities");
 
-		AllMats = AssetUtils.LoadAssetBundle<Material>("grimoramod_mats");
+		StartCoroutine(AssetUtils.LoadAssetBundleAsync<GameObject>("grimoramod_prefabs"));
 
-		AllPrefabs = AssetUtils.LoadAssetBundle<GameObject>("grimoramod_prefabs");
+		StartCoroutine(AssetUtils.LoadAssetBundleAsync<AudioClip>("grimoramod_sounds"));
 
-		AllSprites = AssetUtils.LoadAssetBundle<Sprite>("grimoramod_sprites");
+		yield return AssetUtils.LoadAssetBundleAsync<RuntimeAnimatorController>("grimoramod_controller");
 
-		AllControllers = AssetUtils.LoadAssetBundle<RuntimeAnimatorController>("grimoramod_controller");
+		yield return AssetUtils.LoadAssetBundleAsync<Material>("grimoramod_mats");
 
-		AllSounds = AssetUtils.LoadAssetBundle<AudioClip>("grimoramod_sounds");
+		yield return AssetUtils.LoadAssetBundleAsync<Texture>("grimoramod_abilities");
 	}
 }

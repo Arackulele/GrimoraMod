@@ -55,20 +55,24 @@ public class MenuControllerPatches
 	}
 
 	[HarmonyPostfix, HarmonyPatch(nameof(MenuController.Start))]
-	public static void AddGrimoraCard(ref MenuController __instance)
+	public static void AddGrimoraCard(MenuController __instance)
 	{
-		if (SceneManager.GetActiveScene().name.ToLowerInvariant().Contains("start")
-		    && !__instance.cards.Exists(card => card.name.ToLowerInvariant().Contains("grimora")))
+		if (SceneManager.GetActiveScene().name.Equals("Start"))
 		{
-			__instance.cards.Add(CreateButton(__instance));
+			if (__instance.cardRow.Find("MenuCard_Grimora").IsNull())
+			{
+				Log.LogDebug($"Non-hot reload menu button creation");
+				__instance.cards.Add(CreateButton(__instance));
+			}
 		}
 	}
 
 	public static MenuCard CreateButton(MenuController controller)
 	{
+		Log.LogDebug("Creating MenuCard button");
+
 		GameObject cardRow = controller.transform.Find("CardRow").gameObject;
 
-		// GrimoraPlugin.Log.LogDebug("Finding MenuCard_Continue gameObject");
 		MenuCard menuCardGrimora = Object.Instantiate(
 			ResourceBank.Get<MenuCard>("Prefabs/StartScreen/StartScreenMenuCard"),
 			new Vector3(1.378f, -0.77f, 0),

@@ -1,4 +1,5 @@
-﻿using DiskCardGame;
+﻿using System.Collections;
+using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -29,7 +30,7 @@ public class GrimoraItemsManagerExt : ItemsManager
 
 		GrimoraItemsManagerExt ext = GrimoraItemsManager.Instance.GetComponent<GrimoraItemsManagerExt>();
 
-		if (ext is null)
+		if (ext.IsNull())
 		{
 			ext = GrimoraItemsManager.Instance.gameObject.AddComponent<GrimoraItemsManagerExt>();
 			ext.consumableSlots = currentItemsManager.consumableSlots;
@@ -90,6 +91,26 @@ public class AddNewHammerExt
 		}
 
 		return true;
+	}
+}
+
+[HarmonyPatch(typeof(ConsumableItemSlot), nameof(ConsumableItemSlot.ConsumeItem))]
+public class DeactivateHammerAfterThreeUses
+{
+	[HarmonyPostfix]
+	public static IEnumerator Postfix(IEnumerator enumerator, ConsumableItemSlot __instance)
+	{
+		yield return enumerator;
+		if (GrimoraSaveUtil.isNotGrimora)
+		{
+			yield break;
+		}
+		
+		if (__instance.Consumable is HammerItemExt && ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue == 3)
+		{
+			Log.LogDebug($"Destroying hammer as all 3 uses have been used");
+			__instance.coll.enabled = false;
+		}
 	}
 }
 

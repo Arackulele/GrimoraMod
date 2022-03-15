@@ -66,28 +66,31 @@ public class GrimoraGameFlowManagerPatches
 		CryptEpitaphSlotInteractable cryptEpitaphSlotInteractable =
 			Object.FindObjectOfType<CryptEpitaphSlotInteractable>();
 
-		AudioController.Instance.PlaySound3D(
-			"giant_stones_falling",
-			MixerGroup.ExplorationSFX,
-			GameFlowManager.Instance.transform.position
-		);
+		if (cryptEpitaphSlotInteractable && cryptEpitaphSlotInteractable.isActiveAndEnabled)
+		{
+			AudioController.Instance.PlaySound3D(
+				"giant_stones_falling",
+				MixerGroup.ExplorationSFX,
+				GameFlowManager.Instance.transform.position
+			);
 
-		Tween.Position(
-			cryptEpitaphSlotInteractable.tombstoneParent,
-			cryptEpitaphSlotInteractable.tombstoneParent.position + Vector3.down * 11f,
-			6f,
-			0f,
-			Tween.EaseIn
-		);
+			Tween.Position(
+				cryptEpitaphSlotInteractable.tombstoneParent,
+				cryptEpitaphSlotInteractable.tombstoneParent.position + Vector3.down * 11f,
+				6f,
+				0f,
+				Tween.EaseIn
+			);
 
-		Tween.Shake(
-			cryptEpitaphSlotInteractable.tombstoneAnim,
-			cryptEpitaphSlotInteractable.tombstoneAnim.localPosition,
-			new Vector3(0.05f, 0.05f, 0.05f),
-			0.1f,
-			0f,
-			Tween.LoopType.Loop
-		);
+			Tween.Shake(
+				cryptEpitaphSlotInteractable.tombstoneAnim,
+				cryptEpitaphSlotInteractable.tombstoneAnim.localPosition,
+				new Vector3(0.05f, 0.05f, 0.05f),
+				0.1f,
+				0f,
+				Tween.LoopType.Loop
+			);
+		}
 	}
 
 	private static void SetLightsActive(GrimoraGameFlowManager __instance)

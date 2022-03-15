@@ -87,7 +87,7 @@ public class PlayableCardPatches
 			__result.Clear();
 			bool isAttackingLeft = __instance.GetComponent<AlternatingStrike>().isAttackingLeft;
 			CardSlot slotToAttack = BoardManager.Instance.GetAdjacent(__instance.Slot.opposingSlot, isAttackingLeft);
-			if (slotToAttack is null)
+			if (slotToAttack.IsNull())
 			{
 				// if in far left slot, adj slot left will be null
 				// if in far left slot and attacked right last, need to keep attack to the right slot

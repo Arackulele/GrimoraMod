@@ -48,7 +48,7 @@ public class ChangeLogicInCardAbilityIcons
 		foreach (AbilityIconInteractable abilityIconInteractable in componentsInChildren)
 		{
 			AbilityInfo info = AbilitiesUtil.GetInfo(abilityIconInteractable.Ability);
-			if (info is null) continue;
+			if (info.IsNull()) continue;
 			if (info.hasColorOverride && !(info.conduitCell && inConduitCircuit))
 			{
 				abilityIconInteractable.SetColor(info.colorOverride);
@@ -176,7 +176,7 @@ public class ChangeLogicInCardAbilityIcons
 		);
 		foreach (GameObject defaultIconGroup in __instance.defaultIconGroups)
 		{
-			defaultIconGroup.SetActive(value: false);
+			defaultIconGroup.SetActive(false);
 		}
 
 		if (distinctAbilitiesCopy.Count > 0 && __instance.defaultIconGroups.Count >= distinctAbilitiesCopy.Count)
@@ -192,7 +192,7 @@ public class ChangeLogicInCardAbilityIcons
 				$"[CardAbilityIcons] IconGroup {__instance.defaultIconGroups[0]} Distinct abilities count [{distinctAbilitiesCopy.Count}]"
 			);
 			Log.LogDebug($"[CardAbilityIcons] Setting defaultIconGroup zero active");
-			obj.SetActive(value: true);
+			obj.SetActive(true);
 			Log.LogDebug($"[CardAbilityIcons] Getting AbilityIconInteractable in children");
 			AbilityIconInteractable[] componentsInChildren = obj.GetComponentsInChildren<AbilityIconInteractable>();
 			Log.LogDebug($"[CardAbilityIcons] Components in children [{componentsInChildren.Length}]");
@@ -222,9 +222,7 @@ public class ChangeLogicInCardAbilityIcons
 		                        && cardTotemAbilities.Count == 0
 		                        && info.SpecialStatIcon == SpecialStatIcon.None;
 		Log.LogDebug($"[CardAbilityIcons] __instance.SetSingleDefaultAbilityColliderSize");
-		__instance.SetSingleDefaultAbilityColliderSize(
-			hasSingleAbility && !ProgressionData.LearnedMechanic(MechanicsConcept.Rulebook)
-		);
+		__instance.SetSingleDefaultAbilityColliderSize(hasSingleAbility);
 		Log.LogDebug($"[CardAbilityIcons] __instance.DisplayBoonIcon");
 		__instance.DisplayBoonIcon(info);
 

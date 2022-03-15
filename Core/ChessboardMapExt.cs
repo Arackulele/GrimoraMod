@@ -128,7 +128,7 @@ public class ChessboardMapExt : GameMap
 								break;
 						}
 					}
-					else if (_btnGetUp)
+					else if (GrimoraGameFlowManager.Instance.CurrentGameState == GameState.Map && _btnGetUp)
 					{
 						Log.LogDebug($"Transitioning to first person");
 						GrimoraGameFlowManager.Instance.TransitionToFirstPerson();
@@ -148,7 +148,7 @@ public class ChessboardMapExt : GameMap
 				new Rect(200, 0, 100, 50),
 				"Reset Run"
 			);
-			
+
 			if (_btnReset)
 			{
 				ConfigHelper.Instance.ResetRun();
@@ -181,8 +181,6 @@ public class ChessboardMapExt : GameMap
 				);
 			}
 		}
-
-
 	}
 
 	public IEnumerator CompleteRegionSequence()
@@ -439,7 +437,7 @@ public class ChessboardMapExt : GameMap
 	{
 		ChessboardMapExt ext = ChessboardMap.Instance.gameObject.GetComponent<ChessboardMapExt>();
 
-		if (ext is null)
+		if (ext.IsNull())
 		{
 			ChessboardMap boardComp = ChessboardMap.Instance.gameObject.GetComponent<ChessboardMap>();
 			boardComp.pieces.Clear();

@@ -26,6 +26,10 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ## Known Issues
 
+### Unable to right-click stat icons like Ant or Bellist
+
+- Unfortunately this one is also pretty hard to track down. Will have to play around and see what the main differences are because I can't really see what's different between the Act 1 and Grimora's card render.
+
 ### Activated abilities no longer work
 
 - The primary cause of this is whenever another ability gets added to the card. The bug lies in the `Activated Ability Fix` mod, but I'm not sure where.
@@ -41,7 +45,11 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 ## Update Notes
 
-### 2.7.6
+### 2.8.1
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Corrected issue with rulebook not showing all the abilities.
+
+### 2.8.0
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed teeth not disappearing from cards that attack their owners.
 
@@ -73,7 +81,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Stinkbug will now glitch out when dying if it hasn't been clicked yet.
 
-### Boneyard
+#### Boneyard
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Cards having 4 abilities cannot be chosen for the Boneyard event.
 

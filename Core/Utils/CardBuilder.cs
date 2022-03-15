@@ -12,7 +12,7 @@ public class CardBuilder
 
 	private readonly CardInfo _cardInfo = ScriptableObject.CreateInstance<CardInfo>();
 
-	public CardInfo Build()
+	public CardInfo Build(SpecialAbilityIdentifier specialId = null)
 	{
 		if (_cardInfo.metaCategories.Contains(CardMetaCategory.Rare))
 		{
@@ -21,8 +21,14 @@ public class CardBuilder
 
 		_cardInfo.temple = CardTemple.Undead;
 
+		List<SpecialAbilityIdentifier> specialIds = null;
+		if (specialId != null)
+		{
+			specialIds = new List<SpecialAbilityIdentifier> { specialId };
+		}
+
 		AllGrimoraModCards.Add(_cardInfo);
-		NewCard.Add(_cardInfo);
+		NewCard.Add(_cardInfo, specialAbilitiesIdsParam: specialIds);
 		return _cardInfo;
 	}
 
@@ -44,18 +50,20 @@ public class CardBuilder
 
 	private CardBuilder SetPortrait(string cardName, Sprite ogCardArt = null)
 	{
-		if (ogCardArt is null)
+		if (ogCardArt.IsNull())
 		{
 			cardName = cardName.Replace("GrimoraMod_", "");
 			// Log.LogDebug($"Looking in AllSprites for [{cardName}]");
 			_cardInfo.portraitTex = AssetUtils.GetPrefab<Sprite>(cardName);
 
 			// TODO: refactor when API 2.0 comes out
-			AllSprites.DoIf(
-				_ => !NewCard.emissions.ContainsKey(cardName)
-				     && _.name.Equals(cardName + "_emission", StringComparison.OrdinalIgnoreCase),
-				delegate(Sprite sprite) { NewCard.emissions.Add(cardName, sprite); }
-			);
+			if (!NewCard.emissions.ContainsKey(cardName) && AllSprites.Exists(_ => _.name.Equals($"{cardName}_emission")))
+			{
+				NewCard.emissions.Add(
+					cardName,
+					AllSprites.Single(_ => _.name.Equals($"{cardName}_emission"))
+				);
+			}
 		}
 		else
 		{
