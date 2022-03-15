@@ -57,11 +57,13 @@ public class CardBuilder
 			_cardInfo.portraitTex = AssetUtils.GetPrefab<Sprite>(cardName);
 
 			// TODO: refactor when API 2.0 comes out
-			AllSprites.DoIf(
-				_ => !NewCard.emissions.ContainsKey(cardName)
-				     && _.name.Equals(cardName + "_emission", StringComparison.OrdinalIgnoreCase),
-				delegate(Sprite sprite) { NewCard.emissions.Add(cardName, sprite); }
-			);
+			if (!NewCard.emissions.ContainsKey(cardName) && AllSprites.Exists(_ => _.name.Equals($"{cardName}_emission")))
+			{
+				NewCard.emissions.Add(
+					cardName,
+					AllSprites.Single(_ => _.name.Equals($"{cardName}_emission"))
+				);
+			}
 		}
 		else
 		{
