@@ -54,11 +54,9 @@ public class MenuControllerPatches
 		return true;
 	}
 
-	[HarmonyPostfix, HarmonyPatch(nameof(MenuController.TweenInCards))]
-	public static IEnumerator AddGrimoraCard(IEnumerator enumerator, MenuController __instance)
+	[HarmonyPostfix, HarmonyPatch(nameof(MenuController.Start))]
+	public static void AddGrimoraCard(MenuController __instance)
 	{
-		yield return new WaitUntil(() => AllSprites != null);
-
 		if (SceneManager.GetActiveScene().name.Equals("Start"))
 		{
 			if (__instance.cardRow.Find("MenuCard_Grimora").IsNull())
@@ -67,8 +65,6 @@ public class MenuControllerPatches
 				__instance.cards.Add(CreateButton(__instance));
 			}
 		}
-
-		yield return enumerator;
 	}
 
 	public static MenuCard CreateButton(MenuController controller)

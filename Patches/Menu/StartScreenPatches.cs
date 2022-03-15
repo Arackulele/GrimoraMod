@@ -8,7 +8,7 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(StartScreenThemeSetter))]
 public class StartScreenPatches
 {
-	// [HarmonyPostfix, HarmonyPatch(nameof(StartScreenThemeSetter.Start))]
+	[HarmonyPostfix, HarmonyPatch(nameof(StartScreenThemeSetter.Start))]
 	public static void SetBackgroundToGrimoraTheme(StartScreenThemeSetter __instance)
 	{
 		Log.LogDebug($"Setting new background theme");

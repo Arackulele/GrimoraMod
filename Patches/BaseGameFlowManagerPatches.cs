@@ -34,7 +34,7 @@ public class BaseGameFlowManagerPatches
 		catch (Exception e)
 		{
 			Log.LogWarning(
-				$"Exception thrown while attempting to reset deck with a card prefixed with 'ara_', resetting deck. " + e 
+				$"Exception thrown while attempting to reset deck with a card prefixed with 'ara_', resetting deck. " + e
 			);
 			ConfigHelper.ResetDeck();
 		}
@@ -116,7 +116,7 @@ public class BaseGameFlowManagerPatches
 				collider.extents = boxColliderSize;
 			}
 		}
-		
+
 		cardAbilityIcons = AssetConstants.GrimoraSelectableCard.GetComponentInChildren<CardAbilityIcons>();
 		foreach (var group in cardAbilityIcons.defaultIconGroups)
 		{
@@ -325,16 +325,6 @@ public class BaseGameFlowManagerPatches
 			// run the original code
 			yield return enumerator;
 			yield break;
-		}
-
-		if (AllPrefabs is null)
-		{
-			var bundleLoadRequest = AssetBundle.LoadFromFileAsync(FileUtils.FindFileInPluginDir("grimoramod_prefabs"));
-			yield return bundleLoadRequest;
-			var allAssetsRequest = bundleLoadRequest.assetBundle.LoadAllAssetsAsync<GameObject>();
-			yield return allAssetsRequest;
-			AllPrefabs = allAssetsRequest.allAssets.Cast<GameObject>().ToList();
-			bundleLoadRequest.assetBundle.Unload(false);
 		}
 
 		if (ChessboardMapExt.Instance.IsNull())

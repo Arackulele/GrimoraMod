@@ -40,6 +40,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
 
 		ConfigHelper.Instance.BindConfig();
+
+		AllSprites = AssetUtils.LoadAssetBundle<Sprite>("grimoramod_sprites");
 	}
 
 	// private IEnumerator HotReloadMenuCardAdd()
@@ -58,28 +60,22 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		yield return LoadEverything();
 
-		yield return new WaitUntil(() => FindObjectOfType<StartScreenThemeSetter>());
-		StartScreenPatches.SetBackgroundToGrimoraTheme(FindObjectOfType<StartScreenThemeSetter>());
+		// yield return new WaitUntil(() => FindObjectOfType<StartScreenThemeSetter>());
+		// StartScreenPatches.SetBackgroundToGrimoraTheme(FindObjectOfType<StartScreenThemeSetter>());
 	}
 
 	private IEnumerator LoadEverything()
 	{
-		yield return LoadAssets();
+		yield return LoadAssetsAsync();
 
-		yield return LoadAbilities();
+		LoadAbilities();
 
-		yield return LoadCards();
+		LoadCards();
 	}
 
-	private IEnumerator LoadAbilities()
+	private void LoadAbilities()
 	{
 		Log.LogDebug($"Loading abilities");
-		var bundleLoadRequest = AssetBundle.LoadFromFileAsync(FileUtils.FindFileInPluginDir("grimoramod_abilities"));
-		yield return bundleLoadRequest;
-		var allAssetsRequest = bundleLoadRequest.assetBundle.LoadAllAssetsAsync<Texture>();
-		yield return allAssetsRequest;
-		AllAbilityTextures = allAssetsRequest.allAssets.Cast<Texture>().ToList();
-		bundleLoadRequest.assetBundle.Unload(false);
 
 		ActivatedDrawSkeletonGrimora.Create();
 		ActivatedEnergyDrawWyvern.Create();
@@ -113,15 +109,9 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		#endregion
 	}
 
-	private IEnumerator LoadCards()
+	private void LoadCards()
 	{
 		Log.LogDebug($"Loading cards");
-		var bundleLoadRequest = AssetBundle.LoadFromFileAsync(FileUtils.FindFileInPluginDir("grimoramod_sprites"));
-		yield return bundleLoadRequest;
-		var allAssetsRequest = bundleLoadRequest.assetBundle.LoadAllAssetsAsync<Sprite>();
-		yield return allAssetsRequest;
-		AllSprites = allAssetsRequest.allAssets.Cast<Sprite>().ToList();
-		bundleLoadRequest.assetBundle.Unload(false);
 
 		#region Normal
 
@@ -243,29 +233,18 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Destroy(gameObject, 6f);
 	}
 
-	private IEnumerator LoadAssets()
+	private IEnumerator LoadAssetsAsync()
 	{
 		Log.LogInfo($"Loading asset bundles");
 
-		var bundleLoadRequest = AssetBundle.LoadFromFileAsync(FileUtils.FindFileInPluginDir("grimoramod_mats"));
-		yield return bundleLoadRequest;
-		var allAssetsRequest = bundleLoadRequest.assetBundle.LoadAllAssetsAsync<Material>();
-		yield return allAssetsRequest;
-		AllMats = allAssetsRequest.allAssets.Cast<Material>().ToList();
-		bundleLoadRequest.assetBundle.Unload(false);
+		StartCoroutine(AssetUtils.LoadAssetBundleAsync<GameObject>("grimoramod_prefabs"));
 
-		bundleLoadRequest = AssetBundle.LoadFromFileAsync(FileUtils.FindFileInPluginDir("grimoramod_controller"));
-		yield return bundleLoadRequest;
-		allAssetsRequest = bundleLoadRequest.assetBundle.LoadAllAssetsAsync<RuntimeAnimatorController>();
-		yield return allAssetsRequest;
-		AllControllers = allAssetsRequest.allAssets.Cast<RuntimeAnimatorController>().ToList();
-		bundleLoadRequest.assetBundle.Unload(false);
+		StartCoroutine(AssetUtils.LoadAssetBundleAsync<AudioClip>("grimoramod_sounds"));
 
-		bundleLoadRequest = AssetBundle.LoadFromFileAsync(FileUtils.FindFileInPluginDir("grimoramod_sounds"));
-		yield return bundleLoadRequest;
-		allAssetsRequest = bundleLoadRequest.assetBundle.LoadAllAssetsAsync<AudioClip>();
-		yield return allAssetsRequest;
-		AllSounds = allAssetsRequest.allAssets.Cast<AudioClip>().ToList();
-		bundleLoadRequest.assetBundle.Unload(false);
+		StartCoroutine(AssetUtils.LoadAssetBundleAsync<RuntimeAnimatorController>("grimoramod_controller"));
+
+		StartCoroutine(AssetUtils.LoadAssetBundleAsync<Material>("grimoramod_mats"));
+
+		yield return AssetUtils.LoadAssetBundleAsync<Texture>("grimoramod_abilities");
 	}
 }
