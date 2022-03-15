@@ -169,20 +169,19 @@ public class ConfigHelper
 
 		if (CardLoader.allData.IsNotEmpty())
 		{
-			int removedNewCards = NewCard.cards.RemoveAll(card => card.name.StartsWith("GrimoraMod_"));
+			NewCard.cards.Clear();
 			int removedCardLoader = CardLoader.allData.RemoveAll(info => info.name.StartsWith("GrimoraMod_"));
-			Log.LogDebug($"All data.IsNotNull(). Removed [{removedNewCards}] NewCards, [{removedCardLoader}] CardLoader");
+			Log.LogDebug($"All data.IsNotNull(). Removed [{removedCardLoader}] CardLoader");
 		}
 
 		if (AbilitiesUtil.allData.IsNotEmpty())
 		{
-			int removedSpec = NewSpecialAbility.specialAbilities.RemoveAll(ab => ab.id.ToString().StartsWith(GUID));
-			int removed = NewAbility.abilities.RemoveAll(ab => ab.id.ToString().StartsWith(GUID));
-			AbilitiesUtil.allData.RemoveAll(
-				info =>
-					NewAbility.abilities.Exists(na => na.id.ToString().StartsWith(GUID) && na.ability == info.ability)
+			NewSpecialAbility.specialAbilities.Clear();
+			NewAbility.abilities.Clear();
+			int removed = AbilitiesUtil.allData.RemoveAll(
+				info => NewAbility.abilities.Exists(na => na.info.rulebookName == info.rulebookName)
 			);
-			Log.LogDebug($"All data.IsNotNull(), removed [{removed}] abilities, [{removedSpec}] special");
+			Log.LogDebug($"All data.IsNotNull() Removed [{removed}] AbilitiesUtil");
 		}
 
 		// TODO: I'd prefer not to do this but I'm not sure how to filter out the emissions without literally
