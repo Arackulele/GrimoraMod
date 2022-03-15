@@ -95,7 +95,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		#region Normal
 
-		Add_ArmoredZombie();            // Ara
 		Add_Banshee();                  // vanilla
 		Add_BonePrince();               // Cevin2006™ (◕‿◕)#7971
 		Add_Bonehound();                // vanilla
@@ -123,7 +122,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_HellHound();                // Cevin2006™ (◕‿◕)#7971
 		Add_Hellhand();                 // Bt Y#0895 
 		Add_Manananggal();              // Bt Y#0895
-		Add_MudWorm();                  // LavaErrorDoggo#1564
 		Add_Mummy();                    // Bt Y#0895
 		Add_Obol();                     // Bt Y#0895
 		Add_PlagueDoctor();             // Cevin2006™ (◕‿◕)#7971
@@ -141,7 +139,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_TombRobber();               // LavaErrorDoggo#1564
 		Add_Vellum();                   // Bt Y#0895
 		Add_VengefulSpirit();           // Cevin2006™ (◕‿◕)#7971
-		Add_Wendigo();                  // Cevin2006™ (◕‿◕)#7971
 		Add_WillOTheWisp();             // Bt Y#0895
 		Add_Zombie();                   // Bt Y#0895
 
@@ -166,7 +163,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Silbon();           // Bt Y#0895
 		Add_SporeDigger();      // LavaErrorDoggo#1564
 		Add_Wyvern();           // Cevin2006™ (◕‿◕)#7971
-		Add_ZombieGeck();       // LavaErrorDoggo#1564 ?
 
 		#endregion
 

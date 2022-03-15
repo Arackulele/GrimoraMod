@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			//Removed for now as its not fun, maybe at a special event later
-			//.SetAsNormalCard()
+			.SetAsNormalCard()
 			.SetAbilities(Ability.DebuffEnemy, Ability.Strafe)
 			.SetBaseAttackAndHealth(1, 2)
 			.SetBoneCost(5)

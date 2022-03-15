@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3146494831
+CRC: 1490298693
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 6b46846867136ada0f31e5eb268f7dc3
+    Hash: d6e12752a019119e3fe4beb89aeb72ab
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -16,7 +16,6 @@ ClassTypes:
 SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/GrimoraMod_Unity/Cards/Zombie_emission.png
-- Assets/GrimoraMod_Unity/Cards/OldCards/Wendigo.png
 - Assets/GrimoraMod_Unity/Cards/Dybbuk_emission.png
 - Assets/GrimoraMod_Unity/Cards/Centurion.png
 - Assets/GrimoraMod_Unity/Cards/Deadeye.png
@@ -38,7 +37,6 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Silbon_emission.png
 - Assets/GrimoraMod_Unity/Cards/BonePrince_emission.png
 - Assets/GrimoraMod_Unity/Cards/Ember_Spirit_emission.png
-- Assets/GrimoraMod_Unity/Cards/MudWorm.png
 - Assets/GrimoraMod_Unity/Cards/ExplodingPirate_emission.png
 - Assets/GrimoraMod_Unity/Cards/Flames.png
 - Assets/GrimoraMod_Unity/Cards/Giant_emission.png
@@ -59,7 +57,6 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Bonelord_emission.png
 - Assets/GrimoraMod_Unity/Cards/BooHag_emission.png
 - Assets/GrimoraMod_Unity/Cards/GhostShip_Royal_Cevin2006.png
-- Assets/GrimoraMod_Unity/Cards/OldCards/ZombieGeck.png
 - Assets/GrimoraMod_Unity/Cards/DeadHand.png
 - Assets/GrimoraMod_Unity/Cards/BonelordsHorn_emission.png
 - Assets/GrimoraMod_Unity/Cards/Flames_emission.png
@@ -78,7 +75,6 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/PlagueDoctor_emission.png
 - Assets/GrimoraMod_Unity/Cards/Mummy.png
 - Assets/GrimoraMod_Unity/Cards/Catacomb.png
-- Assets/GrimoraMod_Unity/Cards/OldCards/ArmoredZombie.png
 - Assets/GrimoraMod_Unity/Cards/FesteringWretch.png
 - Assets/GrimoraMod_Unity/Cards/DeathKnell.png
 - Assets/GrimoraMod_Unity/Cards/PiratePrivateer.png
@@ -86,7 +82,6 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Manananggal_emission.png
 - Assets/GrimoraMod_Unity/Cards/Family.png
 - Assets/GrimoraMod_Unity/Cards/SkeletonArmy.png
-- Assets/GrimoraMod_Unity/Cards/OldCards/ArmoredZombie_emission.png
 - Assets/GrimoraMod_Unity/Cards/PirateFirstMateSnag_emission.png
 - Assets/GrimoraMod_Unity/Cards/VengefulSpirit.png
 - Assets/GrimoraMod_Unity/Cards/Necromancer_emission.png
@@ -106,7 +101,6 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Skelemagus.png
 - Assets/GrimoraMod_Unity/Cards/Vellum.png
 - Assets/GrimoraMod_Unity/Cards/TombRobber_emission.png
-- Assets/GrimoraMod_Unity/Cards/OldCards/ZombieGeck_emission.png
 - Assets/GrimoraMod_Unity/Cards/Project_emission.png
 - Assets/GrimoraMod_Unity/Cards/Maggots.png
 - Assets/GrimoraMod_Unity/Cards/Project.png

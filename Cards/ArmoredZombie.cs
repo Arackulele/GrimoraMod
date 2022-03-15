@@ -7,7 +7,7 @@ public partial class GrimoraPlugin
 	private void Add_ArmoredZombie()
 	{
 		CardBuilder.Builder
-			// .SetAsNormalCard()
+			.SetAsNormalCard()
 			.SetBaseAttackAndHealth(1, 6)
 			.SetBoneCost(6)
 			.SetNames(NameArmoredZombie, "Armored Zombie")
