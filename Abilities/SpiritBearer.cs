@@ -31,7 +31,7 @@ public class SpiritBearer : AbilityBehaviour
 	
 	public static NewAbility Create()
 	{
-		const string rulebookDescription = "When [creature] is played, it provides an Energy Cell to its owner.";
+		const string rulebookDescription = "When [creature] is played, it provides an energy soul to its owner.";
 
 		return ApiUtils.CreateAbility<SpiritBearer>(rulebookDescription);
 	}
