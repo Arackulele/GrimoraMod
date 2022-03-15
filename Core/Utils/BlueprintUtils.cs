@@ -33,11 +33,6 @@ public static class BlueprintUtils
 		card = CardLoader.GetCardByName(NamePlagueDoctor)
 	};
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_ArmoredZombie = new()
-	{
-		card = CardLoader.GetCardByName(NameArmoredZombie)
-	};
-
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Summoner = new()
 	{
 		card = CardLoader.GetCardByName(NameSummoner)
@@ -101,11 +96,6 @@ public static class BlueprintUtils
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Hydra = new()
 	{
 		card = CardLoader.GetCardByName(NameHydra)
-	};
-
-	public static readonly EncounterBlueprintData.CardBlueprint bp_MudWorm = new()
-	{
-		card = CardLoader.GetCardByName(NameMudWorm)
 	};
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Mummy = new()
@@ -550,15 +540,15 @@ public static class BlueprintUtils
 		{
 			new() { bp_Silbon },
 			new(),
-			new() { bp_ArmoredZombie },
+			new() { bp_Centurion },
 			new() { bp_Zombie },
 			new(),
 			new() { bp_Zombie, bp_Zombie },
 			new() { bp_DrownedSoul },
 			new(),
 			new(),
-			new() { bp_ArmoredZombie },
-			new() { bp_ArmoredZombie }
+			new() { bp_Centurion },
+			new() { bp_Centurion }
 		};
 
 		return blueprint;
