@@ -107,7 +107,6 @@ public class BaseGameFlowManagerPatches
 			var childBoxColliders = group.GetComponentsInChildren<BoxCollider>();
 			foreach (var collider in childBoxColliders)
 			{
-				Log.LogDebug($"Setting new size for box collider [{collider.name}]");
 				collider.extents = boxColliderSize;
 			}
 		}
@@ -118,7 +117,6 @@ public class BaseGameFlowManagerPatches
 			var childBoxColliders = group.GetComponentsInChildren<BoxCollider>();
 			foreach (var collider in childBoxColliders)
 			{
-				Log.LogDebug($"Setting new size for box collider [{collider.name}]");
 				collider.extents = boxColliderSize;
 			}
 		}
@@ -163,7 +161,6 @@ public class BaseGameFlowManagerPatches
 			var childBoxColliders = group.GetComponentsInChildren<BoxCollider>();
 			foreach (var collider in childBoxColliders)
 			{
-				Log.LogDebug($"Setting new size for box collider [{collider.name}]");
 				collider.extents = boxColliderSize;
 			}
 		}
