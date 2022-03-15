@@ -83,6 +83,11 @@ public class BaseGameFlowManagerPatches
 		CryptHelper.SetupNewCryptAndZones();
 
 		GrimoraAnimationController.Instance.transform.SetParent(Object.FindObjectOfType<InputManagerSpawner>().transform);
+		
+		Log.LogDebug($"Assigning controller to game table");
+		GameObject.Find("GameTable")
+			.AddComponent<Animator>()
+			.runtimeAnimatorController = AssetUtils.GetPrefab<RuntimeAnimatorController>("GrimoraGameTable");
 	}
 
 
