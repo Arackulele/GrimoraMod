@@ -7,7 +7,7 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(StartScreenThemeSetter))]
 public class StartScreenPatches
 {
-	[HarmonyPostfix, HarmonyPatch(nameof(StartScreenThemeSetter.Start))]
+	// [HarmonyPostfix, HarmonyPatch(nameof(StartScreenThemeSetter.Start))]
 	public static void SetBackgroundToGrimoraTheme(StartScreenThemeSetter __instance)
 	{
 		var grimoraTheme = __instance.themes[0];

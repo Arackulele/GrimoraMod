@@ -54,7 +54,7 @@ public class MenuControllerPatches
 		return true;
 	}
 
-	[HarmonyPostfix, HarmonyPatch(nameof(MenuController.Start))]
+	// [HarmonyPostfix, HarmonyPatch(nameof(MenuController.Start))]
 	public static void AddGrimoraCard(ref MenuController __instance)
 	{
 		if (SceneManager.GetActiveScene().name.ToLowerInvariant().Contains("start")

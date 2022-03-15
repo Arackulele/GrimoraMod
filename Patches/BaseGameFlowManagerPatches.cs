@@ -327,6 +327,15 @@ public class BaseGameFlowManagerPatches
 			yield break;
 		}
 
+		if (AllPrefabs is null)
+		{
+			var bundleLoadRequest = AssetBundle.LoadFromFileAsync(FileUtils.FindFileInPluginDir("grimoramod_prefabs"));
+			yield return bundleLoadRequest;
+			var allAssetsRequest = bundleLoadRequest.assetBundle.LoadAllAssetsAsync<GameObject>();
+			yield return allAssetsRequest;
+			AllPrefabs = allAssetsRequest.allAssets.Cast<GameObject>().ToList();
+		}
+
 		if (ChessboardMapExt.Instance.IsNull())
 		{
 			// This is required because Unity takes a second to update
