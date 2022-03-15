@@ -78,7 +78,7 @@ public class PageContentLoaderPatch
 		statIconPage.headerTextMesh = component.headerTextMesh;
 		Object.Destroy(statIconPage.GetComponent<AbilityPage>());
 		__instance.currentPagePrefab = statIconPage.gameObject;
-		component.FillPage(pageInfo.headerText, pageInfo.ability, pageInfo.fillerAbilityIds);
+		statIconPage.FillPage(pageInfo.headerText, pageInfo.pageId);
 		return false;
 	}
 }
