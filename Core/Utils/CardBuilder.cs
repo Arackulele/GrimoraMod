@@ -42,7 +42,6 @@ public class CardBuilder
 		if (ogCardArt.IsNull())
 		{
 			cardName = cardName.Replace("GrimoraMod_", "");
-			// Log.LogDebug($"Looking in AllSprites for [{cardName}]");
 			_cardInfo.portraitTex = AssetUtils.GetPrefab<Sprite>(cardName);
 
 			// TODO: refactor when API 2.0 comes out
@@ -149,41 +148,13 @@ public class CardBuilder
 
 	internal CardBuilder SetIceCube(string iceCubeName)
 	{
-		CardInfo cardToLoad = null;
-		try
-		{
-			cardToLoad = iceCubeName.GetCardInfo();
-		}
-		catch (Exception e)
-		{
-			cardToLoad = CardManager.AllCardsCopy.Single(_ => _.name.Equals(iceCubeName));
-		}
-
-		_cardInfo.iceCubeParams = new IceCubeParams
-		{
-			creatureWithin = cardToLoad
-		};
-
+		_cardInfo.SetIceCube(iceCubeName);
 		return this;
 	}
 
 	internal CardBuilder SetEvolve(string evolveInto, int numberOfTurns)
 	{
-		CardInfo cardToLoad = null;
-		try
-		{
-			cardToLoad = evolveInto.GetCardInfo();
-		}
-		catch (Exception e)
-		{
-			cardToLoad = CardManager.AllCardsCopy.Single(_ => _.name.Equals(evolveInto));
-		}
-
-		_cardInfo.evolveParams = new EvolveParams
-		{
-			turnsToEvolve = numberOfTurns,
-			evolution = cardToLoad
-		};
+		_cardInfo.SetEvolve(evolveInto, numberOfTurns);
 		return this;
 	}
 
