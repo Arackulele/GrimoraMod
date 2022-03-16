@@ -1,3 +1,4 @@
+global using Object = UnityEngine.Object;
 using System.Collections;
 using System.Reflection;
 using BepInEx;
@@ -5,7 +6,6 @@ using BepInEx.Logging;
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
-global using Object = UnityEngine.Object;
 
 namespace GrimoraMod;
 
