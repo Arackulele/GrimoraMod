@@ -20,8 +20,8 @@ public class LammergeierAttack : VariableStatBehaviour
 		info.rulebookName = "One Half Bones";
 		info.rulebookDescription = ogInfo.rulebookDescription;
 
-		FullSpecial = SpecialTriggeredAbilityManager.Add(GUID, nameof(LammergeierAttack), typeof(LammergeierAttack));
-		FullStatIcon = StatIconManager.Add(GUID, info, typeof(LammergeierAttack));
+		FullSpecial = ApiUtils.CreateSpecialAbility<LammergeierAttack>();
+		FullStatIcon = ApiUtils.CreateStatIcon<LammergeierAttack>(info);
 		return FullStatIcon;
 	}
 

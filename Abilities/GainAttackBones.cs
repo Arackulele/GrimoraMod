@@ -20,8 +20,8 @@ public class GainAttackBones : VariableStatBehaviour
 		info.rulebookDescription = "[creature] gains 1 attack for each bone the player currently has.";
 		info.iconGraphic = AllAbilityTextures.Single(_ => _.name.Equals("ability_GainAttackBones"));
 
-		FullSpecial = SpecialTriggeredAbilityManager.Add(GUID, info.rulebookName, typeof(GainAttackBones));
-		FullStatIcon = StatIconManager.Add(GUID, info, typeof(GainAttackBones));
+		FullSpecial = ApiUtils.CreateSpecialAbility<GainAttackBones>(info.rulebookName);
+		FullStatIcon = ApiUtils.CreateStatIcon<GainAttackBones>(info);
 		return FullStatIcon;
 	}
 

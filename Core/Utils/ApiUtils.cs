@@ -76,5 +76,23 @@ namespace GrimoraMod
 
 			return newAbility;
 		}
+
+		public static SpecialTriggeredAbilityManager.FullSpecialTriggeredAbility CreateSpecialAbility<T>(
+			string nameOfAbility = default(string)
+		) where T : SpecialCardBehaviour
+		{
+			string finalName = nameOfAbility;
+			if (nameOfAbility.IsNullOrWhitespace())
+			{
+				finalName = nameof(T);
+			}
+
+			return SpecialTriggeredAbilityManager.Add(GUID, finalName, typeof(T));
+		}
+
+		public static StatIconManager.FullStatIcon CreateStatIcon<T>(StatIconInfo info) where T : SpecialCardBehaviour
+		{
+			return StatIconManager.Add(GUID, info, typeof(T));
+		}
 	}
 }
