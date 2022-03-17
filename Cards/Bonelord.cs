@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAbilities(BoneLordsReign.ability, GiantStrike.ability, Ability.Reach)
-			.SetAbilities(GrimoraGiant.FullAbility.Id)
+			.SetSpecialAbilities(GrimoraGiant.FullAbility.Id)
 			.SetBaseAttackAndHealth(1, 20)
 			.SetBoneCost(666)
 			.SetDescription("WHEN THE BONE LORD APPEARS, EVERY CREATURE WILL FALL.")

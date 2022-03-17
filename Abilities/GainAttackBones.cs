@@ -7,6 +7,7 @@ namespace GrimoraMod;
 
 public class GainAttackBones : VariableStatBehaviour
 {
+	public static SpecialTriggeredAbilityManager.FullSpecialTriggeredAbility FullSpecial;
 	public static StatIconManager.FullStatIcon FullStatIcon;
 
 	public override SpecialStatIcon IconType => FullStatIcon.Id;
@@ -19,6 +20,7 @@ public class GainAttackBones : VariableStatBehaviour
 		info.rulebookDescription = "[creature] gains 1 attack for each bone the player currently has.";
 		info.iconGraphic = AllAbilityTextures.Single(_ => _.name.Equals("ability_GainAttackBones"));
 
+		FullSpecial = SpecialTriggeredAbilityManager.Add(GUID, info.rulebookName, typeof(GainAttackBones));
 		FullStatIcon = StatIconManager.Add(GUID, info, typeof(GainAttackBones));
 		return FullStatIcon;
 	}

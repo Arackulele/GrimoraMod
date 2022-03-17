@@ -10,6 +10,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAbilities(Ability.WhackAMole, Ability.Reach)
+			.SetSpecialAbilities(GainAttackBones.FullSpecial.Id)
 			.SetBaseAttackAndHealth(1, 9)
 			.SetBoneCost(5)
 			.SetDescription("A RABID DOG. IT KILLED ONE OF MY GHOULS.")

@@ -140,7 +140,7 @@ public class CardBuilder
 		return this;
 	}
 
-	internal CardBuilder SetAbilities(params SpecialTriggeredAbility[] specialTriggeredAbilities)
+	internal CardBuilder SetSpecialAbilities(params SpecialTriggeredAbility[] specialTriggeredAbilities)
 	{
 		_cardInfo.specialAbilities = specialTriggeredAbilities?.ToList();
 		return this;

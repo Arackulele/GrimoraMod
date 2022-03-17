@@ -8,6 +8,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()
+			.SetSpecialAbilities(LammergeierAttack.FullSpecial.Id)
 			.SetBaseAttackAndHealth(0, 10)
 			.SetBoneCost(10)
 			.SetDescription("Its power scales in proportion to your Bones.")

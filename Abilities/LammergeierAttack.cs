@@ -7,6 +7,7 @@ namespace GrimoraMod;
 
 public class LammergeierAttack : VariableStatBehaviour
 {
+	public static SpecialTriggeredAbilityManager.FullSpecialTriggeredAbility FullSpecial;
 	public static StatIconManager.FullStatIcon FullStatIcon;
 	public override SpecialStatIcon IconType => FullStatIcon.Info.iconType;
 
@@ -16,9 +17,10 @@ public class LammergeierAttack : VariableStatBehaviour
 		StatIconInfo info = ScriptableObject.CreateInstance<StatIconInfo>();
 		info.appliesToHealth = false;
 		info.iconGraphic = ogInfo.iconGraphic;
-		info.rulebookName = ogInfo.name;
+		info.rulebookName = "One Half Bones";
 		info.rulebookDescription = ogInfo.rulebookDescription;
 
+		FullSpecial = SpecialTriggeredAbilityManager.Add(GUID, nameof(LammergeierAttack), typeof(LammergeierAttack));
 		FullStatIcon = StatIconManager.Add(GUID, info, typeof(LammergeierAttack));
 		return FullStatIcon;
 	}
