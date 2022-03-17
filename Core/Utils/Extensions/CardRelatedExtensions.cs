@@ -54,9 +54,9 @@ public static class CardRelatedExtension
 		return card.Info.name;
 	}
 
-	public static T GetRandomItem<T>(this List<T> self)
+	public static T GetRandomItem<T>(this List<T> self, int? seed = 0)
 	{
-		return self.Randomize().ToList()[SeededRandom.Range(0, self.Count, RandomUtils.GenerateRandomSeed())];
+		return self.Randomize().ToList()[SeededRandom.Range(0, self.Count, seed ?? RandomUtils.GenerateRandomSeed())];
 	}
 
 	public static bool IsNotEmpty<T>(this List<T> self)
@@ -104,6 +104,7 @@ public static class CardRelatedExtension
 		{
 			return cardInfo;
 		}
+
 		GrimoraPlugin.Log.LogDebug($"[DeepCopy] Creating a deep copy of [{cardInfo.name}]");
 		CardInfo deepCopy = ScriptableObject.CreateInstance<CardInfo>();
 		deepCopy.abilities = new List<Ability>(cardInfo.abilities);

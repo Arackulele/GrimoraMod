@@ -16,15 +16,16 @@ public static class RandomUtils
 		List<CardChoice> cardChoices = new List<CardChoice>();
 
 		var randomizedChoices = new List<CardInfo>(cards)
-			.FindAll(info => info.name.StartsWith("GrimoraMod_") && (category == CardMetaCategory.NUM_CATEGORIES || info.metaCategories.Contains(category)))
+			.FindAll(
+				info => info.name.StartsWith("GrimoraMod_")
+				        && (category == CardMetaCategory.NUM_CATEGORIES || info.metaCategories.Contains(category))
+			)
 			.Select(card => new CardChoice { CardInfo = card })
-			.ToArray()
-			.Randomize()
 			.ToList();
 
 		while (cardChoices.Count < MaxChoices)
 		{
-			var choice = randomizedChoices.GetRandomItem();
+			var choice = randomizedChoices.GetRandomItem(seed);
 			if (cardChoices.Exists(_ => _.info.name.Equals(choice.info.name)))
 			{
 				randomizedChoices.Remove(choice);
@@ -42,6 +43,6 @@ public static class RandomUtils
 
 	public static int GenerateRandomSeed()
 	{
-		return SaveManager.SaveFile.GetCurrentRandomSeed() + GlobalTriggerHandler.Instance.NumTriggersThisBattle;
+		return SaveManager.SaveFile.GetCurrentRandomSeed() + UnityEngine.Random.RandomRangeInt(1, 666);
 	}
 }
