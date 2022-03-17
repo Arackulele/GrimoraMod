@@ -1,4 +1,5 @@
 ﻿using DiskCardGame;
+using InscryptionAPI.Card;
 using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -7,16 +8,9 @@ namespace GrimoraMod;
 
 public class DebugHelper : ManagedBehaviour
 {
-	private static readonly string[] AllGrimoraCardNames
-		= AllGrimoraModCards.Select(card => card.name.Replace("GrimoraMod_", "")).ToArray();
+	private static string[] _allGrimoraCardNames;
 
-	private static readonly string[] AllGrimoraCustomCardNames
-		= CardLoader.allData
-			.FindAll(
-				info => info.name.StartsWith("GrimoraMod_") && !AllGrimoraModCards.Exists(modInfo => modInfo.name == info.name)
-			)
-			.Select(info => info.name.Replace("GrimoraMod_", ""))
-			.ToArray();
+	private static string[] _allGrimoraCustomCardNames;
 
 	private static readonly Rect RectCardListArea = new(Screen.width - 420, 180, 400, Screen.height - 300);
 
@@ -65,18 +59,18 @@ public class DebugHelper : ManagedBehaviour
 		"Place Enemies"
 	};
 
-	private void AddCardsToDeck(int section)
+	private void Start()
 	{
-		int startingIndex = section * 15;
-		// 3 * 15 == 45
-		// total count 59
-		// 59 - 45 == 14
-		GrimoraSaveUtil.DeckList.AddRange(
-			AllGrimoraModCards.GetRange(
-				startingIndex,
-				Math.Min(15, AllGrimoraModCards.Count - startingIndex)
-			)
-		);
+		_allGrimoraCardNames = AllGrimoraModCards.Select(card => card.name.Replace("GrimoraMod_", "")).ToArray();
+
+		_allGrimoraCustomCardNames
+			= CardManager.AllCardsCopy
+				.FindAll(
+					info => info.name.StartsWith("GrimoraMod_")
+					        && !AllGrimoraModCards.Exists(modInfo => modInfo.name == info.name)
+				)
+				.Select(info => info.name.Replace("GrimoraMod_", ""))
+				.ToArray();
 	}
 
 	private void OnGUI()
@@ -277,14 +271,14 @@ public class DebugHelper : ManagedBehaviour
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,
 				-1,
-				AllGrimoraCardNames,
+				_allGrimoraCardNames,
 				3
 			);
 
 			if (selectedButton >= 0)
 			{
 				StartCoroutine(
-					CardSpawner.Instance.SpawnCardToHand(("GrimoraMod_" + AllGrimoraCardNames[selectedButton]).GetCardInfo())
+					CardSpawner.Instance.SpawnCardToHand(("GrimoraMod_" + _allGrimoraCardNames[selectedButton]).GetCardInfo())
 				);
 			}
 		}
@@ -302,7 +296,7 @@ public class DebugHelper : ManagedBehaviour
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,
 				-1,
-				AllGrimoraCustomCardNames,
+				_allGrimoraCustomCardNames,
 				3
 			);
 
@@ -310,7 +304,7 @@ public class DebugHelper : ManagedBehaviour
 			{
 				StartCoroutine(
 					CardSpawner.Instance.SpawnCardToHand(
-						("GrimoraMod_" + AllGrimoraCustomCardNames[selectedButton]).GetCardInfo()
+						("GrimoraMod_" + _allGrimoraCustomCardNames[selectedButton]).GetCardInfo()
 					)
 				);
 			}
@@ -329,13 +323,13 @@ public class DebugHelper : ManagedBehaviour
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,
 				-1,
-				AllGrimoraCardNames,
+				_allGrimoraCardNames,
 				3
 			);
 
 			if (selectedButton >= 0)
 			{
-				GrimoraSaveUtil.AddCard(("GrimoraMod_" + AllGrimoraCardNames[selectedButton]).GetCardInfo());
+				GrimoraSaveUtil.AddCard(("GrimoraMod_" + _allGrimoraCardNames[selectedButton]).GetCardInfo());
 			}
 		}
 
@@ -352,13 +346,13 @@ public class DebugHelper : ManagedBehaviour
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,
 				-1,
-				AllGrimoraCustomCardNames,
+				_allGrimoraCustomCardNames,
 				3
 			);
 
 			if (selectedButton >= 0)
 			{
-				GrimoraSaveUtil.AddCard(("GrimoraMod_" + AllGrimoraCustomCardNames[selectedButton]).GetCardInfo());
+				GrimoraSaveUtil.AddCard(("GrimoraMod_" + _allGrimoraCustomCardNames[selectedButton]).GetCardInfo());
 			}
 		}
 
@@ -374,7 +368,7 @@ public class DebugHelper : ManagedBehaviour
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,
 				-1,
-				AllGrimoraCardNames,
+				_allGrimoraCardNames,
 				3
 			);
 
@@ -382,13 +376,13 @@ public class DebugHelper : ManagedBehaviour
 			{
 				StartCoroutine(
 					BoardManager.Instance.CreateCardInSlot(
-						("GrimoraMod_" + AllGrimoraCardNames[selectedButton]).GetCardInfo(),
+						("GrimoraMod_" + _allGrimoraCardNames[selectedButton]).GetCardInfo(),
 						BoardManager.Instance.OpponentSlotsCopy[0]
 					)
 				);
 			}
 		}
-		
+
 		if (_toggleSpawnCardInOpponentSlot2
 		    && !_toggleDebugCustomCardsDeck
 		    && !_toggleDebugBaseModCardsDeck
@@ -401,7 +395,7 @@ public class DebugHelper : ManagedBehaviour
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,
 				-1,
-				AllGrimoraCardNames,
+				_allGrimoraCardNames,
 				3
 			);
 
@@ -409,13 +403,13 @@ public class DebugHelper : ManagedBehaviour
 			{
 				StartCoroutine(
 					BoardManager.Instance.CreateCardInSlot(
-						("GrimoraMod_" + AllGrimoraCardNames[selectedButton]).GetCardInfo(),
+						("GrimoraMod_" + _allGrimoraCardNames[selectedButton]).GetCardInfo(),
 						BoardManager.Instance.OpponentSlotsCopy[1]
 					)
 				);
 			}
 		}
-		
+
 		if (_toggleSpawnCardInOpponentSlot3
 		    && !_toggleDebugCustomCardsDeck
 		    && !_toggleDebugBaseModCardsDeck
@@ -428,7 +422,7 @@ public class DebugHelper : ManagedBehaviour
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,
 				-1,
-				AllGrimoraCardNames,
+				_allGrimoraCardNames,
 				3
 			);
 
@@ -436,13 +430,13 @@ public class DebugHelper : ManagedBehaviour
 			{
 				StartCoroutine(
 					BoardManager.Instance.CreateCardInSlot(
-						("GrimoraMod_" + AllGrimoraCardNames[selectedButton]).GetCardInfo(),
+						("GrimoraMod_" + _allGrimoraCardNames[selectedButton]).GetCardInfo(),
 						BoardManager.Instance.OpponentSlotsCopy[2]
 					)
 				);
 			}
 		}
-		
+
 		if (_toggleSpawnCardInOpponentSlot4
 		    && !_toggleDebugCustomCardsDeck
 		    && !_toggleDebugBaseModCardsDeck
@@ -455,7 +449,7 @@ public class DebugHelper : ManagedBehaviour
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,
 				-1,
-				AllGrimoraCardNames,
+				_allGrimoraCardNames,
 				3
 			);
 
@@ -463,7 +457,7 @@ public class DebugHelper : ManagedBehaviour
 			{
 				StartCoroutine(
 					BoardManager.Instance.CreateCardInSlot(
-						("GrimoraMod_" + AllGrimoraCardNames[selectedButton]).GetCardInfo(),
+						("GrimoraMod_" + _allGrimoraCardNames[selectedButton]).GetCardInfo(),
 						BoardManager.Instance.OpponentSlotsCopy[3]
 					)
 				);
