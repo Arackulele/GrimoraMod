@@ -11,7 +11,12 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 {
 	[SerializeField] private GameObject revenantCard;
 
-	private readonly CardInfo _revenantCardReward = NameRevenant.GetCardInfo();
+	private CardInfo _revenantCardReward;
+
+	private void Start()
+	{
+		_revenantCardReward = NameRevenant.GetCardInfo();
+	}
 
 	private IEnumerator InitialSetup()
 	{
