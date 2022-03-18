@@ -180,7 +180,7 @@ public class PlayableCardPatches
 	[HarmonyPostfix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetPassiveAttackBuffs))]
 	public static void CorrectDebuffEnemiesLogicForGiants(PlayableCard __instance, ref int __result)
 	{
-		if (!__instance.Dead && __instance.OnBoard && __instance.Info.HasTrait(Trait.Giant))
+		if (__instance.OnBoard && __instance.Info.HasTrait(Trait.Giant) && !__instance.HasAbility(Ability.MadeOfStone))
 		{
 			List<CardSlot> slotsToTarget = BoardManager.Instance.GetSlots(__instance.OpponentCard);
 
