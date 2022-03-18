@@ -34,9 +34,9 @@
 
 ## Update Notes
 
-### 2.8.2
+### 2.8.2 KAYCEES MOD SUPPORT
 
-**KAYCEE'S MOD SUPPORT!**
+**ALL CARDS HAVE NEW INTERNAL NAMES! YOU WILL NEED TO RESET YOUR SAVE DATA MOST LIKELY!**
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed still being able to click the hammer and hear the sounds even though it is invisible.
 
@@ -47,6 +47,10 @@
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Stat icons are now right-clickable and viewable in the rulebook!
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Asset bundles are now loaded asynchronously. This just means it should get to the main menu faster.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Added specific patch for getting adjacent slots for Giant cards to get the correct adjacent slots.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Randomization for card choices and electric chair should be a bit more random now.
 
 #### Bosses
 

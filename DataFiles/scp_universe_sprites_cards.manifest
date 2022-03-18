@@ -1,0 +1,29 @@
+ManifestFileVersion: 0
+CRC: 3306366279
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 4311d4ff9b1511bf27a802c76888bb7a
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: c90fc19e2679e5295d10bd00f33cb4c3
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/SCP_Universe/SCP_035_PorcelainMask.png
+- Assets/SCP_Universe/SCP_999_TickleMonster.png
+- Assets/SCP_Universe/SCP_348_ThinkingOfYou.png
+- Assets/SCP_Universe/SCP_049_PlagueDoctor.png
+- Assets/SCP_Universe/SCP_354_BloodPond.png
+- Assets/SCP_Universe/scp_096_attack.png
+- Assets/SCP_Universe/SCP_354_BloodCreature.png
+- Assets/SCP_Universe/SCP_087_TheStairwell.png
+- Assets/SCP_Universe/scp_096_hide.png
+- Assets/SCP_Universe/SCP_034_RitualKnife.png
+- Assets/SCP_Universe/SCP_354_BloodEntity.png
+Dependencies: []

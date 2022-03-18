@@ -1,0 +1,23 @@
+ManifestFileVersion: 0
+CRC: 3772026437
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 20bf197d152f2b29ec5059c907dd1da2
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 7859cd501ea75098bcf7e53f1b477c26
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/SCP_Universe/abilities/ability_BloodPond.png
+- Assets/SCP_Universe/abilities/ability_RitualKnife.png
+- Assets/SCP_Universe/abilities/ability_ThinkingOfYou.png
+- Assets/SCP_Universe/abilities/ability_PorcelainMask.png
+- Assets/SCP_Universe/abilities/ability_TheSight.png
+- Assets/SCP_Universe/abilities/ability_Stairwell.png
+- Assets/SCP_Universe/abilities/ability_TheCure.png
+Dependencies: []
