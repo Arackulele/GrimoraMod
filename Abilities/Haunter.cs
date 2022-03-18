@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using InscryptionAPI.Card;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -82,7 +83,7 @@ public class Haunter : AbilityBehaviour
 		yield break;
 	}
 
-	public static NewAbility Create()
+	public static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription = "When [creature] perishes, it haunts the space it died in. "
 		                                   + "Creatures played on this space gain its old sigils.";
