@@ -54,9 +54,9 @@ public static class CardRelatedExtension
 		return card.Info.name;
 	}
 
-	public static T GetRandomItem<T>(this List<T> self, int? seed = 0)
+	public static T GetRandomItem<T>(this List<T> self)
 	{
-		return self.Randomize().ToList()[SeededRandom.Range(0, self.Count, seed ?? RandomUtils.GenerateRandomSeed())];
+		return self[UnityEngine.Random.RandomRangeInt(0, self.Count)];
 	}
 
 	public static bool IsNotEmpty<T>(this List<T> self)

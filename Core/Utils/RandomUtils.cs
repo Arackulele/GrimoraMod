@@ -9,7 +9,6 @@ public static class RandomUtils
 
 	public static List<CardChoice> GenerateRandomChoicesOfCategory(
 		IEnumerable<CardInfo> cards,
-		int seed,
 		CardMetaCategory category = CardMetaCategory.NUM_CATEGORIES
 	)
 	{
@@ -25,7 +24,7 @@ public static class RandomUtils
 
 		while (cardChoices.Count < MaxChoices)
 		{
-			var choice = randomizedChoices.GetRandomItem(seed);
+			var choice = randomizedChoices.GetRandomItem();
 			if (cardChoices.Exists(_ => _.info.name.Equals(choice.info.name)))
 			{
 				randomizedChoices.Remove(choice);
