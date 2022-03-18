@@ -5,11 +5,6 @@ using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
-[HarmonyPatch(typeof(Opponent))]
-public class OpponentPatches
-{
-}
-
 [HarmonyPatch(typeof(Part1BossOpponent))]
 public class Part1BossOpponentPatches
 {

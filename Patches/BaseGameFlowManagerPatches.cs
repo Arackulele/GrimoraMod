@@ -10,33 +10,12 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(GameFlowManager))]
 public class BaseGameFlowManagerPatches
 {
-	private const string ErrorMessageFromOldMod =
-		"Due to changing the name prefix from `ara_` to `GrimoraMod_`, your deck needs to be reset. Otherwise exceptions will be thrown.";
-
 	[HarmonyPrefix, HarmonyPatch(nameof(GameFlowManager.Start))]
 	public static void PrefixStart(GameFlowManager __instance)
 	{
 		if (GrimoraSaveUtil.isNotGrimora)
 		{
 			return;
-		}
-
-		// since the card names are now prefixed with GrimoraMod_, any cards that have ara_ will throw an exception
-		try
-		{
-			if (GrimoraSaveUtil.DeckListCopy.Exists(info => info.name.StartsWith("ara_")))
-			{
-				Log.LogWarning($"Card with ara_ exists in DeckList");
-				Log.LogWarning(ErrorMessageFromOldMod);
-				ConfigHelper.ResetDeck();
-			}
-		}
-		catch (Exception e)
-		{
-			Log.LogWarning(
-				$"Exception thrown while attempting to reset deck with a card prefixed with 'ara_', resetting deck. " + e
-			);
-			ConfigHelper.ResetDeck();
 		}
 
 		Log.LogDebug($"[GameFlowManager] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");
@@ -83,7 +62,7 @@ public class BaseGameFlowManagerPatches
 		CryptHelper.SetupNewCryptAndZones();
 
 		GrimoraAnimationController.Instance.transform.SetParent(Object.FindObjectOfType<InputManagerSpawner>().transform);
-		
+
 		Log.LogDebug($"Assigning controller to game table");
 		GameObject.Find("GameTable")
 			.AddComponent<Animator>()
@@ -135,7 +114,7 @@ public class BaseGameFlowManagerPatches
 
 	private static void AddCardSelectorObjectForTutor()
 	{
-		if (BoardManager.Instance.IsNotNull() && BoardManager.Instance.cardSelector.IsNull())
+		if (BoardManager.Instance && BoardManager.Instance.cardSelector.IsNull())
 		{
 			SelectableCardArray boardCardSelection
 				= new GameObject("BoardCardSelection").AddComponent<SelectableCardArray>();
@@ -237,7 +216,7 @@ public class BaseGameFlowManagerPatches
 	{
 		ResourceDrone resourceEnergy = ResourceDrone.Instance;
 
-		if (BoardManager3D.Instance.IsNotNull() && resourceEnergy.IsNull())
+		if (BoardManager3D.Instance && resourceEnergy.IsNull())
 		{
 			resourceEnergy = Object.Instantiate(
 				ResourceBank.Get<ResourceDrone>("Prefabs/CardBattle/ResourceModules"),
@@ -245,31 +224,31 @@ public class BaseGameFlowManagerPatches
 				Quaternion.Euler(270f, 0f, -146.804f),
 				BoardManager3D.Instance.gameObject.transform
 			);
-
-			resourceEnergy.name = "Grimora Resource Modules";
-			resourceEnergy.baseCellColor = GrimoraColors.GrimoraText;
-			resourceEnergy.highlightedCellColor = GrimoraColors.ResourceEnergyCell;
-
-			Animator animator = resourceEnergy.GetComponentInChildren<Animator>();
-			animator.enabled = false;
-
-			Transform moduleEnergy = animator.transform.GetChild(0);
-			moduleEnergy.gameObject.GetComponent<MeshFilter>().mesh = null;
-
-			for (int i = 1; i < 7; i++)
-			{
-				Transform energyCell = moduleEnergy.GetChild(i);
-				energyCell.gameObject.GetComponent<MeshFilter>().mesh = null;
-				var energyCellCase = energyCell.GetChild(0);
-				energyCellCase.GetChild(0).GetComponent<MeshRenderer>().material.SetEmissionColor(resourceEnergy.baseCellColor);
-				energyCellCase.GetChild(1).GetComponent<MeshFilter>().mesh = null;
-				energyCellCase.GetChild(2).GetComponent<MeshFilter>().mesh = null;
-			}
-
-			Object.Destroy(moduleEnergy.Find("Connector").gameObject);
-			resourceEnergy.emissiveRenderers.Clear();
-			Object.Destroy(moduleEnergy.Find("Propellers").gameObject);
 		}
+
+		resourceEnergy.name = "Grimora Resource Modules";
+		resourceEnergy.baseCellColor = GrimoraColors.GrimoraText;
+		resourceEnergy.highlightedCellColor = GrimoraColors.ResourceEnergyCell;
+
+		Animator animator = resourceEnergy.GetComponentInChildren<Animator>();
+		animator.enabled = false;
+
+		Transform moduleEnergy = animator.transform.GetChild(0);
+		moduleEnergy.gameObject.GetComponent<MeshFilter>().mesh = null;
+
+		for (int i = 1; i < 7; i++)
+		{
+			Transform energyCell = moduleEnergy.GetChild(i);
+			energyCell.gameObject.GetComponent<MeshFilter>().mesh = null;
+			var energyCellCase = energyCell.GetChild(0);
+			energyCellCase.GetChild(0).GetComponent<MeshRenderer>().material.SetEmissionColor(resourceEnergy.baseCellColor);
+			energyCellCase.GetChild(1).GetComponent<MeshFilter>().mesh = null;
+			energyCellCase.GetChild(2).GetComponent<MeshFilter>().mesh = null;
+		}
+
+		Object.Destroy(moduleEnergy.Find("Connector").gameObject);
+		resourceEnergy.emissiveRenderers.Clear();
+		Object.Destroy(moduleEnergy.Find("Propellers").gameObject);
 	}
 
 	private static void ChangeStartDeckIfNotAlreadyChanged()
@@ -286,7 +265,7 @@ public class BaseGameFlowManagerPatches
 
 	private static void AddDeckReviewSequencerToScene()
 	{
-		if (DeckReviewSequencer.Instance.IsNotNull())
+		if (DeckReviewSequencer.Instance)
 		{
 			// DeckReviewSequencer reviewSequencer = deckReviewSequencerObj.GetComponent<DeckReviewSequencer>();
 			SelectableCardArray cardArray = DeckReviewSequencer.Instance.GetComponentInChildren<SelectableCardArray>();
