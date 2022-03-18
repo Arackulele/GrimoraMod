@@ -27,7 +27,6 @@ public class TestingPatches
 		{
 			Log.LogWarning($"Unable to GetCardByName with name [{name}]! " +
 			               $"Current card pool count [{CardLoader.allData?.Count}]\nException [{e.Message}]");
-			throw;
 		}
 
 		return false;

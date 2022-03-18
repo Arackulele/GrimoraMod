@@ -2,6 +2,7 @@
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -9,9 +10,6 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(MenuController))]
 public class MenuControllerPatches
 {
-	private const string ErrorMessageFromOldMod =
-		"Due to changing the name prefix from `ara_` to `GrimoraMod_`, your deck needs to be reset. Otherwise exceptions will be thrown.";
-
 	[HarmonyPrefix, HarmonyPatch(nameof(MenuController.LoadGameFromMenu))]
 	public static bool ContinueActOne(bool newGameGBC)
 	{
@@ -23,7 +21,11 @@ public class MenuControllerPatches
 			sceneToLoad = SaveManager.SaveFile.currentScene;
 		}
 
-		LoadingScreenManager.LoadScene(newGameGBC ? "GBC_Intro" : sceneToLoad);
+		LoadingScreenManager.LoadScene(
+			newGameGBC
+				? "GBC_Intro"
+				: sceneToLoad
+		);
 		SaveManager.savingDisabled = false;
 
 		return false;
@@ -39,21 +41,6 @@ public class MenuControllerPatches
 		}
 		else if (card.titleText == "Start Grimora Mod")
 		{
-			// since the card names are now prefixed with GrimoraMod_, any cards that have ara_ will throw an exception
-			try
-			{
-				if (GrimoraSaveUtil.DeckListCopy.Exists(info => info.name.StartsWith("ara_")))
-				{
-					Log.LogWarning(ErrorMessageFromOldMod);
-					ConfigHelper.ResetDeck();
-				}
-			}
-			catch (Exception e)
-			{
-				Log.LogWarning(ErrorMessageFromOldMod);
-				ConfigHelper.ResetDeck();
-			}
-
 			__instance.DoingCardTransition = false;
 			card.transform.parent = __instance.menuSlot.transform;
 			card.SetBorderColor(__instance.slottedBorderColor);
@@ -68,19 +55,24 @@ public class MenuControllerPatches
 	}
 
 	[HarmonyPostfix, HarmonyPatch(nameof(MenuController.Start))]
-	public static void AddGrimoraCard(ref MenuController __instance)
+	public static void AddGrimoraCard(MenuController __instance)
 	{
-		if (!__instance.cards.Exists(card => card.name.ToLowerInvariant().Contains("grimora")))
+		if (SceneManager.GetActiveScene().name.Equals("Start"))
 		{
-			__instance.cards.Add(CreateButton(__instance));
+			if (__instance.cardRow.Find("MenuCard_Grimora").IsNull())
+			{
+				Log.LogDebug($"Non-hot reload menu button creation");
+				__instance.cards.Add(CreateButton(__instance));
+			}
 		}
 	}
 
 	public static MenuCard CreateButton(MenuController controller)
 	{
+		Log.LogDebug("Creating MenuCard button");
+
 		GameObject cardRow = controller.transform.Find("CardRow").gameObject;
 
-		// GrimoraPlugin.Log.LogDebug("Finding MenuCard_Continue gameObject");
 		MenuCard menuCardGrimora = Object.Instantiate(
 			ResourceBank.Get<MenuCard>("Prefabs/StartScreen/StartScreenMenuCard"),
 			new Vector3(1.378f, -0.77f, 0),
@@ -89,10 +81,10 @@ public class MenuControllerPatches
 		);
 		menuCardGrimora.name = "MenuCard_Grimora";
 
-		menuCardGrimora.GetComponent<SpriteRenderer>().sprite = AssetUtils.GetPrefab<Sprite>("MenuCard");
+		menuCardGrimora.GetComponent<SpriteRenderer>().sprite = AssetConstants.MenuCardGrimora;
 		menuCardGrimora.menuAction = MenuAction.Continue;
 		menuCardGrimora.titleText = "Start Grimora Mod";
-		menuCardGrimora.titleSprite = AssetUtils.GetPrefab<Sprite>("menutext_grimora_mod");
+		menuCardGrimora.titleSprite = AssetConstants.TitleSprite;
 
 		Vector3 cardRowLocalPosition = cardRow.transform.localPosition;
 		cardRow.transform.localPosition = new Vector3(-0.23f, cardRowLocalPosition.y, cardRowLocalPosition.z);

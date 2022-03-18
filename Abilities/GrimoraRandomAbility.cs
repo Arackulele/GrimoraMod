@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using APIPlugin;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -21,7 +21,7 @@ public class GrimoraRandomAbility : AbilityBehaviour
 		yield return Card.FlipInHand(AddMod);
 		yield return LearnAbility(0.5f);
 	}
-	
+
 	private void AddMod()
 	{
 		Card.Status.hiddenAbilities.Add(Ability);
@@ -31,14 +31,16 @@ public class GrimoraRandomAbility : AbilityBehaviour
 		{
 			cardModificationInfo2 = Card.Info.Mods.Find(x => x.HasAbility(Ability));
 		}
+
 		if (cardModificationInfo2 != null)
 		{
 			cardModificationInfo.fromTotem = cardModificationInfo2.fromTotem;
 			cardModificationInfo.fromCardMerge = cardModificationInfo2.fromCardMerge;
 		}
+
 		Card.AddTemporaryMod(cardModificationInfo);
 	}
-	
+
 	private Ability ChooseAbility()
 	{
 		Ability randomAbility = Ability.RandomAbility;
@@ -53,15 +55,16 @@ public class GrimoraRandomAbility : AbilityBehaviour
 				return Ability.Sharp;
 			}
 		}
+
 		GrimoraPlugin.Log.LogDebug($"[GrimoraRandomAbility] Random ability chosen [{randomAbility}]");
 		return randomAbility;
 	}
 
 
-	public static NewAbility Create()
+	public static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription = "When [creature] is drawn, this sigil is replaced with another sigil at random.";
 		Texture icon = AbilitiesUtil.LoadAbilityIcon(Ability.RandomAbility.ToString());
-		return ApiUtils.CreateAbility<GrimoraRandomAbility>(rulebookDescription, rulebookIcon: icon);
+		return ApiUtils.CreateAbility<GrimoraRandomAbility>(rulebookDescription, "Random Ability", rulebookIcon: icon);
 	}
 }

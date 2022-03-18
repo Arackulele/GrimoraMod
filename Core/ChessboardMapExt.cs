@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using Sirenix.Utilities;
 using Unity.Cloud.UserReporting.Plugin.SimpleJson;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -13,11 +14,14 @@ public class ChessboardMapExt : GameMap
 	[SerializeField] internal List<ChessboardPiece> pieces;
 
 	private bool _toggleCardsLeftInDeck = false;
+	private bool _btnDeckView = false;
+	private bool _btnGetUp = false;
+	private bool _btnReset = false;
 
-	public List<ChessboardPiece> ActivePieces => pieces;
+	public bool HasNotPlayedDialogueOnce =>
+		ConfigHelper.Instance.HammerDialogueOption == 1 && hasNotPlayedAllHammerDialogue < 3;
 
-	public readonly Predicate<ChessboardPiece> PieceExistsInActivePieces
-		= piece => Instance.pieces.Exists(active => active.gridXPos == piece.gridXPos && active.gridYPos == piece.gridYPos);
+	public int hasNotPlayedAllHammerDialogue = 0;
 
 	public GrimoraChessboard ActiveChessboard { get; set; }
 
@@ -53,9 +57,13 @@ public class ChessboardMapExt : GameMap
 	{
 		if (_chessboards == null)
 		{
-			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir(
-				ConfigHelper.Instance.isDevModeEnabled ? "GrimoraChessboardDevMode.json" : "GrimoraChessboardsStatic.json"
-			));
+			string jsonString = File.ReadAllText(
+				FileUtils.FindFileInPluginDir(
+					ConfigHelper.Instance.isDevModeEnabled
+						? "GrimoraChessboardDevMode.json"
+						: "GrimoraChessboardsStatic.json"
+				)
+			);
 
 			_chessboards = ParseJson(
 				SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString)
@@ -82,63 +90,104 @@ public class ChessboardMapExt : GameMap
 		.Deck
 		.cards
 		.OrderBy(info => info.name)
-		.Select(_ => _.name.Replace("GrimoraMod_", ""))
+		.Select(_ => _.name.Replace($"{GUID}_", ""))
 		.ToArray();
 
 	private void OnGUI()
 	{
-		var deckViewBtn = GUI.Button(
-			new Rect(0, 0, 100, 50),
-			"Deck View"
-		);
+		if (GrimoraGameFlowManager.Instance.CurrentGameState != GameState.FirstPerson3D)
+		{
+			if (GrimoraGameFlowManager.Instance.CurrentGameState != GameState.CardBattle)
+			{
+				_btnDeckView = GUI.Button(
+					new Rect(0, 0, 100, 50),
+					"Deck View"
+				);
 
-		var resetRunBtn = GUI.Button(
-			new Rect(100, 0, 100, 50),
-			"Reset Run"
-		);
+				_btnGetUp = GUI.Button(
+					new Rect(100, 0, 100, 50),
+					"Get Up"
+				);
 
-		if (TurnManager.Instance.Opponent is not null
-		    && CardDrawPiles3D.Instance.Deck is not null)
+				if (ViewManager.Instance.Controller.LockState == ViewLockState.Unlocked)
+				{
+					if (_btnDeckView)
+					{
+						switch (ViewManager.Instance.CurrentView)
+						{
+							case View.MapDeckReview:
+								ViewManager.Instance.SwitchToView(
+									SpecialNodeHandler.Instance.cardChoiceSequencer.transform.childCount > 1
+										? View.Choices
+										: View.MapDefault
+								);
+
+								break;
+							case View.Choices:
+							case View.MapDefault:
+								ViewManager.Instance.SwitchToView(View.MapDeckReview);
+								break;
+						}
+					}
+					else if (GrimoraGameFlowManager.Instance.CurrentGameState == GameState.Map && _btnGetUp)
+					{
+						Log.LogDebug($"Transitioning to first person");
+						GrimoraGameFlowManager.Instance.TransitionToFirstPerson();
+					}
+				}
+			}
+		}
+		else
+		{
+			_btnDeckView = false;
+			_btnGetUp = false;
+		}
+
+		if (PauseMenu.instance.menuParent.activeInHierarchy)
+		{
+			_btnReset = GUI.Button(
+				new Rect(200, 0, 100, 50),
+				"Reset Run"
+			);
+
+			if (_btnReset)
+			{
+				ConfigHelper.Instance.ResetRun();
+			}
+		}
+
+
+		if (GrimoraGameFlowManager.Instance.CurrentGameState == GameState.CardBattle)
 		{
 			_toggleCardsLeftInDeck = GUI.Toggle(
-				new Rect(20, (ConfigHelper.Instance.isDevModeEnabled ? 320 : 60), 150, 15),
+				new Rect(
+					20,
+					(ConfigHelper.Instance.isDevModeEnabled
+						? 360
+						: 60),
+					150,
+					15
+				),
 				_toggleCardsLeftInDeck,
 				"Cards Left in Deck"
 			);
-		}
 
-		if (deckViewBtn)
-		{
-			switch (ViewManager.Instance.CurrentView)
+			if (ConfigHelper.Instance.EnableCardsLeftInDeckView && _toggleCardsLeftInDeck)
 			{
-				case View.MapDeckReview:
-					ViewManager.Instance.SwitchToView(View.MapDefault);
-					break;
-				case View.MapDefault:
-					ViewManager.Instance.SwitchToView(View.MapDeckReview);
-					break;
+				GUI.SelectionGrid(
+					new Rect(25, 350, 150, CardDrawPiles3D.Instance.Deck.cards.Count * 25f),
+					-1,
+					CardsLeftInDeck,
+					1
+				);
 			}
-		}
-		else if (resetRunBtn)
-		{
-			ConfigHelper.Instance.ResetRun();
-		}
-
-		if (ConfigHelper.Instance.EnableCardsLeftInDeckView && _toggleCardsLeftInDeck)
-		{
-			GUI.SelectionGrid(
-				new Rect(25, 350, 150, CardDrawPiles3D.Instance.Deck.cards.Count * 25f),
-				-1,
-				CardsLeftInDeck,
-				1
-			);
 		}
 	}
 
 	public IEnumerator CompleteRegionSequence()
 	{
 		ViewManager.Instance.Controller.SwitchToControlMode(ViewController.ControlMode.Map);
-		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+		ViewManager.Instance.SetViewLocked();
 
 		SaveManager.SaveToFile();
 
@@ -146,7 +195,7 @@ public class ChessboardMapExt : GameMap
 
 		ChangingRegion = true;
 
-		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+		ViewManager.Instance.SetViewLocked();
 
 		ViewManager.Instance.SwitchToView(View.MapDefault);
 
@@ -154,7 +203,6 @@ public class ChessboardMapExt : GameMap
 
 		MapNodeManager.Instance.SetAllNodesInteractable(false);
 
-		// Log.LogDebug($"[CompleteRegionSequence] Looping audio");
 		AudioController.Instance.SetLoopAndPlay("finalegrimora_ambience");
 		AudioController.Instance.SetLoopVolumeImmediate(0f);
 		AudioController.Instance.FadeInLoop(1f, 1f);
@@ -166,25 +214,23 @@ public class ChessboardMapExt : GameMap
 		// this will call Unrolling and Showing the player Marker
 		yield return GameMap.Instance.ShowMapSequence();
 
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+		ViewManager.Instance.SetViewUnlocked();
 
 		ChangingRegion = false;
-		Log.LogDebug($"[CompleteRegionSequence] No longer ChangingRegion");
+		Log.LogInfo($"[CompleteRegionSequence] No longer ChangingRegion");
 	}
 
 	private void ClearBoardForChangingRegion()
 	{
-		Log.LogDebug($"[CompleteRegionSequence] Clearing and destroying pieces");
-		pieces.RemoveAll(delegate(ChessboardPiece piece)
-		{
-			// piece.gameObject.SetActive(false);
-			piece.MapNode.OccupyingPiece = null;
-			Destroy(piece.gameObject);
+		pieces.RemoveAll(
+			delegate(ChessboardPiece piece)
+			{
+				piece.MapNode.OccupyingPiece = null;
+				Destroy(piece.gameObject);
+				return true;
+			}
+		);
 
-			return true;
-		});
-
-		// GrimoraPlugin.Log.LogDebug($"[CompleteRegionSequence] Clearing removedPiecesConfig");
 		ConfigHelper.Instance.ResetRemovedPieces();
 	}
 
@@ -213,7 +259,7 @@ public class ChessboardMapExt : GameMap
 
 		UpdateActiveChessboard();
 
-		ActiveChessboard.SetupBoard();
+		ActiveChessboard.SetupBoard(ChangingRegion || pieces.IsNullOrEmpty());
 
 		yield return HandleActivatingChessPieces();
 
@@ -251,8 +297,8 @@ public class ChessboardMapExt : GameMap
 			ActiveChessboard.SetSavePositions();
 		}
 
-		Log.LogDebug($"[HandleChessboardSetup] Chessboard [{ActiveChessboard}] Chessboards [{Chessboards.Count}]");
 		ActiveChessboard ??= Chessboards[currentChessboardIndex];
+		Log.LogDebug($"[HandleChessboardSetup] Chessboard [{ActiveChessboard}] Chessboards [{Chessboards.Count}]");
 	}
 
 
@@ -261,7 +307,6 @@ public class ChessboardMapExt : GameMap
 		foreach (var zone in ChessboardNavGrid.instance.zones)
 		{
 			zone.gameObject.SetActive(true);
-			// UnityExplorer.ExplorerCore.Log(zone.GetComponent<ChessboardMapNode>().isActiveAndEnabled);
 		}
 	}
 
@@ -274,25 +319,27 @@ public class ChessboardMapExt : GameMap
 			.Where(p => !removedList.Contains(p.name))
 			.ToList();
 
-		pieces.RemoveAll(delegate(ChessboardPiece piece)
-		{
-			bool toRemove = false;
-			if (activePieces.Contains(piece))
+		pieces.RemoveAll(
+			delegate(ChessboardPiece piece)
 			{
-				piece.gameObject.SetActive(true);
-			}
-			else
-			{
-				piece.gameObject.SetActive(false);
-				piece.MapNode.OccupyingPiece = null;
-				toRemove = true;
-			}
+				bool toRemove = false;
+				if (activePieces.Contains(piece))
+				{
+					piece.gameObject.SetActive(true);
+				}
+				else
+				{
+					piece.gameObject.SetActive(false);
+					piece.MapNode.OccupyingPiece = null;
+					toRemove = true;
+				}
 
-			piece.Hide(true);
-			return toRemove;
-		});
+				piece.Hide(true);
+				return toRemove;
+			}
+		);
 
-		yield return new WaitForSeconds(0.02f);
+		yield return new WaitForSeconds(0.05f);
 
 		yield return ShowPiecesThatAreActive();
 	}
@@ -320,9 +367,10 @@ public class ChessboardMapExt : GameMap
 	{
 		switch (oldView)
 		{
+			case View.Choices when newView == View.MapDeckReview:
 			case View.MapDefault when newView == View.MapDeckReview:
 			{
-				if (MapNodeManager.Instance != null)
+				if (MapNodeManager.Instance.IsNotNull())
 				{
 					MapNodeManager.Instance.SetAllNodesInteractable(false);
 				}
@@ -330,10 +378,11 @@ public class ChessboardMapExt : GameMap
 				DeckReviewSequencer.Instance.SetDeckReviewShown(true, transform, DefaultPosition);
 				break;
 			}
+			case View.MapDeckReview when newView == View.Choices:
 			case View.MapDeckReview when newView == View.MapDefault:
 			{
 				DeckReviewSequencer.Instance.SetDeckReviewShown(false, transform, DefaultPosition);
-				if (MapNodeManager.Instance != null)
+				if (MapNodeManager.Instance.IsNotNull())
 				{
 					ChessboardNavGrid.instance.SetPlayerAdjacentNodesActive();
 				}
@@ -348,7 +397,8 @@ public class ChessboardMapExt : GameMap
 		if (string.Equals(
 			    navGrid.zones[0, 0].name,
 			    "ChessBoardMapNode",
-			    StringComparison.OrdinalIgnoreCase)
+			    StringComparison.OrdinalIgnoreCase
+		    )
 		   )
 		{
 			var zones = ChessboardNavGrid.instance.zones;
@@ -388,7 +438,7 @@ public class ChessboardMapExt : GameMap
 	{
 		ChessboardMapExt ext = ChessboardMap.Instance.gameObject.GetComponent<ChessboardMapExt>();
 
-		if (ext is null)
+		if (ext.IsNull())
 		{
 			ChessboardMap boardComp = ChessboardMap.Instance.gameObject.GetComponent<ChessboardMap>();
 			boardComp.pieces.Clear();
@@ -412,7 +462,5 @@ public class ChessboardMapExt : GameMap
 			piece.gameObject.SetActive(false);
 			Destroy(piece.gameObject);
 		}
-
-		Log.LogDebug($"[ChangeChessboardToExtendedClass] Finished adding ChessboardMapExt");
 	}
 }

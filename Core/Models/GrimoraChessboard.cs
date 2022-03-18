@@ -1,5 +1,6 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -19,27 +20,30 @@ public class GrimoraChessboard
 			},
 			{
 				typeof(ChessboardBoneyardPiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.BoneyardFigurine, GetBoneyardNodes)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.BoneyardFigurine, GetBoneyardNodes)
 			},
 			{
 				typeof(ChessboardCardRemovePiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.CardRemovalFigurine, GetCardRemovalNodes)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(
+					() => AssetConstants.CardRemovalFigurine,
+					GetCardRemovalNodes
+				)
 			},
 			{
 				typeof(ChessboardChestPiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.ChestPiece.gameObject, GetChestNodes)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.ChestPiece.gameObject, GetChestNodes)
 			},
 			{
 				typeof(ChessboardElectricChairPiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.ElectricChair, GetElectricChairNodes)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.ElectricChair, GetElectricChairNodes)
 			},
 			{
 				typeof(ChessboardEnemyPiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.EnemyPiece.gameObject, GetEnemyNodes)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.EnemyPiece.gameObject, GetEnemyNodes)
 			},
 			{
 				typeof(ChessboardGoatEyePiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => PrefabConstants.GoatEyeFigurine, GetGoatEyeNodes)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.GoatEyeFigurine, GetGoatEyeNodes)
 			}
 		};
 	}
@@ -47,7 +51,7 @@ public class GrimoraChessboard
 	private readonly Dictionary<int, Func<GameObject>> _bossByIndex = new()
 	{
 		{ 0, () => AssetUtils.GetPrefab<GameObject>("Blocker_Kaycee") },
-		{ 1, () => AssetUtils.GetPrefab<GameObject>("Blocker_Sawyer") },
+		{ 1, () => AssetUtils.GetPrefab<GameObject>("Sawyer_BlockerPiece") },
 		{ 2, () => AssetUtils.GetPrefab<GameObject>("Blocker_Royal") },
 		{ 3, () => AssetUtils.GetPrefab<GameObject>("Blocker_Grimora") },
 	};
@@ -61,8 +65,8 @@ public class GrimoraChessboard
 		{
 			// the reason for doing this is because the materials are massive if in our own asset bundle, 5MB+ total
 			// so lets just use the already existing material in the game
-			2 => PrefabConstants.WoodenBoxMaterial,
-			3 => PrefabConstants.AncientStonesMaterial,
+			2 => AssetConstants.WoodenBoxMaterial,
+			3 => AssetConstants.AncientStonesMaterial,
 			_ => blockerPrefab.GetComponentInChildren<MeshRenderer>().material
 		};
 
@@ -76,10 +80,6 @@ public class GrimoraChessboard
 		GetPieceAtSpace(BossNode.GridX, BossNode.GridY) as ChessboardEnemyPiece;
 
 	public readonly List<ChessRow> Rows;
-
-
-	public Opponent.Type ActiveBossType;
-
 
 	public GrimoraChessboard(IEnumerable<List<int>> board, int indexInList)
 	{
@@ -143,21 +143,25 @@ public class GrimoraChessboard
 
 	public static string GetBossSpecialIdForRegion()
 	{
-		return BaseBossExt.OpponentTupleBySpecialId.ElementAt(ConfigHelper.Instance.BossesDefeated).Key;
+		Log.LogDebug($"Getting special id for region");
+		return BossHelper.OpponentTupleBySpecialId.ElementAt(ConfigHelper.Instance.BossesDefeated).Key;
 	}
 
 	#endregion
 
-	public void SetupBoard()
+	public void SetupBoard(bool placePieces)
 	{
-		PlaceBossPiece(GetBossSpecialIdForRegion());
-		PlacePieces<ChessboardBlockerPieceExt>();
-		PlacePieces<ChessboardBoneyardPiece>();
-		PlacePieces<ChessboardCardRemovePiece>();
-		PlacePieces<ChessboardChestPiece>();
-		PlacePieces<ChessboardElectricChairPiece>();
-		PlacePieces<ChessboardEnemyPiece>("GrimoraModBattleSequencer");
-		PlacePieces<ChessboardGoatEyePiece>();
+		if (placePieces)
+		{
+			PlaceBossPiece();
+			PlacePieces<ChessboardBlockerPieceExt>();
+			PlacePieces<ChessboardBoneyardPiece>();
+			PlacePieces<ChessboardCardRemovePiece>();
+			PlacePieces<ChessboardChestPiece>();
+			PlacePieces<ChessboardElectricChairPiece>();
+			PlacePieces<ChessboardEnemyPiece>(GrimoraModBattleSequencer.ID);
+			PlacePieces<ChessboardGoatEyePiece>();
+		}
 	}
 
 	public void UpdatePlayerMarkerPosition(bool changingRegion)
@@ -167,17 +171,33 @@ public class GrimoraChessboard
 
 		ChessboardMapNode nodeAtSpace = GetNodeAtSpace(x, y);
 
-		bool pieceAtSpaceIsNotPlayer = nodeAtSpace.OccupyingPiece is not null
+		bool pieceAtSpaceIsNotPlayer = nodeAtSpace.OccupyingPiece.IsNotNull()
 		                               && nodeAtSpace.OccupyingPiece.GetType() != typeof(PlayerMarker)
 		                               || !nodeAtSpace.isActiveAndEnabled;
 
-		if (changingRegion || !StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable) || pieceAtSpaceIsNotPlayer)
+		// this is the final possible spawning condition that I can think of.
+		bool hasNotInteractedWithAnyPiece =
+			!ConfigHelper.Instance.RemovedPieces.Exists(
+				piece => piece.Contains("EnemyPiece_x") || piece.Contains("ChestPiece_x")
+			);
+
+		if (changingRegion
+		    || !StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable)
+		    || pieceAtSpaceIsNotPlayer
+		    || hasNotInteractedWithAnyPiece
+		   )
 		{
+			Log.LogDebug(
+				$"[UpdatePlayerMarkerPosition]"
+				+ $" Changing region? [{changingRegion}]"
+				+ $" Not reached table? [{!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable)}]"
+				+ $"PieceAtSpaceIsNotPlayer? [{pieceAtSpaceIsNotPlayer}]"
+				+ $"hasNotInteractedWithAnyPiece? [{hasNotInteractedWithAnyPiece}]"
+			);
 			// the PlayerNode will be different since this is now a different chessboard
-			x = GetPlayerNode().GridX;
-			y = GetPlayerNode().GridY;
-			GrimoraSaveData.Data.gridX = x;
-			GrimoraSaveData.Data.gridY = y;
+			SetSavePositions();
+			x = GrimoraSaveData.Data.gridX;
+			y = GrimoraSaveData.Data.gridY;
 			Log.LogDebug($"[UpdatePlayerMarkerPosition] New x{x}y{y} coords");
 		}
 
@@ -212,18 +232,26 @@ public class GrimoraChessboard
 
 	#region PlacingPieces
 
-	public ChessboardEnemyPiece PlaceBossPiece(string bossName, int x = -1, int y = -1)
+	public ChessboardEnemyPiece PlaceBossPiece(string specialSequencerId = "", int x = -1, int y = -1)
 	{
-		int newX = x == -1 ? BossNode.GridX : x;
-		int newY = x == -1 ? BossNode.GridY : y;
-		GameObject prefabToUse = ConfigHelper.Instance.BossesDefeated == 3
-			? ResourceBank.Get<GameObject>("Prefabs/Opponents/Grimora/GrimoraAnim")
-			: PrefabConstants.BossPiece.gameObject;
+		if (specialSequencerId.IsNullOrWhitespace())
+		{
+			specialSequencerId = GetBossSpecialIdForRegion();
+		}
+
+		Log.LogDebug($"Boss name to place piece for [{specialSequencerId}]");
+		GameObject prefabToUse = BossHelper.OpponentTupleBySpecialId[specialSequencerId].Item2;
+		int newX = x == -1
+			? BossNode.GridX
+			: x;
+		int newY = x == -1
+			? BossNode.GridY
+			: y;
 		return CreateChessPiece<ChessboardEnemyPiece>(
 			prefabToUse,
 			newX,
 			newY,
-			bossName
+			specialSequencerId
 		);
 	}
 
@@ -231,7 +259,8 @@ public class GrimoraChessboard
 	{
 		return CreateChessPiece<T>(
 			_nodesByPieceType.GetValueSafe(typeof(T)).Item1.Invoke(),
-			x, y,
+			x,
+			y,
 			id,
 			specialNodeData
 		);
@@ -255,15 +284,17 @@ public class GrimoraChessboard
 
 	private T CreateChessPiece<T>(
 		GameObject prefab,
-		int x, int y,
+		int x,
+		int y,
 		string specialEncounterId = "",
-		SpecialNodeData specialNodeData = null) where T : ChessboardPiece
+		SpecialNodeData specialNodeData = null
+	) where T : ChessboardPiece
 	{
 		string coordName = $"x[{x}]y[{y}]";
 
 		ChessboardPiece piece = ChessboardMapExt.Instance.pieces.Find(p => p.gridXPos == x && p.gridYPos == y);
 
-		if (piece is not null)
+		if (piece.IsNotNull())
 		{
 			// Log.LogDebug($"[CreateChessPiece<{typeof(T).Name}>] Skipping x{x}y{y}");
 			return piece.GetComponent<T>();
@@ -271,27 +302,26 @@ public class GrimoraChessboard
 
 		piece = HandlePieceSetup<T>(prefab, specialEncounterId);
 
-		if (piece.anim is null && piece.transform.Find("Anim") is not null)
+		if (piece.anim.IsNull() && piece.transform.Find("Anim").IsNotNull())
 		{
 			piece.anim = piece.transform.Find("Anim").GetComponent<Animator>();
 		}
 
 		if (typeof(T) == typeof(ChessboardBlockerPieceExt))
 		{
-			piece.anim = PrefabConstants.EnemyPiece.anim;
+			piece.anim = AssetConstants.EnemyPiece.anim;
 		}
 
 		piece.gridXPos = x;
 		piece.gridYPos = y;
 
-		if (specialNodeData is not null)
+		if (specialNodeData != null)
 		{
 			piece.NodeData = specialNodeData;
 		}
 
 		piece.name = CreateNameOfPiece<T>(specialEncounterId, coordName);
 
-		// Log.LogDebug($"[CreateChessPiece] {piece.name}");
 		ChessboardMapExt.Instance.pieces.Add(piece);
 		return (T)piece;
 	}
@@ -299,7 +329,7 @@ public class GrimoraChessboard
 	private static string CreateNameOfPiece<T>(string specialEncounterId, string coordName) where T : ChessboardPiece
 	{
 		string nameTemp = typeof(T).Name.Replace("Chessboard", "") + "_" + coordName;
-		if (specialEncounterId.Contains("Boss"))
+		if (BossHelper.OpponentTupleBySpecialId.ContainsKey(specialEncounterId))
 		{
 			nameTemp = nameTemp.Replace("Enemy", "Boss");
 		}
@@ -311,7 +341,7 @@ public class GrimoraChessboard
 	{
 		GameObject pieceObj = Object.Instantiate(prefab, ChessboardMapExt.Instance.dynamicElementsParent);
 
-		if (pieceObj.GetComponent<T>() is null)
+		if (pieceObj.GetComponent<T>().IsNull())
 		{
 			pieceObj.AddComponent<T>();
 		}
@@ -320,15 +350,30 @@ public class GrimoraChessboard
 		{
 			case ChessboardEnemyPiece enemyPiece:
 			{
-				if (specialEncounterId.Contains("Boss"))
+				if (BossHelper.OpponentTupleBySpecialId.ContainsKey(specialEncounterId))
 				{
-					ActiveBossType = BaseBossExt.OpponentTupleBySpecialId.GetValueSafe(specialEncounterId).Item1;
-					enemyPiece.blueprint = BaseBossExt.OpponentTupleBySpecialId[specialEncounterId].Item3;
-					if (ConfigHelper.Instance.BossesDefeated == 3)
+					enemyPiece.blueprint = BossHelper.OpponentTupleBySpecialId[specialEncounterId].Item3;
+					int bossesDefeated = ConfigHelper.Instance.BossesDefeated;
+					switch (bossesDefeated)
 					{
-						// have to set the scale since the prefab is much larger
-						enemyPiece.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
-						enemyPiece.transform.Rotate(new Vector3(0, 215, 0));
+						case 3:
+							// have to set the scale since the Grimora anim prefab is much larger
+							enemyPiece.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+							enemyPiece.transform.Rotate(new Vector3(0, 215, 0));
+							break;
+						default:
+							enemyPiece.transform.localRotation = Quaternion.Euler(0, 90, 0);
+							GameObject head = enemyPiece.transform.GetChild(0).Find("Head").gameObject;
+							if (head.GetComponent<SineWaveMovement>().IsNull())
+							{
+								SineWaveMovement wave = head.AddComponent<SineWaveMovement>();
+								wave.speed = 1;
+								wave.xMagnitude = 0;
+								wave.yMagnitude = 0.1f;
+								wave.zMagnitude = 0;
+							}
+
+							break;
 					}
 				}
 				else
@@ -347,7 +392,7 @@ public class GrimoraChessboard
 	private static EncounterBlueprintData GetBlueprint()
 	{
 		var blueprints
-			= BlueprintUtils.RegionWithBlueprints[ChessboardMapExt.Instance.ActiveChessboard.ActiveBossType];
+			= BlueprintUtils.RegionWithBlueprints.ElementAt(ConfigHelper.Instance.BossesDefeated).Value;
 		return blueprints[UnityEngine.Random.RandomRangeInt(0, blueprints.Count)];
 	}
 

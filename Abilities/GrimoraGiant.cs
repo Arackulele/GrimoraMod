@@ -1,19 +1,18 @@
 ﻿using System.Collections;
-using APIPlugin;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
 public class GrimoraGiant : SpecialCardBehaviour
 {
-	public static readonly NewSpecialAbility NewSpecialAbility = Create();
+	public static SpecialTriggeredAbilityManager.FullSpecialTriggeredAbility FullAbility;
 
-	public static NewSpecialAbility Create()
+	public static SpecialTriggeredAbilityManager.FullSpecialTriggeredAbility Create()
 	{
-		var sId = SpecialAbilityIdentifier.GetID(GUID, "!GRIMORA_GIANT");
-
-		return new NewSpecialAbility(typeof(GrimoraGiant), sId);
+		FullAbility = SpecialTriggeredAbilityManager.Add(GUID, "!GRIMORA_GIANT", typeof(GrimoraGiant));
+		return FullAbility;
 	}
 
 	public override bool RespondsToResolveOnBoard()
@@ -23,8 +22,17 @@ public class GrimoraGiant : SpecialCardBehaviour
 
 	public override IEnumerator OnResolveOnBoard()
 	{
-		BoardManager.Instance.OpponentSlotsCopy[PlayableCard.Slot.Index - 1].Card = PlayableCard;
-		BoardManager.Instance.OpponentSlotsCopy[PlayableCard.Slot.Index].Card = PlayableCard;
+		int slotsToSet = 2;
+		if (ConfigHelper.HasIncreaseSlotsMod && Card.InfoName().Equals(NameBonelord))
+		{
+			slotsToSet = 3;
+		}
+
+		for (int i = 0; i < slotsToSet; i++)
+		{
+			BoardManager.Instance.opponentSlots[PlayableCard.Slot.Index - i].Card = PlayableCard;
+		}
+
 		yield break;
 	}
 
@@ -35,8 +43,17 @@ public class GrimoraGiant : SpecialCardBehaviour
 
 	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
 	{
-		BoardManager.Instance.OpponentSlotsCopy[PlayableCard.Slot.Index - 1].Card = null;
-		BoardManager.Instance.OpponentSlotsCopy[PlayableCard.Slot.Index].Card = null;
+		int slotsToSet = 2;
+		if (ConfigHelper.HasIncreaseSlotsMod && Card.InfoName().Equals(NameBonelord))
+		{
+			slotsToSet = 3;
+		}
+
+		for (int i = 0; i < slotsToSet; i++)
+		{
+			BoardManager.Instance.opponentSlots[PlayableCard.Slot.Index - i].Card = null;
+		}
+
 		yield break;
 	}
 }

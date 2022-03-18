@@ -37,9 +37,9 @@ public class PlayerMarkerPatches
 			// Have you call the setter for this twice otherwise the PlayerMarker might appear at the previous active node visually,
 			//	but is actually at the new node.
 			// e.g. Shows the marker at 0,1 , but is actually at 6,7
-			if (MapNodeManager.Instance.ActiveNode is null)
+			if (MapNodeManager.Instance.ActiveNode.IsNull())
 			{
-				GrimoraPlugin.Log.LogDebug($"[AnimatedGameMapMarker.Show] activeNode is null, setting");
+				GrimoraPlugin.Log.LogDebug($"[AnimatedGameMapMarker.Show] activeNode.IsNull(), setting");
 				MapNodeManager.Instance.ActiveNode
 					= ChessboardNavGrid
 						.instance

@@ -1,22 +1,21 @@
-﻿using APIPlugin;
 using DiskCardGame;
 
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameZombieGeck = "GrimoraMod_ZombieGeck";
+	public const string NameZombieGeck = $"{GUID}_ZombieGeck";
 
 	private void Add_ZombieGeck()
 	{
-		NewCard.Add(CardBuilder.Builder
+		CardBuilder.Builder
+			//Removing Zomb geck for theming reasons, this was only here as filler
 			.SetAsRareCard()
 			.SetAbilities(Ability.Brittle)
 			.SetBaseAttackAndHealth(2, 1)
 			.SetBoneCost(1)
 			.SetDescription("A BIT FAMISHED. COULD USE A BITE TO EAT.")
 			.SetNames(NameZombieGeck, "Zomb-Geck")
-			.Build()
-		);
+			.Build();
 	}
 }

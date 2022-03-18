@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Encounters;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -7,9 +8,33 @@ namespace GrimoraMod;
 
 public class GrimoraModBattleSequencer : SpecialBattleSequencer
 {
+	public static readonly string ID = SpecialSequenceManager.Add(
+			GUID,
+			nameof(GrimoraModBattleSequencer),
+			typeof(GrimoraModBattleSequencer)
+		)
+		.Id;
+
 	public static ChessboardEnemyPiece ActiveEnemyPiece;
 
 	private readonly List<CardInfo> _cardsThatHaveDiedThisMatch = new List<CardInfo>();
+
+	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
+	{
+		EncounterData data = new EncounterData
+		{
+			opponentType = Opponent.Type.Default,
+			opponentTurnPlan = nodeData.blueprint
+				.turns.Select(bpList1 => bpList1.Select(bpList2 => bpList2.card).ToList())
+				.ToList()
+		};
+		if (this is GrimoraModBossBattleSequencer boss)
+		{
+			data.opponentType = boss.BossType;
+		}
+
+		return data;
+	}
 
 	public override IEnumerator PreCleanUp()
 	{
@@ -31,12 +56,6 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 			yield return TextDisplayer.Instance.PlayDialogueEvent("GrimoraFinaleEnd", TextDisplayer.MessageAdvanceMode.Input);
 
-			if (opponent is BaseBossExt ext)
-			{
-				Log.LogDebug($"[{GetType()}] Glitching mask and boss skull");
-				yield return ext.HideBossSkull();
-			}
-
 			StartCoroutine(CardDrawPiles.Instance.CleanUp());
 
 			StartCoroutine(opponent.CleanUp());
@@ -46,23 +65,31 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			RuleBookController.Instance.SetShown(false);
 			TableRuleBook.Instance.enabled = false;
 			GlitchOutAssetEffect.GlitchModel(TableRuleBook.Instance.transform);
-			yield return new WaitForSeconds(0.75f);
+			yield return new WaitForSeconds(0.5f);
 
 			GlitchOutAssetEffect.GlitchModel(ResourceDrone.Instance.transform);
-			yield return new WaitForSeconds(0.75f);
+			yield return new WaitForSeconds(0.5f);
 
 			GlitchOutAssetEffect.GlitchModel(((BoardManager3D)BoardManager3D.Instance).Bell.transform);
-			yield return new WaitForSeconds(0.75f);
+			yield return new WaitForSeconds(0.5f);
 
 			GlitchOutAssetEffect.GlitchModel(LifeManager.Instance.Scales3D.transform);
-			yield return new WaitForSeconds(0.75f);
+			yield return new WaitForSeconds(0.5f);
 
 			GlitchOutAssetEffect.GlitchModel(GrimoraItemsManagerExt.Instance.hammerSlot.transform);
-			yield return new WaitForSeconds(0.75f);
+			yield return new WaitForSeconds(0.5f);
 
 			(ResourcesManager.Instance as Part1ResourcesManager).GlitchOutBoneTokens();
 			GlitchOutAssetEffect.GlitchModel(TableVisualEffectsManager.Instance.Table.transform);
-			yield return new WaitForSeconds(0.75f);
+			yield return new WaitForSeconds(0.5f);
+
+			if (FindObjectOfType<StinkbugInteractable>().IsNotNull())
+			{
+				FindObjectOfType<StinkbugInteractable>().OnCursorSelectStart();
+			}
+
+			GlitchOutAssetEffect.GlitchModel(GameObject.Find("EntireChamber").transform);
+			yield return new WaitForSeconds(0.5f);
 
 			InteractionCursor.Instance.InteractionDisabled = false;
 
@@ -71,7 +98,10 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 			Log.LogDebug($"[GameEnd] Time to rest");
 			yield return TextDisplayer.Instance.ShowThenClear(
-				"It is time to rest.", 2f, 0f, Emotion.Curious
+				"It is time to rest.",
+				2f,
+				0f,
+				Emotion.Curious
 			);
 			yield return new WaitForSeconds(0.75f);
 			Log.LogDebug($"[GameEnd] offset fov");
@@ -80,21 +110,29 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			yield return new WaitForSeconds(1f);
 			ConfigHelper.Instance.ResetRun();
 		}
-
-		yield break;
 	}
 
-	public override bool RespondsToOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat,
-		PlayableCard killer)
+	public override bool RespondsToOtherCardDie(
+		PlayableCard card,
+		CardSlot deathSlot,
+		bool fromCombat,
+		PlayableCard killer
+	)
 	{
 		return deathSlot.IsPlayerSlot;
 	}
 
-	public override IEnumerator OnOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat,
-		PlayableCard killer)
+	public override IEnumerator OnOtherCardDie(
+		PlayableCard card,
+		CardSlot deathSlot,
+		bool fromCombat,
+		PlayableCard killer
+	)
 	{
-		Log.LogDebug($"[GModBattleSequencer] Adding [{card.InfoName()}] to cardsThatHaveDiedThisGame. " +
-		             $"Current count [{_cardsThatHaveDiedThisMatch.Count + 1}]");
+		Log.LogDebug(
+			$"[GModBattleSequencer] Adding [{card.InfoName()}] to cardsThatHaveDiedThisGame. "
+			+ $"Current count [{_cardsThatHaveDiedThisMatch.Count + 1}]"
+		);
 		_cardsThatHaveDiedThisMatch.Add(card.Info);
 		yield break;
 	}
@@ -105,11 +143,11 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		var cardsToAdd = new List<CardInfo>();
 		var gravedigger = GrimoraSaveUtil.DeckList.Find(info => info.name.Equals(NameGravedigger));
 		var bonepile = GrimoraSaveUtil.DeckList.Find(info => info.name.Equals(NameBonepile));
-		if (bonepile is not null)
+		if (bonepile.IsNotNull())
 		{
 			cardsToAdd.Add(bonepile);
 		}
-		else if (gravedigger is not null)
+		else if (gravedigger.IsNotNull())
 		{
 			cardsToAdd.Add(gravedigger);
 		}
@@ -125,12 +163,13 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			// Log.LogDebug($"[GrimoraModBattleSequencer Adding enemy to config [{ActiveEnemyPiece.name}]");
 			ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
 			_cardsThatHaveDiedThisMatch.Clear();
+			SkinCrawler.SlotsThatHaveCrawlersHidingUnderCards.Clear();
 		}
 
 		yield break;
 	}
 
-	private IEnumerator GlitchOutBoardAndHandCards()
+	public static IEnumerator GlitchOutBoardAndHandCards()
 	{
 		yield return ((BoardManager3D)BoardManager.Instance).HideSlots();
 		foreach (PlayableCard c in BoardManager.Instance.CardsOnBoard)
@@ -153,7 +192,15 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 	private static void GlitchOutCard(Card c)
 	{
-		((GravestoneCardAnimationController)c.Anim).PlayGlitchOutAnimation();
+		try
+		{
+			(c.Anim as GravestoneCardAnimationController)?.PlayGlitchOutAnimation();
+		}
+		catch (Exception e)
+		{
+			Log.LogError($"Was unable to play glitch out for card [{c.InfoName()}], just destroying it instead.");
+		}
+
 		Destroy(c.gameObject, 0.25f);
 	}
 }

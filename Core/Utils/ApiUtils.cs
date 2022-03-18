@@ -1,6 +1,6 @@
 using System.Reflection;
-using APIPlugin;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -10,17 +10,24 @@ namespace GrimoraMod
 	public static class ApiUtils
 	{
 		public static AbilityInfo CreateInfoWithDefaultSettings(
-			string rulebookName, string rulebookDescription, bool activated
+			string rulebookName,
+			string rulebookDescription,
+			bool activated,
+			bool flipYIfOpponent,
+			bool canStack
 		)
 		{
 			AbilityInfo info = ScriptableObject.CreateInstance<AbilityInfo>();
-			info.powerLevel = 0;
 			info.activated = activated;
+			info.flipYIfOpponent = flipYIfOpponent;
 			// Pascal split will make names like "AreaOfEffectStrike" => "Area Of Effect Strike" 
 			// "Possessive" => "Possessive" 
-			info.rulebookName = rulebookName.Contains(" ") ? rulebookName : rulebookName.SplitPascalCase();
-			Log.LogDebug($"[CreateAbility] Rulebook name is [{info.rulebookName}]");
+			info.rulebookName = rulebookName.Contains(" ")
+				? rulebookName
+				: rulebookName.SplitPascalCase();
 			info.rulebookDescription = rulebookDescription;
+			info.powerLevel = 0;
+			info.canStack = canStack;
 			info.metaCategories = new List<AbilityMetaCategory>()
 			{
 				AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part1Rulebook
@@ -29,41 +36,63 @@ namespace GrimoraMod
 			return info;
 		}
 
-		public static NewAbility CreateAbility<T>(
+		public static AbilityManager.FullAbility CreateAbility<T>(
 			string rulebookDescription,
 			string rulebookName = null,
 			bool activated = false,
-			Texture rulebookIcon = null
+			Texture rulebookIcon = null,
+			bool flipYIfOpponent = false,
+			bool canStack = false
 		) where T : AbilityBehaviour
 		{
 			rulebookName ??= typeof(T).Name;
 			Texture icon = rulebookIcon
-				? rulebookIcon 
-				: AssetUtils.GetPrefab<Texture>("ability_" + typeof(T).Name); 
-			return CreateAbility<T>(CreateInfoWithDefaultSettings(rulebookName, rulebookDescription, activated), icon);
+				? rulebookIcon
+				: AssetUtils.GetPrefab<Texture>("ability_" + typeof(T).Name);
+			return CreateAbility<T>(
+				CreateInfoWithDefaultSettings(rulebookName, rulebookDescription, activated, flipYIfOpponent, canStack),
+				icon
+			);
 		}
 
-		private static NewAbility CreateAbility<T>(AbilityInfo info, Texture texture) where T : AbilityBehaviour
+		private static AbilityManager.FullAbility CreateAbility<T>(AbilityInfo info, Texture texture)
+			where T : AbilityBehaviour
 		{
 			Type type = typeof(T);
 			// instantiate
-			var newAbility = new NewAbility(
-				info, type, texture, GetAbilityId(info.rulebookName)
+			var newAbility = AbilityManager.Add(
+				GUID,
+				info,
+				type,
+				texture
 			);
 
 			// Get static field
-			FieldInfo field = type.GetField("ability",
+			FieldInfo field = type.GetField(
+				"ability",
 				BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance
 			);
-			// GrimoraPlugin.Log.LogDebug($"Setting static field [{field.Name}] for [{type}] with value [{newAbility.ability}]");
-			field.SetValue(null, newAbility.ability);
+			field.SetValue(null, newAbility.Id);
 
 			return newAbility;
 		}
 
-		public static AbilityIdentifier GetAbilityId(string rulebookName)
+		public static SpecialTriggeredAbilityManager.FullSpecialTriggeredAbility CreateSpecialAbility<T>(
+			string nameOfAbility = default(string)
+		) where T : SpecialCardBehaviour
 		{
-			return AbilityIdentifier.GetID(GUID, rulebookName);
+			string finalName = nameOfAbility;
+			if (nameOfAbility.IsNullOrWhitespace())
+			{
+				finalName = nameof(T);
+			}
+
+			return SpecialTriggeredAbilityManager.Add(GUID, finalName, typeof(T));
+		}
+
+		public static StatIconManager.FullStatIcon CreateStatIcon<T>(StatIconInfo info) where T : SpecialCardBehaviour
+		{
+			return StatIconManager.Add(GUID, info, typeof(T));
 		}
 	}
 }

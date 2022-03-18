@@ -1,5 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Encounters;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
 using static GrimoraMod.GrimoraPlugin;
@@ -8,15 +9,21 @@ namespace GrimoraMod;
 
 public class KayceeBossOpponent : BaseBossExt
 {
-	public override StoryEvent EventForDefeat => StoryEvent.FactoryConveyorBeltMoved;
+	public static readonly OpponentManager.FullOpponent FullOpponent = OpponentManager.Add(
+		GUID,
+		"KayceeBoss",
+		GrimoraModKayceeBossSequencer.FullSequencer.Id,
+		typeof(KayceeBossOpponent)
+	);
 
-	public override Type Opponent => KayceeOpponent;
-	public override string SpecialEncounterId => "KayceeBoss";
+	public override StoryEvent EventForDefeat => GrimoraEnums.StoryEvents.KayceeDefeated;
 
-	public override string DefeatedPlayerDialogue => "Youuuuuuur, painnnfulllll deaaathhh awaiiitttsss youuuuuuu!";
+	public override string DefeatedPlayerDialogue => "YOUUUUUUUR, PAINNNFULLLLL DEAAATHHH AWAIIITTTSSS YOUUUUUUU!";
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
+		PlayTheme();
+
 		encounter.startConditions = new List<EncounterData.StartCondition>()
 		{
 			new()
@@ -25,31 +32,24 @@ public class KayceeBossOpponent : BaseBossExt
 			}
 		};
 
-		AudioController.Instance.SetLoopAndPlay("gbc_battle_undead");
-		AudioController.Instance.SetLoopAndPlay("gbc_battle_undead", 1);
-		yield return new WaitForSeconds(0.5f);
-
-		ViewManager.Instance.SwitchToView(View.Default);
-		yield return new WaitForSeconds(1f);
 		SetSceneEffectsShownKaycee();
 
 		yield return base.IntroSequence(encounter);
-		yield return new WaitForSeconds(0.5f);
 
 		yield return FaceZoomSequence();
-		yield return TextDisplayer.Instance.ShowUntilInput(
-			"[c:bB]Brrrr![c:] I've been freezing for ages!",
-			-0.65f,
-			0.4f
-		);
-		yield return TextDisplayer.Instance.ShowUntilInput(
-			"Let's turn up the [c:R]heat[c:] for a good fight!",
-			-0.65f,
-			0.4f
-		);
+		yield return TextDisplayer.Instance.ShowUntilInput($"{"BRRRR!".BrightBlue()} I'VE BEEN FREEZING FOR AGES!");
+		yield return TextDisplayer.Instance.ShowUntilInput($"LET'S TURN UP THE {"HEAT".Red()} FOR A GOOD FIGHT!");
 
 		ViewManager.Instance.SwitchToView(View.Default);
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+	}
+
+	public override void PlayTheme()
+	{
+		Log.LogDebug($"Playing kaycee theme");
+		AudioController.Instance.StopAllLoops();
+		AudioController.Instance.SetLoopAndPlay("Frostburn", 1);
+		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
+		AudioController.Instance.SetLoopVolume(0.6f, 5f, 1);
 	}
 
 	private static void SetSceneEffectsShownKaycee()
@@ -72,15 +72,20 @@ public class KayceeBossOpponent : BaseBossExt
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Draugr, bp_Draugr, bp_Draugr, bp_Draugr },
+			new() { bp_Draugr, bp_Draugr },
+			new() { bp_Draugr, bp_Draugr },
+			new() { bp_Zombie },
 			new(),
-			new() { bp_Draugr, bp_Skeleton },
-			new(),
-			new() { bp_Skeleton, bp_Revenant, bp_Skeleton },
+			new() { bp_Skeleton, bp_Revenant, bp_Draugr },
 			new(),
 			new(),
 			new() { bp_Draugr, bp_Skeleton, bp_Draugr, bp_Revenant },
-			new() { bp_Skeleton, bp_Skeleton, bp_Skeleton, bp_Skeleton },
+			new() { bp_Skeleton, bp_Skeleton, },
+			new() { bp_Skeleton },
+			new() { bp_Skeleton },
+			new() { bp_Skeleton },
+			new(),
+			new() { bp_Skeleton },
 		};
 
 		return blueprint;
@@ -90,11 +95,7 @@ public class KayceeBossOpponent : BaseBossExt
 	{
 		{
 			yield return FaceZoomSequence();
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				"I'm still not feeling Warmer!",
-				-0.65f,
-				0.4f
-			);
+			yield return TextDisplayer.Instance.ShowUntilInput($"I'M STILL NOT FEELING {"WARMER!".Red()}");
 
 			yield return base.ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
 		}
@@ -105,28 +106,22 @@ public class KayceeBossOpponent : BaseBossExt
 		if (wasDefeated)
 		{
 			// before the mask gets put away
-			yield return TextDisplayer.Instance.ShowUntilInput("Oh come on dude, I'm still Cold!", -0.65f, 0.4F);
-			yield return TextDisplayer.Instance.ShowUntilInput("Let's fight again soon!", -0.65f, 0.4f);
+			yield return TextDisplayer.Instance.ShowUntilInput($"OH COME ON DUDE, I'M STILL {"COLD!".Blue()}");
+			yield return TextDisplayer.Instance.ShowUntilInput("LET'S FIGHT AGAIN SOON!");
 
 			// this will put the mask away
 			yield return base.OutroSequence(true);
 
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"This next area was made by one of my ghouls, Sawyer.",
-				-0.65f,
-				0.4f
+				"FOR DEFEATING ONE OF MY GHOULS, I WILL REWARD YOU A STARTING BONE IN EACH OF YOUR BATTLES."
 			);
-			yield return TextDisplayer.Instance.ShowUntilInput("He says it is terrible", -0.65f, 0.4f);
+			yield return TextDisplayer.Instance.ShowUntilInput("THIS NEXT AREA WAS MADE BY ONE OF MY GHOULS, SAWYER.");
+			yield return TextDisplayer.Instance.ShowUntilInput("HE SAYS IT IS TERRIBLE.");
 		}
 		else
 		{
-			Log.LogDebug($"[{GetType()}] Defeated player dialogue");
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				DefeatedPlayerDialogue,
-				-0.65f,
-				0.4f
-			);
+			yield return TextDisplayer.Instance.ShowUntilInput(DefeatedPlayerDialogue);
 		}
 	}
 }

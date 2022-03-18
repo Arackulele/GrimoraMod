@@ -1,263 +1,240 @@
 # Grimora Mod
 
-- A giant Mod made by xXxStoner420BongMasterxXx and Arackulele, with modeling from `Pink#9824`, that builds upon the finale with Grimora's
-  chessboard.
+- A giant Mod made by xXxStoner420BongMasterxXx and Arackulele, that builds upon the finale with Grimora's chessboard.
 
-- **MOST IMPORTANT**: **!!!YOu will probably encounter some Bugs!!!**
-- **IMPORTANT**: **ENABLE ENERGY DRONE IN API CONFIG IN ORDER FOR IT TO SHOW UP**
+- **MOST IMPORTANT**: **!!!You will probably encounter some Bugs!!!**
 - **BEWARE**:
 
   - THIS WILL UNLOCK CERTAIN STORY EVENTS IN ORDER FOR THE MOD TO WORK, WHICH ALSO MEANS UNLOCKING CERTAIN ACHIEVEMENTS!
-  - THIS MOD HAS NOT BEEN TESTED WITH KAYCEE'S MOD!
+  - In the event you are starting from a brand new save, this mod will unlock all learned abilities, mechanics, and cards
+    and some Story Events like the first tutorial battle, Bones, and a few others in order for this mod to work.
+  - I suggest restarting your game at least once if you haven't actually gotten to the finale.
 
-- In the event you are starting from a brand new save, this mod will unlock all learned abilities, mechanics, and cards
-  and some Story Events like the first tutorial battle, Bones, and a few others in order for this mod to work.
-- If you are not starting from a new save, this mod will check for certain story events and determine if it needs to unlock those.
-- I suggest restarting your game at least once if you haven't actually gotten to the finale.
+- If you want to discuss the mod further, join our Discord server! <https://discord.gg/Xf8CBuS8a8>
 
 ## Reporting Issues
 
 - If you would to help report issues, please raise a thread here with as much detail as you can provide: <https://github.com/Arackulele/GrimoraMod/issues>
-- You may also post in the modding discord general thread: <https://discord.com/channels/903472928883093545/914480438389661747>
-
-ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
+- Bug reports can also be submitted on the Discord Server: <https://discord.gg/Xf8CBuS8a8>
 
 ## Known Issues
 
-### Hoarder (Tutor) ability does not work with Corpse Eater (5$ USD reward for anyone who can actually figure out why this ability doesn't work in Grimora's act)
+### Activated abilities no longer work
 
-- There is no immediate reason as to why this doesn't work. The array of cards that are placed have the exact same code logic as if the card was placed manually by the player.
-- The created game object could be causing the issue, but there is nothing that stands out as to what the cause is, even after debugging with prefix and postfix patches.
+- The primary cause of this is whenever another ability gets added to the card. The bug lies in the `Activated Ability Fix` mod, but I'm not sure where.
 
-### Boss skull between fights doesn't reset colors
+### A card with Area of Effect Strike, Tri Strike, and Sniper sigils only allows 3 attacks
 
-- Unfortunately this one is a bit hard to track down, as the table colors get reset after each fight. Not sure why the boss skull doesn't have the color reset.
-
-### Rare card choosing breaks/throws exceptions
-
-- The main culprit from what the team can tell, is that it's an issue with updating the asset bundles. The only recommendation we have now is to uninstall the mod completely, and redownload. Mod managers seem to be really finnicky.
-
-### Grimora's dialogue is unfinished and still the one from the finale and part 1 dialogue in some cases
-
-- Ongoing process to add new dialogue.
+- Believe it or not, this is how the vanilla game code for the `Sniper` ability is handled. It doesn't base it off how many attacks you're doing, it hard codes to either 2 for `Split Strike` or 3 for `Tri Strike`.
 
 ### Current save file is already at the finale with Grimora
 
 - Make a backup of your save, then delete your current save. Having your current save already at the finale seems to break the mod.
 - Possibly fixed in 2.6.4 update.
 
-### Bonelord art overlaps abilites
-
-- Bonelord does what he wants.
-
 ## Update Notes
 
-### 2.6.6
+### 2.8.2 KAYCEES MOD SUPPORT
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed menu card flying off the screen with one line during creation of menu card: `MenuController.Instance.cards.Add(menuCardGrimora)`
+**ALL CARDS HAVE NEW INTERNAL NAMES! YOU WILL NEED TO RESET YOUR SAVE DATA MOST LIKELY!**
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed softlock if boss skull is null as there was no null check.
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed still being able to click the hammer and hear the sounds even though it is invisible.
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue where `Stinky` sigil would debuff both twin giants. The vanilla code handles `Giant` cards as if it was the moon and checks all player slots, and not just the opposing slots of the `Giant` card.
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed being able to get up during special card sequences like the Electric Chair.
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed softlock after defeating Grimora and chessboard does not load.
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed tombstones not playing the falling animation sometimes.
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed Grimora queueing player cards that have died during second phase.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Stat icons are now right-clickable and viewable in the rulebook!
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Flying` & `Submerge` combo not showing the card being submerged.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Asset bundles are now loaded asynchronously. This just means it should get to the main menu faster.
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with a card having both `Strafe Push` and `Skin Crawler` where the card would force itself out of the other card's skin, causing a softlock. It is now no longer possible to receive the `Skin Crawler` sigil if the card has `Strafe Push` and vice versa.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Added specific patch for getting adjacent slots for Giant cards to get the correct adjacent slots.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Added new Sawyer Boss Skull and Hammer model courtesy of `Pink#9824`.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Randomization for card choices and electric chair should be a bit more random now.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed `Bonelord` from rare card pool entirely. Wasn't really meant to be playable, but hope anyone had fun while it lasted!
+#### Bosses
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Moved dialogue event `RoyalBossPreIntro` from Royal to Grimora as it fits better.
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed Royal's skull not showing up in Endless mode.
 
-### 2.6.5 HOTFIX
+#### Ability/Card Changes
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed softlock when choosing cards and one of those cards has an energy cost. The problem was that I was trying to get the `PlayableCard` component from the parent, _as opposed to literally just using the CardRenderInfo object that is passed in `GravestoneRenderStatsLayer.RenderCard`_
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed potential softlock if a card with `Hook Line and Sinker` kills a `Leaping Trap`.
 
-### 2.6.4
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Reworded `Spirit Bearer` description to now say `energy soul` instead of `energy cell` to fit more thematically.
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed card's with flying appearing no longer flying when attacked or is attacking. Animation resets loop when attacking or being attacked, but it's better than no longer flying.
+### 2.8.1
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Added initial prefab for energy cells to show on cards. Will be tweaked accordingly.
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Corrected issue with rulebook not showing all the abilities.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Added new `Poltergeist` artwork provided by `Cevin_2006`
+### 2.8.0
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Updated Kaycee's boss skull model courtesy of `Pink#9824`.
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed teeth not disappearing from cards that attack their owners.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Potentially fixed issue with having your current save already at Grimora's finale breaking the mod. This should now allow you to continue from any point as long as you are not at the finale.
+  - For example, AOE Strike and now Raider. The reason being is that teeth only get cleared if `DamageDealtThisPhase` is greater than zero. There is logic for the `CombatPhaseManager.SlotAttackSequence` patch that I made to minus the damage done to this field so that it would correctly add the damage to the scale for the respective owner.
+  - Now there is logic in that patch right after subtracting the damage to call `CombatPhaseManager3D.VisualizeDamageMovingToScales` and clear `damageWeights` so that it will correctly remove the teeth from the board.
 
-### 2.6.3
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) FIXED ANNOYING BLUE LIGHT ON BOSS SKULL AFTER ROYAL'S FIGHT.
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Changed setting boss skull transform for Kaycee to hardcoded position, rotation, and scaling.
+  - Apparently when the cannons are created, there is 2 spotlights created that don't get destroyed when they glitch out.
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with NRE being thrown if `Reset Run` button was clicked. The issue was that the getter for finding Grimora's right wrist was static.
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed hammer dialogue playing each battle instead of only once.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed `Buff Enemy (Annoying)` and `Random Consumable` ability from Electric Chair.
+  - Problem was that I was only setting to not play the dialogue, only if you used the hammer the 3rd time.
+  - If you only used it once or twice each fight, it will play each fight.
 
-### 2.6.2
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Giant cards will now be buffed from both side of the card if the adjacent friendly cards have `Leader`.
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Hopefully fixed weird NRE with finding Royal's skull.
+  - For example, if Bonelord has a Bone Prince on the left and right side of it, then the total buff will be 2 instead of 1
 
-### 2.6.1
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Reset button is now only available to click in the Pause Menu.
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed softlock in Grimora's finale phase.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Explorable crypt! Although it's mostly the building, and not a whole lot in it at the moment.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Added new `Bonelord` artwork and emission courtesy of `Ryan S. Art`!
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added button to get up from the chessboard!
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Added new Kaycee boss skull courtesy of `Pink#9824`!
+- ![Feature](https://i.imgur.com/uL9uYNV.png) 3 more `Skeleton` cards are added to side deck.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Separated out dialogue lines after beating Royal so it looks less jumbled.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) If no chess pieces have been interacted with at all, starting position for player piece will be defaulted. Meaning, if you haven't battled or opened a chest, your position will reset back to the start position for that board.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Tweaked card's light color in Grimora fight to be a bit light so the art is more visible.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Stinkbug will now glitch out when dying if it hasn't been clicked yet.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed ice break counter for Kaycee so that she breaks Draugrs when possible.
-  - Also removed clearing the board in the final phase of Kaycee.
+#### Boneyard
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Cleaned up descriptions of some cards to have correct punctuation and spacing.
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Cards having 4 abilities cannot be chosen for the Boneyard event.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Corrected viewing of queue slots to be before the start of the Bonelord phase instead of after.
+  - Breaks the card rendering unfortunately.
 
-### 2.6.0
+#### Electric Chair
 
-#### Card Changes
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Changed campfire sounds to be more electric.
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Changed `Amoeba` random ability to now only choose from the list of abilities that the Electric Chair choses from. This is due to the fact that `Amoeba` can be given an ability that breaks the game in unintended ways.
-  - `Amoeba` now has a modified version of RandomAbility. The ability description may not show up correctly in Deck Review, just as a heads up.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Cards that have been Electric Chaired will now have a permanent blue emission.
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Screaming Skull` damage done to now correctly deal damage to the owner of the card.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) If the Electric Chair would give `Swapper` sigil, a new sigil will be randomly chosen if the card has zero attack or fewer than 3 health.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Added new `Wendigo` and `Wyvern` artwork courtesy of `Cevin2006™ (◕‿◕)#7971`.
+  - This helps to avoid a card committing forever sleep on first hit.
 
-#### Bugfixes/Features/Refactors
+#### Bosses
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with `Giant` cards in phase 2 fight of Grimora throwing exceptions when spawning. Issue was that I did not add the `Giant Strike` ability to the card pool...
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Boss skull during boss fight will glitch out when dying.
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with Hoarder ability (Tutor) throwing an exception when attempting to pick a card from your deck. The issue was caused by the fact that in the finale, there is no GameObject to handle the Hoarder ability. Therefore, it throws an exception.
+##### Kaycee
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `DrawNewHand (Handy)` ability to now correct the visual issue of cards still appearing in draw pile after drawing.
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Corrected issue with Submerge being removed from all cards instead of the card that was frozen during Kaycee's fight. (Thanks Magnificus!)
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with card removal node decreasing card costs in the negatives.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Cards with `Hook Line and Sinker`, `Possessive`, or `Waterborne` will now lose that ability when frozen, and regain it back once unfrozen. Causes the lane to die entirely and not be useable...
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Electric Chair sequence now uses new model provided by `Pink#9824`.
-  - Moved confirm stone button closer to chair.
-  - Changed camera rotation during sequence to 32.5 from 37.5.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Chess figurine icicle now looks more ice-like. Ice is hard to look like ice.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) New hammer dialogue courtesy of `Mr. Etc.#3925`.
+##### Royal
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Ordered decklist alphabetically in viewing cards left in the deck.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Fleshed out more of Royal's first and second phases.
 
-### 2.5.10
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New phase 2 music from `Akisephila (Addie Brahem)`.
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed logic in Kaycee's upkeep phase to now look for the Draugr's correctly.
+##### Grimora
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Hopefully fixed issue with duplicate rare cards showing up in choice selection.
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with Twin Giants spawning.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Added toggle button for viewing cards left in the deck during battle! Auto-updates in realtime as well.
+  - The primary issue seemed to be how the creation of the abilities were done. No more direct static calls!
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed `Reset Deck` button as it doesn't really get used besides for debugging purposes, and `Reset Run` will most likely be used if the player wants to restart their deck.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New Bonelord entrance!
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Card changes:
-  - Changed `Revenant` to use original sprite and emission.
-  - Added vanilla `Banshee` to card pool.
-  - Disabled attack and health shadows as sometimes the shadows don't correlate to the number and the overlapping is ugly.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) The giants now have personal names! I wouldn't make one mad though...
 
-### 2.5.8
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Will now only reanimate every other card.
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Corrected `Double Death` rulebook name to no longer be `Handy`. Funnily enough, the game has the ability page set with the name `Handy`. Probably because it was never actually meant to be used in an other act other than 2.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Giant Strike` reworked with a new description.
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Corrected logic for determining opening hand to at least always guarantee a `Bonepile` or `Gravedigger`.
+  - `[creature] will strike each opposing space. If only one creature is in the opposing spaces, this card will strike that creature twice.`
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Corrected `Erratic` ability logic to now no longer force itself onto other cards.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Bonelord` is now 1 attack 20 health.
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Set default ice cube creature within to `Skeleton` if the card would receive Ice Cube ability from Electric Chair.
+#### Ability/Card Changes
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Card changes
-  - Changed `Skeleton Army` ability to now create a `Skeleton` in all owner owned open slots when played.
-  - Lowered `Dans Macabres` Bone cost to 5
-  - Lowered `Screaming Skull` Bone Cost to 2
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed potential softlock if two `Screaming Skull` cards are on the board and the first one dies to `Leaping Trap`.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Electric Chair changes:
-  - Removed more abilities from Electric Chair sequence:
-    - Activated Sacrifice Draw Cards (True Scholar)
-    - Brittle
-    - Buff Gems (Gem Animator)
-    - Create Bells
-    - Create Dams
-    - Draw Ants
-    - Draw Copy on Death
-    - Draw Random Card On Death
-    - Drop Ruby on Death
-    - Draw Vessel on Hit
-    - Latch Brittle
-    - Latch Death Shield
-    - Latch Explode on Death
-    - Shield Gems (Gem Guardian)
-  - Updated dialogue.
-  - Reduced number of times to electrify card to a max of 2 times.
-  - Changed texture of selection slot to be a plus sign with a question mark instead of 3 question marks.
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed potential softlock if a card with `Sprinter` and `Submerge` dies from `Sentry` after moving into the new slot.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Changed `Sporedigger` description to better fit the card.
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed cards with flying no longer flying after attacking.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Reduced `Skeleton Army` activated bone cost from 2 to 1.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New pirate cards, regular cards, and abilities! Art courtesy `Bt Y#0895`.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Made hammer only usable up to 3 times per battle. The reasoning for this is that the hammer use should be used when necessary, and not a large crutch.
+  - Captain Yellowbeard: 2/2, 7 Bones with `Sea Shanty`.
+  - First Mate Snag: 2/2, 7 Bones with `Hook Line And Sinker`.
+  - Privateer: 1/1, 4 Bones with `Sniper`.
+  - Swashbuckler: 1/2, 0 Bones with `Raider`. Not obtainable.
+  - Vellum: 0/2. Spawned from `Leaping Trap` instead of a normal pelt.
 
-### 2.5.7
+  - Abilities:
+    - Raider: [creature] will strike it's adjacent slots, except other Raiders. Icon courtesy of `Blind, the Bound Demon#6475`.
+    - Sea Shanty: [creature] empowers each Skeleton on the owner's side of the board, providing a +1 buff their power. Icon courtesy of `Blind, the Bound Demon#6475`.
+    - Hook Line And Sinker: When [creature] perishes, the creature in the opposing slot is dragged onto the owner's side of the board. Icon courtesy of `Bt Y#0895`.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Redid all of the Chessboard layouts...again!
-  - The new nodes are now introduced gradually
-  - Slightly less linearity. Beat optional enemies to gain access to more nodes.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New art for `Disinter` and `Screeching Call` abilities, courtesy of `Blind, the Bound Demon#6475`.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Difficulty rebalance!
-  - Blueprints now follow a difficulty curve.
-  - Kaycee now has a new Boss Mechanics, making the first map slightly easier.
-  - Royal's and Grimora's areas have been buffed to provide for a more challenging experience given the new chess pieces.
-  - Rebalanced the new cards to make them more interesting and less underpowered.
-  - Removed the BoneLord sigil from the Electric Chair ability pool :)
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New art for multiple cards.
 
-### 2.5.0
+  - Drowned Soul, courtesy of `Bt Y#0895`.
+  - Ghost Ship, courtesy of `Cevin2006™ (◕‿◕)#7971`.
+  - Poltergeist, courtesy of `Cevin2006™ (◕‿◕)#7971`.
+  - The Walkers, courtesy of `Catboy Stinkbug#4099`.
+  - Zombie, courtesy of `Bt Y#0895`.
 
-#### Cards
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Set all cards to `Undead` temple so they don't show up in Act 1.
 
-- **Boo Hag** - 1,1 - ![cost_bone](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone.png)![cost_bone_5](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_5.png) Sigils: Skin Crawler.
+## Full Credits
 
-- **Danse Macabre** - 3,3 - ![cost_bone](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone.png)![cost_bone_8](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_8.png) Sigils: Alternating Strike, Erratic.
+### Misc
 
-- **Dybbuk** - 0,1 - ![cost_bone](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone.png)![cost_bone_6](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_6.png) Sigils: Possessive.
+- Akisephila (Addie Brahem) for the Soundtrack
 
-- **Giant** - 2,7 - ![cost_bone](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone.png)![cost_bone_1](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_1.png)![cost_bone_5](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_5.png) Sigils: Bone King, Bifurcated Strike.
+- Cactus (cactus#0003) for making the official Trailer
 
-- **Project** - 1,1 - ![cost_bone](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone.png)![cost_bone_8](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_8.png) Sigils: Trifurcated Strike.
-
-- **Ripper** - 6,6 - ![cost_bone](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone.png)![cost_bone_1](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_1.png)![cost_bone_2](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_2.png) Sigils: Brittle.
-
-- **Screaming Skull** - 1,1 - ![cost_bone](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone.png)![cost_bone_6](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_6.png) Sigils: Area Of Effect Strike.
-
-- **Silbon** - 3,2 - ![cost_bone](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone.png)![cost_bone_7](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_7.png) Sigils: Inverted Strike, Sprinter.
-
-#### Sigils
-
-- **Alternating Strike** - [creature] alternates between striking the opposing space to the left and right from it.
-- **Area Of Effect Strike** - [creature] will strike it's adjacent slots, and each opposing space to the left, right, and center of it.
-- **Erratic** - At the end of the owner's turn, [creature] will move in a random direction.
-- **Inverted Strike** - [creature] will strike the opposing slot as if the board was flipped. A card in the far left slot will attack the opposing far right slot.
-- **Possessive** - [creature] cannot be attacked from the opposing slot. The opposing slot instead attacks one of it's adjacent slots if possible.
-- **Skin Crawler** - When [creature] resolves, if possible, will hide under an adjacent card providing a +1 buff. Otherwise, it perishes. Cards on the left take priority.
-
-## Special thanks to
-
-- LavaErrorDoggo for making a lot of the artwork,
+- Arackulele for Balancing, polish, and other miscellanious things
 
 - JulianMods (xXxStoner420BongMasterxXx) for refactoring the code.
 
-- Cevin_2006 for additional card art,
+### Code
 
-- Bt Y#0895 for currently working on artwork for the mod,
+- JulianMods (xXxStoner420BongMasterxXx) for being the Main Developer
 
-- Kopie for being a former developer.
+- Arackulele for additional programming
 
-- Draconis17#3692 for the new energy cells game object,
+### Artists
+
+- LavaErrorDoggo (LavaErrorDoggo#1564) for making the Original Act 2 Cards but in full Size Artwork
+
+- Bt Y#0895 for currently working on artwork for the mod
+
+- Cevin_2006 (Cevin2006™ (◕‿◕)#7971) for additional Card art
+
+- Arackulele for additional Card art
+
+- Lich Underling (Lich underling#7678) for additional Card Art
+
+### 3D Models
+
+- Pink (Pink#6999) for making the Boss Skull Models , currently working on a full crypt 3D Model, etc
+
+- Catboy Stinkbug (Catboy Stinkbug#4099) for the Board Skull 3D Models
+
+- Draconis17#3692 for the new energy cells game object.
+
+### Dialogue
+
+- Primordial Clok-Roo (The Primordial Clok-Roo#2156) for a ton of future Dialogue
+
+- Bob the Nerd (BobTheNerd10#2164) for some dialogue
+
+- Spooky Pig (Mr. Etc.#3925) for event dialogue
+
+- Arackulele, for the original Dialogue
+
+- JulianMods (xXxStoner420BongMasterxXx) for additional Dialogue
+
+### Additional Credits
+
+- Blind, the Bound Demon (Blind, the Bound Demon#6475) for Gameplay footage
+
+- The people of the Grimora Mod Discord Server, for Ideas , voting on features and being awesome

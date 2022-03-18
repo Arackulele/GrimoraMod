@@ -14,7 +14,7 @@ public class SpecialNodeHandlerPatches
 			return true;
 		}
 
-		if (nodeData is CardRemoveNodeData)
+		if (nodeData is GrimoraCardRemoveNodeData)
 		{
 			// We have to cast it, otherwise it tries to call the base version of it
 			__instance.StartCoroutine(((GrimoraCardRemoveSequencer)__instance.cardRemoveSequencer).RemoveSequence());

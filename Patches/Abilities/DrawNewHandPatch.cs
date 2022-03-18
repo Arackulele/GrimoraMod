@@ -8,6 +8,13 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(DrawNewHand))]
 public class DrawNewHandPatch
 {
+	[HarmonyPrefix, HarmonyPatch(nameof(DrawNewHand.RespondsToResolveOnBoard))]
+	public static bool OnlyDrawNewCardsForPlayer(DrawNewHand __instance, ref bool __result)
+	{
+		__result = !__instance.Card.OpponentCard;
+		return false;
+	}
+
 	[HarmonyPostfix, HarmonyPatch(nameof(DrawNewHand.OnResolveOnBoard))]
 	public static IEnumerator PostfixChangeViewAndCorrectVisuals(IEnumerator enumerator, DrawNewHand __instance)
 	{
@@ -26,7 +33,7 @@ public class DrawNewHandPatch
 		}
 
 		yield return new WaitForSeconds(0.5f);
-		bool drawPile3DIsActive = CardDrawPiles3D.Instance is not null && CardDrawPiles3D.Instance.pile is not null;
+		bool drawPile3DIsActive = CardDrawPiles3D.Instance.IsNotNull() && CardDrawPiles3D.Instance.pile.IsNotNull();
 		for (int i = 0; i < 4; i++)
 		{
 			if (drawPile3DIsActive)

@@ -15,7 +15,7 @@ public class GrimoraGameFlowManagerPatches
 		// bool skipIntro = GrimoraPlugin.ConfigHasPlayedRevealSequence.Value;
 		bool setLightsActive = true;
 
-		if (FinaleDeletionWindowManager.instance != null)
+		if (FinaleDeletionWindowManager.instance.IsNotNull())
 		{
 			Object.Destroy(FinaleDeletionWindowManager.instance.gameObject);
 		}
@@ -26,19 +26,20 @@ public class GrimoraGameFlowManagerPatches
 		{
 			Log.LogDebug($"[SceneSpecificInitialization] GrimoraReachedTable is true.");
 			AudioController.Instance.SetLoopAndPlay("finalegrimora_ambience");
-			if (GameMap.Instance != null)
+			if (GameMap.Instance.IsNotNull())
 			{
 				// this is so that it looks a little cleaner when entering for the first time
 				ChessboardMap.Instance.gameObject.transform.GetChild(0).gameObject.SetActive(false);
 				__instance.CurrentGameState = GameState.Map;
 				__instance.StartCoroutine(__instance.TransitionTo(GameState.Map, null, true));
+				PlayTombstonesFalling();
 			}
 		}
 		else
 		{
 			Log.LogDebug($"[SceneSpecificInitialization] GrimoraReachedTable is false");
 
-			if (GameMap.Instance != null)
+			if (GameMap.Instance.IsNotNull())
 			{
 				GameMap.Instance.HideMapImmediate();
 			}
@@ -66,28 +67,31 @@ public class GrimoraGameFlowManagerPatches
 		CryptEpitaphSlotInteractable cryptEpitaphSlotInteractable =
 			Object.FindObjectOfType<CryptEpitaphSlotInteractable>();
 
-		AudioController.Instance.PlaySound3D(
-			"giant_stones_falling",
-			MixerGroup.ExplorationSFX,
-			GameFlowManager.Instance.transform.position
-		);
+		if (cryptEpitaphSlotInteractable && cryptEpitaphSlotInteractable.isActiveAndEnabled)
+		{
+			AudioController.Instance.PlaySound3D(
+				"giant_stones_falling",
+				MixerGroup.ExplorationSFX,
+				GameFlowManager.Instance.transform.position
+			);
 
-		Tween.Position(
-			cryptEpitaphSlotInteractable.tombstoneParent,
-			cryptEpitaphSlotInteractable.tombstoneParent.position + Vector3.down * 11f,
-			6f,
-			0f,
-			Tween.EaseIn
-		);
+			Tween.Position(
+				cryptEpitaphSlotInteractable.tombstoneParent,
+				cryptEpitaphSlotInteractable.tombstoneParent.position + Vector3.down * 11f,
+				6f,
+				0f,
+				Tween.EaseIn
+			);
 
-		Tween.Shake(
-			cryptEpitaphSlotInteractable.tombstoneAnim,
-			cryptEpitaphSlotInteractable.tombstoneAnim.localPosition,
-			new Vector3(0.05f, 0.05f, 0.05f),
-			0.1f,
-			0f,
-			Tween.LoopType.Loop
-		);
+			Tween.Shake(
+				cryptEpitaphSlotInteractable.tombstoneAnim,
+				cryptEpitaphSlotInteractable.tombstoneAnim.localPosition,
+				new Vector3(0.05f, 0.05f, 0.05f),
+				0.1f,
+				0f,
+				Tween.LoopType.Loop
+			);
+		}
 	}
 
 	private static void SetLightsActive(GrimoraGameFlowManager __instance)

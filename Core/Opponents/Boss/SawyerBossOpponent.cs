@@ -1,5 +1,6 @@
 using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Encounters;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
 using static GrimoraMod.GrimoraPlugin;
@@ -8,17 +9,21 @@ namespace GrimoraMod;
 
 public class SawyerBossOpponent : BaseBossExt
 {
-	public override StoryEvent EventForDefeat => StoryEvent.FactoryCuckooClockAppeared;
+	public static readonly OpponentManager.FullOpponent FullOpponent = OpponentManager.Add(
+		GUID,
+		"SawyerBoss",
+		GrimoraModSawyerBossSequencer.FullSequencer.Id,
+		typeof(SawyerBossOpponent)
+	);
 
-	public override Type Opponent => SawyerOpponent;
-
-	public override string SpecialEncounterId => "SawyerBoss";
+	public override StoryEvent EventForDefeat => GrimoraEnums.StoryEvents.SawyerDefeated;
 
 	public override string DefeatedPlayerDialogue => "My dogs will enjoy your bones!";
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
-		AudioController.Instance.SetLoopAndPlay("gbc_battle_undead", 1);
+		PlayTheme();
+
 		SpawnScenery("CratesTableEffects");
 		yield return new WaitForSeconds(0.1f);
 
@@ -31,46 +36,67 @@ public class SawyerBossOpponent : BaseBossExt
 
 		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
-			"Look away, Look away! If you want to fight, get it over quick!",
+			"LOOK AWAY, LOOK AWAY! IF YOU WANT TO FIGHT, GET IT OVER QUICK!",
 			-0.65f,
 			0.4f
 		);
 
 		ViewManager.Instance.SwitchToView(View.Default);
-		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
+	}
+
+	public override void PlayTheme()
+	{
+		Log.LogDebug($"Playing sawyer theme");
+		AudioController.Instance.StopAllLoops();
+		AudioController.Instance.SetLoopAndPlay("Dogbite", 1);
+		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
+		AudioController.Instance.SetLoopVolume(0.9f, 3f, 1);
 	}
 
 	private static void SetSceneEffectsShownSawyer()
 	{
+		Color orange = GameColors.Instance.orange;
+		Color yellow = GameColors.Instance.yellow;
 		TableVisualEffectsManager.Instance.ChangeTableColors(
 			GameColors.Instance.darkGold,
-			GameColors.Instance.orange,
-			GameColors.Instance.yellow,
-			GameColors.Instance.yellow,
-			GameColors.Instance.orange,
-			GameColors.Instance.yellow,
+			orange,
+			yellow,
+			yellow,
+			orange,
+			yellow,
 			GameColors.Instance.brown,
-			GameColors.Instance.orange,
+			orange,
 			GameColors.Instance.brown
 		);
 	}
 
 	public override IEnumerator StartNewPhaseSequence()
 	{
-		{
-			InstantiateBossBehaviour<SawyerBehaviour>();
+		yield return ClearQueue();
+		yield return ClearBoard();
 
-			yield return FaceZoomSequence();
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				"Please, I don't want to fight anymore! Get it over with!",
-				-0.65f,
-				0.4f
-			);
-			yield return ClearQueue();
-			yield return ClearBoard();
+		InstantiateBossBehaviour<SawyerBehaviour>();
+		yield return FaceZoomSequence();
+		yield return TextDisplayer.Instance.ShowUntilInput(
+			$"OH NO, HE HAS ARRIVED! HE IS THIRSTY FOR YOUR {"BONES!".Red()} "
+		);
 
-			yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
-		}
+		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
+		yield return BoardManager.Instance.CreateCardInSlot(
+			NameHellHound.GetCardInfo(),
+			BoardManager.Instance.OpponentSlotsCopy[2],
+			1.0f
+		);
+		yield return new WaitForSeconds(0.8f);
+
+		yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
+
+		ViewManager.Instance.SwitchToView(View.BoneTokens, lockAfter: false);
+		yield return new WaitForSeconds(0.4f);
+		yield return ResourcesManager.Instance.AddBones(1);
+		yield return new WaitForSeconds(0.4f);
+
+		ViewManager.Instance.SetViewUnlocked();
 	}
 
 	public EncounterBlueprintData BuildNewPhaseBlueprint()
@@ -78,15 +104,15 @@ public class SawyerBossOpponent : BaseBossExt
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Bonehound, bp_Bonehound },
+			new() { bp_Zombie },
 			new(),
+			new() { bp_Skeleton },
 			new(),
+			new() { bp_Zombie },
 			new(),
-			new() { bp_Bonehound, bp_Draugr, bp_Draugr },
+			new() { bp_Skeleton },
 			new(),
-			new(),
-			new(),
-			new() { bp_Bonehound, bp_Draugr, bp_Draugr },
+			new() { bp_Zombie },
 			new(),
 			new(),
 			new() { bp_Bonehound },
@@ -99,29 +125,18 @@ public class SawyerBossOpponent : BaseBossExt
 	{
 		if (wasDefeated)
 		{
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				"Thanks for getting it over with, and don't ever return!",
-				-0.65f,
-				0.4f
-			);
+			yield return TextDisplayer.Instance.ShowUntilInput("THANKS FOR GETTING IT OVER WITH, AND DON'T EVER RETURN!");
 
 			yield return new WaitForSeconds(0.5f);
 			yield return base.OutroSequence(true);
 
 			yield return FaceZoomSequence();
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				"The next area won't be so easy. I asked Royal to do his best at making it impossible.",
-				-0.65f,
-				0.4f);
+			yield return TextDisplayer.Instance.ShowUntilInput("THE NEXT AREA WON'T BE SO EASY.");
+			yield return TextDisplayer.Instance.ShowUntilInput("I ASKED ROYAL TO DO HIS BEST AT MAKING IT IMPOSSIBLE.");
 		}
 		else
 		{
-			Log.LogDebug($"[{GetType()}] Defeated player dialogue");
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				DefeatedPlayerDialogue,
-				-0.65f,
-				0.4f
-			);
+			yield return TextDisplayer.Instance.ShowUntilInput(DefeatedPlayerDialogue);
 		}
 	}
 }

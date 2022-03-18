@@ -10,40 +10,44 @@
 		<RootNamespace>GrimoraMod</RootNamespace>
 		<LangVersion>10</LangVersion>
 		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+		<Configurations>Debug;Release;HotReload;Thunderstore</Configurations>
+		<Platforms>AnyCPU</Platforms>
 	</PropertyGroup>
 
 	<!-- BepInEx dependencies -->
 	<ItemGroup>
 		<PackageReference Include="BepInEx.Analyzers" Version="1.0.8" PrivateAssets="all" IncludeAssets="all" />
-		<PackageReference Include="BepInEx.Core" Version="5.4.16" />
-		<PackageReference Include="Inscryption.GameLibs" Version="1.2.0-r.1" />
+		<PackageReference Include="BepInEx.Core" Version="5.4.19" />
+		<PackageReference Include="Inscryption.GameLibs" Version="1.9.0-r.0" />
 		<PackageReference Include="SimpleJson" Version="0.38.0" />
 		<PackageReference Include="System.Resources.Extensions" Version="6.0.0" />
 		<PackageReference Include="UnityEngine.Modules" Version="2019.4.24" IncludeAssets="compile" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Reference Include="API">
-			<HintPath>lib\API.dll</HintPath>
+		<Reference Include="InscryptionAPI">
+			<HintPath>lib\InscryptionAPI.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
 	</ItemGroup>
 
-	<Target Name="CopyDLLs" AfterTargets="Build">
-		<Message Text="Executing CopyDLLs task" Importance="High" />
-
-<!--		<Copy Condition="Exists('C:\inscryption-mods\')" -->
-<!--					SourceFiles="$(TargetDir)$(ProjectName).dll" -->
-<!--					DestinationFolder="C:\inscryption-mods\Inscryption\profiles\Default\BepInEx\plugins\GrimoraMod" />-->
+	<Target Name="CopyDLLsToScriptsFolder" AfterTargets="Build" Condition="$(Configuration) == 'HotReload' ">
 		
 		<Copy Condition="Exists('C:\inscryption-mods\')" SourceFiles="$(TargetDir)$(ProjectName).dll" DestinationFolder="C:\inscryption-mods\Inscryption\profiles\Default\BepInEx\scripts\" />
+		
+	</Target>
 
-		<Copy Condition="Exists('C:\Program Files (x86)\Steam\steamapps\common\Inscryption\')" SourceFiles="$(TargetDir)$(ProjectName).dll" DestinationFolder="C:\Program Files (x86)\Steam\steamapps\common\Inscryption\BepInEx\plugins\" />
+	<Target Name="CopyDLLs" AfterTargets="Build" Condition="$(Configuration) == 'Debug' or $(Configuration) == 'Release' ">
+		<Message Text="Executing CopyDLLs task" Importance="High" />
+
+		<Copy Condition="Exists('C:\inscryption-mods\')" SourceFiles="$(TargetDir)$(ProjectName).dll" DestinationFolder="C:\inscryption-mods\Inscryption\profiles\Default\BepInEx\plugins\Arackulele-GrimoraMod" />
+
+		<Copy Condition="Exists('C:\Program Files (x86)\Steam\steamapps\common\Inscryption\')" SourceFiles="$(TargetDir)$(ProjectName).dll" DestinationFolder="C:\Program Files (x86)\Steam\steamapps\common\Inscryption\BepInEx\plugins\Arackulele-GrimoraMod" />
 
 		<Message Text="Copied build files" Importance="High" />
 	</Target>
 
-	<Target Name="ZipFiles" AfterTargets="Build">
+	<Target Name="ZipFiles" AfterTargets="Build" Condition="$(Configuration) == 'Thunderstore' ">
 		<Exec Command="7z u -tzip GrimoraMod.zip .\DataFiles .\README.md .\manifest.json .\icon.png $(TargetDir)$(ProjectName).dll" />
 	</Target>
 
