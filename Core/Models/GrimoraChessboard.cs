@@ -81,10 +81,6 @@ public class GrimoraChessboard
 
 	public readonly List<ChessRow> Rows;
 
-
-	public Opponent.Type ActiveBossType;
-
-
 	public GrimoraChessboard(IEnumerable<List<int>> board, int indexInList)
 	{
 		Rows = board.Select((boardList, idx) => new ChessRow(boardList, idx)).ToList();
@@ -147,21 +143,31 @@ public class GrimoraChessboard
 
 	public static string GetBossSpecialIdForRegion()
 	{
-		return BaseBossExt.OpponentTupleBySpecialId.ElementAt(ConfigHelper.Instance.BossesDefeated).Key;
+		string bossName = ConfigHelper.Instance.BossesDefeated switch
+		{
+			1 => GrimoraModSawyerBossSequencer.FullSequencer.Id,
+			2 => GrimoraModRoyalBossSequencer.FullSequencer.Id,
+			3 => GrimoraModGrimoraBossSequencer.FullSequencer.Id,
+			_ => GrimoraModKayceeBossSequencer.FullSequencer.Id
+		};
+		return bossName;
 	}
 
 	#endregion
 
-	public void SetupBoard()
+	public void SetupBoard(bool changingRegion)
 	{
-		PlaceBossPiece();
-		PlacePieces<ChessboardBlockerPieceExt>();
-		PlacePieces<ChessboardBoneyardPiece>();
-		PlacePieces<ChessboardCardRemovePiece>();
-		PlacePieces<ChessboardChestPiece>();
-		PlacePieces<ChessboardElectricChairPiece>();
-		PlacePieces<ChessboardEnemyPiece>("GrimoraModBattleSequencer");
-		PlacePieces<ChessboardGoatEyePiece>();
+		if (changingRegion)
+		{
+			PlaceBossPiece();
+			PlacePieces<ChessboardBlockerPieceExt>();
+			PlacePieces<ChessboardBoneyardPiece>();
+			PlacePieces<ChessboardCardRemovePiece>();
+			PlacePieces<ChessboardChestPiece>();
+			PlacePieces<ChessboardElectricChairPiece>();
+			PlacePieces<ChessboardEnemyPiece>(GrimoraModBattleSequencer.ID);
+			PlacePieces<ChessboardGoatEyePiece>();
+		}
 	}
 
 	public void UpdatePlayerMarkerPosition(bool changingRegion)
@@ -177,7 +183,9 @@ public class GrimoraChessboard
 
 		// this is the final possible spawning condition that I can think of.
 		bool hasNotInteractedWithAnyPiece =
-			!ConfigHelper.Instance.RemovedPieces.Exists(piece => piece.Contains("EnemyPiece_x") || piece.Contains("ChestPiece_x"));
+			!ConfigHelper.Instance.RemovedPieces.Exists(
+				piece => piece.Contains("EnemyPiece_x") || piece.Contains("ChestPiece_x")
+			);
 
 		if (changingRegion
 		    || !StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable)
@@ -185,12 +193,13 @@ public class GrimoraChessboard
 		    || hasNotInteractedWithAnyPiece
 		   )
 		{
-			Log.LogDebug($"[UpdatePlayerMarkerPosition]"
-			             + $" Changing region? [{changingRegion}]"
-			             + $" Not reached table? [{!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable)}]"
-			             + $"PieceAtSpaceIsNotPlayer? [{pieceAtSpaceIsNotPlayer}]"
-			             + $"hasNotInteractedWithAnyPiece? [{hasNotInteractedWithAnyPiece}]"
-			             );
+			Log.LogDebug(
+				$"[UpdatePlayerMarkerPosition]"
+				+ $" Changing region? [{changingRegion}]"
+				+ $" Not reached table? [{!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable)}]"
+				+ $"PieceAtSpaceIsNotPlayer? [{pieceAtSpaceIsNotPlayer}]"
+				+ $"hasNotInteractedWithAnyPiece? [{hasNotInteractedWithAnyPiece}]"
+			);
 			// the PlayerNode will be different since this is now a different chessboard
 			SetSavePositions();
 			x = GrimoraSaveData.Data.gridX;
@@ -325,7 +334,7 @@ public class GrimoraChessboard
 	private static string CreateNameOfPiece<T>(string specialEncounterId, string coordName) where T : ChessboardPiece
 	{
 		string nameTemp = typeof(T).Name.Replace("Chessboard", "") + "_" + coordName;
-		if (specialEncounterId.Contains("Boss"))
+		if (BaseBossExt.OpponentTupleBySpecialId.ContainsKey(specialEncounterId))
 		{
 			nameTemp = nameTemp.Replace("Enemy", "Boss");
 		}
@@ -346,9 +355,8 @@ public class GrimoraChessboard
 		{
 			case ChessboardEnemyPiece enemyPiece:
 			{
-				if (specialEncounterId.Contains("Boss"))
+				if (BaseBossExt.OpponentTupleBySpecialId.ContainsKey(specialEncounterId))
 				{
-					ActiveBossType = BaseBossExt.OpponentTupleBySpecialId.GetValueSafe(specialEncounterId).Item1;
 					enemyPiece.blueprint = BaseBossExt.OpponentTupleBySpecialId[specialEncounterId].Item4;
 					int bossesDefeated = ConfigHelper.Instance.BossesDefeated;
 					switch (bossesDefeated)
@@ -389,7 +397,7 @@ public class GrimoraChessboard
 	private static EncounterBlueprintData GetBlueprint()
 	{
 		var blueprints
-			= BlueprintUtils.RegionWithBlueprints[ChessboardMapExt.Instance.ActiveChessboard.ActiveBossType];
+			= BlueprintUtils.RegionWithBlueprints.ElementAt(ConfigHelper.Instance.BossesDefeated).Value;
 		return blueprints[UnityEngine.Random.RandomRangeInt(0, blueprints.Count)];
 	}
 

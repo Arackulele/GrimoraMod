@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Encounters;
 using Pixelplacement;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -9,6 +10,12 @@ namespace GrimoraMod;
 
 public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 {
+	public static readonly SpecialSequenceManager.FullSpecialSequencer FullSequencer = SpecialSequenceManager.Add(
+		GUID,
+		nameof(GrimoraModRoyalBossSequencer),
+		typeof(GrimoraModRoyalBossSequencer)
+	);
+
 	private readonly RandomEx _rng = new();
 
 	private GameObject GameTable => GameObject.Find("GameTable");
@@ -159,7 +166,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		bool destinationValid = movingLeft
 			? toLeftIsNotOccupied
 			: toRightIsNotOccupied;
-		
+
 		yield return MoveToSlot(playableCard, destination, destinationValid, movingLeft);
 	}
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Encounters;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
 using static GrimoraMod.GrimoraPlugin;
@@ -8,10 +9,15 @@ namespace GrimoraMod;
 
 public class KayceeBossOpponent : BaseBossExt
 {
-	public override StoryEvent EventForDefeat => StoryEvent.FactoryConveyorBeltMoved;
+	public static readonly Opponent.Type ID = OpponentManager.Add(
+			GUID,
+			"KayceeBoss",
+			GrimoraModKayceeBossSequencer.FullSequencer.Id,
+			typeof(KayceeBossOpponent)
+		)
+		.Id;
 
-	public override Type Opponent => KayceeOpponent;
-	public override string SpecialEncounterId => "KayceeBoss";
+	public override StoryEvent EventForDefeat => StoryEvent.FactoryConveyorBeltMoved;
 
 	public override string DefeatedPlayerDialogue => "YOUUUUUUUR, PAINNNFULLLLL DEAAATHHH AWAIIITTTSSS YOUUUUUUU!";
 

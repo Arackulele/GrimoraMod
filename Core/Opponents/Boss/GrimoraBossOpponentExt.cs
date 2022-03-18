@@ -1,6 +1,7 @@
 using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Encounters;
 using Pixelplacement;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -9,11 +10,15 @@ namespace GrimoraMod;
 
 public class GrimoraBossOpponentExt : BaseBossExt
 {
+	public static readonly Opponent.Type ID = OpponentManager.Add(
+			GUID,
+			"GrimoraBoss",
+			GrimoraModGrimoraBossSequencer.FullSequencer.Id,
+			typeof(GrimoraBossOpponentExt)
+		)
+		.Id;
+
 	public override StoryEvent EventForDefeat => StoryEvent.PhotoDroneSeenInCabin;
-
-	public override Type Opponent => GrimoraOpponent;
-
-	public override string SpecialEncounterId => "GrimoraBoss";
 
 	public override string DefeatedPlayerDialogue => "Thank you!";
 

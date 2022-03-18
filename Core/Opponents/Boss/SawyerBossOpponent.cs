@@ -1,5 +1,6 @@
 using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Encounters;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
 using static GrimoraMod.GrimoraPlugin;
@@ -8,11 +9,15 @@ namespace GrimoraMod;
 
 public class SawyerBossOpponent : BaseBossExt
 {
+	public static readonly Opponent.Type ID = OpponentManager.Add(
+			GUID,
+			"SawyerBoss",
+			GrimoraModSawyerBossSequencer.FullSequencer.Id,
+			typeof(SawyerBossOpponent)
+		)
+		.Id;
+
 	public override StoryEvent EventForDefeat => StoryEvent.FactoryCuckooClockAppeared;
-
-	public override Type Opponent => SawyerOpponent;
-
-	public override string SpecialEncounterId => "SawyerBoss";
 
 	public override string DefeatedPlayerDialogue => "My dogs will enjoy your bones!";
 
@@ -73,7 +78,9 @@ public class SawyerBossOpponent : BaseBossExt
 
 		InstantiateBossBehaviour<SawyerBehaviour>();
 		yield return FaceZoomSequence();
-		yield return TextDisplayer.Instance.ShowUntilInput($"OH NO, HE HAS ARRIVED! HE IS THIRSTY FOR YOUR {"BONES!".Red()} ");
+		yield return TextDisplayer.Instance.ShowUntilInput(
+			$"OH NO, HE HAS ARRIVED! HE IS THIRSTY FOR YOUR {"BONES!".Red()} "
+		);
 
 		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 		yield return BoardManager.Instance.CreateCardInSlot(

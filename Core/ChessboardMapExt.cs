@@ -258,7 +258,7 @@ public class ChessboardMapExt : GameMap
 
 		UpdateActiveChessboard();
 
-		ActiveChessboard.SetupBoard();
+		ActiveChessboard.SetupBoard(ChangingRegion);
 
 		yield return HandleActivatingChessPieces();
 

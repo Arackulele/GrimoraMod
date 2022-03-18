@@ -7,47 +7,42 @@ namespace GrimoraMod;
 
 public abstract class BaseBossExt : Part1BossOpponent
 {
-	public static readonly Dictionary<string, Tuple<Opponent.Type, System.Type, GameObject, EncounterBlueprintData>>
+	public static readonly Dictionary<string, Tuple<Type, System.Type, GameObject, EncounterBlueprintData>>
 		OpponentTupleBySpecialId = new()
 		{
 			{
-				"KayceeBoss", new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
+				GrimoraModKayceeBossSequencer.FullSequencer.Id,
+				new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
 					KayceeOpponent,
-					typeof(GrimoraModKayceeBossSequencer),
+					GrimoraModKayceeBossSequencer.FullSequencer.SpecialSequencer,
 					AssetConstants.BossPieceKaycee,
 					BlueprintUtils.BuildKayceeBossInitialBlueprint()
 				)
 			},
 			{
-				"SawyerBoss", new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
+				GrimoraModSawyerBossSequencer.FullSequencer.Id,
+				new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
 					SawyerOpponent,
-					typeof(GrimoraModSawyerBossSequencer),
+					GrimoraModSawyerBossSequencer.FullSequencer.SpecialSequencer,
 					AssetConstants.BossPieceSawyer,
 					BlueprintUtils.BuildSawyerBossInitialBlueprint()
 				)
 			},
 			{
-				"RoyalBoss", new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
+				GrimoraModRoyalBossSequencer.FullSequencer.Id, new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
 					RoyalOpponent,
-					typeof(GrimoraModRoyalBossSequencer),
+					GrimoraModRoyalBossSequencer.FullSequencer.SpecialSequencer,
 					AssetConstants.BossPieceRoyal.gameObject,
 					BlueprintUtils.BuildRoyalBossInitialBlueprint()
 				)
 			},
 			{
-				"GrimoraBoss", new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
+				GrimoraModGrimoraBossSequencer.FullSequencer.Id,
+				new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
 					GrimoraOpponent,
-					typeof(GrimoraModGrimoraBossSequencer),
+					GrimoraModGrimoraBossSequencer.FullSequencer.SpecialSequencer,
 					AssetConstants.BossPieceGrimora,
 					BlueprintUtils.BuildGrimoraBossInitialBlueprint()
-				)
-			},
-			{
-				"GrimoraModBattleSequencer", new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
-					0,
-					typeof(GrimoraModBattleSequencer),
-					null,
-					null
 				)
 			}
 		};
@@ -78,16 +73,12 @@ public abstract class BaseBossExt : Part1BossOpponent
 
 	public abstract StoryEvent EventForDefeat { get; }
 
-	public abstract Type Opponent { get; }
-
-	public abstract string SpecialEncounterId { get; }
-
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
 		yield return base.IntroSequence(encounter);
 
 		// Royal boss has a specific sequence to follow so that it flows easier
-		if (BossMasksByType.TryGetValue(Opponent, out GameObject skull))
+		if (BossMasksByType.TryGetValue(OpponentType, out GameObject skull))
 		{
 			Log.LogDebug($"[{GetType()}] Creating skull");
 

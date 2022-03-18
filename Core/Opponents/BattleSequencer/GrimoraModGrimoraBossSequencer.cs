@@ -1,5 +1,6 @@
 using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Encounters;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -7,6 +8,12 @@ namespace GrimoraMod;
 
 public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 {
+	public static readonly SpecialSequenceManager.FullSpecialSequencer FullSequencer = SpecialSequenceManager.Add(
+		GrimoraPlugin.GUID,
+		nameof(GrimoraModGrimoraBossSequencer),
+		typeof(GrimoraModGrimoraBossSequencer)
+	);
+
 	private readonly RandomEx _rng = new();
 
 	private bool hasPlayedArmyDialogue = false;
@@ -15,15 +22,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 	private bool playedDialoguePossessive;
 
-	public override Opponent.Type BossType => BaseBossExt.GrimoraOpponent;
-
-	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
-	{
-		return new EncounterData
-		{
-			opponentType = BossType
-		};
-	}
+	public override Opponent.Type BossType => GrimoraBossOpponentExt.ID;
 
 	public override IEnumerator GameEnd(bool playerWon)
 	{

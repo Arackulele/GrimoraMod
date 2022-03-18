@@ -1,5 +1,6 @@
 using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Encounters;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -7,6 +8,12 @@ namespace GrimoraMod;
 
 public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 {
+	public static readonly SpecialSequenceManager.FullSpecialSequencer FullSequencer = SpecialSequenceManager.Add(
+		GrimoraPlugin.GUID,
+		nameof(GrimoraModKayceeBossSequencer),
+		typeof(GrimoraModKayceeBossSequencer)
+	);
+
 	private bool _playedDialogueSubmerge = false;
 
 	private bool _playedDialogueHookLineAndSinker = false;
