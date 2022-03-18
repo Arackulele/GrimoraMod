@@ -230,15 +230,14 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		AudioController.Instance.PlaySound2D("broken_hum");
 		UIManager.Instance.Effects.GetEffect<ScreenGlitchEffect>().SetIntensity(1f, 1f);
+		Log.LogDebug($"Glitch sound");
+		GlitchOutAssetEffect.PlayGlitchSound(playableCard.transform.position);
 		yield return BoardManager.Instance.TransitionAndResolveCreatedCard(
 			playableCard,
 			slotToSpawnIn,
 			0f
 		);
 		yield return new WaitForSeconds(0.5f);
-
-		Log.LogDebug($"Glitch sound");
-		GlitchOutAssetEffect.PlayGlitchSound(playableCard.transform.position);
 		Log.LogDebug($"Setting active");
 		playableCard.gameObject.SetActive(true);
 
