@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using Sirenix.Utilities;
 using Unity.Cloud.UserReporting.Plugin.SimpleJson;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -258,7 +259,7 @@ public class ChessboardMapExt : GameMap
 
 		UpdateActiveChessboard();
 
-		ActiveChessboard.SetupBoard(ChangingRegion);
+		ActiveChessboard.SetupBoard(ChangingRegion || pieces.IsNullOrEmpty());
 
 		yield return HandleActivatingChessPieces();
 

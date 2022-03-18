@@ -155,9 +155,9 @@ public class GrimoraChessboard
 
 	#endregion
 
-	public void SetupBoard(bool changingRegion)
+	public void SetupBoard(bool placePieces)
 	{
-		if (changingRegion)
+		if (placePieces)
 		{
 			PlaceBossPiece();
 			PlacePieces<ChessboardBlockerPieceExt>();
