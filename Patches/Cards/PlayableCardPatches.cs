@@ -201,16 +201,6 @@ public class PlayableCardPatches
 					__result += 1;
 				}
 			}
-
-			// should return farthest left slot
-			CardSlot firstSlotOfGiant = BoardManager.Instance.GetSlots(!__instance.OpponentCard)
-				.First(slot => slot.Card.IsNotNull() && slot.Card == __instance);
-
-			if (BoardManager.Instance.GetAdjacentSlots(firstSlotOfGiant)
-			    .Exists(slot => slot.IsNotNull() && slot.Card.IsNotNull() && slot.Card.HasAbility(Ability.BuffNeighbours)))
-			{
-				__result++;
-			}
 		}
 	}
 }

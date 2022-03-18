@@ -42,4 +42,36 @@ public class BoardManagerPatches
 			card.SetInfo(copyInfo);
 		}
 	}
+
+	[HarmonyPrefix, HarmonyPatch(nameof(BoardManager.GetAdjacentSlots))]
+	public static bool GetCorrectAdjacentSlotsForGiantCards(BoardManager __instance, CardSlot slot, ref List<CardSlot> __result)
+	{
+		if (slot.Card.IsNotNull() && slot.Card.Info.SpecialAbilities.Contains(GrimoraGiant.FullAbility.Id) && slot.Card.OnBoard)
+		{
+			__result = new List<CardSlot>();
+			List<CardSlot> secondSlot = __instance.opponentSlots
+				.Where(x => x.Card.IsNotNull() && x.Card == slot.Card)
+				.ToList();
+
+			// Log.LogDebug($"Slots that contain [{slot.Card.GetNameAndSlot()}] = {secondSlot.Join(x => x.Index.ToString())}");
+				
+			int leftAdjSlotIndex = secondSlot[0].Index - 1;
+			int rightAdjSlotIndex = secondSlot[1].Index + 1;
+			// Log.LogDebug($"Adjacent slot indexes to check left-[{leftAdjSlotIndex}] right-[{rightAdjSlotIndex}]");
+			if (__instance.opponentSlots.Exists(x => x.Index == leftAdjSlotIndex && x.Card != slot.Card))
+			{
+				__result.Add(__instance.opponentSlots[leftAdjSlotIndex]);
+			}
+			if (__instance.opponentSlots.Exists(x => x.Index == rightAdjSlotIndex && x.Card != slot.Card))
+			{
+				__result.Add(__instance.opponentSlots[rightAdjSlotIndex]);
+			}
+
+			// Log.LogDebug($"Adjacent Slots for [{slot.Card.GetNameAndSlot()}] = {__result.Join(x => x.Index.ToString())}");
+
+			return false;
+		}
+
+		return true;
+	}
 }
