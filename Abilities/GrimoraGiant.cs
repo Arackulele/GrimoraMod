@@ -30,7 +30,7 @@ public class GrimoraGiant : SpecialCardBehaviour
 
 		for (int i = 0; i < slotsToSet; i++)
 		{
-			BoardManager.Instance.OpponentSlotsCopy[PlayableCard.Slot.Index - i].Card = PlayableCard;
+			BoardManager.Instance.opponentSlots[PlayableCard.Slot.Index - i].Card = PlayableCard;
 		}
 
 		yield break;
@@ -51,7 +51,7 @@ public class GrimoraGiant : SpecialCardBehaviour
 
 		for (int i = 0; i < slotsToSet; i++)
 		{
-			BoardManager.Instance.OpponentSlotsCopy[PlayableCard.Slot.Index - i].Card = null;
+			BoardManager.Instance.opponentSlots[PlayableCard.Slot.Index - i].Card = null;
 		}
 
 		yield break;
