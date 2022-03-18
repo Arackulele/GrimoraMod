@@ -1,89 +1,135 @@
-- A giant Mod made by xXxStoner420BongMasterxXx and Arackulele, with modeling from `Pink#9824`, that builds upon the finale with Grimora's
-	chessboard.
+# Update Notes
 
-- **MOST IMPORTANT**: **!!!You will probably encounter some Bugs!!!**
-- **IMPORTANT**: **ENABLE ENERGY DRONE IN API CONFIG IN ORDER FOR IT TO SHOW UP**
-- **BEWARE**:
+## 2.7.5
 
-	- THIS WILL UNLOCK CERTAIN STORY EVENTS IN ORDER FOR THE MOD TO WORK, WHICH ALSO MEANS UNLOCKING CERTAIN ACHIEVEMENTS!
-	- THIS MOD HAS NOT BEEN TESTED WITH KAYCEE'S MOD!
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added more debugging tools for adding Grimora Mod cards to either your hand or deck. There is now also a dropdown for custom added cards.
 
-- In the event you are starting from a brand new save, this mod will unlock all learned abilities, mechanics, and cards
-	and some Story Events like the first tutorial battle, Bones, and a few others in order for this mod to work.
-- If you are not starting from a new save, this mod will check for certain story events and determine if it needs to unlock those.
-- I suggest restarting your game at least once if you haven't actually gotten to the finale.
+  - Enable developer mode in config file.
 
-- If you want to discuss the mod further, join our Discord server! <https://discord.gg/Xf8CBuS8a8>
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Skeleton` is now the default card that will spawn from `Ice Cube`.
 
-## Reporting Issues
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Added try/catch blocks for `ProgressionData.UnlockAll` and `PlayGlitchOutAnimation` for better error logging.
 
-- If you would to help report issues, please raise a thread here with as much detail as you can provide: <https://github.com/Arackulele/GrimoraMod/issues>
-- Bug reports can also be submitted on the Discord Server: <https://discord.gg/Xf8CBuS8a8>
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed `Skin Crawler` from sigil pool. Until I can spend an entire day or 2 debugging this ability, it will be removed for the time being. It is the cause of way too many outlier softlocks or issues during battle and it's both frustrating for the player and myself personally.
 
-ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
+## 2.7.4
 
-## Known Issues
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Can now access rulebook after adding a new sigil to a card in the Electric Chair sequencer.
 
-### Boss skull between fights doesn't reset colors
+  - This also means that you can right-click the newly added sigil so you can see wtf it is.
 
-- Unfortunately this one is a bit hard to track down, as the table colors get reset after each fight. Not sure why the boss skull doesn't have the color reset.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Can now view your deck during normal or rare card choices.
 
-### Rare card choosing breaks/throws exceptions
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added `Bellist` and `Spirit Bearer` to Electric Chair ability pool.
 
-- The main culprit from what the team can tell, is that it's an issue with updating the asset bundles. The only recommendation we have now is to uninstall the mod completely, and redownload. Mod managers seem to be really finnicky.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added new rare card appearance!
 
-### Current save file is already at the finale with Grimora
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed negative effects from Card Remove sequence. Community feedback overall did not like sacrificing a card and still getting fucked over (Bone Lord was a little too harsh...).
 
-- Make a backup of your save, then delete your current save. Having your current save already at the finale seems to break the mod.
-- Possibly fixed in 2.6.4 update.
+### Bosses
 
-### Bonelord art overlaps abilities
+#### Kaycee
 
-- Bonelord does what he wants.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Added more dialogue to better indicate how the mechanics work.
 
-## Update Notes
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Slight nerf to freeze mechanic from 4 to 5.
 
-### 2.7.2
+#### Sawyer
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Added more dialogue to better indicate how the mechanics work. Player now only gets 1 bone at the start of phase 2.
+
+#### Grimora
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Hopefully fixed issue with phase 2 not spawning the twin giants. Cards will no longer be weakened going into phase 2.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Reduced twin giant attack from 2 to 1. Increased health by 1.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed reanimation sequence entirely. With `Double Death` especially, the difficulty ramp for the first phase due to this mechanic is just too overwhelming and can heavily swing the board in Grimora's favor in just 2-3 turns.
+
+### Ability/Card Changes
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Reworked the logic for `Skin Crawler`, again.
+
+  - Fixed potential softlock if `Boo Hag` is hiding under a card when you die.
+  - New description: [creature] will attempt to find a host in an adjacent friendly slot, hiding under it providing a +1/+1 buff. Cards on the left take priority.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Adjusted `Death Knell` emission art to line up.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Added special stat icons for `Catacomb` and `Death Knell`.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Multiple new card arts
+
+  - `Bone Lord's Horn` art from `Cevin2006™ (◕‿◕)#7971`.
+  - `Bone Prince` art from `Cevin2006™ (◕‿◕)#7971`.
+  - `Headless Horseman` art from `Cevin2006™ (◕‿◕)#7971`.
+  - `Hydra` art from `Cevin2006™ (◕‿◕)#7971`.
+  - `Skelemagus` art from `Cevin2006™ (◕‿◕)#7971`.
+  - `Summoner` art from `Cevin2006™ (◕‿◕)#7971`.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added multiple new basic cards. All art from `Bt Y#0895`.
+
+  - Centurion: 1/4, 6 Bones, `Armored`. Description courtesy of `Bt Y#0895`.
+  - Compound Fracture: 1/2, 4 Bones, `Sharp Quills`. Description courtesy of `BONG MASTER`.
+  - Dalgyal: 0/2, 2 Energy, `Sentry`. Description courtesy of `TheGreenDigi#8672`.
+  - Deadeye: 1/1, 5 Bones, `Hoarder`. Description courtesy of `TheGreenDigi#8672`.
+  - FesteringWretch: 1/1, 3 Bones, `Stinky`. Description courtesy of `Blind, the Bound Demon#6475`.
+  - Manananggal: 3/3, 8 Bones, `Flying`. Description courtesy of `TheGreenDigi#8672`.
+  - Will 'O' The Wisp. 0/1, 1 Bone, `Spirit Bearer` (Gain Battery but themed for Grimora). Description courtesy of `Blind, the Bound Demon#6475`.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Reduced cost of `Wyvern` to 3 bones from 4. Reduced energy cost of `Screeching Call` from 3 to 2.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Wendigo` has been removed from the card pool.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Inverted Strike` and `AOE Strike` icons are now flipped when played by the opponent.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Corrected visual issue with `Possessive` sigil where the opposing card would look like it's attacking the adjacent slots of the card bearing `Possessive`, and not the adjacent friendly slots.
+  - Updated description to: [creature] cannot be attacked from the opposing slot. The opposing slot, if possible, instead attacks one of its adjacent friendly cards.
+
+## 2.7.2
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with hammer interaction when a card in your hand has `Corpse Eater` and `Hoarder`.
-	- When the hammer is used, it disables the cursor so you can't interact with anything until the hammer sequence finishes. The problem is that with `Corpse Eater` and `Hoarder`, is that the hammer sequence doesn't finish until after you choose a card from the `Hoarder` sequence, but you can't choose a card because the hammer disabled your cursor. Hence, softlock.
+
+  - When the hammer is used, it disables the cursor so you can't interact with anything until the hammer sequence finishes. The problem is that with `Corpse Eater` and `Hoarder`, is that the hammer sequence doesn't finish until after you choose a card from the `Hoarder` sequence, but you can't choose a card because the hammer disabled your cursor. Hence, softlock.
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue where you could spam click the Deck View button and continue overlapping the cards in your deck.
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with `Electric Chair` where it was possible to add 2 more abilities if the electrocuted card had 3 abilities to start.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Added hammer dialogue option in config file.
-	- 0 = Disable hammer dialogue entirely.
-	- 1 = Play only once for the entire session. (default)
-	- 2 = Play dialogue each battle.
+
+  - 0 = Disable hammer dialogue entirely.
+  - 1 = Play only once for the entire session. (default)
+  - 2 = Play dialogue each battle.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Card Removal, Boneyard, and Electric Chair initial dialogue now only gets played once, similar to how the vanilla game does not play certain dialogues once you've done it before.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Re-positioned `retrieveCardInteractable` in Electric Chair sequencer so that it's easier to take the card away from the chair.
-	- Before, the slot was still positioned as if it was on the ground flat, so that you had to click between the chair and the stone.
+  - Before, the slot was still positioned as if it was on the ground flat, so that you had to click between the chair and the stone.
 
-#### Bosses
+### Bosses
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed potential softlock in Grimora's fight if a card had `Possessive`.
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed icicle on Kaycee's figurine to now properly move with the head.
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with Sawyer taking a bone when a player would have zero bones, causing the PlayerBones to go in the negative.
-	- This would cause the player to be unable to play zero cost bone cards like Skeleton.
-	- Sawyer will now only take 1 bone from the player if the player has at least 2 bones or more.
+
+  - This would cause the player to be unable to play zero cost bone cards like Skeleton.
+  - Sawyer will now only take 1 bone from the player if the player has at least 2 bones or more.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Tweaked Kaycee boss logic so the card freezing is less frustrating.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Changed Grimora's theme to `Corrupted Queen` from `Akisephila (Addie Brahem)`.
 
-#### Ability/Card Changes
+### Ability/Card Changes
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Skin Crawler` ability not dying after the first time the dialogue is played. Forgot to move the card dying part outside the check for if the dialogue has not been played yet...
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with `Handy` ability drawing a new hand for the player if the card would die and then reanimated during the first phase of Grimora's fight.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Zomb-Geck` no longer appears as a rare card. Was more or less meant as filler until more cards were added.
-	- Maybe used for future event?
+
+  - Maybe used for future event?
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Added description for `Banshee`.
 
@@ -92,12 +138,12 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Updated `Skeleton Army` ability description to better clarify what it does.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Added extra logic for when a card has `Area of Effect Strike` and `Inverted Strike` and `Alternating Strike`.
-	- If `AOE Strike` and `Inverted Strike`, the slots to attack be will now be done in a counter-clockwise manner. For example,`left adj, left opposing, center, right opposing, right adj` now becomes `right adj, right opposing, center, left opposing, left adj`.
-	- If `AOE Strike` and `Alternating Strike`, same as below:
-	- If `AOE Strike` and `Inverted Strike` and `Alternating Strike`, the slots to attack be will now be done in a counter-clockwise alternating manner. For example,`left adj, left opposing, center, right opposing, right adj` now becomes `right adj, left adj, right opposing, left opposing, center`.
-	- Unsure of how to handle having `Inverted Strike` and `Alternating Strike` as the slot targeting slot is confusing to handle...
+  - If `AOE Strike` and `Inverted Strike`, the slots to attack be will now be done in a counter-clockwise manner. For example,`left adj, left opposing, center, right opposing, right adj` now becomes `right adj, right opposing, center, left opposing, left adj`.
+  - If `AOE Strike` and `Alternating Strike`, same as below:
+  - If `AOE Strike` and `Inverted Strike` and `Alternating Strike`, the slots to attack be will now be done in a counter-clockwise alternating manner. For example,`left adj, left opposing, center, right opposing, right adj` now becomes `right adj, left adj, right opposing, left opposing, center`.
+  - Unsure of how to handle having `Inverted Strike` and `Alternating Strike` as the slot targeting slot is confusing to handle...
 
-### 2.7.1
+## 2.7.1
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Made `HellHound` no longer selectable in rare chest. Hope you had fun while it lasted!
 
@@ -117,7 +163,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Changed ability for `HellHound` to be a `VariableStateBehaviour` SpecialBehaviour.
 
-### 2.7.0
+## 2.7.0
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Potentially fixed issue interacting with nodes at x0 y0 by just moving them to any other place on the board. Not sure why x0 y0 has issues with interaction.
 
@@ -128,11 +174,12 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - ![Feature](https://i.imgur.com/uL9uYNV.png) The `Sawyer` boss now has unique mechanics, like stealing bones for you and spawning a certain hound of his.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Added new Kaycee and Sawyer boss figurines courtesy of `Catboy Stinkbug#4099`.
-	- Model updates for Sawyer courtesy of `Pink#9824`
+
+  - Model updates for Sawyer courtesy of `Pink#9824`
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Added new `Flames` artwork and `FlameStrafe` ability icon courtesy of `Cevin_2006`.
 
-### 2.6.6
+## 2.6.6
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed menu card flying off the screen with one line during creation of menu card: `MenuController.Instance.cards.Add(menuCardGrimora)`.
 
@@ -156,11 +203,11 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Moved dialogue event `RoyalBossPreIntro` from Royal to Grimora as it fits better.
 
-### 2.6.5 HOTFIX
+## 2.6.5 HOTFIX
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed softlock when choosing cards and one of those cards has an energy cost. The problem was that I was trying to get the `PlayableCard` component from the parent, _as opposed to literally just using the CardRenderInfo object that is passed in `GravestoneRenderStatsLayer.RenderCard`_ method.
 
-### 2.6.4
+## 2.6.4
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed card's with flying appearing no longer flying when attacked or is attacking. Animation resets loop when attacking or being attacked, but it's better than no longer flying.
 
@@ -172,7 +219,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Potentially fixed issue with having your current save already at Grimora's finale breaking the mod. This should now allow you to continue from any point as long as you are not at the finale.
 
-### 2.6.3
+## 2.6.3
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Changed setting boss skull transform for Kaycee to hardcoded position, rotation, and scaling.
 
@@ -180,11 +227,11 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed `Buff Enemy (Annoying)` and `Random Consumable` ability from Electric Chair.
 
-### 2.6.2
+## 2.6.2
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Hopefully fixed weird NRE with finding Royal's skull.
 
-### 2.6.1
+## 2.6.1
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed softlock in Grimora's finale phase.
 
@@ -197,24 +244,26 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Tweaked card's light color in Grimora fight to be a bit light so the art is more visible.
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Removed ice break counter for Kaycee so that she breaks Draugrs when possible.
+
   - Also removed clearing the board in the final phase of Kaycee.
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Cleaned up descriptions of some cards to have correct punctuation and spacing.
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Corrected viewing of queue slots to be before the start of the Bonelord phase instead of after.
 
-### 2.6.0
+## 2.6.0
 
-#### Card Changes
+### Card Changes
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Changed `Amoeba` random ability to now only choose from the list of abilities that the Electric Chair choses from. This is due to the fact that `Amoeba` can be given an ability that breaks the game in unintended ways.
+
   - `Amoeba` now has a modified version of RandomAbility. The ability description may not show up correctly in Deck Review, just as a heads up.
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed `Screaming Skull` damage done to now correctly deal damage to the owner of the card.
 
 - ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added new `Wendigo` and `Wyvern` artwork courtesy of `Cevin2006™ (◕‿◕)#7971`.
 
-#### Bugfixes/Features/Refactors
+### Bugfixes/Features/Refactors
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed issue with `Giant` cards in phase 2 fight of Grimora throwing exceptions when spawning. Issue was that I did not add the `Giant Strike` ability to the card pool...
 
@@ -225,6 +274,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed issue with card removal node decreasing card costs in the negatives.
 
 - ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Electric Chair sequence now uses new model provided by `Pink#9824`.
+
   - Moved confirm stone button closer to chair.
   - Changed camera rotation during sequence to 32.5 from 37.5.
 
@@ -232,7 +282,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Ordered decklist alphabetically in viewing cards left in the deck.
 
-### 2.5.10
+## 2.5.10
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed logic in Kaycee's upkeep phase to now look for the Draugr's correctly.
 
@@ -247,7 +297,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
   - Added vanilla `Banshee` to card pool.
   - Disabled attack and health shadows as sometimes the shadows don't correlate to the number and the overlapping is ugly.
 
-### 2.5.8
+## 2.5.8
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Corrected `Double Death` rulebook name to no longer be `Handy`. Funnily enough, the game has the ability page set with the name `Handy`. Probably because it was never actually meant to be used in an other act other than 2.
 
@@ -258,11 +308,13 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Set default ice cube creature within to `Skeleton` if the card would receive Ice Cube ability from Electric Chair.
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Card changes
+
   - Changed `Skeleton Army` ability to now create a `Skeleton` in all owner owned open slots when played.
   - Lowered `Dans Macabres` Bone cost to 5
   - Lowered `Screaming Skull` Bone Cost to 2
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Electric Chair changes:
+
   - Removed more abilities from Electric Chair sequence:
     - Activated Sacrifice Draw Cards (True Scholar)
     - Brittle
@@ -288,9 +340,10 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Made hammer only usable up to 3 times per battle. The reasoning for this is that the hammer use should be used when necessary, and not a large crutch.
 
-### 2.5.7
+## 2.5.7
 
 - ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Redid all of the Chessboard layouts...again!
+
   - The new nodes are now introduced gradually
   - Slightly less linearity. Beat optional enemies to gain access to more nodes.
 
@@ -301,31 +354,32 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
   - Rebalanced the new cards to make them more interesting and less underpowered.
   - Removed the BoneLord sigil from the Electric Chair ability pool :)
 
-### 2.5.6
+## 2.5.6
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) HOTFIX - Removed checking for `DataFiles` and `Artwork` folders as some mod managers appear to extract the files inside them to the main directory?
 
-### 2.5.5
+## 2.5.5
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) HOTFIX - Issue with attempting to wipe deck if Grimora's deck contained previous GrimoraMod cards that were prefixed with `ara_`. This is throwing an exception because accessing the deck means calling `CardLoader.GetCardByName()`, which throws the exception.
 
-### 2.5.4
+## 2.5.4
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) HOTFIX - Royal was using original vanilla battle sequencer and not the new one, therefore unable to progress. The new GrimoraMod battle sequencers are now prefixed woith `GrimoraMod` so that I don't accidently set the wrong one again...
 
-### 2.5.3
+## 2.5.3
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) HOTFIX - Fixed issue with death touch not working. Problem was that there is a check for a certain card that the result should have been negated and it was not.
 
-### 2.5.2
+## 2.5.2
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) HOTFIX - Problem was on very first load, no cards are loaded at all. Default base cards are now used and then reset later.
 
-### 2.5.0
+## 2.5.0
 
-#### Feature
+### Feature
 
 - ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added 3 new special node pieces!
+
   - Boneyard: Bury one of your cards to give it Brittle and halve it's bone cost rounded up. For example, 9 bones becomes 5.
   - Card Removal: Remove a card to give another card (or maybe your entire deck?!) in your deck a random special effect.
   - Electric Chair: Give one of your cards a random positive sigil. This will not give your cards blood related sigils like `Sacrificial`.
@@ -339,7 +393,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added multiple cards from `Bt Y#0895`, included with artwork!
 
-#### Cards
+### Cards
 
 - **Boo Hag** - 1,1 - ![cost_bone](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone.png)![cost_bone_5](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_5.png) Sigils: Skin Crawler.
 
@@ -357,7 +411,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - **Silbon** - 3,2 - ![cost_bone](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone.png)![cost_bone_7](https://raw.githubusercontent.com/JamesVeug/InscyptionReadmeMaker/main/Artwork/Git/cost_bone_7.png) Sigils: Inverted Strike, Sprinter.
 
-#### Sigils
+### Sigils
 
 - **Alternating Strike** - [creature] alternates between striking the opposing space to the left and right from it.
 - **Area Of Effect Strike** - [creature] will strike it's adjacent slots, and each opposing space to the left, right, and center of it.
@@ -366,7 +420,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - **Possessive** - [creature] cannot be attacked from the opposing slot. The opposing slot instead attacks one of it's adjacent slots if possible.
 - **Skin Crawler** - When [creature] resolves, if possible, will hide under an adjacent card providing a +1 buff. Otherwise, it perishes. Cards on the left take priority.
 
-#### Bugfix
+### Bugfix
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed possible infinite loop if the player would have fewer than 3 cards in their deck when starting a battle.
 
@@ -374,7 +428,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed NPE in GameEnd method for `GrimoraModBattleSequencer` to now correctly reset the run if the player has lost with no NPE.
 
-#### Refactor
+### Refactor
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Added PrefabConstants class for ease of grabbing prefabs and other objects.
 
@@ -422,7 +476,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Modified build command in project to include artwork folder.
 
-### 2.4.1
+## 2.4.1
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed softlock after defeating Grimora for the first time.
 
@@ -436,9 +490,9 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Updated ability rulebook names to have spaces.
 
-### 2.4.0
+## 2.4.0
 
-#### Features
+### Features
 
 - ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added new
   energy object provided by Draconis17#3692!
@@ -458,7 +512,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
   Added `GravestoneCardAnimationControllerPatches` for now being able to rotate the skeleton attacking arm correctly if
   a card has multistrike (Crazed Mantis and Hydra for example).
 
-#### Bugfixes
+### Bugfixes
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed
   camera view when third candle is being added in Grimora boss fight.
@@ -485,7 +539,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed
   dialogue not playing during Grimora's second phase.
 
-#### Refactors
+### Refactors
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Changed
   CardBuilder methods to now be prefixed with `Set` instead of `With`.
@@ -504,9 +558,9 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png)
   Removed `BossDefeatedSequence` patches.
 
-### 2.3.3
+## 2.3.3
 
-#### Features
+### Features
 
 - ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added energy
   drone!
@@ -514,7 +568,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added **
   Reset Deck** button to now reset your deck back to the starter deck in case deck viewing throws errors.
 
-#### Bugfixes
+### Bugfixes
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Corrected
   logic for adding bones to the start of combat once a boss has been defeated.
@@ -523,7 +577,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
   - Sawyer defeated = 5 bones
   - Royal defeated = 10 bones
 
-#### Refactors
+### Refactors
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Updated
   project to net6.
@@ -536,9 +590,9 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
   - Images are now loaded through asset bundles.
 
-### 2.1.2
+## 2.1.2
 
-#### Bugfixes
+### Bugfixes
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed
   Blueprints
@@ -546,9 +600,9 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Minor
   patches and slightly changed Kaycee's mechanics.
 
-### 2.1.1
+## 2.1.1
 
-#### Features
+### Features
 
 - ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Flavor
   update.
@@ -559,7 +613,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added **
   Reset Run** button (this only resets all data values in the config, not your deck).
 
-### 2.1.0
+## 2.1.0
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) MASSIVE
   refactor for readability and overall code quality!
@@ -567,7 +621,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Added
   custom config file `grimora_mod_config.cfg` to keep track of bosses defeated and active/removed pieces.
 
-#### Features
+### Features
 
 - ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added 53
   random chessboard layouts in JSON format for 'random' setups.
@@ -579,7 +633,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
   - If you are unable to click on a chess node after viewing your deck, try viewing your deck again.
 
-#### Bugfixes
+### Bugfixes
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed issue
   with custom card sprites being positioned too low.
@@ -602,7 +656,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed issue
   with defeating bosses throwing an exception when changing to a new map.
 
-#### Refactors
+### Refactors
 
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Encounter
   blueprints reworked into own class.
@@ -610,9 +664,9 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - ![Refactor](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/smug.png) Made
   resource files of all artwork for significantly easier sprite loading.
 
-### 2.0.2
+## 2.0.2
 
-#### Features
+### Features
 
 - ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Balance
   overhaul
@@ -620,14 +674,14 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - ![Feature](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/new.png) Added 30
   more Blueprints
 
-#### Bugfixes
+### Bugfixes
 
 - ![Bugfix](https://raw.githubusercontent.com/julian-perge/InscyptionReadmeMaker/main/Artwork/Git/fixes.png) Fixed
   Blueprints
 
-## Full Credits
+# Full Credits
 
-### Misc:
+## Misc
 
 - Akisephila (Addie Brahem) for the Soundtrack
 
@@ -637,13 +691,13 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - JulianMods (xXxStoner420BongMasterxXx) for refactoring the code.
 
-### Code:
+## Code
 
 - JulianMods (xXxStoner420BongMasterxXx) for being the Main Developer
 
 - Arackulele for additional programming
 
-### Artists:
+## Artists
 
 - LavaErrorDoggo (LavaErrorDoggo#1564) for making the Original Act 2 Cards but in full Size Artwork
 
@@ -655,7 +709,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - Lich Underling (Lich underling#7678) for additional Card Art
 
-### 3D Models
+## 3D Models
 
 - Pink (Pink#6999) for making the Boss Skull Models , currently working on a full crypt 3D Model, etc
 
@@ -663,7 +717,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - Draconis17#3692 for the new energy cells game object.
 
-### Dialogue:
+## Dialogue
 
 - Primordial Clok-Roo (The Primordial Clok-Roo#2156) for a ton of future Dialogue
 
@@ -675,7 +729,7 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 
 - JulianMods (xXxStoner420BongMasterxXx) for additional Dialogue
 
-### Additional Credits:
+## Additional Credits
 
 - Blind, the Bound Demon (Blind, the Bound Demon#6475) for Gameplay footage
 
