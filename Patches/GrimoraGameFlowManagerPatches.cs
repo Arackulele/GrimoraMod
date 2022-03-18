@@ -32,6 +32,7 @@ public class GrimoraGameFlowManagerPatches
 				ChessboardMap.Instance.gameObject.transform.GetChild(0).gameObject.SetActive(false);
 				__instance.CurrentGameState = GameState.Map;
 				__instance.StartCoroutine(__instance.TransitionTo(GameState.Map, null, true));
+				PlayTombstonesFalling();
 			}
 		}
 		else
