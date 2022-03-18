@@ -2,8 +2,8 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameDanseMacabre = "GrimoraMod_DanseMacabre";
-	
+	public const string NameDanseMacabre = $"{GUID}_DanseMacabre";
+
 	private void Add_DanseMacabre()
 	{
 		CardBuilder.Builder

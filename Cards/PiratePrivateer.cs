@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NamePiratePrivateer = "GrimoraMod_PiratePrivateer";
+	public const string NamePiratePrivateer = $"{GUID}_PiratePrivateer";
 
 	private void Add_PiratePrivateer()
 	{

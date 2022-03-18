@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameDeathKnell = "GrimoraMod_DeathKnell";
+	public const string NameDeathKnell = $"{GUID}_DeathKnell";
 
 	private void Add_DeathKnell()
 	{

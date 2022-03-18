@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameFesteringWretch = "GrimoraMod_FesteringWretch";
+	public const string NameFesteringWretch = $"{GUID}_FesteringWretch";
 
 	private void Add_FesteringWretch()
 	{
@@ -18,4 +18,3 @@ public partial class GrimoraPlugin
 			.Build();
 	}
 }
-

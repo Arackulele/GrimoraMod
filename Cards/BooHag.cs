@@ -2,7 +2,7 @@
 
 public partial class GrimoraPlugin
 {
-	public const string NameBooHag = "GrimoraMod_BooHag";
+	public const string NameBooHag = $"{GUID}_BooHag";
 
 	private void Add_BooHag()
 	{

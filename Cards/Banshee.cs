@@ -4,8 +4,8 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameBanshee = "GrimoraMod_Banshee";
-	
+	public const string NameBanshee = $"{GUID}_Banshee";
+
 	private void Add_Banshee()
 	{
 		CardInfo banshee = "Banshee".GetCardInfo();

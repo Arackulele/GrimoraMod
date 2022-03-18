@@ -2,7 +2,7 @@
 
 public partial class GrimoraPlugin
 {
-	public const string NameTombRobber = "GrimoraMod_TombRobber";
+	public const string NameTombRobber = $"{GUID}_TombRobber";
 
 	private void Add_TombRobber()
 	{

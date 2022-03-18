@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameBonePrince = "GrimoraMod_BonePrince";
+	public const string NameBonePrince = $"{GUID}_BonePrince";
 
 	private void Add_BonePrince()
 	{

@@ -2,7 +2,7 @@
 
 public partial class GrimoraPlugin
 {
-	public const string NamePirateSwashbuckler = "GrimoraMod_PirateSwashbuckler";
+	public const string NamePirateSwashbuckler = $"{GUID}_PirateSwashbuckler";
 
 	private void Add_PirateSwashbuckler()
 	{

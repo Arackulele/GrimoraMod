@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameCenturion = "GrimoraMod_Centurion";
+	public const string NameCenturion = $"{GUID}_Centurion";
 
 	private void Add_Centurion()
 	{

@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameFamily = "GrimoraMod_Family";
+	public const string NameFamily = $"{GUID}_Family";
 
 	private void Add_Family()
 	{

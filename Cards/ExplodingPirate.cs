@@ -2,8 +2,8 @@
 
 public partial class GrimoraPlugin
 {
-	public const string NameExplodingPirate = "GrimoraMod_ExplodingPirate";
-	
+	public const string NameExplodingPirate = $"{GUID}_ExplodingPirate";
+
 	private void Add_ExplodingPirate()
 	{
 		CardBuilder.Builder

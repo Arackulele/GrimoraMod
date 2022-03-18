@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameCompoundFracture = "GrimoraMod_CompoundFracture";
+	public const string NameCompoundFracture = $"{GUID}_CompoundFracture";
 
 	private static void Add_CompoundFracture()
 	{

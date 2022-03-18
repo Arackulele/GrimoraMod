@@ -2,7 +2,7 @@
 
 public partial class GrimoraPlugin
 {
-	public const string NamePirateFirstMateSnag = "GrimoraMod_PirateFirstMateSnag";
+	public const string NamePirateFirstMateSnag = $"{GUID}_PirateFirstMateSnag";
 
 	private void Add_PirateFirstMateSnag()
 	{

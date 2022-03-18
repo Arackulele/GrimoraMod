@@ -5,8 +5,8 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameGravedigger = "GrimoraMod_Gravedigger";
-	public const string NameSporedigger = "GrimoraMod_Sporedigger";
+	public const string NameGravedigger = $"{GUID}_Gravedigger";
+	public const string NameSporedigger = $"{GUID}_Sporedigger";
 
 	private void Add_GraveDigger()
 	{
@@ -17,7 +17,8 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(0, 3)
 			.SetBoneCost(1)
 			.SetDescription(
-				"HE SPENDS HIS TIME ALONE DIGGING FOR BONES IN HOPES OF FINDING A TREASURE. JUST LIKE HIS GRANDPA.")
+				"HE SPENDS HIS TIME ALONE DIGGING FOR BONES IN HOPES OF FINDING A TREASURE. JUST LIKE HIS GRANDPA."
+			)
 			.SetNames(NameGravedigger, "Gravedigger", ogSprite)
 			.Build();
 	}

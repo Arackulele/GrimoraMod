@@ -8,7 +8,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameGiant = "GrimoraMod_Giant";
+	public const string NameGiant = $"{GUID}_Giant";
 
 	private void Add_Giant()
 	{

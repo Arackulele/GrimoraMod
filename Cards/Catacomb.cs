@@ -2,7 +2,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameCatacomb = "GrimoraMod_Catacomb";
+	public const string NameCatacomb = $"{GUID}_Catacomb";
 
 	private static void Add_Catacomb()
 	{

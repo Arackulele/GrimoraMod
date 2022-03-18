@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameDeadPets = "GrimoraMod_DeadPets";
+	public const string NameDeadPets = $"{GUID}_DeadPets";
 
 	private void Add_DeadPets()
 	{

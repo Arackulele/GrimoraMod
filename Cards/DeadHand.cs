@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameDeadHand = "GrimoraMod_DeadHand";
+	public const string NameDeadHand = $"{GUID}_DeadHand";
 
 	private void Add_DeadHand()
 	{

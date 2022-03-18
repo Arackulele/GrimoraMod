@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NamePoltergeist = "GrimoraMod_Poltergeist";
+	public const string NamePoltergeist = $"{GUID}_Poltergeist";
 
 	private void Add_Poltergeist()
 	{

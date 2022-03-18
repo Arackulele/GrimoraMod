@@ -2,7 +2,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameVengefulSpirit = "GrimoraMod_VengefulSpirit";
+	public const string NameVengefulSpirit = $"{GUID}_VengefulSpirit";
 
 	private void Add_VengefulSpirit()
 	{

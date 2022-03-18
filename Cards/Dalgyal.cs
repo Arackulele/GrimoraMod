@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameDalgyal = "GrimoraMod_Dalgyal";
+	public const string NameDalgyal = $"{GUID}_Dalgyal";
 
 	private void Add_Dalgyal()
 	{
@@ -18,4 +18,3 @@ public partial class GrimoraPlugin
 			.Build();
 	}
 }
-

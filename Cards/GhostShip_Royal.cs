@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameGhostShipRoyal = "GrimoraMod_GhostShipRoyal";
+	public const string NameGhostShipRoyal = $"{GUID}_GhostShipRoyal";
 
 	private void Add_GhostShipRoyal()
 	{

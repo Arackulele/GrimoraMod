@@ -2,7 +2,7 @@
 
 public partial class GrimoraPlugin
 {
-	public const string NameZombie = "GrimoraMod_Zombie";
+	public const string NameZombie = $"{GUID}_Zombie";
 
 	private void Add_Zombie()
 	{
