@@ -17,7 +17,7 @@ public static class RandomUtils
 
 		var randomizedChoices = new List<CardInfo>(cards)
 			.FindAll(
-				info => info.name.StartsWith("GrimoraMod_")
+				info => info.name.StartsWith($"{GUID}_")
 				        && (category == CardMetaCategory.NUM_CATEGORIES || info.metaCategories.Contains(category))
 			)
 			.Select(card => new CardChoice { CardInfo = card })

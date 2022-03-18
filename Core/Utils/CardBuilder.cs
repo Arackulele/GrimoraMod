@@ -41,7 +41,7 @@ public class CardBuilder
 	{
 		if (ogCardArt.IsNull())
 		{
-			cardName = cardName.Replace("GrimoraMod_", "");
+			cardName = cardName.Replace($"{GUID}_", "");
 			_cardInfo.portraitTex = AssetUtils.GetPrefab<Sprite>(cardName);
 
 			// TODO: refactor when API 2.0 comes out

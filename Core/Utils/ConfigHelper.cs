@@ -168,8 +168,8 @@ public class ConfigHelper
 
 		if (CardLoader.allData.IsNotEmpty())
 		{
-			CardManager.AllCardsCopy.RemoveAll(info => info.name.StartsWith("GrimoraMod_"));
-			int removedCardLoader = CardLoader.allData.RemoveAll(info => info.name.StartsWith("GrimoraMod_"));
+			CardManager.AllCardsCopy.RemoveAll(info => info.name.StartsWith($"{GUID}_"));
+			int removedCardLoader = CardLoader.allData.RemoveAll(info => info.name.StartsWith($"{GUID}_"));
 			Log.LogDebug($"All data.IsNotNull(). Removed [{removedCardLoader}] CardLoader");
 		}
 

@@ -61,15 +61,15 @@ public class DebugHelper : ManagedBehaviour
 
 	private void Start()
 	{
-		_allGrimoraCardNames = AllGrimoraModCards.Select(card => card.name.Replace("GrimoraMod_", "")).ToArray();
+		_allGrimoraCardNames = AllGrimoraModCards.Select(card => card.name.Replace($"{GUID}_", "")).ToArray();
 
 		_allGrimoraCustomCardNames
 			= CardManager.AllCardsCopy
 				.FindAll(
-					info => info.name.StartsWith("GrimoraMod_")
+					info => info.name.StartsWith($"{GUID}_")
 					        && !AllGrimoraModCards.Exists(modInfo => modInfo.name == info.name)
 				)
-				.Select(info => info.name.Replace("GrimoraMod_", ""))
+				.Select(info => info.name.Replace($"{GUID}_", ""))
 				.ToArray();
 	}
 
@@ -278,7 +278,7 @@ public class DebugHelper : ManagedBehaviour
 			if (selectedButton >= 0)
 			{
 				StartCoroutine(
-					CardSpawner.Instance.SpawnCardToHand(("GrimoraMod_" + _allGrimoraCardNames[selectedButton]).GetCardInfo())
+					CardSpawner.Instance.SpawnCardToHand(($"{GUID}_" + _allGrimoraCardNames[selectedButton]).GetCardInfo())
 				);
 			}
 		}
@@ -304,7 +304,7 @@ public class DebugHelper : ManagedBehaviour
 			{
 				StartCoroutine(
 					CardSpawner.Instance.SpawnCardToHand(
-						("GrimoraMod_" + _allGrimoraCustomCardNames[selectedButton]).GetCardInfo()
+						($"{GUID}_" + _allGrimoraCustomCardNames[selectedButton]).GetCardInfo()
 					)
 				);
 			}
@@ -329,7 +329,7 @@ public class DebugHelper : ManagedBehaviour
 
 			if (selectedButton >= 0)
 			{
-				GrimoraSaveUtil.AddCard(("GrimoraMod_" + _allGrimoraCardNames[selectedButton]).GetCardInfo());
+				GrimoraSaveUtil.AddCard(($"{GUID}_" + _allGrimoraCardNames[selectedButton]).GetCardInfo());
 			}
 		}
 
@@ -352,7 +352,7 @@ public class DebugHelper : ManagedBehaviour
 
 			if (selectedButton >= 0)
 			{
-				GrimoraSaveUtil.AddCard(("GrimoraMod_" + _allGrimoraCustomCardNames[selectedButton]).GetCardInfo());
+				GrimoraSaveUtil.AddCard(($"{GUID}_" + _allGrimoraCustomCardNames[selectedButton]).GetCardInfo());
 			}
 		}
 
@@ -376,7 +376,7 @@ public class DebugHelper : ManagedBehaviour
 			{
 				StartCoroutine(
 					BoardManager.Instance.CreateCardInSlot(
-						("GrimoraMod_" + _allGrimoraCardNames[selectedButton]).GetCardInfo(),
+						($"{GUID}_" + _allGrimoraCardNames[selectedButton]).GetCardInfo(),
 						BoardManager.Instance.OpponentSlotsCopy[0]
 					)
 				);
@@ -403,7 +403,7 @@ public class DebugHelper : ManagedBehaviour
 			{
 				StartCoroutine(
 					BoardManager.Instance.CreateCardInSlot(
-						("GrimoraMod_" + _allGrimoraCardNames[selectedButton]).GetCardInfo(),
+						($"{GUID}_" + _allGrimoraCardNames[selectedButton]).GetCardInfo(),
 						BoardManager.Instance.OpponentSlotsCopy[1]
 					)
 				);
@@ -430,7 +430,7 @@ public class DebugHelper : ManagedBehaviour
 			{
 				StartCoroutine(
 					BoardManager.Instance.CreateCardInSlot(
-						("GrimoraMod_" + _allGrimoraCardNames[selectedButton]).GetCardInfo(),
+						($"{GUID}_" + _allGrimoraCardNames[selectedButton]).GetCardInfo(),
 						BoardManager.Instance.OpponentSlotsCopy[2]
 					)
 				);
@@ -457,7 +457,7 @@ public class DebugHelper : ManagedBehaviour
 			{
 				StartCoroutine(
 					BoardManager.Instance.CreateCardInSlot(
-						("GrimoraMod_" + _allGrimoraCardNames[selectedButton]).GetCardInfo(),
+						($"{GUID}_" + _allGrimoraCardNames[selectedButton]).GetCardInfo(),
 						BoardManager.Instance.OpponentSlotsCopy[3]
 					)
 				);
