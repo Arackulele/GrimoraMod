@@ -1,5 +1,6 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -15,8 +16,8 @@ public class GrimoraSaveDataPatches
 		__instance.removedPieces = new List<int>();
 		__instance.deck = new DeckInfo();
 		__instance.deck.Cards.Clear();
-		
-		if (CardLoader.allData != null && CardLoader.allData.Any(info => info.name.StartsWith("GrimoraMod_")))
+
+		if (CardManager.AllCardsCopy.Any(info => info.name.StartsWith($"{GUID}_")))
 		{
 			Log.LogDebug($"[GrimoraSaveData.Initialize] All data.IsNotNull()");
 			List<CardInfo> defaultCardInfos = new()
@@ -39,7 +40,7 @@ public class GrimoraSaveDataPatches
 			__instance.deck.AddCard("Gravedigger".GetCardInfo());
 			__instance.deck.AddCard("Gravedigger".GetCardInfo());
 			__instance.deck.AddCard("Gravedigger".GetCardInfo());
-			
+
 			__instance.deck.AddCard("FrankNStein".GetCardInfo());
 			__instance.deck.AddCard("FrankNStein".GetCardInfo());
 		}
