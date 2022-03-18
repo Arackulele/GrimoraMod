@@ -7,46 +7,6 @@ namespace GrimoraMod;
 
 public abstract class BaseBossExt : Part1BossOpponent
 {
-	public static readonly Dictionary<string, Tuple<Type, System.Type, GameObject, EncounterBlueprintData>>
-		OpponentTupleBySpecialId = new()
-		{
-			{
-				GrimoraModKayceeBossSequencer.FullSequencer.Id,
-				new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
-					KayceeBossOpponent.ID,
-					GrimoraModKayceeBossSequencer.FullSequencer.SpecialSequencer,
-					AssetConstants.BossPieceKaycee,
-					BlueprintUtils.BuildKayceeBossInitialBlueprint()
-				)
-			},
-			{
-				GrimoraModSawyerBossSequencer.FullSequencer.Id,
-				new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
-					SawyerBossOpponent.ID,
-					GrimoraModSawyerBossSequencer.FullSequencer.SpecialSequencer,
-					AssetConstants.BossPieceSawyer,
-					BlueprintUtils.BuildSawyerBossInitialBlueprint()
-				)
-			},
-			{
-				GrimoraModRoyalBossSequencer.FullSequencer.Id, new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
-					RoyalBossOpponentExt.ID,
-					GrimoraModRoyalBossSequencer.FullSequencer.SpecialSequencer,
-					AssetConstants.BossPieceRoyal.gameObject,
-					BlueprintUtils.BuildRoyalBossInitialBlueprint()
-				)
-			},
-			{
-				GrimoraModGrimoraBossSequencer.FullSequencer.Id,
-				new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
-					GrimoraBossOpponentExt.ID,
-					GrimoraModGrimoraBossSequencer.FullSequencer.SpecialSequencer,
-					AssetConstants.BossPieceGrimora,
-					BlueprintUtils.BuildGrimoraBossInitialBlueprint()
-				)
-			}
-		};
-
 	public GameObject GrimoraRightHandBossSkull
 	{
 		get => GrimoraAnimationController.Instance.bossSkull;
@@ -54,13 +14,6 @@ public abstract class BaseBossExt : Part1BossOpponent
 	}
 
 	public GameObject GrimoraRightWrist => GameObject.Find("Grimora_RightWrist");
-
-	public static readonly Dictionary<Type, GameObject> BossMasksByType = new()
-	{
-		{ KayceeBossOpponent.ID, AssetConstants.BossSkullKaycee },
-		{ SawyerBossOpponent.ID, AssetConstants.BossSkullSawyer },
-		{ RoyalBossOpponentExt.ID, AssetConstants.BossSkullRoyal },
-	};
 
 	private static readonly int ShowSkull = Animator.StringToHash("show_skull");
 	private static readonly int HideSkull = Animator.StringToHash("hide_skull");
@@ -73,7 +26,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 		yield return base.IntroSequence(encounter);
 
 		// Royal boss has a specific sequence to follow so that it flows easier
-		if (BossMasksByType.TryGetValue(OpponentType, out GameObject skull))
+		if (BossHelper.BossMasksByType.TryGetValue(OpponentType, out GameObject skull))
 		{
 			Log.LogDebug($"[{GetType()}] Creating skull");
 

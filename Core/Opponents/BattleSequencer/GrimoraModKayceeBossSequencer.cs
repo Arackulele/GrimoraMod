@@ -9,7 +9,7 @@ namespace GrimoraMod;
 public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 {
 	public static readonly SpecialSequenceManager.FullSpecialSequencer FullSequencer = SpecialSequenceManager.Add(
-		GrimoraPlugin.GUID,
+		GUID,
 		nameof(GrimoraModKayceeBossSequencer),
 		typeof(GrimoraModKayceeBossSequencer)
 	);
@@ -19,6 +19,8 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 	private bool _playedDialogueHookLineAndSinker = false;
 
 	private bool _playedDialoguePossessive = false;
+
+	public override Opponent.Type BossType => KayceeBossOpponent.FullOpponent.Id;
 
 	public override bool RespondsToUpkeep(bool playerUpkeep)
 	{

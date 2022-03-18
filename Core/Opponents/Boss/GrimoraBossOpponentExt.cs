@@ -10,15 +10,14 @@ namespace GrimoraMod;
 
 public class GrimoraBossOpponentExt : BaseBossExt
 {
-	public static readonly Opponent.Type ID = OpponentManager.Add(
-			GUID,
-			"GrimoraBoss",
-			GrimoraModGrimoraBossSequencer.FullSequencer.Id,
-			typeof(GrimoraBossOpponentExt)
-		)
-		.Id;
+	public static readonly OpponentManager.FullOpponent FullOpponent = OpponentManager.Add(
+		GUID,
+		"GrimoraBoss",
+		GrimoraModGrimoraBossSequencer.FullSequencer.Id,
+		typeof(GrimoraBossOpponentExt)
+	);
 
-	public override StoryEvent EventForDefeat => StoryEvent.PhotoDroneSeenInCabin;
+	public override StoryEvent EventForDefeat => GrimoraEnums.StoryEvents.GrimoraDefeated;
 
 	public override string DefeatedPlayerDialogue => "Thank you!";
 

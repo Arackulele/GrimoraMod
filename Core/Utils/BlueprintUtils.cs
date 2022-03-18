@@ -253,7 +253,7 @@ public static class BlueprintUtils
 	internal static readonly Dictionary<Opponent.Type, List<EncounterBlueprintData>> RegionWithBlueprints = new()
 	{
 		{
-			KayceeBossOpponent.ID,
+			KayceeBossOpponent.FullOpponent.Id,
 			new List<EncounterBlueprintData>
 			{
 				BuildKayceeRegionBlueprintOne(),
@@ -264,7 +264,7 @@ public static class BlueprintUtils
 			}
 		},
 		{
-			SawyerBossOpponent.ID,
+			SawyerBossOpponent.FullOpponent.Id,
 			new List<EncounterBlueprintData>
 			{
 				BuildSawyerRegionBlueprintOne(),
@@ -275,7 +275,7 @@ public static class BlueprintUtils
 			}
 		},
 		{
-			RoyalBossOpponentExt.ID,
+			RoyalBossOpponentExt.FullOpponent.Id,
 			new List<EncounterBlueprintData>
 			{
 				BuildRoyalBossRegionBlueprintOne(),
@@ -286,7 +286,7 @@ public static class BlueprintUtils
 			}
 		},
 		{
-			GrimoraBossOpponentExt.ID,
+			GrimoraBossOpponentExt.FullOpponent.Id,
 			new List<EncounterBlueprintData>
 			{
 				BuildGrimoraBossRegionBlueprintOne(),

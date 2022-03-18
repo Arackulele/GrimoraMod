@@ -25,6 +25,8 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 	public int boardSwayCounter = 0;
 	public bool boardSwayedLeftLast = false;
 
+	public override Opponent.Type BossType => RoyalBossOpponentExt.FullOpponent.Id;
+
 	private void PlayTableSway()
 	{
 		GameTable

@@ -9,15 +9,14 @@ namespace GrimoraMod;
 
 public class SawyerBossOpponent : BaseBossExt
 {
-	public static readonly Opponent.Type ID = OpponentManager.Add(
-			GUID,
-			"SawyerBoss",
-			GrimoraModSawyerBossSequencer.FullSequencer.Id,
-			typeof(SawyerBossOpponent)
-		)
-		.Id;
+	public static readonly OpponentManager.FullOpponent FullOpponent = OpponentManager.Add(
+		GUID,
+		"SawyerBoss",
+		GrimoraModSawyerBossSequencer.FullSequencer.Id,
+		typeof(SawyerBossOpponent)
+	);
 
-	public override StoryEvent EventForDefeat => StoryEvent.FactoryCuckooClockAppeared;
+	public override StoryEvent EventForDefeat => GrimoraEnums.StoryEvents.SawyerDefeated;
 
 	public override string DefeatedPlayerDialogue => "My dogs will enjoy your bones!";
 

@@ -13,11 +13,12 @@ public class GrimoraModSawyerBossSequencer : GrimoraModBossBattleSequencer
 		typeof(GrimoraModSawyerBossSequencer)
 	);
 
+	public override Opponent.Type BossType => SawyerBossOpponent.FullOpponent.Id;
+
 	public override bool RespondsToTurnEnd(bool playerTurnEnd)
 	{
 		return playerTurnEnd;
 	}
-
 
 	public int bonesTakenCounter = 0;
 

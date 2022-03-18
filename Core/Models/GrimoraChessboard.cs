@@ -143,14 +143,8 @@ public class GrimoraChessboard
 
 	public static string GetBossSpecialIdForRegion()
 	{
-		string bossName = ConfigHelper.Instance.BossesDefeated switch
-		{
-			1 => GrimoraModSawyerBossSequencer.FullSequencer.Id,
-			2 => GrimoraModRoyalBossSequencer.FullSequencer.Id,
-			3 => GrimoraModGrimoraBossSequencer.FullSequencer.Id,
-			_ => GrimoraModKayceeBossSequencer.FullSequencer.Id
-		};
-		return bossName;
+		Log.LogDebug($"Getting special id for region");
+		return BossHelper.OpponentTupleBySpecialId.ElementAt(ConfigHelper.Instance.BossesDefeated).Key;
 	}
 
 	#endregion
@@ -238,14 +232,15 @@ public class GrimoraChessboard
 
 	#region PlacingPieces
 
-	public ChessboardEnemyPiece PlaceBossPiece(string bossName = "", int x = -1, int y = -1)
+	public ChessboardEnemyPiece PlaceBossPiece(string specialSequencerId = "", int x = -1, int y = -1)
 	{
-		if (bossName.IsNullOrWhitespace())
+		if (specialSequencerId.IsNullOrWhitespace())
 		{
-			bossName = GetBossSpecialIdForRegion();
+			specialSequencerId = GetBossSpecialIdForRegion();
 		}
 
-		GameObject prefabToUse = BaseBossExt.OpponentTupleBySpecialId[bossName].Item3;
+		Log.LogDebug($"Boss name to place piece for [{specialSequencerId}]");
+		GameObject prefabToUse = BossHelper.OpponentTupleBySpecialId[specialSequencerId].Item2;
 		int newX = x == -1
 			? BossNode.GridX
 			: x;
@@ -256,7 +251,7 @@ public class GrimoraChessboard
 			prefabToUse,
 			newX,
 			newY,
-			bossName
+			specialSequencerId
 		);
 	}
 
@@ -334,7 +329,7 @@ public class GrimoraChessboard
 	private static string CreateNameOfPiece<T>(string specialEncounterId, string coordName) where T : ChessboardPiece
 	{
 		string nameTemp = typeof(T).Name.Replace("Chessboard", "") + "_" + coordName;
-		if (BaseBossExt.OpponentTupleBySpecialId.ContainsKey(specialEncounterId))
+		if (BossHelper.OpponentTupleBySpecialId.ContainsKey(specialEncounterId))
 		{
 			nameTemp = nameTemp.Replace("Enemy", "Boss");
 		}
@@ -355,9 +350,9 @@ public class GrimoraChessboard
 		{
 			case ChessboardEnemyPiece enemyPiece:
 			{
-				if (BaseBossExt.OpponentTupleBySpecialId.ContainsKey(specialEncounterId))
+				if (BossHelper.OpponentTupleBySpecialId.ContainsKey(specialEncounterId))
 				{
-					enemyPiece.blueprint = BaseBossExt.OpponentTupleBySpecialId[specialEncounterId].Item4;
+					enemyPiece.blueprint = BossHelper.OpponentTupleBySpecialId[specialEncounterId].Item3;
 					int bossesDefeated = ConfigHelper.Instance.BossesDefeated;
 					switch (bossesDefeated)
 					{

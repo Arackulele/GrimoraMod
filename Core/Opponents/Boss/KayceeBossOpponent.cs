@@ -9,15 +9,14 @@ namespace GrimoraMod;
 
 public class KayceeBossOpponent : BaseBossExt
 {
-	public static readonly Opponent.Type ID = OpponentManager.Add(
-			GUID,
-			"KayceeBoss",
-			GrimoraModKayceeBossSequencer.FullSequencer.Id,
-			typeof(KayceeBossOpponent)
-		)
-		.Id;
+	public static readonly OpponentManager.FullOpponent FullOpponent = OpponentManager.Add(
+		GUID,
+		"KayceeBoss",
+		GrimoraModKayceeBossSequencer.FullSequencer.Id,
+		typeof(KayceeBossOpponent)
+	);
 
-	public override StoryEvent EventForDefeat => StoryEvent.FactoryConveyorBeltMoved;
+	public override StoryEvent EventForDefeat => GrimoraEnums.StoryEvents.KayceeDefeated;
 
 	public override string DefeatedPlayerDialogue => "YOUUUUUUUR, PAINNNFULLLLL DEAAATHHH AWAIIITTTSSS YOUUUUUUU!";
 
@@ -32,9 +31,6 @@ public class KayceeBossOpponent : BaseBossExt
 				cardsInOpponentSlots = new[] { NameDraugr.GetCardInfo(), NameDraugr.GetCardInfo() }
 			}
 		};
-
-		ViewManager.Instance.SwitchToView(View.Default);
-		yield return new WaitForSeconds(1f);
 
 		SetSceneEffectsShownKaycee();
 

@@ -19,6 +19,17 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 	private readonly List<CardInfo> _cardsThatHaveDiedThisMatch = new List<CardInfo>();
 
+	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
+	{
+		EncounterData data = new EncounterData { opponentType = Opponent.Type.Default };
+		if (this is GrimoraModBossBattleSequencer boss)
+		{
+			data.opponentType = boss.BossType;
+		}
+
+		return data;
+	}
+
 	public override IEnumerator PreCleanUp()
 	{
 		if (!TurnManager.Instance.PlayerIsWinner())
