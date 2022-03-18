@@ -17,10 +17,7 @@ public class CreateArmyOfSkeletons : AbilityBehaviour
 		return Localization.Translate(CannotSpawnDialogue) != CannotSpawnDialogue;
 	}
 
-	public override bool RespondsToResolveOnBoard()
-	{
-		return true;
-	}
+	public override bool RespondsToResolveOnBoard() => true;
 
 	public override IEnumerator OnResolveOnBoard()
 	{

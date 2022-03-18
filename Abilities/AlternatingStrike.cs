@@ -4,7 +4,7 @@ using InscryptionAPI.Card;
 
 namespace GrimoraMod;
 
-public class AlternatingStrike : AbilityBehaviour
+public class AlternatingStrike : ExtendedAbilityBehaviour
 {
 	public static Ability ability;
 	public override Ability Ability => ability;
@@ -30,15 +30,29 @@ public class AlternatingStrike : AbilityBehaviour
 		yield return base.OnSlotTargetedForAttack(slot, attacker);
 	}
 
-	public override bool RespondsToAttackEnded()
-	{
-		return true;
-	}
+	public override bool RespondsToAttackEnded() => true;
 
 	public override IEnumerator OnAttackEnded()
 	{
 		isAttackingLeft = !isAttackingLeft;
 		yield return base.OnAttackEnded();
+	}
+
+	public override bool RemoveDefaultAttackSlot() => true;
+
+	public override bool RespondsToGetOpposingSlots()
+	{
+		return !Card.HasAbility(AreaOfEffectStrike.ability);
+	}
+
+	public override List<CardSlot> GetOpposingSlots(List<CardSlot> originalSlots, List<CardSlot> otherAddedSlots)
+	{
+		CardSlot slotToAttack = BoardManager.Instance.GetAdjacent(Card.Slot, isAttackingLeft);
+		if (!slotToAttack)
+		{
+			slotToAttack = BoardManager.Instance.GetAdjacent(Card.Slot, !isAttackingLeft);
+		}
+		return new List<CardSlot> { slotToAttack };
 	}
 
 	public static AbilityManager.FullAbility Create()

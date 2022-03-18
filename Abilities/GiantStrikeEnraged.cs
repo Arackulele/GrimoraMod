@@ -3,13 +3,13 @@ using InscryptionAPI.Card;
 
 namespace GrimoraMod;
 
-public class GiantStrikeEnraged : AbilityBehaviour
+public class GiantStrikeEnraged : GiantStrike
 {
-	public static Ability ability;
+	public new static Ability ability;
 
 	public override Ability Ability => ability;
 
-	public static AbilityManager.FullAbility Create()
+	public new static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription = "[creature] will strike each opposing space.";
 

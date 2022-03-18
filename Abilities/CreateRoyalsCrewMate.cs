@@ -31,10 +31,7 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 		return slotToSpawnIn;
 	}
 
-	public override bool RespondsToResolveOnBoard()
-	{
-		return true;
-	}
+	public override bool RespondsToResolveOnBoard() => true;
 
 	public override IEnumerator OnResolveOnBoard()
 	{

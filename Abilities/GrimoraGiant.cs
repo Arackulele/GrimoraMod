@@ -15,10 +15,7 @@ public class GrimoraGiant : SpecialCardBehaviour
 		return FullAbility;
 	}
 
-	public override bool RespondsToResolveOnBoard()
-	{
-		return true;
-	}
+	public override bool RespondsToResolveOnBoard() => true;
 
 	public override IEnumerator OnResolveOnBoard()
 	{
@@ -36,10 +33,7 @@ public class GrimoraGiant : SpecialCardBehaviour
 		yield break;
 	}
 
-	public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer)
-	{
-		return true;
-	}
+	public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer) => true;
 
 	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
 	{

@@ -10,10 +10,7 @@ public class GrimoraRandomAbility : AbilityBehaviour
 	public static Ability ability;
 	public override Ability Ability => ability;
 
-	public override bool RespondsToDrawn()
-	{
-		return true;
-	}
+	public override bool RespondsToDrawn() => true;
 
 	public override IEnumerator OnDrawn()
 	{

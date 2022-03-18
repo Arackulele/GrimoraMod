@@ -11,6 +11,8 @@ public class Raider : StrikeAdjacentSlots
 
 	protected override Ability strikeAdjacentAbility => ability;
 
+	public override bool RemoveDefaultAttackSlot() => true;
+
 	public static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription = "[creature] will strike its adjacent slots, except other Raiders.";

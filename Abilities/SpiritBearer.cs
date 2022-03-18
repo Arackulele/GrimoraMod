@@ -11,10 +11,7 @@ public class SpiritBearer : AbilityBehaviour
 
 	public override Ability Ability => ability;
 
-	public override bool RespondsToResolveOnBoard()
-	{
-		return true;
-	}
+	public override bool RespondsToResolveOnBoard() => true;
 
 	public override IEnumerator OnResolveOnBoard()
 	{
