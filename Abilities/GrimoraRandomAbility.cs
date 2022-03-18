@@ -44,8 +44,7 @@ public class GrimoraRandomAbility : AbilityBehaviour
 		int num2 = 0;
 		while (randomAbility == Ability.RandomAbility)
 		{
-			var randomizedList = ElectricChairSequencer.AbilitiesToChoseRandomly.Randomize().ToList();
-			randomAbility = randomizedList[UnityEngine.Random.RandomRangeInt(0, randomizedList.Count)];
+			randomAbility = ElectricChairSequencer.AbilitiesToChoseRandomly.GetRandomItem();
 			num2++;
 			if (num2 > 100)
 			{
