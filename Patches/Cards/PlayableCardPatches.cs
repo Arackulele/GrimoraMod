@@ -176,4 +176,41 @@ public class PlayableCardPatches
 			Log.LogInfo($"[GiantStrikeEnraged] Opposing slots is now [{string.Join(",", __result.Select(_ => _.Index))}]");
 		}
 	}
+
+	[HarmonyPostfix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetPassiveAttackBuffs))]
+	public static void CorrectDebuffEnemiesLogicForGiants(PlayableCard __instance, ref int __result)
+	{
+		if (!__instance.Dead && __instance.OnBoard && __instance.Info.HasTrait(Trait.Giant))
+		{
+			List<CardSlot> slotsToTarget = BoardManager.Instance.GetSlots(__instance.OpponentCard);
+
+			foreach (var slot in slotsToTarget.Where(slot => slot.Card.IsNotNull()))
+			{
+				// if(!hasPrinted)
+				// 	Log.LogDebug($"[Giant PlayableCard Patch] Slot [{__instance.Slot.Index}] for stinky");
+
+				if (slot.Card.HasAbility(Ability.DebuffEnemy) && slot.opposingSlot.Card != __instance)
+				{
+					// __result is -1 right now
+					// G1 IS FIRST GIANT, G2 IS SECOND GIANT
+					// D IS THE CARD WITH STINKY
+					// G1 G1 G2 G2
+					//  x  x  D  X
+
+					// G1 SHOULD HAVE THE -1 REVERSED, BUT G2 SHOULD STILL HAVE -1 APPLIED TO ATTACK
+					__result += 1;
+				}
+			}
+
+			// should return farthest left slot
+			CardSlot firstSlotOfGiant = BoardManager.Instance.GetSlots(!__instance.OpponentCard)
+				.First(slot => slot.Card.IsNotNull() && slot.Card == __instance);
+
+			if (BoardManager.Instance.GetAdjacentSlots(firstSlotOfGiant)
+			    .Exists(slot => slot.IsNotNull() && slot.Card.IsNotNull() && slot.Card.HasAbility(Ability.BuffNeighbours)))
+			{
+				__result++;
+			}
+		}
+	}
 }
