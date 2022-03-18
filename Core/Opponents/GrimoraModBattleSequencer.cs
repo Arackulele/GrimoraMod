@@ -21,7 +21,13 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
 	{
-		EncounterData data = new EncounterData { opponentType = Opponent.Type.Default };
+		EncounterData data = new EncounterData
+		{
+			opponentType = Opponent.Type.Default,
+			opponentTurnPlan = nodeData.blueprint
+				.turns.Select(bpList1 => bpList1.Select(bpList2 => bpList2.card).ToList())
+				.ToList()
+		};
 		if (this is GrimoraModBossBattleSequencer boss)
 		{
 			data.opponentType = boss.BossType;
