@@ -14,7 +14,7 @@ public class PlayableCardPatches
 		{
 			var adjSlots = BoardManager.Instance
 				.GetAdjacentSlots(__instance.Slot)
-				.Where(_ => _.Card.IsNotNull())
+				.Where(_ => _.Card)
 				.ToList();
 
 			__result = new List<CardSlot>();
@@ -35,7 +35,7 @@ public class PlayableCardPatches
 		{
 			List<CardSlot> slotsToTarget = BoardManager.Instance.GetSlots(__instance.OpponentCard);
 
-			foreach (var slot in slotsToTarget.Where(slot => slot.Card.IsNotNull()))
+			foreach (var slot in slotsToTarget.Where(slot => slot.Card))
 			{
 				// if(!hasPrinted)
 				// 	Log.LogDebug($"[Giant PlayableCard Patch] Slot [{__instance.Slot.Index}] for stinky");

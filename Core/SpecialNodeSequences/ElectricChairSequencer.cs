@@ -110,7 +110,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		}
 
 		yield return OutroEnvTeardown();
-		if (GameFlowManager.Instance.IsNotNull())
+		if (GameFlowManager.Instance)
 		{
 			GameFlowManager.Instance.TransitionToGameState(GameState.Map);
 		}
@@ -216,7 +216,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			}
 		}
 
-		if (destroyedCard.IsNotNull())
+		if (destroyedCard)
 		{
 			// "Before you could pull away, one of the survivors leapt upon the [c:bR][v:0][c:]."
 			// "Another jabbed it with a spear."
@@ -263,7 +263,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	{
 		selectionSlot.SetShown(true);
 		selectionSlot.ShowState(HighlightedInteractable.State.Interactable);
-		if (selectionSlot.Card.IsNotNull())
+		if (selectionSlot.Card)
 		{
 			confirmStone.Enter();
 		}
@@ -378,7 +378,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 				selectCardFromDeckSlot.CursorSelectStarted,
 				new Action<MainInputInteractable>(OnSlotSelected)
 			);
-		if (UnityEngine.Random.value < 0.25f && VideoCameraRig.Instance.IsNotNull())
+		if (UnityEngine.Random.value < 0.25f && VideoCameraRig.Instance)
 		{
 			VideoCameraRig.Instance.PlayCameraAnim("refocus_quick");
 		}

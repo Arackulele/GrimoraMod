@@ -170,7 +170,7 @@ public class ConfigHelper
 		{
 			CardManager.AllCardsCopy.RemoveAll(info => info.name.StartsWith($"{GUID}_"));
 			int removedCardLoader = CardLoader.allData.RemoveAll(info => info.name.StartsWith($"{GUID}_"));
-			Log.LogDebug($"All data.IsNotNull(). Removed [{removedCardLoader}] CardLoader");
+			Log.LogDebug($"All data. Removed [{removedCardLoader}] CardLoader");
 		}
 
 		if (AbilitiesUtil.allData.IsNotEmpty())
@@ -180,7 +180,7 @@ public class ConfigHelper
 				info => AbilityManager.AllAbilities.Exists(na => na.Info.rulebookName == info.rulebookName)
 			);
 			AbilityManager.AllAbilities.Clear();
-			Log.LogDebug($"All data.IsNotNull() Removed [{removed}] AbilitiesUtil");
+			Log.LogDebug($"All data Removed [{removed}] AbilitiesUtil");
 		}
 	}
 
@@ -208,7 +208,7 @@ public class ConfigHelper
 		_configBossesDefeated.Value = 0;
 		_configCurrentChessboardIndex.Value = 0;
 		ResetRemovedPieces();
-		if (ChessboardMapExt.Instance.IsNotNull())
+		if (ChessboardMapExt.Instance)
 		{
 			Log.LogWarning($"Resetting active chessboard");
 			ChessboardMapExt.Instance.ActiveChessboard = null;

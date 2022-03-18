@@ -13,7 +13,7 @@ public class HookLineAndSinker : AbilityBehaviour
 
 	public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer)
 	{
-		return Card.Slot.opposingSlot.Card.IsNotNull()
+		return Card.Slot.opposingSlot.Card
 		       && !Card.Slot.opposingSlot.Card.Info.SpecialAbilities.Contains(GrimoraGiant.FullAbility.Id);
 	}
 
@@ -31,7 +31,7 @@ public class HookLineAndSinker : AbilityBehaviour
 		);
 		yield return new WaitForSeconds(0.51f);
 
-		if (targetCard.IsNotNull())
+		if (targetCard)
 		{
 			targetCard.SetIsOpponentCard(!Card.Slot.IsPlayerSlot);
 			yield return BoardManager.Instance.AssignCardToSlot(targetCard, Card.Slot, 0.33f);

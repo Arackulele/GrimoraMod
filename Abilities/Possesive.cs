@@ -11,7 +11,7 @@ public class Possessive : AbilityBehaviour
 
 	public override bool RespondsToSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
 	{
-		return attacker.IsNotNull() && attacker.Slot == Card.Slot.opposingSlot;
+		return attacker && attacker.Slot == Card.Slot.opposingSlot;
 	}
 
 	public override IEnumerator OnSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)

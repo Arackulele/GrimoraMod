@@ -22,7 +22,7 @@ public class CardSingleChoicesSequencerPatches
 		CardSingleChoicesSequencer __state
 	)
 	{
-		// TODO: this is an exact copy, minus the commented out code at (choice.CardInfo.IsNotNull()) block
+		// TODO: this is an exact copy, minus the commented out code at (choice.CardInfo) block
 		if (SaveManager.saveFile.IsGrimora)
 		{
 			CardChoicesNodeData choicesData = nodeData as CardChoicesNodeData;
@@ -55,7 +55,7 @@ public class CardSingleChoicesSequencerPatches
 					card.SetParticlesEnabled(true);
 					card.SetEnabled(false);
 					card.ChoiceInfo = choice;
-					if (choice.CardInfo.IsNotNull())
+					if (choice.CardInfo)
 					{
 						card.Initialize(
 							choice.CardInfo,
@@ -103,7 +103,7 @@ public class CardSingleChoicesSequencerPatches
 				__state.SetCollidersEnabled(true);
 				__state.choicesRerolled = false;
 				__state.EnableViewDeck(__state.viewControlMode, __state.basePosition);
-				yield return new WaitUntil(() => __state.chosenReward.IsNotNull() || __state.choicesRerolled);
+				yield return new WaitUntil(() => __state.chosenReward || __state.choicesRerolled);
 				__state.DisableViewDeck();
 				__state.CleanUpCards();
 			}

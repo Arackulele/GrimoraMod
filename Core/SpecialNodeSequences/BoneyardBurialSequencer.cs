@@ -87,7 +87,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 					selectCardFromDeckSlot.CursorSelectStarted,
 					new Action<MainInputInteractable>(OnSlotSelected)
 				);
-			if (UnityEngine.Random.value < 0.25f && VideoCameraRig.Instance.IsNotNull())
+			if (UnityEngine.Random.value < 0.25f && VideoCameraRig.Instance)
 			{
 				VideoCameraRig.Instance.PlayCameraAnim("refocus_quick");
 			}
@@ -150,7 +150,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 		yield return OutroEnvTeardown();
 
-		if (GameFlowManager.Instance.IsNotNull())
+		if (GameFlowManager.Instance)
 		{
 			GameFlowManager.Instance.TransitionToGameState(GameState.Map);
 		}
@@ -284,7 +284,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		selectionSlot.SetShown(true);
 		selectionSlot.ShowState(HighlightedInteractable.State.Interactable);
 		ViewManager.Instance.SwitchToView(View.Default, false, true);
-		if (selectionSlot.Card.IsNotNull())
+		if (selectionSlot.Card)
 		{
 			confirmStone.Enter();
 		}

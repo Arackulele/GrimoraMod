@@ -45,7 +45,7 @@ public class LatchPatches
 					selectedSlot = s;
 				}
 			);
-			if (selectedSlot.IsNotNull() && selectedSlot.Card.IsNotNull())
+			if (selectedSlot && selectedSlot.Card)
 			{
 				AimWeaponAnim(cardAnim.armAnim.transform, selectedSlot.transform.position);
 				yield return new WaitForSeconds(0.3f);
@@ -65,7 +65,7 @@ public class LatchPatches
 				__instance.OnInvalidTarget,
 				delegate(CardSlot s)
 				{
-					if (s.Card.IsNotNull())
+					if (s.Card)
 					{
 						AimWeaponAnim(cardAnim.armAnim.transform, s.transform.position);
 					}
@@ -89,7 +89,7 @@ public class LatchPatches
 			0.05f,
 			2
 		);
-		if (selectedSlot.IsNotNull() && selectedSlot.Card.IsNotNull())
+		if (selectedSlot && selectedSlot.Card)
 		{
 			yield return new WaitForSeconds(0.05f);
 			CardModificationInfo cardModificationInfo = new CardModificationInfo

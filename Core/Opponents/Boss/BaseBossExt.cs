@@ -92,7 +92,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 
 	public IEnumerator HideRightHandBossSkull()
 	{
-		if (GrimoraRightHandBossSkull.IsNotNull())
+		if (GrimoraRightHandBossSkull)
 		{
 			GrimoraAnimationController.Instance.GlitchOutBossSkull();
 			GrimoraAnimationController.Instance.headAnim.ResetTrigger(ShowSkull);

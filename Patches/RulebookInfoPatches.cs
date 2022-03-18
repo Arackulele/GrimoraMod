@@ -64,7 +64,7 @@ public class RulebookInfoPatches
 
 		allAbilities.AddRange(
 			StatIconManager.AllStatIconInfos
-				.Where(info => info.IsNotNull() && info.rulebookDescription.IsNotEmpty())
+				.Where(info => info && info.rulebookDescription.IsNotEmpty())
 				.Select(info => (int)info.iconType)
 				.ToList()
 		);

@@ -83,7 +83,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			GlitchOutAssetEffect.GlitchModel(TableVisualEffectsManager.Instance.Table.transform);
 			yield return new WaitForSeconds(0.5f);
 
-			if (FindObjectOfType<StinkbugInteractable>().IsNotNull())
+			if (FindObjectOfType<StinkbugInteractable>())
 			{
 				FindObjectOfType<StinkbugInteractable>().OnCursorSelectStart();
 			}
@@ -143,11 +143,11 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		var cardsToAdd = new List<CardInfo>();
 		var gravedigger = GrimoraSaveUtil.DeckList.Find(info => info.name.Equals(NameGravedigger));
 		var bonepile = GrimoraSaveUtil.DeckList.Find(info => info.name.Equals(NameBonepile));
-		if (bonepile.IsNotNull())
+		if (bonepile)
 		{
 			cardsToAdd.Add(bonepile);
 		}
-		else if (gravedigger.IsNotNull())
+		else if (gravedigger)
 		{
 			cardsToAdd.Add(gravedigger);
 		}

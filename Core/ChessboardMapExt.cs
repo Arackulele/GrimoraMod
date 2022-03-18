@@ -370,7 +370,7 @@ public class ChessboardMapExt : GameMap
 			case View.Choices when newView == View.MapDeckReview:
 			case View.MapDefault when newView == View.MapDeckReview:
 			{
-				if (MapNodeManager.Instance.IsNotNull())
+				if (MapNodeManager.Instance)
 				{
 					MapNodeManager.Instance.SetAllNodesInteractable(false);
 				}
@@ -382,7 +382,7 @@ public class ChessboardMapExt : GameMap
 			case View.MapDeckReview when newView == View.MapDefault:
 			{
 				DeckReviewSequencer.Instance.SetDeckReviewShown(false, transform, DefaultPosition);
-				if (MapNodeManager.Instance.IsNotNull())
+				if (MapNodeManager.Instance)
 				{
 					ChessboardNavGrid.instance.SetPlayerAdjacentNodesActive();
 				}

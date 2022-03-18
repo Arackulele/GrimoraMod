@@ -36,7 +36,7 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 	public override IEnumerator OnResolveOnBoard()
 	{
 		var slotToSpawnIn = GetCardSlotForSwashbuckler();
-		if (slotToSpawnIn.IsNotNull())
+		if (slotToSpawnIn)
 		{
 			yield return SpawnSwashbuckler(slotToSpawnIn);
 		}
@@ -51,7 +51,7 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 	{
 		_timeToSpawnCounter++;
 		var slotToSpawnIn = GetCardSlotForSwashbuckler();
-		if (_timeToSpawnCounter >= 2 && slotToSpawnIn.IsNotNull())
+		if (_timeToSpawnCounter >= 2 && slotToSpawnIn)
 		{
 			_timeToSpawnCounter = 0;
 			yield return SpawnSwashbuckler(slotToSpawnIn);

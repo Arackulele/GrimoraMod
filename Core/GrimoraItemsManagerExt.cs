@@ -52,7 +52,7 @@ public class GrimoraItemsManagerExt : ItemsManager
 			ext.hammerSlot.gameObject.transform.rotation = Quaternion.Euler(0, 20, -90);
 		}
 
-		if (FindObjectOfType<Part3ItemsManager>().IsNotNull())
+		if (FindObjectOfType<Part3ItemsManager>())
 		{
 			Destroy(FindObjectOfType<Part3ItemsManager>().gameObject);
 		}
@@ -67,7 +67,7 @@ public class AddNewHammerExt
 	{
 		if (GrimoraSaveUtil.isGrimora)
 		{
-			if (__instance.Item.IsNotNull())
+			if (__instance.Item)
 			{
 				Object.Destroy(__instance.Item.gameObject);
 			}

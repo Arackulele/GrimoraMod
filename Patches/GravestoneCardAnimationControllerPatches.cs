@@ -128,7 +128,7 @@ public class GravestoneCardAnimationControllerPatches
 		bool playSound = true
 	)
 	{
-		if (__instance.PlayableCard.IsNotNull())
+		if (__instance.PlayableCard)
 		{
 			return true;
 		}

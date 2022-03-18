@@ -19,7 +19,7 @@ public class GrimoraSaveDataPatches
 
 		if (CardManager.AllCardsCopy.Any(info => info.name.StartsWith($"{GUID}_")))
 		{
-			Log.LogDebug($"[GrimoraSaveData.Initialize] All data.IsNotNull()");
+			Log.LogDebug($"[GrimoraSaveData.Initialize] All data");
 			List<CardInfo> defaultCardInfos = new()
 			{
 				NameBonepile.GetCardInfo(),

@@ -46,11 +46,11 @@ public class BoardManagerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(BoardManager.GetAdjacentSlots))]
 	public static bool GetCorrectAdjacentSlotsForGiantCards(BoardManager __instance, CardSlot slot, ref List<CardSlot> __result)
 	{
-		if (slot.Card.IsNotNull() && slot.Card.Info.SpecialAbilities.Contains(GrimoraGiant.FullAbility.Id) && slot.Card.OnBoard)
+		if (slot.Card && slot.Card.Info.SpecialAbilities.Contains(GrimoraGiant.FullAbility.Id) && slot.Card.OnBoard)
 		{
 			__result = new List<CardSlot>();
 			List<CardSlot> slotsWithGiant = __instance.opponentSlots
-				.Where(x => x.Card.IsNotNull() && x.Card.InfoName() == slot.Card.InfoName())
+				.Where(x => x.Card && x.Card.InfoName() == slot.Card.InfoName())
 				.ToList();
 
 			if (slotsWithGiant.Count < 2)
