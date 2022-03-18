@@ -297,8 +297,8 @@ public class ChessboardMapExt : GameMap
 			ActiveChessboard.SetSavePositions();
 		}
 
-		Log.LogDebug($"[HandleChessboardSetup] Chessboard [{ActiveChessboard}] Chessboards [{Chessboards.Count}]");
 		ActiveChessboard ??= Chessboards[currentChessboardIndex];
+		Log.LogDebug($"[HandleChessboardSetup] Chessboard [{ActiveChessboard}] Chessboards [{Chessboards.Count}]");
 	}
 
 
