@@ -131,6 +131,12 @@ public class CardBuilder
 	internal CardBuilder SetMetaCategories(params CardMetaCategory[] categories)
 	{
 		_cardInfo.metaCategories = categories?.ToList();
+		if ((categories ?? Array.Empty<CardMetaCategory>()).Contains(CardMetaCategory.Rare))
+		{
+			_cardInfo.appearanceBehaviour = new List<CardAppearanceBehaviour.Appearance>
+				{ CardAppearanceBehaviour.Appearance.RareCardBackground };
+		}
+
 		return this;
 	}
 
