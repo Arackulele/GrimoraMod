@@ -4,6 +4,6 @@
 	"website_url": "https://github.com/Arackulele/GrimoraMod",
 	"description": "KAYCEE'S MOD SUPPORT! Probably the biggest and most ambitious mod. Gives Grimora a full act!",
 	"dependencies": [
-		"API_dev-API-2.0.0"
+		"API_dev-API-2.0.1"
 	]
 }
