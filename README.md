@@ -1,19 +1,14 @@
 # Grimora Mod
 
-- A giant Mod made by xXxStoner420BongMasterxXx and Arackulele, with modeling from `Pink#9824`, that builds upon the finale with Grimora's
-  chessboard.
+- A giant Mod made by xXxStoner420BongMasterxXx and Arackulele, that builds upon the finale with Grimora's chessboard.
 
 - **MOST IMPORTANT**: **!!!You will probably encounter some Bugs!!!**
-- **IMPORTANT**: **ENABLE ENERGY DRONE IN API CONFIG IN ORDER FOR IT TO SHOW UP**
 - **BEWARE**:
 
   - THIS WILL UNLOCK CERTAIN STORY EVENTS IN ORDER FOR THE MOD TO WORK, WHICH ALSO MEANS UNLOCKING CERTAIN ACHIEVEMENTS!
-  - THIS MOD HAS NOT BEEN TESTED WITH KAYCEE'S MOD!
-
-- In the event you are starting from a brand new save, this mod will unlock all learned abilities, mechanics, and cards
-  and some Story Events like the first tutorial battle, Bones, and a few others in order for this mod to work.
-- If you are not starting from a new save, this mod will check for certain story events and determine if it needs to unlock those.
-- I suggest restarting your game at least once if you haven't actually gotten to the finale.
+  - In the event you are starting from a brand new save, this mod will unlock all learned abilities, mechanics, and cards
+    and some Story Events like the first tutorial battle, Bones, and a few others in order for this mod to work.
+  - I suggest restarting your game at least once if you haven't actually gotten to the finale.
 
 - If you want to discuss the mod further, join our Discord server! <https://discord.gg/Xf8CBuS8a8>
 
@@ -22,13 +17,7 @@
 - If you would to help report issues, please raise a thread here with as much detail as you can provide: <https://github.com/Arackulele/GrimoraMod/issues>
 - Bug reports can also be submitted on the Discord Server: <https://discord.gg/Xf8CBuS8a8>
 
-ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
-
 ## Known Issues
-
-### Unable to right-click stat icons like Ant or Bellist
-
-- Unfortunately this one is also pretty hard to track down. Will have to play around and see what the main differences are because I can't really see what's different between the Act 1 and Grimora's card render.
 
 ### Activated abilities no longer work
 
@@ -44,6 +33,30 @@ ANY POSTS THAT JUST SAY 'A BUG HAPPENED AND IT BROKE' WILL BE IGNORED
 - Possibly fixed in 2.6.4 update.
 
 ## Update Notes
+
+### 2.8.2
+
+**KAYCEE'S MOD SUPPORT!**
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed still being able to click the hammer and hear the sounds even though it is invisible.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed being able to get up during special card sequences like the Electric Chair.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed tombstones not playing the falling animation sometimes.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Stat icons are now right-clickable and viewable in the rulebook!
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Asset bundles are now loaded asynchronously. This just means it should get to the main menu faster.
+
+#### Bosses
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed Royal's skull not showing up in Endless mode.
+
+#### Ability/Card Changes
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed potential softlock if a card with `Hook Line and Sinker` kills a `Leaping Trap`.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Reworded `Spirit Bearer` description to now say `energy soul` instead of `energy cell` to fit more thematically.
 
 ### 2.8.1
 
