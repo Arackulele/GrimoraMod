@@ -141,6 +141,8 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 				lastGiant.Anim.PlayTransformAnimation();
 				lastGiant.Info.RemoveBaseAbility(GiantStrike.ability);
 				lastGiant.AddTemporaryMod(modInfo);
+				lastGiant.StatsLayer.SetEmissionColor(GameColors.Instance.brightRed);
+				
 				yield return new WaitForSeconds(0.5f);
 			}
 		}
