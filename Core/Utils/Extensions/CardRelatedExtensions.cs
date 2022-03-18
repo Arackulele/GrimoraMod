@@ -22,6 +22,12 @@ public static class CardRelatedExtension
 
 		return printedNameAndSlot;
 	}
+	
+	public static CardInfo GetCardInfo(this string self)
+	{
+		return CardLoader.GetCardByName(self);
+	}
+
 
 	public static bool CardIsNotNullAndHasAbility(this CardSlot cardSlot, Ability ability)
 	{
