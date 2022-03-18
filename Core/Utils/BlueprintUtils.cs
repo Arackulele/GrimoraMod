@@ -222,7 +222,6 @@ public static class BlueprintUtils
 		card = CardLoader.GetCardByName(NameManananggal)
 	};
 
-	#endregion
 
 	#region Pirates
 
@@ -247,6 +246,9 @@ public static class BlueprintUtils
 	};
 
 	#endregion
+
+	#endregion
+
 
 	internal static readonly Dictionary<Opponent.Type, List<EncounterBlueprintData>> RegionWithBlueprints = new()
 	{
