@@ -89,7 +89,7 @@ public class ChessboardMapExt : GameMap
 		.Deck
 		.cards
 		.OrderBy(info => info.name)
-		.Select(_ => _.name.Replace("GrimoraMod_", ""))
+		.Select(_ => _.name.Replace($"{GUID}_", ""))
 		.ToArray();
 
 	private void OnGUI()
