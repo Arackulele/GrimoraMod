@@ -49,8 +49,8 @@ public class BoardManagerPatches
 		if (slot.Card.IsNotNull() && slot.Card.Info.SpecialAbilities.Contains(GrimoraGiant.FullAbility.Id) && slot.Card.OnBoard)
 		{
 			__result = new List<CardSlot>();
-			List<CardSlot> secondSlot = __instance.opponentSlots
-				.Where(x => x.Card.IsNotNull() && x.Card == slot.Card)
+			List<CardSlot> slotsWithGiant = __instance.opponentSlots
+				.Where(x => x.Card.IsNotNull() && x.Card.InfoName() == slot.Card.InfoName())
 				.ToList();
 
 			if (slotsWithGiant.Count < 2)
@@ -61,8 +61,8 @@ public class BoardManagerPatches
 
 			// Log.LogDebug($"Slots that contain [{slot.Card.GetNameAndSlot()}] = {secondSlot.Join(x => x.Index.ToString())}");
 				
-			int leftAdjSlotIndex = secondSlot[0].Index - 1;
-			int rightAdjSlotIndex = secondSlot[1].Index + 1;
+			int leftAdjSlotIndex = slotsWithGiant[0].Index - 1;
+			int rightAdjSlotIndex = slotsWithGiant[1].Index + 1;
 			// Log.LogDebug($"Adjacent slot indexes to check left-[{leftAdjSlotIndex}] right-[{rightAdjSlotIndex}]");
 			if (__instance.opponentSlots.Exists(x => x.Index == leftAdjSlotIndex && x.Card != slot.Card))
 			{
