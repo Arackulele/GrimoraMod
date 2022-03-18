@@ -167,7 +167,7 @@ public class PlayableCardPatches
 				__result.AddRange(slotsToTarget);
 			}
 
-			Log.LogInfo($"[GiantStrike] Opposing slots is now [{__result.Join(converter: slot => slot.Index.ToString())}]");
+			Log.LogInfo($"[GiantStrike] Opposing slots is now [{__result.Join(slot => slot.Index.ToString())}]");
 		}
 		else if (__instance.HasAbility(GiantStrikeEnraged.ability))
 		{
