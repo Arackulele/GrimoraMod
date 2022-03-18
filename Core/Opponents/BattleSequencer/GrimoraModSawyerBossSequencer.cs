@@ -13,8 +13,6 @@ public class GrimoraModSawyerBossSequencer : GrimoraModBossBattleSequencer
 		typeof(GrimoraModSawyerBossSequencer)
 	);
 
-	public override Opponent.Type BossType => BaseBossExt.SawyerOpponent;
-
 	public override bool RespondsToTurnEnd(bool playerTurnEnd)
 	{
 		return playerTurnEnd;

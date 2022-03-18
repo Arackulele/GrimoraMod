@@ -25,8 +25,6 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 	public int boardSwayCounter = 0;
 	public bool boardSwayedLeftLast = false;
 
-	public override Opponent.Type BossType => BaseBossExt.RoyalOpponent;
-
 	private void PlayTableSway()
 	{
 		GameTable
@@ -40,14 +38,6 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			);
 
 		boardSwayedLeftLast = !boardSwayedLeftLast;
-	}
-
-	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
-	{
-		return new EncounterData()
-		{
-			opponentType = BossType
-		};
 	}
 
 	private IEnumerator ApplyLitFuseToPlayerCard(PlayableCard playerCard)

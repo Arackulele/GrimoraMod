@@ -22,8 +22,6 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 	private bool playedDialoguePossessive;
 
-	public override Opponent.Type BossType => GrimoraBossOpponentExt.ID;
-
 	public override IEnumerator GameEnd(bool playerWon)
 	{
 		if (playerWon)

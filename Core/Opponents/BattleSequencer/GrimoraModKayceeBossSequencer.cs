@@ -20,16 +20,6 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 
 	private bool _playedDialoguePossessive = false;
 
-	public override Opponent.Type BossType => BaseBossExt.KayceeOpponent;
-
-	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
-	{
-		return new EncounterData
-		{
-			opponentType = BossType
-		};
-	}
-
 	public override bool RespondsToUpkeep(bool playerUpkeep)
 	{
 		return playerUpkeep;

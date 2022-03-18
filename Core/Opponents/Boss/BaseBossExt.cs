@@ -13,7 +13,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 			{
 				GrimoraModKayceeBossSequencer.FullSequencer.Id,
 				new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
-					KayceeOpponent,
+					KayceeBossOpponent.ID,
 					GrimoraModKayceeBossSequencer.FullSequencer.SpecialSequencer,
 					AssetConstants.BossPieceKaycee,
 					BlueprintUtils.BuildKayceeBossInitialBlueprint()
@@ -22,7 +22,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 			{
 				GrimoraModSawyerBossSequencer.FullSequencer.Id,
 				new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
-					SawyerOpponent,
+					SawyerBossOpponent.ID,
 					GrimoraModSawyerBossSequencer.FullSequencer.SpecialSequencer,
 					AssetConstants.BossPieceSawyer,
 					BlueprintUtils.BuildSawyerBossInitialBlueprint()
@@ -30,7 +30,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 			},
 			{
 				GrimoraModRoyalBossSequencer.FullSequencer.Id, new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
-					RoyalOpponent,
+					RoyalBossOpponentExt.ID,
 					GrimoraModRoyalBossSequencer.FullSequencer.SpecialSequencer,
 					AssetConstants.BossPieceRoyal.gameObject,
 					BlueprintUtils.BuildRoyalBossInitialBlueprint()
@@ -39,7 +39,7 @@ public abstract class BaseBossExt : Part1BossOpponent
 			{
 				GrimoraModGrimoraBossSequencer.FullSequencer.Id,
 				new Tuple<Type, System.Type, GameObject, EncounterBlueprintData>(
-					GrimoraOpponent,
+					GrimoraBossOpponentExt.ID,
 					GrimoraModGrimoraBossSequencer.FullSequencer.SpecialSequencer,
 					AssetConstants.BossPieceGrimora,
 					BlueprintUtils.BuildGrimoraBossInitialBlueprint()
@@ -55,16 +55,11 @@ public abstract class BaseBossExt : Part1BossOpponent
 
 	public GameObject GrimoraRightWrist => GameObject.Find("Grimora_RightWrist");
 
-	public const Type KayceeOpponent = (Type)1001;
-	public const Type SawyerOpponent = (Type)1002;
-	public const Type RoyalOpponent = (Type)1003;
-	public const Type GrimoraOpponent = (Type)1004;
-
 	public static readonly Dictionary<Type, GameObject> BossMasksByType = new()
 	{
-		{ KayceeOpponent, AssetConstants.BossSkullKaycee },
-		{ SawyerOpponent, AssetConstants.BossSkullSawyer },
-		{ RoyalOpponent, AssetConstants.BossSkullRoyal },
+		{ KayceeBossOpponent.ID, AssetConstants.BossSkullKaycee },
+		{ SawyerBossOpponent.ID, AssetConstants.BossSkullSawyer },
+		{ RoyalBossOpponentExt.ID, AssetConstants.BossSkullRoyal },
 	};
 
 	private static readonly int ShowSkull = Animator.StringToHash("show_skull");
