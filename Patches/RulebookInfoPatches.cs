@@ -1,5 +1,6 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using Sirenix.Utilities;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -27,7 +28,7 @@ public class RulebookInfoPatches
 
 		Log.LogDebug($"Start adding NewSpecialAbilities");
 		allAbilities.AddRange(
-			AbilitiesUtil.allData
+			AbilityManager.AllAbilityInfos
 				// this is needed because Sinkhole and another ability will throw IndexOutOfBounds exceptions
 				.Where(info => info.LocalizedRulebookDescription.IsNotEmpty())
 				.ForEach(
@@ -62,7 +63,7 @@ public class RulebookInfoPatches
 		allAbilities.Clear();
 
 		allAbilities.AddRange(
-			StatIconInfo.AllIconInfo
+			StatIconManager.AllStatIconInfos
 				.Where(info => info.IsNotNull() && info.rulebookDescription.IsNotEmpty())
 				.Select(info => (int)info.iconType)
 				.ToList()
