@@ -129,22 +129,20 @@ public class PlayableCardPatches
 	}
 
 
-	private static List<CardSlot> GetGiantsOpposingSlots(PlayableCard giant)
+	private static List<CardSlot> GetTwinGiantOpposingSlots(PlayableCard giant)
 	{
-		return (giant.OpponentCard
-				? BoardManager.Instance.PlayerSlotsCopy
-				: BoardManager.Instance.OpponentSlotsCopy)
+		return BoardManager.Instance.PlayerSlotsCopy
 			.Where(slot => slot.opposingSlot.Card == giant)
 			.ToList();
 	}
 
 	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.GetOpposingSlots))]
-	public static void GrimoraGiantPatch(PlayableCard __instance, ref List<CardSlot> __result)
+	public static void GrimoraGiantAttackSlotsPatch(PlayableCard __instance, ref List<CardSlot> __result)
 	{
 		if (__instance.HasAbility(GiantStrike.ability))
 		{
 			__result = new List<CardSlot>();
-			List<CardSlot> slotsToTarget = GetGiantsOpposingSlots(__instance);
+			List<CardSlot> slotsToTarget = GetTwinGiantOpposingSlots(__instance);
 			if (slotsToTarget.Exists(slot => slot.Card.IsNotNull()))
 			{
 				List<CardSlot> slotsWithCards = slotsToTarget
@@ -173,7 +171,7 @@ public class PlayableCardPatches
 		}
 		else if (__instance.HasAbility(GiantStrikeEnraged.ability))
 		{
-			__result = GetGiantsOpposingSlots(__instance);
+			__result = GetTwinGiantOpposingSlots(__instance);
 
 			Log.LogInfo($"[GiantStrikeEnraged] Opposing slots is now [{string.Join(",", __result.Select(_ => _.Index))}]");
 		}
