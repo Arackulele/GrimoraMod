@@ -53,6 +53,12 @@ public class BoardManagerPatches
 				.Where(x => x.Card.IsNotNull() && x.Card == slot.Card)
 				.ToList();
 
+			if (slotsWithGiant.Count < 2)
+			{
+				GrimoraPlugin.Log.LogDebug($"Giant card slot count is not 2, returning empty");
+				return false;
+			}
+
 			// Log.LogDebug($"Slots that contain [{slot.Card.GetNameAndSlot()}] = {secondSlot.Join(x => x.Index.ToString())}");
 				
 			int leftAdjSlotIndex = secondSlot[0].Index - 1;
