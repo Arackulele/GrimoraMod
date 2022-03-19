@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using Pixelplacement;
 using Pixelplacement.TweenSystem;
 using Sirenix.Utilities;
@@ -25,7 +26,7 @@ public static class CardRelatedExtension
 	
 	public static CardInfo GetCardInfo(this string self)
 	{
-		return CardLoader.GetCardByName(self);
+		return CardManager.AllCardsCopy.Single(info => info.name == self);
 	}
 
 
