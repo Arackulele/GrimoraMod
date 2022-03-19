@@ -89,7 +89,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	{
 		Log.LogDebug("Playing Grimora theme");
 		AudioController.Instance.StopAllLoops();
-		AudioController.Instance.SetLoopAndPlay("Grimoras_Theme", 1);
+		AudioController.Instance.SetLoopAndPlay("Grimoras_Theme_Phase1", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
 		AudioController.Instance.SetLoopVolume(0.8f, 10f, 1);
 	}
@@ -176,7 +176,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		Log.LogInfo("[Grimora] Start of Bonelord phase");
 		AudioController.Instance.FadeOutLoop(3f);
 		AudioController.Instance.StopAllLoops();
-		AudioController.Instance.SetLoopAndPlay("Bone_Lords_Theme", 1);
+		AudioController.Instance.SetLoopAndPlay("Grimora_Bone_Lords_Theme_Phase3", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0.1f, 1);
 		AudioController.Instance.FadeInLoop(7f, 0.5f, 1);
 
