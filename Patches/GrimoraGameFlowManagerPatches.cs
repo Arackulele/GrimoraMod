@@ -9,6 +9,13 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(GrimoraGameFlowManager))]
 public class GrimoraGameFlowManagerPatches
 {
+	[HarmonyPrefix, HarmonyPatch(nameof(GrimoraGameFlowManager.CanTransitionToFirstPerson))]
+	public static bool CanTransitionToFirstPerson(ref bool __result)
+	{
+		__result = true;
+		return false;
+	}
+	
 	[HarmonyPrefix, HarmonyPatch(nameof(GrimoraGameFlowManager.SceneSpecificInitialization))]
 	public static bool PrefixAddMultipleSequencersDuringLoad(ref GrimoraGameFlowManager __instance)
 	{
