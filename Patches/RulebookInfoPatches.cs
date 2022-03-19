@@ -9,6 +9,7 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(RuleBookInfo))]
 public class RulebookInfoPatches
 {
+	[HarmonyAfter(InscryptionAPI.InscryptionAPIPlugin.ModGUID)]
 	[HarmonyPostfix, HarmonyPatch(nameof(RuleBookInfo.ConstructPageData), typeof(AbilityMetaCategory))]
 	public static void PostfixAddRestOfAbilities(
 		AbilityMetaCategory metaCategory,
