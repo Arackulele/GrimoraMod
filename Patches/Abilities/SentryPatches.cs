@@ -23,8 +23,13 @@ public class SentryPatches
 				.AddComponent<Animator>();
 			skeletonArmShoot.name = "SkeletonArmAttackShoot";
 			skeletonArmShoot.runtimeAnimatorController = AssetConstants.SkeletonArmController;
-			skeletonArmShoot.gameObject.AddComponent<AnimMethods>();
 			skeletonArmShoot.gameObject.SetActive(false);
+			
+			if (__instance.GetComponent<AnimMethods>().IsNull())
+			{
+				GrimoraPlugin.Log.LogDebug($"Adding AnimMethods component to [{__instance.Card.GetNameAndSlot()}]");
+				__instance.gameObject.AddComponent<AnimMethods>();
+			}
 		}
 	}
 
@@ -38,7 +43,7 @@ public class SentryPatches
 
 		__instance.lastShotCard = otherCard;
 		__instance.lastShotTurn = Singleton<TurnManager>.Instance.TurnNumber;
-		Singleton<ViewManager>.Instance.SwitchToView(View.Board, immediate: false, lockAfter: true);
+		ViewManager.Instance.SwitchToView(View.Board, false, true);
 		yield return new WaitForSeconds(0.25f);
 		for (int i = 0; i < __instance.NumShots; i++)
 		{
