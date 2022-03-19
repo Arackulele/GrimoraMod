@@ -2,6 +2,7 @@
 using DiskCardGame;
 using GrimoraMod.Consumables;
 using HarmonyLib;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -253,13 +254,20 @@ public class BaseGameFlowManagerPatches
 
 	private static void ChangeStartDeckIfNotAlreadyChanged()
 	{
-		List<CardInfo> grimoraDeck = GrimoraSaveUtil.DeckList;
-		int graveDiggerCount = grimoraDeck.Count(info => info.name == "Gravedigger");
-		int frankNSteinCount = grimoraDeck.Count(info => info.name == "FrankNStein");
-		if (grimoraDeck.Count == 5 && graveDiggerCount == 3 && frankNSteinCount == 2)
+		if (GrimoraSaveUtil.DeckInfo.CardInfos.IsNullOrEmpty())
 		{
-			Log.LogWarning($"[ChangeStartDeckIfNotAlreadyChanged] Starter deck needs reset");
 			GrimoraSaveData.Data.Initialize();
+		}
+		else
+		{
+			List<CardInfo> grimoraDeck = GrimoraSaveUtil.DeckList;
+			int graveDiggerCount = grimoraDeck.Count(info => info.name == "Gravedigger");
+			int frankNSteinCount = grimoraDeck.Count(info => info.name == "FrankNStein");
+			if (grimoraDeck.Count == 5 && graveDiggerCount == 3 && frankNSteinCount == 2)
+			{
+				Log.LogWarning($"[ChangeStartDeckIfNotAlreadyChanged] Starter deck needs reset");
+				GrimoraSaveData.Data.Initialize();
+			}
 		}
 	}
 
