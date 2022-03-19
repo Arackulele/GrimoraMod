@@ -298,6 +298,18 @@ public class BaseGameFlowManagerPatches
 
 		SpecialNodeHandler.Instance.rareCardChoiceSequencer = sequencer;
 	}
+	
+	[HarmonyPrefix, HarmonyPatch(nameof(GameFlowManager.CanTransitionToFirstPerson))]
+	public static bool CanTransitionToFirstPerson(GameFlowManager __instance, ref bool __result)
+	{
+		if (__instance is GrimoraGameFlowManager)
+		{
+			__result = __instance.CanTransitionToFirstPerson();
+			return false;
+		}
+
+		return true;
+	}
 
 	[HarmonyPostfix, HarmonyPatch(nameof(GameFlowManager.TransitionTo))]
 	public static IEnumerator PostfixGameLogicPatch(
