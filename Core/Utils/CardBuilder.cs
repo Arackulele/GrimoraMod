@@ -33,7 +33,7 @@ public class CardBuilder
 
 	internal CardBuilder SetTribes(params Tribe[] tribes)
 	{
-		_cardInfo.tribes = tribes?.ToList();
+		_cardInfo.tribes = tribes.ToList();
 		return this;
 	}
 
@@ -142,13 +142,13 @@ public class CardBuilder
 
 	internal CardBuilder SetAbilities(params Ability[] abilities)
 	{
-		_cardInfo.abilities = abilities?.ToList();
+		_cardInfo.abilities = abilities.ToList();
 		return this;
 	}
 
 	internal CardBuilder SetSpecialAbilities(params SpecialTriggeredAbility[] specialTriggeredAbilities)
 	{
-		_cardInfo.specialAbilities = specialTriggeredAbilities?.ToList();
+		_cardInfo.specialAbilities = specialTriggeredAbilities.ToList();
 		return this;
 	}
 
