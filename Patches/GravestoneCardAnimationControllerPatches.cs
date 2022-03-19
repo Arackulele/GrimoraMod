@@ -13,7 +13,13 @@ public class GravestoneCardAnimationControllerPatches
 	[HarmonyPatch(nameof(GravestoneCardAnimationController.PlayAttackAnimation))]
 	public static bool Prefix(ref GravestoneCardAnimationController __instance, bool attackPlayer, CardSlot targetSlot)
 	{
-		// SetSkeletonArmAttackPositionForGiantCards(__instance);
+		if (targetSlot.IsNull() && __instance.PlayableCard.HasAbility(Ability.Sentry))
+		{
+			var skeletonArmShoot = __instance.transform.Find("SkeletonArmAttackShoot").GetComponent<Animator>();
+			skeletonArmShoot.gameObject.SetActive(true);
+			skeletonArmShoot.Play("attack_sentry", 0, 0);
+			return false;
+		}
 
 		__instance.Anim.Play("shake", 0, 0f);
 		__instance.armAnim.gameObject.SetActive(true);
