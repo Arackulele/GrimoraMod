@@ -17,11 +17,18 @@ public class InvertedStrike : ExtendedAbilityBehaviour
 
 	public override List<CardSlot> GetOpposingSlots(List<CardSlot> originalSlots, List<CardSlot> otherAddedSlots)
 	{
-		return new List<CardSlot>
+		int totalSlotCount = BoardManager.Instance.PlayerSlotsCopy.Count;
+		List<CardSlot> opposingSlots = BoardManager.Instance.GetSlots(Card.OpponentCard);
+		List<CardSlot> slotsToTarget = new List<CardSlot>();
+		for (int i = 1; i <= originalSlots.Count; i++)
 		{
-			BoardManager.Instance.GetSlots(Card.OpponentCard)
-				[BoardManager.Instance.PlayerSlotsCopy.Count - 1 - Card.Slot.Index]
-		};
+			// first iter == 4 - 1 - 0 == opposing slot 3
+			// second iter == 4 - 2 - 0 == opposing slot 2
+			// third iter == 4 - 1 - 0 == opposing slot 1
+			slotsToTarget.Add(opposingSlots[totalSlotCount - i - Card.Slot.Index]);
+		}
+
+		return slotsToTarget;
 	}
 
 	public static AbilityManager.FullAbility Create()
