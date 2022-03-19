@@ -23,6 +23,7 @@ public class SentryPatches
 				.AddComponent<Animator>();
 			skeletonArmShoot.name = "SkeletonArmAttackShoot";
 			skeletonArmShoot.runtimeAnimatorController = AssetConstants.SkeletonArmController;
+			skeletonArmShoot.gameObject.AddComponent<AnimMethods>();
 			skeletonArmShoot.gameObject.SetActive(false);
 			
 			if (__instance.GetComponent<AnimMethods>().IsNull())
