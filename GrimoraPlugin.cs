@@ -15,7 +15,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 {
 	public const string GUID = "arackulele.inscryption.grimoramod";
 	public const string Name = "GrimoraMod";
-	private const string Version = "2.8.2";
+	private const string Version = "2.8.3";
 
 	internal static ManualLogSource Log;
 
@@ -110,6 +110,13 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	private void LoadCards()
 	{
 		Log.LogDebug($"Loading cards");
+
+		CardBuilder.Builder
+			.SetAsNormalCard()
+			.SetAbilities(Ability.SteelTrap)
+			.SetBaseAttackAndHealth(0, 1)
+			.SetNames($"{GUID}_TrapTest", "Trap Test", "Trap".GetCardInfo().portraitTex)
+			.Build();
 
 		#region Normal
 
