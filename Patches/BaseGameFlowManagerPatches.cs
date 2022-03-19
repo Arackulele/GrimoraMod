@@ -232,8 +232,6 @@ public class BaseGameFlowManagerPatches
 		resourceEnergy.highlightedCellColor = GrimoraColors.ResourceEnergyCell;
 
 		Animator animator = resourceEnergy.GetComponentInChildren<Animator>();
-		animator.enabled = false;
-
 		Transform moduleEnergy = animator.transform.GetChild(0);
 		moduleEnergy.gameObject.GetComponent<MeshFilter>().mesh = null;
 
@@ -249,7 +247,6 @@ public class BaseGameFlowManagerPatches
 
 		Object.Destroy(moduleEnergy.Find("Connector").gameObject);
 		resourceEnergy.emissiveRenderers.Clear();
-		Object.Destroy(moduleEnergy.Find("Propellers").gameObject);
 	}
 
 	private static void ChangeStartDeckIfNotAlreadyChanged()
