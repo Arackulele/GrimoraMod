@@ -71,11 +71,14 @@ public class MenuControllerPatches
 	{
 		Log.LogDebug("Creating MenuCard button");
 
-		GameObject cardRow = controller.transform.Find("CardRow").gameObject;
+		var cardRow = controller.transform.Find("CardRow").GetComponent<StartMenuAscensionCardInitializer>();
+		float xPosition = cardRow.menuCards.Count == 5
+			? 1.373f
+			: 1.603f;
 
 		MenuCard menuCardGrimora = Object.Instantiate(
 			ResourceBank.Get<MenuCard>("Prefabs/StartScreen/StartScreenMenuCard"),
-			new Vector3(1.378f, -0.77f, 0),
+			new Vector3(xPosition, -0.77f, 0),
 			Quaternion.identity,
 			cardRow.transform
 		);
@@ -85,9 +88,6 @@ public class MenuControllerPatches
 		menuCardGrimora.menuAction = MenuAction.Continue;
 		menuCardGrimora.titleText = "Start Grimora Mod";
 		menuCardGrimora.titleSprite = AssetConstants.TitleSprite;
-
-		Vector3 cardRowLocalPosition = cardRow.transform.localPosition;
-		cardRow.transform.localPosition = new Vector3(-0.23f, cardRowLocalPosition.y, cardRowLocalPosition.z);
 
 		return menuCardGrimora;
 	}
