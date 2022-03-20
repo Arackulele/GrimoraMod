@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1672622318
+CRC: 1605561512
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 973f9fe0b6a634ff69a99f8f4f012931
+    Hash: 23cbf4adc5c5d91a27125aa1352f3cd9
   TypeTreeHash:
     serializedVersion: 2
     Hash: 182394b89d7174747cf6fb22f6fa4531
@@ -57,7 +57,6 @@ Assets:
 - Assets/GrimoraMod_Unity/ChessboardPieces/ChessboardPiece_GoatEye.prefab
 - Assets/GrimoraMod_Unity/Models/kaycee/KayceeBossSkull.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/Sawyer/Blocker_Sawyer.prefab
-- Assets/GrimoraMod_Unity/Animations/SkeletonArmAttackShoot.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/ChessboardPiece_CardRemove.prefab
 - Assets/Resources/animation/Prefabs/Hexalantern.prefab
 - Assets/GrimoraMod_Unity/Models/Layout/NewNewLayout.prefab
@@ -66,11 +65,13 @@ Assets:
 - Assets/GrimoraMod_Unity/ChessboardPieces/ChessboardPiece_ElectricChair.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/Kaycee/KayceeFigurine.prefab
 - Assets/GrimoraMod_Unity/Models/hammer/GrimoraHammer.prefab
+- Assets/GrimoraMod_Unity/Animations/CardSkeletonAnim/SkeletonArmAttack_Sentry.prefab
 - Assets/GrimoraMod_Unity/Models/EnergyCells_Right.prefab
 - Assets/GrimoraMod_Unity/Models/hammer/FirstPersonGrimoraHammer.prefab
 - Assets/GrimoraMod_Unity/Models/EnergyCells_Left.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/Sawyer/Sawyer_BlockerPiece.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/Royal/Blocker_Royal.prefab
+- Assets/GrimoraMod_Unity/Animations/CardSkeletonAnim/Skeleton2ArmsAttacks.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/ChessboardPiece_Boneyard.prefab
 - Assets/GrimoraMod_Unity/Models/BonelordTableEffects.prefab
 Dependencies: []

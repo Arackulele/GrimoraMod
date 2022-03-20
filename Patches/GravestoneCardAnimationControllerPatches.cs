@@ -35,13 +35,12 @@ public class GravestoneCardAnimationControllerPatches
 		string typeToAttack = attackPlayer
 			? "attack_player"
 			: "attack_creature";
-		bool isPlayerSideBeingAttacked = targetSlot.IsPlayerSlot;
 
 		var animToPlay = GetAnimToPlay(
 			__instance.PlayableCard,
 			typeToAttack,
 			numToDetermineRotation,
-			isPlayerSideBeingAttacked
+			targetSlot
 		);
 
 		__instance.armAnim.Play(animToPlay, 0, 0f);
@@ -65,7 +64,7 @@ public class GravestoneCardAnimationControllerPatches
 		PlayableCard playableCard,
 		string typeToAttack,
 		int numToDetermineRotation,
-		bool isPlayerSideBeingAttacked
+		CardSlot targetSlot
 	)
 	{
 		string directionToAttack = numToDetermineRotation switch
@@ -75,6 +74,7 @@ public class GravestoneCardAnimationControllerPatches
 			_   => ""
 		};
 
+		bool isPlayerSideBeingAttacked = targetSlot.IsPlayerSlot;
 		bool isCardOpponents = playableCard.OpponentCard;
 		bool hasAreaOfEffectStrike = playableCard.HasAbility(AreaOfEffectStrike.ability);
 		bool hasInvertedStrike = playableCard.HasAbility(InvertedStrike.ability);
@@ -86,9 +86,20 @@ public class GravestoneCardAnimationControllerPatches
 
 		StringBuilder animToPlay = new StringBuilder(typeToAttack + directionToAttack);
 
-		if (hasInvertedStrike && targetSlotIsFarthestAway)
+		if (playableCard.HasSpecialAbility(GrimoraGiant.FullAbility.Id))
 		{
-			animToPlay.Append("_invertedstrike");
+			animToPlay.Append("_giant");
+		}
+		else if (hasInvertedStrike)
+		{
+			if (targetSlotIsFarthestAway)
+			{
+				animToPlay.Append("_invertedstrike_far");
+			}
+			else if (Math.Abs(targetSlot.Index - playableCard.Slot.Index) == 2)
+			{
+				animToPlay.Append("_invertedstrike");	
+			}
 		}
 		else if (hasAreaOfEffectStrike || cardIsTargetingAdjFriendly)
 		{
