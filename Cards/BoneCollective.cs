@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(0, 1)
 			.SetBoneCost(2)
 			.SetNames(NameBoneCollective, "Bone Collective")
-			// .SetDescription("NOT YOUR ORDINARY UNDEAD, THEY SEARCHED THROUGH A SCRAPYARD FOR THIS GEAR.")
+			.SetDescription("ITS THOUSANDS OF TINY BONES COALESCE INTO A HUMANOID FORM ONLY TO DISPERSE IN A CLATTERING SWARM THE NEXT MOMENT.")
 			.Build();
 	}
 }
