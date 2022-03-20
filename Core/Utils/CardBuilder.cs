@@ -44,13 +44,18 @@ public class CardBuilder
 			cardName = cardName.Replace($"{GUID}_", "");
 			_cardInfo.portraitTex = AssetUtils.GetPrefab<Sprite>(cardName);
 
-			// TODO: refactor when API 2.0 comes out
-			if (AllSprites.Exists(_ => _.name.Equals($"{cardName}_emission")))
+			Sprite emissionSprite = AllSprites.Find(_ => _.name.Equals($"{cardName}_emission"));
+			if (emissionSprite)
 			{
-				AllSprites.Single(_ => _.name.Equals(cardName))
-					.RegisterEmissionForSprite(
-						AllSprites.Single(_ => _.name.Equals($"{cardName}_emission"))
-					);
+				AllSprites.Single(_ => _.name.Equals(cardName)).RegisterEmissionForSprite(emissionSprite);
+			}
+			else if (_cardInfo.HasAbility(Ability.TailOnHit))
+			{
+				_cardInfo.tailParams = new TailParams
+				{
+					tail = AllGrimoraModCards.Find(info => info.name.Equals(info.name + "_tail")),
+					tailLostPortrait = AllSprites.Find(_ => _.name.Equals($"{cardName}_tailless"))
+				};
 			}
 		}
 		else
