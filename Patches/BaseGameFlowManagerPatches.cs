@@ -2,6 +2,8 @@
 using DiskCardGame;
 using GrimoraMod.Consumables;
 using HarmonyLib;
+using InscryptionAPI.Card;
+using InscryptionAPI.Helpers;
 using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -18,6 +20,11 @@ public class BaseGameFlowManagerPatches
 		{
 			return;
 		}
+		
+		// change just the artwork of Starvation
+		CardInfo card = CardManager.BaseGameCards.CardByName("Starvation");
+		card.portraitTex = AllSprites.Single(sp => sp.name.Equals("Starvation"));
+		card.portraitTex.RegisterEmissionForSprite(AllSprites.Single(sp => sp.name.Equals("Starvation_emission")));
 
 		Log.LogDebug($"[GameFlowManager] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");
 
