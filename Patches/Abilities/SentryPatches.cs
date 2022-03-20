@@ -15,13 +15,11 @@ public class SentryPatches
 		{
 			GrimoraPlugin.Log.LogDebug($"Adding skeleton arm shoot object to card [{__instance.Card.InfoName()}]");
 			Animator skeletonArmShoot = Object.Instantiate(
-					AssetUtils.GetPrefab<GameObject>("SkeletonArmAttackShoot"),
-					new Vector3(),
-					Quaternion.identity,
+					AssetUtils.GetPrefab<GameObject>("SkeletonArmAttack_Sentry"),
 					__instance.transform
 				)
 				.AddComponent<Animator>();
-			skeletonArmShoot.name = "SkeletonArmAttackShoot";
+			skeletonArmShoot.name = "SkeletonArmAttack_Sentry";
 			skeletonArmShoot.runtimeAnimatorController = AssetConstants.SkeletonArmController;
 			skeletonArmShoot.gameObject.AddComponent<AnimMethods>();
 			skeletonArmShoot.gameObject.SetActive(false);

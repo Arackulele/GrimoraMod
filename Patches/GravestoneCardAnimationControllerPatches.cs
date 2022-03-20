@@ -13,14 +13,6 @@ public class GravestoneCardAnimationControllerPatches
 	[HarmonyPatch(nameof(GravestoneCardAnimationController.PlayAttackAnimation))]
 	public static bool Prefix(ref GravestoneCardAnimationController __instance, bool attackPlayer, CardSlot targetSlot)
 	{
-		if (targetSlot.IsNull() && __instance.PlayableCard.HasAbility(Ability.Sentry))
-		{
-			var skeletonArmShoot = __instance.transform.Find("SkeletonArmAttackShoot").GetComponent<Animator>();
-			skeletonArmShoot.gameObject.SetActive(true);
-			skeletonArmShoot.Play("attack_sentry", 0, 0);
-			return false;
-		}
-
 		__instance.Anim.Play("shake", 0, 0f);
 		__instance.armAnim.gameObject.SetActive(true);
 
@@ -43,7 +35,23 @@ public class GravestoneCardAnimationControllerPatches
 			targetSlot
 		);
 
-		__instance.armAnim.Play(animToPlay, 0, 0f);
+		if (__instance.PlayableCard.HasSpecialAbility(GrimoraGiant.FullAbility.Id))
+		{
+			var skeletonArm2Attacks = __instance.transform.Find("Skeleton2ArmsAttacks").GetComponent<Animator>();
+			skeletonArm2Attacks.gameObject.SetActive(true);
+			skeletonArm2Attacks.Play(animToPlay, 0, 0f);
+		}
+		if (targetSlot.IsNull() && __instance.PlayableCard.HasAbility(Ability.Sentry))
+		{
+			animToPlay = "attack_sentry";
+			var skeletonArmShoot = __instance.transform.Find("SkeletonArmAttack_Sentry").GetComponent<Animator>();
+			skeletonArmShoot.gameObject.SetActive(true);
+			skeletonArmShoot.Play(animToPlay, 0, 0f);
+		}
+		else
+		{
+			__instance.armAnim.Play(animToPlay, 0, 0f);
+		}
 		string soundId = "gravestone_card_" + typeToAttack;
 		AudioController.Instance.PlaySound3D(
 			soundId,
