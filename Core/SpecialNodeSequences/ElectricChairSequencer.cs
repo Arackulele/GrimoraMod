@@ -286,7 +286,8 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		CardModificationInfo cardModificationInfo = new CardModificationInfo
 		{
 			abilities = new List<Ability> { GetRandomAbility(card) },
-			singletonId = "GrimoraMod_ElectricChaired"
+			singletonId = "GrimoraMod_ElectricChaired",
+			nameReplacement = card.name.Replace("Yellowbeard", "Bluebeard")
 		};
 		GrimoraSaveUtil.DeckInfo.ModifyCard(card, cardModificationInfo);
 	}
