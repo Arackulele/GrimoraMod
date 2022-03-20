@@ -35,6 +35,7 @@ public class MarchingDead : AbilityBehaviour
 
 	public void SetAdjCardsToPlay(List<PlayableCard> cardsInHand)
 	{
+		Log.LogDebug($"[MarchingDead] Setting adj cards to play");
 		int indexOfCard = cardsInHand.IndexOf(Card);
 		for (var i = 0; i < cardsInHand.Count; i++)
 		{
