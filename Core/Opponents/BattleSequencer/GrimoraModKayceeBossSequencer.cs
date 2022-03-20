@@ -124,7 +124,7 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 		playableCard.RemoveAbilityFromThisCard(modInfo);
 	}
 
-	private CardModificationInfo CreateModForFreeze(PlayableCard playableCard)
+	public static CardModificationInfo CreateModForFreeze(PlayableCard playableCard)
 	{
 		int attack = playableCard.Attack == 0
 			? 0
