@@ -23,7 +23,7 @@ public static class CardRelatedExtension
 
 		return printedNameAndSlot;
 	}
-	
+
 	public static CardInfo GetCardInfo(this string self)
 	{
 		return CardManager.AllCardsCopy.Single(info => info.name == self);
@@ -83,6 +83,11 @@ public static class CardRelatedExtension
 		controller.Anim.SetBool(Hovering, isHovering);
 	}
 
+	public static bool HasSpecialAbility(this PlayableCard playableCard, SpecialTriggeredAbility ability)
+	{
+		return playableCard.Info.SpecialAbilities.Contains(ability);
+	}
+
 	public static bool HasAnyAbilities(this PlayableCard playableCard, params Ability[] abilities)
 	{
 		return playableCard.Info.Abilities.Any(abilities.Contains);
@@ -98,11 +103,16 @@ public static class CardRelatedExtension
 		return cardInfo.Mods.Exists(mod => mod.singletonId == "GrimoraMod_ElectricChaired");
 	}
 
-	public static void RemoveAbilityFromThisCard(this PlayableCard playableCard, CardModificationInfo modInfo)
+	public static void RemoveAbilityFromThisCard(
+		this PlayableCard playableCard,
+		CardModificationInfo modInfo,
+		Action callback = null
+	)
 	{
 		CardInfo cardInfoClone = playableCard.Info.Clone() as CardInfo;
 		cardInfoClone.Mods.Add(modInfo);
 		playableCard.SetInfo(cardInfoClone);
+		callback?.Invoke();
 	}
 
 	public static CardInfo DeepCopy(this CardInfo cardInfo)
