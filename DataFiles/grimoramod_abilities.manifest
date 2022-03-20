@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1663970949
+CRC: 1788055409
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 5bc54108fd8930b1f98c6600675d0347
+    Hash: 7ac5eb63cc2fa5047b28c33c9a995162
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7859cd501ea75098bcf7e53f1b477c26
@@ -14,14 +14,21 @@ ClassTypes:
 SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/GrimoraMod_Unity/Abilities/ability_Raider.png
+- Assets/GrimoraMod_Unity/Abilities/ability_LooseLimb.png
 - Assets/GrimoraMod_Unity/Abilities/ability_InvertedStrike.png
 - Assets/GrimoraMod_Unity/Abilities/ability_FlameStrafe.png
+- Assets/GrimoraMod_Unity/Abilities/ability_Looter.png
+- Assets/GrimoraMod_Unity/Abilities/ability_Imbued.png
 - Assets/GrimoraMod_Unity/Abilities/ability_SpiritBearer.png
 - Assets/GrimoraMod_Unity/Abilities/ability_CreateRoyalsCrewMate.png
+- Assets/GrimoraMod_Unity/Abilities/ability_Boneless.png
 - Assets/GrimoraMod_Unity/Abilities/ability_HookLineAndSinker.png
 - Assets/GrimoraMod_Unity/Abilities/ability_AlternatingStrike.png
 - Assets/GrimoraMod_Unity/Abilities/ability_BuffCrewMates.png
+- Assets/GrimoraMod_Unity/Abilities/ability_ColdFront.png
+- Assets/GrimoraMod_Unity/Abilities/ability_ActivatedDealDamageGrimora.png
 - Assets/GrimoraMod_Unity/Abilities/ability_GiantStrike.png
+- Assets/GrimoraMod_Unity/Abilities/ability_SkeletonsWithin.png
 - Assets/GrimoraMod_Unity/Abilities/ability_CreateArmyOfSkeletons.png
 - Assets/GrimoraMod_Unity/Abilities/ability_LitFuse.png
 - Assets/GrimoraMod_Unity/Abilities/ability_ActivatedEnergyDrawWyvern.png
@@ -34,5 +41,6 @@ Assets:
 - Assets/GrimoraMod_Unity/Abilities/ability_GainAttackBones.png
 - Assets/GrimoraMod_Unity/Abilities/ability_AreaOfEffectStrike.png
 - Assets/GrimoraMod_Unity/Abilities/ability_GiantStrikeEnraged.png
+- Assets/GrimoraMod_Unity/Abilities/ability_MarchingDead.png
 - Assets/GrimoraMod_Unity/Abilities/ability_ActivatedDrawSkeletonGrimora.png
 Dependencies: []
