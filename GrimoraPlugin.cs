@@ -75,34 +75,34 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		Log.LogDebug($"Loading abilities");
 
-		ActivatedDrawSkeletonGrimora.Create();
-		ActivatedEnergyDrawWyvern.Create();
-		AlternatingStrike.Create();
-		AreaOfEffectStrike.Create();
-		BoneLordsReign.Create();
-		BuffCrewMates.Create();
-		CreateArmyOfSkeletons.Create();
-		Erratic.Create();
-		FlameStrafe.Create();
-		GiantStrike.Create();
-		GiantStrikeEnraged.Create();
-		GrimoraRandomAbility.Create();
-		Haunter.Create();
-		HookLineAndSinker.Create();
-		InvertedStrike.Create();
+		Anchored.Create();                     // Blind, the Bound Demon
+		ActivatedDrawSkeletonGrimora.Create(); // Blind, the Bound Demon
+		ActivatedEnergyDrawWyvern.Create();    // Blind, the Bound Demon
+		AlternatingStrike.Create();            // Bt Y#0895
+		AreaOfEffectStrike.Create();           // Bt Y#0895
+		BoneLordsReign.Create();               // Ara
+		BuffCrewMates.Create();                // Blind, the Bound Demon
+		CreateArmyOfSkeletons.Create();        // Blind, the Bound Demon
+		Erratic.Create();                      // Bt Y#0895
+		FlameStrafe.Create();                  // Cevin
+		GiantStrike.Create();                  // Blind, the Bound Demon
+		GiantStrikeEnraged.Create();           // Blind, the Bound Demon
+		GrimoraRandomAbility.Create();         // vanilla
+		Haunter.Create();                      // vanilla
+		HookLineAndSinker.Create();            // Bt Y#0895
+		InvertedStrike.Create();               // Bt Y#0895
 		LitFuse.Create();
-		Possessive.Create();
-		Raider.Create();
-		SeaLegs.Create();
-		SkinCrawler.Create();
-		SpiritBearer.Create();
+		Possessive.Create();   // Bt Y#0895
+		Raider.Create();       // Blind, the Bound Demon
+		SkinCrawler.Create();  // Bt Y#0895
+		SpiritBearer.Create(); // Bt Y#0895
 
 		#region Special
 
 		CreateRoyalsCrewMate.Create();
-		GainAttackBones.Create();
+		GainAttackBones.Create(); // vanilla
 		GrimoraGiant.Create();
-		LammergeierAttack.Create();
+		LammergeierAttack.Create(); // vanilla
 
 		#endregion
 	}
@@ -112,7 +112,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Log.LogDebug($"Loading cards");
 
 		CardBuilder.Builder
-			.SetAsNormalCard()
 			.SetAbilities(Ability.SteelTrap)
 			.SetBaseAttackAndHealth(0, 1)
 			.SetNames($"{GUID}_TrapTest", "Trap Test", "Trap".GetCardInfo().portraitTex)
@@ -129,13 +128,12 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Catacomb();                 // Bt Y#0895
 		Add_Centurion();                // Bt Y#0895
 		Add_CompoundFracture();         // Bt Y#0895
-		Add_CorpseMaggots();            // vanilla
 		Add_Dalgyal();                  // Bt Y#0895
 		Add_DanseMacabre();             // Bt Y#0895
 		Add_DeadHand();                 // Ara?
 		Add_Deadeye();                  // Bt Y#0895
 		Add_Draugr();                   // Bt Y#0895
-		Add_DrownedSoul();              // LavaErrorDoggo#1564
+		Add_DrownedSoul();              // Bt Y#0895
 		Add_ExplodingPirate();          // Lich underling#7678, then Ara
 		Add_Family();                   // Catboy Stinkbug#4099
 		Add_FesteringWretch();          // Bt Y#0895
@@ -172,7 +170,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		#region Rares
 
-		Add_Amoeba();           // vanilla
+		Add_Apparition();           // vanilla
 		Add_BonelordsHorn();    // Cevin2006™ (◕‿◕)#7971
 		Add_DeadPets();         // LavaErrorDoggo#1564
 		Add_DeathKnell();       // Bt Y#0895
