@@ -1,4 +1,5 @@
-﻿using DiskCardGame;
+﻿using System.Collections;
+using DiskCardGame;
 using HarmonyLib;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -7,6 +8,18 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(PlayableCard))]
 public class PlayableCardPatches
 {
+	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.Die))]
+	public static IEnumerator ExtendDieMethod(
+		IEnumerator enumerator,
+		PlayableCard __instance,
+		bool wasSacrifice,
+		PlayableCard killer = null,
+		bool playSound = true
+	)
+	{
+		yield return __instance.DieCustom(wasSacrifice, killer, playSound);
+	}
+
 	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.GetOpposingSlots))]
 	public static void PossessiveGetOpposingSlotsPatch(PlayableCard __instance, ref List<CardSlot> __result)
 	{
