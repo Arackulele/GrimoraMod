@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using APIPlugin;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -8,13 +8,10 @@ namespace GrimoraMod;
 public class SpiritBearer : AbilityBehaviour
 {
 	public static Ability ability;
-	
+
 	public override Ability Ability => ability;
 
-	public override bool RespondsToResolveOnBoard()
-	{
-		return true;
-	}
+	public override bool RespondsToResolveOnBoard() => true;
 
 	public override IEnumerator OnResolveOnBoard()
 	{
@@ -28,8 +25,8 @@ public class SpiritBearer : AbilityBehaviour
 		yield return new WaitForSeconds(0.3f);
 		yield return LearnAbility(0.2f);
 	}
-	
-	public static NewAbility Create()
+
+	public static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription = "When [creature] is played, it provides an energy soul to its owner.";
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using Sirenix.Utilities;
 using Unity.Cloud.UserReporting.Plugin.SimpleJson;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -13,8 +14,6 @@ public class ChessboardMapExt : GameMap
 	[SerializeField] internal List<ChessboardPiece> pieces;
 
 	private bool _toggleCardsLeftInDeck = false;
-	private bool _btnDeckView = false;
-	private bool _btnGetUp = false;
 	private bool _btnReset = false;
 
 	public bool HasNotPlayedDialogueOnce =>
@@ -89,59 +88,11 @@ public class ChessboardMapExt : GameMap
 		.Deck
 		.cards
 		.OrderBy(info => info.name)
-		.Select(_ => _.name.Replace("GrimoraMod_", ""))
+		.Select(_ => _.name.Replace($"{GUID}_", ""))
 		.ToArray();
 
 	private void OnGUI()
 	{
-		if (GrimoraGameFlowManager.Instance.CurrentGameState != GameState.FirstPerson3D)
-		{
-			if (GrimoraGameFlowManager.Instance.CurrentGameState != GameState.CardBattle)
-			{
-				_btnDeckView = GUI.Button(
-					new Rect(0, 0, 100, 50),
-					"Deck View"
-				);
-
-				_btnGetUp = GUI.Button(
-					new Rect(100, 0, 100, 50),
-					"Get Up"
-				);
-
-				if (ViewManager.Instance.Controller.LockState == ViewLockState.Unlocked)
-				{
-					if (_btnDeckView)
-					{
-						switch (ViewManager.Instance.CurrentView)
-						{
-							case View.MapDeckReview:
-								ViewManager.Instance.SwitchToView(
-									SpecialNodeHandler.Instance.cardChoiceSequencer.transform.childCount > 1
-										? View.Choices
-										: View.MapDefault
-								);
-
-								break;
-							case View.Choices:
-							case View.MapDefault:
-								ViewManager.Instance.SwitchToView(View.MapDeckReview);
-								break;
-						}
-					}
-					else if (GrimoraGameFlowManager.Instance.CurrentGameState == GameState.Map && _btnGetUp)
-					{
-						Log.LogDebug($"Transitioning to first person");
-						GrimoraGameFlowManager.Instance.TransitionToFirstPerson();
-					}
-				}
-			}
-		}
-		else
-		{
-			_btnDeckView = false;
-			_btnGetUp = false;
-		}
-
 		if (PauseMenu.instance.menuParent.activeInHierarchy)
 		{
 			_btnReset = GUI.Button(
@@ -258,7 +209,7 @@ public class ChessboardMapExt : GameMap
 
 		UpdateActiveChessboard();
 
-		ActiveChessboard.SetupBoard();
+		ActiveChessboard.SetupBoard(ChangingRegion || pieces.IsNullOrEmpty());
 
 		yield return HandleActivatingChessPieces();
 
@@ -296,8 +247,8 @@ public class ChessboardMapExt : GameMap
 			ActiveChessboard.SetSavePositions();
 		}
 
-		Log.LogDebug($"[HandleChessboardSetup] Chessboard [{ActiveChessboard}] Chessboards [{Chessboards.Count}]");
 		ActiveChessboard ??= Chessboards[currentChessboardIndex];
+		Log.LogDebug($"[HandleChessboardSetup] Chessboard [{ActiveChessboard}] Chessboards [{Chessboards.Count}]");
 	}
 
 
@@ -369,7 +320,7 @@ public class ChessboardMapExt : GameMap
 			case View.Choices when newView == View.MapDeckReview:
 			case View.MapDefault when newView == View.MapDeckReview:
 			{
-				if (MapNodeManager.Instance.IsNotNull())
+				if (MapNodeManager.Instance)
 				{
 					MapNodeManager.Instance.SetAllNodesInteractable(false);
 				}
@@ -381,7 +332,7 @@ public class ChessboardMapExt : GameMap
 			case View.MapDeckReview when newView == View.MapDefault:
 			{
 				DeckReviewSequencer.Instance.SetDeckReviewShown(false, transform, DefaultPosition);
-				if (MapNodeManager.Instance.IsNotNull())
+				if (MapNodeManager.Instance)
 				{
 					ChessboardNavGrid.instance.SetPlayerAdjacentNodesActive();
 				}

@@ -5,19 +5,17 @@ using BepInEx;
 using BepInEx.Logging;
 using DiskCardGame;
 using HarmonyLib;
-using Sirenix.Utilities;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace GrimoraMod;
 
-[BepInDependency("cyantist.inscryption.api")]
+[BepInDependency(InscryptionAPI.InscryptionAPIPlugin.ModGUID)]
 [BepInPlugin(GUID, Name, Version)]
 public partial class GrimoraPlugin : BaseUnityPlugin
 {
 	public const string GUID = "arackulele.inscryption.grimoramod";
 	public const string Name = "GrimoraMod";
-	private const string Version = "2.8.2";
+	private const string Version = "2.8.3";
 
 	internal static ManualLogSource Log;
 
@@ -112,6 +110,13 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	private void LoadCards()
 	{
 		Log.LogDebug($"Loading cards");
+
+		CardBuilder.Builder
+			.SetAsNormalCard()
+			.SetAbilities(Ability.SteelTrap)
+			.SetBaseAttackAndHealth(0, 1)
+			.SetNames($"{GUID}_TrapTest", "Trap Test", "Trap".GetCardInfo().portraitTex)
+			.Build();
 
 		#region Normal
 
@@ -237,9 +242,9 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		Log.LogInfo($"Loading asset bundles");
 
-		StartCoroutine(AssetUtils.LoadAssetBundleAsync<GameObject>("grimoramod_prefabs"));
+		yield return StartCoroutine(AssetUtils.LoadAssetBundleAsync<GameObject>("grimoramod_prefabs"));
 
-		StartCoroutine(AssetUtils.LoadAssetBundleAsync<AudioClip>("grimoramod_sounds"));
+		yield return StartCoroutine(AssetUtils.LoadAssetBundleAsync<AudioClip>("grimoramod_sounds"));
 
 		yield return AssetUtils.LoadAssetBundleAsync<RuntimeAnimatorController>("grimoramod_controller");
 

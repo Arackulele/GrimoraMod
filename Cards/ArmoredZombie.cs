@@ -2,7 +2,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameArmoredZombie = "GrimoraMod_ArmoredZombie";
+	public const string NameArmoredZombie = $"{GUID}_ArmoredZombie";
 
 	private void Add_ArmoredZombie()
 	{

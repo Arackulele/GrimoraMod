@@ -1,6 +1,6 @@
 using System.Collections;
-using APIPlugin;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -20,7 +20,7 @@ public class ActivatedEnergyDrawWyvern : ActivatedAbilityBehaviour
 		yield return CardSpawner.Instance.SpawnCardToHand(NameWyvern.GetCardInfo());
 	}
 
-	public static NewAbility Create()
+	public static AbilityManager.FullAbility Create()
 	{
 		string rulebookDescription = $"Pay {ENERGY_COST} Energy for [creature] to summon a Wyvern in your hand.";
 

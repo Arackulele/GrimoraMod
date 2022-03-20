@@ -1,5 +1,5 @@
-﻿using APIPlugin;
-using DiskCardGame;
+﻿using DiskCardGame;
+using InscryptionAPI.Card;
 
 namespace GrimoraMod;
 
@@ -10,7 +10,7 @@ public class AreaOfEffectStrike : StrikeAdjacentSlots
 
 	protected override Ability strikeAdjacentAbility => ability;
 
-	public static NewAbility Create()
+	public static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription =
 			"[creature] will strike its adjacent slots, and each opposing space to the left, right, and center of it.";

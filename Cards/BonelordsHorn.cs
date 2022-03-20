@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameBoneLordsHorn = "GrimoraMod_BonelordsHorn";
+	public const string NameBoneLordsHorn = $"{GUID}_BonelordsHorn";
 
 	private void Add_BonelordsHorn()
 	{

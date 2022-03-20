@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameDrownedSoul = "GrimoraMod_DrownedSoul";
+	public const string NameDrownedSoul = $"{GUID}_DrownedSoul";
 
 	private void Add_DrownedSoul()
 	{

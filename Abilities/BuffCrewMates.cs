@@ -1,37 +1,38 @@
-﻿using APIPlugin;
-using DiskCardGame;
+﻿using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 
 namespace GrimoraMod;
 
-public class BuffCrewMates : AbilityBehaviour
+public class BuffCrewMates : ExtendedAbilityBehaviour
 {
 	public static Ability ability;
 
 	public override Ability Ability => ability;
 
-	public static NewAbility Create()
+	public override bool ProvidesPassiveAttackBuff => true;
+
+	public override int[] GetPassiveAttackBuffs()
+	{
+		int[] arrForSkeletonsToBuff = { 0, 0, 0, 0};
+		var skeletonSlotIndexes = BoardManager.Instance
+			.GetSlots(!Card.OpponentCard)
+			.Where(slot => slot.CardInSlotIs(GrimoraPlugin.NameSkeleton))
+			.Select(slot => slot.Index)
+			.ToList();
+		
+		foreach (var slotIndex in skeletonSlotIndexes)
+		{
+			arrForSkeletonsToBuff[slotIndex] = 1;
+		}
+		return arrForSkeletonsToBuff;
+	}
+
+	public static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription =
 			"[creature] empowers each Skeleton on the owner's side of the board, providing a +1 buff their power.";
 
 		return ApiUtils.CreateAbility<BuffCrewMates>(rulebookDescription, "Sea Shanty");
-	}
-}
-
-[HarmonyPatch(typeof(PlayableCard))]
-public class BuffCrewMatesPatch
-{
-	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.GetPassiveAttackBuffs))]
-	public static void Postfix(PlayableCard __instance, ref int __result)
-	{
-		if (__instance.IsNotNull() && __instance.OnBoard)
-		{
-			if (__instance.InfoName() == GrimoraPlugin.NameSkeleton)
-			{
-				__result += BoardManager.Instance.GetSlots(!__instance.OpponentCard)
-					.Count(slot => slot.CardIsNotNullAndHasAbility(BuffCrewMates.ability));
-			}
-		}
 	}
 }

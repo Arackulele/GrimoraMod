@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using APIPlugin;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -8,7 +8,7 @@ namespace GrimoraMod;
 
 public class CreateRoyalsCrewMate : SpecialCardBehaviour
 {
-	public static SpecialTriggeredAbility SpecialTriggeredAbility;
+	public static SpecialTriggeredAbilityManager.FullSpecialTriggeredAbility FullSpecial;
 
 	private int _timeToSpawnCounter = 0;
 
@@ -31,15 +31,12 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 		return slotToSpawnIn;
 	}
 
-	public override bool RespondsToResolveOnBoard()
-	{
-		return true;
-	}
+	public override bool RespondsToResolveOnBoard() => true;
 
 	public override IEnumerator OnResolveOnBoard()
 	{
 		var slotToSpawnIn = GetCardSlotForSwashbuckler();
-		if (slotToSpawnIn.IsNotNull())
+		if (slotToSpawnIn)
 		{
 			yield return SpawnSwashbuckler(slotToSpawnIn);
 		}
@@ -53,8 +50,8 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
 		_timeToSpawnCounter++;
-		var slotToSpawnIn =  GetCardSlotForSwashbuckler();
-		if (_timeToSpawnCounter >= 2 && slotToSpawnIn.IsNotNull())
+		var slotToSpawnIn = GetCardSlotForSwashbuckler();
+		if (_timeToSpawnCounter >= 2 && slotToSpawnIn)
 		{
 			_timeToSpawnCounter = 0;
 			yield return SpawnSwashbuckler(slotToSpawnIn);
@@ -78,12 +75,9 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 		ViewManager.Instance.SetViewUnlocked();
 	}
 
-	public static NewSpecialAbility Create()
+	public static SpecialTriggeredAbilityManager.FullSpecialTriggeredAbility Create()
 	{
-		var sId = SpecialAbilityIdentifier.GetID(GUID, "!GRIMORA_ROYALS_SHIP");
-
-		var ability = new NewSpecialAbility(typeof(CreateRoyalsCrewMate), sId);
-		SpecialTriggeredAbility = ability.specialTriggeredAbility;
-		return ability;
+		FullSpecial = SpecialTriggeredAbilityManager.Add(GUID, "!GRIMORA_ROYALS_SHIP", typeof(CreateRoyalsCrewMate));
+		return FullSpecial;
 	}
 }

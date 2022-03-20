@@ -1,5 +1,6 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using Sirenix.Utilities;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -8,6 +9,7 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(RuleBookInfo))]
 public class RulebookInfoPatches
 {
+	[HarmonyAfter(InscryptionAPI.InscryptionAPIPlugin.ModGUID)]
 	[HarmonyPostfix, HarmonyPatch(nameof(RuleBookInfo.ConstructPageData), typeof(AbilityMetaCategory))]
 	public static void PostfixAddRestOfAbilities(
 		AbilityMetaCategory metaCategory,
@@ -27,7 +29,7 @@ public class RulebookInfoPatches
 
 		Log.LogDebug($"Start adding NewSpecialAbilities");
 		allAbilities.AddRange(
-			AbilitiesUtil.allData
+			AbilityManager.AllAbilityInfos
 				// this is needed because Sinkhole and another ability will throw IndexOutOfBounds exceptions
 				.Where(info => info.LocalizedRulebookDescription.IsNotEmpty())
 				.ForEach(
@@ -62,8 +64,8 @@ public class RulebookInfoPatches
 		allAbilities.Clear();
 
 		allAbilities.AddRange(
-			StatIconInfo.AllIconInfo
-				.Where(info => info.IsNotNull() && info.rulebookDescription.IsNotEmpty())
+			StatIconManager.AllStatIconInfos
+				.Where(info => info && info.rulebookDescription.IsNotEmpty())
 				.Select(info => (int)info.iconType)
 				.ToList()
 		);

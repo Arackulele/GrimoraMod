@@ -57,7 +57,7 @@ public static class AssetUtils
 
 		bundle.Unload(false);
 		stopwatch.Stop();
-		Log.LogDebug($"Time taken to load bundle [{assetBundleFile}]: [{stopwatch.ElapsedMilliseconds}]ms isDone [{allAssetsRequest.isDone}]");
+		Log.LogDebug($"Time taken to load bundle [{assetBundleFile}]: [{stopwatch.ElapsedMilliseconds}]ms");
 	}
 
 	private static bool NameMatchesAsset(UnityEngine.Object obj, string nameToCheckFor)

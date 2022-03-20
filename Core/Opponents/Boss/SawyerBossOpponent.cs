@@ -1,5 +1,6 @@
 using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Encounters;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
 using static GrimoraMod.GrimoraPlugin;
@@ -8,11 +9,14 @@ namespace GrimoraMod;
 
 public class SawyerBossOpponent : BaseBossExt
 {
-	public override StoryEvent EventForDefeat => StoryEvent.FactoryCuckooClockAppeared;
+	public static readonly OpponentManager.FullOpponent FullOpponent = OpponentManager.Add(
+		GUID,
+		"SawyerBoss",
+		GrimoraModSawyerBossSequencer.FullSequencer.Id,
+		typeof(SawyerBossOpponent)
+	);
 
-	public override Type Opponent => SawyerOpponent;
-
-	public override string SpecialEncounterId => "SawyerBoss";
+	public override StoryEvent EventForDefeat => GrimoraEnums.StoryEvents.SawyerDefeated;
 
 	public override string DefeatedPlayerDialogue => "My dogs will enjoy your bones!";
 
@@ -44,7 +48,7 @@ public class SawyerBossOpponent : BaseBossExt
 	{
 		Log.LogDebug($"Playing sawyer theme");
 		AudioController.Instance.StopAllLoops();
-		AudioController.Instance.SetLoopAndPlay("Dogbite", 1);
+		AudioController.Instance.SetLoopAndPlay("Sawyer_Dogbite_Phase1", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
 		AudioController.Instance.SetLoopVolume(0.9f, 3f, 1);
 	}
@@ -68,12 +72,20 @@ public class SawyerBossOpponent : BaseBossExt
 
 	public override IEnumerator StartNewPhaseSequence()
 	{
+		AudioController.Instance.FadeOutLoop(3f);
+		AudioController.Instance.StopAllLoops();
+		AudioController.Instance.SetLoopAndPlay("Sawyer_Hellhound_Phase2", 1);
+		AudioController.Instance.SetLoopVolumeImmediate(0.1f, 1);
+		AudioController.Instance.FadeInLoop(7f, 0.7f, 1);
+		
 		yield return ClearQueue();
 		yield return ClearBoard();
 
 		InstantiateBossBehaviour<SawyerBehaviour>();
 		yield return FaceZoomSequence();
-		yield return TextDisplayer.Instance.ShowUntilInput($"OH NO, HE HAS ARRIVED! HE IS THIRSTY FOR YOUR {"BONES!".Red()} ");
+		yield return TextDisplayer.Instance.ShowUntilInput(
+			$"OH NO, HE HAS ARRIVED! HE IS THIRSTY FOR YOUR {"BONES!".Red()} "
+		);
 
 		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 		yield return BoardManager.Instance.CreateCardInSlot(

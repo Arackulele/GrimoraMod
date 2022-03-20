@@ -1,6 +1,6 @@
 using System.Collections;
-using APIPlugin;
 using DiskCardGame;
+using InscryptionAPI.Card;
 
 namespace GrimoraMod;
 
@@ -17,10 +17,7 @@ public class CreateArmyOfSkeletons : AbilityBehaviour
 		return Localization.Translate(CannotSpawnDialogue) != CannotSpawnDialogue;
 	}
 
-	public override bool RespondsToResolveOnBoard()
-	{
-		return true;
-	}
+	public override bool RespondsToResolveOnBoard() => true;
 
 	public override IEnumerator OnResolveOnBoard()
 	{
@@ -52,7 +49,7 @@ public class CreateArmyOfSkeletons : AbilityBehaviour
 		yield return BoardManager.Instance.CreateCardInSlot("Skeleton".GetCardInfo(), slot, 0.15f);
 	}
 
-	public static NewAbility Create()
+	public static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription =
 			"When [creature] is played, a Skeleton is created in each empty space on the owner's side. [define:Skeleton]";

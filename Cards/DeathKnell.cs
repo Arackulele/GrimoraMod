@@ -4,14 +4,14 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameDeathKnell = "GrimoraMod_DeathKnell";
+	public const string NameDeathKnell = $"{GUID}_DeathKnell";
 
 	private void Add_DeathKnell()
 	{
 		CardBuilder.Builder
 			.SetAsRareCard()
 			.SetAbilities(Ability.CreateBells)
-			.SetAbilities(SpecialTriggeredAbility.BellProximity, SpecialTriggeredAbility.Daus)
+			.SetSpecialAbilities(SpecialTriggeredAbility.BellProximity, SpecialTriggeredAbility.Daus)
 			.SetBaseAttackAndHealth(0, 2)
 			.SetBoneCost(8)
 			.SetDescription("FOR WHOM THE BELL TOLLS?")

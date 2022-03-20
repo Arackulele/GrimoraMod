@@ -26,11 +26,11 @@ public class GravestoneRenderStatsLayerPatches
 		CardRenderInfo info
 	)
 	{
-		if (__instance.PlayableCard.IsNotNull() && __instance.PlayableCard.HasBeenElectricChaired())
+		if (__instance.PlayableCard && __instance.PlayableCard.HasBeenElectricChaired())
 		{
 			__instance.SetEmissionColor(GameColors.Instance.blue);
 		}
-		else if (__instance.GetComponentInParent<SelectableCard>().IsNotNull()
+		else if (__instance.GetComponentInParent<SelectableCard>()
 		         && __instance.GetComponentInParent<SelectableCard>().Info.HasBeenElectricChaired())
 		{
 			__instance.SetEmissionColor(GameColors.Instance.blue);
@@ -49,11 +49,11 @@ public class GravestoneRenderStatsLayerPatches
 			statIcons.name = "CardStatIcons_Invisible";
 			statIcons.transform.localPosition = new Vector3(-0.11f, -0.72f, 0f);
 
-			if (__instance.PlayableCard.IsNotNull())
+			if (__instance.PlayableCard)
 			{
 				__instance.PlayableCard.statIcons = statIcons;
 			}
-			else if (__instance.GetComponentInParent<SelectableCard>().IsNotNull())
+			else if (__instance.GetComponentInParent<SelectableCard>())
 			{
 				__instance.GetComponentInParent<SelectableCard>().statIcons = statIcons;
 			}
@@ -112,7 +112,7 @@ public class GravestoneRenderStatsLayerPatches
 			}
 		}
 
-		if (energyCellsRight.IsNotNull())
+		if (energyCellsRight)
 		{
 			int energyCellsRightLength = energyCellsRight.materials.Length;
 			for (int i = 0; i < energyCellsRightLength; i++)

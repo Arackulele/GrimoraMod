@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameVellum = "GrimoraMod_Vellum";
+	public const string NameVellum = $"{GUID}_Vellum";
 
 	private void Add_Vellum()
 	{

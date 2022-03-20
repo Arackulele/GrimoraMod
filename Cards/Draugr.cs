@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameDraugr = "GrimoraMod_Draugr";
+	public const string NameDraugr = $"{GUID}_Draugr";
 
 	private void Add_Draugr()
 	{

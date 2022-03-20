@@ -10,12 +10,6 @@ public static class StringExtensions
 	{
 		return !self.IsNullOrWhitespace();
 	}
-	
-	public static CardInfo GetCardInfo(this string self)
-	{
-		return CardLoader.GetCardByName(self);
-	}
-
 	public static string GetDelimitedString<T>(this IEnumerable<T> self, string delimiter = ",") where T : UnityEngine.Object
 	{
 		return string.Join(delimiter, self.Select(_ => _.name));
@@ -24,16 +18,6 @@ public static class StringExtensions
 	public static string GetDelimitedString<T>(this List<T> self, string delimiter = ",")
 	{
 		return string.Join(delimiter, self);
-	}
-	
-	public static string GetDelimitedString(this string[] self, string delimiter = ",")
-	{
-		return string.Join(delimiter, self);
-	}
-	
-	public static string GetDelimitedString(this IEnumerable<Object> self, string delimiter = ",")
-	{
-		return string.Join(delimiter, self.Select(_ => _.name));
 	}
 
 	#region ColorCodes

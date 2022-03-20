@@ -15,7 +15,7 @@ public class GrimoraGameFlowManagerPatches
 		// bool skipIntro = GrimoraPlugin.ConfigHasPlayedRevealSequence.Value;
 		bool setLightsActive = true;
 
-		if (FinaleDeletionWindowManager.instance.IsNotNull())
+		if (FinaleDeletionWindowManager.instance)
 		{
 			Object.Destroy(FinaleDeletionWindowManager.instance.gameObject);
 		}
@@ -26,19 +26,20 @@ public class GrimoraGameFlowManagerPatches
 		{
 			Log.LogDebug($"[SceneSpecificInitialization] GrimoraReachedTable is true.");
 			AudioController.Instance.SetLoopAndPlay("finalegrimora_ambience");
-			if (GameMap.Instance.IsNotNull())
+			if (GameMap.Instance)
 			{
 				// this is so that it looks a little cleaner when entering for the first time
 				ChessboardMap.Instance.gameObject.transform.GetChild(0).gameObject.SetActive(false);
 				__instance.CurrentGameState = GameState.Map;
 				__instance.StartCoroutine(__instance.TransitionTo(GameState.Map, null, true));
+				PlayTombstonesFalling();
 			}
 		}
 		else
 		{
 			Log.LogDebug($"[SceneSpecificInitialization] GrimoraReachedTable is false");
 
-			if (GameMap.Instance.IsNotNull())
+			if (GameMap.Instance)
 			{
 				GameMap.Instance.HideMapImmediate();
 			}

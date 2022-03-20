@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameWillOTheWisp = "GrimoraMod_WillOTheWisp";
+	public const string NameWillOTheWisp = $"{GUID}_WillOTheWisp";
 
 	private void Add_WillOTheWisp()
 	{
@@ -18,4 +18,3 @@ public partial class GrimoraPlugin
 			.Build();
 	}
 }
-

@@ -1,5 +1,6 @@
 using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Encounters;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
 using static GrimoraMod.GrimoraPlugin;
@@ -8,13 +9,16 @@ namespace GrimoraMod;
 
 public class RoyalBossOpponentExt : BaseBossExt
 {
+	public static readonly OpponentManager.FullOpponent FullOpponent = OpponentManager.Add(
+		GUID,
+		"RoyalBoss",
+		GrimoraModRoyalBossSequencer.FullSequencer.Id,
+		typeof(RoyalBossOpponentExt)
+	);
+
 	public GameObject cannons;
 
-	public override StoryEvent EventForDefeat => StoryEvent.Part3PurchasedHoloBrush;
-
-	public override Type Opponent => RoyalOpponent;
-
-	public override string SpecialEncounterId => "RoyalBoss";
+	public override StoryEvent EventForDefeat => GrimoraEnums.StoryEvents.RoyalDefeated;
 
 	public override string DefeatedPlayerDialogue => "ARRG! WALK OFF THE PLANK YEE DIRTY SCALLYWAG!!!";
 

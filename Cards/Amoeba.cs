@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameAmoeba = "GrimoraMod_Amoeba";
+	public const string NameAmoeba = $"{GUID}_Amoeba";
 
 	private void Add_Amoeba()
 	{

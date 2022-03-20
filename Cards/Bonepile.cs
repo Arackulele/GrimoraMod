@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameBonepile = "GrimoraMod_Bonepile";
+	public const string NameBonepile = $"{GUID}_Bonepile";
 
 	private void Add_Bonepile()
 	{

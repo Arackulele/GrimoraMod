@@ -1,6 +1,6 @@
 using System.Collections;
 using DiskCardGame;
-using Sirenix.Utilities;
+using InscryptionAPI.Encounters;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -8,6 +8,12 @@ namespace GrimoraMod;
 
 public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 {
+	public static readonly SpecialSequenceManager.FullSpecialSequencer FullSequencer = SpecialSequenceManager.Add(
+		GUID,
+		nameof(GrimoraModGrimoraBossSequencer),
+		typeof(GrimoraModGrimoraBossSequencer)
+	);
+
 	private readonly RandomEx _rng = new();
 
 	private bool hasPlayedArmyDialogue = false;
@@ -16,15 +22,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 	private bool playedDialoguePossessive;
 
-	public override Opponent.Type BossType => BaseBossExt.GrimoraOpponent;
-
-	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
-	{
-		return new EncounterData
-		{
-			opponentType = BossType
-		};
-	}
+	public override Opponent.Type BossType => GrimoraBossOpponentExt.FullOpponent.Id;
 
 	public override IEnumerator GameEnd(bool playerWon)
 	{
@@ -57,8 +55,8 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 	private bool SlotContainsTwinGiant(CardSlot cardSlot)
 	{
-		return cardSlot.CardIsNotNullAndHasSpecialAbility(GrimoraGiant.SpecialTriggeredAbility) && cardSlot.CardInSlotIs(NameGiant);
-	} 
+		return cardSlot.CardIsNotNullAndHasSpecialAbility(GrimoraGiant.FullAbility.Id) && cardSlot.CardInSlotIs(NameGiant);
+	}
 
 	public override IEnumerator OpponentUpkeep()
 	{
@@ -124,11 +122,11 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 	)
 	{
 		CardSlot remainingGiantSlot = BoardManager.Instance.OpponentSlotsCopy
-			.Find(slot => slot.Card.IsNotNull() && card.Slot != slot && slot.Card.InfoName() == NameGiant);
+			.Find(slot => slot.Card && card.Slot != slot && slot.Card.InfoName() == NameGiant);
 		List<CardSlot> opponentQueuedSlots = BoardManager.Instance.GetQueueSlots();
 		if (card.InfoName() == NameGiant)
 		{
-			if (remainingGiantSlot.IsNotNull())
+			if (remainingGiantSlot)
 			{
 				PlayableCard lastGiant = remainingGiantSlot.Card;
 				yield return TextDisplayer.Instance.ShowUntilInput(
@@ -143,6 +141,8 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 				lastGiant.Anim.PlayTransformAnimation();
 				lastGiant.Info.RemoveBaseAbility(GiantStrike.ability);
 				lastGiant.AddTemporaryMod(modInfo);
+				lastGiant.StatsLayer.SetEmissionColor(GameColors.Instance.brightRed);
+				
 				yield return new WaitForSeconds(0.5f);
 			}
 		}

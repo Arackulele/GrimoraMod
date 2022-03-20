@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NamePlagueDoctor = "GrimoraMod_PlagueDoctor";
+	public const string NamePlagueDoctor = $"{GUID}_PlagueDoctor";
 
 	private void Add_PlagueDoctor()
 	{

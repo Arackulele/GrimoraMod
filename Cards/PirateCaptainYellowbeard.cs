@@ -2,7 +2,7 @@
 
 public partial class GrimoraPlugin
 {
-	public const string NamePirateCaptainYellowbeard = "GrimoraMod_PirateCaptainYellowbeard";
+	public const string NamePirateCaptainYellowbeard = $"{GUID}_PirateCaptainYellowbeard";
 
 	private void Add_PirateCaptainYellowbeard()
 	{

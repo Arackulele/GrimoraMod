@@ -1,26 +1,24 @@
 using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Encounters;
 using UnityEngine;
 
 namespace GrimoraMod;
 
 public class GrimoraModSawyerBossSequencer : GrimoraModBossBattleSequencer
 {
-	public override Opponent.Type BossType => BaseBossExt.SawyerOpponent;
+	public static readonly SpecialSequenceManager.FullSpecialSequencer FullSequencer = SpecialSequenceManager.Add(
+		GrimoraPlugin.GUID,
+		nameof(GrimoraModSawyerBossSequencer),
+		typeof(GrimoraModSawyerBossSequencer)
+	);
 
-	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
-	{
-		return new EncounterData()
-		{
-			opponentType = BossType
-		};
-	}
+	public override Opponent.Type BossType => SawyerBossOpponent.FullOpponent.Id;
 
 	public override bool RespondsToTurnEnd(bool playerTurnEnd)
 	{
 		return playerTurnEnd;
 	}
-
 
 	public int bonesTakenCounter = 0;
 

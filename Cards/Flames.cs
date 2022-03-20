@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameFlames = "GrimoraMod_Flames";
+	public const string NameFlames = $"{GUID}_Flames";
 
 	private void Add_Flames()
 	{

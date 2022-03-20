@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameHydra = "GrimoraMod_Hydra";
+	public const string NameHydra = $"{GUID}_Hydra";
 
 	private void Add_Hydra()
 	{

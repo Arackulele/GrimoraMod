@@ -2,17 +2,18 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameCatacomb = "GrimoraMod_Catacomb";
+	public const string NameCatacomb = $"{GUID}_Catacomb";
 
 	private static void Add_Catacomb()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()
+			.SetSpecialAbilities(LammergeierAttack.FullSpecial.Id)
 			.SetBaseAttackAndHealth(0, 10)
 			.SetBoneCost(10)
 			.SetDescription("Its power scales in proportion to your Bones.")
 			.SetNames(NameCatacomb, "Catacomb")
-			.SetSpecialStatIcon(LammergeierAttack.SpecialStatIcon)
-			.Build(LammergeierAttack.NewSpecialAbility.id);
+			.SetSpecialStatIcon(LammergeierAttack.FullStatIcon.Id)
+			.Build();
 	}
 }

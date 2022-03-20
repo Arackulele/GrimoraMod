@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using Pixelplacement;
 using Pixelplacement.TweenSystem;
 using Sirenix.Utilities;
@@ -15,28 +16,34 @@ public static class CardRelatedExtension
 	public static string GetNameAndSlot(this PlayableCard playableCard)
 	{
 		string printedNameAndSlot = $"[{playableCard.Info.displayedName}]";
-		if (playableCard.Slot.IsNotNull())
+		if (playableCard.Slot)
 		{
 			printedNameAndSlot += $" Slot [{playableCard.Slot.Index}]";
 		}
 
 		return printedNameAndSlot;
 	}
+	
+	public static CardInfo GetCardInfo(this string self)
+	{
+		return CardManager.AllCardsCopy.Single(info => info.name == self);
+	}
+
 
 	public static bool CardIsNotNullAndHasAbility(this CardSlot cardSlot, Ability ability)
 	{
-		return cardSlot.Card.IsNotNull() && cardSlot.Card.HasAbility(ability);
+		return cardSlot.Card && cardSlot.Card.HasAbility(ability);
 	}
 
 	public static bool CardDoesNotHaveAbility(this CardSlot cardSlot, Ability ability)
 	{
-		return cardSlot.Card.IsNotNull() && !cardSlot.CardIsNotNullAndHasAbility(ability);
+		return cardSlot.Card && !cardSlot.CardIsNotNullAndHasAbility(ability);
 	}
 
 
 	public static bool CardIsNotNullAndHasSpecialAbility(this CardSlot cardSlot, SpecialTriggeredAbility ability)
 	{
-		return cardSlot.Card.IsNotNull() && cardSlot.Card.Info.SpecialAbilities.Contains(ability);
+		return cardSlot.Card && cardSlot.Card.Info.SpecialAbilities.Contains(ability);
 	}
 
 	public static bool CardDoesNotHaveSpecialAbility(this CardSlot cardSlot, SpecialTriggeredAbility ability)
@@ -46,7 +53,7 @@ public static class CardRelatedExtension
 
 	public static bool CardInSlotIs(this CardSlot cardSlot, string cardName)
 	{
-		return cardSlot.Card.IsNotNull() && cardSlot.Card.InfoName().Equals(cardName);
+		return cardSlot.Card && cardSlot.Card.InfoName().Equals(cardName);
 	}
 
 	public static string InfoName(this Card card)
@@ -56,7 +63,7 @@ public static class CardRelatedExtension
 
 	public static T GetRandomItem<T>(this List<T> self)
 	{
-		return self.Randomize().ToList()[SeededRandom.Range(0, self.Count, RandomUtils.GenerateRandomSeed())];
+		return self[UnityEngine.Random.RandomRangeInt(0, self.Count)];
 	}
 
 	public static bool IsNotEmpty<T>(this List<T> self)
@@ -104,15 +111,16 @@ public static class CardRelatedExtension
 		{
 			return cardInfo;
 		}
+
 		GrimoraPlugin.Log.LogDebug($"[DeepCopy] Creating a deep copy of [{cardInfo.name}]");
 		CardInfo deepCopy = ScriptableObject.CreateInstance<CardInfo>();
 		deepCopy.abilities = new List<Ability>(cardInfo.abilities);
-		if (cardInfo.alternatePortrait.IsNotNull())
+		if (cardInfo.alternatePortrait)
 		{
 			deepCopy.alternatePortrait = Object.Internal_CloneSingle(cardInfo.alternatePortrait) as Sprite;
 		}
 
-		if (cardInfo.animatedPortrait.IsNotNull())
+		if (cardInfo.animatedPortrait)
 		{
 			deepCopy.animatedPortrait = Object.Internal_CloneSingle(cardInfo.animatedPortrait) as GameObject;
 		}
@@ -134,7 +142,7 @@ public static class CardRelatedExtension
 		deepCopy.gemsCost = cardInfo.gemsCost;
 		deepCopy.get_decals = new List<Texture>(cardInfo.get_decals);
 		deepCopy.hideAttackAndHealth = cardInfo.hideAttackAndHealth;
-		if (cardInfo.holoPortraitPrefab.IsNotNull())
+		if (cardInfo.holoPortraitPrefab)
 		{
 			deepCopy.holoPortraitPrefab = Object.Internal_CloneSingle(cardInfo.holoPortraitPrefab) as GameObject;
 		}
@@ -143,12 +151,12 @@ public static class CardRelatedExtension
 		deepCopy.metaCategories = new List<CardMetaCategory>(cardInfo.metaCategories);
 		deepCopy.mods = new List<CardModificationInfo>(cardInfo.mods);
 		deepCopy.onePerDeck = cardInfo.onePerDeck;
-		if (cardInfo.pixelPortrait.IsNotNull())
+		if (cardInfo.pixelPortrait)
 		{
 			deepCopy.pixelPortrait = Object.Internal_CloneSingle(cardInfo.pixelPortrait) as Sprite;
 		}
 
-		if (cardInfo.portraitTex.IsNotNull())
+		if (cardInfo.portraitTex)
 		{
 			deepCopy.portraitTex = Object.Internal_CloneSingle(cardInfo.portraitTex) as Sprite;
 		}
@@ -158,7 +166,7 @@ public static class CardRelatedExtension
 		deepCopy.tailParams = cardInfo.tailParams;
 		deepCopy.temple = cardInfo.temple;
 		deepCopy.temporaryDecals = new List<Texture>(cardInfo.temporaryDecals);
-		if (cardInfo.titleGraphic.IsNotNull())
+		if (cardInfo.titleGraphic)
 		{
 			deepCopy.titleGraphic = Object.Internal_CloneSingle(cardInfo.titleGraphic) as Texture;
 		}

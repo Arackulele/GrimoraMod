@@ -2,7 +2,7 @@
 
 public partial class GrimoraPlugin
 {
-	public const string NameScreamingSkull = "GrimoraMod_ScreamingSkull";
+	public const string NameScreamingSkull = $"{GUID}_ScreamingSkull";
 
 	private void Add_ScreamingSkull()
 	{

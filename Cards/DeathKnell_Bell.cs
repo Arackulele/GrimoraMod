@@ -5,7 +5,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameDeathKnellBell = "GrimoraMod_DeathKnell_Bell";
+	public const string NameDeathKnellBell = $"{GUID}_DeathKnell_Bell";
 
 	private void Add_DeathKnellBell()
 	{

@@ -4,13 +4,13 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameBonelord = "GrimoraMod_Bonelord";
+	public const string NameBonelord = $"{GUID}_Bonelord";
 
 	private void Add_Bonelord()
 	{
 		CardBuilder.Builder
-			.SetAbilities(BoneLordsReign.ability, GiantStrike.ability, Ability.Reach)
-			.SetAbilities(GrimoraGiant.SpecialTriggeredAbility)
+			.SetAbilities(BoneLordsReign.ability, GiantStrike.ability, Ability.Reach, Ability.MadeOfStone)
+			.SetSpecialAbilities(GrimoraGiant.FullAbility.Id)
 			.SetBaseAttackAndHealth(1, 20)
 			.SetBoneCost(666)
 			.SetDescription("WHEN THE BONE LORD APPEARS, EVERY CREATURE WILL FALL.")

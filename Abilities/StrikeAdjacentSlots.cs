@@ -1,18 +1,19 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Card;
 
 namespace GrimoraMod;
 
-public abstract class StrikeAdjacentSlots : AbilityBehaviour
+public abstract class StrikeAdjacentSlots : ExtendedAbilityBehaviour
 {
 	protected abstract Ability strikeAdjacentAbility { get; }
-	
+
 	public int damageDoneToPlayer = 0;
 
 	public override bool RespondsToSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
 	{
 		// check if the attacking card is this card
-		if (attacker.IsNotNull() && attacker.Slot == Card.Slot && slot.Card.IsNull())
+		if (attacker && attacker.Slot == Card.Slot && slot.Card.IsNull())
 		{
 			if (attacker.Slot.IsPlayerSlot)
 			{
@@ -42,5 +43,65 @@ public abstract class StrikeAdjacentSlots : AbilityBehaviour
 	{
 		damageDoneToPlayer = 0;
 		yield break;
+	}
+
+	public override bool RespondsToGetOpposingSlots() => true;
+
+	public override List<CardSlot> GetOpposingSlots(List<CardSlot> originalSlots, List<CardSlot> otherAddedSlots)
+	{
+		var toLeftSlot = BoardManager.Instance.GetAdjacent(Card.Slot, true);
+		var toRightSlot = BoardManager.Instance.GetAdjacent(Card.Slot, false);
+
+		bool hasInvertedStrike = Card.HasAbility(InvertedStrike.ability);
+		bool hasAlternatingStrike = Card.HasAbility(AlternatingStrike.ability);
+
+		List<CardSlot> slotsToTarget = new List<CardSlot>();
+
+		if (strikeAdjacentAbility != Raider.ability)
+		{
+			slotsToTarget.AddRange(BoardManager.Instance.GetAdjacentSlots(Card.Slot.opposingSlot));
+		}
+
+		if (toLeftSlot)
+		{
+			if (strikeAdjacentAbility != Raider.ability
+			    || toLeftSlot.Card.IsNull()
+			    || !toLeftSlot.Card.HasAbility(Raider.ability))
+			{
+				slotsToTarget.Insert(0, toLeftSlot);
+			}
+		}
+
+		// insert at end
+		if (toRightSlot)
+		{
+			if (strikeAdjacentAbility != Raider.ability
+			    || toRightSlot.Card.IsNull()
+			    || !toRightSlot.Card.HasAbility(Raider.ability))
+			{
+				slotsToTarget.Insert(slotsToTarget.Count, toRightSlot);
+			}
+		}
+
+		if (hasInvertedStrike)
+		{
+			slotsToTarget.Reverse();
+		}
+
+		if (hasAlternatingStrike && strikeAdjacentAbility == AreaOfEffectStrike.ability)
+		{
+			List<CardSlot> alternatedResult = new List<CardSlot>()
+			{
+				slotsToTarget[4], // right adj
+				slotsToTarget[0], // left adj
+				slotsToTarget[3], // right opposing
+				slotsToTarget[1], // left opposing
+				slotsToTarget[2], // center
+			};
+
+			slotsToTarget = alternatedResult;
+		}
+
+		return slotsToTarget;
 	}
 }

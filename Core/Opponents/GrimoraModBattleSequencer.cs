@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Encounters;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -7,9 +8,33 @@ namespace GrimoraMod;
 
 public class GrimoraModBattleSequencer : SpecialBattleSequencer
 {
+	public static readonly string ID = SpecialSequenceManager.Add(
+			GUID,
+			nameof(GrimoraModBattleSequencer),
+			typeof(GrimoraModBattleSequencer)
+		)
+		.Id;
+
 	public static ChessboardEnemyPiece ActiveEnemyPiece;
 
 	private readonly List<CardInfo> _cardsThatHaveDiedThisMatch = new List<CardInfo>();
+
+	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
+	{
+		EncounterData data = new EncounterData
+		{
+			opponentType = Opponent.Type.Default,
+			opponentTurnPlan = nodeData.blueprint
+				.turns.Select(bpList1 => bpList1.Select(bpList2 => bpList2.card).ToList())
+				.ToList()
+		};
+		if (this is GrimoraModBossBattleSequencer boss)
+		{
+			data.opponentType = boss.BossType;
+		}
+
+		return data;
+	}
 
 	public override IEnumerator PreCleanUp()
 	{
@@ -30,14 +55,6 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			yield return new WaitForSeconds(0.5f);
 
 			yield return TextDisplayer.Instance.PlayDialogueEvent("GrimoraFinaleEnd", TextDisplayer.MessageAdvanceMode.Input);
-
-			if (opponent is BaseBossExt ext)
-			{
-				Log.LogDebug($"[{GetType()}] Glitching mask and boss skull");
-				yield return ext.HideRightHandBossSkull();
-				yield return new WaitForSeconds(0.5f);
-				GlitchOutAssetEffect.GlitchModel(ext.bossSkull.transform);
-			}
 
 			StartCoroutine(CardDrawPiles.Instance.CleanUp());
 
@@ -66,11 +83,11 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			GlitchOutAssetEffect.GlitchModel(TableVisualEffectsManager.Instance.Table.transform);
 			yield return new WaitForSeconds(0.5f);
 
-			if (FindObjectOfType<StinkbugInteractable>().IsNotNull())
+			if (FindObjectOfType<StinkbugInteractable>())
 			{
 				FindObjectOfType<StinkbugInteractable>().OnCursorSelectStart();
 			}
-			
+
 			GlitchOutAssetEffect.GlitchModel(GameObject.Find("EntireChamber").transform);
 			yield return new WaitForSeconds(0.5f);
 
@@ -126,11 +143,11 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		var cardsToAdd = new List<CardInfo>();
 		var gravedigger = GrimoraSaveUtil.DeckList.Find(info => info.name.Equals(NameGravedigger));
 		var bonepile = GrimoraSaveUtil.DeckList.Find(info => info.name.Equals(NameBonepile));
-		if (bonepile.IsNotNull())
+		if (bonepile)
 		{
 			cardsToAdd.Add(bonepile);
 		}
-		else if (gravedigger.IsNotNull())
+		else if (gravedigger)
 		{
 			cardsToAdd.Add(gravedigger);
 		}
@@ -152,7 +169,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		yield break;
 	}
 
-	private IEnumerator GlitchOutBoardAndHandCards()
+	public static IEnumerator GlitchOutBoardAndHandCards()
 	{
 		yield return ((BoardManager3D)BoardManager.Instance).HideSlots();
 		foreach (PlayableCard c in BoardManager.Instance.CardsOnBoard)

@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameProject = "GrimoraMod_Project";
+	public const string NameProject = $"{GUID}_Project";
 
 	private void Add_Project()
 	{

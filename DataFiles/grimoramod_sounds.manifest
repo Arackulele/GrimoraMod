@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2451074237
+CRC: 611250933
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: c45065292c2ec00e9434c380c1403448
+    Hash: f65841af7e93caa8bde1965dfef2b617
   TypeTreeHash:
     serializedVersion: 2
     Hash: 3f7d0c5e0986ec71841622bcb2f9be1c
@@ -13,10 +13,11 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/GrimoraMod_Unity/Sounds/Grimoras_Theme.ogg
+- Assets/GrimoraMod_Unity/Sounds/Grimoras_Theme_Phase1.ogg
 - Assets/GrimoraMod_Unity/Sounds/RoyalRuckus_Phase1.ogg
-- Assets/GrimoraMod_Unity/Sounds/Bone_Lords_Theme.ogg
-- Assets/GrimoraMod_Unity/Sounds/Dogbite.ogg
+- Assets/GrimoraMod_Unity/Sounds/Grimora_Bone_Lords_Theme_Phase3.ogg
+- Assets/GrimoraMod_Unity/Sounds/Sawyer_Dogbite_Phase1.ogg
 - Assets/GrimoraMod_Unity/Sounds/Frostburn.ogg
 - Assets/GrimoraMod_Unity/Sounds/RoyalRuckus_Phase2.ogg
+- Assets/GrimoraMod_Unity/Sounds/Sawyer_Hellhound_Phase2.ogg
 Dependencies: []

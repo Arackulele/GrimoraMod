@@ -2,6 +2,7 @@
 using APIPlugin;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using Pixelplacement;
 using Pixelplacement.TweenSystem;
 using UnityEngine;
@@ -24,7 +25,7 @@ public class SkinCrawler : AbilityBehaviour
 		for (int i = 0; i < playableCard.transform.childCount; i++)
 		{
 			SkinCrawler skinCrawler = playableCard.transform.GetChild(i).GetComponent<SkinCrawler>();
-			if (skinCrawler.IsNotNull())
+			if (skinCrawler)
 			{
 				// now we get the card itself to add to the list
 				return skinCrawler;
@@ -36,7 +37,7 @@ public class SkinCrawler : AbilityBehaviour
 
 	public static SkinCrawler GetSkinCrawlerFromSlot(CardSlot slot)
 	{
-		if (slot.IsNotNull() && slot.Card.IsNotNull())
+		if (slot && slot.Card)
 		{
 			return GetSkinCrawlerFromCard(slot.Card);
 		}
@@ -53,20 +54,20 @@ public class SkinCrawler : AbilityBehaviour
 		CardSlot toLeftSlot = BoardManager.Instance.GetAdjacent(Card.Slot, true);
 		CardSlot toRightSlot = BoardManager.Instance.GetAdjacent(Card.Slot, false);
 
-		if (toLeftSlot.IsNotNull() && toLeftSlot.Card.IsNotNull() && GetSkinCrawlerFromCard(toLeftSlot.Card).IsNull())
+		if (toLeftSlot && toLeftSlot.Card && GetSkinCrawlerFromCard(toLeftSlot.Card).IsNull())
 		{
 			slotToPick = toLeftSlot;
-			Log.LogDebug($"[SkinCrawler] LeftSlot.IsNotNull(), has card [{slotToPick.Card.GetNameAndSlot()}]");
+			Log.LogDebug($"[SkinCrawler] LeftSlot, has card [{slotToPick.Card.GetNameAndSlot()}]");
 		}
-		else if (toRightSlot.IsNotNull()
-		         && toRightSlot.Card.IsNotNull()
+		else if (toRightSlot
+		         && toRightSlot.Card
 		         && GetSkinCrawlerFromCard(toRightSlot.Card).IsNull())
 		{
 			slotToPick = toRightSlot;
-			Log.LogDebug($"[SkinCrawler] RightSlot.IsNotNull(), has card [{slotToPick.Card.GetNameAndSlot()}]");
+			Log.LogDebug($"[SkinCrawler] RightSlot, has card [{slotToPick.Card.GetNameAndSlot()}]");
 		}
 
-		if (GetSkinCrawlerFromSlot(slotToPick).IsNotNull())
+		if (GetSkinCrawlerFromSlot(slotToPick))
 		{
 			return null;
 		}
@@ -76,7 +77,7 @@ public class SkinCrawler : AbilityBehaviour
 
 	public IEnumerator AssignSkinCrawlerCardToHost(CardSlot slotToPick)
 	{
-		if (slotToPick.IsNotNull())
+		if (slotToPick)
 		{
 			PlayableCard cardToPick = slotToPick.Card;
 			CardSlot cardSlotToPick = slotToPick.Card.Slot;
@@ -161,7 +162,7 @@ public class SkinCrawler : AbilityBehaviour
 	private bool CardIsAdjacent(PlayableCard playableCard)
 	{
 		return BoardManager.Instance.GetAdjacentSlots(Card.Slot)
-			.Exists(slot => slot.IsNotNull() && slot.Card == playableCard);
+			.Exists(slot => slot && slot.Card == playableCard);
 	}
 
 	public override bool RespondsToOtherCardAssignedToSlot(PlayableCard otherCard)
@@ -211,7 +212,7 @@ public class SkinCrawler : AbilityBehaviour
 			+ $"_slotHidingUnderCard [{_slotHidingUnderCard}] is card.Slot? [{_slotHidingUnderCard == card.Slot}]"
 			+ $"Exists in list? [{SlotsThatHaveCrawlersHidingUnderCards.Contains(deathSlot)}]"
 		);
-		return _slotHidingUnderCard.IsNotNull()
+		return _slotHidingUnderCard
 		       && _slotHidingUnderCard == card.Slot
 		       && SlotsThatHaveCrawlersHidingUnderCards.Contains(deathSlot);
 	}
@@ -230,7 +231,7 @@ public class SkinCrawler : AbilityBehaviour
 		_slotHidingUnderCard = null;
 	}
 
-	public static NewAbility Create()
+	public static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription =
 			"[creature] will attempt to find a host in an adjacent friendly slot, hiding under it providing a +1/+1 buff."
@@ -250,7 +251,7 @@ public class SkinCrawlerPatches
 		foreach (var card in __result)
 		{
 			SkinCrawler skinCrawler = SkinCrawler.GetSkinCrawlerFromSlot(card.Slot);
-			if (skinCrawler.IsNotNull())
+			if (skinCrawler)
 			{
 				// now we get the card itself to add to the list
 				Log.LogDebug(

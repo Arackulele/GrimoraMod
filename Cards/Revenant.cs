@@ -5,11 +5,11 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameRevenant = "GrimoraMod_Revenant";
+	public const string NameRevenant = $"{GUID}_Revenant";
 
 	private void Add_Revenant()
 	{
-		Sprite ogSprite = "Revenant".GetCardInfo().portraitTex; 
+		Sprite ogSprite = "Revenant".GetCardInfo().portraitTex;
 		CardBuilder.Builder
 			.SetAsNormalCard()
 			.SetAbilities(Ability.Brittle)

@@ -2,7 +2,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameEmberSpirit = "GrimoraMod_Ember_Spirit";
+	public const string NameEmberSpirit = $"{GUID}_Ember_Spirit";
 
 	private void Add_EmberSpirit()
 	{

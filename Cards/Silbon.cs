@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameSilbon = "GrimoraMod_Silbon";
+	public const string NameSilbon = $"{GUID}_Silbon";
 
 	private void Add_Silbon()
 	{

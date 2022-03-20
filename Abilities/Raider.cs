@@ -1,6 +1,5 @@
-﻿using APIPlugin;
-using DiskCardGame;
-using static GrimoraMod.GrimoraPlugin;
+﻿using DiskCardGame;
+using InscryptionAPI.Card;
 
 namespace GrimoraMod;
 
@@ -12,7 +11,9 @@ public class Raider : StrikeAdjacentSlots
 
 	protected override Ability strikeAdjacentAbility => ability;
 
-	public static NewAbility Create()
+	public override bool RemoveDefaultAttackSlot() => true;
+
+	public static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription = "[creature] will strike its adjacent slots, except other Raiders.";
 

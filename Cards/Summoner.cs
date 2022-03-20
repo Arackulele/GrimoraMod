@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameSummoner = "GrimoraMod_Summoner";
+	public const string NameSummoner = $"{GUID}_Summoner";
 
 	private void Add_Summoner()
 	{

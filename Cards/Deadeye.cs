@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameDeadeye = "GrimoraMod_Deadeye";
+	public const string NameDeadeye = $"{GUID}_Deadeye";
 
 	private void Add_Deadeye()
 	{
@@ -18,4 +18,3 @@ public partial class GrimoraPlugin
 			.Build();
 	}
 }
-

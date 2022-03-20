@@ -15,7 +15,7 @@ public class CardDisplayerPatches
 			return true;
 		}
 
-		if (playableCard.IsNotNull())
+		if (playableCard)
 		{
 			int maxHealth = playableCard.MaxHealth;
 		}

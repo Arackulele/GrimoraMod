@@ -1,6 +1,7 @@
 using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Encounters;
 using Pixelplacement;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -9,11 +10,14 @@ namespace GrimoraMod;
 
 public class GrimoraBossOpponentExt : BaseBossExt
 {
-	public override StoryEvent EventForDefeat => StoryEvent.PhotoDroneSeenInCabin;
+	public static readonly OpponentManager.FullOpponent FullOpponent = OpponentManager.Add(
+		GUID,
+		"GrimoraBoss",
+		GrimoraModGrimoraBossSequencer.FullSequencer.Id,
+		typeof(GrimoraBossOpponentExt)
+	);
 
-	public override Type Opponent => GrimoraOpponent;
-
-	public override string SpecialEncounterId => "GrimoraBoss";
+	public override StoryEvent EventForDefeat => GrimoraEnums.StoryEvents.GrimoraDefeated;
 
 	public override string DefeatedPlayerDialogue => "Thank you!";
 
@@ -85,7 +89,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	{
 		Log.LogDebug("Playing Grimora theme");
 		AudioController.Instance.StopAllLoops();
-		AudioController.Instance.SetLoopAndPlay("Grimoras_Theme", 1);
+		AudioController.Instance.SetLoopAndPlay("Grimoras_Theme_Phase1", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
 		AudioController.Instance.SetLoopVolume(0.8f, 10f, 1);
 	}
@@ -158,8 +162,8 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		CardInfo infoGiant = NameGiant.GetCardInfo().Clone() as CardInfo;
 		infoGiant.displayedName = giantName;
-		infoGiant.abilities = new List<Ability> { Ability.Reach, GiantStrike.ability };
-		infoGiant.specialAbilities.Add(GrimoraGiant.SpecialTriggeredAbility);
+		infoGiant.abilities = new List<Ability> { Ability.Reach, GiantStrike.ability, Ability.MadeOfStone };
+		infoGiant.specialAbilities.Add(GrimoraGiant.FullAbility.Id);
 		infoGiant.Mods.Add(new CardModificationInfo(-1, 1));
 
 		playableGiant.SetInfo(infoGiant);
@@ -172,7 +176,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		Log.LogInfo("[Grimora] Start of Bonelord phase");
 		AudioController.Instance.FadeOutLoop(3f);
 		AudioController.Instance.StopAllLoops();
-		AudioController.Instance.SetLoopAndPlay("Bone_Lords_Theme", 1);
+		AudioController.Instance.SetLoopAndPlay("Grimora_Bone_Lords_Theme_Phase3", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0.1f, 1);
 		AudioController.Instance.FadeInLoop(7f, 0.5f, 1);
 
@@ -226,15 +230,14 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		AudioController.Instance.PlaySound2D("broken_hum");
 		UIManager.Instance.Effects.GetEffect<ScreenGlitchEffect>().SetIntensity(1f, 1f);
+		Log.LogDebug($"Glitch sound");
+		GlitchOutAssetEffect.PlayGlitchSound(playableCard.transform.position);
 		yield return BoardManager.Instance.TransitionAndResolveCreatedCard(
 			playableCard,
 			slotToSpawnIn,
 			0f
 		);
 		yield return new WaitForSeconds(0.5f);
-
-		Log.LogDebug($"Glitch sound");
-		GlitchOutAssetEffect.PlayGlitchSound(playableCard.transform.position);
 		Log.LogDebug($"Setting active");
 		playableCard.gameObject.SetActive(true);
 

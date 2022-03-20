@@ -1,11 +1,10 @@
 ﻿using System.Collections;
-using APIPlugin;
 using DiskCardGame;
-using static GrimoraMod.GrimoraPlugin;
+using InscryptionAPI.Card;
 
 namespace GrimoraMod;
 
-public class AlternatingStrike : AbilityBehaviour
+public class AlternatingStrike : ExtendedAbilityBehaviour
 {
 	public static Ability ability;
 	public override Ability Ability => ability;
@@ -14,7 +13,7 @@ public class AlternatingStrike : AbilityBehaviour
 
 	public override bool RespondsToSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
 	{
-		return attacker.IsNotNull() && attacker == Card;
+		return attacker && attacker == Card;
 	}
 
 	public override IEnumerator OnSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
@@ -31,10 +30,7 @@ public class AlternatingStrike : AbilityBehaviour
 		yield return base.OnSlotTargetedForAttack(slot, attacker);
 	}
 
-	public override bool RespondsToAttackEnded()
-	{
-		return true;
-	}
+	public override bool RespondsToAttackEnded() => true;
 
 	public override IEnumerator OnAttackEnded()
 	{
@@ -42,7 +38,24 @@ public class AlternatingStrike : AbilityBehaviour
 		yield return base.OnAttackEnded();
 	}
 
-	public static NewAbility Create()
+	public override bool RemoveDefaultAttackSlot() => true;
+
+	public override bool RespondsToGetOpposingSlots()
+	{
+		return !Card.HasAbility(AreaOfEffectStrike.ability);
+	}
+
+	public override List<CardSlot> GetOpposingSlots(List<CardSlot> originalSlots, List<CardSlot> otherAddedSlots)
+	{
+		CardSlot slotToAttack = BoardManager.Instance.GetAdjacent(Card.Slot, isAttackingLeft);
+		if (!slotToAttack)
+		{
+			slotToAttack = BoardManager.Instance.GetAdjacent(Card.Slot, !isAttackingLeft);
+		}
+		return new List<CardSlot> { slotToAttack };
+	}
+
+	public static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription =
 			"[creature] alternates between striking the opposing space to the left and right from it.";

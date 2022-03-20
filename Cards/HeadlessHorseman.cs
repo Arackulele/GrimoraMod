@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameHeadlessHorseman = "GrimoraMod_HeadlessHorseman";
+	public const string NameHeadlessHorseman = $"{GUID}_HeadlessHorseman";
 
 	private void Add_HeadlessHorseman()
 	{

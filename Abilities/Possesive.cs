@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using APIPlugin;
 using DiskCardGame;
+using InscryptionAPI.Card;
 
 namespace GrimoraMod;
 
@@ -11,7 +11,7 @@ public class Possessive : AbilityBehaviour
 
 	public override bool RespondsToSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
 	{
-		return attacker.IsNotNull() && attacker.Slot == Card.Slot.opposingSlot;
+		return attacker && attacker.Slot == Card.Slot.opposingSlot;
 	}
 
 	public override IEnumerator OnSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
@@ -20,7 +20,7 @@ public class Possessive : AbilityBehaviour
 		yield break;
 	}
 
-	public static NewAbility Create()
+	public static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription =
 			"[creature] cannot be attacked from the opposing slot. "

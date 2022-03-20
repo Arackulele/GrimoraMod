@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameManananggal = "GrimoraMod_Manananggal";
+	public const string NameManananggal = $"{GUID}_Manananggal";
 
 	private void Add_Manananggal()
 	{
@@ -18,4 +18,3 @@ public partial class GrimoraPlugin
 			.Build();
 	}
 }
-

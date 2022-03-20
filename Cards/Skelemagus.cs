@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameSkelemagus = "GrimoraMod_Skelemagus";
+	public const string NameSkelemagus = $"{GUID}_Skelemagus";
 
 	private void Add_Skelemagus()
 	{

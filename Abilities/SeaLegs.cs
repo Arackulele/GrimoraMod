@@ -1,6 +1,5 @@
-﻿using APIPlugin;
-using DiskCardGame;
-using static GrimoraMod.GrimoraPlugin;
+﻿using DiskCardGame;
+using InscryptionAPI.Card;
 
 namespace GrimoraMod;
 
@@ -10,7 +9,7 @@ public class SeaLegs : AbilityBehaviour
 
 	public override Ability Ability => ability;
 
-	public static NewAbility Create()
+	public static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription = "[creature] is unaffected by the motion of the ship.";
 

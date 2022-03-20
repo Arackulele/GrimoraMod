@@ -81,10 +81,6 @@ public class GrimoraChessboard
 
 	public readonly List<ChessRow> Rows;
 
-
-	public Opponent.Type ActiveBossType;
-
-
 	public GrimoraChessboard(IEnumerable<List<int>> board, int indexInList)
 	{
 		Rows = board.Select((boardList, idx) => new ChessRow(boardList, idx)).ToList();
@@ -147,21 +143,25 @@ public class GrimoraChessboard
 
 	public static string GetBossSpecialIdForRegion()
 	{
-		return BaseBossExt.OpponentTupleBySpecialId.ElementAt(ConfigHelper.Instance.BossesDefeated).Key;
+		Log.LogDebug($"Getting special id for region");
+		return BossHelper.OpponentTupleBySpecialId.ElementAt(ConfigHelper.Instance.BossesDefeated).Key;
 	}
 
 	#endregion
 
-	public void SetupBoard()
+	public void SetupBoard(bool placePieces)
 	{
-		PlaceBossPiece();
-		PlacePieces<ChessboardBlockerPieceExt>();
-		PlacePieces<ChessboardBoneyardPiece>();
-		PlacePieces<ChessboardCardRemovePiece>();
-		PlacePieces<ChessboardChestPiece>();
-		PlacePieces<ChessboardElectricChairPiece>();
-		PlacePieces<ChessboardEnemyPiece>("GrimoraModBattleSequencer");
-		PlacePieces<ChessboardGoatEyePiece>();
+		if (placePieces)
+		{
+			PlaceBossPiece();
+			PlacePieces<ChessboardBlockerPieceExt>();
+			PlacePieces<ChessboardBoneyardPiece>();
+			PlacePieces<ChessboardCardRemovePiece>();
+			PlacePieces<ChessboardChestPiece>();
+			PlacePieces<ChessboardElectricChairPiece>();
+			PlacePieces<ChessboardEnemyPiece>(GrimoraModBattleSequencer.ID);
+			PlacePieces<ChessboardGoatEyePiece>();
+		}
 	}
 
 	public void UpdatePlayerMarkerPosition(bool changingRegion)
@@ -171,13 +171,15 @@ public class GrimoraChessboard
 
 		ChessboardMapNode nodeAtSpace = GetNodeAtSpace(x, y);
 
-		bool pieceAtSpaceIsNotPlayer = nodeAtSpace.OccupyingPiece.IsNotNull()
+		bool pieceAtSpaceIsNotPlayer = nodeAtSpace.OccupyingPiece
 		                               && nodeAtSpace.OccupyingPiece.GetType() != typeof(PlayerMarker)
 		                               || !nodeAtSpace.isActiveAndEnabled;
 
 		// this is the final possible spawning condition that I can think of.
 		bool hasNotInteractedWithAnyPiece =
-			!ConfigHelper.Instance.RemovedPieces.Exists(piece => piece.Contains("EnemyPiece_x") || piece.Contains("ChestPiece_x"));
+			!ConfigHelper.Instance.RemovedPieces.Exists(
+				piece => piece.Contains("EnemyPiece_x") || piece.Contains("ChestPiece_x")
+			);
 
 		if (changingRegion
 		    || !StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable)
@@ -185,12 +187,13 @@ public class GrimoraChessboard
 		    || hasNotInteractedWithAnyPiece
 		   )
 		{
-			Log.LogDebug($"[UpdatePlayerMarkerPosition]"
-			             + $" Changing region? [{changingRegion}]"
-			             + $" Not reached table? [{!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable)}]"
-			             + $"PieceAtSpaceIsNotPlayer? [{pieceAtSpaceIsNotPlayer}]"
-			             + $"hasNotInteractedWithAnyPiece? [{hasNotInteractedWithAnyPiece}]"
-			             );
+			Log.LogDebug(
+				$"[UpdatePlayerMarkerPosition]"
+				+ $" Changing region? [{changingRegion}]"
+				+ $" Not reached table? [{!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable)}]"
+				+ $"PieceAtSpaceIsNotPlayer? [{pieceAtSpaceIsNotPlayer}]"
+				+ $"hasNotInteractedWithAnyPiece? [{hasNotInteractedWithAnyPiece}]"
+			);
 			// the PlayerNode will be different since this is now a different chessboard
 			SetSavePositions();
 			x = GrimoraSaveData.Data.gridX;
@@ -229,14 +232,15 @@ public class GrimoraChessboard
 
 	#region PlacingPieces
 
-	public ChessboardEnemyPiece PlaceBossPiece(string bossName = "", int x = -1, int y = -1)
+	public ChessboardEnemyPiece PlaceBossPiece(string specialSequencerId = "", int x = -1, int y = -1)
 	{
-		if (bossName.IsNullOrWhitespace())
+		if (specialSequencerId.IsNullOrWhitespace())
 		{
-			bossName = GetBossSpecialIdForRegion();
+			specialSequencerId = GetBossSpecialIdForRegion();
 		}
 
-		GameObject prefabToUse = BaseBossExt.OpponentTupleBySpecialId[bossName].Item3;
+		Log.LogDebug($"Boss name to place piece for [{specialSequencerId}]");
+		GameObject prefabToUse = BossHelper.OpponentTupleBySpecialId[specialSequencerId].Item2;
 		int newX = x == -1
 			? BossNode.GridX
 			: x;
@@ -247,7 +251,7 @@ public class GrimoraChessboard
 			prefabToUse,
 			newX,
 			newY,
-			bossName
+			specialSequencerId
 		);
 	}
 
@@ -290,7 +294,7 @@ public class GrimoraChessboard
 
 		ChessboardPiece piece = ChessboardMapExt.Instance.pieces.Find(p => p.gridXPos == x && p.gridYPos == y);
 
-		if (piece.IsNotNull())
+		if (piece)
 		{
 			// Log.LogDebug($"[CreateChessPiece<{typeof(T).Name}>] Skipping x{x}y{y}");
 			return piece.GetComponent<T>();
@@ -298,7 +302,7 @@ public class GrimoraChessboard
 
 		piece = HandlePieceSetup<T>(prefab, specialEncounterId);
 
-		if (piece.anim.IsNull() && piece.transform.Find("Anim").IsNotNull())
+		if (piece.anim.IsNull() && piece.transform.Find("Anim"))
 		{
 			piece.anim = piece.transform.Find("Anim").GetComponent<Animator>();
 		}
@@ -325,7 +329,7 @@ public class GrimoraChessboard
 	private static string CreateNameOfPiece<T>(string specialEncounterId, string coordName) where T : ChessboardPiece
 	{
 		string nameTemp = typeof(T).Name.Replace("Chessboard", "") + "_" + coordName;
-		if (specialEncounterId.Contains("Boss"))
+		if (BossHelper.OpponentTupleBySpecialId.ContainsKey(specialEncounterId))
 		{
 			nameTemp = nameTemp.Replace("Enemy", "Boss");
 		}
@@ -346,10 +350,9 @@ public class GrimoraChessboard
 		{
 			case ChessboardEnemyPiece enemyPiece:
 			{
-				if (specialEncounterId.Contains("Boss"))
+				if (BossHelper.OpponentTupleBySpecialId.ContainsKey(specialEncounterId))
 				{
-					ActiveBossType = BaseBossExt.OpponentTupleBySpecialId.GetValueSafe(specialEncounterId).Item1;
-					enemyPiece.blueprint = BaseBossExt.OpponentTupleBySpecialId[specialEncounterId].Item4;
+					enemyPiece.blueprint = BossHelper.OpponentTupleBySpecialId[specialEncounterId].Item3;
 					int bossesDefeated = ConfigHelper.Instance.BossesDefeated;
 					switch (bossesDefeated)
 					{
@@ -389,7 +392,7 @@ public class GrimoraChessboard
 	private static EncounterBlueprintData GetBlueprint()
 	{
 		var blueprints
-			= BlueprintUtils.RegionWithBlueprints[ChessboardMapExt.Instance.ActiveChessboard.ActiveBossType];
+			= BlueprintUtils.RegionWithBlueprints.ElementAt(ConfigHelper.Instance.BossesDefeated).Value;
 		return blueprints[UnityEngine.Random.RandomRangeInt(0, blueprints.Count)];
 	}
 

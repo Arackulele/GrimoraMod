@@ -11,7 +11,12 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 {
 	[SerializeField] private GameObject revenantCard;
 
-	private readonly CardInfo _revenantCardReward = NameRevenant.GetCardInfo();
+	private CardInfo _revenantCardReward;
+
+	private void Start()
+	{
+		_revenantCardReward = NameRevenant.GetCardInfo();
+	}
 
 	private IEnumerator InitialSetup()
 	{
@@ -52,7 +57,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		}
 		else
 		{
-			if (!ProgressionData.LearnedMechanic(GrimoraMechanics.Boneyard))
+			if (!ProgressionData.LearnedMechanic(GrimoraEnums.Mechanics.Boneyard))
 			{
 				yield return TextDisplayer.Instance.ShowUntilInput(
 					"A LONE GRAVE SITS SOLEMNLY IN FRONT OF YOU.",
@@ -82,7 +87,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 					selectCardFromDeckSlot.CursorSelectStarted,
 					new Action<MainInputInteractable>(OnSlotSelected)
 				);
-			if (UnityEngine.Random.value < 0.25f && VideoCameraRig.Instance.IsNotNull())
+			if (UnityEngine.Random.value < 0.25f && VideoCameraRig.Instance)
 			{
 				VideoCameraRig.Instance.PlayCameraAnim("refocus_quick");
 			}
@@ -123,7 +128,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 				finishedBuffing = true;
 			}
 
-			if (ProgressionData.LearnedMechanic(GrimoraMechanics.Boneyard))
+			if (ProgressionData.LearnedMechanic(GrimoraEnums.Mechanics.Boneyard))
 			{
 				yield return TextDisplayer.Instance.ShowUntilInput("MARVELOUS! THEY CAME CRAWLING BACK AFTER YOU BURIED THEM.");
 				yield return TextDisplayer.Instance.ShowUntilInput("THEY STILL CARE ABOUT YOU IT SEEMS!");
@@ -138,14 +143,14 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 				);
 				yield return TextDisplayer.Instance.ShowUntilInput("THOUGH THE WEIGHT OF CONSEQUENCE ALSO SEEMS LIFTED...");
 
-				ProgressionData.SetMechanicLearned(GrimoraMechanics.Boneyard);
+				ProgressionData.SetMechanicLearned(GrimoraEnums.Mechanics.Boneyard);
 			}
 		}
 
 
 		yield return OutroEnvTeardown();
 
-		if (GameFlowManager.Instance.IsNotNull())
+		if (GameFlowManager.Instance)
 		{
 			GameFlowManager.Instance.TransitionToGameState(GameState.Map);
 		}
@@ -279,7 +284,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		selectionSlot.SetShown(true);
 		selectionSlot.ShowState(HighlightedInteractable.State.Interactable);
 		ViewManager.Instance.SwitchToView(View.Default, false, true);
-		if (selectionSlot.Card.IsNotNull())
+		if (selectionSlot.Card)
 		{
 			confirmStone.Enter();
 		}

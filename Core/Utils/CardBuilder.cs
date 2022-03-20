@@ -1,6 +1,6 @@
-﻿using APIPlugin;
-using DiskCardGame;
-using HarmonyLib;
+﻿using DiskCardGame;
+using InscryptionAPI.Card;
+using InscryptionAPI.Helpers;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -12,23 +12,12 @@ public class CardBuilder
 
 	private readonly CardInfo _cardInfo = ScriptableObject.CreateInstance<CardInfo>();
 
-	public CardInfo Build(SpecialAbilityIdentifier specialId = null)
+	public CardInfo Build()
 	{
-		if (_cardInfo.metaCategories.Contains(CardMetaCategory.Rare))
-		{
-			_cardInfo.appearanceBehaviour = CardUtils.getRareAppearance;
-		}
-
 		_cardInfo.temple = CardTemple.Undead;
 
-		List<SpecialAbilityIdentifier> specialIds = null;
-		if (specialId != null)
-		{
-			specialIds = new List<SpecialAbilityIdentifier> { specialId };
-		}
-
 		AllGrimoraModCards.Add(_cardInfo);
-		NewCard.Add(_cardInfo, specialAbilitiesIdsParam: specialIds);
+		CardManager.Add(GUID, _cardInfo);
 		return _cardInfo;
 	}
 
@@ -44,7 +33,7 @@ public class CardBuilder
 
 	internal CardBuilder SetTribes(params Tribe[] tribes)
 	{
-		_cardInfo.tribes = tribes?.ToList();
+		_cardInfo.tribes = tribes.ToList();
 		return this;
 	}
 
@@ -52,17 +41,16 @@ public class CardBuilder
 	{
 		if (ogCardArt.IsNull())
 		{
-			cardName = cardName.Replace("GrimoraMod_", "");
-			// Log.LogDebug($"Looking in AllSprites for [{cardName}]");
+			cardName = cardName.Replace($"{GUID}_", "");
 			_cardInfo.portraitTex = AssetUtils.GetPrefab<Sprite>(cardName);
 
 			// TODO: refactor when API 2.0 comes out
-			if (!NewCard.emissions.ContainsKey(cardName) && AllSprites.Exists(_ => _.name.Equals($"{cardName}_emission")))
+			if (AllSprites.Exists(_ => _.name.Equals($"{cardName}_emission")))
 			{
-				NewCard.emissions.Add(
-					cardName,
-					AllSprites.Single(_ => _.name.Equals($"{cardName}_emission"))
-				);
+				AllSprites.Single(_ => _.name.Equals(cardName))
+					.RegisterEmissionForSprite(
+						AllSprites.Single(_ => _.name.Equals($"{cardName}_emission"))
+					);
 			}
 		}
 		else
@@ -143,58 +131,36 @@ public class CardBuilder
 	internal CardBuilder SetMetaCategories(params CardMetaCategory[] categories)
 	{
 		_cardInfo.metaCategories = categories?.ToList();
+		if ((categories ?? Array.Empty<CardMetaCategory>()).Contains(CardMetaCategory.Rare))
+		{
+			_cardInfo.appearanceBehaviour = new List<CardAppearanceBehaviour.Appearance>
+				{ CardAppearanceBehaviour.Appearance.RareCardBackground };
+		}
+
 		return this;
 	}
 
 	internal CardBuilder SetAbilities(params Ability[] abilities)
 	{
-		_cardInfo.abilities = abilities?.ToList();
+		_cardInfo.abilities = abilities.ToList();
 		return this;
 	}
 
-	internal CardBuilder SetAbilities(params SpecialTriggeredAbility[] specialTriggeredAbilities)
+	internal CardBuilder SetSpecialAbilities(params SpecialTriggeredAbility[] specialTriggeredAbilities)
 	{
-		_cardInfo.specialAbilities = specialTriggeredAbilities?.ToList();
+		_cardInfo.specialAbilities = specialTriggeredAbilities.ToList();
 		return this;
 	}
 
 	internal CardBuilder SetIceCube(string iceCubeName)
 	{
-		CardInfo cardToLoad = null;
-		try
-		{
-			cardToLoad = iceCubeName.GetCardInfo();
-		}
-		catch (Exception e)
-		{
-			cardToLoad = NewCard.cards.Single(_ => _.name.Equals(iceCubeName));
-		}
-
-		_cardInfo.iceCubeParams = new IceCubeParams
-		{
-			creatureWithin = cardToLoad
-		};
-
+		_cardInfo.SetIceCube(iceCubeName);
 		return this;
 	}
 
 	internal CardBuilder SetEvolve(string evolveInto, int numberOfTurns)
 	{
-		CardInfo cardToLoad = null;
-		try
-		{
-			cardToLoad = evolveInto.GetCardInfo();
-		}
-		catch (Exception e)
-		{
-			cardToLoad = NewCard.cards.Single(_ => _.name.Equals(evolveInto));
-		}
-
-		_cardInfo.evolveParams = new EvolveParams
-		{
-			turnsToEvolve = numberOfTurns,
-			evolution = cardToLoad
-		};
+		_cardInfo.SetEvolve(evolveInto, numberOfTurns);
 		return this;
 	}
 

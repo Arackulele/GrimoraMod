@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameMudWorm = "GrimoraMod_MudWorm";
+	public const string NameMudWorm = $"{GUID}_MudWorm";
 
 	private void Add_MudWorm()
 	{

@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameRipper = "GrimoraMod_Ripper";
+	public const string NameRipper = $"{GUID}_Ripper";
 
 	private void Add_Ripper()
 	{

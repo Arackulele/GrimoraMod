@@ -1,5 +1,5 @@
-using APIPlugin;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -7,13 +7,12 @@ namespace GrimoraMod;
 
 public class GainAttackBones : VariableStatBehaviour
 {
-	public static NewSpecialAbility NewSpecialAbility;
+	public static SpecialTriggeredAbilityManager.FullSpecialTriggeredAbility FullSpecial;
+	public static StatIconManager.FullStatIcon FullStatIcon;
 
-	public static SpecialStatIcon SpecialStatIcon;
+	public override SpecialStatIcon IconType => FullStatIcon.Id;
 
-	public override SpecialStatIcon IconType => SpecialStatIcon;
-
-	public static NewSpecialAbility Create()
+	public static StatIconManager.FullStatIcon Create()
 	{
 		StatIconInfo info = ScriptableObject.CreateInstance<StatIconInfo>();
 		info.appliesToHealth = false;
@@ -21,11 +20,9 @@ public class GainAttackBones : VariableStatBehaviour
 		info.rulebookDescription = "[creature] gains 1 attack for each bone the player currently has.";
 		info.iconGraphic = AllAbilityTextures.Single(_ => _.name.Equals("ability_GainAttackBones"));
 
-		var sId = SpecialAbilityIdentifier.GetID(GUID, "GrimoraMod_GainAttackBones");
-
-		NewSpecialAbility = new NewSpecialAbility(typeof(GainAttackBones), sId, info);
-		SpecialStatIcon = NewSpecialAbility.statIconInfo.iconType;
-		return NewSpecialAbility;
+		FullSpecial = ApiUtils.CreateSpecialAbility<GainAttackBones>(info.rulebookName);
+		FullStatIcon = ApiUtils.CreateStatIcon<GainAttackBones>(info);
+		return FullStatIcon;
 	}
 
 	public override int[] GetStatValues()

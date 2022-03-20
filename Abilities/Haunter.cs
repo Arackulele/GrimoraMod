@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using InscryptionAPI.Card;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -63,7 +64,7 @@ public class Haunter : AbilityBehaviour
 			//Fix Rend
 			List<CardAbilityIcons> icons = sigils.GetComponentsInParent<CardAbilityIcons>().ToList();
 			icons.AddRange(sigils.GetComponentsInChildren<CardAbilityIcons>().ToList());
-			foreach (var i in icons.Where(cai => cai.IsNotNull()))
+			foreach (var i in icons.Where(cai => cai))
 			{
 				DestroyImmediate(i);
 			}
@@ -82,7 +83,7 @@ public class Haunter : AbilityBehaviour
 		yield break;
 	}
 
-	public static NewAbility Create()
+	public static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription = "When [creature] perishes, it haunts the space it died in. "
 		                                   + "Creatures played on this space gain its old sigils.";
@@ -136,7 +137,7 @@ public class HauntedSlot : NonCardTriggerReceiver
 		otherCard.RenderCard();
 
 		List<GameObject> haunts = hauntSigils;
-		foreach (var haunt in haunts.Where(haunt => haunt.IsNotNull()))
+		foreach (var haunt in haunts.Where(haunt => haunt))
 		{
 			CustomCoroutine.WaitThenExecute(0.1f, delegate() { Destroy(haunt); });
 		}
@@ -159,7 +160,7 @@ public class HauntedSlot : NonCardTriggerReceiver
 
 		foreach (GameObject floater in hauntSigils)
 		{
-			if (floater.GetComponent<HauntedSigilFloatData>().IsNotNull())
+			if (floater.GetComponent<HauntedSigilFloatData>())
 			{
 				HauntedSigilFloatData floatData = floater.GetComponent<HauntedSigilFloatData>();
 				if (floatData.movingUp)

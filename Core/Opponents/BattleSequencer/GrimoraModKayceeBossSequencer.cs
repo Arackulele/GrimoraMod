@@ -1,5 +1,6 @@
 using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Encounters;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -7,21 +8,19 @@ namespace GrimoraMod;
 
 public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 {
+	public static readonly SpecialSequenceManager.FullSpecialSequencer FullSequencer = SpecialSequenceManager.Add(
+		GUID,
+		nameof(GrimoraModKayceeBossSequencer),
+		typeof(GrimoraModKayceeBossSequencer)
+	);
+
 	private bool _playedDialogueSubmerge = false;
 
 	private bool _playedDialogueHookLineAndSinker = false;
 
 	private bool _playedDialoguePossessive = false;
 
-	public override Opponent.Type BossType => BaseBossExt.KayceeOpponent;
-
-	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
-	{
-		return new EncounterData
-		{
-			opponentType = BossType
-		};
-	}
+	public override Opponent.Type BossType => KayceeBossOpponent.FullOpponent.Id;
 
 	public override bool RespondsToUpkeep(bool playerUpkeep)
 	{

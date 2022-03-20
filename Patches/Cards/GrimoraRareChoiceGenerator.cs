@@ -10,7 +10,7 @@ public class GrimoraRareChoiceGenerator : CardChoiceGenerator
 {
 	public override List<CardChoice> GenerateChoices(CardChoicesNodeData data, int randomSeed)
 	{
-		return RandomUtils.GenerateRandomChoicesOfCategory(CardLoader.allData, randomSeed, CardMetaCategory.Rare);
+		return RandomUtils.GenerateRandomChoicesOfCategory(CardLoader.allData, CardMetaCategory.Rare);
 	}
 }
 
@@ -70,7 +70,7 @@ public class RareCardChoicesSequencerPatch
 		__instance.SetCollidersEnabled(true);
 		__instance.gamepadGrid.enabled = true;
 		__instance.chosenReward = null;
-		yield return new WaitUntil(() => __instance.chosenReward.IsNotNull());
+		yield return new WaitUntil(() => __instance.chosenReward);
 		__instance.chosenReward.transform.parent = null;
 		RuleBookController.Instance.SetShown(false);
 		__instance.gamepadGrid.enabled = false;

@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameFranknstein = "GrimoraMod_Franknstein";
+	public const string NameFranknstein = $"{GUID}_Franknstein";
 
 	private void Add_Franknstein()
 	{

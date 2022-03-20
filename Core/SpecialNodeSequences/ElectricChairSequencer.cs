@@ -63,7 +63,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		Ability.Submerge,
 		Ability.SwapStats,
 		Ability.TailOnHit,
-		Ability.Transformer,
+		// Ability.Transformer,
 		Ability.TriStrike,
 		Ability.Tutor,
 		Ability.WhackAMole
@@ -93,7 +93,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		}
 		else
 		{
-			if (!ProgressionData.LearnedMechanic(GrimoraMechanics.ElectricChar))
+			if (!ProgressionData.LearnedMechanic(GrimoraEnums.Mechanics.ElectricChar))
 			{
 				yield return TextDisplayer.Instance.ShowUntilInput("OH! I LOVE THIS ONE!");
 				yield return TextDisplayer.Instance.ShowUntilInput(
@@ -103,14 +103,14 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 					"OF COURSE, IT DOESN'T HURT.\nYOU CAN'T DIE TWICE AFTER ALL."
 				);
 
-				ProgressionData.SetMechanicLearned(GrimoraMechanics.ElectricChar);
+				ProgressionData.SetMechanicLearned(GrimoraEnums.Mechanics.ElectricChar);
 			}
 
 			yield return UntilFinishedBuffingOrCardIsDestroyed();
 		}
 
 		yield return OutroEnvTeardown();
-		if (GameFlowManager.Instance.IsNotNull())
+		if (GameFlowManager.Instance)
 		{
 			GameFlowManager.Instance.TransitionToGameState(GameState.Map);
 		}
@@ -216,7 +216,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			}
 		}
 
-		if (destroyedCard.IsNotNull())
+		if (destroyedCard)
 		{
 			// "Before you could pull away, one of the survivors leapt upon the [c:bR][v:0][c:]."
 			// "Another jabbed it with a spear."
@@ -263,7 +263,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	{
 		selectionSlot.SetShown(true);
 		selectionSlot.ShowState(HighlightedInteractable.State.Interactable);
-		if (selectionSlot.Card.IsNotNull())
+		if (selectionSlot.Card)
 		{
 			confirmStone.Enter();
 		}
@@ -378,7 +378,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 				selectCardFromDeckSlot.CursorSelectStarted,
 				new Action<MainInputInteractable>(OnSlotSelected)
 			);
-		if (UnityEngine.Random.value < 0.25f && VideoCameraRig.Instance.IsNotNull())
+		if (UnityEngine.Random.value < 0.25f && VideoCameraRig.Instance)
 		{
 			VideoCameraRig.Instance.PlayCameraAnim("refocus_quick");
 		}
@@ -399,7 +399,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	{
 		ViewManager.Instance.SwitchToView(View.Default);
 		yield return new WaitForSeconds(0.25f);
-		
+
 		AudioController.Instance.StopLoop(1);
 
 		campfireLight.gameObject.SetActive(false);

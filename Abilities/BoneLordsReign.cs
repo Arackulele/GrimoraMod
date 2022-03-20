@@ -1,6 +1,6 @@
 using System.Collections;
-using APIPlugin;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -11,10 +11,7 @@ public class BoneLordsReign : AbilityBehaviour
 
 	public override Ability Ability => ability;
 
-	public override bool RespondsToResolveOnBoard()
-	{
-		return true;
-	}
+	public override bool RespondsToResolveOnBoard() => true;
 
 	public override IEnumerator OnResolveOnBoard()
 	{
@@ -30,7 +27,9 @@ public class BoneLordsReign : AbilityBehaviour
 			foreach (var playableCard in activePlayerCards)
 			{
 				playableCard.Anim.StrongNegationEffect();
-				int attack = playableCard.Attack == 0 ? 0 : 1 - playableCard.Attack;
+				int attack = playableCard.Attack == 0
+					? 0
+					: 1 - playableCard.Attack;
 				CardModificationInfo mod = new CardModificationInfo(attack, 1 - playableCard.Health);
 				playableCard.AddTemporaryMod(mod);
 				playableCard.Anim.PlayTransformAnimation();
@@ -39,7 +38,7 @@ public class BoneLordsReign : AbilityBehaviour
 		}
 	}
 
-	public static NewAbility Create()
+	public static AbilityManager.FullAbility Create()
 	{
 		const string rulebookDescription =
 			"Whenever [creature] gets played, all enemies attack and health is set to 1.";

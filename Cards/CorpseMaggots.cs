@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameCorpseMaggots = "GrimoraMod_Maggots";
+	public const string NameCorpseMaggots = $"{GUID}_Maggots";
 
 	private void Add_CorpseMaggots()
 	{

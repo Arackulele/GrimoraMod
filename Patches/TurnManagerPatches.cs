@@ -8,34 +8,6 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(TurnManager))]
 public class TurnManagerPatches
 {
-
-	[HarmonyPrefix, HarmonyPatch(nameof(TurnManager.UpdateSpecialSequencer))]
-	public static bool Prefix(ref TurnManager __instance, string specialBattleId)
-	{
-		if (GrimoraSaveUtil.isNotGrimora)
-		{
-			return true;
-		}
-
-		Log.LogDebug($"[UpdateSpecialSequencer][Prefix] " +
-		             $"SpecialBattleId [{specialBattleId}] " +
-		             $"SaveFile is grimora? [{GrimoraSaveUtil.isGrimora}]");
-
-		Object.Destroy(__instance.SpecialSequencer);
-		__instance.SpecialSequencer = null;
-
-		if (BaseBossExt.OpponentTupleBySpecialId.ContainsKey(specialBattleId))
-		{
-			__instance.SpecialSequencer = __instance.gameObject
-					.AddComponent(BaseBossExt.OpponentTupleBySpecialId[specialBattleId].Item2) as SpecialBattleSequencer;
-
-			Log.LogDebug($"[UpdateSpecialSequencer][Prefix] SpecialSequencer is [{__instance.SpecialSequencer}]");
-		}
-
-		return false;
-	}
-
-
 	[HarmonyPostfix, HarmonyPatch(nameof(TurnManager.SetupPhase))]
 	public static IEnumerator PostfixAddStartingBones(
 		IEnumerator enumerator,
@@ -48,10 +20,9 @@ public class TurnManagerPatches
 		{
 			yield return ResourcesManager.Instance.AddBones(25);
 		}
-			int bonesToAdd = ConfigHelper.Instance.BonesToAdd;
-			Log.LogDebug($"[SetupPhase] Adding [{bonesToAdd}] bones");
-			yield return ResourcesManager.Instance.AddBones(bonesToAdd);
 
-		yield break;
+		int bonesToAdd = ConfigHelper.Instance.BonesToAdd;
+		Log.LogDebug($"[SetupPhase] Adding [{bonesToAdd}] bones");
+		yield return ResourcesManager.Instance.AddBones(bonesToAdd);
 	}
 }

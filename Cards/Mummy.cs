@@ -2,7 +2,7 @@
 
 public partial class GrimoraPlugin
 {
-	public const string NameMummy = "GrimoraMod_Mummy";
+	public const string NameMummy = $"{GUID}_Mummy";
 
 	private void Add_Mummy()
 	{

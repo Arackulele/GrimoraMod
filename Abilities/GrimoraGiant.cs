@@ -1,28 +1,21 @@
 ﻿using System.Collections;
-using APIPlugin;
 using DiskCardGame;
-using UnityEngine;
+using InscryptionAPI.Card;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
 public class GrimoraGiant : SpecialCardBehaviour
 {
-	public static SpecialTriggeredAbility SpecialTriggeredAbility;
+	public static SpecialTriggeredAbilityManager.FullSpecialTriggeredAbility FullAbility;
 
-	public static NewSpecialAbility Create()
+	public static SpecialTriggeredAbilityManager.FullSpecialTriggeredAbility Create()
 	{
-		var sId = SpecialAbilityIdentifier.GetID(GUID, "!GRIMORA_GIANT");
-
-		var ability = new NewSpecialAbility(typeof(GrimoraGiant), sId);
-		SpecialTriggeredAbility = ability.specialTriggeredAbility;
-		return ability;
+		FullAbility = SpecialTriggeredAbilityManager.Add(GUID, "!GRIMORA_GIANT", typeof(GrimoraGiant));
+		return FullAbility;
 	}
 
-	public override bool RespondsToResolveOnBoard()
-	{
-		return true;
-	}
+	public override bool RespondsToResolveOnBoard() => true;
 
 	public override IEnumerator OnResolveOnBoard()
 	{
@@ -34,16 +27,13 @@ public class GrimoraGiant : SpecialCardBehaviour
 
 		for (int i = 0; i < slotsToSet; i++)
 		{
-			BoardManager.Instance.OpponentSlotsCopy[PlayableCard.Slot.Index - i].Card = PlayableCard;
+			BoardManager.Instance.opponentSlots[PlayableCard.Slot.Index - i].Card = PlayableCard;
 		}
 
 		yield break;
 	}
 
-	public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer)
-	{
-		return true;
-	}
+	public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer) => true;
 
 	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
 	{
@@ -55,7 +45,7 @@ public class GrimoraGiant : SpecialCardBehaviour
 
 		for (int i = 0; i < slotsToSet; i++)
 		{
-			BoardManager.Instance.OpponentSlotsCopy[PlayableCard.Slot.Index - i].Card = null;
+			BoardManager.Instance.opponentSlots[PlayableCard.Slot.Index - i].Card = null;
 		}
 
 		yield break;

@@ -4,7 +4,7 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameHellhand = "GrimoraMod_Hellhand";
+	public const string NameHellhand = $"{GUID}_Hellhand";
 
 	private void Add_Hellhand()
 	{
