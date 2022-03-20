@@ -16,10 +16,10 @@ public class BoardManagerPatches
 	)
 	{
 		card.transform.SetParent(BoardManager.Instance.OpponentQueueSlots[card.QueuedSlot.Index].transform);
-		if (TurnManager.Instance.Opponent is RoyalBossOpponentExt && card.OpponentCard && !card.HasAbility(SeaLegs.ability))
+		if (TurnManager.Instance.Opponent is RoyalBossOpponentExt && card.OpponentCard && !card.HasAbility(Anchored.ability))
 		{
 			CardInfo copyInfo = card.Info.Clone() as CardInfo;
-			copyInfo.Mods.Add(new CardModificationInfo(SeaLegs.ability));
+			copyInfo.Mods.Add(new CardModificationInfo(Anchored.ability));
 
 			card.SetInfo(copyInfo);
 		}
@@ -34,10 +34,10 @@ public class BoardManagerPatches
 		bool resolveTriggers = true
 	)
 	{
-		if (TurnManager.Instance.Opponent is RoyalBossOpponentExt && card.OpponentCard && !card.HasAbility(SeaLegs.ability))
+		if (TurnManager.Instance.Opponent is RoyalBossOpponentExt && card.OpponentCard && !card.HasAbility(Anchored.ability))
 		{
 			CardInfo copyInfo = card.Info.Clone() as CardInfo;
-			copyInfo.Mods.Add(new CardModificationInfo(SeaLegs.ability));
+			copyInfo.Mods.Add(new CardModificationInfo(Anchored.ability));
 
 			card.SetInfo(copyInfo);
 		}

@@ -65,7 +65,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		PlayTableSway();
 
 		var allCardsOnBoard = BoardManager.Instance.AllSlotsCopy
-			.Where(slot => slot.Card && !slot.CardIsNotNullAndHasAbility(SeaLegs.ability))
+			.Where(slot => slot.Card && !slot.CardIsNotNullAndHasAbility(Anchored.ability))
 			.Select(slot => slot.Card)
 			.ToList();
 
@@ -131,7 +131,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		Log.LogInfo(
 			$"[TableSway.SlotHasSpace] Checking {(toLeft ? "left" : "right")} adjacent slot of card [{adjacent.Card.GetNameAndSlot()}]"
 		);
-		return SlotHasSpace(adjacent, toLeft) && !adjacent.Card.HasAbility(SeaLegs.ability);
+		return SlotHasSpace(adjacent, toLeft) && !adjacent.Card.HasAbility(Anchored.ability);
 	}
 
 	protected virtual IEnumerator DoStrafe(PlayableCard playableCard, bool movingLeft)
@@ -186,7 +186,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		if (destination)
 		{
 			bool destinationSlotCardHasSeaLegs = destination.Card
-			                                     && destination.Card.HasAbility(SeaLegs.ability);
+			                                     && destination.Card.HasAbility(Anchored.ability);
 			if (destinationValid)
 			{
 				Log.LogInfo(

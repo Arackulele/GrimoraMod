@@ -3,7 +3,7 @@ using InscryptionAPI.Card;
 
 namespace GrimoraMod;
 
-public class SeaLegs : AbilityBehaviour
+public class Anchored : AbilityBehaviour
 {
 	public static Ability ability;
 
@@ -13,6 +13,6 @@ public class SeaLegs : AbilityBehaviour
 	{
 		const string rulebookDescription = "[creature] is unaffected by the motion of the ship.";
 
-		return ApiUtils.CreateAbility<SeaLegs>(rulebookDescription);
+		return ApiUtils.CreateAbility<Anchored>(rulebookDescription);
 	}
 }

@@ -8,7 +8,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(LitFuse.ability, SeaLegs.ability)
+			.SetAbilities(Anchored.ability, LitFuse.ability)
 			.SetBaseAttackAndHealth(0, 2)
 			.SetBoneCost(1)
 			.SetDescription("THAT'S WHAT HAPPENS WHEN YOU PLAY WITH BOMBS!")
