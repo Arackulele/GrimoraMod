@@ -19,7 +19,7 @@ public class SentryPatches
 					__instance.transform
 				)
 				.AddComponent<Animator>();
-			skeletonArmShoot.name = "SkeletonArmAttack_Sentry";
+			skeletonArmShoot.name = "SkeletonArms_Sentry";
 			skeletonArmShoot.runtimeAnimatorController = AssetConstants.SkeletonArmController;
 			skeletonArmShoot.gameObject.AddComponent<AnimMethods>();
 			skeletonArmShoot.gameObject.SetActive(false);

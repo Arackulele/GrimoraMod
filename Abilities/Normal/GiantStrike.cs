@@ -25,7 +25,7 @@ public class GiantStrike : ExtendedAbilityBehaviour
 					Card.transform
 				)
 				.AddComponent<Animator>();
-			skeletonArm2Attacks.name = "Skeleton2ArmsAttacks";
+			skeletonArm2Attacks.name = "SkeletonArms_Giants";
 			skeletonArm2Attacks.runtimeAnimatorController = AssetConstants.SkeletonArmController;
 			skeletonArm2Attacks.gameObject.AddComponent<AnimMethods>();
 			skeletonArm2Attacks.gameObject.SetActive(false);

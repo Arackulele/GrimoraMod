@@ -10,11 +10,44 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(GravestoneCardAnimationController))]
 public class GravestoneCardAnimationControllerPatches
 {
+	private const string SkeletonArmsGiants = "SkeletonArms_Giants";
+	private const string SkeletonArmsInvertedStrike = "Skeleton2ArmsAttacks";
+	private const string SkeletonArmsSentry = "SkeletonArms_Sentry";
+	
+	private static Animator GetCorrectCustomArmsPrefab(GravestoneCardAnimationController controller)
+	{
+		Animator customSkeletonArmPrefab = null;
+		if (controller.transform.Find(SkeletonArmsGiants))
+		{
+			customSkeletonArmPrefab = controller.transform.Find(SkeletonArmsGiants).GetComponent<Animator>();
+		}
+		else if (controller.transform.Find(SkeletonArmsSentry))
+		{
+			customSkeletonArmPrefab = controller.transform.Find(SkeletonArmsSentry).GetComponent<Animator>();
+		}
+		else if (controller.transform.Find(SkeletonArmsInvertedStrike))
+		{
+			customSkeletonArmPrefab = controller.transform.Find(SkeletonArmsInvertedStrike).GetComponent<Animator>();
+		}
+
+		if (customSkeletonArmPrefab)
+		{
+			customSkeletonArmPrefab.gameObject.SetActive(false);
+		}
+
+		return customSkeletonArmPrefab;
+	}
+
 	[HarmonyPatch(nameof(GravestoneCardAnimationController.PlayAttackAnimation))]
 	public static bool Prefix(ref GravestoneCardAnimationController __instance, bool attackPlayer, CardSlot targetSlot)
 	{
+		Animator customArmPrefab = GetCorrectCustomArmsPrefab(__instance);
+		bool isGiant = __instance.PlayableCard.HasSpecialAbility(GrimoraGiant.FullAbility.Id);
+		bool doPlaySentryAttack = targetSlot.IsNull() && __instance.PlayableCard.HasAbility(Ability.Sentry);
+		bool hasInvertedStrike = __instance.PlayableCard.HasAbility(InvertedStrike.ability);
+
+		__instance.armAnim.gameObject.SetActive(false);
 		__instance.Anim.Play("shake", 0, 0f);
-		__instance.armAnim.gameObject.SetActive(true);
 
 		int numToDetermineRotation = (
 			                             targetSlot.Index                     // 0
@@ -35,23 +68,19 @@ public class GravestoneCardAnimationControllerPatches
 			targetSlot
 		);
 
-		if (__instance.PlayableCard.HasSpecialAbility(GrimoraGiant.FullAbility.Id))
+		if (isGiant || doPlaySentryAttack || hasInvertedStrike)
 		{
-			var skeletonArm2Attacks = __instance.transform.Find("Skeleton2ArmsAttacks").GetComponent<Animator>();
-			skeletonArm2Attacks.gameObject.SetActive(true);
-			skeletonArm2Attacks.Play(animToPlay, 0, 0f);
-		}
-		if (targetSlot.IsNull() && __instance.PlayableCard.HasAbility(Ability.Sentry))
-		{
-			animToPlay = "attack_sentry";
-			var skeletonArmShoot = __instance.transform.Find("SkeletonArmAttack_Sentry").GetComponent<Animator>();
-			skeletonArmShoot.gameObject.SetActive(true);
-			skeletonArmShoot.Play(animToPlay, 0, 0f);
+			customArmPrefab.gameObject.SetActive(true);
+			Log.LogDebug($"Playing attack [{animToPlay}] for card {__instance.PlayableCard.GetNameAndSlot()}");
+			customArmPrefab.Play(animToPlay, 0, 0f);
 		}
 		else
 		{
+			__instance.armAnim.gameObject.SetActive(true);
+			Log.LogDebug($"Playing regular attack [{animToPlay}]");
 			__instance.armAnim.Play(animToPlay, 0, 0f);
 		}
+
 		string soundId = "gravestone_card_" + typeToAttack;
 		AudioController.Instance.PlaySound3D(
 			soundId,
@@ -86,6 +115,7 @@ public class GravestoneCardAnimationControllerPatches
 		bool isCardOpponents = playableCard.OpponentCard;
 		bool hasAreaOfEffectStrike = playableCard.HasAbility(AreaOfEffectStrike.ability);
 		bool hasInvertedStrike = playableCard.HasAbility(InvertedStrike.ability);
+		bool hasSentry = playableCard.HasAbility(Ability.Sentry);
 		bool targetSlotIsFarthestAway =
 			Mathf.Abs(numToDetermineRotation) == BoardManager.Instance.PlayerSlotsCopy.Count - 1;
 
@@ -96,7 +126,16 @@ public class GravestoneCardAnimationControllerPatches
 
 		if (playableCard.HasSpecialAbility(GrimoraGiant.FullAbility.Id))
 		{
+			if (string.IsNullOrEmpty(directionToAttack))
+			{
+				animToPlay.Append("_right");
+			}
+
 			animToPlay.Append("_giant");
+		}
+		else if (hasSentry)
+		{
+			animToPlay.Append("attack_sentry");
 		}
 		else if (hasInvertedStrike)
 		{
@@ -106,7 +145,7 @@ public class GravestoneCardAnimationControllerPatches
 			}
 			else if (Math.Abs(targetSlot.Index - playableCard.Slot.Index) == 2)
 			{
-				animToPlay.Append("_invertedstrike");	
+				animToPlay.Append("_invertedstrike");
 			}
 		}
 		else if (hasAreaOfEffectStrike || cardIsTargetingAdjFriendly)
