@@ -58,7 +58,8 @@ public class GiantStrike : ExtendedAbilityBehaviour
 				.ToList();
 			if (slotsWithCards.Count == 1)
 			{
-				slotsToTarget.RemoveAll(slot => slot != slotsWithCards[0]);
+				slotsToTarget.Clear();
+				slotsToTarget.Add(slotsWithCards[0]);
 				// single card has health greater than current attack, then attack twice 
 				if (slotsWithCards[0].Card.Health > Card.Attack)
 				{
@@ -67,7 +68,7 @@ public class GiantStrike : ExtendedAbilityBehaviour
 			}
 		}
 
-		GrimoraPlugin.Log.LogInfo($"[GiantStrike] Opposing slots is now [{slotsToTarget.Join(slot => slot.Index.ToString())}]");
+		GrimoraPlugin.Log.LogInfo($"[{GetType().Name}] Opposing slots is now [{slotsToTarget.Join(slot => slot.Index.ToString())}]");
 		return slotsToTarget;
 	}
 
