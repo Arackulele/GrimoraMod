@@ -48,10 +48,10 @@ public class GiantStrike : ExtendedAbilityBehaviour
 	public override List<CardSlot> GetOpposingSlots(List<CardSlot> originalSlots, List<CardSlot> otherAddedSlots)
 	{
 		// assume giant is in slot indexes 0, 1
-		// original slots has opposing slot of index 1 
+		// original slots has opposing slot of index 1
 		List<CardSlot> slotsToTarget = new List<CardSlot>(GetTwinGiantOpposingSlots());
 		// List<CardSlot> giantOpposingSlots = GetTwinGiantOpposingSlots();
-		if (GetType() != typeof(GiantStrikeEnraged) && slotsToTarget.Exists(slot => slot.Card))
+		if (slotsToTarget.Exists(slot => slot.Card))
 		{
 			List<CardSlot> slotsWithCards = slotsToTarget
 				.Where(slot => slot.Card)
