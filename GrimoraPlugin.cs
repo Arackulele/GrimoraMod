@@ -5,6 +5,8 @@ using BepInEx;
 using BepInEx.Logging;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
+using InscryptionAPI.Helpers;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -190,6 +192,11 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		#endregion
 
 		AllGrimoraModCards.Sort((info, cardInfo) => string.Compare(info.name, cardInfo.name, StringComparison.Ordinal));
+		
+		// change just the artwork of Starvation
+		CardInfo card = CardManager.BaseGameCards.CardByName("Starvation");
+		card.portraitTex = AllSprites.Single(sp => sp.name.Equals("Starvation"));
+		card.portraitTex.RegisterEmissionForSprite(AllSprites.Single(sp => sp.name.Equals("Starvation_emission")));
 	}
 
 	private void OnDestroy()

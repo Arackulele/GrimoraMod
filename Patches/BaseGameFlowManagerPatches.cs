@@ -21,11 +21,6 @@ public class BaseGameFlowManagerPatches
 			return;
 		}
 		
-		// change just the artwork of Starvation
-		CardInfo card = CardManager.BaseGameCards.CardByName("Starvation");
-		card.portraitTex = AllSprites.Single(sp => sp.name.Equals("Starvation"));
-		card.portraitTex.RegisterEmissionForSprite(AllSprites.Single(sp => sp.name.Equals("Starvation_emission")));
-
 		Log.LogDebug($"[GameFlowManager] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");
 
 		if (!AllSounds.Any(clip => AudioController.Instance.Loops.Contains(clip)))
