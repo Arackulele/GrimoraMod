@@ -13,7 +13,7 @@ public class InvertedStrike : ExtendedAbilityBehaviour
 	{
 		if (Card.Anim is GravestoneCardAnimationController)
 		{
-			GrimoraPlugin.Log.LogDebug($"Adding skeleton arm giant prefab to card [{Card.InfoName()}]");
+			GrimoraPlugin.Log.LogDebug($"Adding custom skeleton prefab to card [{Card.InfoName()}]");
 			Animator skeletonArm2Attacks = UnityObject.Instantiate(
 					AssetUtils.GetPrefab<GameObject>("Skeleton2ArmsAttacks"),
 					Card.transform
