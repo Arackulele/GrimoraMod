@@ -16,7 +16,6 @@ public class GravestoneCardAnimationControllerPatches
 
 	private static Animator GetCorrectCustomArmsPrefab(GravestoneCardAnimationController controller)
 	{
-		Log.LogDebug($"Starting to get custom arms prefab");
 		Animator customSkeletonArmPrefab = null;
 		if (controller.transform.Find(SkeletonArmsGiants))
 		{
@@ -41,12 +40,13 @@ public class GravestoneCardAnimationControllerPatches
 	}
 
 	[HarmonyPatch(nameof(GravestoneCardAnimationController.PlayAttackAnimation))]
-	public static bool Prefix(ref GravestoneCardAnimationController __instance, bool attackPlayer,
-		ref CardSlot targetSlot)
+	public static bool Prefix(
+		ref GravestoneCardAnimationController __instance,
+		bool attackPlayer,
+		CardSlot targetSlot)
 	{
 		Animator customArmPrefab = GetCorrectCustomArmsPrefab(__instance);
 		PlayableCard playableCard = __instance.PlayableCard;
-		bool isGiant = __instance.PlayableCard.HasSpecialAbility(GrimoraGiant.FullAbility.Id);
 
 		__instance.armAnim.gameObject.SetActive(false);
 		__instance.Anim.Play("shake", 0, 0f);
