@@ -128,11 +128,11 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		{
 			if (remainingGiantSlot)
 			{
+				ViewManager.Instance.SwitchToView(View.OpponentQueue);
 				PlayableCard lastGiant = remainingGiantSlot.Card;
 				yield return TextDisplayer.Instance.ShowUntilInput(
 					$"Oh dear, you've made {lastGiant.Info.displayedName.Red()} quite angry."
 				);
-				ViewManager.Instance.SwitchToView(View.OpponentQueue);
 				CardModificationInfo modInfo = new CardModificationInfo
 				{
 					abilities = new List<Ability> { GiantStrikeEnraged.ability },
