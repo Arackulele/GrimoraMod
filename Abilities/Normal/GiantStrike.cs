@@ -17,7 +17,7 @@ public class GiantStrike : ExtendedAbilityBehaviour
 
 	private void Awake()
 	{
-		if (Card.Anim is GravestoneCardAnimationController)
+		if (Card.Anim is GravestoneCardAnimationController && Card.transform.Find("SkeletonArms_Giants").IsNull())
 		{
 			GrimoraPlugin.Log.LogDebug($"Adding skeleton arm giant prefab to card [{Card.InfoName()}]");
 			Animator skeletonArm2Attacks = Object.Instantiate(
