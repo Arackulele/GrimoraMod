@@ -34,6 +34,62 @@
 
 ## Update Notes
 
+### 2.8.3
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Now able to view your deck and get up from the table using W and S (or respective joysticks)! No more buttons!
+
+  - **This does however lock the player chess piece movement to the arrow keys. Joystick will no longer work moving the player piece.**
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Cards with the `Sentry` ability now has a custom attack animation with the awesome work courtesy of
+  `JestAnotherAnimator#9226`!
+
+  - The twin giants also have custom attacks now as well!
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed Part 1 metacategories for rulebook abilities so they don't show up in Act 1.
+
+#### Card Changes
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png)
+
+  - Honestly, too many that I don't feel like typing out except for the specifics.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) `Yellowbeard` now becomes `Bluebeard` if electric chaired.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Starvation` art update by `Nevernamed`.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Amoeba` is now `Apparition`. Normal 1/2, 4 Energy with Amorpheous (sigils from the electric chair).
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Corpse Maggots` is now `Wight`. Normal 2/1, 5 Bones with `Corpse Eater`.
+
+##### Kaycee
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png)
+  - Ice Cube: Normal, 1/1, 5 Bones with `Cold Front`.
+  - Glacier: Normal, 0,4, 10 Bones with `Ice Cube`.
+  - Frost Giant: Unobtainable, 2,4, 10 Bones with `Split Strike`.
+
+##### Sawyer
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) `Kennel` terrain card.
+
+##### Royal
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) `Shipreck` terrain card.
+
+#### Ability Changes
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png)
+
+  - Boneless: [creature] yields no bones upon death.
+  - Bone Thief: When [creature] kills another card, gain 1 bone.
+  - Cold Front: When [creature] perishes, the card opposing it is Frozen Away.
+  - Imbued: When a non-brittle ally card perishes, [creature] gains 1 power.
+  - Loose Limb: Thematic version of `Loose Tail`.
+  - Marching Dead: When [creature] is played, also play the cards in your hand that were adjacent to this card for free.
+  - Puppeteer: Cards on the owner's side of the field are unaffected by Brittle.
+  - Sea Legs: Renamed to `Anchored` with art courtesy of `Blind, the Bound Demon`.
+  - Warren (Draw Rabbits): Received card is now `Spectrabbit`.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Inverted Strike` now has logic to handle TriStrike.
+
 ### 2.8.2 KAYCEES MOD SUPPORT
 
 **ALL CARDS HAVE NEW INTERNAL NAMES! YOU WILL NEED TO RESET YOUR SAVE DATA MOST LIKELY!**
