@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3753905536
+CRC: 936534070
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 2190d50df48030cf270d3f3c471632b9
+    Hash: dd03d7e9a547f8f38dbb6673949a093d
   TypeTreeHash:
     serializedVersion: 2
     Hash: 182394b89d7174747cf6fb22f6fa4531
@@ -54,6 +54,7 @@ Assets:
 - Assets/GrimoraMod_Unity/ChessboardPieces/Kaycee/Blocker_Kaycee.prefab
 - Assets/GrimoraMod_Unity/BoneyardBurialGrave.obj
 - Assets/GrimoraMod_Unity/ElectricChairV2.prefab
+- Assets/GrimoraMod_Unity/Animations/CardSkeletonAnim/SkeletonArms_Giants.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/ChessboardPiece_GoatEye.prefab
 - Assets/GrimoraMod_Unity/Models/kaycee/KayceeBossSkull.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/Sawyer/Blocker_Sawyer.prefab
@@ -65,7 +66,6 @@ Assets:
 - Assets/GrimoraMod_Unity/ChessboardPieces/ChessboardPiece_ElectricChair.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/Kaycee/KayceeFigurine.prefab
 - Assets/GrimoraMod_Unity/Models/hammer/GrimoraHammer.prefab
-- Assets/GrimoraMod_Unity/Animations/CardSkeletonAnim/SkeletonGiantArms.prefab
 - Assets/GrimoraMod_Unity/Animations/CardSkeletonAnim/SkeletonArms_Sentry.prefab
 - Assets/GrimoraMod_Unity/Models/EnergyCells_Right.prefab
 - Assets/GrimoraMod_Unity/Models/hammer/FirstPersonGrimoraHammer.prefab
