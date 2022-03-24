@@ -136,12 +136,13 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 				CardModificationInfo modInfo = new CardModificationInfo
 				{
 					abilities = new List<Ability> { GiantStrikeEnraged.ability },
-					attackAdjustment = 1
+					attackAdjustment = 1,
+					negateAbilities = new List<Ability> { GiantStrike.ability }
 				};
 				lastGiant.Anim.PlayTransformAnimation();
-				lastGiant.Info.RemoveBaseAbility(GiantStrike.ability);
 				lastGiant.AddTemporaryMod(modInfo);
-				lastGiant.StatsLayer.SetEmissionColor(GameColors.Instance.brightRed);
+				yield return new WaitForSeconds(0.1f);
+				lastGiant.StatsLayer.SetEmissionColor(GameColors.Instance.red);
 				
 				yield return new WaitForSeconds(0.5f);
 			}
