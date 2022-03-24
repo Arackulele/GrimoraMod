@@ -192,7 +192,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		#endregion
 
 		AllGrimoraModCards.Sort((info, cardInfo) => string.Compare(info.name, cardInfo.name, StringComparison.Ordinal));
-		
+
 		// change just the artwork of Starvation
 		CardInfo card = CardManager.BaseGameCards.CardByName("Starvation");
 		card.portraitTex = AllSprites.Single(sp => sp.name.Equals("Starvation"));
@@ -209,11 +209,9 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AllSounds = null;
 		AllGrimoraModCards = new List<CardInfo>();
 		ConfigHelper.Instance.HandleHotReloadBefore();
-		SkinCrawler.SlotsThatHaveCrawlersHidingUnderCards = new List<CardSlot>();
 		Resources.UnloadUnusedAssets();
 		GrimoraModBattleSequencer.ActiveEnemyPiece = null;
 		_harmony?.UnpatchSelf();
-		GC.Collect();
 	}
 
 	public static void SpawnParticlesOnCard(PlayableCard target, Texture2D tex, bool reduceY = false)

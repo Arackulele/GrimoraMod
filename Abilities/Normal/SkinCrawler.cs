@@ -12,13 +12,11 @@ namespace GrimoraMod;
 
 public class SkinCrawler : AbilityBehaviour
 {
-	internal static List<CardSlot> SlotsThatHaveCrawlersHidingUnderCards = new();
-
 	public static Ability ability;
 
 	public override Ability Ability => ability;
 
-	private CardSlot _slotHidingUnderCard = null;
+	private CardSlot slotHidingUnderCard = null;
 
 	public static SkinCrawler GetSkinCrawlerFromCard(PlayableCard playableCard)
 	{
@@ -85,8 +83,10 @@ public class SkinCrawler : AbilityBehaviour
 			ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 
 			yield return new WaitForSeconds(0.4f);
+
 			// to the left and up, like something is being added under it
 			Vector3 vector = new Vector3(0f, 0.25f, 0f);
+
 			// do to card that will be hiding Boo Hag
 			Tween.Position(cardToPick.transform, cardSlotToPick.transform.position + vector, 0.1f, 0f, Tween.EaseInOut);
 
@@ -111,7 +111,6 @@ public class SkinCrawler : AbilityBehaviour
 
 			while (tweenMoveIntoCardSlot.Status is not Tween.TweenStatus.Finished)
 			{
-				// Log.LogDebug($"[SkinCrawler] playing negation effect in loop");
 				cardToPick.Anim.StrongNegationEffect();
 				yield return new WaitForSeconds(0.1f);
 			}
@@ -126,11 +125,9 @@ public class SkinCrawler : AbilityBehaviour
 			yield return new WaitForSeconds(0.1f);
 
 			// rotate base card with its original rotation values so that it lays flat on the board again
-			// Log.LogDebug($"[SkinCrawler] rotating [{toRightSlot.Card.Info.name}]");
 			Tween.Rotation(cardToPick.transform, cardRot, 0.1f, 0f, Tween.EaseInOut);
 
 			// offset the card to be a little higher
-			// Log.LogDebug($"[SkinCrawler] Setting height offset");
 			cardToPick.SlotHeightOffset = 0.13f;
 
 			// reassign the card to the slot
@@ -146,11 +143,9 @@ public class SkinCrawler : AbilityBehaviour
 			Log.LogDebug($"[SkinCrawler] Setting Boo Hag as child of card");
 			transform.SetParent(cardToPick.transform);
 			Log.LogDebug($"[SkinCrawler] Setting Boo Hag slot [{Card.Slot.Index}] to null");
-			// Card.UnassignFromSlot();
 			BoardManager.Instance.playerSlots[Card.Slot.Index].Card = null;
 			Log.LogDebug($"[SkinCrawler] Setting Boo Hag slot to [{cardSlotToPick}]");
-			SlotsThatHaveCrawlersHidingUnderCards.Add(cardSlotToPick);
-			_slotHidingUnderCard = cardSlotToPick;
+			slotHidingUnderCard = cardSlotToPick;
 		}
 
 		yield return new WaitForSeconds(0.25f);
@@ -170,12 +165,11 @@ public class SkinCrawler : AbilityBehaviour
 		Log.LogDebug(
 			$"[Crawler.RespondsToOtherCardAssignedToSlot]"
 			+ $" This {Card.GetNameAndSlot()} OtherCard {otherCard.GetNameAndSlot()} "
-			+ $"_slotHidingUnderCard [{_slotHidingUnderCard}] "
+			+ $"_slotHidingUnderCard [{slotHidingUnderCard}] "
 			+ $"otherCard.Slot != Card.Slot [{otherCard.Slot != Card.Slot}]"
 		);
 
-		return _slotHidingUnderCard.IsNull()
-		       && !SlotsThatHaveCrawlersHidingUnderCards.Contains(otherCard.Slot)
+		return slotHidingUnderCard.IsNull()
 		       && otherCard.Slot != Card.Slot
 		       && CardIsAdjacent(otherCard);
 	}
@@ -209,12 +203,9 @@ public class SkinCrawler : AbilityBehaviour
 		Log.LogDebug(
 			$"[Crawler.RespondsToOtherCardDie] "
 			+ $"Crawler [{Card.GetNameAndSlot()}] Card [{card.GetNameAndSlot()}] deathSlot [{deathSlot.name}] "
-			+ $"_slotHidingUnderCard [{_slotHidingUnderCard}] is card.Slot? [{_slotHidingUnderCard == card.Slot}]"
-			+ $"Exists in list? [{SlotsThatHaveCrawlersHidingUnderCards.Contains(deathSlot)}]"
+			+ $"_slotHidingUnderCard [{slotHidingUnderCard}] is card.Slot? [{slotHidingUnderCard == card.Slot}]"
 		);
-		return _slotHidingUnderCard
-		       && _slotHidingUnderCard == card.Slot
-		       && SlotsThatHaveCrawlersHidingUnderCards.Contains(deathSlot);
+		return slotHidingUnderCard && slotHidingUnderCard == card.Slot;
 	}
 
 	public override IEnumerator OnOtherCardDie(
@@ -228,7 +219,7 @@ public class SkinCrawler : AbilityBehaviour
 		CardInfo infoCopy = Card.Info;
 		UnityObject.Destroy(Card.gameObject);
 		yield return BoardManager.Instance.CreateCardInSlot(infoCopy, deathSlot, 0);
-		_slotHidingUnderCard = null;
+		slotHidingUnderCard = null;
 	}
 
 	public static AbilityManager.FullAbility Create()
@@ -242,7 +233,7 @@ public class SkinCrawler : AbilityBehaviour
 }
 
 [HarmonyPatch(typeof(BoardManager))]
-public class SkinCrawlerPatches
+public static class SkinCrawlerPatches
 {
 	[HarmonyPostfix, HarmonyPatch(nameof(BoardManager.CardsOnBoard), MethodType.Getter)]
 	public static void Postfix(ref List<PlayableCard> __result)
