@@ -93,13 +93,28 @@ public class GravestoneCardAnimationControllerPatches
 		return false;
 	}
 
+	private static int GetNumToDetermineRotation(PlayableCard cardThatIsAttacking, CardSlot targetSlot)
+	{
+		if (cardThatIsAttacking.HasSpecialAbility(GrimoraGiant.FullAbility.Id))
+		{
+			// 0 < 1 for example
+			if (targetSlot.Index < cardThatIsAttacking.Slot.Index)
+			{
+				return -1;
+			}
+
+			return 1;
+		}
+
+		return (targetSlot.Index - cardThatIsAttacking.Slot.Index) * (cardThatIsAttacking.Slot.IsPlayerSlot ? 1 : -1);
+	}
+
 	private static string GetAnimToPlay(
 		PlayableCard playableCard,
 		string typeToAttack,
 		CardSlot targetSlot
 	)
 	{
-		Log.LogDebug($"Getting anim to play");
 		bool doPlaySentryAttack = targetSlot.IsNull() && playableCard.HasAbility(Ability.Sentry);
 
 		if (doPlaySentryAttack)
@@ -107,19 +122,16 @@ public class GravestoneCardAnimationControllerPatches
 			return "attack_sentry";
 		}
 
-		int numToDetermineRotation = (
-			                             targetSlot.Index // 0
-			                             - playableCard.Slot.Index // 3
-		                             ) // == -3
-		                             * (playableCard.Slot.IsPlayerSlot
-			                             ? 1
-			                             : -1);
+		Log.LogDebug(
+			$"TargetSlotIdx [{targetSlot.Index}] Card Attacking idx [{playableCard.Slot.Index}] is player? [{playableCard.Slot.IsPlayerSlot}]");
+		int numToDetermineRotation = GetNumToDetermineRotation(playableCard, targetSlot);
 		string directionToAttack = numToDetermineRotation switch
 		{
 			< 0 => "_left",
 			> 0 => "_right",
 			_ => ""
 		};
+		Log.LogDebug($"Num to determine rotation [{numToDetermineRotation}] Direction To Attack [{directionToAttack}]");
 
 		bool isPlayerSideBeingAttacked = targetSlot.IsPlayerSlot;
 		bool isCardOpponents = playableCard.OpponentCard;
@@ -133,16 +145,11 @@ public class GravestoneCardAnimationControllerPatches
 
 		StringBuilder animToPlay = new StringBuilder(typeToAttack + directionToAttack);
 
-		// if (playableCard.HasSpecialAbility(GrimoraGiant.FullAbility.Id))
-		// {
-		// 	if (string.IsNullOrEmpty(directionToAttack))
-		// 	{
-		// 		animToPlay.Append("_right");
-		// 	}
-		//
-		// 	animToPlay.Append("_giant");
-		// }
-		if (hasInvertedStrike)
+		if (playableCard.HasSpecialAbility(GrimoraGiant.FullAbility.Id))
+		{
+			animToPlay.Append("_giant");
+		}
+		else if (hasInvertedStrike)
 		{
 			if (targetSlotIsFarthestAway)
 			{
