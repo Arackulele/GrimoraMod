@@ -33,7 +33,7 @@ public class PlayableCardPatches
 			__result = new List<CardSlot>();
 			if (adjSlots.IsNotEmpty())
 			{
-				CardSlot slotToTarget = adjSlots[UnityEngine.Random.RandomRangeInt(0, adjSlots.Count)];
+				CardSlot slotToTarget = adjSlots[UnityEngine.Random.Range(0, adjSlots.Count)];
 				// Log.LogDebug($"[OpposingPatches.Possessive] Slot targeted for attack [{slotToTarget.Index}]");
 				__result.Add(slotToTarget);
 			}

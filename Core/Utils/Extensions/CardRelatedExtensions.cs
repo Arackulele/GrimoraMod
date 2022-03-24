@@ -63,7 +63,7 @@ public static class CardRelatedExtension
 
 	public static T GetRandomItem<T>(this List<T> self)
 	{
-		return self[UnityEngine.Random.RandomRangeInt(0, self.Count)];
+		return self[UnityEngine.Random.Range(0, self.Count)];
 	}
 
 	public static bool IsNotEmpty<T>(this List<T> self)

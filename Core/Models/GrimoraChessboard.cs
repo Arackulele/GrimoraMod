@@ -393,7 +393,7 @@ public class GrimoraChessboard
 	{
 		var blueprints
 			= BlueprintUtils.RegionWithBlueprints.ElementAt(ConfigHelper.Instance.BossesDefeated).Value;
-		return blueprints[UnityEngine.Random.RandomRangeInt(0, blueprints.Count)];
+		return blueprints[UnityEngine.Random.Range(0, blueprints.Count)];
 	}
 
 	#endregion
