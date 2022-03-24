@@ -21,7 +21,7 @@ public class GiantStrike : ExtendedAbilityBehaviour
 		{
 			GrimoraPlugin.Log.LogDebug($"Adding skeleton arm giant prefab to card [{Card.InfoName()}]");
 			Animator skeletonArm2Attacks = Object.Instantiate(
-					AssetUtils.GetPrefab<GameObject>("Skeleton2ArmsAttacks"),
+					AssetUtils.GetPrefab<GameObject>("SkeletonArms_Giants"),
 					Card.transform
 				)
 				.AddComponent<Animator>();
