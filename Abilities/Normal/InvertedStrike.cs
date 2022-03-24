@@ -23,7 +23,7 @@ public class InvertedStrike : ExtendedAbilityBehaviour
 			skeletonArm2Attacks.runtimeAnimatorController = AssetConstants.SkeletonArmController;
 			skeletonArm2Attacks.gameObject.AddComponent<AnimMethods>();
 			skeletonArm2Attacks.gameObject.SetActive(false);
-			
+
 			if (Card.GetComponent<AnimMethods>().IsNull())
 			{
 				GrimoraPlugin.Log.LogDebug($"Adding AnimMethods component to [{Card.GetNameAndSlot()}]");
@@ -51,45 +51,45 @@ public class InvertedStrike : ExtendedAbilityBehaviour
 			// 1 O 3 2
 			// C O O O
 			// cardIdx == 0
-			// 4 - 1 - cardIdx == 3  
+			// 4 - 1 - cardIdx == 3
 			// 4 - 2 - cardIdx == 2 then abs
-			
+
 			// 0 1 2 3 - indexes
 			// 0 3 2 1
 			// O C O O
 			// 4 - cardIdx == 3
-			// 4 - 1 - cardIdx == 2  
+			// 4 - 1 - cardIdx == 2
 			// 4 - 2 - cardIdx == 1
-			
+
 			// 0 1 2 3 - indexes
 			// 1 2 3 0 - expected attack pattern
 			// O O C O
-			// 4 - 2 - cardIdx == 0 
-			// 4 - 1 - cardIdx == 1 
-			// 4 - cardIdx == 2 
+			// 4 - 2 - cardIdx == 0
+			// 4 - 1 - cardIdx == 1
+			// 4 - cardIdx == 2
 
 			// 0 1 2 3 - indexes
 			// 2 3 0 1
 			// O O O C
-			// cardIdx == 3 
-			// 4 - 1 - cardIdx == 0 
+			// cardIdx == 3
+			// 4 - 1 - cardIdx == 0
 			// 4 - 2 - cardIdx == -1 then abs
 			if (slotIdx == 1)
 			{
-				slotsToTarget.Add(opposingSlots[totalSlotCount - slotIdx]);                                // 3 if card idx is 3
-				slotsToTarget.Add(opposingSlots[totalSlotCount - 1 - slotIdx]);           // 0 if card idx is 3
+				slotsToTarget.Add(opposingSlots[totalSlotCount - slotIdx]); // 3 if card idx is 3
+				slotsToTarget.Add(opposingSlots[totalSlotCount - 1 - slotIdx]); // 0 if card idx is 3
 				slotsToTarget.Add(opposingSlots[Math.Abs(totalSlotCount - 2 - slotIdx)]); // 1 if card idx is 3
-			} 
+			}
 			else if (slotIdx == 2)
 			{
-				slotsToTarget.Add(opposingSlots[totalSlotCount - 2 - slotIdx]);               // 3 if card idx is 3
-				slotsToTarget.Add(opposingSlots[totalSlotCount - 1 - slotIdx]);           // 0 if card idx is 3
+				slotsToTarget.Add(opposingSlots[totalSlotCount - 2 - slotIdx]); // 3 if card idx is 3
+				slotsToTarget.Add(opposingSlots[totalSlotCount - 1 - slotIdx]); // 0 if card idx is 3
 				slotsToTarget.Add(opposingSlots[Math.Abs(totalSlotCount - slotIdx)]); // 1 if card idx is 3
 			}
 			else
 			{
-				slotsToTarget.Add(opposingSlots[slotIdx]);                                // 3 if card idx is 3
-				slotsToTarget.Add(opposingSlots[totalSlotCount - 1 - slotIdx]);           // 0 if card idx is 3
+				slotsToTarget.Add(opposingSlots[slotIdx]); // 3 if card idx is 3
+				slotsToTarget.Add(opposingSlots[totalSlotCount - 1 - slotIdx]); // 0 if card idx is 3
 				slotsToTarget.Add(opposingSlots[Math.Abs(totalSlotCount - 2 - slotIdx)]); // 1 if card idx is 3
 			}
 		}
