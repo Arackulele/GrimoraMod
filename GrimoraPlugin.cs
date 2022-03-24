@@ -82,7 +82,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		ActivatedEnergyDrawWyvern.Create();    // Blind, the Bound Demon
 		AlternatingStrike.Create();            // Bt Y#0895
 		AreaOfEffectStrike.Create();           // Bt Y#0895
-		BoneLordsReign.Create();               // Ara
+		BonelordsReign.Create();               // Ara
 		BuffCrewMates.Create();                // Blind, the Bound Demon
 		CreateArmyOfSkeletons.Create();        // Blind, the Bound Demon
 		Erratic.Create();                      // Bt Y#0895

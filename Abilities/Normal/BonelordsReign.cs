@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GrimoraMod;
 
-public class BoneLordsReign : AbilityBehaviour
+public class BonelordsReign : AbilityBehaviour
 {
 	public static Ability ability;
 
@@ -16,7 +16,7 @@ public class BoneLordsReign : AbilityBehaviour
 	public override IEnumerator OnResolveOnBoard()
 	{
 		var activePlayerCards = BoardManager.Instance.GetPlayerCards();
-		GrimoraPlugin.Log.LogDebug($"[BoneLord] Player cards [{activePlayerCards.Count}]");
+		GrimoraPlugin.Log.LogDebug($"[BonelordsReign] Player cards [{activePlayerCards.Count}]");
 		if (activePlayerCards.IsNotEmpty())
 		{
 			yield return PreSuccessfulTriggerSequence();
@@ -43,6 +43,6 @@ public class BoneLordsReign : AbilityBehaviour
 		const string rulebookDescription =
 			"Whenever [creature] gets played, all enemies attack and health is set to 1.";
 
-		return ApiUtils.CreateAbility<BoneLordsReign>(rulebookDescription, "Bone Lord's Reign");
+		return ApiUtils.CreateAbility<BonelordsReign>(rulebookDescription, "Bonelord's Reign");
 	}
 }
