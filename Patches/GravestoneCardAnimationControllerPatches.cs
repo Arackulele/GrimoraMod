@@ -60,35 +60,53 @@ public class GravestoneCardAnimationControllerPatches
 			typeToAttack,
 			targetSlot
 		);
-		bool doPlayCustomAttack = animToPlay.Contains("invertedstrike") || animToPlay.Contains("giant") ||
-		                          animToPlay == "attack_sentry";
-
-		if (doPlayCustomAttack)
+		bool doPlayCustomAttack = animToPlay.Contains("invertedstrike") || animToPlay == "attack_sentry";
+		string soundId = "gravestone_card_" + typeToAttack;
+		
+		if (playableCard.HasSpecialAbility(GrimoraGiant.FullAbility.Id))
 		{
-			Log.LogDebug($"Playing custom attack [{animToPlay}] for card {playableCard.GetNameAndSlot()}");
+			Log.LogDebug($"Playing giant attack [{animToPlay}] for card {playableCard.GetNameAndSlot()}");
 			customArmPrefab.gameObject.SetActive(true);
 			customArmPrefab.Play(animToPlay, 0, 0f);
+			
+			AudioController.Instance.PlaySound3D(
+				soundId,
+				MixerGroup.TableObjectsSFX,
+				__instance.transform.position,
+				1f,
+				0.1f, // TODO: make it play only once or somehow stretch the knocks to time with the slams
+				new AudioParams.Pitch(AudioParams.Pitch.Variation.Small),
+				new AudioParams.Repetition(0.05f)
+			);
 		}
 		else
 		{
-			Log.LogDebug($"Playing regular attack [{animToPlay}] for card {playableCard.GetNameAndSlot()}");
-			__instance.armAnim.gameObject.SetActive(true);
-			__instance.armAnim.Play(animToPlay, 0, 0f);
+			if (doPlayCustomAttack)
+			{
+				Log.LogDebug($"Playing custom attack [{animToPlay}] for card {playableCard.GetNameAndSlot()}");
+				customArmPrefab.gameObject.SetActive(true);
+				customArmPrefab.Play(animToPlay, 0, 0f);
+			}
+			else
+			{
+				Log.LogDebug($"Playing regular attack [{animToPlay}] for card {playableCard.GetNameAndSlot()}");
+				__instance.armAnim.gameObject.SetActive(true);
+				__instance.armAnim.Play(animToPlay, 0, 0f);
+			}
+
+			AudioController.Instance.PlaySound3D(
+				soundId,
+				MixerGroup.TableObjectsSFX,
+				__instance.transform.position,
+				1f,
+				0f,
+				new AudioParams.Pitch(AudioParams.Pitch.Variation.Small),
+				new AudioParams.Repetition(0.05f)
+			);
+
+			__instance.UpdateHoveringForCard();			
 		}
-
-		string soundId = "gravestone_card_" + typeToAttack;
-		AudioController.Instance.PlaySound3D(
-			soundId,
-			MixerGroup.TableObjectsSFX,
-			__instance.transform.position,
-			1f,
-			0f,
-			new AudioParams.Pitch(AudioParams.Pitch.Variation.Small),
-			new AudioParams.Repetition(0.05f)
-		);
-
-		__instance.UpdateHoveringForCard();
-
+		
 		Log.LogDebug($"Finished playing anim");
 		return false;
 	}
