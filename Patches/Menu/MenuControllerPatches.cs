@@ -77,7 +77,7 @@ public class MenuControllerPatches
 			? 1.603f
 			: 1.373f;
 
-		MenuCard menuCardGrimora = Object.Instantiate(
+		MenuCard menuCardGrimora = UnityObject.Instantiate(
 			ResourceBank.Get<MenuCard>("Prefabs/StartScreen/StartScreenMenuCard"),
 			new Vector3(xPosition, -0.77f, 0),
 			Quaternion.identity,

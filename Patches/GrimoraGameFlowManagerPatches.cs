@@ -17,7 +17,7 @@ public class GrimoraGameFlowManagerPatches
 
 		if (FinaleDeletionWindowManager.instance)
 		{
-			Object.Destroy(FinaleDeletionWindowManager.instance.gameObject);
+			UnityObject.Destroy(FinaleDeletionWindowManager.instance.gameObject);
 		}
 
 		ViewManager.Instance.SwitchToView(View.Default, true);
@@ -65,7 +65,7 @@ public class GrimoraGameFlowManagerPatches
 	private static void PlayTombstonesFalling()
 	{
 		CryptEpitaphSlotInteractable cryptEpitaphSlotInteractable =
-			Object.FindObjectOfType<CryptEpitaphSlotInteractable>();
+			UnityObject.FindObjectOfType<CryptEpitaphSlotInteractable>();
 
 		if (cryptEpitaphSlotInteractable && cryptEpitaphSlotInteractable.isActiveAndEnabled)
 		{

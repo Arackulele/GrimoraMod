@@ -339,7 +339,7 @@ public class GrimoraChessboard
 
 	private T HandlePieceSetup<T>(GameObject prefab, string specialEncounterId = "") where T : ChessboardPiece
 	{
-		GameObject pieceObj = Object.Instantiate(prefab, ChessboardMapExt.Instance.dynamicElementsParent);
+		GameObject pieceObj = UnityObject.Instantiate(prefab, ChessboardMapExt.Instance.dynamicElementsParent);
 
 		if (pieceObj.GetComponent<T>().IsNull())
 		{

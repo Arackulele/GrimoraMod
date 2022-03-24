@@ -14,7 +14,7 @@ public class SentryPatches
 		if (__instance.Card.Anim is GravestoneCardAnimationController)
 		{
 			GrimoraPlugin.Log.LogDebug($"Adding skeleton arm shoot object to card [{__instance.Card.InfoName()}]");
-			Animator skeletonArmShoot = Object.Instantiate(
+			Animator skeletonArmShoot = UnityObject.Instantiate(
 					AssetUtils.GetPrefab<GameObject>("SkeletonArms_Sentry"),
 					__instance.transform
 				)

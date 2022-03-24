@@ -33,7 +33,7 @@ public class LatchPatches
 
 		GravestoneCardAnimationController cardAnim = __instance.Card.Anim as GravestoneCardAnimationController;
 		cardAnim.armAnim.gameObject.SetActive(true);
-		// GameObject claw = Object.Instantiate(__instance.clawPrefab, cardAnim.WeaponParent.transform);
+		// GameObject claw = UnityObject.Instantiate(__instance.clawPrefab, cardAnim.WeaponParent.transform);
 		CardSlot selectedSlot = null;
 		if (__instance.Card.OpponentCard)
 		{

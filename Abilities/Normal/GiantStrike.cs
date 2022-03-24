@@ -20,7 +20,7 @@ public class GiantStrike : ExtendedAbilityBehaviour
 		if (Card.Anim is GravestoneCardAnimationController && Card.transform.Find("SkeletonArms_Giants").IsNull())
 		{
 			GrimoraPlugin.Log.LogDebug($"Adding skeleton arm giant prefab to card [{Card.InfoName()}]");
-			Animator skeletonArm2Attacks = Object.Instantiate(
+			Animator skeletonArm2Attacks = UnityObject.Instantiate(
 					AssetUtils.GetPrefab<GameObject>("SkeletonArms_Giants"),
 					Card.transform
 				)
@@ -29,7 +29,7 @@ public class GiantStrike : ExtendedAbilityBehaviour
 			skeletonArm2Attacks.runtimeAnimatorController = AssetConstants.SkeletonArmController;
 			skeletonArm2Attacks.gameObject.AddComponent<AnimMethods>();
 			skeletonArm2Attacks.gameObject.SetActive(false);
-			
+
 			if (Card.GetComponent<AnimMethods>().IsNull())
 			{
 				GrimoraPlugin.Log.LogDebug($"Adding AnimMethods component to [{Card.GetNameAndSlot()}]");
@@ -50,7 +50,6 @@ public class GiantStrike : ExtendedAbilityBehaviour
 		// assume giant is in slot indexes 0, 1
 		// original slots has opposing slot of index 1
 		List<CardSlot> slotsToTarget = new List<CardSlot>(GetTwinGiantOpposingSlots());
-		// List<CardSlot> giantOpposingSlots = GetTwinGiantOpposingSlots();
 		if (slotsToTarget.Exists(slot => slot.Card))
 		{
 			List<CardSlot> slotsWithCards = slotsToTarget

@@ -226,7 +226,7 @@ public class SkinCrawler : AbilityBehaviour
 	{
 		Log.LogDebug($"[Crawler.OnOtherCardDie] Resolving [{Card.GetNameAndSlot()}] to deathSlot [{deathSlot.Index}]");
 		CardInfo infoCopy = Card.Info;
-		Object.Destroy(Card.gameObject);
+		UnityObject.Destroy(Card.gameObject);
 		yield return BoardManager.Instance.CreateCardInSlot(infoCopy, deathSlot, 0);
 		_slotHidingUnderCard = null;
 	}

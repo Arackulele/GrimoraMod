@@ -69,13 +69,13 @@ public class AddNewHammerExt
 		{
 			if (__instance.Item)
 			{
-				Object.Destroy(__instance.Item.gameObject);
+				UnityObject.Destroy(__instance.Item.gameObject);
 			}
 
 			if (data.prefabId.Equals("HammerItem"))
 			{
 				Log.LogDebug($"Adding new HammerItemExt");
-				HammerItemExt grimoraHammer = Object.Instantiate(
+				HammerItemExt grimoraHammer = UnityObject.Instantiate(
 						AssetConstants.GrimoraHammer,
 						__instance.transform
 					)
@@ -147,7 +147,7 @@ public class FirstPersonHammerPatch
 		}
 
 		Log.LogDebug($"[FirstPersonController] Creating new grimora first person hammer");
-		GameObject gameObject = Object.Instantiate(
+		GameObject gameObject = UnityObject.Instantiate(
 			AssetConstants.GrimoraFirstPersonHammer,
 			__instance.pixelCamera.transform
 		);

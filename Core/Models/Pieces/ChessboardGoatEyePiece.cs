@@ -30,14 +30,14 @@ public class GoatEyePatch
 		yield return enumerator;
 
 		Vector3 playerPos = PlayerMarker.Instance.transform.position;
-		foreach (var goatEyePiece in Object.FindObjectsOfType<ChessboardGoatEyePiece>())
+		foreach (var goatEyePiece in UnityObject.FindObjectsOfType<ChessboardGoatEyePiece>())
 		{
 			TurnToFacePoint(goatEyePiece.gameObject, playerPos, 0.1f);
 		}
 
 		if (ConfigHelper.Instance.BossesDefeated == 3)
 		{
-			foreach (var blocker in Object.FindObjectsOfType<ChessboardBlockerPieceExt>())
+			foreach (var blocker in UnityObject.FindObjectsOfType<ChessboardBlockerPieceExt>())
 			{
 				TurnToFacePoint(blocker.gameObject, playerPos, 0.1f);
 			}
