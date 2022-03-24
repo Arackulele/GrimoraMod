@@ -30,7 +30,6 @@ namespace GrimoraMod
 			info.canStack = canStack;
 			info.metaCategories = new List<AbilityMetaCategory>()
 			{
-				AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part1Rulebook,
 				AbilityMetaCategory.GrimoraRulebook
 			};
 
