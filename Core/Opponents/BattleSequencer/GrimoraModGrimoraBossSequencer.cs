@@ -132,7 +132,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 				yield return TextDisplayer.Instance.ShowUntilInput(
 					$"Oh dear, you've made {lastGiant.Info.displayedName.Red()} quite angry."
 				);
-				ViewManager.Instance.SwitchToView(View.Board);
+				ViewManager.Instance.SwitchToView(View.OpponentQueue);
 				CardModificationInfo modInfo = new CardModificationInfo
 				{
 					abilities = new List<Ability> { GiantStrikeEnraged.ability },
