@@ -76,11 +76,15 @@
 
 #### Ability Changes
 
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Area of Effect Strike` attacking the opposing slot first, then the rest.
+
 - ![Feature](https://i.imgur.com/uL9uYNV.png)
 
   - Boneless: [creature] yields no bones upon death.
   - Bone Thief: When [creature] kills another card, gain 1 bone.
   - Cold Front: When [creature] perishes, the card opposing it is Frozen Away.
+  - Haunter: When [creature] perishes, it haunts the space it died in. The first creature played on this space gains its old sigils.
+    - Original code logic from `Never`, refactored and cleaned up by `BongMaster`.
   - Imbued: When a non-brittle ally card perishes, [creature] gains 1 power.
   - Loose Limb: Thematic version of `Loose Tail`.
   - Marching Dead: When [creature] is played, also play the cards in your hand that were adjacent to this card for free.
