@@ -69,8 +69,7 @@ public class HauntedSlot : NonCardTriggerReceiver
 				renderer.enabled = true;
 				// this is so that it doesn't appear behind the card slot texture at the lowest point in the wave movement 
 				renderer.sortingOrder = 1;
-				hauntedIcon.SetMaterial(defaultIconMat);
-				hauntedIcon.AssignAbility(icon.Ability, playableCard.Info, null);
+				hauntedIcon.SetIcon(icon.GetComponent<Renderer>().material.mainTexture);
 
 				SineWaveMovement wave = hauntedIcon.gameObject.AddComponent<SineWaveMovement>();
 				wave.speed = 1;
