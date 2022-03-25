@@ -114,7 +114,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Log.LogDebug($"Loading cards");
 
 		CardBuilder.Builder
-			.SetAbilities(Ability.SteelTrap)
+			.SetAbilities(Ability.BoneDigger, Ability.SteelTrap, Haunter.ability)
 			.SetBaseAttackAndHealth(0, 1)
 			.SetNames($"{GUID}_TrapTest", "Trap Test", "Trap".GetCardInfo().portraitTex)
 			.Build();
