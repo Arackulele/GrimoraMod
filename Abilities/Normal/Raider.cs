@@ -9,7 +9,7 @@ public class Raider : StrikeAdjacentSlots
 
 	public override Ability Ability => ability;
 
-	protected override Ability strikeAdjacentAbility => ability;
+	protected override Ability StrikeAdjacentAbility => ability;
 
 	public override bool RemoveDefaultAttackSlot() => true;
 

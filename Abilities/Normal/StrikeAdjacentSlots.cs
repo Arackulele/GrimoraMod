@@ -6,7 +6,7 @@ namespace GrimoraMod;
 
 public abstract class StrikeAdjacentSlots : ExtendedAbilityBehaviour
 {
-	protected abstract Ability strikeAdjacentAbility { get; }
+	protected abstract Ability StrikeAdjacentAbility { get; }
 
 	public int damageDoneToPlayer = 0;
 
@@ -57,14 +57,14 @@ public abstract class StrikeAdjacentSlots : ExtendedAbilityBehaviour
 
 		List<CardSlot> slotsToTarget = new List<CardSlot>();
 
-		if (strikeAdjacentAbility != Raider.ability)
+		if (StrikeAdjacentAbility != Raider.ability)
 		{
 			slotsToTarget.AddRange(BoardManager.Instance.GetAdjacentSlots(Card.Slot.opposingSlot));
 		}
 
 		if (toLeftSlot)
 		{
-			if (strikeAdjacentAbility != Raider.ability
+			if (StrikeAdjacentAbility != Raider.ability
 			    || toLeftSlot.Card.IsNull()
 			    || !toLeftSlot.Card.HasAbility(Raider.ability))
 			{
@@ -75,7 +75,7 @@ public abstract class StrikeAdjacentSlots : ExtendedAbilityBehaviour
 		// insert at end
 		if (toRightSlot)
 		{
-			if (strikeAdjacentAbility != Raider.ability
+			if (StrikeAdjacentAbility != Raider.ability
 			    || toRightSlot.Card.IsNull()
 			    || !toRightSlot.Card.HasAbility(Raider.ability))
 			{
@@ -88,7 +88,7 @@ public abstract class StrikeAdjacentSlots : ExtendedAbilityBehaviour
 			slotsToTarget.Reverse();
 		}
 
-		if (hasAlternatingStrike && strikeAdjacentAbility == AreaOfEffectStrike.ability)
+		if (hasAlternatingStrike && StrikeAdjacentAbility == AreaOfEffectStrike.ability)
 		{
 			List<CardSlot> alternatedResult = new List<CardSlot>()
 			{

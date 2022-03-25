@@ -8,7 +8,7 @@ public class AreaOfEffectStrike : StrikeAdjacentSlots
 	public static Ability ability;
 	public override Ability Ability => ability;
 
-	protected override Ability strikeAdjacentAbility => ability;
+	protected override Ability StrikeAdjacentAbility => ability;
 
 	public static AbilityManager.FullAbility Create()
 	{
