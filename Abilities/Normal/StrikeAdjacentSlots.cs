@@ -45,6 +45,8 @@ public abstract class StrikeAdjacentSlots : ExtendedAbilityBehaviour
 		yield break;
 	}
 
+	public override bool RemoveDefaultAttackSlot() => true;
+
 	public override bool RespondsToGetOpposingSlots() => true;
 
 	public override List<CardSlot> GetOpposingSlots(List<CardSlot> originalSlots, List<CardSlot> otherAddedSlots)
@@ -60,6 +62,7 @@ public abstract class StrikeAdjacentSlots : ExtendedAbilityBehaviour
 		if (StrikeAdjacentAbility != Raider.ability)
 		{
 			slotsToTarget.AddRange(BoardManager.Instance.GetAdjacentSlots(Card.Slot.opposingSlot));
+			slotsToTarget.Add(Card.Slot.opposingSlot);
 		}
 
 		if (toLeftSlot)
@@ -102,6 +105,7 @@ public abstract class StrikeAdjacentSlots : ExtendedAbilityBehaviour
 			slotsToTarget = alternatedResult;
 		}
 
+		slotsToTarget.Sort((slot1, slot2) => slot1.Index - slot2.Index);
 		return slotsToTarget;
 	}
 }
