@@ -10,7 +10,7 @@ namespace GrimoraMod;
 
 public static class CardRelatedExtension
 {
-	private static readonly int Hover = Animator.StringToHash("hover");
+	private static readonly int Hover    = Animator.StringToHash("hover");
 	private static readonly int Hovering = Animator.StringToHash("hovering");
 
 	public static string GetNameAndSlot(this PlayableCard playableCard)
@@ -28,7 +28,6 @@ public static class CardRelatedExtension
 	{
 		return CardManager.AllCardsCopy.Single(info => info.name == self);
 	}
-
 
 	public static bool CardIsNotNullAndHasAbility(this CardSlot cardSlot, Ability ability)
 	{
@@ -104,9 +103,9 @@ public static class CardRelatedExtension
 	}
 
 	public static void RemoveAbilityFromThisCard(
-		this PlayableCard playableCard,
+		this PlayableCard    playableCard,
 		CardModificationInfo modInfo,
-		Action callback = null
+		Action               callback = null
 	)
 	{
 		CardInfo cardInfoClone = playableCard.Info.Clone() as CardInfo;
@@ -126,10 +125,10 @@ public static class CardRelatedExtension
 
 	public static IEnumerator DieCustom(
 		this PlayableCard playableCard,
-		bool wasSacrifice,
-		PlayableCard killer = null,
-		bool playSound = true,
-		float royalTableSwayValue = 0f
+		bool              wasSacrifice,
+		PlayableCard      killer              = null,
+		bool              playSound           = true,
+		float             royalTableSwayValue = 0f
 	)
 	{
 		if (!playableCard.Dead)
@@ -167,7 +166,8 @@ public static class CardRelatedExtension
 				}
 			}
 
-			if ((!playableCard.HasAbility(Ability.QuadrupleBones) || !playableCard.HasAbility(Boneless.ability)) && slotBeforeDeath.IsPlayerSlot)
+			if ((!playableCard.HasAbility(Ability.QuadrupleBones)
+			  || !playableCard.HasAbility(Boneless.ability)) && slotBeforeDeath.IsPlayerSlot)
 			{
 				yield return ResourcesManager.Instance.AddBones(1, slotBeforeDeath);
 			}
