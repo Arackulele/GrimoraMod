@@ -68,9 +68,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		yield return LoadAssetsAsync();
 
-		LoadAbilities();
-
-		LoadCards();
+		LoadAbilitiesAndCards();
 	}
 
 	private void LoadAbilities()
@@ -109,22 +107,22 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		#endregion
 	}
 
-	private void LoadCards()
+	private void LoadAbilitiesAndCards()
 	{
 		Log.LogDebug($"Loading cards");
 
 		CardBuilder.Builder
-		           .SetAbilities(Ability.BoneDigger, Ability.SteelTrap, Haunter.ability)
-		           .SetBaseAttackAndHealth(0, 1)
-		           .SetNames($"{GUID}_TrapTest", "Trap Test", "Trap".GetCardInfo().portraitTex)
-		           .Build();
+		 .SetAbilities(Ability.BoneDigger, Ability.SteelTrap, Haunter.ability)
+		 .SetBaseAttackAndHealth(0, 1)
+		 .SetNames($"{GUID}_TrapTest", "Trap Test", "Trap".GetCardInfo().portraitTex)
+		 .Build();
 
 		// What this does, is that every method that exists under this partial class, Grimora Plugin,
 		//	will be searched for and of the ones that start with 'Add_', will be invoked all at once after sorting by name.
 		// We sort by name so Abilities come first because abilities have their method name like 'Add_Ability_' while cards have 'Add_Card_'
 		var allAddMethods = AccessTools.GetDeclaredMethods(typeof(GrimoraPlugin))
-		                               .Where(mi => mi.Name.StartsWith("Add_"))
-		                               .ToList();
+		 .Where(mi => mi.Name.StartsWith("Add_"))
+		 .ToList();
 		allAddMethods.Sort((mi, mi2) => string.Compare(mi.Name, mi2.Name, StringComparison.Ordinal));
 		allAddMethods.ForEach(mi => mi.Invoke(this, null));
 
@@ -183,7 +181,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		// Add_Apparition();       // vanilla
 		// Add_BonelordsHorn();    // Cevin2006™ (◕‿◕)#7971
-		// Add_DeadPets();         // LavaErrorDoggo#1564
+		// Add_DeadPets();         // Bt Y#0895
 		// Add_DeathKnell();       // Bt Y#0895
 		// Add_DeathKnellBell();   // Bt Y#0895
 		// Add_Dybbuk();           // Bt Y#0895
