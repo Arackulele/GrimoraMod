@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetAbilities(AlternatingStrike.ability, Erratic.ability)
 			.SetBaseAttackAndHealth(3, 3)
-			.SetBoneCost(8)
+			.SetBoneCost(6)
 			.SetDescription("THEY CAN NEVER DECIDE, TRULY A PAINFUL EXISTENCE...")
 			.SetNames(NameDanseMacabre, "Danse Macabre")
 			.Build();
