@@ -50,7 +50,7 @@ public class CardBuilder
 			{
 				AllSprites.Single(_ => _.name.Equals(cardName)).RegisterEmissionForSprite(emissionSprite);
 			}
-			else if (_cardInfo.HasAbility(Ability.TailOnHit))
+			else if (_cardInfo.abilities.Exists(ab => ab == Ability.TailOnHit || ab == LooseLimb.ability))
 			{
 				_cardInfo.tailParams = new TailParams
 				{
