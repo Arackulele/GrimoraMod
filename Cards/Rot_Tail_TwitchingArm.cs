@@ -1,7 +1,4 @@
-﻿using DiskCardGame;
-using InscryptionAPI.Card;
-
-namespace GrimoraMod;
+﻿namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {

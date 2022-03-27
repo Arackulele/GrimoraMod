@@ -1,7 +1,6 @@
 using DiskCardGame;
 using InscryptionAPI.Card;
 using UnityEngine;
-using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 

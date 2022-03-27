@@ -1,8 +1,6 @@
 ﻿using System.Collections;
-using APIPlugin;
 using DiskCardGame;
 using HarmonyLib;
-using InscryptionAPI.Card;
 using Pixelplacement;
 using Pixelplacement.TweenSystem;
 using UnityEngine;
@@ -217,7 +215,7 @@ public class SkinCrawler : AbilityBehaviour
 	{
 		Log.LogDebug($"[Crawler.OnOtherCardDie] Resolving [{Card.GetNameAndSlot()}] to deathSlot [{deathSlot.Index}]");
 		CardInfo infoCopy = Card.Info;
-		UnityObject.Destroy(Card.gameObject);
+		Destroy(Card.gameObject);
 		yield return BoardManager.Instance.CreateCardInSlot(infoCopy, deathSlot, 0);
 		slotHidingUnderCard = null;
 	}
