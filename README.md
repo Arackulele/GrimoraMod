@@ -36,6 +36,12 @@
 
 ### 2.8.3
 
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed hammer not resetting and not being usable. Also fixed not correctly disappearing after third use.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed card flip only playing the first time for a card.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed electric chaired cards having broken names.
+
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Added config option to randomize enemy encounters! Disabled by default.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Now able to view your deck and get up from the table using W and S (or respective joysticks)! No more buttons!
@@ -48,6 +54,10 @@
   - The twin giants also have custom attacks now as well!
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed Part 1 metacategories for rulebook abilities so they don't show up in Act 1.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Royal ship sway happens every other turn instead of every turn.
+
+  - Cards with flying are not affected by board sway.
 
 #### Card Changes
 
