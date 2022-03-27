@@ -110,6 +110,7 @@ public class DeactivateHammerAfterThreeUses
 		{
 			Log.LogDebug($"Destroying hammer as all 3 uses have been used");
 			__instance.coll.enabled = false;
+			__instance.gameObject.SetActive(false);
 		}
 	}
 }
