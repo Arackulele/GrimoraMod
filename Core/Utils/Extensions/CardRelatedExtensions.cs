@@ -24,6 +24,29 @@ public static class CardRelatedExtension
 		return printedNameAndSlot;
 	}
 
+	/// <summary>
+	/// Create a basic CardBlueprint based off the CardInfo object.
+	/// </summary>
+	/// <param name="cardInfo">CardInfo to access</param>
+	/// <returns>The same card info so a chain can continue</returns>
+	public static EncounterBlueprintData.CardBlueprint CreateBlueprint(this CardInfo cardInfo)
+	{
+		return new EncounterBlueprintData.CardBlueprint
+		{
+			card = cardInfo
+		};
+	}
+
+	/// <summary>
+	/// Create a basic CardBlueprint based from the name of the card.
+	/// </summary>
+	/// <param name="cardName">Name of the card</param>
+	/// <returns>The CardBlueprint containing the card.</returns>
+	public static EncounterBlueprintData.CardBlueprint CreateCardBlueprint(this string cardName)
+	{
+		return CreateBlueprint(cardName.GetCardInfo());
+	}
+
 	public static CardInfo GetCardInfo(this string self)
 	{
 		return CardManager.AllCardsCopy.Single(info => info.name == self);
