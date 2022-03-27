@@ -31,13 +31,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 	{
 		GameTable
 			.GetComponent<Animator>()
-			.Play(
-				!boardSwayedLeftLast
-					? "sway_left"
-					: "sway_right",
-				0,
-				0f
-			);
+			.Play(!boardSwayedLeftLast ? "sway_left" : "sway_right", 0, 0f);
 
 		boardSwayedLeftLast = !boardSwayedLeftLast;
 	}
@@ -169,9 +163,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		bool movingLeft
 	)
 	{
-		Log.LogInfo(
-			$"[TableSway.DoStrafe] Starting MoveToSlot method for {playableCard.GetNameAndSlot()} Destination [{destination?.name}] Destination Valid? [{destinationValid}]"
-		);
+		Log.LogInfo($"[TableSway.DoStrafe] Starting MoveToSlot method for {playableCard.GetNameAndSlot()} Destination [{destination?.name}] Destination Valid? [{destinationValid}]");
 
 		if (playableCard.HasAnyAbilities(Ability.Strafe, Ability.StrafePush))
 		{
@@ -189,9 +181,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			                                     && destination.Card.HasAbility(Anchored.ability);
 			if (destinationValid)
 			{
-				Log.LogInfo(
-					$"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} will be moved to slot [{destination.name}]"
-				);
+				Log.LogInfo($"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} will be moved to slot [{destination.name}]");
 
 				yield return BoardManager.Instance.AssignCardToSlot(playableCard, destination, DurationTableSway + 2);
 				Tween.LocalRotation(
@@ -205,18 +195,14 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			}
 			else if (destinationSlotCardHasSeaLegs)
 			{
-				Log.LogInfo(
-					$"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} Destination card is not null and has sea legs"
-				);
+				Log.LogInfo($"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} Destination card is not null and has anchored or flying.");
 				playableCard.Anim.StrongNegationEffect();
 				yield return new WaitForSeconds(0.15f);
 			}
 		}
 		else
 		{
-			Log.LogInfo(
-				$"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} is about to fucking die me hearty!"
-			);
+			Log.LogInfo($"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} is about to fucking die me hearty!");
 			Vector3 positionCopy = playableCard.transform.localPosition;
 			float leftOrRightX = movingLeft
 				? positionCopy.x - 6
