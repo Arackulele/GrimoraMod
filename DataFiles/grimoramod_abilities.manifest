@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3121241807
+CRC: 2601155915
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b915635f2eae2e2517ca835b192fd5d7
+    Hash: 9c4eb7b973d8680ff6c9d18f9f3a953c
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7859cd501ea75098bcf7e53f1b477c26
@@ -17,6 +17,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Abilities/ability_LooseLimb.png
 - Assets/GrimoraMod_Unity/Abilities/ability_BoneThief.png
 - Assets/GrimoraMod_Unity/Abilities/ability_InvertedStrike.png
+- Assets/GrimoraMod_Unity/Abilities/ability_Puppeteer.png
 - Assets/GrimoraMod_Unity/Abilities/ability_FlameStrafe.png
 - Assets/GrimoraMod_Unity/Abilities/ability_Looter.png
 - Assets/GrimoraMod_Unity/Abilities/ability_Imbued.png
