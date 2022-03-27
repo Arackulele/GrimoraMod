@@ -36,7 +36,7 @@ namespace GrimoraMod
 			return info;
 		}
 
-		public static AbilityManager.FullAbility CreateAbility<T>(
+		public static void CreateAbility<T>(
 			string rulebookDescription,
 			string rulebookName = null,
 			bool activated = false,
@@ -49,13 +49,13 @@ namespace GrimoraMod
 			Texture icon = rulebookIcon
 				               ? rulebookIcon
 				               : AssetUtils.GetPrefab<Texture>("ability_" + typeof(T).Name);
-			return CreateAbility<T>(
+			CreateAbility<T>(
 				CreateInfoWithDefaultSettings(rulebookName, rulebookDescription, activated, flipYIfOpponent, canStack),
 				icon
 			);
 		}
 
-		private static AbilityManager.FullAbility CreateAbility<T>(AbilityInfo info, Texture texture)
+		private static void CreateAbility<T>(AbilityInfo info, Texture texture)
 			where T : AbilityBehaviour
 		{
 			Type type = typeof(T);
@@ -73,42 +73,38 @@ namespace GrimoraMod
 				BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance
 			);
 			field.SetValue(null, newAbility.Id);
-
-			return newAbility;
 		}
 
-		public static SpecialTriggeredAbilityManager.FullSpecialTriggeredAbility CreateSpecialAbility<T>(
-			string nameOfAbility = default(string)
-		) where T : SpecialCardBehaviour
+		public static void CreateSpecialAbility<T>(string nameOfAbility = null) where T : SpecialCardBehaviour
 		{
+			Type type = typeof(T);
 			string finalName = nameOfAbility;
 			if (nameOfAbility.IsNullOrWhitespace())
 			{
-				finalName = nameof(T);
+				finalName = type.Name;
 			}
 
-			var specialAbility = SpecialTriggeredAbilityManager.Add(GUID, finalName, typeof(T));
+			Log.LogDebug($"Starting to add special ability [{type}]");
+			var specialAbility = SpecialTriggeredAbilityManager.Add(GUID, finalName, type);
 
-			FieldInfo field = typeof(T).GetField(
+			FieldInfo field = type.GetField(
 				"FullSpecial",
 				BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance
 			);
 			field.SetValue(null, specialAbility);
-
-			return specialAbility;
 		}
 
-		public static StatIconManager.FullStatIcon CreateStatIcon<T>(StatIconInfo info) where T : SpecialCardBehaviour
+		public static void CreateStatIcon<T>(StatIconInfo info) where T : SpecialCardBehaviour
 		{
-			var statIcon = StatIconManager.Add(GUID, info, typeof(T));
+			Type type = typeof(T);
+			Log.LogDebug($"Starting to add stat icon [{type}]");
+			var statIcon = StatIconManager.Add(GUID, info, type);
 			
-			FieldInfo field = typeof(T).GetField(
+			FieldInfo field = type.GetField(
 				"FullStatIcon",
 				BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance
 			);
 			field.SetValue(null, statIcon);
-			
-			return statIcon;
 		}
 	}
 }
