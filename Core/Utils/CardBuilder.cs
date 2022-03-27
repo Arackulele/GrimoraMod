@@ -17,6 +17,20 @@ public class CardBuilder
 		_cardInfo.temple = CardTemple.Undead;
 		_cardInfo.flipPortraitForStrafe = true;
 
+		if (_cardInfo.name.EndsWith("_tail"))
+		{
+			string cardNameNoGuid = _cardInfo.name.Replace($"{GUID}_", "").Replace("_tail", "");
+			Log.LogDebug($"Setting tail and tailLostPortrait for [{cardNameNoGuid}]");
+			Sprite tailLostSprite = AllSprites.Single(_ => _.name.Equals($"{cardNameNoGuid}_tailless"));
+			tailLostSprite.RegisterEmissionForSprite(AllSprites.Single(_ => _.name.Equals($"{cardNameNoGuid}_emission")));
+			CardInfo owner = AllGrimoraModCards.Single(info => info.name.EndsWith(cardNameNoGuid));
+			owner.tailParams = new TailParams
+			{
+				tail = _cardInfo,
+				tailLostPortrait = tailLostSprite
+			};
+		}
+
 		AllGrimoraModCards.Add(_cardInfo);
 		CardManager.Add(GUID, _cardInfo);
 		return _cardInfo;
@@ -49,14 +63,6 @@ public class CardBuilder
 			if (emissionSprite)
 			{
 				AllSprites.Single(_ => _.name.Equals(cardName)).RegisterEmissionForSprite(emissionSprite);
-			}
-			else if (_cardInfo.abilities.Exists(ab => ab == Ability.TailOnHit || ab == LooseLimb.ability))
-			{
-				_cardInfo.tailParams = new TailParams
-				{
-					tail = AllGrimoraModCards.Find(info => info.name.Equals(info.name + "_tail")),
-					tailLostPortrait = AllSprites.Find(_ => _.name.Equals($"{cardName}_tailless"))
-				};
 			}
 		}
 		else
