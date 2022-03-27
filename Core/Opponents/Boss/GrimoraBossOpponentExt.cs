@@ -195,7 +195,14 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
 		int bonelordSlotIndex = ConfigHelper.HasIncreaseSlotsMod ? 3 : 2;
 		yield return GlitchInCard(NameBonelord.GetCardInfo(), oppSlots[bonelordSlotIndex]);
-		
+
+		yield return BeginBonelordsReign();
+
+		yield return CreateHornsInFarLeftAndRightLanes(oppSlots);
+	}
+
+	private IEnumerator BeginBonelordsReign()
+	{
 		var activePlayerCards = BoardManager.Instance.GetPlayerCards();
 		Log.LogDebug($"[BonelordsReign] Player cards [{activePlayerCards.Count}]");
 		if (activePlayerCards.Any())
@@ -210,10 +217,13 @@ public class GrimoraBossOpponentExt : BaseBossExt
 				playableCard.Anim.PlayTransformAnimation();
 				yield return new WaitForSeconds(0.1f);
 			}
-			yield return TextDisplayer.Instance.ShowThenClear("DID YOU REALLY THINK THE BONE LORD WOULD LET YOU OFF THAT EASILY?!", 4f);
-		}
 
-		yield return CreateHornsInFarLeftAndRightLanes(oppSlots);
+			yield return TextDisplayer.Instance.ShowThenClear(
+				"DID YOU REALLY THINK THE BONE LORD WOULD LET YOU OFF THAT EASILY?!",
+				4f,
+				letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
+			);
+		}
 	}
 
 	private IEnumerator GlitchInCard(CardInfo cardInfo, CardSlot slotToSpawnIn)
