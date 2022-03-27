@@ -1,6 +1,5 @@
 ﻿using DiskCardGame;
 using InscryptionAPI.Card;
-using UnityEngine;
 
 namespace GrimoraMod;
 
@@ -8,23 +7,6 @@ public class InvertedStrike : ExtendedAbilityBehaviour
 {
 	public static Ability ability;
 	public override Ability Ability => ability;
-
-	private void Awake()
-	{
-		if (Card.Anim is GravestoneCardAnimationController)
-		{
-			GrimoraPlugin.Log.LogDebug($"Adding custom skeleton prefab to card [{Card.InfoName()}]");
-			Animator skeletonArm2Attacks = UnityObject.Instantiate(
-					AssetUtils.GetPrefab<GameObject>("Skeleton2ArmsAttacks"),
-					Card.transform
-				)
-			 .AddComponent<Animator>();
-			skeletonArm2Attacks.name = "Skeleton2ArmsAttacks";
-			skeletonArm2Attacks.runtimeAnimatorController = AssetConstants.SkeletonArmController;
-			skeletonArm2Attacks.gameObject.AddComponent<AnimMethods>();
-			skeletonArm2Attacks.gameObject.SetActive(false);
-		}
-	}
 
 	public override bool RemoveDefaultAttackSlot() => true;
 

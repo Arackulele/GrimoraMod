@@ -17,17 +17,17 @@ public class GravestoneCardAnimationControllerPatches
 	private static Animator GetCorrectCustomArmsPrefab(GravestoneCardAnimationController controller)
 	{
 		Animator customSkeletonArmPrefab = null;
+		if (controller.transform.Find(SkeletonArmsInvertedStrike))
+		{
+			customSkeletonArmPrefab = controller.transform.Find(SkeletonArmsInvertedStrike).GetComponent<Animator>();
+		}
 		if (controller.transform.Find(SkeletonArmsGiants))
 		{
 			customSkeletonArmPrefab = controller.transform.Find(SkeletonArmsGiants).GetComponent<Animator>();
-		}
-		else if (controller.transform.Find(SkeletonArmsSentry))
+		} 
+		if (controller.transform.Find(SkeletonArmsSentry))
 		{
 			customSkeletonArmPrefab = controller.transform.Find(SkeletonArmsSentry).GetComponent<Animator>();
-		}
-		else if (controller.transform.Find(SkeletonArmsInvertedStrike))
-		{
-			customSkeletonArmPrefab = controller.transform.Find(SkeletonArmsInvertedStrike).GetComponent<Animator>();
 		}
 
 		if (customSkeletonArmPrefab)
