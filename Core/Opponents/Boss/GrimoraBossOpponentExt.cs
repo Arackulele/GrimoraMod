@@ -168,7 +168,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		playableGiant.SetInfo(infoGiant);
 		yield return BoardManager.Instance.TransitionAndResolveCreatedCard(playableGiant, slotToSpawnIn, 0.3f);
-		yield return TextDisplayer.Instance.ShowUntilInput($"{giantName}!");
+		yield return TextDisplayer.Instance.ShowUntilInput($"[size:5]{giantName}![size:]");
 	}
 
 	public IEnumerator StartBoneLordPhase()
@@ -189,7 +189,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		GameObject bonelordEffect = Instantiate(AssetUtils.GetPrefab<GameObject>("BonelordTableEffects"));
 		CameraEffects.Instance.Shake(0.15f, 5f);
 		yield return TextDisplayer.Instance.ShowThenClear(
-			"LET THE BONE LORD COMMETH!".BrightRed(),
+			$"LET THE [size:5]{"BONE LORD".BrightRed()}[size:] COMMETH!",
 			4.6f,
 			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
 		);
