@@ -30,7 +30,7 @@ public class ColdFront : AbilityBehaviour
 
 public partial class GrimoraPlugin
 {
-	public void Add_Abiltiy_ColdFront()
+	public void Add_Ability_ColdFront()
 	{
 		const string rulebookDescription = "When [creature] perishes, the card opposing it is Frozen Away.";
 
