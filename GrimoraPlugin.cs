@@ -32,6 +32,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	// Gets populated in CardBuilder.Build()
 	public static List<CardInfo> AllGrimoraModCards = new();
+	public static List<CardInfo> AllPlayableGrimoraModCards = new();
 
 	private void Awake()
 	{
@@ -199,6 +200,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		#endregion
 
 		AllGrimoraModCards.Sort((info, cardInfo) => string.Compare(info.name, cardInfo.name, StringComparison.Ordinal));
+		AllPlayableGrimoraModCards = AllGrimoraModCards.Where(info => info.metaCategories.Any()).ToList();
 
 		// change just the artwork of Starvation
 		CardInfo card = CardManager.BaseGameCards.CardByName("Starvation");
