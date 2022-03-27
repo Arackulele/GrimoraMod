@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -24,13 +25,21 @@ public class MarchingDead : AbilityBehaviour
 		CardSlot rightAdjSlot = BoardManager.Instance.GetAdjacent(Card.Slot, false);
 		if (leftAdjCard && leftAdjSlot && leftAdjSlot.Card.IsNull())
 		{
+			leftAdjCard = null;
+			ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 			yield return PlayerHand.Instance.PlayCardOnSlot(leftAdjCard, leftAdjSlot);
+			yield return new WaitForSeconds(0.2f);
 		}
 
 		if (rightAdjCard && rightAdjSlot && rightAdjSlot.Card.IsNull())
 		{
+			rightAdjCard = null;
+			ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 			yield return PlayerHand.Instance.PlayCardOnSlot(rightAdjCard, rightAdjSlot);
+			yield return new WaitForSeconds(0.2f);
 		}
+		
+		ViewManager.Instance.SetViewUnlocked();
 	}
 
 	public void SetAdjCardsToPlay(List<PlayableCard> cardsInHand)
