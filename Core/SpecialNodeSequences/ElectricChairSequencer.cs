@@ -281,13 +281,13 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	#region ApplyingModToCard
 
-	private new static void ApplyModToCard(CardInfo card)
+	private static void ApplyModToCard(CardInfo card)
 	{
 		CardModificationInfo cardModificationInfo = new CardModificationInfo
 		{
 			abilities = new List<Ability> { GetRandomAbility(card) },
 			singletonId = "GrimoraMod_ElectricChaired",
-			nameReplacement = card.name.Replace("Yellowbeard", "Bluebeard")
+			nameReplacement = card.displayedName.Replace("Yellowbeard", "Bluebeard")
 		};
 		GrimoraSaveUtil.DeckInfo.ModifyCard(card, cardModificationInfo);
 	}
