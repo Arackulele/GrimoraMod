@@ -62,6 +62,7 @@
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Amoeba` replaced by `Apparition`. Normal 1/2, 4 Energy with Amorpheous (sigils from the electric chair).
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Corpse Maggots` replaced by `Wight`. Normal 2/1, 5 Bones with `Corpse Eater`.
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Project` now just has `Chaos Strike` ability.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Danse Macabre` cost reduced to 6 from 8.
 
 ##### Kaycee
 
