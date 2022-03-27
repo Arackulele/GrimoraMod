@@ -11,13 +11,6 @@ public class BoneThief : AbilityBehaviour
 
 	public override Ability Ability => ability;
 
-	public static AbilityManager.FullAbility Create()
-	{
-		const string rulebookDescription = "When [creature] kills another card, gain 1 bone.";
-
-		return ApiUtils.CreateAbility<BoneThief>(rulebookDescription);
-	}
-
 	public override bool RespondsToOtherCardDie(
 		PlayableCard card,
 		CardSlot deathSlot,
@@ -45,5 +38,15 @@ public class BoneThief : AbilityBehaviour
 		yield return ResourcesManager.Instance.AddBones(1, deathSlot);
 		yield return LearnAbility();
 		yield return new WaitForSeconds(0.25f);
+	}
+}
+
+public partial class GrimoraPlugin
+{
+	public void Add_Ability_BoneThief()
+	{
+		const string rulebookDescription = "When [creature] kills another card, gain 1 bone.";
+
+		ApiUtils.CreateAbility<BoneThief>(rulebookDescription);
 	}
 }

@@ -6,14 +6,17 @@ namespace GrimoraMod;
 public class LooseLimb : TailOnHit
 {
 	public static Ability ability;
-	
+
 	public override Ability Ability => ability;
-	
-	public static AbilityManager.FullAbility Create()
+}
+
+public partial class GrimoraPlugin
+{
+	public void Add_Ability_LooseLimb()
 	{
 		const string rulebookDescription =
-			"When [creature] would be struck, a Tail is created in its place and [creature] moves into an adjacent open slot.";
+			"When [creature] would be struck, a Tail is created in its place and this card moves into an adjacent open slot.";
 
-		return ApiUtils.CreateAbility<LooseLimb>(rulebookDescription);
+		ApiUtils.CreateAbility<LooseLimb>(rulebookDescription);
 	}
 }

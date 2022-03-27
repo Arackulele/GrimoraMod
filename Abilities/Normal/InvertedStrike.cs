@@ -18,7 +18,7 @@ public class InvertedStrike : ExtendedAbilityBehaviour
 					AssetUtils.GetPrefab<GameObject>("Skeleton2ArmsAttacks"),
 					Card.transform
 				)
-				.AddComponent<Animator>();
+			 .AddComponent<Animator>();
 			skeletonArm2Attacks.name = "Skeleton2ArmsAttacks";
 			skeletonArm2Attacks.runtimeAnimatorController = AssetConstants.SkeletonArmController;
 			skeletonArm2Attacks.gameObject.AddComponent<AnimMethods>();
@@ -76,20 +76,20 @@ public class InvertedStrike : ExtendedAbilityBehaviour
 			// 4 - 2 - cardIdx == -1 then abs
 			if (slotIdx == 1)
 			{
-				slotsToTarget.Add(opposingSlots[totalSlotCount - slotIdx]); // 3 if card idx is 3
-				slotsToTarget.Add(opposingSlots[totalSlotCount - 1 - slotIdx]); // 0 if card idx is 3
+				slotsToTarget.Add(opposingSlots[totalSlotCount - slotIdx]);               // 3 if card idx is 3
+				slotsToTarget.Add(opposingSlots[totalSlotCount - 1 - slotIdx]);           // 0 if card idx is 3
 				slotsToTarget.Add(opposingSlots[Math.Abs(totalSlotCount - 2 - slotIdx)]); // 1 if card idx is 3
 			}
 			else if (slotIdx == 2)
 			{
-				slotsToTarget.Add(opposingSlots[totalSlotCount - 2 - slotIdx]); // 3 if card idx is 3
-				slotsToTarget.Add(opposingSlots[totalSlotCount - 1 - slotIdx]); // 0 if card idx is 3
+				slotsToTarget.Add(opposingSlots[totalSlotCount - 2 - slotIdx]);       // 3 if card idx is 3
+				slotsToTarget.Add(opposingSlots[totalSlotCount - 1 - slotIdx]);       // 0 if card idx is 3
 				slotsToTarget.Add(opposingSlots[Math.Abs(totalSlotCount - slotIdx)]); // 1 if card idx is 3
 			}
 			else
 			{
-				slotsToTarget.Add(opposingSlots[slotIdx]); // 3 if card idx is 3
-				slotsToTarget.Add(opposingSlots[totalSlotCount - 1 - slotIdx]); // 0 if card idx is 3
+				slotsToTarget.Add(opposingSlots[slotIdx]);                                // 3 if card idx is 3
+				slotsToTarget.Add(opposingSlots[totalSlotCount - 1 - slotIdx]);           // 0 if card idx is 3
 				slotsToTarget.Add(opposingSlots[Math.Abs(totalSlotCount - 2 - slotIdx)]); // 1 if card idx is 3
 			}
 		}
@@ -100,13 +100,16 @@ public class InvertedStrike : ExtendedAbilityBehaviour
 
 		return slotsToTarget;
 	}
+}
 
-	public static AbilityManager.FullAbility Create()
+public partial class GrimoraPlugin
+{
+	public void Add_Ability_InvertedStrike()
 	{
 		const string rulebookDescription =
 			"[creature] will strike the opposing slot as if the board was flipped. "
-			+ "A card in the far left slot will attack the opposing far right slot.";
+		+ "A card in the far left slot will attack the opposing far right slot.";
 
-		return ApiUtils.CreateAbility<InvertedStrike>(rulebookDescription, flipYIfOpponent: true);
+		ApiUtils.CreateAbility<InvertedStrike>(rulebookDescription, flipYIfOpponent: true);
 	}
 }

@@ -30,9 +30,7 @@ public class Erratic : Strafe
 			movingLeft = _rng.NextBoolean();
 		}
 
-		CardSlot destination = movingLeft
-			? toLeft
-			: toRight;
+		CardSlot destination = movingLeft ? toLeft : toRight;
 		yield return StartCoroutine(
 			MoveToSlot(
 				destination,
@@ -48,12 +46,14 @@ public class Erratic : Strafe
 			yield return LearnAbility();
 		}
 	}
+}
 
-
-	public static AbilityManager.FullAbility Create()
+public partial class GrimoraPlugin
+{
+	public void Add_Ability_Erratic()
 	{
 		const string rulebookDescription = "At the end of the owner's turn, [creature] will move in a random direction.";
 
-		return ApiUtils.CreateAbility<Erratic>(rulebookDescription);
+		ApiUtils.CreateAbility<Erratic>(rulebookDescription);
 	}
 }

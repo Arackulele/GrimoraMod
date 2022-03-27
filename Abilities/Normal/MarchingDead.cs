@@ -27,6 +27,7 @@ public class MarchingDead : AbilityBehaviour
 		{
 			yield return PlayerHand.Instance.PlayCardOnSlot(leftAdjCard, leftAdjSlot);
 		}
+
 		if (rightAdjCard && rightAdjSlot && rightAdjSlot.Card.IsNull())
 		{
 			yield return PlayerHand.Instance.PlayCardOnSlot(rightAdjCard, rightAdjSlot);
@@ -49,12 +50,15 @@ public class MarchingDead : AbilityBehaviour
 			}
 		}
 	}
+}
 
-	public static AbilityManager.FullAbility Create()
+public partial class GrimoraPlugin
+{
+	public void Add_Ability_MarchingDead()
 	{
 		const string rulebookDescription
 			= "When [creature] is played, also play the cards in your hand that were adjacent to this card for free.";
 
-		return ApiUtils.CreateAbility<MarchingDead>(rulebookDescription);
+		ApiUtils.CreateAbility<MarchingDead>(rulebookDescription);
 	}
 }

@@ -25,11 +25,14 @@ public class SpiritBearer : AbilityBehaviour
 		yield return new WaitForSeconds(0.3f);
 		yield return LearnAbility(0.2f);
 	}
+}
 
-	public static AbilityManager.FullAbility Create()
+public partial class GrimoraPlugin
+{
+	public void Add_Ability_SpiritBearer()
 	{
 		const string rulebookDescription = "When [creature] is played, it provides an energy soul to its owner.";
 
-		return ApiUtils.CreateAbility<SpiritBearer>(rulebookDescription);
+		ApiUtils.CreateAbility<SpiritBearer>(rulebookDescription);
 	}
 }

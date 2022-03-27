@@ -1,22 +1,24 @@
 ﻿using DiskCardGame;
-using InscryptionAPI.Card;
 
 namespace GrimoraMod;
 
 public class ActivatedDealDamageGrimora : ActivatedDrawSkeleton
 {
-	public static readonly Ability ability;
+	public static Ability ability;
 
 	public override Ability Ability => ability;
 
 	public const int ENERGY_COST = 1;
-	
+
 	public override int EnergyCost => ENERGY_COST;
+}
 
-	public static AbilityManager.FullAbility Create()
+public partial class GrimoraPlugin
+{
+	public void Add_Ability_ActivatedDealDamageGrimora()
 	{
-		string rulebookDescription = $"Pay {ENERGY_COST} Energy to deal 1 damage to the creature across from [creature].";
+		const string rulebookDescription = $"Pay 1 Energy to deal 1 damage to the creature across from [creature].";
 
-		return ApiUtils.CreateAbility<ActivatedDealDamageGrimora>(rulebookDescription, "Soul Shot", true);
+		ApiUtils.CreateAbility<ActivatedDealDamageGrimora>(rulebookDescription, "Soul Shot", true);
 	}
 }

@@ -24,7 +24,7 @@ public class GiantStrike : ExtendedAbilityBehaviour
 					AssetUtils.GetPrefab<GameObject>("SkeletonArms_Giants"),
 					Card.transform
 				)
-				.AddComponent<Animator>();
+			 .AddComponent<Animator>();
 			skeletonArm2Attacks.name = "SkeletonArms_Giants";
 			skeletonArm2Attacks.runtimeAnimatorController = AssetConstants.SkeletonArmController;
 			skeletonArm2Attacks.gameObject.AddComponent<AnimMethods>();
@@ -41,8 +41,8 @@ public class GiantStrike : ExtendedAbilityBehaviour
 	public List<CardSlot> GetTwinGiantOpposingSlots()
 	{
 		return BoardManager.Instance.PlayerSlotsCopy
-			.Where(slot => slot.opposingSlot.Card == Card)
-			.ToList();
+		 .Where(slot => slot.opposingSlot.Card == Card)
+		 .ToList();
 	}
 
 	public override List<CardSlot> GetOpposingSlots(List<CardSlot> originalSlots, List<CardSlot> otherAddedSlots)
@@ -53,8 +53,8 @@ public class GiantStrike : ExtendedAbilityBehaviour
 		if (slotsToTarget.Exists(slot => slot.Card))
 		{
 			List<CardSlot> slotsWithCards = slotsToTarget
-				.Where(slot => slot.Card)
-				.ToList();
+			 .Where(slot => slot.Card)
+			 .ToList();
 			if (slotsWithCards.Count == 1)
 			{
 				slotsToTarget.Clear();
@@ -70,13 +70,16 @@ public class GiantStrike : ExtendedAbilityBehaviour
 		GrimoraPlugin.Log.LogInfo($"[{GetType().Name}] Opposing slots is now [{slotsToTarget.Join(slot => slot.Index.ToString())}]");
 		return slotsToTarget;
 	}
+}
 
-	public static AbilityManager.FullAbility Create()
+public partial class GrimoraPlugin
+{
+	public void Add_Ability_GiantStrike()
 	{
 		const string rulebookDescription =
 			"[creature] will strike each opposing space. "
-			+ "If only one creature is in the opposing spaces, this card will strike that creature twice. ";
+		+ "If only one creature is in the opposing spaces, this card will strike that creature twice. ";
 
-		return ApiUtils.CreateAbility<GiantStrike>(rulebookDescription, flipYIfOpponent: true);
+		ApiUtils.CreateAbility<GiantStrike>(rulebookDescription, flipYIfOpponent: true);
 	}
 }

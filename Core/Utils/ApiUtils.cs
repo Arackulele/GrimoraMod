@@ -23,8 +23,8 @@ namespace GrimoraMod
 			// Pascal split will make names like "AreaOfEffectStrike" => "Area Of Effect Strike" 
 			// "Possessive" => "Possessive" 
 			info.rulebookName = rulebookName.Contains(" ")
-				? rulebookName
-				: rulebookName.SplitPascalCase();
+				                    ? rulebookName
+				                    : rulebookName.SplitPascalCase();
 			info.rulebookDescription = rulebookDescription;
 			info.powerLevel = 0;
 			info.canStack = canStack;
@@ -47,8 +47,8 @@ namespace GrimoraMod
 		{
 			rulebookName ??= typeof(T).Name;
 			Texture icon = rulebookIcon
-				? rulebookIcon
-				: AssetUtils.GetPrefab<Texture>("ability_" + typeof(T).Name);
+				               ? rulebookIcon
+				               : AssetUtils.GetPrefab<Texture>("ability_" + typeof(T).Name);
 			return CreateAbility<T>(
 				CreateInfoWithDefaultSettings(rulebookName, rulebookDescription, activated, flipYIfOpponent, canStack),
 				icon
@@ -87,12 +87,28 @@ namespace GrimoraMod
 				finalName = nameof(T);
 			}
 
-			return SpecialTriggeredAbilityManager.Add(GUID, finalName, typeof(T));
+			var specialAbility = SpecialTriggeredAbilityManager.Add(GUID, finalName, typeof(T));
+
+			FieldInfo field = typeof(T).GetField(
+				"FullSpecial",
+				BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance
+			);
+			field.SetValue(null, specialAbility);
+
+			return specialAbility;
 		}
 
 		public static StatIconManager.FullStatIcon CreateStatIcon<T>(StatIconInfo info) where T : SpecialCardBehaviour
 		{
-			return StatIconManager.Add(GUID, info, typeof(T));
+			var statIcon = StatIconManager.Add(GUID, info, typeof(T));
+			
+			FieldInfo field = typeof(T).GetField(
+				"FullStatIcon",
+				BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance
+			);
+			field.SetValue(null, statIcon);
+			
+			return statIcon;
 		}
 	}
 }

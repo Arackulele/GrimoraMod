@@ -55,12 +55,14 @@ public class GrimoraRandomAbility : AbilityBehaviour
 		GrimoraPlugin.Log.LogDebug($"[GrimoraRandomAbility] Random ability chosen [{randomAbility}]");
 		return randomAbility;
 	}
+}
 
-
-	public static AbilityManager.FullAbility Create()
+public partial class GrimoraPlugin
+{
+	public void Add_Ability_GrimoraRandomAbility()
 	{
 		const string rulebookDescription = "When [creature] is drawn, this sigil is replaced with another sigil at random.";
 		Texture icon = AbilitiesUtil.LoadAbilityIcon(Ability.RandomAbility.ToString());
-		return ApiUtils.CreateAbility<GrimoraRandomAbility>(rulebookDescription, "Random Ability", rulebookIcon: icon);
+		ApiUtils.CreateAbility<GrimoraRandomAbility>(rulebookDescription, "Random Ability", rulebookIcon: icon);
 	}
 }

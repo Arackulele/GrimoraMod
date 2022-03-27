@@ -221,14 +221,17 @@ public class SkinCrawler : AbilityBehaviour
 		yield return BoardManager.Instance.CreateCardInSlot(infoCopy, deathSlot, 0);
 		slotHidingUnderCard = null;
 	}
+}
 
-	public static AbilityManager.FullAbility Create()
+public partial class GrimoraPlugin
+{
+	public void Add_Ability_SkinCrawler()
 	{
 		const string rulebookDescription =
 			"[creature] will attempt to find a host in an adjacent friendly slot, hiding under it providing a +1/+1 buff."
-			+ "Cards on the left take priority.";
+		+ "Cards on the left take priority.";
 
-		return ApiUtils.CreateAbility<SkinCrawler>(rulebookDescription);
+		ApiUtils.CreateAbility<SkinCrawler>(rulebookDescription);
 	}
 }
 
@@ -236,7 +239,7 @@ public class SkinCrawler : AbilityBehaviour
 public static class SkinCrawlerPatches
 {
 	[HarmonyPostfix, HarmonyPatch(nameof(BoardManager.CardsOnBoard), MethodType.Getter)]
-	public static void Postfix(ref List<PlayableCard> __result)
+	private static void Postfix(ref List<PlayableCard> __result)
 	{
 		List<PlayableCard> newList = new List<PlayableCard>(__result);
 		foreach (var card in __result)

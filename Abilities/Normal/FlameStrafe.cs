@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using DiskCardGame;
-using InscryptionAPI.Card;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -11,20 +10,22 @@ public class FlameStrafe : Strafe
 
 	public override Ability Ability => ability;
 
-	public override IEnumerator PostSuccessfulMoveSequence(CardSlot cardSlot)
+	public override IEnumerator PostSuccessfulMoveSequence(CardSlot oldSlot)
 	{
-		if (cardSlot.Card.IsNull())
+		if (oldSlot.Card.IsNull())
 		{
-			yield return BoardManager.Instance.CreateCardInSlot(NameFlames.GetCardInfo(), cardSlot);
+			yield return BoardManager.Instance.CreateCardInSlot(NameFlames.GetCardInfo(), oldSlot);
 		}
 	}
+}
 
-	public static AbilityManager.FullAbility Create()
+public partial class GrimoraPlugin
+{
+	public void Add_Ability_FlameStrafe()
 	{
 		const string rulebookDescription =
-			"Whenever [creature] moves, it leaves a trail of Embers. "
-			+ "The warmth of the Embers shall enlighten nearby cards.";
+			"Whenever [creature] moves, it leaves a trail of Embers. The warmth of the Embers shall enlighten nearby cards.";
 
-		return ApiUtils.CreateAbility<FlameStrafe>(rulebookDescription);
+		ApiUtils.CreateAbility<FlameStrafe>(rulebookDescription);
 	}
 }

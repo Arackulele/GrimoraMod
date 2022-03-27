@@ -29,16 +29,17 @@ public class Haunter : AbilityBehaviour
 
 		yield break;
 	}
+}
 
-	public static AbilityManager.FullAbility Create()
+public partial class GrimoraPlugin
+{
+	public void Add_Ability_Haunter()
 	{
 		const string rulebookDescription = "When [creature] perishes, it haunts the space it died in. "
-		                                   + "The first creature played on this space gain its old sigils.";
+		                                 + "The first creature played on this space gain its old sigils.";
 
-		return ApiUtils.CreateAbility<Haunter>(
-			rulebookDescription,
-			rulebookIcon: AbilitiesUtil.LoadAbilityIcon(Ability.Haunter.ToString())
-		);
+		Texture icon = AbilitiesUtil.LoadAbilityIcon(Ability.Haunter.ToString());
+		ApiUtils.CreateAbility<Haunter>(rulebookDescription, rulebookIcon: icon);
 	}
 }
 

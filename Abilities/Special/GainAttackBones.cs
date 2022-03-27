@@ -11,8 +11,15 @@ public class GainAttackBones : VariableStatBehaviour
 	public static StatIconManager.FullStatIcon FullStatIcon;
 
 	public override SpecialStatIcon IconType => FullStatIcon.Id;
+	public override int[] GetStatValues()
+	{
+		return new[] { ResourcesManager.Instance.PlayerBones, 0 };
+	}
+}
 
-	public static StatIconManager.FullStatIcon Create()
+public partial class GrimoraPlugin
+{
+	public static void Add_Ability_GainAttackBones()
 	{
 		StatIconInfo info = ScriptableObject.CreateInstance<StatIconInfo>();
 		info.appliesToHealth = false;
@@ -20,13 +27,7 @@ public class GainAttackBones : VariableStatBehaviour
 		info.rulebookDescription = "[creature] gains 1 attack for each bone the player currently has.";
 		info.iconGraphic = AllAbilityTextures.Single(_ => _.name.Equals("ability_GainAttackBones"));
 
-		FullSpecial = ApiUtils.CreateSpecialAbility<GainAttackBones>(info.rulebookName);
-		FullStatIcon = ApiUtils.CreateStatIcon<GainAttackBones>(info);
-		return FullStatIcon;
-	}
-
-	public override int[] GetStatValues()
-	{
-		return new[] { ResourcesManager.Instance.PlayerBones, 0 };
+		ApiUtils.CreateSpecialAbility<GainAttackBones>(info.rulebookName);
+		ApiUtils.CreateStatIcon<GainAttackBones>(info);
 	}
 }

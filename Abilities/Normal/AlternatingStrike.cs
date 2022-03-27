@@ -52,14 +52,18 @@ public class AlternatingStrike : ExtendedAbilityBehaviour
 		{
 			slotToAttack = BoardManager.Instance.GetAdjacent(Card.Slot, !isAttackingLeft);
 		}
+
 		return new List<CardSlot> { slotToAttack };
 	}
+}
 
-	public static AbilityManager.FullAbility Create()
+public partial class GrimoraPlugin
+{
+	public void Add_Ability_AlternatingStrike()
 	{
 		const string rulebookDescription =
 			"[creature] alternates between striking the opposing space to the left and right from it.";
 
-		return ApiUtils.CreateAbility<AlternatingStrike>(rulebookDescription);
+		ApiUtils.CreateAbility<AlternatingStrike>(rulebookDescription);
 	}
 }

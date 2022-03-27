@@ -65,25 +65,19 @@ public abstract class StrikeAdjacentSlots : ExtendedAbilityBehaviour
 			slotsToTarget.Add(Card.Slot.opposingSlot);
 		}
 
-		if (toLeftSlot)
+		if (toLeftSlot && (StrikeAdjacentAbility != Raider.ability
+		                || toLeftSlot.Card.IsNull()
+		                || !toLeftSlot.Card.HasAbility(Raider.ability)))
 		{
-			if (StrikeAdjacentAbility != Raider.ability
-			    || toLeftSlot.Card.IsNull()
-			    || !toLeftSlot.Card.HasAbility(Raider.ability))
-			{
-				slotsToTarget.Insert(0, toLeftSlot);
-			}
+			slotsToTarget.Insert(0, toLeftSlot);
 		}
 
 		// insert at end
-		if (toRightSlot)
+		if (toRightSlot && (StrikeAdjacentAbility != Raider.ability
+		                 || toRightSlot.Card.IsNull()
+		                 || !toRightSlot.Card.HasAbility(Raider.ability)))
 		{
-			if (StrikeAdjacentAbility != Raider.ability
-			    || toRightSlot.Card.IsNull()
-			    || !toRightSlot.Card.HasAbility(Raider.ability))
-			{
-				slotsToTarget.Insert(slotsToTarget.Count, toRightSlot);
-			}
+			slotsToTarget.Insert(slotsToTarget.Count, toRightSlot);
 		}
 
 		if (hasInvertedStrike)

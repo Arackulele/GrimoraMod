@@ -9,12 +9,6 @@ public class GrimoraGiant : SpecialCardBehaviour
 {
 	public static SpecialTriggeredAbilityManager.FullSpecialTriggeredAbility FullAbility;
 
-	public static SpecialTriggeredAbilityManager.FullSpecialTriggeredAbility Create()
-	{
-		FullAbility = SpecialTriggeredAbilityManager.Add(GUID, "!GRIMORA_GIANT", typeof(GrimoraGiant));
-		return FullAbility;
-	}
-
 	public override bool RespondsToResolveOnBoard() => true;
 
 	public override IEnumerator OnResolveOnBoard()
@@ -49,5 +43,13 @@ public class GrimoraGiant : SpecialCardBehaviour
 		}
 
 		yield break;
+	}
+}
+
+public partial class GrimoraPlugin
+{
+	public static void Add_Ability_GrimoraGiant()
+	{
+		ApiUtils.CreateSpecialAbility<GrimoraGiant>("!GRIMORA_GIANT");
 	}
 }

@@ -19,13 +19,16 @@ public class Possessive : AbilityBehaviour
 		attacker.Anim.StrongNegationEffect();
 		yield break;
 	}
+}
 
-	public static AbilityManager.FullAbility Create()
+public partial class GrimoraPlugin
+{
+	public void Add_Ability_Possessive()
 	{
 		const string rulebookDescription =
 			"[creature] cannot be attacked from the opposing slot. "
-			+ "The opposing slot, if possible, instead attacks one of its adjacent friendly cards.";
+		+ "The opposing slot, if possible, instead attacks one of its adjacent friendly cards.";
 
-		return ApiUtils.CreateAbility<Possessive>(rulebookDescription);
+		ApiUtils.CreateAbility<Possessive>(rulebookDescription);
 	}
 }

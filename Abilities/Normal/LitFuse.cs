@@ -24,13 +24,16 @@ public class LitFuse : ExplodeOnDeath
 		yield return new WaitForSeconds(0.25f);
 		ViewManager.Instance.SetViewUnlocked();
 	}
+}
 
-	public static AbilityManager.FullAbility Create()
+public partial class GrimoraPlugin
+{
+	public void Add_Ability_LitFuse()
 	{
 		const string rulebookDescription =
 			"[creature] loses 1 health per turn. "
-			+ "When [creature] dies, the creature opposing it, as well as adjacent friendly creatures, are dealt 10 damage.";
+		+ "When [creature] dies, the creature opposing it, as well as adjacent friendly creatures, are dealt 10 damage.";
 
-		return ApiUtils.CreateAbility<LitFuse>(rulebookDescription);
+		ApiUtils.CreateAbility<LitFuse>(rulebookDescription);
 	}
 }

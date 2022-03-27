@@ -10,11 +10,15 @@ public class AreaOfEffectStrike : StrikeAdjacentSlots
 
 	protected override Ability StrikeAdjacentAbility => ability;
 
-	public static AbilityManager.FullAbility Create()
+}
+
+public partial class GrimoraPlugin
+{
+	public void Add_Ability_AreaOfEffectStrike()
 	{
 		const string rulebookDescription =
 			"[creature] will strike its adjacent slots, and each opposing space to the left, right, and center of it.";
 
-		return ApiUtils.CreateAbility<AreaOfEffectStrike>(rulebookDescription, flipYIfOpponent: true);
+		ApiUtils.CreateAbility<AreaOfEffectStrike>(rulebookDescription, flipYIfOpponent: true);
 	}
 }

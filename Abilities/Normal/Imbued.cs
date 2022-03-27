@@ -48,14 +48,18 @@ public class Imbued : AbilityBehaviour
 			});
 			Card.Anim.PlayTransformAnimation();
 		}
+
 		Card.OnStatsChanged();
 		yield return new WaitForSeconds(0.25f);
 	}
+}
 
-	public static AbilityManager.FullAbility Create()
+public partial class GrimoraPlugin
+{
+	public void Add_Ability_Imbued()
 	{
 		const string rulebookDescription = "When a non-brittle ally card perishes, [creature] gains 1 power.";
 
-		return ApiUtils.CreateAbility<Imbued>(rulebookDescription);
+		ApiUtils.CreateAbility<Imbued>(rulebookDescription);
 	}
 }

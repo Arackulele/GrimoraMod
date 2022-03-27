@@ -74,10 +74,12 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 
 		ViewManager.Instance.SetViewUnlocked();
 	}
+}
 
-	public static SpecialTriggeredAbilityManager.FullSpecialTriggeredAbility Create()
+public partial class GrimoraPlugin
+{
+	public static void Add_Ability_CreateRoyalsCrewMate()
 	{
-		FullSpecial = SpecialTriggeredAbilityManager.Add(GUID, "!GRIMORA_ROYALS_SHIP", typeof(CreateRoyalsCrewMate));
-		return FullSpecial;
+		ApiUtils.CreateSpecialAbility<CreateRoyalsCrewMate>("!GRIMORA_ROYALS_SHIP");
 	}
 }

@@ -14,25 +14,29 @@ public class BuffCrewMates : ExtendedAbilityBehaviour
 
 	public override int[] GetPassiveAttackBuffs()
 	{
-		int[] arrForSkeletonsToBuff = { 0, 0, 0, 0};
+		int[] arrForSkeletonsToBuff = { 0, 0, 0, 0 };
 		var skeletonSlotIndexes = BoardManager.Instance
-			.GetSlots(!Card.OpponentCard)
-			.Where(slot => slot.CardInSlotIs(GrimoraPlugin.NameSkeleton))
-			.Select(slot => slot.Index)
-			.ToList();
-		
+		                                      .GetSlots(!Card.OpponentCard)
+		                                      .Where(slot => slot.CardInSlotIs(GrimoraPlugin.NameSkeleton))
+		                                      .Select(slot => slot.Index)
+		                                      .ToList();
+
 		foreach (var slotIndex in skeletonSlotIndexes)
 		{
 			arrForSkeletonsToBuff[slotIndex] = 1;
 		}
+
 		return arrForSkeletonsToBuff;
 	}
+}
 
-	public static AbilityManager.FullAbility Create()
+public partial class GrimoraPlugin
+{
+	public void Add_Ability_BuffCrewMates()
 	{
 		const string rulebookDescription =
 			"[creature] empowers each Skeleton on the owner's side of the board, providing a +1 buff their power.";
 
-		return ApiUtils.CreateAbility<BuffCrewMates>(rulebookDescription, "Sea Shanty");
+		ApiUtils.CreateAbility<BuffCrewMates>(rulebookDescription, "Sea Shanty");
 	}
 }

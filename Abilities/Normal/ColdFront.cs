@@ -27,11 +27,14 @@ public class ColdFront : AbilityBehaviour
 			yield return new WaitForSeconds(0.25f);
 		}
 	}
+}
 
-	public static AbilityManager.FullAbility Create()
+public partial class GrimoraPlugin
+{
+	public void Add_Abiltiy_ColdFront()
 	{
 		const string rulebookDescription = "When [creature] perishes, the card opposing it is Frozen Away.";
 
-		return ApiUtils.CreateAbility<ColdFront>(rulebookDescription);
+		ApiUtils.CreateAbility<ColdFront>(rulebookDescription);
 	}
 }

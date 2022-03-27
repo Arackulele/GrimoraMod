@@ -24,9 +24,9 @@ public class CreateArmyOfSkeletons : AbilityBehaviour
 		ViewManager.Instance.SwitchToView(View.Board);
 
 		var openSlots = BoardManager.Instance
-			.GetSlots(Card.Slot.IsPlayerSlot)
-			.Where(slot => slot.Card.IsNull())
-			.ToList();
+		                            .GetSlots(Card.Slot.IsPlayerSlot)
+		                            .Where(slot => slot.Card.IsNull())
+		                            .ToList();
 
 		foreach (var slot in openSlots)
 		{
@@ -48,12 +48,15 @@ public class CreateArmyOfSkeletons : AbilityBehaviour
 	{
 		yield return BoardManager.Instance.CreateCardInSlot("Skeleton".GetCardInfo(), slot, 0.15f);
 	}
+}
 
-	public static AbilityManager.FullAbility Create()
+public partial class GrimoraPlugin
+{
+	public void Add_Ability_CreateArmyOfSkeletons()
 	{
 		const string rulebookDescription =
 			"When [creature] is played, a Skeleton is created in each empty space on the owner's side. [define:Skeleton]";
 
-		return ApiUtils.CreateAbility<CreateArmyOfSkeletons>(rulebookDescription, "Skeleton Horde");
+		ApiUtils.CreateAbility<CreateArmyOfSkeletons>(rulebookDescription, "Skeleton Horde");
 	}
 }

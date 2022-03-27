@@ -12,11 +12,14 @@ public class Raider : StrikeAdjacentSlots
 	protected override Ability StrikeAdjacentAbility => ability;
 
 	public override bool RemoveDefaultAttackSlot() => true;
+}
 
-	public static AbilityManager.FullAbility Create()
+public partial class GrimoraPlugin
+{
+	public void Add_Ability_Raider()
 	{
 		const string rulebookDescription = "[creature] will strike its adjacent slots, except other Raiders.";
 
-		return ApiUtils.CreateAbility<Raider>(rulebookDescription);
+		ApiUtils.CreateAbility<Raider>(rulebookDescription);
 	}
 }

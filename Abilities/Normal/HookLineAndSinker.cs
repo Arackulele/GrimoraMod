@@ -14,7 +14,7 @@ public class HookLineAndSinker : AbilityBehaviour
 	public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer)
 	{
 		return Card.Slot.opposingSlot.Card
-		       && !Card.Slot.opposingSlot.Card.Info.SpecialAbilities.Contains(GrimoraGiant.FullAbility.Id);
+		    && !Card.Slot.opposingSlot.Card.Info.SpecialAbilities.Contains(GrimoraGiant.FullAbility.Id);
 	}
 
 	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
@@ -44,12 +44,15 @@ public class HookLineAndSinker : AbilityBehaviour
 			yield return new WaitForSeconds(0.66f);
 		}
 	}
+}
 
-	public static AbilityManager.FullAbility Create()
+public partial class GrimoraPlugin
+{
+	public void Add_Ability_HookLineAndSinker()
 	{
 		const string rulebookDescription =
 			"When [creature] perishes, the creature in the opposing slot is dragged onto the owner's side of the board.";
 
-		return ApiUtils.CreateAbility<HookLineAndSinker>(rulebookDescription);
+		ApiUtils.CreateAbility<HookLineAndSinker>(rulebookDescription);
 	}
 }
