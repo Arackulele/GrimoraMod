@@ -25,18 +25,18 @@ public class MarchingDead : AbilityBehaviour
 		CardSlot rightAdjSlot = BoardManager.Instance.GetAdjacent(Card.Slot, false);
 		if (leftAdjCard && leftAdjSlot && leftAdjSlot.Card.IsNull())
 		{
-			leftAdjCard = null;
 			ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 			yield return PlayerHand.Instance.PlayCardOnSlot(leftAdjCard, leftAdjSlot);
 			yield return new WaitForSeconds(0.2f);
+			leftAdjCard = null;
 		}
 
 		if (rightAdjCard && rightAdjSlot && rightAdjSlot.Card.IsNull())
 		{
-			rightAdjCard = null;
 			ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 			yield return PlayerHand.Instance.PlayCardOnSlot(rightAdjCard, rightAdjSlot);
 			yield return new WaitForSeconds(0.2f);
+			rightAdjCard = null;
 		}
 		
 		ViewManager.Instance.SetViewUnlocked();
