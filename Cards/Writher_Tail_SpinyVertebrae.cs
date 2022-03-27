@@ -9,7 +9,7 @@ public partial class GrimoraPlugin
 	private void Add_Card_WritherTail()
 	{
 		CardBuilder.Builder
-			.SetAsRareCard()
+			.SetAppearance(CardAppearanceBehaviour.Appearance.RareCardBackground)
 			.SetAbilities(Ability.Sharp)
 			.SetBaseAttackAndHealth(0, 1)
 			// .SetDescription("A SENSE OF DREAD CONSUMES YOU AS YOU REALIZE YOU ARE NOT ALONE IN THESE WOODS.")
