@@ -239,10 +239,10 @@ public class ConfigHelper
 			catch (Exception e)
 			{
 				Log.LogError(
-					$"Failed to unlock all necessary mechanics with [ProgressionData.UnlockAll]. "
-					+ $"There's something wrong with your save file or your computer reading data/files. "
-					+ $"This should not throw an exception and I have no idea how to fix this for you."
-					+ $"If the combat bell doesn't show up, restart your game."
+					"Failed to unlock all necessary mechanics with [ProgressionData.UnlockAll]. "
+					+ "There's something wrong with your save file or your computer reading data/files. "
+					+ "This should not throw an exception and I have no idea how to fix this for you."
+					+ "If the combat bell doesn't show up, restart your game."
 				);
 			}
 
