@@ -58,10 +58,7 @@ public class Puppeteer : AbilityBehaviour
 		playableCard.RemoveAbilityFromThisCard(NegateBrittleMod);
 	}
 
-	public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer)
-	{
-		return true;
-	}
+	public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer) => true;
 
 	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
 	{
