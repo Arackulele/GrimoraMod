@@ -4,7 +4,7 @@ end_of_line = lf
 indent_size = 2
 indent_style = tab
 insert_final_newline = true
-max_line_length = 120
+max_line_length = 201
 tab_width = 2
 trim_trailing_whitespace = false
 ij_continuation_indent_size = 4
@@ -35,16 +35,10 @@ dotnet_naming_rule.public_fields_rule.severity = warning
 dotnet_naming_rule.public_fields_rule.style = lower_camel_case_style
 dotnet_naming_rule.public_fields_rule.symbols = public_fields_symbols
 dotnet_naming_rule.static_readonly_rule.import_to_resharper = as_predefined
-dotnet_naming_rule.static_readonly_rule.resharper_style = AaBb, bp_ + AaBb
 dotnet_naming_rule.static_readonly_rule.severity = warning
 dotnet_naming_rule.static_readonly_rule.style = upper_camel_case_style
 dotnet_naming_rule.static_readonly_rule.symbols = static_readonly_symbols
-dotnet_naming_rule.unity_serialized_field_rule.import_to_resharper = True
-dotnet_naming_rule.unity_serialized_field_rule.resharper_description = Unity serialized field
-dotnet_naming_rule.unity_serialized_field_rule.resharper_guid = 5f0fdb63-c892-4d2c-9324-15c80b22a7ef
-dotnet_naming_rule.unity_serialized_field_rule.severity = warning
-dotnet_naming_rule.unity_serialized_field_rule.style = lower_camel_case_style
-dotnet_naming_rule.unity_serialized_field_rule.symbols = unity_serialized_field_symbols
+
 dotnet_naming_style.lower_camel_case_style.capitalization = camel_case
 dotnet_naming_style.name_upper_camel_case_style.capitalization = pascal_case
 dotnet_naming_style.name_upper_camel_case_style.required_prefix = Name
@@ -60,10 +54,7 @@ dotnet_naming_symbols.public_fields_symbols.applicable_kinds = field
 dotnet_naming_symbols.static_readonly_symbols.applicable_accessibilities = public,internal,protected,protected_internal,private_protected
 dotnet_naming_symbols.static_readonly_symbols.applicable_kinds = field
 dotnet_naming_symbols.static_readonly_symbols.required_modifiers = static,readonly
-dotnet_naming_symbols.unity_serialized_field_symbols.applicable_accessibilities = *
-dotnet_naming_symbols.unity_serialized_field_symbols.applicable_kinds = 
-dotnet_naming_symbols.unity_serialized_field_symbols.resharper_applicable_kinds = unity_serialised_field
-dotnet_naming_symbols.unity_serialized_field_symbols.resharper_required_modifiers = instance
+
 dotnet_style_parentheses_in_arithmetic_binary_operators = never_if_unnecessary:none
 dotnet_style_parentheses_in_other_binary_operators = never_if_unnecessary:none
 dotnet_style_parentheses_in_relational_binary_operators = never_if_unnecessary:none
@@ -75,22 +66,57 @@ dotnet_style_qualification_for_method = false:suggestion
 dotnet_style_qualification_for_property = false:suggestion
 dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggestion
 
+# Unity
+dotnet_naming_rule.unity_serialized_field_rule.import_to_resharper = True
+dotnet_naming_rule.unity_serialized_field_rule.resharper_description = Unity serialized field
+dotnet_naming_rule.unity_serialized_field_rule.resharper_guid = 5f0fdb63-c892-4d2c-9324-15c80b22a7ef
+dotnet_naming_rule.unity_serialized_field_rule.severity = warning
+dotnet_naming_rule.unity_serialized_field_rule.style = lower_camel_case_style
+dotnet_naming_rule.unity_serialized_field_rule.symbols = unity_serialized_field_symbols
+dotnet_naming_rule.unity_serialized_field_rule_1.import_to_resharper = True
+dotnet_naming_rule.unity_serialized_field_rule_1.resharper_description = Unity serialized field
+dotnet_naming_rule.unity_serialized_field_rule_1.resharper_guid = 5f0fdb63-c892-4d2c-9324-15c80b22a7ef
+dotnet_naming_rule.unity_serialized_field_rule_1.severity = warning
+dotnet_naming_rule.unity_serialized_field_rule_1.style = lower_camel_case_style
+dotnet_naming_rule.unity_serialized_field_rule_1.symbols = unity_serialized_field_symbols_1
+dotnet_naming_rule.unity_serialized_field_rule_2.import_to_resharper = True
+dotnet_naming_rule.unity_serialized_field_rule_2.resharper_description = Unity serialized field
+dotnet_naming_rule.unity_serialized_field_rule_2.resharper_guid = 5f0fdb63-c892-4d2c-9324-15c80b22a7ef
+dotnet_naming_rule.unity_serialized_field_rule_2.severity = warning
+dotnet_naming_rule.unity_serialized_field_rule_2.style = lower_camel_case_style
+dotnet_naming_rule.unity_serialized_field_rule_2.symbols = unity_serialized_field_symbols_2
+dotnet_naming_symbols.unity_serialized_field_symbols.applicable_accessibilities = *
+dotnet_naming_symbols.unity_serialized_field_symbols.applicable_kinds = 
+dotnet_naming_symbols.unity_serialized_field_symbols.resharper_applicable_kinds = unity_serialised_field
+dotnet_naming_symbols.unity_serialized_field_symbols.resharper_required_modifiers = instance
+dotnet_naming_symbols.unity_serialized_field_symbols_1.applicable_accessibilities = *
+dotnet_naming_symbols.unity_serialized_field_symbols_1.applicable_kinds = 
+dotnet_naming_symbols.unity_serialized_field_symbols_1.resharper_applicable_kinds = unity_serialised_field
+dotnet_naming_symbols.unity_serialized_field_symbols_1.resharper_required_modifiers = instance
+dotnet_naming_symbols.unity_serialized_field_symbols_2.applicable_accessibilities = *
+dotnet_naming_symbols.unity_serialized_field_symbols_2.applicable_kinds = 
+dotnet_naming_symbols.unity_serialized_field_symbols_2.resharper_applicable_kinds = unity_serialised_field
+dotnet_naming_symbols.unity_serialized_field_symbols_2.resharper_required_modifiers = instance
+
 # ReSharper properties
 resharper_align_multiline_argument = true
 resharper_align_multiline_binary_patterns = true
-resharper_align_multiline_calls_chain = true
+resharper_align_multiline_calls_chain = false
 resharper_align_multiline_expression = true
 resharper_align_multiline_parameter = true
 resharper_align_tuple_components = true
 resharper_csharp_int_align_comments = true
+resharper_csharp_naming_rule.constants = AaBb
+resharper_csharp_naming_rule.static_readonly = AaBb
 resharper_csharp_outdent_dots = true
 resharper_csharp_stick_comment = false
+resharper_csharp_wrap_parameters_style = chop_if_long
 resharper_enforce_line_ending_style = true
 resharper_indent_preprocessor_directives = normal
-resharper_int_align_fields = true
-resharper_int_align_methods = true
-resharper_int_align_parameters = true
-resharper_int_align_properties = true
+resharper_int_align_fields = false
+resharper_int_align_methods = false
+resharper_int_align_parameters = false
+resharper_int_align_properties = false
 resharper_int_align_switch_expressions = true
 resharper_int_align_switch_sections = true
 resharper_outdent_binary_ops = true
@@ -127,10 +153,6 @@ ij_editorconfig_space_before_comma = false
 ij_editorconfig_spaces_around_assignment_operators = true
 
 [{*.ant,*.appxmanifest,*.axml,*.cscfg,*.csdef,*.disco,*.filelayout,*.fxml,*.jhm,*.jnlp,*.jrxml,*.manifest,*.myapp,*.nuspec,*.rng,*.stylecop,*.svcmap,*.tld,*.tps,*.wadcfgx,*.webref,*.wsdl,*.xml,*.xsd,*.xsl,*.xslt,*.xul,StyleCop.Cache}]
-indent_size = 2
-indent_style = tab
-tab_width = 2
-ij_continuation_indent_size = 4
 ij_xml_align_attributes = true
 ij_xml_align_text = false
 ij_xml_attribute_wrap = normal
@@ -150,8 +172,6 @@ ij_xml_space_inside_empty_tag = true
 ij_xml_text_wrap = normal
 
 [{*.bash,*.sh,*.zsh}]
-indent_size = 2
-tab_width = 2
 ij_shell_binary_ops_start_line = false
 ij_shell_keep_column_alignment_padding = false
 ij_shell_minify_program = false
@@ -160,7 +180,6 @@ ij_shell_switch_cases_indented = false
 ij_shell_use_unix_line_separator = true
 
 [{*.har,*.inputactions,*.jsb2,*.jsb3,*.json,.babelrc,.eslintrc,.stylelintrc,bowerrc,jest.config}]
-indent_size = 2
 ij_json_keep_blank_lines_in_code = 0
 ij_json_keep_indents_on_empty_lines = false
 ij_json_keep_line_breaks = true
@@ -186,7 +205,6 @@ ij_markdown_min_lines_around_header = 1
 ij_markdown_min_lines_between_paragraphs = 1
 
 [{*.yaml,*.yml}]
-indent_size = 2
 ij_yaml_align_values_properties = do_not_align
 ij_yaml_autoinsert_sequence_marker = true
 ij_yaml_block_mapping_on_new_line = false
@@ -199,6 +217,6 @@ ij_yaml_spaces_within_braces = true
 ij_yaml_spaces_within_brackets = true
 
 [*.{appxmanifest,asax,ascx,aspx,axaml,build,cg,cginc,compute,cs,cshtml,dtd,fs,fsi,fsscript,fsx,hlsl,hlsli,hlslinc,master,ml,mli,nuspec,paml,razor,resw,resx,shader,skin,usf,ush,vb,xaml,xamlx,xoml,xsd}]
-indent_style = tab
 indent_size = tab
+indent_style = tab
 tab_width = 2
