@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameFranknstein = $"{GUID}_Franknstein";
 
-	private void Add_Franknstein()
+	private void Add_Card_Franknstein()
 	{
 		Sprite ogSprite = "FrankNStein".GetCardInfo().portraitTex;
 		CardBuilder.Builder

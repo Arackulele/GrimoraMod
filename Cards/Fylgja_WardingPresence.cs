@@ -4,7 +4,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameWardingPresence = $"{GUID}_WardingPresence";
 
-	private void Add_WardingPresence()
+	private void Add_Card_WardingPresence()
 	{
 		CardBuilder.Builder
 			.SetBaseAttackAndHealth(0, 1)

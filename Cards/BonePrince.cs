@@ -4,7 +4,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameBonePrince = $"{GUID}_BonePrince";
 
-	private void Add_BonePrince()
+	private void Add_Card_BonePrince()
 	{
 		CardBuilder.Builder
 			.SetBaseAttackAndHealth(2, 1)

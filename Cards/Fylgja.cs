@@ -4,7 +4,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameFylgja = $"{GUID}_Fylgja";
 
-	private void Add_Fylgja()
+	private void Add_Card_Fylgja()
 	{
 		CardBuilder.Builder
 			.SetAsRareCard()

@@ -4,7 +4,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameSlingersSoul = $"{GUID}_SlingersSoul";
 
-	private void Add_SlingersSoul()
+	private void Add_Card_SlingersSoul()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()

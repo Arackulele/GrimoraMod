@@ -7,7 +7,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameDeathKnellBell = $"{GUID}_DeathKnell_Bell";
 
-	private void Add_DeathKnellBell()
+	private void Add_Card_DeathKnellBell()
 	{
 		CardBuilder.Builder
 			.SetAppearance(Appearance.TerrainBackground, Appearance.TerrainLayout)

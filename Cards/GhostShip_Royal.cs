@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameGhostShipRoyal = $"{GUID}_GhostShipRoyal";
 
-	private void Add_GhostShipRoyal()
+	private void Add_Card_GhostShipRoyal()
 	{
 		CardBuilder.Builder
 			.SetAbilities(Anchored.ability)

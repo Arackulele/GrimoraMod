@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameCompoundFracture = $"{GUID}_CompoundFracture";
 
-	private static void Add_CompoundFracture()
+	private void Add_Card_CompoundFracture()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()

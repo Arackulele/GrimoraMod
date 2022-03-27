@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameRisingHunger = $"{GUID}_RisingHunger";
 
-	private void Add_Gashadokuro_Stage2_RisingHunger()
+	private void Add_Card_Gashadokuro_Stage2_RisingHunger()
 	{
 		CardBuilder.Builder
 			.SetAbilities(Ability.Evolve, Ability.QuadrupleBones)

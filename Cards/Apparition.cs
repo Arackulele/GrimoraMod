@@ -4,7 +4,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameApparition = $"{GUID}_Apparition";
 
-	private void Add_Apparition()
+	private void Add_Card_Apparition()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()

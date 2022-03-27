@@ -4,7 +4,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameAnimator = $"{GUID}_Animator";
 
-	private void Add_Animator()
+	private void Add_Card_Animator()
 	{
 		CardBuilder.Builder
 			.SetAsRareCard()

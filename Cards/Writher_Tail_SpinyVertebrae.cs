@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameWritherTail = $"{GUID}_Writher_tail";
 
-	private void Add_WritherTail()
+	private void Add_Card_WritherTail()
 	{
 		CardBuilder.Builder
 			.SetAsRareCard()

@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameSluagh = $"{GUID}_Sluagh";
 
-	private void Add_Sluagh()
+	private void Add_Card_Sluagh()
 	{
 		// TODO:  Effect: when played, move any card to any available spot.
 		// Does not work on boss cards like the Bone Lord.

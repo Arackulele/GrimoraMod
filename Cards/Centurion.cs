@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameCenturion = $"{GUID}_Centurion";
 
-	private void Add_Centurion()
+	private void Add_Card_Centurion()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()

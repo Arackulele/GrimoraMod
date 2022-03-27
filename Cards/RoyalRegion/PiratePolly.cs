@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NamePiratePolly = $"{GUID}_PiratePolly";
 
-	private void Add_PiratePolly()
+	private void Add_Card_PiratePolly()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()

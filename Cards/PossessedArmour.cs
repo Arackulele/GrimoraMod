@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NamePossessedArmour = $"{GUID}_PossessedArmour";
 
-	private static void Add_PossessedArmour()
+	private void Add_Card_PossessedArmour()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()

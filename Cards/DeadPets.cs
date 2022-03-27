@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameDeadPets = $"{GUID}_DeadPets";
 
-	private void Add_DeadPets()
+	private void Add_Card_DeadPets()
 	{
 		CardBuilder.Builder
 			.SetAsRareCard()

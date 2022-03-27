@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameBanshee = $"{GUID}_Banshee";
 
-	private void Add_Banshee()
+	private void Add_Card_Banshee()
 	{
 		CardInfo banshee = "Banshee".GetCardInfo();
 		CardBuilder.Builder

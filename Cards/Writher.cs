@@ -4,7 +4,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameWrither = $"{GUID}_Writher";
 
-	private void Add_Writher()
+	private void Add_Card_Writher()
 	{
 		CardBuilder.Builder
 			//Removed for now as its not fun, maybe at a special event later

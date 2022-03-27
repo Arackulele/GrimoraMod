@@ -4,7 +4,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameBooHag = $"{GUID}_BooHag";
 
-	private void Add_BooHag()
+	private void Add_Card_BooHag()
 	{
 		CardBuilder.Builder
 			// .SetAsNormalCard()

@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameHauntedMirror = $"{GUID}_HauntedMirror";
 
-	private void Add_HauntedMirror()
+	private void Add_Card_HauntedMirror()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()

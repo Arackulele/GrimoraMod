@@ -4,7 +4,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameDybbuk = $"{GUID}_Dybbuk";
 
-	private void Add_Dybbuk()
+	private void Add_Card_Dybbuk()
 	{
 		CardBuilder.Builder
 			.SetAsRareCard()

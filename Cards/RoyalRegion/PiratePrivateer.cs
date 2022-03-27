@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NamePiratePrivateer = $"{GUID}_PiratePrivateer";
 
-	private void Add_PiratePrivateer()
+	private void Add_Card_PiratePrivateer()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()

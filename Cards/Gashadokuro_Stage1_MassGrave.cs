@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameMassGrave = $"{GUID}_MassGrave";
 
-	private void Add_Gashadokuro_Stage1_MassGrave()
+	private void Add_Card_Gashadokuro_Stage1_MassGrave()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()

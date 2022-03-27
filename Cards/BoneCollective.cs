@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameBoneCollective = $"{GUID}_BoneCollective";
 
-	private void Add_BoneCollective()
+	private void Add_Card_BoneCollective()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()

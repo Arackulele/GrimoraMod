@@ -4,7 +4,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameRot = $"{GUID}_Rot";
 
-	private void Add_Rot()
+	private void Add_Card_Rot()
 	{
 		CardBuilder.Builder
 			//Removed for now as its not fun, maybe at a special event later

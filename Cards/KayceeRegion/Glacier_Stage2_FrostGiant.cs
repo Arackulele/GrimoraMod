@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameFrostGiant = $"{GUID}_FrostGiant";
 
-	private void Add_Glacier_Stage2_FrostGiant()
+	private void Add_Card_Glacier_Stage2_FrostGiant()
 	{
 		CardBuilder.Builder
 			.SetAbilities(Ability.SplitStrike)

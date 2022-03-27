@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameBonelord = $"{GUID}_Bonelord";
 
-	private void Add_Bonelord()
+	private void Add_Card_Bonelord()
 	{
 		CardBuilder.Builder
 			.SetAbilities(BonelordsReign.ability, GiantStrike.ability, Ability.Reach, Ability.MadeOfStone)

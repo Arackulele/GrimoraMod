@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameGlacier = $"{GUID}_Glacier";
 
-	private void Add_Glacier_Stage1()
+	private void Add_Card_Glacier_Stage1()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()

@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameGiant = $"{GUID}_Giant";
 
-	private void Add_Giant()
+	private void Add_Card_Giant()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()

@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameGravebard = $"{GUID}_Gravebard";
 
-	private void Add_Gravebard()
+	private void Add_Card_Gravebard()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()

@@ -8,7 +8,7 @@ public partial class GrimoraPlugin
 	public const string NameGravedigger = $"{GUID}_Gravedigger";
 	public const string NameSporedigger = $"{GUID}_Sporedigger";
 
-	private void Add_GraveDigger()
+	private void Add_Card_GraveDigger()
 	{
 		Sprite ogSprite = "Gravedigger".GetCardInfo().portraitTex;
 		CardBuilder.Builder
@@ -23,7 +23,7 @@ public partial class GrimoraPlugin
 			.Build();
 	}
 
-	private void Add_SporeDigger()
+	private void Add_Card_SporeDigger()
 	{
 		CardBuilder.Builder
 			.SetAsRareCard()

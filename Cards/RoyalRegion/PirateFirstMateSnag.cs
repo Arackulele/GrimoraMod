@@ -4,7 +4,7 @@ public partial class GrimoraPlugin
 {
 	public const string NamePirateFirstMateSnag = $"{GUID}_PirateFirstMateSnag";
 
-	private void Add_PirateFirstMateSnag()
+	private void Add_Card_PirateFirstMateSnag()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()

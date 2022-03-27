@@ -4,7 +4,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameCalaveraCatrina = $"{GUID}_CalaveraCatrina";
 
-	private static void Add_CalaveraCatrina()
+	private void Add_Card_CalaveraCatrina()
 	{
 		CardBuilder.Builder
 			.SetAsRareCard()

@@ -1,15 +1,33 @@
 ManifestFileVersion: 0
-CRC: 3457446249
+CRC: 1421272230
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: e726bbf4107b33233e9c6707b205f9fd
+    Hash: 67572548745267f06e32a47f1a887501
   TypeTreeHash:
     serializedVersion: 2
-    Hash: c90fc19e2679e5295d10bd00f33cb4c3
+    Hash: 024ea319c507d6edd2cf9562504df8d1
 HashAppended: 0
 ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
 - Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5e41b6e21bd0d9b4399083b5a78cf3fe, type: 3}
+- Class: 115
   Script: {instanceID: 0}
 - Class: 213
   Script: {instanceID: 0}
@@ -46,6 +64,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/DeathKnell_emission.png
 - Assets/GrimoraMod_Unity/Cards/PirateFirstMateSnag.png
 - Assets/GrimoraMod_Unity/Cards/DeadPets.png
+- Assets/GrimoraMod_Unity/Cards/Terrain/DisturbedGrave.png
 - Assets/GrimoraMod_Unity/Cards/DavyJones.png
 - Assets/GrimoraMod_Unity/Cards/WillOTheWisp.png
 - Assets/GrimoraMod_Unity/Cards/Silbon_emission.png
@@ -79,6 +98,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Writher.png
 - Assets/GrimoraMod_Unity/Cards/Glacier_emission.png
 - Assets/GrimoraMod_Unity/Cards/Bonelord_emission.png
+- Assets/GrimoraMod_Unity/Cards/Terrain/DeadTree.png
 - Assets/GrimoraMod_Unity/Cards/Spectrabbit.png
 - Assets/GrimoraMod_Unity/Cards/BooHag_emission.png
 - Assets/GrimoraMod_Unity/Cards/GhostShip_Royal_Cevin2006.png
@@ -123,6 +143,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Crossbones.png
 - Assets/GrimoraMod_Unity/Cards/DeathKnell.png
 - Assets/GrimoraMod_Unity/Cards/Crossbones_emission.png
+- Assets/GrimoraMod_Unity/Cards/Terrain/DisturbedGrave_emission.png
 - Assets/GrimoraMod_Unity/Cards/PiratePrivateer.png
 - Assets/GrimoraMod_Unity/Cards/Warthr_emission.png
 - Assets/GrimoraMod_Unity/Cards/Summoner.png
@@ -136,7 +157,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/SeaChest.png
 - Assets/GrimoraMod_Unity/Cards/VengefulSpirit.png
 - Assets/GrimoraMod_Unity/Cards/Necromancer_emission.png
-- Assets/GrimoraMod_Unity/Cards/Unknown_CoffinLad_Tampered.png
+- Assets/GrimoraMod_Unity/Cards/TamperedCoffin.png
 - Assets/GrimoraMod_Unity/Cards/StakedVampire.png
 - Assets/GrimoraMod_Unity/Cards/FrostGiant.png
 - Assets/GrimoraMod_Unity/Cards/Zombie.png
@@ -152,11 +173,13 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/LaLlorona.png
 - Assets/GrimoraMod_Unity/Cards/Jikininki.png
 - Assets/GrimoraMod_Unity/Cards/Giant.png
+- Assets/GrimoraMod_Unity/Cards/Writher_tail.png
 - Assets/GrimoraMod_Unity/Cards/Summoner_emission.png
 - Assets/GrimoraMod_Unity/Cards/Hellhand_emission.png
 - Assets/GrimoraMod_Unity/Cards/OldCards/ghoul.png
 - Assets/GrimoraMod_Unity/Cards/Starvation.png
 - Assets/GrimoraMod_Unity/Cards/BonelordsHorn.png
+- Assets/Resources/data/cards/terrain/DeadTree.asset
 - Assets/GrimoraMod_Unity/Cards/Bigbones_emission.png
 - Assets/GrimoraMod_Unity/Menu/menutext_grimora_mod.png
 - Assets/GrimoraMod_Unity/Cards/BonePrince.png
@@ -169,7 +192,6 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Apparition_emission.png
 - Assets/GrimoraMod_Unity/Cards/Animator_emission.png
 - Assets/GrimoraMod_Unity/Cards/Project_emission.png
-- Assets/GrimoraMod_Unity/Cards/Maggots.png
 - Assets/GrimoraMod_Unity/Cards/Project.png
 - Assets/GrimoraMod_Unity/Cards/Draugr.png
 - Assets/GrimoraMod_Unity/Cards/CompoundFracture_emission.png
@@ -198,7 +220,6 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Bonelord.png
 - Assets/GrimoraMod_Unity/Cards/Skelemaniac.png
 - Assets/GrimoraMod_Unity/Cards/Necromancer.png
-- Assets/GrimoraMod_Unity/Cards/Maggots_emission.png
 - Assets/GrimoraMod_Unity/Cards/DeadHand_emission.png
 - Assets/GrimoraMod_Unity/Cards/TombRobber.png
 - Assets/GrimoraMod_Unity/Cards/CalaveraCatrina.png

@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameRipper = $"{GUID}_Ripper";
 
-	private void Add_Ripper()
+	private void Add_Card_Ripper()
 	{
 		CardBuilder.Builder
 			.SetAsRareCard()

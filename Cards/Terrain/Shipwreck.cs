@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameShipwreck = $"{GUID}_Shipwreck";
 
-	private void Add_Shipwreck()
+	private void Add_Card_Shipwreck()
 	{
 		CardBuilder.Builder
 			.SetAbilities(Ability.Sharp)

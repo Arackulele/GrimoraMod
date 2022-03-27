@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameFlameskull = $"{GUID}_Flameskull";
 
-	private void Add_Flameskull()
+	private void Add_Card_Flameskull()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()
