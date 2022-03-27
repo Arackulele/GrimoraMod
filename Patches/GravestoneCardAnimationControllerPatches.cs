@@ -52,9 +52,7 @@ public class GravestoneCardAnimationControllerPatches
 		__instance.armAnim.gameObject.SetActive(false);
 		__instance.Anim.Play("shake", 0, 0f);
 
-		string typeToAttack = attackPlayer
-			                      ? "attack_player"
-			                      : "attack_creature";
+		string typeToAttack = attackPlayer ? "attack_player" : "attack_creature";
 
 		var animToPlay = GetAnimToPlay(
 			playableCard,
