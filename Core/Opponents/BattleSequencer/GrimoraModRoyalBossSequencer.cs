@@ -93,7 +93,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			yield return ApplyLitFuseToPlayerCard(activePlayerCards[UnityEngine.Random.Range(0, activePlayerCards.Count)]);
 		}
 
-		if (++boardSwayCounter >= 1)
+		if (++boardSwayCounter >= 2)
 		{
 			yield return StartBoardSway();
 		}
