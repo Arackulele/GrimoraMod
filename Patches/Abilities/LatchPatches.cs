@@ -96,7 +96,7 @@ public class LatchPatches
 			{
 				abilities = new List<Ability> { Ability.Brittle }
 			};
-			selectedSlot.Card.AddTempModGrimora(cardModificationInfo);
+			// selectedSlot.Card.RemoveAbilityFromThisCard(cardModificationInfo);
 			yield return new WaitForSeconds(0.75f);
 			yield return __instance.LearnAbility();
 		}
