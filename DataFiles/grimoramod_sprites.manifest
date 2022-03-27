@@ -1,33 +1,15 @@
 ManifestFileVersion: 0
-CRC: 823554491
+CRC: 2099509924
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 67572548745267f06e32a47f1a887501
+    Hash: dea961d834992e760c3d95a6efb093c5
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 024ea319c507d6edd2cf9562504df8d1
+    Hash: c90fc19e2679e5295d10bd00f33cb4c3
 HashAppended: 0
 ClassTypes:
-- Class: 1
-  Script: {instanceID: 0}
-- Class: 4
-  Script: {instanceID: 0}
-- Class: 21
-  Script: {instanceID: 0}
-- Class: 23
-  Script: {instanceID: 0}
 - Class: 28
-  Script: {instanceID: 0}
-- Class: 33
-  Script: {instanceID: 0}
-- Class: 43
-  Script: {instanceID: 0}
-- Class: 48
-  Script: {instanceID: 0}
-- Class: 114
-  Script: {fileID: 11500000, guid: 5e41b6e21bd0d9b4399083b5a78cf3fe, type: 3}
-- Class: 115
   Script: {instanceID: 0}
 - Class: 213
   Script: {instanceID: 0}
@@ -179,7 +161,6 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/OldCards/ghoul.png
 - Assets/GrimoraMod_Unity/Cards/Starvation.png
 - Assets/GrimoraMod_Unity/Cards/BonelordsHorn.png
-- Assets/Resources/data/cards/terrain/DeadTree.asset
 - Assets/GrimoraMod_Unity/Cards/Bigbones_emission.png
 - Assets/GrimoraMod_Unity/Menu/menutext_grimora_mod.png
 - Assets/GrimoraMod_Unity/Cards/BonePrince.png
