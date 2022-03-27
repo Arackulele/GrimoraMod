@@ -28,8 +28,7 @@ public class IceCubePatches
 			creatureToSpawn = __instance.Card.Info.iceCubeParams.creatureWithin;
 		}
 
-		CardSlot slot = __instance.Card.Slot;
-		yield return BoardManager.Instance.CreateCardInSlot(creatureToSpawn, slot, 0.15f);
+		yield return BoardManager.Instance.CreateCardInSlot(creatureToSpawn, __instance.Card.Slot, 0.15f);
 		yield return __instance.LearnAbility(0.5f);
 	}
 }
