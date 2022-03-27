@@ -87,7 +87,6 @@ public class HauntedSlot : NonCardTriggerReceiver
 			fromTotem = false
 		};
 
-		GlobalTriggerHandler.Instance.RegisterNonCardReceiver(hauntedSlot);
 		return hauntedSlot;
 	}
 
