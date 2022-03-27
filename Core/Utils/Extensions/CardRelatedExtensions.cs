@@ -126,15 +126,6 @@ public static class CardRelatedExtension
 		callback?.Invoke();
 	}
 
-	public static void AddTempModGrimora(this PlayableCard playableCard, CardModificationInfo mod)
-	{
-		playableCard.Info.Mods.Add(mod);
-		playableCard.Anim.PlayTransformAnimation();
-		playableCard.RenderCard();
-		playableCard.Info.Mods.Remove(mod);
-		playableCard.AddTemporaryMod(mod);
-	}
-
 	public static IEnumerator DieCustom(
 		this PlayableCard playableCard,
 		bool              wasSacrifice,
