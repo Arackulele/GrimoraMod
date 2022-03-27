@@ -122,9 +122,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 	private IEnumerator StartSpawningGiantsPhase()
 	{
-		int secondGiantIndex = ConfigHelper.HasIncreaseSlotsMod
-			? 4
-			: 3;
+		int secondGiantIndex = ConfigHelper.HasIncreaseSlotsMod ? 4 : 3;
 		Log.LogInfo("[Grimora] Start of giants phase");
 		var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
 
@@ -195,10 +193,25 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		);
 
 		var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
-		int bonelordSlotIndex = ConfigHelper.HasIncreaseSlotsMod
-			? 3
-			: 2;
+		int bonelordSlotIndex = ConfigHelper.HasIncreaseSlotsMod ? 3 : 2;
 		yield return GlitchInCard(NameBonelord.GetCardInfo(), oppSlots[bonelordSlotIndex]);
+		
+		var activePlayerCards = BoardManager.Instance.GetPlayerCards();
+		Log.LogDebug($"[BonelordsReign] Player cards [{activePlayerCards.Count}]");
+		if (activePlayerCards.Any())
+		{
+			ViewManager.Instance.SwitchToView(View.Board);
+			foreach (var playableCard in activePlayerCards)
+			{
+				playableCard.Anim.StrongNegationEffect();
+				int attack = playableCard.Attack == 0 ? 0 : 1 - playableCard.Attack;
+				CardModificationInfo mod = new CardModificationInfo(attack, 1 - playableCard.Health);
+				playableCard.AddTemporaryMod(mod);
+				playableCard.Anim.PlayTransformAnimation();
+				yield return new WaitForSeconds(0.1f);
+			}
+			yield return TextDisplayer.Instance.ShowThenClear("DID YOU REALLY THINK THE BONE LORD WOULD LET YOU OFF THAT EASILY?!", 4f);
+		}
 
 		yield return CreateHornsInFarLeftAndRightLanes(oppSlots);
 	}
@@ -209,9 +222,6 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		Log.LogInfo($"[Grimora] Creating [{cardInfo.name}]");
 		PlayableCard playableCard = CardSpawner.SpawnPlayableCard(cardInfo);
-
-		Log.LogDebug($"Playing glitch in effect for [{cardInfo.name}], setting inactive first");
-		playableCard.gameObject.SetActive(false);
 
 		Log.LogDebug($"Try load glitch3d mat");
 		GlitchOutAssetEffect.TryLoad3DMaterial();
@@ -237,10 +247,12 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			slotToSpawnIn,
 			0f
 		);
-		yield return new WaitForSeconds(0.5f);
+		Log.LogDebug($"Playing glitch in effect for [{cardInfo.name}], setting inactive first");
+		playableCard.gameObject.SetActive(false);
+		yield return new WaitForSeconds(0.1f);
+
 		Log.LogDebug($"Setting active");
 		playableCard.gameObject.SetActive(true);
-
 		Log.LogDebug($"Setting mats back to original state");
 		foreach (var renderer in componentsInChildren)
 		{
@@ -274,9 +286,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		oppSlots.RemoveRange(
 			1,
-			ConfigHelper.HasIncreaseSlotsMod
-				? 3
-				: 2
+			ConfigHelper.HasIncreaseSlotsMod ? 3 : 2
 		); // slot 1, slot 4 remain
 		var leftAndRightQueueSlots = GetFarLeftAndFarRightQueueSlots();
 
@@ -308,9 +318,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	{
 		Log.LogInfo("[Grimora] GetFarLeftAndFarRightQueueSlots");
 		var qSlots = BoardManager.Instance.GetQueueSlots();
-		CardSlot farRightSlot = qSlots[ConfigHelper.HasIncreaseSlotsMod
-			? 4
-			: 3];
+		CardSlot farRightSlot = qSlots[ConfigHelper.HasIncreaseSlotsMod ? 4 : 3];
 		return new List<CardSlot>
 		{
 			qSlots[0], farRightSlot

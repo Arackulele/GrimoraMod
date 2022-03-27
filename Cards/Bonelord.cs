@@ -9,7 +9,7 @@ public partial class GrimoraPlugin
 	private void Add_Card_Bonelord()
 	{
 		CardBuilder.Builder
-			.SetAbilities(BonelordsReign.ability, GiantStrike.ability, Ability.Reach, Ability.MadeOfStone)
+			.SetAbilities(GiantStrike.ability, Ability.Reach, Ability.MadeOfStone)
 			.SetSpecialAbilities(GrimoraGiant.FullSpecial.Id)
 			.SetBaseAttackAndHealth(1, 20)
 			.SetBoneCost(666)
