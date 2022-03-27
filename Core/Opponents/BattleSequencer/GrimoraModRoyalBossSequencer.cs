@@ -49,9 +49,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 	private IEnumerator StartBoardSway()
 	{
 		boardSwayCounter = 0;
-		yield return TextDisplayer.Instance.ShowUntilInput(
-			$"Seven seas for the table!"
-		);
+		yield return TextDisplayer.Instance.ShowUntilInput("Seven seas for the table!");
 
 		ViewManager.Instance.SwitchToView(View.Default, lockAfter: true);
 		// z axis for table movement
@@ -104,9 +102,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		CardSlot adjacent = BoardManager.Instance.GetAdjacent(slot, toLeft);
 		if (adjacent.IsNull())
 		{
-			Log.LogInfo(
-				$"[TableSway.SlotHasSpace] Adjacent slot [{slot.name}] does not have an adjacent slot to the {(toLeft ? "left" : "right")}"
-			);
+			Log.LogInfo($"[TableSway.SlotHasSpace] Adjacent slot [{slot.name}] does not have an adjacent slot to the {(toLeft ? "left" : "right")}");
 			// if beyond far left slot or far right slot, slot does not have space
 			// play death animation?
 			return false;
@@ -115,36 +111,26 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		if (adjacent.Card.IsNull())
 		{
 			// if the slot is valid but no card, slot does have space
-			Log.LogInfo(
-				$"[TableSway.SlotHasSpace] Adjacent slot [{slot.name}] but does not have a card to the {(toLeft ? "left" : "right")}"
-			);
+			Log.LogInfo($"[TableSway.SlotHasSpace] Adjacent slot [{slot.name}] but does not have a card to the {(toLeft ? "left" : "right")}");
 			return true;
 		}
 
 		// if the slot and the slot is occupied, check the adjacent slot of that card
-		Log.LogInfo(
-			$"[TableSway.SlotHasSpace] Checking {(toLeft ? "left" : "right")} adjacent slot of card [{adjacent.Card.GetNameAndSlot()}]"
-		);
+		Log.LogInfo($"[TableSway.SlotHasSpace] Checking {(toLeft ? "left" : "right")} adjacent slot of card [{adjacent.Card.GetNameAndSlot()}]");
 		return SlotHasSpace(adjacent, toLeft) && (!adjacent.Card.HasAbility(Anchored.ability) || !adjacent.Card.HasAbility(Ability.Flying));
 	}
 
 	protected virtual IEnumerator DoStrafe(PlayableCard playableCard, bool movingLeft)
 	{
-		Log.LogInfo(
-			$"[TableSway.DoStrafe] Starting strafe for card {playableCard.GetNameAndSlot()} Moving left? [{movingLeft}]"
-		);
+		Log.LogInfo($"[TableSway.DoStrafe] Starting strafe for card {playableCard.GetNameAndSlot()} Moving left? [{movingLeft}]");
 
 		CardSlot toLeft = BoardManager.Instance.GetAdjacent(playableCard.Slot, true);
 		CardSlot toRight = BoardManager.Instance.GetAdjacent(playableCard.Slot, false);
-		Log.LogInfo(
-			$"[TableSway.DoStrafe] Card {playableCard.GetNameAndSlot()} Checking adjacent slots to left [{toLeft?.name}] to right [{toRight?.name}]"
-		);
+		Log.LogInfo($"[TableSway.DoStrafe] Card {playableCard.GetNameAndSlot()} Checking adjacent slots to left [{toLeft?.name}] to right [{toRight?.name}]");
 
 		bool toLeftIsNotOccupied = SlotHasSpace(playableCard.Slot, true);
 		bool toRightIsNotOccupied = SlotHasSpace(playableCard.Slot, false);
-		Log.LogInfo(
-			$"[TableSway.DoStrafe] Card {playableCard.GetNameAndSlot()} toLeftIsNotOccupied? [{toLeftIsNotOccupied}] toRightIsNotOccupied [{toRightIsNotOccupied}]"
-		);
+		Log.LogInfo($"[TableSway.DoStrafe] Card {playableCard.GetNameAndSlot()} toLeftIsNotOccupied? [{toLeftIsNotOccupied}] toRightIsNotOccupied [{toRightIsNotOccupied}]");
 
 		CardSlot destination = movingLeft
 			? toLeft
