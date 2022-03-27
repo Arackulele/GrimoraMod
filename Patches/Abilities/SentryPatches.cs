@@ -23,12 +23,6 @@ public class SentryPatches
 			skeletonArmShoot.runtimeAnimatorController = AssetConstants.SkeletonArmController;
 			skeletonArmShoot.gameObject.AddComponent<AnimMethods>();
 			skeletonArmShoot.gameObject.SetActive(false);
-			
-			if (__instance.GetComponent<AnimMethods>().IsNull())
-			{
-				GrimoraPlugin.Log.LogDebug($"Adding AnimMethods component to [{__instance.Card.GetNameAndSlot()}]");
-				__instance.gameObject.AddComponent<AnimMethods>();
-			}
 		}
 	}
 

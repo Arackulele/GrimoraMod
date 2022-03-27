@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2601155915
+CRC: 1592517776
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 9c4eb7b973d8680ff6c9d18f9f3a953c
+    Hash: 479e966a9313a10c73dc9bde71a5f16d
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7859cd501ea75098bcf7e53f1b477c26
@@ -30,6 +30,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Abilities/ability_ColdFront.png
 - Assets/GrimoraMod_Unity/Abilities/ability_ActivatedDealDamageGrimora.png
 - Assets/GrimoraMod_Unity/Abilities/ability_GiantStrike.png
+- Assets/GrimoraMod_Unity/Abilities/ability_ChaosStrike.png
 - Assets/GrimoraMod_Unity/Abilities/ability_SkeletonsWithin.png
 - Assets/GrimoraMod_Unity/Abilities/ability_CreateArmyOfSkeletons.png
 - Assets/GrimoraMod_Unity/Abilities/ability_LitFuse.png

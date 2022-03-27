@@ -29,12 +29,6 @@ public class GiantStrike : ExtendedAbilityBehaviour
 			skeletonArm2Attacks.runtimeAnimatorController = AssetConstants.SkeletonArmController;
 			skeletonArm2Attacks.gameObject.AddComponent<AnimMethods>();
 			skeletonArm2Attacks.gameObject.SetActive(false);
-
-			if (Card.GetComponent<AnimMethods>().IsNull())
-			{
-				GrimoraPlugin.Log.LogDebug($"Adding AnimMethods component to [{Card.GetNameAndSlot()}]");
-				Card.gameObject.AddComponent<AnimMethods>();
-			}
 		}
 	}
 
