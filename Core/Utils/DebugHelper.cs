@@ -12,7 +12,7 @@ public class DebugHelper : ManagedBehaviour
 
 	private static string[] _allGrimoraCustomCardNames;
 
-	private static readonly Rect RectCardListArea = new(Screen.width - 420, 180, 400, Screen.height - 300);
+	private static readonly Rect RectCardListArea = new(Screen.width - 420, 180, 400, Screen.height - 100);
 
 	private bool _toggleSpawnCardInOpponentSlot1;
 
