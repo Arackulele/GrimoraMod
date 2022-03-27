@@ -55,6 +55,6 @@ public partial class GrimoraPlugin
 			"When an opposing creature is placed opposite to an empty space, [creature] will move to that empty space.";
 
 		var ogIcon = AbilityManager.BaseGameAbilities.Single(fb => fb.Id == Ability.GuardDog).Texture;
-		ApiUtils.CreateAbility<Fylgja_GuardDog>(rulebookDescription, rulebookIcon: ogIcon);
+		ApiUtils.CreateAbility<Fylgja_GuardDog>(rulebookDescription, "Guarding Presence", rulebookIcon: ogIcon);
 	}
 }
