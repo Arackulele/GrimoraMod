@@ -13,7 +13,7 @@ public class HookLineAndSinker : AbilityBehaviour
 	public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer)
 	{
 		return Card.Slot.opposingSlot.Card
-		    && !Card.Slot.opposingSlot.Card.Info.SpecialAbilities.Contains(GrimoraGiant.FullAbility.Id);
+		    && !Card.Slot.opposingSlot.Card.Info.SpecialAbilities.Contains(GrimoraGiant.FullSpecial.Id);
 	}
 
 	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)

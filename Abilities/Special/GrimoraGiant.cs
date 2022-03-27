@@ -7,7 +7,7 @@ namespace GrimoraMod;
 
 public class GrimoraGiant : SpecialCardBehaviour
 {
-	public static SpecialTriggeredAbilityManager.FullSpecialTriggeredAbility FullAbility;
+	public static SpecialTriggeredAbilityManager.FullSpecialTriggeredAbility FullSpecial;
 
 	public override bool RespondsToResolveOnBoard() => true;
 

@@ -63,7 +63,7 @@ public class GravestoneCardAnimationControllerPatches
 		bool doPlayCustomAttack = animToPlay.Contains("invertedstrike") || animToPlay == "attack_sentry";
 		string soundId = "gravestone_card_" + typeToAttack;
 		
-		if (playableCard.HasSpecialAbility(GrimoraGiant.FullAbility.Id))
+		if (playableCard.HasSpecialAbility(GrimoraGiant.FullSpecial.Id))
 		{
 			Log.LogDebug($"Playing giant attack [{animToPlay}] for card {playableCard.GetNameAndSlot()}");
 			customArmPrefab.gameObject.SetActive(true);
@@ -113,7 +113,7 @@ public class GravestoneCardAnimationControllerPatches
 
 	private static int GetNumToDetermineRotation(PlayableCard cardThatIsAttacking, CardSlot targetSlot)
 	{
-		if (cardThatIsAttacking.HasSpecialAbility(GrimoraGiant.FullAbility.Id))
+		if (cardThatIsAttacking.HasSpecialAbility(GrimoraGiant.FullSpecial.Id))
 		{
 			// 0 < 1 for example
 			if (targetSlot.Index < cardThatIsAttacking.Slot.Index)
@@ -163,7 +163,7 @@ public class GravestoneCardAnimationControllerPatches
 
 		StringBuilder animToPlay = new StringBuilder(typeToAttack + directionToAttack);
 
-		if (playableCard.HasSpecialAbility(GrimoraGiant.FullAbility.Id))
+		if (playableCard.HasSpecialAbility(GrimoraGiant.FullSpecial.Id))
 		{
 			animToPlay.Append("_giant");
 		}
