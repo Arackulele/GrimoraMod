@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(Erratic.ability, Ability.SplitStrike)
+			.SetAbilities(ChaosStrike.ability)
 			.SetBaseAttackAndHealth(1, 3)
 			.SetBoneCost(5)
 			.SetDescription("AN EXPERIMENT GONE WRONG, OR RIGHT. IT DEPENDS ON YOUR WORLD VIEW.")
