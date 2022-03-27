@@ -1,4 +1,5 @@
 using DiskCardGame;
+using HarmonyLib;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -166,26 +167,30 @@ public static class BlueprintUtils
 		}
 	};
 
-
-	#region RegionBlueprints
-
-	private static EncounterBlueprintData BuildGeneralRegionBlueprintOne()
+	public static EncounterBlueprintData BuildRandomBlueprint()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.name = "General_Blueprint";
-		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		blueprint.name = $"Random{UnityEngine.Random.Range(1, 99999999)}_Blueprint";
+		int numberOfTurns = UnityEngine.Random.Range(3, 15);
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>();
+		for (int i = 0; i < numberOfTurns; i++)
 		{
-			new() { bp_Zombie },
-			new() { bp_BonePrince, bp_Zombie },
-			new() { bp_Zombie },
-			new() { bp_GhostShip },
-			new(),
-			new() { bp_BonePrince },
-			new() { bp_Zombie }
-		};
+			int numberOfCardsThisTurn = UnityEngine.Random.Range(0, 4);
+			List<EncounterBlueprintData.CardBlueprint> cardBlueprints = new();
+			for (int j = 0; j < numberOfCardsThisTurn; j++)
+			{
+				cardBlueprints.Add(AllPlayableGrimoraModCards.GetRandomItem().CreateBlueprint());
+			}
+			Log.LogDebug($"[Blueprints] Turn [{i}] [{cardBlueprints.Join(bp => bp.card.DisplayedNameEnglish)}]");
+			blueprint.turns.Add(cardBlueprints);
+		}
+		Log.LogDebug("\n");
 
 		return blueprint;
 	}
+	
+
+	#region RegionBlueprints
 
 	#region Kaycee
 
