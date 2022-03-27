@@ -44,7 +44,7 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_BoneThief()
 	{
-		const string rulebookDescription = "When [creature] kills another card, gain 1 bone.";
+		const string rulebookDescription = "When [creature] kills another creature, gain 1 bone.";
 
 		ApiUtils.CreateAbility<BoneThief>(rulebookDescription);
 	}
