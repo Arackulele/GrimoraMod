@@ -387,9 +387,12 @@ public class GrimoraChessboard
 
 	private static EncounterBlueprintData GetBlueprint()
 	{
-		// BlueprintUtils.BuildRandomBlueprint();
-		var blueprints
-			= BlueprintUtils.RegionWithBlueprints.ElementAt(ConfigHelper.Instance.BossesDefeated).Value;
+		if (ConfigHelper.Instance.isRandomizedBlueprintsEnabled)
+		{
+			return BlueprintUtils.BuildRandomBlueprint();
+		}
+
+		var blueprints = BlueprintUtils.RegionWithBlueprints.ElementAt(ConfigHelper.Instance.BossesDefeated).Value;
 		return blueprints[UnityEngine.Random.Range(0, blueprints.Count)];
 	}
 

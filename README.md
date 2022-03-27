@@ -36,6 +36,8 @@
 
 ### 2.8.3
 
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added config option to randomize enemy encounters! Disabled by default.
+
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Now able to view your deck and get up from the table using W and S (or respective joysticks)! No more buttons!
 
   - **This does however lock the player chess piece movement to the arrow keys. Joystick will no longer work moving the player piece.**
@@ -51,13 +53,15 @@
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png)
 
-  - Honestly, too many that I don't feel like typing out except for the specifics.
+  - Honestly, too many added that I don't feel like typing out except for the specifics.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) `Yellowbeard` now becomes `Bluebeard` if electric chaired.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Starvation` art update by `Nevernamed`.
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Amoeba` is now `Apparition`. Normal 1/2, 4 Energy with Amorpheous (sigils from the electric chair).
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Corpse Maggots` is now `Wight`. Normal 2/1, 5 Bones with `Corpse Eater`.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `The Walkers` art update by `Catboy Stinkbug`.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Amoeba` replaced by `Apparition`. Normal 1/2, 4 Energy with Amorpheous (sigils from the electric chair).
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Corpse Maggots` replaced by `Wight`. Normal 2/1, 5 Bones with `Corpse Eater`.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Project` now just has `Chaos Strike` ability.
 
 ##### Kaycee
 
@@ -78,10 +82,13 @@
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Area of Effect Strike` attacking the opposing slot first, then the rest.
 
+- ![Feature](https://i.imgur.com/uL9uYNV.png) `Skin Crawler` ability reworked again to hopefully be a lot more stable, added back to the pool!
+
 - ![Feature](https://i.imgur.com/uL9uYNV.png)
 
   - Boneless: [creature] yields no bones upon death.
   - Bone Thief: When [creature] kills another card, gain 1 bone.
+  - Chaos Strike: [creature] will strike each opposing space to the left, right, and center of it, randomly.
   - Cold Front: When [creature] perishes, the card opposing it is Frozen Away.
   - Haunter: When [creature] perishes, it haunts the space it died in. The first creature played on this space gains its old sigils.
     - Original code logic from `Never`, refactored and cleaned up by `BongMaster`.
