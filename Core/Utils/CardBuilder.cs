@@ -15,6 +15,7 @@ public class CardBuilder
 	public CardInfo Build()
 	{
 		_cardInfo.temple = CardTemple.Undead;
+		_cardInfo.flipPortraitForStrafe = true;
 
 		AllGrimoraModCards.Add(_cardInfo);
 		CardManager.Add(GUID, _cardInfo);
