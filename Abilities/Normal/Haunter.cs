@@ -19,12 +19,9 @@ public class Haunter : AbilityBehaviour
 
 	public override IEnumerator OnPreDeathAnimation(bool wasSacrifice)
 	{
-		// greater than 1 because if it has Haunter, it must have at least 1 more sigil in order to transfer.
-		// Haunting doesn't work if only Haunter exists on the card.
-		if (Card.Info.abilities.Count > 1)
+		if (Card.Info.abilities.Any(ab => ab != ability))
 		{
 			HauntedSlot hauntedSlot = HauntedSlot.SetupSlot(Card);
-			GlobalTriggerHandler.Instance.RegisterNonCardReceiver(hauntedSlot);
 		}
 
 		yield break;
@@ -90,6 +87,7 @@ public class HauntedSlot : NonCardTriggerReceiver
 			fromTotem = false
 		};
 
+		GlobalTriggerHandler.Instance.RegisterNonCardReceiver(hauntedSlot);
 		return hauntedSlot;
 	}
 
@@ -105,7 +103,7 @@ public class HauntedSlot : NonCardTriggerReceiver
 		otherCard.UpdateStatsText();
 
 		GrimoraPlugin.Log.LogDebug($"Destroying HauntedSlot [{this}]");
-		CustomCoroutine.WaitThenExecute(0.1f, delegate() { Destroy(this.gameObject); });
+		CustomCoroutine.WaitThenExecute(0.1f, delegate() { Destroy(gameObject); });
 		yield break;
 	}
 }
