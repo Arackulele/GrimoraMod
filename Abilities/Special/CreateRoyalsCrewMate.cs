@@ -61,10 +61,7 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 	private IEnumerator SpawnSwashbuckler(CardSlot playerOpenSlot)
 	{
 		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
-		yield return TextDisplayer.Instance.ShowThenClear(
-			$"PREPARE TO BE BOARDED!",
-			1.25f
-		);
+		yield return TextDisplayer.Instance.ShowThenClear($"PREPARE TO BE BOARDED!", 1.25f);
 		yield return new WaitForSeconds(0.2f);
 
 		yield return BoardManager.Instance.CreateCardInSlot(
