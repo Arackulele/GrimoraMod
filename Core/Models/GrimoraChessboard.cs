@@ -241,12 +241,8 @@ public class GrimoraChessboard
 
 		Log.LogDebug($"Boss name to place piece for [{specialSequencerId}]");
 		GameObject prefabToUse = BossHelper.OpponentTupleBySpecialId[specialSequencerId].Item2;
-		int newX = x == -1
-			? BossNode.GridX
-			: x;
-		int newY = x == -1
-			? BossNode.GridY
-			: y;
+		int newX = x == -1 ? BossNode.GridX : x;
+		int newY = x == -1 ? BossNode.GridY : y;
 		return CreateChessPiece<ChessboardEnemyPiece>(
 			prefabToUse,
 			newX,
