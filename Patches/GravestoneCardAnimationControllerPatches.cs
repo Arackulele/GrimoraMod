@@ -43,7 +43,8 @@ public class GravestoneCardAnimationControllerPatches
 	public static bool Prefix(
 		ref GravestoneCardAnimationController __instance,
 		bool attackPlayer,
-		CardSlot targetSlot)
+		CardSlot targetSlot
+	)
 	{
 		Animator customArmPrefab = GetCorrectCustomArmsPrefab(__instance);
 		PlayableCard playableCard = __instance.PlayableCard;
@@ -52,8 +53,8 @@ public class GravestoneCardAnimationControllerPatches
 		__instance.Anim.Play("shake", 0, 0f);
 
 		string typeToAttack = attackPlayer
-			? "attack_player"
-			: "attack_creature";
+			                      ? "attack_player"
+			                      : "attack_creature";
 
 		var animToPlay = GetAnimToPlay(
 			playableCard,
@@ -62,13 +63,13 @@ public class GravestoneCardAnimationControllerPatches
 		);
 		bool doPlayCustomAttack = animToPlay.Contains("invertedstrike") || animToPlay == "attack_sentry";
 		string soundId = "gravestone_card_" + typeToAttack;
-		
+
 		if (playableCard.HasSpecialAbility(GrimoraGiant.FullSpecial.Id))
 		{
 			Log.LogDebug($"Playing giant attack [{animToPlay}] for card {playableCard.GetNameAndSlot()}");
 			customArmPrefab.gameObject.SetActive(true);
 			customArmPrefab.Play(animToPlay, 0, 0f);
-			
+
 			AudioController.Instance.PlaySound3D(
 				soundId,
 				MixerGroup.TableObjectsSFX,
@@ -104,9 +105,9 @@ public class GravestoneCardAnimationControllerPatches
 				new AudioParams.Repetition(0.05f)
 			);
 
-			__instance.UpdateHoveringForCard();			
+			__instance.UpdateHoveringForCard();
 		}
-		
+
 		Log.LogDebug($"Finished playing anim");
 		return false;
 	}
@@ -147,7 +148,7 @@ public class GravestoneCardAnimationControllerPatches
 		{
 			< 0 => "_left",
 			> 0 => "_right",
-			_ => ""
+			_   => ""
 		};
 		Log.LogDebug($"Num to determine rotation [{numToDetermineRotation}] Direction To Attack [{directionToAttack}]");
 
@@ -159,7 +160,7 @@ public class GravestoneCardAnimationControllerPatches
 			Mathf.Abs(numToDetermineRotation) == BoardManager.Instance.PlayerSlotsCopy.Count - 1;
 
 		bool cardIsTargetingAdjFriendly = isPlayerSideBeingAttacked && !isCardOpponents
-		                                  || !isPlayerSideBeingAttacked && isCardOpponents;
+		                               || !isPlayerSideBeingAttacked && isCardOpponents;
 
 		StringBuilder animToPlay = new StringBuilder(typeToAttack + directionToAttack);
 
