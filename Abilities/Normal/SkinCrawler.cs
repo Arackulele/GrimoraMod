@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using Pixelplacement;
 using Pixelplacement.TweenSystem;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -14,24 +16,14 @@ public class SkinCrawler : AbilityBehaviour
 
 	public override Ability Ability => ability;
 
-	private CardSlot slotHidingUnderCard = null;
+	private SkinCrawlerSlot slotHidingUnderCard = null;
 
-	public static SkinCrawler GetSkinCrawlerFromCard(PlayableCard playableCard)
+	public static SkinCrawlerSlot GetSkinCrawlerFromCard(PlayableCard playableCard)
 	{
-		for (int i = 0; i < playableCard.transform.childCount; i++)
-		{
-			SkinCrawler skinCrawler = playableCard.transform.GetChild(i).GetComponent<SkinCrawler>();
-			if (skinCrawler)
-			{
-				// now we get the card itself to add to the list
-				return skinCrawler;
-			}
-		}
-
-		return null;
+		return playableCard.Slot.GetComponentInChildren<SkinCrawlerSlot>();
 	}
 
-	public static SkinCrawler GetSkinCrawlerFromSlot(CardSlot slot)
+	public static SkinCrawlerSlot GetSkinCrawlerFromSlot(CardSlot slot)
 	{
 		if (slot && slot.Card)
 		{
@@ -41,7 +33,7 @@ public class SkinCrawler : AbilityBehaviour
 		return null;
 	}
 
-	private CardSlot FindValidHostSlot()
+	public CardSlot FindValidHostSlot()
 	{
 		Log.LogDebug($"[SkinCrawler] Checking if adj slots from [{Card.Slot}] are not null");
 		CardSlot slotToPick = null;
@@ -56,16 +48,11 @@ public class SkinCrawler : AbilityBehaviour
 			Log.LogDebug($"[SkinCrawler] LeftSlot, has card [{slotToPick.Card.GetNameAndSlot()}]");
 		}
 		else if (toRightSlot
-		         && toRightSlot.Card
-		         && GetSkinCrawlerFromCard(toRightSlot.Card).IsNull())
+		      && toRightSlot.Card
+		      && GetSkinCrawlerFromCard(toRightSlot.Card).IsNull())
 		{
 			slotToPick = toRightSlot;
 			Log.LogDebug($"[SkinCrawler] RightSlot, has card [{slotToPick.Card.GetNameAndSlot()}]");
-		}
-
-		if (GetSkinCrawlerFromSlot(slotToPick))
-		{
-			return null;
 		}
 
 		return slotToPick;
@@ -78,55 +65,7 @@ public class SkinCrawler : AbilityBehaviour
 			PlayableCard cardToPick = slotToPick.Card;
 			CardSlot cardSlotToPick = slotToPick.Card.Slot;
 
-			ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
-
-			yield return new WaitForSeconds(0.4f);
-
-			// to the left and up, like something is being added under it
-			Vector3 vector = new Vector3(0f, 0.25f, 0f);
-
-			// do to card that will be hiding Boo Hag
-			Tween.Position(cardToPick.transform, cardSlotToPick.transform.position + vector, 0.1f, 0f, Tween.EaseInOut);
-
-			Vector3 cardRot = cardToPick.transform.rotation.eulerAngles;
-
-			// rotate on z-axis, as if you rotated your hand holding the card counter-clockwise
-			// Tween.Rotate(toRightTransform, new Vector3(0f, 0f, 25f), Space.World, 0.1f, 0f, Tween.EaseInOut);
-
-			// Vector3 positionFurtherAwayFromBaseCard = toRightSlotTransform.position + Vector3.forward * 8f;
-			// set starting position 
-			// base.Card.transform.position = positionFurtherAwayFromBaseCard;
-
-			// move pack from current position to the baseCardSlotPosition
-			// Log.LogDebug($"[SkinCrawler] moving BooHag to [{toRightSlotTransform.position}]");
-			TweenBase tweenMoveIntoCardSlot = Tween.Position(
-				Card.transform,
-				cardSlotToPick.transform.position,
-				0.4f,
-				0f,
-				Tween.EaseOut
-			);
-
-			while (tweenMoveIntoCardSlot.Status is not Tween.TweenStatus.Finished)
-			{
-				cardToPick.Anim.StrongNegationEffect();
-				yield return new WaitForSeconds(0.1f);
-			}
-
-			TweenBase tweenMoveUpward = Tween.Position(
-				Card.transform,
-				cardSlotToPick.transform.position + new Vector3(0f, 0f, 0.31f),
-				0.2f,
-				0f,
-				Tween.EaseOut
-			);
-			yield return new WaitForSeconds(0.1f);
-
-			// rotate base card with its original rotation values so that it lays flat on the board again
-			Tween.Rotation(cardToPick.transform, cardRot, 0.1f, 0f, Tween.EaseInOut);
-
-			// offset the card to be a little higher
-			cardToPick.SlotHeightOffset = 0.13f;
+			yield return DoAnimationSequence(cardToPick, cardSlotToPick);
 
 			// reassign the card to the slot
 			Log.LogDebug($"[SkinCrawler] Assigning [{cardToPick.Info.name}] to slot");
@@ -138,38 +77,87 @@ public class SkinCrawler : AbilityBehaviour
 				() => !Tween.activeTweens.Exists(t => t.targetInstanceID == cardToPick.transform.GetInstanceID())
 			);
 
-			Log.LogDebug($"[SkinCrawler] Setting Boo Hag as child of card");
-			transform.SetParent(cardToPick.transform);
-			Log.LogDebug($"[SkinCrawler] Setting Boo Hag slot [{Card.Slot.Index}] to null");
-			BoardManager.Instance.playerSlots[Card.Slot.Index].Card = null;
-			Log.LogDebug($"[SkinCrawler] Setting Boo Hag slot to [{cardSlotToPick}]");
-			slotHidingUnderCard = cardSlotToPick;
+			Card.UnassignFromSlot();
+			slotHidingUnderCard = SkinCrawlerSlot.SetupSlot(Card, cardToPick);
+
+			yield return new WaitForSeconds(0.25f);
+			ViewManager.Instance.SwitchToView(View.Default);
+			ViewManager.Instance.SetViewUnlocked();
+		}
+	}
+
+	public IEnumerator DoAnimationSequence(PlayableCard cardToPick, CardSlot cardSlotToPick)
+	{
+		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
+
+		yield return new WaitForSeconds(0.4f);
+
+		// to the left and up, like something is being added under it
+		Vector3 vector = new Vector3(0f, 0.25f, 0f);
+
+		// do to card that will be hiding Boo Hag
+		Tween.Position(cardToPick.transform, cardSlotToPick.transform.position + vector, 0.1f, 0f, Tween.EaseInOut);
+
+		Vector3 cardRot = cardToPick.transform.rotation.eulerAngles;
+
+		// rotate on z-axis, as if you rotated your hand holding the card counter-clockwise
+		// Tween.Rotate(toRightTransform, new Vector3(0f, 0f, 25f), Space.World, 0.1f, 0f, Tween.EaseInOut);
+
+		// Vector3 positionFurtherAwayFromBaseCard = toRightSlotTransform.position + Vector3.forward * 8f;
+		// set starting position 
+		// base.Card.transform.position = positionFurtherAwayFromBaseCard;
+
+		// move pack from current position to the baseCardSlotPosition
+		// Log.LogDebug($"[SkinCrawler] moving BooHag to [{toRightSlotTransform.position}]");
+		TweenBase tweenMoveIntoCardSlot = Tween.Position(
+			Card.transform,
+			cardSlotToPick.transform.position,
+			0.4f,
+			0f,
+			Tween.EaseOut
+		);
+
+		while (tweenMoveIntoCardSlot.Status is not Tween.TweenStatus.Finished)
+		{
+			cardToPick.Anim.StrongNegationEffect();
+			yield return new WaitForSeconds(0.1f);
 		}
 
-		yield return new WaitForSeconds(0.25f);
-		ViewManager.Instance.SwitchToView(View.Default);
-		ViewManager.Instance.SetViewUnlocked();
+		TweenBase tweenMoveUpward = Tween.Position(
+			Card.transform,
+			cardSlotToPick.transform.position + new Vector3(0f, 0f, 0.31f),
+			0.2f,
+			0f,
+			Tween.EaseOut
+		);
+		yield return new WaitForSeconds(0.1f);
+
+		// rotate base card with its original rotation values so that it lays flat on the board again
+		Tween.Rotation(cardToPick.transform, cardRot, 0.1f, 0f, Tween.EaseInOut);
+
+		// offset the card to be a little higher
+		cardToPick.SlotHeightOffset = 0.13f;
 	}
 
 
 	private bool CardIsAdjacent(PlayableCard playableCard)
 	{
 		return BoardManager.Instance.GetAdjacentSlots(Card.Slot)
-			.Exists(slot => slot && slot.Card == playableCard);
+		 .Exists(slot => slot && slot.Card == playableCard);
 	}
 
 	public override bool RespondsToOtherCardAssignedToSlot(PlayableCard otherCard)
 	{
 		Log.LogDebug(
 			$"[Crawler.RespondsToOtherCardAssignedToSlot]"
-			+ $" This {Card.GetNameAndSlot()} OtherCard {otherCard.GetNameAndSlot()} "
-			+ $"_slotHidingUnderCard [{slotHidingUnderCard}] "
-			+ $"otherCard.Slot != Card.Slot [{otherCard.Slot != Card.Slot}]"
+		+ $" This {Card.GetNameAndSlot()} OtherCard {otherCard.GetNameAndSlot()} "
+		+ $"_slotHidingUnderCard [{slotHidingUnderCard}] "
+		+ $"otherCard.Slot != Card.Slot [{otherCard.Slot != Card.Slot}]"
 		);
 
 		return slotHidingUnderCard.IsNull()
-		       && otherCard.Slot != Card.Slot
-		       && CardIsAdjacent(otherCard);
+		    && otherCard.Slot != Card.Slot
+		    && CardIsAdjacent(otherCard);
 	}
 
 	public override IEnumerator OnOtherCardAssignedToSlot(PlayableCard otherCard)
@@ -190,35 +178,6 @@ public class SkinCrawler : AbilityBehaviour
 	{
 		yield return AssignSkinCrawlerCardToHost(FindValidHostSlot());
 	}
-
-	public override bool RespondsToOtherCardDie(
-		PlayableCard card,
-		CardSlot deathSlot,
-		bool fromCombat,
-		PlayableCard killer
-	)
-	{
-		Log.LogDebug(
-			$"[Crawler.RespondsToOtherCardDie] "
-			+ $"Crawler [{Card.GetNameAndSlot()}] Card [{card.GetNameAndSlot()}] deathSlot [{deathSlot.name}] "
-			+ $"_slotHidingUnderCard [{slotHidingUnderCard}] is card.Slot? [{slotHidingUnderCard == card.Slot}]"
-		);
-		return slotHidingUnderCard && slotHidingUnderCard == card.Slot;
-	}
-
-	public override IEnumerator OnOtherCardDie(
-		PlayableCard card,
-		CardSlot deathSlot,
-		bool fromCombat,
-		PlayableCard killer
-	)
-	{
-		Log.LogDebug($"[Crawler.OnOtherCardDie] Resolving [{Card.GetNameAndSlot()}] to deathSlot [{deathSlot.Index}]");
-		CardInfo infoCopy = Card.Info;
-		Destroy(Card.gameObject);
-		yield return BoardManager.Instance.CreateCardInSlot(infoCopy, deathSlot, 0);
-		slotHidingUnderCard = null;
-	}
 }
 
 public partial class GrimoraPlugin
@@ -233,26 +192,60 @@ public partial class GrimoraPlugin
 	}
 }
 
-[HarmonyPatch(typeof(BoardManager))]
-public static class SkinCrawlerPatches
+public class SkinCrawlerSlot : NonCardTriggerReceiver
 {
-	[HarmonyPostfix, HarmonyPatch(nameof(BoardManager.CardsOnBoard), MethodType.Getter)]
-	private static void Postfix(ref List<PlayableCard> __result)
-	{
-		List<PlayableCard> newList = new List<PlayableCard>(__result);
-		foreach (var card in __result)
-		{
-			SkinCrawler skinCrawler = SkinCrawler.GetSkinCrawlerFromSlot(card.Slot);
-			if (skinCrawler)
-			{
-				// now we get the card itself to add to the list
-				Log.LogDebug(
-					$"[CardsOnBoard] Card [{card.GetNameAndSlot()}] has a child with skin crawler"
-				);
-				newList.Add(skinCrawler.GetComponent<PlayableCard>());
-			}
-		}
+	[SerializeField] public CardSlot hidingOnSlot;
+	[SerializeField] public PlayableCard hidingUnderCard;
+	[SerializeField] public PlayableCard skinCrawlerCard;
 
-		__result = newList;
+	public static SkinCrawlerSlot SetupSlot(PlayableCard skinCrawler, PlayableCard hidingUnderCard)
+	{
+		SkinCrawlerSlot crawlerSlot = new GameObject("SkinCrawler_" + skinCrawler.InfoName()).AddComponent<SkinCrawlerSlot>();
+		crawlerSlot.skinCrawlerCard = skinCrawler;
+		crawlerSlot.transform.SetParent(hidingUnderCard.Slot.transform);
+		crawlerSlot.hidingOnSlot = hidingUnderCard.Slot;
+		crawlerSlot.hidingUnderCard = hidingUnderCard;
+		return crawlerSlot;
+	}
+
+	public override bool RespondsToOtherCardAssignedToSlot(PlayableCard otherCard)
+	{
+		return otherCard.Slot == hidingOnSlot && hidingUnderCard.Dead;
+	}
+
+	public override IEnumerator OnOtherCardAssignedToSlot(PlayableCard otherCard)
+	{
+		Log.LogDebug($"[Crawler.OnOtherCardAssignedToSlot] Card {skinCrawlerCard.GetNameAndSlot()} will now hide under {otherCard.GetNameAndSlot()}");
+		hidingUnderCard = otherCard;
+		transform.SetParent(otherCard.Slot.transform);
+		yield return skinCrawlerCard.GetComponent<SkinCrawler>().DoAnimationSequence(hidingUnderCard, hidingOnSlot);
+	}
+
+	public override bool RespondsToOtherCardDie(
+		PlayableCard card,
+		CardSlot deathSlot,
+		bool fromCombat,
+		PlayableCard killer
+	)
+	{
+		Log.LogDebug(
+			$"[Crawler.RespondsToOtherCardDie] "
+		+ $"Crawler {skinCrawlerCard.GetNameAndSlot()} Dying Card [{card.GetNameAndSlot()}] deathSlot [{deathSlot.name}] "
+		+ $"_slotHidingUnderCard [{hidingOnSlot}] is deathSlot? [{hidingOnSlot == deathSlot}]"
+		);
+		return hidingOnSlot == deathSlot && !card.HasAbility(Ability.IceCube);
+	}
+
+	public override IEnumerator OnOtherCardDie(
+		PlayableCard card,
+		CardSlot deathSlot,
+		bool fromCombat,
+		PlayableCard killer
+	)
+	{
+		Log.LogDebug($"[Crawler.OnOtherCardDie] Resolving [{skinCrawlerCard.GetNameAndSlot()}] to deathSlot [{deathSlot.Index}]");
+		yield return BoardManager.Instance.CreateCardInSlot(skinCrawlerCard.Info, deathSlot, 0);
+		Log.LogDebug($"[Crawler.OnOtherCardDie] Destroying crawler slot");
+		Destroy(this);
 	}
 }
