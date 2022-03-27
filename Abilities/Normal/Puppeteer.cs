@@ -6,14 +6,15 @@ namespace GrimoraMod;
 
 public class Puppeteer : AbilityBehaviour
 {
+	private static readonly CardModificationInfo NegateBrittleMod = new()
+	{
+		negateAbilities = new List<Ability> { Ability.Brittle },
+		singletonId = "grimoramod_puppeteer"
+	};
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
-
-	private static readonly CardModificationInfo NegateBrittleMod = new()
-	{
-		negateAbilities = new List<Ability> { Ability.Brittle }
-	};
 
 	public override bool RespondsToResolveOnBoard()
 	{
@@ -27,7 +28,9 @@ public class Puppeteer : AbilityBehaviour
 
 	public override bool RespondsToOtherCardResolve(PlayableCard otherCard)
 	{
-		return otherCard && otherCard.Slot.IsPlayerSlot && otherCard.HasAbility(Ability.Brittle);
+		return otherCard
+		    && (otherCard.OpponentCard && Card.OpponentCard || !otherCard.OpponentCard && !Card.OpponentCard)
+		    && otherCard.HasAbility(Ability.Brittle);
 	}
 
 	public override IEnumerator OnOtherCardResolve(PlayableCard otherCard)
@@ -50,9 +53,36 @@ public class Puppeteer : AbilityBehaviour
 
 	private IEnumerator RemoveBrittle(PlayableCard playableCard)
 	{
-		playableCard.RemoveAbilityFromThisCard(NegateBrittleMod);
-		yield return new WaitForSeconds(0.25f);
 		playableCard.Anim.PlayTransformAnimation();
+		yield return new WaitForSeconds(0.25f);
+		playableCard.RemoveAbilityFromThisCard(NegateBrittleMod);
+	}
+
+	public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer)
+	{
+		return true;
+	}
+
+	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
+	{
+		List<PlayableCard> cardsWithThatNoLongerHaveBrittle = BoardManager.Instance.GetSlots(!Card.OpponentCard)
+		 .Where(slot => slot.Card && slot.Card.Info.Mods.Exists(mod => mod.singletonId == "grimoramod_puppeteer"))
+		 .Select(slot => slot.Card)
+		 .ToList();
+
+		foreach (var card in cardsWithThatNoLongerHaveBrittle)
+		{
+			yield return AddBrittleBack(card);
+		}
+	}
+
+	private IEnumerator AddBrittleBack(PlayableCard playableCard)
+	{
+		playableCard.Anim.PlayTransformAnimation();
+		yield return new WaitForSeconds(0.25f);
+		CardInfo cardInfoClone = playableCard.Info.Clone() as CardInfo;
+		cardInfoClone.Mods.Remove(NegateBrittleMod);
+		playableCard.SetInfo(cardInfoClone);
 	}
 }
 
