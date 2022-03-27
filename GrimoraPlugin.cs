@@ -124,6 +124,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		var allAddMethods = AccessTools.GetDeclaredMethods(typeof(GrimoraPlugin))
 		 .Where(mi => mi.Name.StartsWith("Add_"))
 		 .ToList();
+		Log.LogInfo($"Adding [{allAddMethods.Count}] cards.");
 		allAddMethods.Sort((mi, mi2) => string.Compare(mi.Name, mi2.Name, StringComparison.Ordinal));
 		allAddMethods.ForEach(mi => mi.Invoke(this, null));
 
