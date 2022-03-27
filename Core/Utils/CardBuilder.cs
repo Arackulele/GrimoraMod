@@ -67,11 +67,6 @@ public class CardBuilder
 		return this;
 	}
 
-	internal CardBuilder SetPortrait(Sprite sprite)
-	{
-		return SetPortrait(null, sprite);
-	}
-
 	internal CardBuilder SetBoneCost(int bonesCost)
 	{
 		_cardInfo.bonesCost = bonesCost;
@@ -82,18 +77,6 @@ public class CardBuilder
 	{
 		_cardInfo.energyCost = energyCost;
 		return this;
-		// Texture energyDecal = energyCost switch
-		// {
-		// 	1 => ImageUtils.Energy1,
-		// 	2 => ImageUtils.Energy2,
-		// 	3 => ImageUtils.Energy3,
-		// 	4 => ImageUtils.Energy4,
-		// 	5 => ImageUtils.Energy5,
-		// 	6 => ImageUtils.Energy6,
-		// 	_ => null
-		// };
-		//
-		// return SetDecals(energyDecal);
 	}
 
 	internal CardBuilder SetBaseAttackAndHealth(int baseAttack, int baseHealth)
