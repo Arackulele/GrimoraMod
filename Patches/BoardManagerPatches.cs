@@ -43,7 +43,7 @@ public class BoardManagerPatches
 		}
 	}
 
-	[HarmonyPrefix, HarmonyPatch(nameof(BoardManager.GetAdjacentSlots))]
+	// [HarmonyPrefix, HarmonyPatch(nameof(BoardManager.GetAdjacentSlots))]
 	public static bool GetCorrectAdjacentSlotsForGiantCards(BoardManager __instance, CardSlot slot, ref List<CardSlot> __result)
 	{
 		if (slot.Card && slot.Card.Info.SpecialAbilities.Contains(GrimoraGiant.FullSpecial.Id) && slot.Card.OnBoard)
