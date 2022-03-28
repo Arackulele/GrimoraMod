@@ -36,7 +36,7 @@ public class GlobalTriggerHandlerPatches
 			{
 				if (!slot.Card.Dead)
 				{
-					GrimoraPlugin.Log.LogDebug($"Calling UpdateStats for card {slot.Card.GetNameAndSlot()}");
+					// GrimoraPlugin.Log.LogDebug($"Calling UpdateStats for card {slot.Card.GetNameAndSlot()}");
 					slot.Card.GetComponent<VariableStatBehaviour>().UpdateStats();
 				}
 			});
