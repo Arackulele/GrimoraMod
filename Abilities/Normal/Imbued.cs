@@ -12,11 +12,6 @@ public class Imbued : AbilityBehaviour
 
 	public const string ModIdImbued = "grimoramod_Imbued";
 
-	private void Awake()
-	{
-		Card.StatsLayer.DisableEmission();
-	}
-
 	public override bool RespondsToOtherCardDie(
 		PlayableCard card,
 		CardSlot deathSlot,
@@ -36,6 +31,7 @@ public class Imbued : AbilityBehaviour
 	{
 		if (Card.TemporaryMods.Exists(mod => mod.singletonId == ModIdImbued))
 		{
+			Card.Anim.StrongNegationEffect();
 			var mod = Card.TemporaryMods.Find(mod => mod.singletonId == ModIdImbued);
 			mod.attackAdjustment += 1;
 		}
@@ -46,6 +42,7 @@ public class Imbued : AbilityBehaviour
 				singletonId = ModIdImbued
 			});
 			Card.Anim.PlayTransformAnimation();
+			Card.StatsLayer.RenderCard(Card.RenderInfo);
 		}
 
 		Card.OnStatsChanged();
