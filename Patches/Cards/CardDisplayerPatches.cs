@@ -7,8 +7,9 @@ namespace GrimoraMod;
 public class CardDisplayerPatches
 {
 	[HarmonyPrefix, HarmonyPatch(nameof(CardDisplayer.SetTextColors))]
-	public static bool PrefixChangeRenderColors(ref CardDisplayer __instance, CardRenderInfo renderInfo,
-		PlayableCard playableCard)
+	public static bool PrefixChangeRenderColors(ref CardDisplayer __instance,
+	                                            CardRenderInfo renderInfo,
+	                                            PlayableCard playableCard)
 	{
 		if (GrimoraSaveUtil.isNotGrimora)
 		{
@@ -24,9 +25,11 @@ public class CardDisplayerPatches
 			int health = renderInfo.baseInfo.Health;
 		}
 
-		__instance.SetHealthTextColor((renderInfo.health >= renderInfo.baseInfo.Health)
-			? GameColors.Instance.glowSeafoam
-			: GameColors.Instance.darkLimeGreen);
+		__instance.SetHealthTextColor(
+			renderInfo.health >= renderInfo.baseInfo.Health
+				? GameColors.Instance.glowSeafoam
+				: GameColors.Instance.darkLimeGreen
+		);
 
 		__instance.SetAttackTextColor(GameColors.Instance.glowSeafoam);
 		__instance.SetNameTextColor(GameColors.Instance.glowSeafoam);
