@@ -1,10 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
-using HarmonyLib;
-using InscryptionAPI.Card;
 using Pixelplacement;
 using Pixelplacement.TweenSystem;
-using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -214,7 +211,7 @@ public class SkinCrawlerSlot : NonCardTriggerReceiver
 	{
 		SkinCrawlerSlot crawlerSlot = new GameObject("SkinCrawler_" + skinCrawler.Info.DisplayedNameEnglish).AddComponent<SkinCrawlerSlot>();
 		crawlerSlot.transform.SetParent(hidingUnderCard.Slot.transform);
-		skinCrawler.transform.SetParent(crawlerSlot.transform);
+		// skinCrawler.transform.SetParent(crawlerSlot.transform);
 		crawlerSlot.skinCrawlerCard = skinCrawler;
 		crawlerSlot.hidingOnSlot = hidingUnderCard.Slot;
 		crawlerSlot.hidingUnderCard = hidingUnderCard;
@@ -272,9 +269,7 @@ public class SkinCrawlerSlot : NonCardTriggerReceiver
 		hidingUnderCard = null;
 		Log.LogDebug($"[CrawlerSlot.OnOtherCardDie] Resolving [{skinCrawlerCard.GetNameAndSlot()}] to deathSlot [{deathSlot.Index}]");
 		SkinCrawler.DoCreateAfterGlobalHandlerFinishes += () =>
-		{
 			BoardManager.Instance.StartCoroutine(SpawnCrawlerCardThenDeleteOldCrawlerSlot(deathSlot));
-		};
 		yield break;
 	}
 

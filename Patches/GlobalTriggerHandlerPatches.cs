@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using UnityEngine;
 
 namespace GrimoraMod;
 
@@ -14,15 +15,17 @@ public class GlobalTriggerHandlerPatches
 		yield return CallUpdateStatsForAllCards();
 	}
 
-	[HarmonyPostfix, HarmonyPatch(nameof(GlobalTriggerHandler.TriggerNonCardReceivers))]
-	public static IEnumerator AdjustForSkinCrawler(IEnumerator enumerator, bool beforeCards, Trigger trigger, params object[] otherArgs)
+	[HarmonyPostfix, HarmonyPatch(nameof(GlobalTriggerHandler.TriggerCardsOnBoard))]
+	public static IEnumerator AdjustForSkinCrawler(IEnumerator enumerator, Trigger trigger, bool triggerFacedown, params object[] otherArgs)
 	{
 		yield return enumerator;
-		if (!beforeCards)
+		if(SkinCrawler.DoCreateAfterGlobalHandlerFinishes != null)
 		{
+			GrimoraPlugin.Log.LogDebug($"There is skin crawlers, invoking static action");
+			yield return new WaitForSeconds(0.1f);
 			SkinCrawler.DoCreateAfterGlobalHandlerFinishes?.Invoke();
-			SkinCrawler.DoCreateAfterGlobalHandlerFinishes = null;
 		}
+		SkinCrawler.DoCreateAfterGlobalHandlerFinishes = null;
 	}
 
 	public static IEnumerator CallUpdateStatsForAllCards()
