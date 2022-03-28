@@ -47,6 +47,10 @@ public class CombatPhaseManagerPatches
 				{
 					yield return opposingSlot.Card.TakeDamage(giantCard.Attack, giantCard);
 				}
+				else
+				{
+					yield return __instance.SlotAttackSlot(slot, opposingSlot, opposingSlots.Count > 1 ? 0.1f : 0f);
+				}
 
 				yield return new WaitForSeconds(0.1f);
 			}
