@@ -10,7 +10,7 @@ namespace GrimoraMod;
 public class CombatPhaseManagerPatches
 {
 	[HarmonyPostfix, HarmonyPatch(nameof(CombatPhaseManager.SlotAttackSequence))]
-	public static IEnumerator MinusDamageDealtThisPhase(
+	public static IEnumerator HandleSpecificAttacksForCustomAnims(
 		IEnumerator enumerator,
 		CombatPhaseManager __instance,
 		CardSlot slot
@@ -27,24 +27,24 @@ public class CombatPhaseManagerPatches
 			foreach (var opposingSlot in opposingSlots)
 			{
 				ViewManager.Instance.SwitchToView(BoardManager.Instance.CombatView);
-				bool impactFrameReached = false;
-				giantCard.Anim.PlayAttackAnimation(giantCard.IsFlyingAttackingReach(), opposingSlot, delegate { impactFrameReached = true; });
-
-				yield return new WaitForSeconds(0.07f);
-				giantCard.Anim.SetAnimationPaused(true);
-				yield return GlobalTriggerHandler.Instance.TriggerCardsOnBoard(
-					Trigger.CardGettingAttacked,
-					false,
-					opposingSlot.Card
-				);
-				giantCard.Anim.SetAnimationPaused(false);
-				yield return new WaitForSeconds(0.05f);
-
-				Log.LogInfo($"[{giantCard.InfoName()}] Waiting until keyframe has been reached");
-				yield return new WaitUntil(() => impactFrameReached);
-				Log.LogInfo($"[{giantCard.InfoName()}] Keyframe reached");
 				if (opposingSlot.Card)
 				{
+					bool impactFrameReached = false;
+					giantCard.Anim.PlayAttackAnimation(giantCard.IsFlyingAttackingReach(), opposingSlot, delegate { impactFrameReached = true; });
+
+					yield return new WaitForSeconds(0.07f);
+					giantCard.Anim.SetAnimationPaused(true);
+					yield return GlobalTriggerHandler.Instance.TriggerCardsOnBoard(
+						Trigger.CardGettingAttacked,
+						false,
+						opposingSlot.Card
+					);
+					giantCard.Anim.SetAnimationPaused(false);
+					yield return new WaitForSeconds(0.05f);
+
+					Log.LogInfo($"[{giantCard.Info.displayedName}] Waiting until keyframe has been reached");
+					yield return new WaitUntil(() => impactFrameReached);
+					Log.LogInfo($"[{giantCard.Info.displayedName}] Keyframe reached");
 					yield return opposingSlot.Card.TakeDamage(giantCard.Attack, giantCard);
 				}
 				else
