@@ -164,6 +164,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
 			_cardsThatHaveDiedThisMatch.Clear();
 			ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue = 0;
+			GrimoraItemsManagerExt.Instance.hammerSlot.gameObject.SetActive(true);
 		}
 
 		yield break;
