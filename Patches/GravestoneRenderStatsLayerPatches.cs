@@ -21,17 +21,14 @@ public class GravestoneRenderStatsLayerPatches
 	private static readonly int ZWrite = Shader.PropertyToID("_ZWrite");
 
 	[HarmonyPostfix, HarmonyPatch(nameof(GravestoneRenderStatsLayer.RenderCard))]
-	public static void ChangeEmissionColorBasedOnModSingletonId(
+	public static void PrefixChangeEmissionColorBasedOnModSingletonId(
 		ref GravestoneRenderStatsLayer __instance,
-		CardRenderInfo info
+		ref CardRenderInfo info
 	)
 	{
-		if (__instance.PlayableCard && __instance.PlayableCard.HasBeenElectricChaired())
-		{
-			__instance.SetEmissionColor(GameColors.Instance.blue);
-		}
-		else if (__instance.GetComponentInParent<SelectableCard>()
-		         && __instance.GetComponentInParent<SelectableCard>().Info.HasBeenElectricChaired())
+		PlayableCard playableCard = __instance.PlayableCard;
+		SelectableCard selectableCard = __instance.GetComponentInParent<SelectableCard>();
+		if (playableCard && playableCard.HasBeenElectricChaired() || selectableCard && selectableCard.Info.HasBeenElectricChaired())
 		{
 			__instance.SetEmissionColor(GameColors.Instance.blue);
 		}

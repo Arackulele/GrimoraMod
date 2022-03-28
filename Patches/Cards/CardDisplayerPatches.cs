@@ -37,3 +37,26 @@ public class CardDisplayerPatches
 		return false;
 	}
 }
+
+[HarmonyPatch(typeof(CardDisplayer3D))]
+public class CardDisplayer3DPatches
+{
+	[HarmonyPrefix, HarmonyPatch(nameof(CardDisplayer3D.EmissionEnabledForCard))]
+	public static bool PrefixChangeRenderColors(CardRenderInfo renderInfo, PlayableCard playableCard, ref bool __result)
+	{
+		bool renderInfoIsNull = renderInfo == null || renderInfo.baseInfo == null;
+		bool cardDoesNotImbuedWithAttack = playableCard && playableCard.HasAbility(Imbued.ability) && !playableCard.TemporaryMods.Exists(mod => mod.singletonId == Imbued.ModIdImbued);
+		bool renderInfoDoesNotHaveImbuedMod = !renderInfoIsNull && renderInfo.baseInfo.HasAbility(Imbued.ability) && !renderInfo.baseInfo.Mods.Exists(mod => mod.singletonId == Imbued.ModIdImbued);
+		// GrimoraPlugin.Log.LogDebug($"RenderInfo is null [{renderInfoIsNull}] PlayableCard is imbued? [{cardDoesNotImbuedWithAttack}] RenderInfo? [{renderInfoDoesNotHaveImbuedMod}]");
+		if (renderInfoIsNull || renderInfoDoesNotHaveImbuedMod || cardDoesNotImbuedWithAttack)
+		{
+			__result = false;
+			return false;
+		}
+
+		bool cardIsOpponentAndHasModFromTotem = playableCard && playableCard.OpponentCard && playableCard.HasModFromTotem();
+		bool hasModFromCardMerge = renderInfo.baseInfo.HasModFromCardMerge();
+		__result = renderInfo.forceEmissivePortrait || cardIsOpponentAndHasModFromTotem || hasModFromCardMerge;
+		return false;
+	}
+}
