@@ -26,9 +26,9 @@ public class PlayableCardPatches
 		if (__instance.Slot.opposingSlot.CardIsNotNullAndHasAbility(Possessive.ability))
 		{
 			var adjSlots = BoardManager.Instance
-				.GetAdjacentSlots(__instance.Slot)
-				.Where(_ => _.Card)
-				.ToList();
+			 .GetAdjacentSlots(__instance.Slot)
+			 .Where(_ => _.Card)
+			 .ToList();
 
 			__result = new List<CardSlot>();
 			if (adjSlots.IsNotEmpty())
@@ -40,31 +40,41 @@ public class PlayableCardPatches
 		}
 	}
 
-
-	// [HarmonyPostfix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetPassiveAttackBuffs))]
-	public static void CorrectDebuffEnemiesLogicForGiants(PlayableCard __instance, ref int __result)
+	[HarmonyPrefix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetPassiveAttackBuffs))]
+	public static bool CorrectBuffsAndDebuffsForGrimoraGiants(PlayableCard __instance, ref int __result)
 	{
-		if (__instance.OnBoard && __instance.Info.HasTrait(Trait.Giant) && !__instance.HasAbility(Ability.MadeOfStone))
+		bool isGrimoraGiant = __instance.Info.HasTrait(Trait.Giant) && __instance.HasSpecialAbility(GrimoraGiant.FullSpecial.Id);
+		if (__instance.OnBoard && isGrimoraGiant)
 		{
-			List<CardSlot> slotsToTarget = BoardManager.Instance.GetSlots(__instance.OpponentCard);
-
-			foreach (var slot in slotsToTarget.Where(slot => slot.Card))
+			int finalAttackNum = 0;
+			List<CardSlot> opposingSlots = BoardManager.Instance.GetSlots(__instance.OpponentCard).Where(slot => slot.Card).ToList();
+			foreach (var opposingSlot in opposingSlots)
 			{
-				// if(!hasPrinted)
-				// 	Log.LogDebug($"[Giant PlayableCard Patch] Slot [{__instance.Slot.Index}] for stinky");
-
-				if (slot.Card.HasAbility(Ability.DebuffEnemy) && slot.opposingSlot.Card != __instance)
+				if (opposingSlot.Card.HasAbility(Ability.BuffEnemy))
 				{
-					// __result is -1 right now
-					// G1 IS FIRST GIANT, G2 IS SECOND GIANT
-					// D IS THE CARD WITH STINKY
-					// G1 G1 G2 G2
-					//  x  x  D  X
+					finalAttackNum++;
+				}
 
-					// G1 SHOULD HAVE THE -1 REVERSED, BUT G2 SHOULD STILL HAVE -1 APPLIED TO ATTACK
-					__result += 1;
+				if (!__instance.HasAbility(Ability.MadeOfStone) && opposingSlot.Card.HasAbility(Ability.DebuffEnemy))
+				{
+					finalAttackNum--;
 				}
 			}
+
+			List<CardSlot> slotsWithGiants = BoardManager.Instance.GetSlots(!__instance.OpponentCard).Where(slot => slot.Card == __instance).ToList();
+			foreach (var giant in slotsWithGiants)
+			{
+				List<CardSlot> adjSlotsWithCards = BoardManager.Instance.GetAdjacentSlots(giant).Where(slot => slot && slot.Card && slot.Card != __instance).ToList();
+				if (adjSlotsWithCards.Exists(slot => slot.Card.HasAbility(Ability.BuffNeighbours)))
+				{
+					finalAttackNum++;
+				}
+			}
+
+			__result = finalAttackNum;
+			return false;
 		}
+
+		return true;
 	}
 }
