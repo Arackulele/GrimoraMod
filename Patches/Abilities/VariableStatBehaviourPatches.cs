@@ -23,7 +23,7 @@ public class VariableStatBehaviourPatches
 		return false;
 	}
 	
-	[HarmonyPrefix, HarmonyPatch(nameof(VariableStatBehaviour.UpdateStats))]
+	// [HarmonyPrefix, HarmonyPatch(nameof(VariableStatBehaviour.UpdateStats))]
 	public static void LogCall(VariableStatBehaviour __instance)
 	{
 		GrimoraPlugin.Log.LogDebug($"[VariableStatBehaviour] UpdateStats for card {__instance.PlayableCard}");
