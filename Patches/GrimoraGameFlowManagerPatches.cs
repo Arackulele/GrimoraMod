@@ -9,6 +9,24 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(GrimoraGameFlowManager))]
 public class GrimoraGameFlowManagerPatches
 {
+	[HarmonyPrefix, HarmonyPatch(nameof(GrimoraGameFlowManager.CanTransitionToFirstPerson))]
+	public static bool CanTransitionToFirstPerson(GrimoraGameFlowManager __instance, ref bool __result)
+	{
+		if (__instance.CurrentGameState == GameState.Map
+		 && !__instance.Transitioning
+		 && ProgressionData.LearnedMechanic(MechanicsConcept.FirstPersonNavigation)
+		 && GameMap.Instance)
+		{
+			__result = GameMap.Instance.FullyUnrolled;
+		}
+		else
+		{
+			__result = false;
+		}
+
+		return false;
+	}
+	
 	[HarmonyPrefix, HarmonyPatch(nameof(GrimoraGameFlowManager.SceneSpecificInitialization))]
 	public static bool PrefixAddMultipleSequencersDuringLoad(ref GrimoraGameFlowManager __instance)
 	{
