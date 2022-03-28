@@ -106,7 +106,6 @@ public class GravestoneCardAnimationControllerPatches
 			__instance.UpdateHoveringForCard();
 		}
 
-		Log.LogDebug($"Finished playing anim");
 		return false;
 	}
 
@@ -139,8 +138,7 @@ public class GravestoneCardAnimationControllerPatches
 			return "attack_sentry";
 		}
 
-		Log.LogDebug(
-			$"TargetSlotIdx [{targetSlot.Index}] Card Attacking idx [{playableCard.Slot.Index}] is player? [{playableCard.Slot.IsPlayerSlot}]");
+		// Log.LogDebug($"TargetSlotIdx [{targetSlot.Index}] Card Attacking idx [{playableCard.Slot.Index}] is player? [{playableCard.Slot.IsPlayerSlot}]");
 		int numToDetermineRotation = GetNumToDetermineRotation(playableCard, targetSlot);
 		string directionToAttack = numToDetermineRotation switch
 		{
@@ -148,7 +146,7 @@ public class GravestoneCardAnimationControllerPatches
 			> 0 => "_right",
 			_   => ""
 		};
-		Log.LogDebug($"Num to determine rotation [{numToDetermineRotation}] Direction To Attack [{directionToAttack}]");
+		// Log.LogDebug($"Num to determine rotation [{numToDetermineRotation}] Direction To Attack [{directionToAttack}]");
 
 		bool isPlayerSideBeingAttacked = targetSlot.IsPlayerSlot;
 		bool isCardOpponents = playableCard.OpponentCard;
