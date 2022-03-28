@@ -194,7 +194,7 @@ public partial class GrimoraPlugin
 	public void Add_Ability_SkinCrawler()
 	{
 		const string rulebookDescription =
-			"[creature] will attempt to find a host in an adjacent friendly slot, hiding under it providing a +1/+1 buff."
+			"[creature] will attempt to find a host in an adjacent friendly slot, hiding under it providing a +1/+1 buff. "
 		+ "Cards on the left take priority.";
 
 		ApiUtils.CreateAbility<SkinCrawler>(rulebookDescription);
