@@ -12,7 +12,8 @@ public class GrimoraGameFlowManagerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(GrimoraGameFlowManager.CanTransitionToFirstPerson))]
 	public static bool CanTransitionToFirstPerson(GrimoraGameFlowManager __instance, ref bool __result)
 	{
-		if (__instance.CurrentGameState == GameState.Map
+		if (!Input.GetKeyDown(KeyCode.DownArrow)
+		 && __instance.CurrentGameState == GameState.Map
 		 && !__instance.Transitioning
 		 && ProgressionData.LearnedMechanic(MechanicsConcept.FirstPersonNavigation)
 		 && GameMap.Instance)
@@ -26,7 +27,7 @@ public class GrimoraGameFlowManagerPatches
 
 		return false;
 	}
-	
+
 	[HarmonyPrefix, HarmonyPatch(nameof(GrimoraGameFlowManager.SceneSpecificInitialization))]
 	public static bool PrefixAddMultipleSequencersDuringLoad(ref GrimoraGameFlowManager __instance)
 	{
