@@ -9,7 +9,7 @@ public partial class GrimoraPlugin
 	private void Add_Card_BoneCollective()
 	{
 		CardBuilder.Builder
-			.SetAsNormalCard()
+			.SetAsRareCard()
 			.SetAbilities(Ability.ActivatedStatsUp, Ability.Submerge)
 			.SetBaseAttackAndHealth(0, 1)
 			.SetBoneCost(2)
