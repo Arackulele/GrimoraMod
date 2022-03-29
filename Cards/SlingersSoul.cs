@@ -7,12 +7,12 @@ public partial class GrimoraPlugin
 	private void Add_Card_SlingersSoul()
 	{
 		CardBuilder.Builder
-			.SetAsNormalCard()
+			.SetAsRareCard()
 			.SetAbilities(ActivatedDealDamageGrimora.ability)
 			.SetBaseAttackAndHealth(2, 3)
 			.SetBoneCost(4)
 			.SetEnergyCost(3)
-			.SetDescription("I WOULDN'T GET TOO CLOSE DEAR. YOU CAN'T BREAK THE HOLD ONCE IT LATCHES ON.")
+			.SetDescription("One of the faster draws in the west, but not fast enough...")
 			.SetNames(NameSlingersSoul, "Slinger's Soul")
 			.Build();
 	}
