@@ -9,7 +9,7 @@ public partial class GrimoraPlugin
 	private void Add_Card_Gashadokuro_Stage1_MassGrave()
 	{
 		CardBuilder.Builder
-			.SetAsNormalCard()
+			.SetAsRareCard()
 			.SetAbilities(Ability.Evolve, Ability.QuadrupleBones)
 			.SetBaseAttackAndHealth(0, 2)
 			.SetBoneCost(4)
