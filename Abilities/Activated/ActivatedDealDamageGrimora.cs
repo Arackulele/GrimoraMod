@@ -2,7 +2,7 @@
 
 namespace GrimoraMod;
 
-public class ActivatedDealDamageGrimora : ActivatedDrawSkeleton
+public class ActivatedDealDamageGrimora : ActivatedDealDamage
 {
 	public static Ability ability;
 
