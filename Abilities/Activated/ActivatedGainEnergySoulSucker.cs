@@ -12,7 +12,7 @@ public class ActivatedGainEnergySoulSucker : ActivatedAbilityBehaviour
 
 	public int kills = 0;
 
-	public override bool CanActivate() => ResourcesManager.Instance.PlayerEnergy > 0;
+	public override bool CanActivate() => kills > 0 && !ResourcesManager.Instance.EnergyAtMax;
 
 	public override IEnumerator Activate()
 	{
@@ -39,6 +39,7 @@ public class ActivatedGainEnergySoulSucker : ActivatedAbilityBehaviour
 
 	public void UpdateKillCountAndRerenderCard(int setKillsTo)
 	{
+		GrimoraPlugin.Log.LogDebug($"[SoulSucker] setting kills to [{setKillsTo}]");
 		ViewManager.Instance.SwitchToView(View.Board);
 		kills = setKillsTo;
 		Card.Anim.StrongNegationEffect();
