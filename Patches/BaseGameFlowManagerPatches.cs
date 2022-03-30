@@ -259,8 +259,9 @@ public class BaseGameFlowManagerPatches
 
 	private static void ChangeStartDeckIfNotAlreadyChanged()
 	{
-		if (GrimoraSaveUtil.DeckInfo.CardInfos.IsNullOrEmpty())
+		if (GrimoraSaveUtil.DeckInfo.cardIds.IsNullOrEmpty())
 		{
+			Log.LogWarning($"Re-initializing player deck as there are no cardIds! This means the deck was never loaded correctly.");
 			GrimoraSaveData.Data.Initialize();
 		}
 		else
