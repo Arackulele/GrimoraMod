@@ -1,5 +1,6 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
+using UnityEngine;
 
 namespace GrimoraMod;
 
@@ -58,5 +59,17 @@ public class CardDisplayer3DPatches
 		bool hasModFromCardMerge = renderInfo.baseInfo.HasModFromCardMerge();
 		__result = renderInfo.forceEmissivePortrait || cardIsOpponentAndHasModFromTotem || hasModFromCardMerge;
 		return false;
+	}
+}
+
+[HarmonyPatch(typeof(GravestoneCardDisplayer))]
+public class GravestoneCardDisplayerPatches
+{
+	[HarmonyPostfix, HarmonyPatch(nameof(GravestoneCardDisplayer.DisplayInfo))]
+	public static void PrefixChangeRenderColors(GravestoneCardDisplayer __instance, CardRenderInfo renderInfo, PlayableCard playableCard)
+	{
+		string bonesCost = Mathf.Max(0, renderInfo.baseInfo.BonesCost).ToString();
+		__instance.costShadow.text = bonesCost;
+		__instance.costText.text = bonesCost;
 	}
 }
