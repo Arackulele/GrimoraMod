@@ -57,7 +57,7 @@ public class VisualizeSniperPatches
 	}
 	
 	[HarmonyPrefix, HarmonyPatch(nameof(CombatPhaseManager.VisualizeClearSniperAbility))]
-	public static bool VisualizeClearSniperAbilityGrimora(CardSlot sniperSlot)
+	public static bool VisualizeClearSniperAbilityGrimora()
 	{
 		if (GrimoraSaveUtil.isNotGrimora)
 		{
