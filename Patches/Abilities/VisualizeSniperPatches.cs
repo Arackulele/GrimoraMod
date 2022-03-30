@@ -20,7 +20,8 @@ public class VisualizeSniperPatches
 			return true;
 		}
 
-		skeletonArmSniper = sniperSlot.transform.Find("SkeletonArms_Sentry").GetComponent<Animator>();
+		skeletonArmSniper = sniperSlot.Card.transform.Find("Grimora_Sentry").GetChild(0).GetComponent<Animator>();
+		skeletonArmSniper.gameObject.SetActive(true);
 		skeletonArmSniper.Play("sniper_hold", 0, 0);
 		return false;
 	}
@@ -32,8 +33,8 @@ public class VisualizeSniperPatches
 		{
 			return true;
 		}
-		
-		Tween.LookAt(skeletonArmSniper.transform, targetSlot.transform.position, Vector3.up, 0.075f, 0f, Tween.EaseInOut);
+
+		AimFingerGun(targetSlot);
 		return false;
 	}
 	
@@ -53,6 +54,7 @@ public class VisualizeSniperPatches
 		gameObject.transform.localPosition = new Vector3(0f, 0.25f, 0f);
 		gameObject.transform.localRotation = Quaternion.identity;
 		sniperIcons.Add(gameObject);
+		
 		return false;
 	}
 	
@@ -64,11 +66,20 @@ public class VisualizeSniperPatches
 			return true;
 		}
 		
+		if(skeletonArmSniper)
+		{
+			skeletonArmSniper.gameObject.SetActive(false);
+		}
 		sniperIcons.ForEach(delegate(GameObject x)
 		{
 			UnityObject.Destroy(x, 0.1f);
 		});
 		sniperIcons.Clear();
 		return false;
+	}
+
+	private static void AimFingerGun(CardSlot targetSlot)
+	{
+		Tween.LookAt(skeletonArmSniper.transform.parent, targetSlot.transform.position, Vector3.up, 0.075f, 0f, Tween.EaseInOut);
 	}
 }

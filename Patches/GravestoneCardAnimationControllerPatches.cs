@@ -12,7 +12,7 @@ public class GravestoneCardAnimationControllerPatches
 {
 	private const string SkeletonArmsGiants = "SkeletonArms_Giants";
 	private const string SkeletonArmsInvertedStrike = "Skeleton2ArmsAttacks";
-	private const string SkeletonArmsSentry = "SkeletonArms_Sentry";
+	private const string SkeletonArmsSentry = "Grimora_Sentry";
 
 	private static Animator GetCorrectCustomArmsPrefab(GravestoneCardAnimationController controller, CardSlot targetSlot)
 	{
@@ -25,9 +25,9 @@ public class GravestoneCardAnimationControllerPatches
 		{
 			customSkeletonArmPrefab = controller.transform.Find(SkeletonArmsGiants).GetComponent<Animator>();
 		} 
-		if (targetSlot.IsNull() && controller.transform.Find(SkeletonArmsSentry))
+		if ((targetSlot.IsNull() ^ controller.PlayableCard.HasAbility(Ability.Sniper)) && controller.transform.Find(SkeletonArmsSentry))
 		{
-			customSkeletonArmPrefab = controller.transform.Find(SkeletonArmsSentry).GetComponent<Animator>();
+			customSkeletonArmPrefab = controller.transform.Find(SkeletonArmsSentry).GetChild(0).GetComponent<Animator>();
 		}
 
 		if (customSkeletonArmPrefab)

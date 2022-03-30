@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2947313000
+CRC: 2637773439
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 25134cd3fb0873cb87f9e519871824ce
+    Hash: dcbddb0e210528a1c5c9d722e4118507
   TypeTreeHash:
     serializedVersion: 2
     Hash: 182394b89d7174747cf6fb22f6fa4531
@@ -67,7 +67,6 @@ Assets:
 - Assets/GrimoraMod_Unity/ChessboardPieces/ChessboardPiece_ElectricChair.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/Kaycee/KayceeFigurine.prefab
 - Assets/GrimoraMod_Unity/Models/hammer/GrimoraHammer.prefab
-- Assets/GrimoraMod_Unity/Animations/CardSkeletonAnim/SkeletonArms_Sentry.prefab
 - Assets/GrimoraMod_Unity/Models/EnergyCells_Right.prefab
 - Assets/GrimoraMod_Unity/Models/hammer/FirstPersonGrimoraHammer.prefab
 - Assets/GrimoraMod_Unity/Models/EnergyCells_Left.prefab
@@ -75,6 +74,7 @@ Assets:
 - Assets/GrimoraMod_Unity/ChessboardPieces/Royal/Blocker_Royal.prefab
 - Assets/GrimoraMod_Unity/Animations/CardSkeletonAnim/Skeleton2ArmsAttacks.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/ChessboardPiece_Boneyard.prefab
+- Assets/GrimoraMod_Unity/Animations/CardSkeletonAnim/Grimora_Sentry.prefab
 - Assets/GrimoraMod_Unity/Models/BonelordTableEffects.prefab
 - Assets/GrimoraMod_Unity/Animations/CardSkeletonAnim/SkeletonArm_SingleSlam.prefab
 Dependencies:
