@@ -6,6 +6,8 @@ namespace GrimoraMod;
 
 public class ActivatedGainEnergySoulSucker : ActivatedAbilityBehaviour
 {
+	public const string defaultAbilityName = "ability_ActivatedGainEnergySoulSucker";
+	
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -45,7 +47,7 @@ public class ActivatedGainEnergySoulSucker : ActivatedAbilityBehaviour
 		ViewManager.Instance.SwitchToView(View.Board);
 		kills = setKillsTo;
 		Card.Anim.StrongNegationEffect();
-		string iconNumber = setKillsTo == 0 ? "ability_SoulSucker" : $"ability_SoulSucker_{kills}";
+		string iconNumber = setKillsTo == 0 ? defaultAbilityName : $"{defaultAbilityName}_{kills}";
 		Card.RenderInfo.OverrideAbilityIcon(ability, AssetUtils.GetPrefab<Texture>(iconNumber));
 		Card.RenderCard();
 	}
