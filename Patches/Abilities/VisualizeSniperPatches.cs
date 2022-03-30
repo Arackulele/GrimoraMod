@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GrimoraMod;
 
-[HarmonyPatch(typeof(CombatPhaseManager))]
+// [HarmonyPatch(typeof(CombatPhaseManager))]
 public class VisualizeSniperPatches
 {
 	private static Animator skeletonArmSniper = null;
