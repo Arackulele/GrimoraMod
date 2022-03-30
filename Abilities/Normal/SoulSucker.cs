@@ -24,7 +24,7 @@ public class SoulSucker : ActivatedAbilityBehaviour
 
 	public override bool RespondsToOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
 	{
-		return fromCombat && !killer.OpponentCard;
+		return fromCombat && killer && !killer.OpponentCard;
 	}
 
 	public override IEnumerator OnOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
