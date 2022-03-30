@@ -20,7 +20,7 @@ public class SentryPatches
 				);
 			skeletonArmShoot.name = "Grimora_Sentry";
 			skeletonArmShoot.gameObject.AddComponent<AnimMethods>();
-			skeletonArmShoot.gameObject.SetActive(false);
+			skeletonArmShoot.transform.GetChild(0).gameObject.SetActive(false);
 		}
 	}
 
