@@ -8,7 +8,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(SoulSucker.ability)
+			.SetAbilities(ActivatedGainEnergySoulSucker.ability)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetEnergyCost(3)
 			.SetDescription("Moroi, the hairy ghost. It leeches the soul from those it strikes down.")
