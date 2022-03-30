@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GrimoraMod;
 
-public class SoulSucker : ActivatedAbilityBehaviour
+public class ActivatedGainEnergySoulSucker : ActivatedAbilityBehaviour
 {
 	public static Ability ability;
 
@@ -55,6 +55,6 @@ public partial class GrimoraPlugin
 		const string rulebookDescription =
 			"Remove 1 soul counter from [creature] to gain 1 soul. When an opposing creature perishes, this card will siphon their soul, up to 4 souls.";
 
-		ApiUtils.CreateAbility<SoulSucker>(rulebookDescription);
+		ApiUtils.CreateAbility<ActivatedGainEnergySoulSucker>(rulebookDescription);
 	}
 }
