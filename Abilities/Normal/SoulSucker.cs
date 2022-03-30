@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GrimoraMod;
 
-public class SoulSucker : AbilityBehaviour
+public class SoulSucker : ActivatedAbilityBehaviour
 {
 	public static Ability ability;
 
@@ -12,21 +12,19 @@ public class SoulSucker : AbilityBehaviour
 
 	public int kills = 0;
 
-	public Action doUpdateKillCountAndRerenderCard;
+	public override bool CanActivate() => ResourcesManager.Instance.PlayerEnergy > 0;
 
-	public override bool RespondsToOtherCardResolve(PlayableCard otherCard) 
-		=> !otherCard.OpponentCard && doUpdateKillCountAndRerenderCard != null;
-
-	public override IEnumerator OnOtherCardResolve(PlayableCard otherCard)
+	public override IEnumerator Activate()
 	{
-		doUpdateKillCountAndRerenderCard.Invoke();
-		doUpdateKillCountAndRerenderCard = null;
-		yield break;
+		ViewManager.Instance.SwitchToView(View.Scales, lockAfter: true);
+		yield return ResourcesManager.Instance.ShowAddEnergy(1);
+		UpdateKillCountAndRerenderCard(--kills);
+		yield return new WaitForSeconds(0.25f);
 	}
 
 	public override bool RespondsToOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
 	{
-		return fromCombat && killer == Card;
+		return fromCombat && !killer.OpponentCard;
 	}
 
 	public override IEnumerator OnOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
@@ -48,34 +46,6 @@ public class SoulSucker : AbilityBehaviour
 		Card.RenderInfo.OverrideAbilityIcon(ability, AssetUtils.GetPrefab<Texture>(iconNumber));
 		Card.RenderCard();
 	}
-
-	public int UseSoulsAndReturnEnergyToAdd(int energyDiff)
-	{
-		GrimoraPlugin.Log.LogDebug($"[SoulSucker] {Card.GetNameAndSlot()} Current Kills [{kills}] EnergyDiff [{energyDiff}]");
-		// assume energy diff is 3
-		// kills is 2
-		
-		// 3 - 2 == 1
-		int newEnergyDiff = energyDiff - kills;
-		int energyToAdd = 0;
-		if (kills > 0)
-		{
-			// 2 - 3 == -1 
-			// 4 - 3 == 1 
-			int killsLeft = Math.Max(0, kills - energyDiff);
-			energyToAdd = newEnergyDiff <= 0 ? energyDiff : kills;
-			// newEnergyDiff abs == 1
-			// max(1, 4) == 4
-			GrimoraPlugin.Log.LogDebug($"[SoulSucker] EnergyToAdd [{energyToAdd}] Kills Left [{killsLeft}]");
-			doUpdateKillCountAndRerenderCard = () => UpdateKillCountAndRerenderCard(killsLeft);
-		}
-		else
-		{
-			doUpdateKillCountAndRerenderCard = null;
-		}
-
-		return energyToAdd;
-	}
 }
 
 public partial class GrimoraPlugin
@@ -83,8 +53,7 @@ public partial class GrimoraPlugin
 	public void Add_Ability_SoulSucker()
 	{
 		const string rulebookDescription =
-			"When [creature] kills another creature, their soul will be drained. This card retains up to 4 souls." +
-			"This card's soul count will be used to cover any missing energy.";
+			"Remove 1 soul counter from [creature] to gain 1 soul. When an opposing creature perishes, this card will siphon their soul, up to 4 souls.";
 
 		ApiUtils.CreateAbility<SoulSucker>(rulebookDescription);
 	}

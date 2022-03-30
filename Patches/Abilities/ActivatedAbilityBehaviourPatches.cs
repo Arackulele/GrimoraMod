@@ -3,7 +3,7 @@ using HarmonyLib;
 
 namespace GrimoraMod;
 
-[HarmonyPatch(typeof(ActivatedAbilityBehaviour))]
+// [HarmonyPatch(typeof(ActivatedAbilityBehaviour))]
 public class ActivatedAbilityBehaviourPatches
 {
 	[HarmonyPostfix, HarmonyPatch(nameof(ActivatedAbilityBehaviour.CanAfford))]
@@ -28,7 +28,7 @@ public class ActivatedAbilityBehaviourPatches
 				// and I now have 1 energy
 
 				SoulSucker soulSucker = card.GetComponent<SoulSucker>();
-				energyToAdd += soulSucker.UseSoulsAndReturnEnergyToAdd(energyDiff);
+				// energyToAdd += soulSucker.UseSoulsAndReturnEnergyToAdd(energyDiff);
 				if (energyToAdd == energyDiff)
 				{			
 					ResourcesManager.Instance.PlayerEnergy += energyToAdd;

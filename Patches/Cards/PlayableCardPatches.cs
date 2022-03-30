@@ -8,7 +8,7 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(PlayableCard))]
 public class PlayableCardPatches
 {
-	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.CanPlay))]
+	// [HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.CanPlay))]
 	public static void CanPlayCheckSoulSucker(PlayableCard __instance, ref bool __result)
 	{
 		List<CardSlot> soulSuckerSlots = BoardManager.Instance.PlayerSlotsCopy.FindAll(slot => slot.Card && slot.Card.HasAbility(SoulSucker.ability));
@@ -32,7 +32,7 @@ public class PlayableCardPatches
 				// and I want to play Skelemagus
 				// then soul sucker should now be zero energy, and I now have 1 energy
 				SoulSucker soulSucker = suckerCard.GetComponent<SoulSucker>();
-				energyToAdd += soulSucker.UseSoulsAndReturnEnergyToAdd(energyDiff);
+				// energyToAdd += soulSucker.UseSoulsAndReturnEnergyToAdd(energyDiff);
 				if (energyToAdd == energyDiff)
 				{
 					ResourcesManager.Instance.PlayerEnergy += energyToAdd;
