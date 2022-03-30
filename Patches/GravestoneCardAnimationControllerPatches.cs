@@ -14,7 +14,7 @@ public class GravestoneCardAnimationControllerPatches
 	private const string SkeletonArmsInvertedStrike = "Skeleton2ArmsAttacks";
 	private const string SkeletonArmsSentry = "SkeletonArms_Sentry";
 
-	private static Animator GetCorrectCustomArmsPrefab(GravestoneCardAnimationController controller)
+	private static Animator GetCorrectCustomArmsPrefab(GravestoneCardAnimationController controller, CardSlot targetSlot)
 	{
 		Animator customSkeletonArmPrefab = null;
 		if (controller.transform.Find(SkeletonArmsInvertedStrike))
@@ -25,7 +25,7 @@ public class GravestoneCardAnimationControllerPatches
 		{
 			customSkeletonArmPrefab = controller.transform.Find(SkeletonArmsGiants).GetComponent<Animator>();
 		} 
-		if (controller.transform.Find(SkeletonArmsSentry))
+		if (targetSlot.IsNull() && controller.transform.Find(SkeletonArmsSentry))
 		{
 			customSkeletonArmPrefab = controller.transform.Find(SkeletonArmsSentry).GetComponent<Animator>();
 		}
@@ -46,7 +46,7 @@ public class GravestoneCardAnimationControllerPatches
 		CardSlot targetSlot
 	)
 	{
-		Animator customArmPrefab = GetCorrectCustomArmsPrefab(__instance);
+		Animator customArmPrefab = GetCorrectCustomArmsPrefab(__instance, targetSlot);
 		PlayableCard playableCard = __instance.PlayableCard;
 
 		__instance.armAnim.gameObject.SetActive(false);
@@ -59,7 +59,7 @@ public class GravestoneCardAnimationControllerPatches
 			typeToAttack,
 			targetSlot
 		);
-		bool doPlayCustomAttack = animToPlay.Contains("invertedstrike") || animToPlay == "attack_sentry";
+		bool doPlayCustomAttack = animToPlay is "sniper_shoot" or "attack_sentry" or "attack_middle_finger";
 		string soundId = "gravestone_card_" + typeToAttack;
 
 		if (playableCard.HasSpecialAbility(GrimoraGiant.FullSpecial.Id))
@@ -131,11 +131,20 @@ public class GravestoneCardAnimationControllerPatches
 		CardSlot targetSlot
 	)
 	{
+		if (playableCard.Attack == 0)
+		{
+			return "attack_middle_finger";
+		}
 		bool doPlaySentryAttack = targetSlot.IsNull() && playableCard.HasAbility(Ability.Sentry);
 
 		if (doPlaySentryAttack)
 		{
 			return "attack_sentry";
+		}
+
+		if (playableCard.HasAbility(Ability.Sniper))
+		{
+			return "sniper_shoot";
 		}
 
 		// Log.LogDebug($"TargetSlotIdx [{targetSlot.Index}] Card Attacking idx [{playableCard.Slot.Index}] is player? [{playableCard.Slot.IsPlayerSlot}]");
@@ -164,17 +173,17 @@ public class GravestoneCardAnimationControllerPatches
 		{
 			animToPlay.Append("_giant");
 		}
-		else if (hasInvertedStrike)
-		{
-			if (targetSlotIsFarthestAway)
-			{
-				animToPlay.Append("_invertedstrike_far");
-			}
-			else if (Math.Abs(targetSlot.Index - playableCard.Slot.Index) == 2)
-			{
-				animToPlay.Append("_invertedstrike");
-			}
-		}
+		// else if (hasInvertedStrike)
+		// {
+		// 	if (targetSlotIsFarthestAway)
+		// 	{
+		// 		animToPlay.Append("_invertedstrike_far");
+		// 	}
+		// 	else if (Math.Abs(targetSlot.Index - playableCard.Slot.Index) == 2)
+		// 	{
+		// 		animToPlay.Append("_invertedstrike");
+		// 	}
+		// }
 		else if (hasAreaOfEffectStrike || cardIsTargetingAdjFriendly)
 		{
 			if (isPlayerSideBeingAttacked)

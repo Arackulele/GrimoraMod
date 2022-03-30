@@ -18,9 +18,8 @@ public class SentryPatches
 					AssetUtils.GetPrefab<GameObject>("SkeletonArms_Sentry"),
 					__instance.transform
 				)
-				.AddComponent<Animator>();
+				.GetComponent<Animator>();
 			skeletonArmShoot.name = "SkeletonArms_Sentry";
-			skeletonArmShoot.runtimeAnimatorController = AssetConstants.SkeletonArmController;
 			skeletonArmShoot.gameObject.AddComponent<AnimMethods>();
 			skeletonArmShoot.gameObject.SetActive(false);
 		}

@@ -16,11 +16,23 @@ public class CardSpawnerPatches
 					AssetUtils.GetPrefab<GameObject>("Skeleton2ArmsAttacks"),
 					__result.transform
 				)
-			 .AddComponent<Animator>();
+			 .GetComponent<Animator>();
 			skeletonArm2Attacks.name = "Skeleton2ArmsAttacks";
-			skeletonArm2Attacks.runtimeAnimatorController = AssetConstants.SkeletonArmController;
 			skeletonArm2Attacks.gameObject.AddComponent<AnimMethods>();
 			skeletonArm2Attacks.gameObject.SetActive(false);
+
+			if (info.HasAbility(Ability.Sniper))
+			{
+				GrimoraPlugin.Log.LogDebug($"Spawning new sentry prefab for card [{info.displayedName}]");
+				Animator skeletonArmSentry = UnityObject.Instantiate(
+						AssetUtils.GetPrefab<GameObject>("SkeletonArms_Sentry"),
+						__result.transform
+					)
+				 .GetComponent<Animator>();
+				skeletonArm2Attacks.name = "SkeletonArms_Sentry";
+				skeletonArm2Attacks.gameObject.AddComponent<AnimMethods>();
+				skeletonArm2Attacks.gameObject.SetActive(false);
+			}
 		}
 	}
 }

@@ -23,10 +23,8 @@ public class GiantStrike : ExtendedAbilityBehaviour
 			Animator skeletonArm2Attacks = UnityObject.Instantiate(
 					AssetUtils.GetPrefab<GameObject>("SkeletonArms_Giants"),
 					Card.transform
-				)
-			 .AddComponent<Animator>();
+				).GetComponent<Animator>();
 			skeletonArm2Attacks.name = "SkeletonArms_Giants";
-			skeletonArm2Attacks.runtimeAnimatorController = AssetConstants.SkeletonArmController;
 			skeletonArm2Attacks.gameObject.AddComponent<AnimMethods>();
 			skeletonArm2Attacks.gameObject.SetActive(false);
 		}

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 948656357
+CRC: 3668744729
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: e94b2966a5d56707350cd34b1a32eb8a
+    Hash: 1173f09cf97caca41d835d12152b9a10
   TypeTreeHash:
     serializedVersion: 2
     Hash: 182394b89d7174747cf6fb22f6fa4531
@@ -55,6 +55,7 @@ Assets:
 - Assets/GrimoraMod_Unity/BoneyardBurialGrave.obj
 - Assets/GrimoraMod_Unity/ElectricChairV2.prefab
 - Assets/GrimoraMod_Unity/Animations/CardSkeletonAnim/SkeletonArms_Giants.prefab
+- Assets/GrimoraMod_Unity/Animations/CardSkeletonAnim/SkeletonArm_BoneLordSnap.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/ChessboardPiece_GoatEye.prefab
 - Assets/GrimoraMod_Unity/Models/kaycee/KayceeBossSkull.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/Sawyer/Blocker_Sawyer.prefab
@@ -75,4 +76,5 @@ Assets:
 - Assets/GrimoraMod_Unity/Animations/CardSkeletonAnim/Skeleton2ArmsAttacks.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/ChessboardPiece_Boneyard.prefab
 - Assets/GrimoraMod_Unity/Models/BonelordTableEffects.prefab
-Dependencies: []
+Dependencies:
+- C:/DEVELOPER/GrimoraMod/DataFiles/grimoramod_controller
