@@ -17,7 +17,7 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_ActivatedDealDamageGrimora()
 	{
-		const string rulebookDescription = $"Pay 1 Energy to deal 1 damage to the creature across from [creature].";
+		const string rulebookDescription = "Pay 1 Energy to deal 1 damage to the creature across from [creature].";
 
 		ApiUtils.CreateAbility<ActivatedDealDamageGrimora>(rulebookDescription, "Soul Shot", true);
 	}
