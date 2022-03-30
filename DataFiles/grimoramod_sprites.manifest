@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 771201800
+CRC: 4152105324
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 66f33ca83808b326fd80181d45a78ad5
+    Hash: 8956a34acdec2ed4a1e2bee60d04733d
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -40,6 +40,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Manananggal.png
 - Assets/GrimoraMod_Unity/Cards/CompoundFracture.png
 - Assets/GrimoraMod_Unity/Cards/GhostShip_emission_Nevernamed.png
+- Assets/GrimoraMod_Unity/Cards/Moroi_emission.png
 - Assets/GrimoraMod_Unity/Cards/Skelemaniac_emission.png
 - Assets/GrimoraMod_Unity/Cards/Sarcophagus.png
 - Assets/GrimoraMod_Unity/Cards/Writher_tailless.png
@@ -48,13 +49,16 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/DeadPets.png
 - Assets/GrimoraMod_Unity/Cards/Terrain/DisturbedGrave.png
 - Assets/GrimoraMod_Unity/Cards/DavyJones.png
+- Assets/GrimoraMod_Unity/Cards/Nosferat_emission.png
 - Assets/GrimoraMod_Unity/Cards/WillOTheWisp.png
 - Assets/GrimoraMod_Unity/Cards/Silbon_emission.png
 - Assets/GrimoraMod_Unity/Cards/BonePrince_emission.png
 - Assets/GrimoraMod_Unity/Cards/Ember_Spirit_emission.png
 - Assets/GrimoraMod_Unity/Cards/ExplodingPirate_emission.png
 - Assets/GrimoraMod_Unity/Cards/DavyJonesLocker.png
+- Assets/GrimoraMod_Unity/Cards/Strzyga_emission.png
 - Assets/GrimoraMod_Unity/Cards/Flames.png
+- Assets/GrimoraMod_Unity/Cards/Haltia.png
 - Assets/GrimoraMod_Unity/Cards/Flameskull.png
 - Assets/GrimoraMod_Unity/Cards/BoneCollective.png
 - Assets/GrimoraMod_Unity/Cards/Giant_emission.png
@@ -67,6 +71,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/RisingHunger.png
 - Assets/GrimoraMod_Unity/Cards/Dalgyal.png
 - Assets/GrimoraMod_Unity/Cards/IceCube_emission.png
+- Assets/GrimoraMod_Unity/Cards/Nosferat.png
 - Assets/GrimoraMod_Unity/Cards/BoneCollective_emission.png
 - Assets/GrimoraMod_Unity/Cards/PirateCaptainYellowbeard_emission.png
 - Assets/GrimoraMod_Unity/Cards/Deadeye_emission.png
@@ -92,6 +97,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Glacier.png
 - Assets/GrimoraMod_Unity/Cards/Rot_tail.png
 - Assets/GrimoraMod_Unity/Cards/Fylgja_WardingPresence.png
+- Assets/GrimoraMod_Unity/Cards/Strzyga.png
 - Assets/GrimoraMod_Unity/Cards/Flames_emission.png
 - Assets/GrimoraMod_Unity/Cards/Terrain/Kennel.png
 - Assets/GrimoraMod_Unity/Cards/PiratePrivateer_emission.png
@@ -99,9 +105,11 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Catacomb_emission.png
 - Assets/GrimoraMod_Unity/Cards/Doppelganger_emission.png
 - Assets/GrimoraMod_Unity/Cards/Ripper_emission.png
+- Assets/GrimoraMod_Unity/Cards/Nixie.png
 - Assets/GrimoraMod_Unity/Cards/Frostbiter.png
 - Assets/GrimoraMod_Unity/Cards/Family_emission.png
 - Assets/GrimoraMod_Unity/Cards/IceCube.png
+- Assets/GrimoraMod_Unity/Cards/BloodySack_emission.png
 - Assets/GrimoraMod_Unity/Cards/Wechuge_emission.png
 - Assets/GrimoraMod_Unity/Cards/CalaveraCatrina_emission.png
 - Assets/GrimoraMod_Unity/Cards/MassGrave.png
@@ -127,6 +135,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Crossbones_emission.png
 - Assets/GrimoraMod_Unity/Cards/Terrain/DisturbedGrave_emission.png
 - Assets/GrimoraMod_Unity/Cards/PiratePrivateer.png
+- Assets/GrimoraMod_Unity/Cards/Nixie_emission.png
 - Assets/GrimoraMod_Unity/Cards/Warthr_emission.png
 - Assets/GrimoraMod_Unity/Cards/Summoner.png
 - Assets/GrimoraMod_Unity/Cards/Doll.png
@@ -135,6 +144,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/SkeletonArmy.png
 - Assets/GrimoraMod_Unity/Cards/Fylgja_emission.png
 - Assets/GrimoraMod_Unity/Cards/SlingersSoul_emission.png
+- Assets/GrimoraMod_Unity/Cards/BloodySack.png
 - Assets/GrimoraMod_Unity/Cards/PirateFirstMateSnag_emission.png
 - Assets/GrimoraMod_Unity/Cards/SeaChest.png
 - Assets/GrimoraMod_Unity/Cards/VengefulSpirit.png
@@ -161,6 +171,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/OldCards/ghoul.png
 - Assets/GrimoraMod_Unity/Cards/Starvation.png
 - Assets/GrimoraMod_Unity/Cards/BonelordsHorn.png
+- Assets/GrimoraMod_Unity/Cards/Moroi.png
 - Assets/GrimoraMod_Unity/Cards/Bigbones_emission.png
 - Assets/GrimoraMod_Unity/Menu/menutext_grimora_mod.png
 - Assets/GrimoraMod_Unity/Cards/BonePrince.png
@@ -212,6 +223,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/OldMaid_emission.png
 - Assets/GrimoraMod_Unity/Cards/HauntedMirror.png
 - Assets/GrimoraMod_Unity/Cards/Sarcophagus_emission.png
+- Assets/GrimoraMod_Unity/Cards/Haltia_emission.png
 - Assets/GrimoraMod_Unity/Cards/PossessedArmour.png
 - Assets/GrimoraMod_Unity/Cards/ScreamingSkull_emission.png
 - Assets/GrimoraMod_Unity/Cards/HeadlessHorseman_emission.png

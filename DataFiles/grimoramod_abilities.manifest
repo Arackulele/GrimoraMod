@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1592517776
+CRC: 3110965098
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 479e966a9313a10c73dc9bde71a5f16d
+    Hash: e6ccf3e8e324338435c8414d6a426569
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7859cd501ea75098bcf7e53f1b477c26
@@ -13,15 +13,18 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
+- Assets/GrimoraMod_Unity/Abilities/ability_SoulSucker_4.png
 - Assets/GrimoraMod_Unity/Abilities/ability_Raider.png
 - Assets/GrimoraMod_Unity/Abilities/ability_LooseLimb.png
 - Assets/GrimoraMod_Unity/Abilities/ability_BoneThief.png
 - Assets/GrimoraMod_Unity/Abilities/ability_InvertedStrike.png
+- Assets/GrimoraMod_Unity/Abilities/ability_SoulSucker_3.png
 - Assets/GrimoraMod_Unity/Abilities/ability_Puppeteer.png
 - Assets/GrimoraMod_Unity/Abilities/ability_FlameStrafe.png
 - Assets/GrimoraMod_Unity/Abilities/ability_Looter.png
 - Assets/GrimoraMod_Unity/Abilities/ability_Imbued.png
 - Assets/GrimoraMod_Unity/Abilities/ability_SpiritBearer.png
+- Assets/GrimoraMod_Unity/Abilities/ability_LatchShield.png
 - Assets/GrimoraMod_Unity/Abilities/ability_CreateRoyalsCrewMate.png
 - Assets/GrimoraMod_Unity/Abilities/ability_Boneless.png
 - Assets/GrimoraMod_Unity/Abilities/ability_HookLineAndSinker.png
@@ -29,6 +32,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Abilities/ability_BuffCrewMates.png
 - Assets/GrimoraMod_Unity/Abilities/ability_ColdFront.png
 - Assets/GrimoraMod_Unity/Abilities/ability_ActivatedDealDamageGrimora.png
+- Assets/GrimoraMod_Unity/Abilities/ability_SoulSucker_1.png
 - Assets/GrimoraMod_Unity/Abilities/ability_GiantStrike.png
 - Assets/GrimoraMod_Unity/Abilities/ability_ChaosStrike.png
 - Assets/GrimoraMod_Unity/Abilities/ability_SkeletonsWithin.png
@@ -37,13 +41,18 @@ Assets:
 - Assets/GrimoraMod_Unity/Abilities/ability_ActivatedEnergyDrawWyvern.png
 - Assets/GrimoraMod_Unity/Abilities/ability_Anchored.png
 - Assets/GrimoraMod_Unity/Abilities/ability_BoneLordsReign.png
+- Assets/GrimoraMod_Unity/Abilities/ability_SoulSucker_2.png
 - Assets/GrimoraMod_Unity/Abilities/ability_SkinCrawler.png
 - Assets/GrimoraMod_Unity/Abilities/ability_LitFuse_Blind.png
+- Assets/GrimoraMod_Unity/Abilities/ability_LatchBrittle.png
 - Assets/GrimoraMod_Unity/Abilities/ability_Possessive.png
 - Assets/GrimoraMod_Unity/Abilities/ability_Erratic.png
+- Assets/GrimoraMod_Unity/Abilities/ability_LatchSubmerge.png
 - Assets/GrimoraMod_Unity/Abilities/ability_GainAttackBones.png
 - Assets/GrimoraMod_Unity/Abilities/ability_AreaOfEffectStrike.png
 - Assets/GrimoraMod_Unity/Abilities/ability_GiantStrikeEnraged.png
 - Assets/GrimoraMod_Unity/Abilities/ability_MarchingDead.png
+- Assets/GrimoraMod_Unity/Abilities/latch_grimora_template.png
 - Assets/GrimoraMod_Unity/Abilities/ability_ActivatedDrawSkeletonGrimora.png
+- Assets/GrimoraMod_Unity/Abilities/ability_SoulSucker.png
 Dependencies: []
