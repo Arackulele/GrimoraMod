@@ -131,17 +131,15 @@ public class GravestoneCardAnimationControllerPatches
 		CardSlot targetSlot
 	)
 	{
-		if (playableCard.Attack == 0)
-		{
-			return "attack_middle_finger";
-		}
 		bool doPlaySentryAttack = targetSlot.IsNull() && playableCard.HasAbility(Ability.Sentry);
-
 		if (doPlaySentryAttack)
 		{
 			return "attack_sentry";
 		}
-
+		if (playableCard.Attack == 0)
+		{
+			return "attack_middle_finger";
+		}
 		if (playableCard.HasAbility(Ability.Sniper))
 		{
 			return "sniper_shoot";
