@@ -112,9 +112,7 @@ public class ChessboardMapExt : GameMap
 			_toggleCardsLeftInDeck = GUI.Toggle(
 				new Rect(
 					20,
-					(ConfigHelper.Instance.isDevModeEnabled
-						? 360
-						: 60),
+					(ConfigHelper.Instance.isDevModeEnabled ? 360 : 60),
 					150,
 					15
 				),
@@ -186,6 +184,8 @@ public class ChessboardMapExt : GameMap
 
 	public override IEnumerator UnrollingSequence(float unrollSpeed)
 	{
+		StoryEventsData.SetEventCompleted(StoryEvent.GrimoraReachedTable, true);
+
 		TableRuleBook.Instance.SetOnBoard(false);
 
 		pieces.ForEach(delegate(ChessboardPiece x) { x.gameObject.SetActive(false); });
@@ -222,8 +222,6 @@ public class ChessboardMapExt : GameMap
 				TextDisplayer.MessageAdvanceMode.Input
 			);
 		}
-
-		StoryEventsData.SetEventCompleted(StoryEvent.GrimoraReachedTable);
 
 		SaveManager.SaveToFile();
 	}
