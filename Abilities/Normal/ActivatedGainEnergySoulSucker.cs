@@ -53,7 +53,7 @@ public partial class GrimoraPlugin
 	public void Add_Ability_SoulSucker()
 	{
 		const string rulebookDescription =
-			"Remove 1 soul counter from [creature] to gain 1 soul. When an opposing creature perishes, this card will siphon their soul, up to 4 souls.";
+			"When an opponent creature perishes, [creature] will store 1 soul energy, up to 4. Activating this sigil will add 1 soul energy to your current energy counter.";
 
 		ApiUtils.CreateAbility<ActivatedGainEnergySoulSucker>(rulebookDescription);
 	}
