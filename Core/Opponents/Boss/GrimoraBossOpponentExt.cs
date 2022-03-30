@@ -23,6 +23,8 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 	public override int StartingLives => 3;
 
+	private Animator bonelordSnapAnim = null;
+
 	private static void SetSceneEffectsShownGrimora(Color cardLightColor)
 	{
 		Color purple = GameColors.Instance.purple;
@@ -207,7 +209,9 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		Log.LogDebug($"[BonelordsReign] Player cards [{activePlayerCards.Count}]");
 		if (activePlayerCards.Any())
 		{
-			ViewManager.Instance.SwitchToView(View.Board);
+			ViewManager.Instance.SwitchToView(View.Default, false, true);
+			bonelordSnapAnim.Play("bonelord_snap", 0, 0);
+			yield return new WaitForSeconds(1.2f);
 			foreach (var playableCard in activePlayerCards)
 			{
 				playableCard.Anim.StrongNegationEffect();
@@ -215,7 +219,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 				CardModificationInfo mod = new CardModificationInfo(attack, 1 - playableCard.Health);
 				playableCard.AddTemporaryMod(mod);
 				playableCard.Anim.PlayTransformAnimation();
-				yield return new WaitForSeconds(0.1f);
+				yield return new WaitForSeconds(0.25f);
 			}
 
 			yield return TextDisplayer.Instance.ShowThenClear(
@@ -283,8 +287,23 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			null,
 			false
 		);
+		
+		AddBonelordSnapAnim(playableCard);
+		yield return new WaitForSeconds(1f);
 	}
 
+	private void AddBonelordSnapAnim(PlayableCard playableCard)
+	{
+		Log.LogDebug($"Spawning new sentry prefab for card [{playableCard.Info.displayedName}]");
+		bonelordSnapAnim = Instantiate(
+				AssetUtils.GetPrefab<GameObject>("SkeletonArm_BoneLordSnap"),
+				playableCard.transform
+			)
+		 .GetComponent<Animator>();
+		bonelordSnapAnim.name = "SkeletonArm_BoneLordSnap";
+		bonelordSnapAnim.gameObject.AddComponent<AnimMethods>();
+	}
+	
 	private IEnumerator CreateHornsInFarLeftAndRightLanes(List<CardSlot> oppSlots)
 	{
 		Log.LogInfo("[Grimora] Spawning Bone Lord's Horns");
