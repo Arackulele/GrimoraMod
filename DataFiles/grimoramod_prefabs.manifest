@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3668744729
+CRC: 2947313000
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 1173f09cf97caca41d835d12152b9a10
+    Hash: 25134cd3fb0873cb87f9e519871824ce
   TypeTreeHash:
     serializedVersion: 2
     Hash: 182394b89d7174747cf6fb22f6fa4531
@@ -76,5 +76,6 @@ Assets:
 - Assets/GrimoraMod_Unity/Animations/CardSkeletonAnim/Skeleton2ArmsAttacks.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/ChessboardPiece_Boneyard.prefab
 - Assets/GrimoraMod_Unity/Models/BonelordTableEffects.prefab
+- Assets/GrimoraMod_Unity/Animations/CardSkeletonAnim/SkeletonArm_SingleSlam.prefab
 Dependencies:
 - C:/DEVELOPER/GrimoraMod/DataFiles/grimoramod_controller
