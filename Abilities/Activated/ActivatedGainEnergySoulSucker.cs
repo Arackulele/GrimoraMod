@@ -17,6 +17,8 @@ public class ActivatedGainEnergySoulSucker : ActivatedAbilityBehaviour
 	public override IEnumerator Activate()
 	{
 		ViewManager.Instance.SwitchToView(View.Scales, lockAfter: true);
+		yield return new WaitForSeconds(0.2f);
+		yield return ResourcesManager.Instance.AddMaxEnergy(1);
 		yield return ResourcesManager.Instance.AddEnergy(1);
 		UpdateKillCountAndRerenderCard(--kills);
 		yield return new WaitForSeconds(0.25f);
