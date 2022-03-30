@@ -80,6 +80,6 @@ public class VisualizeSniperPatches
 
 	private static void AimFingerGun(CardSlot targetSlot)
 	{
-		Tween.LookAt(skeletonArmSniper.transform.parent, targetSlot.transform.position, Vector3.up, 0.075f, 0f, Tween.EaseInOut);
+		Tween.LookAt(skeletonArmSniper.transform, targetSlot.transform.position, Vector3.up, 0.075f, 0f, Tween.EaseInOut);
 	}
 }
