@@ -163,7 +163,8 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			// Log.LogDebug($"[GrimoraModBattleSequencer Adding enemy to config [{ActiveEnemyPiece.name}]");
 			ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
 			_cardsThatHaveDiedThisMatch.Clear();
-			SkinCrawler.SlotsThatHaveCrawlersHidingUnderCards.Clear();
+			ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue = 0;
+			GrimoraItemsManagerExt.Instance.hammerSlot.gameObject.SetActive(true);
 		}
 
 		yield break;

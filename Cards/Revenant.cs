@@ -7,7 +7,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameRevenant = $"{GUID}_Revenant";
 
-	private void Add_Revenant()
+	private void Add_Card_Revenant()
 	{
 		Sprite ogSprite = "Revenant".GetCardInfo().portraitTex;
 		CardBuilder.Builder

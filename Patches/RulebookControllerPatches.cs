@@ -39,10 +39,10 @@ public class PageContentLoaderPatch
 		{
 			if (__instance.currentPageObj != null)
 			{
-				Object.Destroy(__instance.currentPageObj);
+				UnityObject.Destroy(__instance.currentPageObj);
 			}
 
-			__instance.currentPageObj = Object.Instantiate(
+			__instance.currentPageObj = UnityObject.Instantiate(
 				pageInfo.pagePrefab,
 				__instance.transform.position,
 				__instance.transform.rotation,
@@ -53,13 +53,13 @@ public class PageContentLoaderPatch
 
 		foreach (GameObject currentAdditiveObject in __instance.currentAdditiveObjects)
 		{
-			Object.Destroy(currentAdditiveObject);
+			UnityObject.Destroy(currentAdditiveObject);
 		}
 
 		__instance.currentAdditiveObjects.Clear();
 		foreach (var additivePrefab in pageInfo.additivePrefabs.Where(additivePrefab => additivePrefab))
 		{
-			GameObject gameObject = Object.Instantiate(
+			GameObject gameObject = UnityObject.Instantiate(
 				additivePrefab,
 				__instance.transform.position,
 				__instance.transform.rotation,
@@ -76,7 +76,7 @@ public class PageContentLoaderPatch
 		statIconPage.iconRenderer = component.mainAbilityGroup.iconRenderer;
 		statIconPage.nameTextMesh = component.mainAbilityGroup.nameTextMesh;
 		statIconPage.headerTextMesh = component.headerTextMesh;
-		Object.Destroy(statIconPage.GetComponent<AbilityPage>());
+		UnityObject.Destroy(statIconPage.GetComponent<AbilityPage>());
 		__instance.currentPagePrefab = statIconPage.gameObject;
 		statIconPage.FillPage(pageInfo.headerText, pageInfo.pageId);
 		return false;

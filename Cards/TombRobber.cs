@@ -4,7 +4,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameTombRobber = $"{GUID}_TombRobber";
 
-	private void Add_TombRobber()
+	private void Add_Card_TombRobber()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()

@@ -241,12 +241,8 @@ public class GrimoraChessboard
 
 		Log.LogDebug($"Boss name to place piece for [{specialSequencerId}]");
 		GameObject prefabToUse = BossHelper.OpponentTupleBySpecialId[specialSequencerId].Item2;
-		int newX = x == -1
-			? BossNode.GridX
-			: x;
-		int newY = x == -1
-			? BossNode.GridY
-			: y;
+		int newX = x == -1 ? BossNode.GridX : x;
+		int newY = x == -1 ? BossNode.GridY : y;
 		return CreateChessPiece<ChessboardEnemyPiece>(
 			prefabToUse,
 			newX,
@@ -339,7 +335,7 @@ public class GrimoraChessboard
 
 	private T HandlePieceSetup<T>(GameObject prefab, string specialEncounterId = "") where T : ChessboardPiece
 	{
-		GameObject pieceObj = Object.Instantiate(prefab, ChessboardMapExt.Instance.dynamicElementsParent);
+		GameObject pieceObj = UnityObject.Instantiate(prefab, ChessboardMapExt.Instance.dynamicElementsParent);
 
 		if (pieceObj.GetComponent<T>().IsNull())
 		{
@@ -391,9 +387,13 @@ public class GrimoraChessboard
 
 	private static EncounterBlueprintData GetBlueprint()
 	{
-		var blueprints
-			= BlueprintUtils.RegionWithBlueprints.ElementAt(ConfigHelper.Instance.BossesDefeated).Value;
-		return blueprints[UnityEngine.Random.RandomRangeInt(0, blueprints.Count)];
+		if (ConfigHelper.Instance.isRandomizedBlueprintsEnabled)
+		{
+			return BlueprintUtils.BuildRandomBlueprint();
+		}
+
+		var blueprints = BlueprintUtils.RegionWithBlueprints.ElementAt(ConfigHelper.Instance.BossesDefeated).Value;
+		return blueprints[UnityEngine.Random.Range(0, blueprints.Count)];
 	}
 
 	#endregion

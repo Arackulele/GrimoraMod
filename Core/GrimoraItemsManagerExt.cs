@@ -45,9 +45,7 @@ public class GrimoraItemsManagerExt : ItemsManager
 			ext.hammerSlot.GetComponent<BoxCollider>().extents = new Vector3(1f, extentsCopy.y, extentsCopy.z);
 			part3ItemsManager.hammerSlot.transform.SetParent(ext.transform);
 
-			float xVal = ConfigHelper.HasIncreaseSlotsMod
-				? -8.75f
-				: -7.5f;
+			float xVal = ConfigHelper.HasIncreaseSlotsMod ? -8.75f : -7.5f;
 			ext.hammerSlot.gameObject.transform.localPosition = new Vector3(xVal, 1.25f, -0.48f);
 			ext.hammerSlot.gameObject.transform.rotation = Quaternion.Euler(0, 20, -90);
 		}
@@ -69,13 +67,13 @@ public class AddNewHammerExt
 		{
 			if (__instance.Item)
 			{
-				Object.Destroy(__instance.Item.gameObject);
+				UnityObject.Destroy(__instance.Item.gameObject);
 			}
 
 			if (data.prefabId.Equals("HammerItem"))
 			{
 				Log.LogDebug($"Adding new HammerItemExt");
-				HammerItemExt grimoraHammer = Object.Instantiate(
+				HammerItemExt grimoraHammer = UnityObject.Instantiate(
 						AssetConstants.GrimoraHammer,
 						__instance.transform
 					)
@@ -110,6 +108,7 @@ public class DeactivateHammerAfterThreeUses
 		{
 			Log.LogDebug($"Destroying hammer as all 3 uses have been used");
 			__instance.coll.enabled = false;
+			__instance.gameObject.SetActive(false);
 		}
 	}
 }
@@ -147,7 +146,7 @@ public class FirstPersonHammerPatch
 		}
 
 		Log.LogDebug($"[FirstPersonController] Creating new grimora first person hammer");
-		GameObject gameObject = Object.Instantiate(
+		GameObject gameObject = UnityObject.Instantiate(
 			AssetConstants.GrimoraFirstPersonHammer,
 			__instance.pixelCamera.transform
 		);

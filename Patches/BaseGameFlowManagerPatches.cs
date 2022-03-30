@@ -2,6 +2,8 @@
 using DiskCardGame;
 using GrimoraMod.Consumables;
 using HarmonyLib;
+using InscryptionAPI.Card;
+using InscryptionAPI.Helpers;
 using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -18,8 +20,14 @@ public class BaseGameFlowManagerPatches
 		{
 			return;
 		}
-
+		
 		Log.LogDebug($"[GameFlowManager] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");
+
+		AbilitiesUtil.allData.Single(abInfo => abInfo.ability == Ability.LatchBrittle)
+		 .SetIcon(AssetUtils.GetPrefab<Texture2D>("ability_LatchBrittle"));
+		
+		AbilitiesUtil.allData.Single(abInfo => abInfo.ability == Ability.LatchDeathShield)
+		 .SetIcon(AssetUtils.GetPrefab<Texture2D>("ability_LatchShield"));
 
 		if (!AllSounds.Any(clip => AudioController.Instance.Loops.Contains(clip)))
 		{
@@ -29,7 +37,7 @@ public class BaseGameFlowManagerPatches
 		GameObject rightWrist = GameObject.Find("Grimora_RightWrist");
 		if (rightWrist && rightWrist.transform.GetChild(6))
 		{
-			Object.Destroy(rightWrist.transform.GetChild(6).gameObject);
+			UnityObject.Destroy(rightWrist.transform.GetChild(6).gameObject);
 		}
 
 		DisableAttackAndHealthStatShadowsAndScaleUpStatIcons();
@@ -62,7 +70,7 @@ public class BaseGameFlowManagerPatches
 
 		CryptHelper.SetupNewCryptAndZones();
 
-		GrimoraAnimationController.Instance.transform.SetParent(Object.FindObjectOfType<InputManagerSpawner>().transform);
+		GrimoraAnimationController.Instance.transform.SetParent(UnityObject.FindObjectOfType<InputManagerSpawner>().transform);
 
 		Log.LogDebug($"Assigning controller to game table");
 		GameObject.Find("GameTable")
@@ -133,7 +141,7 @@ public class BaseGameFlowManagerPatches
 
 	private static void DisableAttackAndHealthStatShadowsAndScaleUpStatIcons()
 	{
-		GravestoneCardDisplayer displayer = Object.FindObjectOfType<GravestoneCardDisplayer>();
+		GravestoneCardDisplayer displayer = UnityObject.FindObjectOfType<GravestoneCardDisplayer>();
 		var statsParent = displayer.transform.Find("Stats");
 		statsParent.Find("Attack_Shadow").gameObject.SetActive(false);
 		statsParent.Find("Health_Shadow").gameObject.SetActive(false);
@@ -160,7 +168,7 @@ public class BaseGameFlowManagerPatches
 	public static void AddBoonLordBoonConsumable()
 	{
 		Log.LogDebug($"Adding Boon Lord Consumable");
-		GameObject ramSkull = Object.Instantiate(
+		GameObject ramSkull = UnityObject.Instantiate(
 			ResourceBank.Get<GameObject>("Art/Assets3D/NodeSequences/GoatSkull/RamSkull_NoHorn"),
 			new Vector3(4.59f, 4.8f, 0),
 			Quaternion.Euler(270, 235, 0)
@@ -184,7 +192,7 @@ public class BaseGameFlowManagerPatches
 		itemData.rulebookCategory = AbilityMetaCategory.Part1Modular;
 		itemData.rulebookName = "Bone Lord Boon of Bones";
 		itemData.rulebookDescription = "How gracious of the Bone Lord to give you 8 starting bones.";
-		itemData.rulebookSprite = Sprite.Create(Rect.zero, Vector2.zero, float.Epsilon);
+		// itemData.rulebookSprite = Sprite.Create(Rect.zero, Vector2.zero, float.Epsilon);
 		itemData.regionSpecific = false;
 
 		if (!ItemsUtil.allData.Exists(x => ((ConsumableItemData)x).rulebookName == itemData.rulebookName))
@@ -203,7 +211,7 @@ public class BaseGameFlowManagerPatches
 		// var prefab = AllPrefabAssets.LoadAssetWithSubAssets("Hexalantern")[0];
 		//
 		// Log.LogDebug($"Creating custom energy object [{prefab}]");
-		// GameObject energyObj = (GameObject)Object.Instantiate(
+		// GameObject energyObj = (GameObject)UnityObject.Instantiate(
 		// 	prefab,
 		// 	new Vector3(-2.69f, 5.82f, -0.48f),
 		// 	Quaternion.Euler(0, 0, 0f),
@@ -219,7 +227,7 @@ public class BaseGameFlowManagerPatches
 
 		if (BoardManager3D.Instance && resourceEnergy.IsNull())
 		{
-			resourceEnergy = Object.Instantiate(
+			resourceEnergy = UnityObject.Instantiate(
 				ResourceBank.Get<ResourceDrone>("Prefabs/CardBattle/ResourceModules"),
 				new Vector3(5.3f, 5.5f, 1.92f),
 				Quaternion.Euler(270f, 0f, -146.804f),
@@ -245,7 +253,7 @@ public class BaseGameFlowManagerPatches
 			energyCellCase.GetChild(2).GetComponent<MeshFilter>().mesh = null;
 		}
 
-		Object.Destroy(moduleEnergy.Find("Connector").gameObject);
+		UnityObject.Destroy(moduleEnergy.Find("Connector").gameObject);
 		resourceEnergy.emissiveRenderers.Clear();
 	}
 
@@ -285,7 +293,7 @@ public class BaseGameFlowManagerPatches
 			return;
 		}
 
-		GameObject rareCardChoicesSelector = Object.Instantiate(
+		GameObject rareCardChoicesSelector = UnityObject.Instantiate(
 			ResourceBank.Get<GameObject>("Prefabs/SpecialNodeSequences/RareCardChoiceSelector"),
 			SpecialNodeHandler.Instance.transform
 		);
@@ -297,18 +305,6 @@ public class BaseGameFlowManagerPatches
 		sequencer.selectableCardPrefab = AssetConstants.GrimoraSelectableCard;
 
 		SpecialNodeHandler.Instance.rareCardChoiceSequencer = sequencer;
-	}
-	
-	[HarmonyPrefix, HarmonyPatch(nameof(GameFlowManager.CanTransitionToFirstPerson))]
-	public static bool CanTransitionToFirstPerson(GameFlowManager __instance, ref bool __result)
-	{
-		if (__instance is GrimoraGameFlowManager)
-		{
-			__result = __instance.CanTransitionToFirstPerson();
-			return false;
-		}
-
-		return true;
 	}
 
 	[HarmonyPostfix, HarmonyPatch(nameof(GameFlowManager.TransitionTo))]

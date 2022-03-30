@@ -6,16 +6,16 @@ public partial class GrimoraPlugin
 {
 	public const string NameBonelord = $"{GUID}_Bonelord";
 
-	private void Add_Bonelord()
+	private void Add_Card_Bonelord()
 	{
 		CardBuilder.Builder
-			.SetAbilities(BoneLordsReign.ability, GiantStrike.ability, Ability.Reach, Ability.MadeOfStone)
-			.SetSpecialAbilities(GrimoraGiant.FullAbility.Id)
+			.SetAbilities(GiantStrike.ability, Ability.Reach, Ability.MadeOfStone)
+			.SetSpecialAbilities(GrimoraGiant.FullSpecial.Id)
 			.SetBaseAttackAndHealth(1, 20)
 			.SetBoneCost(666)
-			.SetDescription("WHEN THE BONE LORD APPEARS, EVERY CREATURE WILL FALL.")
+			.SetDescription("WHEN THE BONELORD APPEARS, EVERY CREATURE WILL FALL.")
 			.SetTraits(Trait.Giant, Trait.Uncuttable)
-			.SetNames(NameBonelord, "The Bone Lord")
+			.SetNames(NameBonelord, "The Bonelord")
 			.Build();
 	}
 }

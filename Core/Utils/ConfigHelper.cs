@@ -74,6 +74,10 @@ public class ConfigHelper
 	private ConfigEntry<bool> _configHotReloadEnabled;
 
 	public bool isHotReloadEnabled => _configHotReloadEnabled.Value;
+	
+	private ConfigEntry<bool> _configRandomizedBlueprintsEnabled;
+
+	public bool isRandomizedBlueprintsEnabled => _configRandomizedBlueprintsEnabled.Value;
 
 	private ConfigEntry<string> _configCurrentRemovedPieces;
 
@@ -142,6 +146,13 @@ public class ConfigHelper
 				+ "\n1 = Play only once. Will only play the dialogue once. Resets if you leave and then re-enter the game."
 				+ "\n2 = Play each battle. Will play each dialogue after you use the hammer, for each battle."
 			)
+		);
+		
+		_configRandomizedBlueprintsEnabled = GrimoraConfigFile.Bind(
+			Name,
+			"Enable Randomized Encounters",
+			false,
+			new ConfigDescription("If enabled, every single enemy encounter, minus the bosses, are completely randomized.")
 		);
 
 		var list = _configCurrentRemovedPieces.Value.Split(',').ToList();
@@ -239,10 +250,10 @@ public class ConfigHelper
 			catch (Exception e)
 			{
 				Log.LogError(
-					$"Failed to unlock all necessary mechanics with [ProgressionData.UnlockAll]. "
-					+ $"There's something wrong with your save file or your computer reading data/files. "
-					+ $"This should not throw an exception and I have no idea how to fix this for you."
-					+ $"If the combat bell doesn't show up, restart your game."
+					"Failed to unlock all necessary mechanics with [ProgressionData.UnlockAll]. "
+					+ "There's something wrong with your save file or your computer reading data/files. "
+					+ "This should not throw an exception and I have no idea how to fix this for you."
+					+ "If the combat bell doesn't show up, restart your game."
 				);
 			}
 

@@ -9,6 +9,25 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(GrimoraGameFlowManager))]
 public class GrimoraGameFlowManagerPatches
 {
+	[HarmonyPrefix, HarmonyPatch(nameof(GrimoraGameFlowManager.CanTransitionToFirstPerson))]
+	public static bool CanTransitionToFirstPerson(GrimoraGameFlowManager __instance, ref bool __result)
+	{
+		if (!Input.GetKeyDown(KeyCode.DownArrow)
+		 && __instance.CurrentGameState == GameState.Map
+		 && !__instance.Transitioning
+		 && ProgressionData.LearnedMechanic(MechanicsConcept.FirstPersonNavigation)
+		 && GameMap.Instance)
+		{
+			__result = GameMap.Instance.FullyUnrolled;
+		}
+		else
+		{
+			__result = false;
+		}
+
+		return false;
+	}
+
 	[HarmonyPrefix, HarmonyPatch(nameof(GrimoraGameFlowManager.SceneSpecificInitialization))]
 	public static bool PrefixAddMultipleSequencersDuringLoad(ref GrimoraGameFlowManager __instance)
 	{
@@ -17,7 +36,7 @@ public class GrimoraGameFlowManagerPatches
 
 		if (FinaleDeletionWindowManager.instance)
 		{
-			Object.Destroy(FinaleDeletionWindowManager.instance.gameObject);
+			UnityObject.Destroy(FinaleDeletionWindowManager.instance.gameObject);
 		}
 
 		ViewManager.Instance.SwitchToView(View.Default, true);
@@ -65,7 +84,7 @@ public class GrimoraGameFlowManagerPatches
 	private static void PlayTombstonesFalling()
 	{
 		CryptEpitaphSlotInteractable cryptEpitaphSlotInteractable =
-			Object.FindObjectOfType<CryptEpitaphSlotInteractable>();
+			UnityObject.FindObjectOfType<CryptEpitaphSlotInteractable>();
 
 		if (cryptEpitaphSlotInteractable && cryptEpitaphSlotInteractable.isActiveAndEnabled)
 		{

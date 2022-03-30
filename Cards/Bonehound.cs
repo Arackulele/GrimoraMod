@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameBonehound = $"{GUID}_Bonehound";
 
-	private void Add_Bonehound()
+	private void Add_Card_Bonehound()
 	{
 		CardInfo bonehound = "Bonehound".GetCardInfo();
 		CardBuilder.Builder

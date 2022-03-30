@@ -27,7 +27,7 @@ public class DrawNewHandPatch
 		{
 			cardsNotChoosingASlot[0].SetInteractionEnabled(false);
 			cardsNotChoosingASlot[0].Anim.PlayDeathAnimation();
-			Object.Destroy(cardsNotChoosingASlot[0].gameObject, 1f);
+			UnityObject.Destroy(cardsNotChoosingASlot[0].gameObject, 1f);
 			PlayerHand.Instance.RemoveCardFromHand(cardsNotChoosingASlot[0]);
 			cardsNotChoosingASlot.RemoveAt(0);
 		}

@@ -16,10 +16,10 @@ public class BoardManagerPatches
 	)
 	{
 		card.transform.SetParent(BoardManager.Instance.OpponentQueueSlots[card.QueuedSlot.Index].transform);
-		if (TurnManager.Instance.Opponent is RoyalBossOpponentExt && card.OpponentCard && !card.HasAbility(SeaLegs.ability))
+		if (TurnManager.Instance.Opponent is RoyalBossOpponentExt && card.OpponentCard && !card.HasAbility(Anchored.ability))
 		{
 			CardInfo copyInfo = card.Info.Clone() as CardInfo;
-			copyInfo.Mods.Add(new CardModificationInfo(SeaLegs.ability));
+			copyInfo.Mods.Add(new CardModificationInfo(Anchored.ability));
 
 			card.SetInfo(copyInfo);
 		}
@@ -34,19 +34,19 @@ public class BoardManagerPatches
 		bool resolveTriggers = true
 	)
 	{
-		if (TurnManager.Instance.Opponent is RoyalBossOpponentExt && card.OpponentCard && !card.HasAbility(SeaLegs.ability))
+		if (TurnManager.Instance.Opponent is RoyalBossOpponentExt && card.OpponentCard && !card.HasAbility(Anchored.ability))
 		{
 			CardInfo copyInfo = card.Info.Clone() as CardInfo;
-			copyInfo.Mods.Add(new CardModificationInfo(SeaLegs.ability));
+			copyInfo.Mods.Add(new CardModificationInfo(Anchored.ability));
 
 			card.SetInfo(copyInfo);
 		}
 	}
 
-	[HarmonyPrefix, HarmonyPatch(nameof(BoardManager.GetAdjacentSlots))]
+	// [HarmonyPrefix, HarmonyPatch(nameof(BoardManager.GetAdjacentSlots))]
 	public static bool GetCorrectAdjacentSlotsForGiantCards(BoardManager __instance, CardSlot slot, ref List<CardSlot> __result)
 	{
-		if (slot.Card && slot.Card.Info.SpecialAbilities.Contains(GrimoraGiant.FullAbility.Id) && slot.Card.OnBoard)
+		if (slot.Card && slot.Card.Info.SpecialAbilities.Contains(GrimoraGiant.FullSpecial.Id) && slot.Card.OnBoard)
 		{
 			__result = new List<CardSlot>();
 			List<CardSlot> slotsWithGiant = __instance.opponentSlots

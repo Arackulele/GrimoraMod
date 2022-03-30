@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameGiant = $"{GUID}_Giant";
 
-	private void Add_Giant()
+	private void Add_Card_Giant()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()
@@ -41,7 +41,7 @@ public class ModifyLocalPositionsOfTableObjects
 	{
 		if (GrimoraSaveUtil.isGrimora
 		    && card.Info.HasTrait(Trait.Giant)
-		    && card.Info.SpecialAbilities.Contains(GrimoraGiant.FullAbility.Id))
+		    && card.Info.SpecialAbilities.Contains(GrimoraGiant.FullSpecial.Id))
 		{
 			bool isBonelord = card.InfoName().Equals(NameBonelord);
 			// Card -> RotatingParent (child zero) -> TombstoneParent -> Cardbase_StatsLayer

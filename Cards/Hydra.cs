@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameHydra = $"{GUID}_Hydra";
 
-	private void Add_Hydra()
+	private void Add_Card_Hydra()
 	{
 		CardBuilder.Builder
 			.SetAsRareCard()

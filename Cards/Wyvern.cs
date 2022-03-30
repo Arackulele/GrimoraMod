@@ -4,7 +4,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameWyvern = $"{GUID}_Wyvern";
 
-	private void Add_Wyvern()
+	private void Add_Card_Wyvern()
 	{
 		CardBuilder.Builder
 			.SetAsRareCard()

@@ -15,15 +15,22 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	public static readonly List<Ability> AbilitiesToChoseRandomly = new()
 	{
+		ActivatedDealDamageGrimora.ability,
 		ActivatedDrawSkeletonGrimora.ability,
 		ActivatedEnergyDrawWyvern.ability,
 		AlternatingStrike.ability,
 		AreaOfEffectStrike.ability,
+		BoneThief.ability,
+		ColdFront.ability,
 		CreateArmyOfSkeletons.ability,
 		Erratic.ability,
 		GrimoraRandomAbility.ability,
+		Fylgja_GuardDog.ability,
+		Imbued.ability,
 		InvertedStrike.ability,
+		MarchingDead.ability,
 		Possessive.ability,
+		Puppeteer.ability,
 		// SkinCrawler.ability,
 		SpiritBearer.ability,
 		Ability.ActivatedDealDamage,
@@ -274,12 +281,13 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	#region ApplyingModToCard
 
-	private new static void ApplyModToCard(CardInfo card)
+	private static void ApplyModToCard(CardInfo card)
 	{
 		CardModificationInfo cardModificationInfo = new CardModificationInfo
 		{
 			abilities = new List<Ability> { GetRandomAbility(card) },
-			singletonId = "GrimoraMod_ElectricChaired"
+			singletonId = "GrimoraMod_ElectricChaired",
+			nameReplacement = card.displayedName.Replace("Yellowbeard", "Bluebeard")
 		};
 		GrimoraSaveUtil.DeckInfo.ModifyCard(card, cardModificationInfo);
 	}

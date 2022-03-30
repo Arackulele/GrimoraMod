@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameDalgyal = $"{GUID}_Dalgyal";
 
-	private void Add_Dalgyal()
+	private void Add_Card_Dalgyal()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()
