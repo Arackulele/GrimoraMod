@@ -188,10 +188,10 @@ public class GrimoraChessboard
 		   )
 		{
 			Log.LogDebug(
-				$"[UpdatePlayerMarkerPosition]"
-				+ $" Changing region? [{changingRegion}]"
-				+ $" Not reached table? [{!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable)}]"
-				+ $"PieceAtSpaceIsNotPlayer? [{pieceAtSpaceIsNotPlayer}]"
+				$"[UpdatePlayerMarkerPosition] "
+				+ $"Changing region? [{changingRegion}] "
+				+ $"Not reached table? [{!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable)}] "
+				+ $"PieceAtSpaceIsNotPlayer? [{pieceAtSpaceIsNotPlayer}] Piece is [{nodeAtSpace.OccupyingPiece}]"
 				+ $"hasNotInteractedWithAnyPiece? [{hasNotInteractedWithAnyPiece}]"
 			);
 			// the PlayerNode will be different since this is now a different chessboard
