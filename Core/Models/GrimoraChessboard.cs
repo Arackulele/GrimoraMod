@@ -166,6 +166,11 @@ public class GrimoraChessboard
 
 	public void UpdatePlayerMarkerPosition(bool changingRegion)
 	{
+		if (GrimoraSaveData.Data.gridX == -1)
+		{
+			SetSavePositions();
+		}
+		
 		int x = GrimoraSaveData.Data.gridX;
 		int y = GrimoraSaveData.Data.gridY;
 
