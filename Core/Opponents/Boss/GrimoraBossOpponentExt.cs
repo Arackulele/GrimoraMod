@@ -210,6 +210,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		if (activePlayerCards.Any())
 		{
 			ViewManager.Instance.SwitchToView(View.Default, false, true);
+			bonelordSnapAnim.gameObject.SetActive(true);
 			bonelordSnapAnim.Play("bonelord_snap", 0, 0);
 			yield return new WaitForSeconds(1.2f);
 			foreach (var playableCard in activePlayerCards)
@@ -302,6 +303,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		 .GetComponent<Animator>();
 		bonelordSnapAnim.name = "SkeletonArm_BoneLordSnap";
 		bonelordSnapAnim.gameObject.AddComponent<AnimMethods>();
+		bonelordSnapAnim.gameObject.SetActive(false);
 	}
 	
 	private IEnumerator CreateHornsInFarLeftAndRightLanes(List<CardSlot> oppSlots)
