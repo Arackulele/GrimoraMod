@@ -257,7 +257,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		}
 	}
 
-	private new void OnSlotSelected(MainInputInteractable slot)
+	private void OnSlotSelected(MainInputInteractable slot)
 	{
 		selectionSlot.SetEnabled(false);
 		selectionSlot.ShowState(HighlightedInteractable.State.NonInteractable);
@@ -342,7 +342,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	#endregion
 
 
-	private new static List<CardInfo> GetValidCards()
+	private static List<CardInfo> GetValidCards()
 	{
 		List<CardInfo> deckCopy = GrimoraSaveUtil.DeckListCopy;
 		deckCopy.RemoveAll(
