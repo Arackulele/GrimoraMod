@@ -1,4 +1,5 @@
-﻿using DiskCardGame;
+﻿using System.Collections;
+using DiskCardGame;
 using HarmonyLib;
 
 namespace GrimoraMod;
@@ -6,6 +7,25 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(BoardManager))]
 public class BoardManagerPatches
 {
+	[HarmonyPostfix, HarmonyPatch(nameof(BoardManager.CleanUp))]
+	public static IEnumerator CheckForNonCardTriggersOnTheBoardStill(IEnumerator enumerator, BoardManager __instance)
+	{
+		yield return enumerator;
+
+		if (GrimoraSaveUtil.isGrimora)
+		{
+			foreach (var slot in __instance.AllSlotsCopy)
+			{
+				var nonCardReceivers = slot.GetComponentsInChildren<NonCardTriggerReceiver>();
+				foreach (var nonCardTriggerReceiver in nonCardReceivers)
+				{
+					GrimoraPlugin.Log.LogWarning($"[CleanUp] Destroying NonCardTriggerReceiver [{nonCardTriggerReceiver}] from slot [{slot}]");
+					UnityObject.Destroy(nonCardTriggerReceiver);
+				}
+			}
+		}
+	}
+
 	[HarmonyPostfix, HarmonyPatch(nameof(BoardManager.QueueCardForSlot))]
 	public static void PostfixAssignAsChildForQueuedCard(
 		PlayableCard card,
