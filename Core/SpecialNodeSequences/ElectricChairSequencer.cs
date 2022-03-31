@@ -347,6 +347,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		List<CardInfo> deckCopy = GrimoraSaveUtil.DeckListCopy;
 		deckCopy.RemoveAll(
 			card => card.Abilities.Count == 4
+			        || card.HasAbility(SkinCrawler.ability)
 			        || card.SpecialAbilities.Contains(SpecialTriggeredAbility.RandomCard)
 			        || card.traits.Contains(Trait.Pelt)
 			        || card.traits.Contains(Trait.Terrain)
