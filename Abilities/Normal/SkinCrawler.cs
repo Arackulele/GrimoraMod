@@ -95,7 +95,7 @@ public class SkinCrawler : AbilityBehaviour
 
 	public IEnumerator DoAnimationSequence(PlayableCard cardToPick, CardSlot cardSlotToPick)
 	{
-		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
+		ViewManager.Instance.SwitchToView(View.Board);
 
 		yield return new WaitForSeconds(0.4f);
 
