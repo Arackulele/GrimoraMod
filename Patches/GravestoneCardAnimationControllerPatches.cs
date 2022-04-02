@@ -85,6 +85,22 @@ public class GravestoneCardAnimationControllerPatches
 				Log.LogDebug($"Playing custom attack [{animToPlay}] for card {playableCard.GetNameAndSlot()}");
 				customArmPrefab.gameObject.SetActive(true);
 				customArmPrefab.Play(animToPlay, 0, 0f);
+				if (animToPlay == "sniper_shoot")
+				{
+					var instance = __instance;
+					CustomCoroutine.WaitThenExecute(
+						0.1f,
+						delegate
+						{
+							if (attackPlayer)
+							{
+								instance.OnImpactAttackPlayerKeyframe();
+							} else
+							{
+								instance.OnImpactKeyframe();
+							}
+						});
+				}
 			}
 			else
 			{
