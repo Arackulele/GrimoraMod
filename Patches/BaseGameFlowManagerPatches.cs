@@ -60,8 +60,6 @@ public class BaseGameFlowManagerPatches
 
 		AddRareCardSequencerToScene();
 
-		ChangeStartDeckIfNotAlreadyChanged();
-
 		AddCardSelectorObjectForTutor();
 
 		// AddBoonLordBoonConsumable();
@@ -255,26 +253,6 @@ public class BaseGameFlowManagerPatches
 
 		UnityObject.Destroy(moduleEnergy.Find("Connector").gameObject);
 		resourceEnergy.emissiveRenderers.Clear();
-	}
-
-	private static void ChangeStartDeckIfNotAlreadyChanged()
-	{
-		if (GrimoraSaveUtil.DeckInfo.cardIds.IsNullOrEmpty())
-		{
-			Log.LogWarning($"Re-initializing player deck as there are no cardIds! This means the deck was never loaded correctly.");
-			GrimoraSaveData.Data.Initialize();
-		}
-		else
-		{
-			List<CardInfo> grimoraDeck = GrimoraSaveUtil.DeckList;
-			int graveDiggerCount = grimoraDeck.Count(info => info.name == "Gravedigger");
-			int frankNSteinCount = grimoraDeck.Count(info => info.name == "FrankNStein");
-			if (grimoraDeck.Count == 5 && graveDiggerCount == 3 && frankNSteinCount == 2)
-			{
-				Log.LogWarning($"[ChangeStartDeckIfNotAlreadyChanged] Starter deck needs reset");
-				GrimoraSaveData.Data.Initialize();
-			}
-		}
 	}
 
 	private static void AddDeckReviewSequencerToScene()
