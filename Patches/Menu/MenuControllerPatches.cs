@@ -10,27 +10,6 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(MenuController))]
 public class MenuControllerPatches
 {
-	[HarmonyPrefix, HarmonyPatch(nameof(MenuController.LoadGameFromMenu))]
-	public static bool ContinueActOne(bool newGameGBC)
-	{
-		SaveManager.LoadFromFile();
-		// this should fix the issue of having your current scene already at the Grimora finale 
-		string sceneToLoad = "Part1_Cabin";
-		if (!SaveManager.SaveFile.currentScene.ToLowerInvariant().Contains("grimora"))
-		{
-			sceneToLoad = SaveManager.SaveFile.currentScene;
-		}
-
-		LoadingScreenManager.LoadScene(
-			newGameGBC
-				? "GBC_Intro"
-				: sceneToLoad
-		);
-		SaveManager.savingDisabled = false;
-
-		return false;
-	}
-
 	[HarmonyPrefix, HarmonyPatch(nameof(MenuController.OnCardReachedSlot))]
 	public static bool OnCardReachedSlotPatch(MenuController __instance, MenuCard card, bool skipTween = false)
 	{
@@ -40,11 +19,17 @@ public class MenuControllerPatches
 			{
 				Log.LogWarning($"[MenuController.OnCardReachedSlot] Saving before exiting");
 				SaveManager.SaveToFile();
-			} 
+			}
 			else if (card.menuAction == MenuAction.EndRun)
 			{
-				Log.LogWarning($"[MenuController.OnCardReachedSlot] resetting run");
-				ConfigHelper.Instance.ResetRun();
+				__instance.DoingCardTransition = false;
+				card.transform.parent = __instance.menuSlot.transform;
+				card.SetBorderColor(__instance.slottedBorderColor);
+				AudioController.Instance.PlaySound2D("crunch_short#1", MixerGroup.None, 0.6f);
+
+				__instance.Shake(0.015f, 0.3f);
+				__instance.StartCoroutine(__instance.TransitionToGame2(true));
+				return false;
 			}
 		}
 		else if (card.titleText == "Start Grimora Mod")
@@ -81,15 +66,17 @@ public class MenuControllerPatches
 			}
 		}
 	}
-	
+
 	public static MenuCard CreateButtonResetRun(MenuController controller)
 	{
 		Log.LogDebug("Creating ResetRun button");
 
 		var libraryCard = controller.cards.Single(card => card.menuAction == MenuAction.Library);
+		UnityObject.Destroy(libraryCard.transform.Find("GlitchedVersion").gameObject);
 
 		libraryCard.name = "MenuCard_ResetRun";
 		libraryCard.GetComponent<SpriteRenderer>().sprite = AssetUtils.GetPrefab<Sprite>("MenuCard_ResetRun");
+		libraryCard.GetComponent<SpriteRenderer>().enabled = true;
 		libraryCard.menuAction = MenuAction.EndRun;
 		libraryCard.lockBeforeStoryEvent = false;
 		libraryCard.lockAfterStoryEvent = false;
@@ -110,9 +97,7 @@ public class MenuControllerPatches
 
 		var cardRow = controller.transform.Find("CardRow").GetComponent<StartMenuAscensionCardInitializer>();
 		bool doesAscensionCardExist = cardRow.menuCards.Count == 6;
-		float xPosition = doesAscensionCardExist
-			? 1.603f
-			: 1.373f;
+		float xPosition = doesAscensionCardExist ? 1.603f : 1.373f;
 
 		MenuCard menuCardGrimora = UnityObject.Instantiate(
 			ResourceBank.Get<MenuCard>("Prefabs/StartScreen/StartScreenMenuCard"),
@@ -138,15 +123,38 @@ public class MenuControllerPatches
 
 public static class TransitionExt
 {
-	public static IEnumerator TransitionToGame2(this MenuController controller)
+	public static IEnumerator TransitionToGame2(this MenuController controller, bool resetRun = false)
 	{
-		controller.TransitioningToScene = true;
-		yield return new WaitForSecondsRealtime(0.75f);
-		AudioController.Instance.FadeOutLoop(0.75f);
-		GBC.CameraEffects.Instance.FadeOut();
-		yield return new WaitForSecondsRealtime(0.75f);
-		MenuController.LoadGameFromMenu(false);
+		Log.LogDebug($"[TransitionToGame2] TransitioningToScene = true");
+		if (controller)
+		{
+			controller.TransitioningToScene = true;
+		}
 
-		LoadingScreenManager.LoadScene("finale_grimora");
+		yield return new WaitForSecondsRealtime(0.75f);
+		if (AudioController.Instance)
+		{
+			Log.LogDebug($"[TransitionToGame2] Fade Out Loop");
+			AudioController.Instance.FadeOutLoop(0.75f);
+		}
+
+		if (controller)
+		{
+			Log.LogDebug($"[TransitionToGame2] Fade Out");
+			yield return controller.FadeOut();
+		}
+
+		yield return new WaitForSecondsRealtime(0.75f);
+		if (resetRun)
+		{
+			Log.LogDebug($"[TransitionToGame2] Before reset run");
+			ConfigHelper.Instance.ResetRun();
+			yield return new WaitForSecondsRealtime(0.75f);
+		}
+
+		// SaveManager.LoadFromFile();
+		SceneLoader.Load("finale_grimora");
+		Time.timeScale = 1f;
+		FrameLoopManager.Instance.SetIterationDisabled(false);
 	}
 }
