@@ -27,7 +27,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	public static List<Material> AllMats;
 	public static List<RuntimeAnimatorController> AllControllers;
 	public static List<Sprite> AllSprites;
-	public static List<Texture> AllAbilityTextures;
+	public static List<Sprite> AllAbilityTextures;
 	public static List<AudioClip> AllSounds;
 
 	// Gets populated in CardBuilder.Build()

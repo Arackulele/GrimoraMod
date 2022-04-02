@@ -49,7 +49,7 @@ public static class ApiUtils
 		rulebookName ??= typeof(T).Name;
 		Texture icon = rulebookIcon
 			               ? rulebookIcon
-			               : AssetUtils.GetPrefab<Texture>("ability_" + typeof(T).Name);
+			               : AllAbilityTextures.Single(asset => asset.name.Equals("ability_" + typeof(T).Name)).texture;
 		CreateAbility<T>(
 			CreateInfoWithDefaultSettings(rulebookName, rulebookDescription, activated, flipYIfOpponent, canStack),
 			icon

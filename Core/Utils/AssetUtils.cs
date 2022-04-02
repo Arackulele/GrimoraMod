@@ -50,10 +50,6 @@ public static class AssetUtils
 		{
 			AllSprites = allAssetsRequest.allAssets.Cast<Sprite>().ToList();
 		}
-		else if (type == typeof(Texture))
-		{
-			AllAbilityTextures = allAssetsRequest.allAssets.Cast<Texture>().ToList();
-		}
 
 		bundle.Unload(false);
 		stopwatch.Stop();
