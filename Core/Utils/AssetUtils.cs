@@ -29,7 +29,7 @@ public static class AssetUtils
 		var bundle = bundleLoadRequest.assetBundle;
 		var allAssetsRequest = bundle.LoadAllAssetsAsync<T>();
 		yield return allAssetsRequest;
-		// GrimoraPlugin.Log.LogDebug($"Bundle [{assetBundle}] - {string.Join(",", loadedBundle.Select(_ => _.name))}");
+		// Log.LogDebug($"Bundle [{bundle}] - {bundle.GetAllAssetNames().Join()}");
 		if (type == typeof(AudioClip))
 		{
 			AllSounds = allAssetsRequest.allAssets.Cast<AudioClip>().ToList();

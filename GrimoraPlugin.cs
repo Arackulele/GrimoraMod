@@ -27,7 +27,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	public static List<Material> AllMats;
 	public static List<RuntimeAnimatorController> AllControllers;
 	public static List<Sprite> AllSprites;
-	public static List<Sprite> AllAbilitySprites;
 	public static List<AudioClip> AllSounds;
 
 	// Gets populated in CardBuilder.Build()
@@ -103,7 +102,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private void OnDestroy()
 	{
-		AllAbilitySprites = null;
 		AllControllers = null;
 		AllMats = null;
 		AllPrefabs = null;
@@ -154,7 +152,5 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		yield return AssetUtils.LoadAssetBundleAsync<RuntimeAnimatorController>("grimoramod_controller");
 
 		yield return AssetUtils.LoadAssetBundleAsync<Material>("grimoramod_mats");
-
-		yield return AssetUtils.LoadAssetBundleAsync<Sprite>("grimoramod_abilities");
 	}
 }
