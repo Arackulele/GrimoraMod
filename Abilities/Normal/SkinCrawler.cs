@@ -211,7 +211,7 @@ public class SkinCrawlerSlot : NonCardTriggerReceiver
 	{
 		SkinCrawlerSlot crawlerSlot = new GameObject("SkinCrawler_" + skinCrawler.Info.DisplayedNameEnglish).AddComponent<SkinCrawlerSlot>();
 		crawlerSlot.transform.SetParent(hidingUnderCard.Slot.transform);
-		// skinCrawler.transform.SetParent(crawlerSlot.transform);
+		skinCrawler.transform.SetParent(hidingUnderCard.Slot.transform);
 		crawlerSlot.skinCrawlerCard = skinCrawler;
 		crawlerSlot.hidingOnSlot = hidingUnderCard.Slot;
 		crawlerSlot.hidingUnderCard = hidingUnderCard;
