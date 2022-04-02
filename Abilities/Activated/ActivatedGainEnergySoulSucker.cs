@@ -6,7 +6,9 @@ namespace GrimoraMod;
 
 public class ActivatedGainEnergySoulSucker : ActivatedAbilityBehaviour
 {
-	public const string defaultAbilityName = "ability_ActivatedGainEnergySoulSucker";
+	public const string RulebookName = "Soul Sucker";
+	
+	private const string defaultAbilityName = "ability_ActivatedGainEnergySoulSucker";
 	
 	public static Ability ability;
 
@@ -61,6 +63,9 @@ public partial class GrimoraPlugin
 		const string rulebookDescription =
 			"When an opponent creature perishes, [creature] will store 1 soul energy, up to 4. Activating this sigil will add 1 soul energy to your current energy counter.";
 
-		ApiUtils.CreateAbility<ActivatedGainEnergySoulSucker>(rulebookDescription, "Soul Sucker", true);
+		AbilityBuilder<ActivatedGainEnergySoulSucker>.Builder
+		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(ActivatedGainEnergySoulSucker.RulebookName)
+		 .Build();
 	}
 }
