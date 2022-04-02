@@ -123,15 +123,18 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 
 	public static CardModificationInfo CreateModForFreeze(PlayableCard playableCard)
 	{
-		playableCard.Info.iceCubeParams = new IceCubeParams { creatureWithin = playableCard.Info };
 		int attack = playableCard.Attack == 0 ? 0 : -playableCard.Attack;
 		var modInfo = new CardModificationInfo
 		{
 			attackAdjustment = attack,
 			healthAdjustment = 1 - playableCard.Health,
-			abilities = new List<Ability> { Ability.IceCube },
 			negateAbilities = new List<Ability> { Ability.Submerge, HookLineAndSinker.ability, Possessive.ability }
 		};
+		if (!playableCard.HasAbility(Ability.IceCube))
+		{
+			modInfo.abilities = new List<Ability> { Ability.IceCube };
+			playableCard.Info.iceCubeParams = new IceCubeParams { creatureWithin = playableCard.Info };
+		}
 
 		return modInfo;
 	}
