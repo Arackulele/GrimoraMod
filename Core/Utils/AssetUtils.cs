@@ -50,6 +50,10 @@ public static class AssetUtils
 		{
 			AllSprites = allAssetsRequest.allAssets.Cast<Sprite>().ToList();
 		}
+		else if (type == typeof(Texture))
+		{
+			AllAbilitiesTextures = allAssetsRequest.allAssets.Cast<Texture>().ToList();
+		}
 
 		bundle.Unload(false);
 		stopwatch.Stop();
@@ -88,13 +92,17 @@ public static class AssetUtils
 			{
 				objToReturn = AllSprites.Single(go => NameMatchesAsset(go, prefabName)) as T;
 			}
+			else if (type == typeof(Texture))
+			{
+				objToReturn = AllAbilitiesTextures.Single(go => NameMatchesAsset(go, prefabName)) as T;
+			}
 		}
 		catch (Exception e)
 		{
 			Log.LogError(
 				$"Unable to find prefab [{prefabName}]! This could mean the asset bundle doesn't contain it, or, most likely, your mod manager didn't correctly update the asset bundle files."
-				+ "If it worked last update, delete your files and download the mod files again. "
-				+ "There's a weird issue with how mod managers handle asset bundle between mod updates."
+			+ "If it worked last update, delete your files and download the mod files again. "
+			+ "There's a weird issue with how mod managers handle asset bundle between mod updates."
 			);
 			throw;
 		}

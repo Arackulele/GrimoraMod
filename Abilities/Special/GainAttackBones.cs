@@ -1,5 +1,6 @@
 using DiskCardGame;
 using InscryptionAPI.Card;
+using UnityEngine;
 
 namespace GrimoraMod;
 
@@ -25,7 +26,7 @@ public partial class GrimoraPlugin
 	{
 		StatIconBuilder<GainAttackBones>.Builder
 		 .SetAppliesToHealth(false)
-		 .SetIconGraphic(AllSprites.Single(_ => _.name.Equals("ability_GainAttackBones")))
+		 .SetIconGraphic(AssetUtils.GetPrefab<Texture>("ability_GainAttackBones"))
 		 .SetRulebookName(GainAttackBones.RulebookName)
 		 .SetRulebookDescription("[creature] gains 1 attack for each bone the player currently has.")
 		 .Build();
