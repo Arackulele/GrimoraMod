@@ -12,7 +12,6 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.Evolve, Ability.QuadrupleBones)
 			.SetBaseAttackAndHealth(0, 2)
 			.SetEvolve(NameGashadokuro, 1)
-			// .SetDescription("THE CYCLE OF THE MUMMY LORD, NEVER ENDING.")
 			.SetNames(NameRisingHunger, "Rising Hunger")
 			.Build();
 	}

@@ -11,7 +11,6 @@ public partial class GrimoraPlugin
 		CardBuilder.Builder
 			.SetAbilities(Ability.TriStrike)
 			.SetBaseAttackAndHealth(2, 3)
-			// .SetDescription("THE CYCLE OF THE MUMMY LORD, NEVER ENDING.")
 			.SetNames(NameGashadokuro, "Gashadokuro")
 			.Build();
 	}
