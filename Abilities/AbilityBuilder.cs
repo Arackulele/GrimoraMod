@@ -34,7 +34,7 @@ public class AbilityBuilder<T> where T: AbilityBehaviour
 	{
 		Texture icon = _rulebookIcon
 			               ? _rulebookIcon
-			               : GrimoraPlugin.AllAbilitySprites.Single(asset => asset.name.Equals("ability_" + typeof(T).Name)).texture;
+			               : AssetUtils.GetPrefab<Sprite>("ability_" + typeof(T).Name).texture;
 		
 		HandleRulebookName();
 		
