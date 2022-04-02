@@ -19,11 +19,12 @@ public class ActivatedGainEnergySoulSucker : ActivatedAbilityBehaviour
 	public override IEnumerator Activate()
 	{
 		ViewManager.Instance.SwitchToView(View.Scales, lockAfter: true);
-		yield return new WaitForSeconds(0.2f);
+		yield return new WaitForSeconds(0.25f);
 		yield return ResourcesManager.Instance.AddMaxEnergy(1);
 		yield return ResourcesManager.Instance.AddEnergy(1);
 		UpdateKillCountAndRerenderCard(--kills);
 		yield return new WaitForSeconds(0.25f);
+		ViewManager.Instance.SetViewUnlocked();
 	}
 
 	public override bool RespondsToOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
@@ -60,6 +61,6 @@ public partial class GrimoraPlugin
 		const string rulebookDescription =
 			"When an opponent creature perishes, [creature] will store 1 soul energy, up to 4. Activating this sigil will add 1 soul energy to your current energy counter.";
 
-		ApiUtils.CreateAbility<ActivatedGainEnergySoulSucker>(rulebookDescription);
+		ApiUtils.CreateAbility<ActivatedGainEnergySoulSucker>(rulebookDescription, "Soul Sucker", true);
 	}
 }
