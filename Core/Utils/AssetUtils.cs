@@ -88,10 +88,6 @@ public static class AssetUtils
 			{
 				objToReturn = AllSprites.Single(go => NameMatchesAsset(go, prefabName)) as T;
 			}
-			else if (type == typeof(Texture))
-			{
-				objToReturn = AllAbilityTextures.Single(go => NameMatchesAsset(go, prefabName)) as T;
-			}
 		}
 		catch (Exception e)
 		{
