@@ -90,6 +90,11 @@ public class StatIconBuilder<T> where T : SpecialCardBehaviour
 		return this;
 	}
 	
+	public StatIconBuilder<T> SetIconGraphic(Sprite iconGraphic)
+	{
+		return SetIconGraphic(iconGraphic.texture);
+	}
+	
 	public StatIconBuilder<T> SetPixelIconGraphic(Sprite pixelIconGraphic)
 	{
 		_statIconInfo.pixelIconGraphic = pixelIconGraphic;
