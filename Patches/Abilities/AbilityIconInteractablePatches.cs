@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace GrimoraMod;
 
-// [HarmonyPatch(typeof(AbilityIconInteractable))]
+[HarmonyPatch(typeof(AbilityIconInteractable))]
 public class AbilityIconInteractablePatches
 {
-	[HarmonyPrefix, HarmonyPatch(nameof(AbilityIconInteractable.SetFlippedY))]
+	// [HarmonyPrefix, HarmonyPatch(nameof(AbilityIconInteractable.SetFlippedY))]
 	public static void ChangeStupidNegativeYScalingLogWarning(AbilityIconInteractable __instance, bool flippedY)
 	{
 		if (flippedY)
