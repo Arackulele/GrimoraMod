@@ -418,7 +418,7 @@ public class ChessboardMapExt : GameMap
 			Destroy(piece.gameObject);
 		}
 	}
-	
+
 	private static void ChangeStartDeckIfNotAlreadyChanged()
 	{
 		if (GrimoraSaveUtil.DeckInfo.cardIds.IsNullOrEmpty())
@@ -431,7 +431,7 @@ public class ChessboardMapExt : GameMap
 			try
 			{
 				List<CardInfo> grimoraDeck = GrimoraSaveUtil.DeckList;
-				
+
 				int graveDiggerCount = grimoraDeck.Count(info => info.name == "Gravedigger");
 				int frankNSteinCount = grimoraDeck.Count(info => info.name == "FrankNStein");
 				if (grimoraDeck.Count == 5 && graveDiggerCount == 3 && frankNSteinCount == 2)
