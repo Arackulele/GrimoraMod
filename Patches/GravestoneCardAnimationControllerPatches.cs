@@ -59,7 +59,7 @@ public class GravestoneCardAnimationControllerPatches
 			typeToAttack,
 			targetSlot
 		);
-		bool doPlayCustomAttack = animToPlay is "sniper_shoot" or "attack_sentry" or "attack_middle_finger";
+		bool doPlayCustomAttack = animToPlay == "sniper_shoot" || animToPlay == "attack_sentry" || animToPlay == "attack_middle_finger";
 		string soundId = "gravestone_card_" + typeToAttack;
 
 		if (playableCard.HasSpecialAbility(GrimoraGiant.FullSpecial.Id))
@@ -131,6 +131,7 @@ public class GravestoneCardAnimationControllerPatches
 		CardSlot targetSlot
 	)
 	{
+		Log.LogInfo($"Checking Playable card {playableCard.GetNameAndSlot()} TargetSlot {targetSlot} Attack == 0 ? [{playableCard.Attack == 0}] Has sniper? [{playableCard.HasAbility(Ability.Sniper)}]");
 		bool doPlaySentryAttack = targetSlot.IsNull() && playableCard.HasAbility(Ability.Sentry);
 		if (doPlaySentryAttack)
 		{
@@ -145,7 +146,7 @@ public class GravestoneCardAnimationControllerPatches
 			return "sniper_shoot";
 		}
 
-		// Log.LogDebug($"TargetSlotIdx [{targetSlot.Index}] Card Attacking idx [{playableCard.Slot.Index}] is player? [{playableCard.Slot.IsPlayerSlot}]");
+		Log.LogDebug($"TargetSlotIdx [{targetSlot.Index}] Card Attacking idx [{playableCard.Slot.Index}] is player? [{playableCard.Slot.IsPlayerSlot}]");
 		int numToDetermineRotation = GetNumToDetermineRotation(playableCard, targetSlot);
 		string directionToAttack = numToDetermineRotation switch
 		{
@@ -153,7 +154,7 @@ public class GravestoneCardAnimationControllerPatches
 			> 0 => "_right",
 			_   => ""
 		};
-		// Log.LogDebug($"Num to determine rotation [{numToDetermineRotation}] Direction To Attack [{directionToAttack}]");
+		Log.LogDebug($"Num to determine rotation [{numToDetermineRotation}] Direction To Attack [{directionToAttack}]");
 
 		bool isPlayerSideBeingAttacked = targetSlot.IsPlayerSlot;
 		bool isCardOpponents = playableCard.OpponentCard;
