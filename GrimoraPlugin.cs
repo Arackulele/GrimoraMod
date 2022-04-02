@@ -155,6 +155,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		yield return AssetUtils.LoadAssetBundleAsync<Material>("grimoramod_mats");
 
-		yield return AssetUtils.LoadAssetBundleAsync<Texture>("grimoramod_abilities");
+		yield return AssetUtils.LoadAssetBundleAsync<Sprite>("grimoramod_abilities");
 	}
 }
