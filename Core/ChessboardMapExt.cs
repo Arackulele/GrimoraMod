@@ -15,7 +15,6 @@ public class ChessboardMapExt : GameMap
 	[SerializeField] internal List<ChessboardPiece> pieces;
 
 	private bool _toggleCardsLeftInDeck = false;
-	private bool _btnReset = false;
 
 	public bool HasNotPlayedDialogueOnce =>
 		ConfigHelper.Instance.HammerDialogueOption == 1 && hasNotPlayedAllHammerDialogue < 3;
@@ -94,20 +93,6 @@ public class ChessboardMapExt : GameMap
 
 	private void OnGUI()
 	{
-		if (PauseMenu.instance.menuParent.activeInHierarchy)
-		{
-			_btnReset = GUI.Button(
-				new Rect(200, 0, 100, 50),
-				"Reset Run"
-			);
-
-			if (_btnReset)
-			{
-				ConfigHelper.Instance.ResetRun();
-			}
-		}
-
-
 		if (GrimoraGameFlowManager.Instance.CurrentGameState == GameState.CardBattle)
 		{
 			_toggleCardsLeftInDeck = GUI.Toggle(
