@@ -28,6 +28,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	public static List<RuntimeAnimatorController> AllControllers;
 	public static List<Sprite> AllSprites;
 	public static List<AudioClip> AllSounds;
+	public static List<Texture> AllAbilitiesTextures;
 
 	// Gets populated in CardBuilder.Build()
 	public static List<CardInfo> AllGrimoraModCards = new();
@@ -42,6 +43,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		ConfigHelper.Instance.BindConfig();
 
 		AllSprites = AssetUtils.LoadAssetBundle<Sprite>("grimoramod_sprites");
+		AllAbilitiesTextures = AssetUtils.LoadAssetBundle<Texture>("grimoramod_abilities");
 	}
 
 	// private IEnumerator HotReloadMenuCardAdd()
@@ -102,6 +104,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private void OnDestroy()
 	{
+		AllAbilitiesTextures = null;
 		AllControllers = null;
 		AllMats = null;
 		AllPrefabs = null;

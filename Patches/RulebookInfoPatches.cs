@@ -2,6 +2,7 @@
 using HarmonyLib;
 using InscryptionAPI.Card;
 using Sirenix.Utilities;
+using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -31,18 +32,28 @@ public class RulebookInfoPatches
 		allAbilities.AddRange(
 			AbilityManager.AllAbilityInfos
 				// this is needed because Sinkhole and another ability will throw IndexOutOfBounds exceptions
-				.Where(info => info.LocalizedRulebookDescription.IsNotEmpty())
-				.ForEach(
+			 .Where(info => info.LocalizedRulebookDescription.IsNotEmpty())
+			 .ForEach(
 					x =>
 					{
 						if (x.ability == Ability.DoubleDeath)
 						{
 							x.rulebookName = "Double Death";
 						}
+						else if (x.ability == Ability.LatchBrittle)
+						{
+							Texture icon = AssetUtils.GetPrefab<Texture>("ability_LatchBrittle");
+							x.pixelIcon = Sprite.Create((Texture2D)icon, new Rect(0f, 0f, icon.width, icon.height), new Vector2(0.5f, 0.5f));
+						}
+						else if (x.ability == Ability.LatchDeathShield)
+						{
+							Texture icon = AssetUtils.GetPrefab<Texture>("ability_LatchShield");
+							x.pixelIcon = Sprite.Create((Texture2D)icon, new Rect(0f, 0f, icon.width, icon.height), new Vector2(0.5f, 0.5f));
+						}
 					}
 				)
-				.Select(x => (int)x.ability)
-				.ToList()
+			 .Select(x => (int)x.ability)
+			 .ToList()
 		);
 		Log.LogDebug($"AllAbilities count [{allAbilities.Count}]");
 		int min = allAbilities.AsQueryable().Min();
@@ -65,9 +76,9 @@ public class RulebookInfoPatches
 
 		allAbilities.AddRange(
 			StatIconManager.AllStatIconInfos
-				.Where(info => info && info.rulebookDescription.IsNotEmpty())
-				.Select(info => (int)info.iconType)
-				.ToList()
+			 .Where(info => info && info.rulebookDescription.IsNotEmpty())
+			 .Select(info => (int)info.iconType)
+			 .ToList()
 		);
 		Log.LogDebug($"SpecialAbilities count [{allAbilities.Join()}]");
 		min = allAbilities.AsQueryable().Min();

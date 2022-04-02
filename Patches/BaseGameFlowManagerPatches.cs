@@ -3,8 +3,6 @@ using DiskCardGame;
 using GrimoraMod.Consumables;
 using HarmonyLib;
 using InscryptionAPI.Card;
-using InscryptionAPI.Helpers;
-using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -23,11 +21,13 @@ public class BaseGameFlowManagerPatches
 		
 		Log.LogDebug($"[GameFlowManager] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");
 
-		AbilitiesUtil.allData.Single(abInfo => abInfo.ability == Ability.LatchBrittle)
-		 .pixelIcon = AllSprites.Single(asset => asset.name.Equals("ability_LatchBrittle"));
-		
-		AbilitiesUtil.allData.Single(abInfo => abInfo.ability == Ability.LatchDeathShield)
-		 .pixelIcon = AllSprites.Single(asset => asset.name.Equals("ability_LatchShield"));
+		Texture latchBrittle = AssetUtils.GetPrefab<Texture>("ability_LatchBrittle");
+		AbilitiesUtil.allData.Single(abInfo => abInfo.ability == Ability.LatchBrittle).pixelIcon 
+		 = Sprite.Create((Texture2D)latchBrittle, new Rect(0f, 0f, latchBrittle.width, latchBrittle.height), new Vector2(0.5f, 0.5f));
+
+		Texture latchShield = AssetUtils.GetPrefab<Texture>("ability_LatchShield");
+		AbilitiesUtil.allData.Single(abInfo => abInfo.ability == Ability.LatchDeathShield).pixelIcon 
+			= Sprite.Create((Texture2D)latchShield, new Rect(0f, 0f, latchShield.width, latchShield.height), new Vector2(0.5f, 0.5f));
 
 		if (!AllSounds.Any(clip => AudioController.Instance.Loops.Contains(clip)))
 		{

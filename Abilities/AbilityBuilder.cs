@@ -34,7 +34,7 @@ public class AbilityBuilder<T> where T: AbilityBehaviour
 	{
 		Texture icon = _rulebookIcon
 			               ? _rulebookIcon
-			               : AssetUtils.GetPrefab<Sprite>("ability_" + typeof(T).Name).texture;
+			               : AssetUtils.GetPrefab<Texture>("ability_" + typeof(T).Name);
 		
 		HandleRulebookName();
 		
