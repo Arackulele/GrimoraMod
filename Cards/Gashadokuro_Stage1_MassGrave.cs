@@ -13,8 +13,8 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.Evolve, Ability.QuadrupleBones)
 			.SetBaseAttackAndHealth(0, 2)
 			.SetBoneCost(4)
+			.SetDescription("It may be insignificant now, but I fear what it can potentially become...")
 			.SetEvolve(NameRisingHunger, 1)
-			// .SetDescription("Over time the Mass grave gathers bones, collecting them until it is destroyed.")
 			.SetNames(NameMassGrave, "Mass Grave")
 			.Build();
 	}

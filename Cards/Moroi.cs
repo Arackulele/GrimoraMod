@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(ActivatedGainEnergySoulSucker.ability)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetEnergyCost(3)
-			.SetDescription("Moroi, the hairy ghost. It leeches the soul from those it strikes down.")
+			.SetDescription("Moroi, the hairy ghost. It leeches the souls from those struck down near it.")
 			.SetNames(NameMoroi, "Moroi")
 			.Build();
 	}
