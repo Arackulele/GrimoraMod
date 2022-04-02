@@ -7,12 +7,12 @@ public partial class GrimoraPlugin
 	private void Add_Card_IceCube()
 	{
 		CardBuilder.Builder
-			.SetAsNormalCard()
-			.SetAbilities(ColdFront.ability)
-			.SetBaseAttackAndHealth(1, 1)
-			.SetBoneCost(5)
-			// .SetDescription("THAT'S WHAT HAPPENS WHEN YOU PLAY WITH BOMBS!")
-			.SetNames(NameIceCube, "Ice Cube")
-			.Build();
+		 .SetAsNormalCard()
+		 .SetAbilities(ColdFront.ability)
+		 .SetBaseAttackAndHealth(1, 1)
+		 .SetBoneCost(5)
+		 .SetDescription("Those who strike at it will end up sharing their frosty fate!")
+		 .SetNames(NameIceCube, "Ice Cube")
+		 .Build();
 	}
 }

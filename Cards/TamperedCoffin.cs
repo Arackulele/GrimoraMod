@@ -8,7 +8,6 @@ public partial class GrimoraPlugin
 		CardBuilder.Builder
 			.SetAbilities(Boneless.ability)
 			.SetBaseAttackAndHealth(0, 1)
-			// .SetDescription("FOR WHOM THE BELL TOLLS?")
 			.SetNames(NameTamperedCoffin, "Tampered Coffin")
 			.Build();
 	}
