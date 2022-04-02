@@ -30,7 +30,7 @@ public class HookLineAndSinker : AbilityBehaviour
 		);
 		yield return new WaitForSeconds(0.51f);
 
-		if (targetCard)
+		if (targetCard && !targetCard.Dead)
 		{
 			targetCard.SetIsOpponentCard(!Card.Slot.IsPlayerSlot);
 			yield return BoardManager.Instance.AssignCardToSlot(targetCard, Card.Slot, 0.33f);
