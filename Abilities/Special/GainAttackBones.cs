@@ -25,7 +25,7 @@ public partial class GrimoraPlugin
 	{
 		StatIconBuilder<GainAttackBones>.Builder
 		 .SetAppliesToHealth(false)
-		 .SetIconGraphic(AllAbilityTextures.Single(_ => _.name.Equals("ability_GainAttackBones")))
+		 .SetIconGraphic(AllAbilitySprites.Single(_ => _.name.Equals("ability_GainAttackBones")))
 		 .SetRulebookName(GainAttackBones.RulebookName)
 		 .SetRulebookDescription("[creature] gains 1 attack for each bone the player currently has.")
 		 .Build();
