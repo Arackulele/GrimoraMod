@@ -19,6 +19,8 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 	private bool _playedDialogueHookLineAndSinker = false;
 
 	private bool _playedDialoguePossessive = false;
+	
+	private bool _playedDialogueStinky = false;
 
 	public override Opponent.Type BossType => KayceeBossOpponent.FullOpponent.Id;
 
@@ -112,6 +114,16 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 				_playedDialogueHookLineAndSinker = true;
 			}
 		}
+		else if (playableCard.HasAbility(Ability.DebuffEnemy))
+		{
+			if (!_playedDialogueStinky)
+			{
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					$"{playableCard.Info.displayedName.Blue()} FINALLY! TO GET RID OF THAT FOUL SMELL!"
+				);
+				_playedDialogueStinky = true;
+			}
+		}
 		else
 		{
 			playableCard.AddTemporaryMod(modInfo);
@@ -128,7 +140,7 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 		{
 			attackAdjustment = attack,
 			healthAdjustment = 1 - playableCard.Health,
-			negateAbilities = new List<Ability> { Ability.Submerge, HookLineAndSinker.ability, Possessive.ability }
+			negateAbilities = new List<Ability> { Ability.DebuffEnemy, Ability.Submerge, HookLineAndSinker.ability, Possessive.ability }
 		};
 		if (!playableCard.HasAbility(Ability.IceCube))
 		{
