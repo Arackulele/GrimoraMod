@@ -34,10 +34,18 @@ public class MenuControllerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(MenuController.OnCardReachedSlot))]
 	public static bool OnCardReachedSlotPatch(MenuController __instance, MenuCard card, bool skipTween = false)
 	{
-		if (GrimoraSaveUtil.isGrimora && card.MenuAction == MenuAction.ReturnToStartMenu)
+		if (GrimoraSaveUtil.isGrimora)
 		{
-			Log.LogDebug($"[MenuController.OnCardReachedSlot] Saving before exiting");
-			SaveManager.SaveToFile();
+			if (card.MenuAction == MenuAction.ReturnToStartMenu)
+			{
+				Log.LogWarning($"[MenuController.OnCardReachedSlot] Saving before exiting");
+				SaveManager.SaveToFile();
+			} 
+			else if (card.menuAction == MenuAction.EndRun)
+			{
+				Log.LogWarning($"[MenuController.OnCardReachedSlot] resetting run");
+				ConfigHelper.Instance.ResetRun();
+			}
 		}
 		else if (card.titleText == "Start Grimora Mod")
 		{
@@ -62,12 +70,41 @@ public class MenuControllerPatches
 			if (__instance.cardRow.Find("MenuCard_Grimora").IsNull())
 			{
 				Log.LogDebug($"Non-hot reload menu button creation");
-				__instance.cards.Add(CreateButton(__instance));
+				__instance.cards.Add(CreateMenuButton(__instance));
+			}
+		}
+		else if (GrimoraSaveUtil.isGrimora)
+		{
+			if (__instance.cardRow.Find("MenuCard_ResetRun").IsNull())
+			{
+				CreateButtonResetRun(__instance);
 			}
 		}
 	}
+	
+	public static MenuCard CreateButtonResetRun(MenuController controller)
+	{
+		Log.LogDebug("Creating ResetRun button");
 
-	public static MenuCard CreateButton(MenuController controller)
+		var libraryCard = controller.cards.Single(card => card.menuAction == MenuAction.Library);
+
+		libraryCard.name = "MenuCard_ResetRun";
+		libraryCard.GetComponent<SpriteRenderer>().sprite = AssetUtils.GetPrefab<Sprite>("MenuCard_ResetRun");
+		libraryCard.menuAction = MenuAction.EndRun;
+		libraryCard.lockBeforeStoryEvent = false;
+		libraryCard.lockAfterStoryEvent = false;
+		libraryCard.permanentlyLocked = false;
+		libraryCard.glitchedCard = null;
+		libraryCard.storyEvent = StoryEvent.BasicTutorialCompleted;
+		libraryCard.lockedTitleSprite = null;
+		libraryCard.titleSprite = null;
+		libraryCard.titleText = "RESET RUN";
+		libraryCard.defaultBorderColor = GameColors.instance.red;
+
+		return libraryCard;
+	}
+
+	public static MenuCard CreateMenuButton(MenuController controller)
 	{
 		Log.LogDebug("Creating MenuCard button");
 
