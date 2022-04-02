@@ -40,16 +40,6 @@ public class RulebookInfoPatches
 						{
 							x.rulebookName = "Double Death";
 						}
-						else if (x.ability == Ability.LatchBrittle)
-						{
-							Texture icon = AssetUtils.GetPrefab<Texture>("ability_LatchBrittle");
-							x.pixelIcon = Sprite.Create((Texture2D)icon, new Rect(0f, 0f, icon.width, icon.height), new Vector2(0.5f, 0.5f));
-						}
-						else if (x.ability == Ability.LatchDeathShield)
-						{
-							Texture icon = AssetUtils.GetPrefab<Texture>("ability_LatchShield");
-							x.pixelIcon = Sprite.Create((Texture2D)icon, new Rect(0f, 0f, icon.width, icon.height), new Vector2(0.5f, 0.5f));
-						}
 					}
 				)
 			 .Select(x => (int)x.ability)
