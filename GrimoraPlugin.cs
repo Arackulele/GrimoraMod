@@ -77,12 +77,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		Log.LogDebug($"Loading cards");
 
-		CardBuilder.Builder
-		 .SetAbilities(Ability.BoneDigger, Ability.SteelTrap, Haunter.ability)
-		 .SetBaseAttackAndHealth(0, 1)
-		 .SetNames($"{GUID}_TrapTest", "Trap Test", "Trap".GetCardInfo().portraitTex)
-		 .Build();
-
 		// What this does, is that every method that exists under this partial class, Grimora Plugin,
 		//	will be searched for and of the ones that start with 'Add_', will be invoked all at once after sorting by name.
 		// We sort by name so Abilities come first because abilities have their method name like 'Add_Ability_' while cards have 'Add_Card_'
@@ -100,6 +94,12 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		CardInfo card = CardManager.BaseGameCards.CardByName("Starvation");
 		card.portraitTex = AllSprites.Single(sp => sp.name.Equals("Starvation"));
 		card.portraitTex.RegisterEmissionForSprite(AllSprites.Single(sp => sp.name.Equals("Starvation_emission")));
+
+		CardBuilder.Builder
+		 .SetAbilities(Ability.BoneDigger, Ability.SteelTrap, Haunter.ability)
+		 .SetBaseAttackAndHealth(0, 1)
+		 .SetNames($"{GUID}_TrapTest", "Trap Test", "Trap".GetCardInfo().portraitTex)
+		 .Build();
 	}
 
 	private void OnDestroy()
