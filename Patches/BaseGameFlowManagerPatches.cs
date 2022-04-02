@@ -24,10 +24,10 @@ public class BaseGameFlowManagerPatches
 		Log.LogDebug($"[GameFlowManager] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");
 
 		AbilitiesUtil.allData.Single(abInfo => abInfo.ability == Ability.LatchBrittle)
-		 .SetIcon(AssetUtils.GetPrefab<Texture2D>("ability_LatchBrittle"));
+		 .pixelIcon = AllAbilityTextures.Single(asset => asset.name.Equals("ability_LatchBrittle"));
 		
 		AbilitiesUtil.allData.Single(abInfo => abInfo.ability == Ability.LatchDeathShield)
-		 .SetIcon(AssetUtils.GetPrefab<Texture2D>("ability_LatchShield"));
+		 .pixelIcon = AllAbilityTextures.Single(asset => asset.name.Equals("ability_LatchShield"));
 
 		if (!AllSounds.Any(clip => AudioController.Instance.Loops.Contains(clip)))
 		{
