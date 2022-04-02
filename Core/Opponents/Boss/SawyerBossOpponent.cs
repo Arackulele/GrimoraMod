@@ -48,7 +48,7 @@ public class SawyerBossOpponent : BaseBossExt
 	{
 		Log.LogDebug($"Playing sawyer theme");
 		AudioController.Instance.StopAllLoops();
-		AudioController.Instance.SetLoopAndPlay("Dogbite", 1);
+		AudioController.Instance.SetLoopAndPlay("Sawyer_Dogbite_Phase1", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
 		AudioController.Instance.SetLoopVolume(0.9f, 3f, 1);
 	}
@@ -72,6 +72,12 @@ public class SawyerBossOpponent : BaseBossExt
 
 	public override IEnumerator StartNewPhaseSequence()
 	{
+		AudioController.Instance.FadeOutLoop(3f);
+		AudioController.Instance.StopAllLoops();
+		AudioController.Instance.SetLoopAndPlay("Sawyer_Hellhound_Phase2", 1);
+		AudioController.Instance.SetLoopVolumeImmediate(0.1f, 1);
+		AudioController.Instance.FadeInLoop(7f, 0.7f, 1);
+		
 		yield return ClearQueue();
 		yield return ClearBoard();
 

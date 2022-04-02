@@ -9,15 +9,37 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(GrimoraGameFlowManager))]
 public class GrimoraGameFlowManagerPatches
 {
+	[HarmonyPrefix, HarmonyPatch(nameof(GrimoraGameFlowManager.CanTransitionToFirstPerson))]
+	public static bool CanTransitionToFirstPerson(GrimoraGameFlowManager __instance, ref bool __result)
+	{
+		bool inputTypeisWasd = ConfigHelper.Instance.InputType == 0 && Input.GetKeyDown(KeyCode.S);
+		bool inputTypeIsArrowKeys = ConfigHelper.Instance.InputType == 1 && Input.GetKeyDown(KeyCode.DownArrow);
+		if ((inputTypeisWasd || inputTypeIsArrowKeys)
+		 && __instance.CurrentGameState == GameState.Map
+		 && !__instance.Transitioning
+		 && ProgressionData.LearnedMechanic(MechanicsConcept.FirstPersonNavigation)
+		 && GameMap.Instance
+		)
+		{
+			__result = GameMap.Instance.FullyUnrolled;
+		}
+		else
+		{
+			__result = false;
+		}
+
+		return false;
+	}
+
 	[HarmonyPrefix, HarmonyPatch(nameof(GrimoraGameFlowManager.SceneSpecificInitialization))]
 	public static bool PrefixAddMultipleSequencersDuringLoad(ref GrimoraGameFlowManager __instance)
 	{
 		// bool skipIntro = GrimoraPlugin.ConfigHasPlayedRevealSequence.Value;
 		bool setLightsActive = true;
 
-		if (FinaleDeletionWindowManager.instance.IsNotNull())
+		if (FinaleDeletionWindowManager.instance)
 		{
-			Object.Destroy(FinaleDeletionWindowManager.instance.gameObject);
+			UnityObject.Destroy(FinaleDeletionWindowManager.instance.gameObject);
 		}
 
 		ViewManager.Instance.SwitchToView(View.Default, true);
@@ -26,7 +48,7 @@ public class GrimoraGameFlowManagerPatches
 		{
 			Log.LogDebug($"[SceneSpecificInitialization] GrimoraReachedTable is true.");
 			AudioController.Instance.SetLoopAndPlay("finalegrimora_ambience");
-			if (GameMap.Instance.IsNotNull())
+			if (GameMap.Instance)
 			{
 				// this is so that it looks a little cleaner when entering for the first time
 				ChessboardMap.Instance.gameObject.transform.GetChild(0).gameObject.SetActive(false);
@@ -39,7 +61,7 @@ public class GrimoraGameFlowManagerPatches
 		{
 			Log.LogDebug($"[SceneSpecificInitialization] GrimoraReachedTable is false");
 
-			if (GameMap.Instance.IsNotNull())
+			if (GameMap.Instance)
 			{
 				GameMap.Instance.HideMapImmediate();
 			}
@@ -65,7 +87,7 @@ public class GrimoraGameFlowManagerPatches
 	private static void PlayTombstonesFalling()
 	{
 		CryptEpitaphSlotInteractable cryptEpitaphSlotInteractable =
-			Object.FindObjectOfType<CryptEpitaphSlotInteractable>();
+			UnityObject.FindObjectOfType<CryptEpitaphSlotInteractable>();
 
 		if (cryptEpitaphSlotInteractable && cryptEpitaphSlotInteractable.isActiveAndEnabled)
 		{

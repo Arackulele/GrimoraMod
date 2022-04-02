@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameDeathKnell = $"{GUID}_DeathKnell";
 
-	private void Add_DeathKnell()
+	private void Add_Card_DeathKnell()
 	{
 		CardBuilder.Builder
 			.SetAsRareCard()

@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameFamily = $"{GUID}_Family";
 
-	private void Add_Family()
+	private void Add_Card_Family()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()

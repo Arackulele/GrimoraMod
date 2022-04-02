@@ -4,7 +4,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameScreamingSkull = $"{GUID}_ScreamingSkull";
 
-	private void Add_ScreamingSkull()
+	private void Add_Card_ScreamingSkull()
 	{
 		CardBuilder.Builder
 			.SetAsRareCard()

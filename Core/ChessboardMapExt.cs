@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using HarmonyLib;
 using Sirenix.Utilities;
 using Unity.Cloud.UserReporting.Plugin.SimpleJson;
 using UnityEngine;
@@ -13,10 +14,11 @@ public class ChessboardMapExt : GameMap
 
 	[SerializeField] internal List<ChessboardPiece> pieces;
 
+	public bool StartAtTwinGiants;
+
+	public bool StartAtBonelord;
+
 	private bool _toggleCardsLeftInDeck = false;
-	private bool _btnDeckView = false;
-	private bool _btnGetUp = false;
-	private bool _btnReset = false;
 
 	public bool HasNotPlayedDialogueOnce =>
 		ConfigHelper.Instance.HammerDialogueOption == 1 && hasNotPlayedAllHammerDialogue < 3;
@@ -95,76 +97,27 @@ public class ChessboardMapExt : GameMap
 
 	private void OnGUI()
 	{
-		if (GrimoraGameFlowManager.Instance.CurrentGameState != GameState.FirstPerson3D)
+		if (ConfigHelper.Instance.isDevModeEnabled)
 		{
-			if (GrimoraGameFlowManager.Instance.CurrentGameState != GameState.CardBattle)
-			{
-				_btnDeckView = GUI.Button(
-					new Rect(0, 0, 100, 50),
-					"Deck View"
-				);
-
-				_btnGetUp = GUI.Button(
-					new Rect(100, 0, 100, 50),
-					"Get Up"
-				);
-
-				if (ViewManager.Instance.Controller.LockState == ViewLockState.Unlocked)
-				{
-					if (_btnDeckView)
-					{
-						switch (ViewManager.Instance.CurrentView)
-						{
-							case View.MapDeckReview:
-								ViewManager.Instance.SwitchToView(
-									SpecialNodeHandler.Instance.cardChoiceSequencer.transform.childCount > 1
-										? View.Choices
-										: View.MapDefault
-								);
-
-								break;
-							case View.Choices:
-							case View.MapDefault:
-								ViewManager.Instance.SwitchToView(View.MapDeckReview);
-								break;
-						}
-					}
-					else if (GrimoraGameFlowManager.Instance.CurrentGameState == GameState.Map && _btnGetUp)
-					{
-						Log.LogDebug($"Transitioning to first person");
-						GrimoraGameFlowManager.Instance.TransitionToFirstPerson();
-					}
-				}
-			}
-		}
-		else
-		{
-			_btnDeckView = false;
-			_btnGetUp = false;
-		}
-
-		if (PauseMenu.instance.menuParent.activeInHierarchy)
-		{
-			_btnReset = GUI.Button(
-				new Rect(200, 0, 100, 50),
-				"Reset Run"
+			StartAtTwinGiants = GUI.Toggle(
+				new Rect(Screen.width - 200, 180, 200, 20),
+				StartAtTwinGiants, 
+				"Start at Twin Giants"
 			);
 
-			if (_btnReset)
-			{
-				ConfigHelper.Instance.ResetRun();
-			}
+			StartAtBonelord = GUI.Toggle(
+				new Rect(Screen.width - 200, 200, 200, 20),
+				StartAtBonelord, 
+				"Start at Bonelord"
+			);
 		}
-
 
 		if (GrimoraGameFlowManager.Instance.CurrentGameState == GameState.CardBattle)
 		{
 			_toggleCardsLeftInDeck = GUI.Toggle(
 				new Rect(
 					20,
-					(ConfigHelper.Instance.isDevModeEnabled
-						? 360
-						: 60),
+					(ConfigHelper.Instance.isDevModeEnabled ? 360 : 60),
 					150,
 					15
 				),
@@ -236,6 +189,8 @@ public class ChessboardMapExt : GameMap
 
 	public override IEnumerator UnrollingSequence(float unrollSpeed)
 	{
+		StoryEventsData.SetEventCompleted(StoryEvent.GrimoraReachedTable, true);
+
 		TableRuleBook.Instance.SetOnBoard(false);
 
 		pieces.ForEach(delegate(ChessboardPiece x) { x.gameObject.SetActive(false); });
@@ -273,7 +228,7 @@ public class ChessboardMapExt : GameMap
 			);
 		}
 
-		StoryEventsData.SetEventCompleted(StoryEvent.GrimoraReachedTable);
+		ChangeStartDeckIfNotAlreadyChanged();
 
 		SaveManager.SaveToFile();
 	}
@@ -370,7 +325,7 @@ public class ChessboardMapExt : GameMap
 			case View.Choices when newView == View.MapDeckReview:
 			case View.MapDefault when newView == View.MapDeckReview:
 			{
-				if (MapNodeManager.Instance.IsNotNull())
+				if (MapNodeManager.Instance)
 				{
 					MapNodeManager.Instance.SetAllNodesInteractable(false);
 				}
@@ -382,7 +337,7 @@ public class ChessboardMapExt : GameMap
 			case View.MapDeckReview when newView == View.MapDefault:
 			{
 				DeckReviewSequencer.Instance.SetDeckReviewShown(false, transform, DefaultPosition);
-				if (MapNodeManager.Instance.IsNotNull())
+				if (MapNodeManager.Instance)
 				{
 					ChessboardNavGrid.instance.SetPlayerAdjacentNodesActive();
 				}
@@ -461,6 +416,35 @@ public class ChessboardMapExt : GameMap
 			piece.MapNode.OccupyingPiece = null;
 			piece.gameObject.SetActive(false);
 			Destroy(piece.gameObject);
+		}
+	}
+
+	private static void ChangeStartDeckIfNotAlreadyChanged()
+	{
+		if (GrimoraSaveUtil.DeckInfo.cardIds.IsNullOrEmpty())
+		{
+			Log.LogWarning($"Re-initializing player deck as there are no cardIds! This means the deck was never loaded correctly.");
+			GrimoraSaveData.Data.Initialize();
+		}
+		else
+		{
+			try
+			{
+				List<CardInfo> grimoraDeck = GrimoraSaveUtil.DeckList;
+
+				int graveDiggerCount = grimoraDeck.Count(info => info.name == "Gravedigger");
+				int frankNSteinCount = grimoraDeck.Count(info => info.name == "FrankNStein");
+				if (grimoraDeck.Count == 5 && graveDiggerCount == 3 && frankNSteinCount == 2)
+				{
+					Log.LogWarning($"[ChangeStartDeckIfNotAlreadyChanged] Starter deck needs reset");
+					GrimoraSaveData.Data.Initialize();
+				}
+			}
+			catch (Exception e)
+			{
+				Log.LogWarning($"[ChangingDeck] Had trouble retrieving deck list! Resetting deck. Current card Ids: [{GrimoraSaveUtil.DeckInfo.cardIds.Join()}]");
+				GrimoraSaveData.Data.Initialize();
+			}
 		}
 	}
 }

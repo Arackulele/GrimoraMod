@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NamePlagueDoctor = $"{GUID}_PlagueDoctor";
 
-	private void Add_PlagueDoctor()
+	private void Add_Card_PlagueDoctor()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()

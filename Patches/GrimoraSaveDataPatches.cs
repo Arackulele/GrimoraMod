@@ -11,15 +11,15 @@ public class GrimoraSaveDataPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(GrimoraSaveData.Initialize))]
 	public static bool PrefixChangeSetupOfGrimoraSaveData(ref GrimoraSaveData __instance)
 	{
-		__instance.gridX = 0;
-		__instance.gridY = 7;
+		__instance.gridX = -1;
+		__instance.gridY = -1;
 		__instance.removedPieces = new List<int>();
 		__instance.deck = new DeckInfo();
 		__instance.deck.Cards.Clear();
 
 		if (CardManager.AllCardsCopy.Any(info => info.name.StartsWith($"{GUID}_")))
 		{
-			Log.LogDebug($"[GrimoraSaveData.Initialize] All data.IsNotNull()");
+			Log.LogDebug($"[GrimoraSaveData.Initialize] All data");
 			List<CardInfo> defaultCardInfos = new()
 			{
 				NameBonepile.GetCardInfo(),

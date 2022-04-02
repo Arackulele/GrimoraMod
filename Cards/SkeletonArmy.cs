@@ -5,7 +5,7 @@ public partial class GrimoraPlugin
 	public const string NameSkeleton = "Skeleton";
 	public const string NameSkeletonArmy = $"{GUID}_SkeletonArmy";
 
-	private void Add_SkeletonArmy()
+	private void Add_Card_SkeletonArmy()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()

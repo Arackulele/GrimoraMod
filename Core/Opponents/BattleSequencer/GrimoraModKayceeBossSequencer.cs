@@ -19,6 +19,8 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 	private bool _playedDialogueHookLineAndSinker = false;
 
 	private bool _playedDialoguePossessive = false;
+	
+	private bool _playedDialogueStinky = false;
 
 	public override Opponent.Type BossType => KayceeBossOpponent.FullOpponent.Id;
 
@@ -32,7 +34,7 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
 		var playerCardsWithAttacks
-			= BoardManager.Instance.GetPlayerCards(pCard => pCard.Attack > 0 && !pCard.FaceDown);
+			= BoardManager.Instance.GetPlayerCards(pCard => pCard.Attack > 0 && !pCard.FaceDown && !pCard.HasAbility(Ability.IceCube));
 
 		_freezeCounter += playerCardsWithAttacks.Count;
 		Log.LogWarning($"[Kaycee] Freeze counter [{_freezeCounter}]");
@@ -50,8 +52,6 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 				);
 				foreach (var playableCard in playerCardsWithAttacks)
 				{
-					playableCard.Info.iceCubeParams = new IceCubeParams { creatureWithin = playableCard.Info };
-
 					yield return CheckCardForAbilitiesThatBreakWhileBeingFrozen(playableCard);
 
 					playableCard.Anim.PlayTransformAnimation();
@@ -62,8 +62,7 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 			}
 		}
 
-		var draugrCards
-			= BoardManager.Instance.GetOpponentCards(pCard => pCard.InfoName().Equals(NameDraugr));
+		var draugrCards = BoardManager.Instance.GetOpponentCards(pCard => pCard.InfoName().Equals(NameDraugr));
 		Log.LogDebug($"[KayceeSequencer] Draugr cards found [{draugrCards.GetDelimitedString()}]");
 		if (draugrCards.Count >= 2)
 		{
@@ -115,6 +114,16 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 				_playedDialogueHookLineAndSinker = true;
 			}
 		}
+		else if (playableCard.HasAbility(Ability.DebuffEnemy))
+		{
+			if (!_playedDialogueStinky)
+			{
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					$"{playableCard.Info.displayedName.Blue()} FINALLY! TO GET RID OF THAT FOUL SMELL!"
+				);
+				_playedDialogueStinky = true;
+			}
+		}
 		else
 		{
 			playableCard.AddTemporaryMod(modInfo);
@@ -124,18 +133,20 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 		playableCard.RemoveAbilityFromThisCard(modInfo);
 	}
 
-	private CardModificationInfo CreateModForFreeze(PlayableCard playableCard)
+	public static CardModificationInfo CreateModForFreeze(PlayableCard playableCard)
 	{
-		int attack = playableCard.Attack == 0
-			? 0
-			: -playableCard.Attack;
+		int attack = playableCard.Attack == 0 ? 0 : -playableCard.Attack;
 		var modInfo = new CardModificationInfo
 		{
 			attackAdjustment = attack,
 			healthAdjustment = 1 - playableCard.Health,
-			abilities = new List<Ability> { Ability.IceCube },
-			negateAbilities = new List<Ability> { Ability.Submerge, HookLineAndSinker.ability, Possessive.ability }
+			negateAbilities = new List<Ability> { Ability.DebuffEnemy, Ability.Submerge, HookLineAndSinker.ability, Possessive.ability }
 		};
+		if (!playableCard.HasAbility(Ability.IceCube))
+		{
+			modInfo.abilities = new List<Ability> { Ability.IceCube };
+			playableCard.Info.iceCubeParams = new IceCubeParams { creatureWithin = playableCard.Info };
+		}
 
 		return modInfo;
 	}

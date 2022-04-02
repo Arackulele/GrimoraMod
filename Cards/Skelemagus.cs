@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameSkelemagus = $"{GUID}_Skelemagus";
 
-	private void Add_Skelemagus()
+	private void Add_Card_Skelemagus()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()

@@ -1,10 +1,12 @@
-global using Object = UnityEngine.Object;
+global using UnityObject = UnityEngine.Object;
 using System.Collections;
 using System.Reflection;
 using BepInEx;
 using BepInEx.Logging;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
+using InscryptionAPI.Helpers;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -15,7 +17,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 {
 	public const string GUID = "arackulele.inscryption.grimoramod";
 	public const string Name = "GrimoraMod";
-	private const string Version = "2.8.2";
+	private const string Version = "2.8.3";
 
 	internal static ManualLogSource Log;
 
@@ -25,11 +27,12 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	public static List<Material> AllMats;
 	public static List<RuntimeAnimatorController> AllControllers;
 	public static List<Sprite> AllSprites;
-	public static List<Texture> AllAbilityTextures;
 	public static List<AudioClip> AllSounds;
+	public static List<Texture> AllAbilitiesTextures;
 
 	// Gets populated in CardBuilder.Build()
 	public static List<CardInfo> AllGrimoraModCards = new();
+	public static List<CardInfo> AllPlayableGrimoraModCards = new();
 
 	private void Awake()
 	{
@@ -40,6 +43,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		ConfigHelper.Instance.BindConfig();
 
 		AllSprites = AssetUtils.LoadAssetBundle<Sprite>("grimoramod_sprites");
+		AllAbilitiesTextures = AssetUtils.LoadAssetBundle<Texture>("grimoramod_abilities");
 	}
 
 	// private IEnumerator HotReloadMenuCardAdd()
@@ -66,130 +70,41 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		yield return LoadAssetsAsync();
 
-		LoadAbilities();
-
-		LoadCards();
+		LoadAbilitiesAndCards();
 	}
 
-	private void LoadAbilities()
-	{
-		Log.LogDebug($"Loading abilities");
-
-		ActivatedDrawSkeletonGrimora.Create();
-		ActivatedEnergyDrawWyvern.Create();
-		AlternatingStrike.Create();
-		AreaOfEffectStrike.Create();
-		BoneLordsReign.Create();
-		BuffCrewMates.Create();
-		CreateArmyOfSkeletons.Create();
-		Erratic.Create();
-		FlameStrafe.Create();
-		GiantStrike.Create();
-		GiantStrikeEnraged.Create();
-		GrimoraRandomAbility.Create();
-		Haunter.Create();
-		HookLineAndSinker.Create();
-		InvertedStrike.Create();
-		LitFuse.Create();
-		Possessive.Create();
-		Raider.Create();
-		SeaLegs.Create();
-		SkinCrawler.Create();
-		SpiritBearer.Create();
-
-		#region Special
-
-		CreateRoyalsCrewMate.Create();
-		GainAttackBones.Create();
-		GrimoraGiant.Create();
-		LammergeierAttack.Create();
-
-		#endregion
-	}
-
-	private void LoadCards()
+	private void LoadAbilitiesAndCards()
 	{
 		Log.LogDebug($"Loading cards");
 
-		#region Normal
-
-		Add_Banshee();                  // vanilla
-		Add_BonePrince();               // Cevin2006™ (◕‿◕)#7971
-		Add_Bonehound();                // vanilla
-		Add_Bonelord();                 // Ryan S Art
-		Add_Bonepile();                 // Bt Y#0895
-		Add_BooHag();                   // Bt Y#0895
-		Add_Catacomb();                 // Bt Y#0895
-		Add_Centurion();                // Bt Y#0895
-		Add_CompoundFracture();         // Bt Y#0895
-		Add_CorpseMaggots();            // vanilla
-		Add_Dalgyal();                  // Bt Y#0895
-		Add_DanseMacabre();             // Bt Y#0895
-		Add_DeadHand();                 // Ara?
-		Add_Deadeye();                  // Bt Y#0895
-		Add_Draugr();                   // Bt Y#0895
-		Add_DrownedSoul();              // LavaErrorDoggo#1564
-		Add_ExplodingPirate();          // Lich underling#7678, then Ara
-		Add_Family();                   // Catboy Stinkbug#4099
-		Add_FesteringWretch();          // Bt Y#0895
-		Add_Flames();                   // Ara
-		Add_Franknstein();              // vanilla
-		Add_GhostShip();                // Cevin2006™ (◕‿◕)#7971
-		Add_Giant();                    // Bt Y#0895
-		Add_GraveDigger();              // vanilla
-		Add_HellHound();                // Cevin2006™ (◕‿◕)#7971
-		Add_Hellhand();                 // Bt Y#0895 
-		Add_Manananggal();              // Bt Y#0895
-		Add_Mummy();                    // Bt Y#0895
-		Add_Obol();                     // Bt Y#0895
-		Add_PlagueDoctor();             // Cevin2006™ (◕‿◕)#7971
-		Add_Poltergeist();              // Cevin2006™ (◕‿◕)#7971
-		Add_Project();                  // Bt Y#0895
-		Add_PirateCaptainYellowbeard(); // Bt Y#0895
-		Add_PirateFirstMateSnag();      // Bt Y#0895
-		Add_PiratePrivateer();          // Bt Y#0895
-		Add_PirateSwashbuckler();       // Bt Y#0895
-		Add_Revenant();                 // vanilla
-		Add_Sarcophagus();              // Bt Y#0895
-		Add_Skelemagus();               // Cevin2006™ (◕‿◕)#7971
-		Add_SkeletonArmy();             // LavaErrorDoggo#1564 ?
-		Add_Summoner();                 // Ara
-		Add_TombRobber();               // LavaErrorDoggo#1564
-		Add_Vellum();                   // Bt Y#0895
-		Add_VengefulSpirit();           // Cevin2006™ (◕‿◕)#7971
-		Add_WillOTheWisp();             // Bt Y#0895
-		Add_Zombie();                   // Bt Y#0895
-
-		#endregion
-
-
-		#region Rares
-
-		Add_Amoeba();           // vanilla
-		Add_BonelordsHorn();    // Cevin2006™ (◕‿◕)#7971
-		Add_DeadPets();         // LavaErrorDoggo#1564
-		Add_DeathKnell();       // Bt Y#0895
-		Add_DeathKnellBell();   // Bt Y#0895
-		Add_Dybbuk();           // Bt Y#0895
-		Add_EmberSpirit();      // Cevin2006™ (◕‿◕)#7971
-		Add_GhostShipRoyal();   // Cevin2006™ (◕‿◕)#7971
-		Add_HeadlessHorseman(); // Cevin2006™ (◕‿◕)#7971
-		Add_Hydra();            // Cevin2006™ (◕‿◕)#7971
-		Add_Necromancer();      // Bt Y#0895
-		Add_Ripper();           // Bt Y#0895
-		Add_ScreamingSkull();   // Bt Y#0895
-		Add_Silbon();           // Bt Y#0895
-		Add_SporeDigger();      // LavaErrorDoggo#1564
-		Add_Wyvern();           // Cevin2006™ (◕‿◕)#7971
-
-		#endregion
+		// What this does, is that every method that exists under this partial class, Grimora Plugin,
+		//	will be searched for and of the ones that start with 'Add_', will be invoked all at once after sorting by name.
+		// We sort by name so Abilities come first because abilities have their method name like 'Add_Ability_' while cards have 'Add_Card_'
+		var allAddMethods = AccessTools.GetDeclaredMethods(typeof(GrimoraPlugin))
+		 .Where(mi => mi.Name.StartsWith("Add_"))
+		 .ToList();
+		allAddMethods.Sort((mi, mi2) => string.Compare(mi.Name, mi2.Name, StringComparison.Ordinal));
+		allAddMethods.ForEach(mi => mi.Invoke(this, null));
+		// Log.LogInfo($"Adding [{allAddMethods.Count(mi => mi.Name.Contains("_Card_"))}] cards.");
 
 		AllGrimoraModCards.Sort((info, cardInfo) => string.Compare(info.name, cardInfo.name, StringComparison.Ordinal));
+		AllPlayableGrimoraModCards = AllGrimoraModCards.Where(info => info.metaCategories.Any()).ToList();
+
+		// change just the artwork of Starvation
+		CardInfo card = CardManager.BaseGameCards.CardByName("Starvation");
+		card.portraitTex = AllSprites.Single(sp => sp.name.Equals("Starvation"));
+		card.portraitTex.RegisterEmissionForSprite(AllSprites.Single(sp => sp.name.Equals("Starvation_emission")));
+
+		CardBuilder.Builder
+		 .SetAbilities(Ability.BoneDigger, Ability.SteelTrap, Haunter.ability)
+		 .SetBaseAttackAndHealth(0, 1)
+		 .SetNames($"{GUID}_TrapTest", "Trap Test", "Trap".GetCardInfo().portraitTex)
+		 .Build();
 	}
 
 	private void OnDestroy()
 	{
-		AllAbilityTextures = null;
+		AllAbilitiesTextures = null;
 		AllControllers = null;
 		AllMats = null;
 		AllPrefabs = null;
@@ -197,11 +112,9 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AllSounds = null;
 		AllGrimoraModCards = new List<CardInfo>();
 		ConfigHelper.Instance.HandleHotReloadBefore();
-		SkinCrawler.SlotsThatHaveCrawlersHidingUnderCards = new List<CardSlot>();
 		Resources.UnloadUnusedAssets();
 		GrimoraModBattleSequencer.ActiveEnemyPiece = null;
 		_harmony?.UnpatchSelf();
-		GC.Collect();
 	}
 
 	public static void SpawnParticlesOnCard(PlayableCard target, Texture2D tex, bool reduceY = false)
@@ -242,7 +155,5 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		yield return AssetUtils.LoadAssetBundleAsync<RuntimeAnimatorController>("grimoramod_controller");
 
 		yield return AssetUtils.LoadAssetBundleAsync<Material>("grimoramod_mats");
-
-		yield return AssetUtils.LoadAssetBundleAsync<Texture>("grimoramod_abilities");
 	}
 }

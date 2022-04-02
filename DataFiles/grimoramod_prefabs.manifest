@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3330317359
+CRC: 4030541139
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 80c20bfef6eb41f2cc67903fe4437a70
+    Hash: 3ea65b2ddfd0ddfdd766c217bea34ab3
   TypeTreeHash:
     serializedVersion: 2
-    Hash: bc2f737821ec90d33cfdfb0a7a7aba7b
+    Hash: 182394b89d7174747cf6fb22f6fa4531
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -41,6 +41,8 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 136
   Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
 - Class: 198
   Script: {instanceID: 0}
 - Class: 199
@@ -52,8 +54,11 @@ Assets:
 - Assets/GrimoraMod_Unity/ChessboardPieces/Kaycee/Blocker_Kaycee.prefab
 - Assets/GrimoraMod_Unity/BoneyardBurialGrave.obj
 - Assets/GrimoraMod_Unity/ElectricChairV2.prefab
+- Assets/GrimoraMod_Unity/Animations/CardSkeletonAnim/SkeletonArms_Giants.prefab
+- Assets/GrimoraMod_Unity/Animations/CardSkeletonAnim/SkeletonArm_BoneLordSnap.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/ChessboardPiece_GoatEye.prefab
 - Assets/GrimoraMod_Unity/Models/kaycee/KayceeBossSkull.prefab
+- Assets/GrimoraMod_Unity/Animations/CardSkeletonAnim/SkeletonArmFist.fbx
 - Assets/GrimoraMod_Unity/ChessboardPieces/Sawyer/Blocker_Sawyer.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/ChessboardPiece_CardRemove.prefab
 - Assets/Resources/animation/Prefabs/Hexalantern.prefab
@@ -68,6 +73,11 @@ Assets:
 - Assets/GrimoraMod_Unity/Models/EnergyCells_Left.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/Sawyer/Sawyer_BlockerPiece.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/Royal/Blocker_Royal.prefab
+- Assets/GrimoraMod_Unity/Animations/CardSkeletonAnim/Skeleton2ArmsAttacks.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/ChessboardPiece_Boneyard.prefab
+- Assets/GrimoraMod_Unity/Animations/CardSkeletonAnim/Grimora_Sentry.prefab
 - Assets/GrimoraMod_Unity/Models/BonelordTableEffects.prefab
-Dependencies: []
+- Assets/GrimoraMod_Unity/Animations/CardSkeletonAnim/SkeletonArm_BombFist.prefab
+- Assets/GrimoraMod_Unity/Animations/CardSkeletonAnim/SkeletonArm_SingleSlam.prefab
+Dependencies:
+- C:/DEVELOPER/GrimoraMod/DataFiles/grimoramod_controller

@@ -2,6 +2,7 @@
 using HarmonyLib;
 using InscryptionAPI.Card;
 using Sirenix.Utilities;
+using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -9,6 +10,7 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(RuleBookInfo))]
 public class RulebookInfoPatches
 {
+	[HarmonyAfter(InscryptionAPI.InscryptionAPIPlugin.ModGUID)]
 	[HarmonyPostfix, HarmonyPatch(nameof(RuleBookInfo.ConstructPageData), typeof(AbilityMetaCategory))]
 	public static void PostfixAddRestOfAbilities(
 		AbilityMetaCategory metaCategory,
@@ -30,8 +32,8 @@ public class RulebookInfoPatches
 		allAbilities.AddRange(
 			AbilityManager.AllAbilityInfos
 				// this is needed because Sinkhole and another ability will throw IndexOutOfBounds exceptions
-				.Where(info => info.LocalizedRulebookDescription.IsNotEmpty())
-				.ForEach(
+			 .Where(info => info.LocalizedRulebookDescription.IsNotEmpty())
+			 .ForEach(
 					x =>
 					{
 						if (x.ability == Ability.DoubleDeath)
@@ -40,8 +42,8 @@ public class RulebookInfoPatches
 						}
 					}
 				)
-				.Select(x => (int)x.ability)
-				.ToList()
+			 .Select(x => (int)x.ability)
+			 .ToList()
 		);
 		Log.LogDebug($"AllAbilities count [{allAbilities.Count}]");
 		int min = allAbilities.AsQueryable().Min();
@@ -64,9 +66,9 @@ public class RulebookInfoPatches
 
 		allAbilities.AddRange(
 			StatIconManager.AllStatIconInfos
-				.Where(info => info.IsNotNull() && info.rulebookDescription.IsNotEmpty())
-				.Select(info => (int)info.iconType)
-				.ToList()
+			 .Where(info => info && info.rulebookDescription.IsNotEmpty())
+			 .Select(info => (int)info.iconType)
+			 .ToList()
 		);
 		Log.LogDebug($"SpecialAbilities count [{allAbilities.Join()}]");
 		min = allAbilities.AsQueryable().Min();

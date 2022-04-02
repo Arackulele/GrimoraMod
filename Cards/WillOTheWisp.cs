@@ -1,12 +1,10 @@
-﻿using DiskCardGame;
-
-namespace GrimoraMod;
+﻿namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
 	public const string NameWillOTheWisp = $"{GUID}_WillOTheWisp";
 
-	private void Add_WillOTheWisp()
+	private void Add_Card_WillOTheWisp()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()

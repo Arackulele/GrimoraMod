@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameDeadeye = $"{GUID}_Deadeye";
 
-	private void Add_Deadeye()
+	private void Add_Card_Deadeye()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()

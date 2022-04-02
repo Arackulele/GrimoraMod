@@ -15,15 +15,22 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	public static readonly List<Ability> AbilitiesToChoseRandomly = new()
 	{
+		ActivatedDealDamageGrimora.ability,
 		ActivatedDrawSkeletonGrimora.ability,
 		ActivatedEnergyDrawWyvern.ability,
 		AlternatingStrike.ability,
 		AreaOfEffectStrike.ability,
+		BoneThief.ability,
+		ColdFront.ability,
 		CreateArmyOfSkeletons.ability,
 		Erratic.ability,
 		GrimoraRandomAbility.ability,
+		Fylgja_GuardDog.ability,
+		Imbued.ability,
 		InvertedStrike.ability,
+		MarchingDead.ability,
 		Possessive.ability,
+		Puppeteer.ability,
 		// SkinCrawler.ability,
 		SpiritBearer.ability,
 		Ability.ActivatedDealDamage,
@@ -110,7 +117,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		}
 
 		yield return OutroEnvTeardown();
-		if (GameFlowManager.Instance.IsNotNull())
+		if (GameFlowManager.Instance)
 		{
 			GameFlowManager.Instance.TransitionToGameState(GameState.Map);
 		}
@@ -216,7 +223,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			}
 		}
 
-		if (destroyedCard.IsNotNull())
+		if (destroyedCard)
 		{
 			// "Before you could pull away, one of the survivors leapt upon the [c:bR][v:0][c:]."
 			// "Another jabbed it with a spear."
@@ -250,7 +257,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		}
 	}
 
-	private new void OnSlotSelected(MainInputInteractable slot)
+	private void OnSlotSelected(MainInputInteractable slot)
 	{
 		selectionSlot.SetEnabled(false);
 		selectionSlot.ShowState(HighlightedInteractable.State.NonInteractable);
@@ -263,7 +270,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	{
 		selectionSlot.SetShown(true);
 		selectionSlot.ShowState(HighlightedInteractable.State.Interactable);
-		if (selectionSlot.Card.IsNotNull())
+		if (selectionSlot.Card)
 		{
 			confirmStone.Enter();
 		}
@@ -274,12 +281,13 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	#region ApplyingModToCard
 
-	private new static void ApplyModToCard(CardInfo card)
+	private static void ApplyModToCard(CardInfo card)
 	{
 		CardModificationInfo cardModificationInfo = new CardModificationInfo
 		{
 			abilities = new List<Ability> { GetRandomAbility(card) },
-			singletonId = "GrimoraMod_ElectricChaired"
+			singletonId = "GrimoraMod_ElectricChaired",
+			nameReplacement = card.displayedName.Replace("Yellowbeard", "Bluebeard")
 		};
 		GrimoraSaveUtil.DeckInfo.ModifyCard(card, cardModificationInfo);
 	}
@@ -334,11 +342,12 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	#endregion
 
 
-	private new static List<CardInfo> GetValidCards()
+	private static List<CardInfo> GetValidCards()
 	{
 		List<CardInfo> deckCopy = GrimoraSaveUtil.DeckListCopy;
 		deckCopy.RemoveAll(
 			card => card.Abilities.Count == 4
+			        || card.HasAbility(SkinCrawler.ability)
 			        || card.SpecialAbilities.Contains(SpecialTriggeredAbility.RandomCard)
 			        || card.traits.Contains(Trait.Pelt)
 			        || card.traits.Contains(Trait.Terrain)
@@ -378,7 +387,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 				selectCardFromDeckSlot.CursorSelectStarted,
 				new Action<MainInputInteractable>(OnSlotSelected)
 			);
-		if (UnityEngine.Random.value < 0.25f && VideoCameraRig.Instance.IsNotNull())
+		if (UnityEngine.Random.value < 0.25f && VideoCameraRig.Instance)
 		{
 			VideoCameraRig.Instance.PlayCameraAnim("refocus_quick");
 		}

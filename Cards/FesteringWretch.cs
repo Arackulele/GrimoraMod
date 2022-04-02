@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameFesteringWretch = $"{GUID}_FesteringWretch";
 
-	private void Add_FesteringWretch()
+	private void Add_Card_FesteringWretch()
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()

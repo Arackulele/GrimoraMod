@@ -74,8 +74,16 @@ public class ConfigHelper
 	private ConfigEntry<bool> _configHotReloadEnabled;
 
 	public bool isHotReloadEnabled => _configHotReloadEnabled.Value;
+	
+	private ConfigEntry<bool> _configRandomizedBlueprintsEnabled;
+
+	public bool isRandomizedBlueprintsEnabled => _configRandomizedBlueprintsEnabled.Value;
 
 	private ConfigEntry<string> _configCurrentRemovedPieces;
+	
+	private ConfigEntry<int> _configInputConfig;
+
+	public int InputType => _configInputConfig.Value;
 
 	public List<string> RemovedPieces
 	{
@@ -143,6 +151,21 @@ public class ConfigHelper
 				+ "\n2 = Play each battle. Will play each dialogue after you use the hammer, for each battle."
 			)
 		);
+		
+		_configRandomizedBlueprintsEnabled = GrimoraConfigFile.Bind(
+			Name,
+			"Enable Randomized Encounters",
+			false,
+			new ConfigDescription("If enabled, every single enemy encounter, minus the bosses, are completely randomized.")
+		);
+
+		_configInputConfig = GrimoraConfigFile.Bind(
+			Name,
+			"Input Movement Type",
+			0,
+			"0 = W for viewing deck, S for getting up from the table."
+			+ "\n1 = Up arrow for viewing deck, down arrow for getting up from the table."
+		);
 
 		var list = _configCurrentRemovedPieces.Value.Split(',').ToList();
 
@@ -170,7 +193,7 @@ public class ConfigHelper
 		{
 			CardManager.AllCardsCopy.RemoveAll(info => info.name.StartsWith($"{GUID}_"));
 			int removedCardLoader = CardLoader.allData.RemoveAll(info => info.name.StartsWith($"{GUID}_"));
-			Log.LogDebug($"All data.IsNotNull(). Removed [{removedCardLoader}] CardLoader");
+			Log.LogDebug($"All data. Removed [{removedCardLoader}] CardLoader");
 		}
 
 		if (AbilitiesUtil.allData.IsNotEmpty())
@@ -180,7 +203,7 @@ public class ConfigHelper
 				info => AbilityManager.AllAbilities.Exists(na => na.Info.rulebookName == info.rulebookName)
 			);
 			AbilityManager.AllAbilities.Clear();
-			Log.LogDebug($"All data.IsNotNull() Removed [{removed}] AbilitiesUtil");
+			Log.LogDebug($"All data Removed [{removed}] AbilitiesUtil");
 		}
 	}
 
@@ -191,9 +214,6 @@ public class ConfigHelper
 		ResetConfig();
 		ResetDeck();
 		StoryEventsData.EraseEvent(StoryEvent.GrimoraReachedTable);
-		SaveManager.SaveToFile();
-
-		LoadingScreenManager.LoadScene("finale_grimora");
 	}
 
 	public static void ResetDeck()
@@ -208,7 +228,7 @@ public class ConfigHelper
 		_configBossesDefeated.Value = 0;
 		_configCurrentChessboardIndex.Value = 0;
 		ResetRemovedPieces();
-		if (ChessboardMapExt.Instance.IsNotNull())
+		if (ChessboardMapExt.Instance)
 		{
 			Log.LogWarning($"Resetting active chessboard");
 			ChessboardMapExt.Instance.ActiveChessboard = null;
@@ -239,10 +259,10 @@ public class ConfigHelper
 			catch (Exception e)
 			{
 				Log.LogError(
-					$"Failed to unlock all necessary mechanics with [ProgressionData.UnlockAll]. "
-					+ $"There's something wrong with your save file or your computer reading data/files. "
-					+ $"This should not throw an exception and I have no idea how to fix this for you."
-					+ $"If the combat bell doesn't show up, restart your game."
+					"Failed to unlock all necessary mechanics with [ProgressionData.UnlockAll]. "
+					+ "There's something wrong with your save file or your computer reading data/files. "
+					+ "This should not throw an exception and I have no idea how to fix this for you."
+					+ "If the combat bell doesn't show up, restart your game."
 				);
 			}
 

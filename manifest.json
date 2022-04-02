@@ -1,9 +1,9 @@
 {
 	"name": "GrimoraMod",
-	"version_number": "2.8.2",
+	"version_number": "2.8.3",
 	"website_url": "https://github.com/Arackulele/GrimoraMod",
 	"description": "KAYCEE'S MOD SUPPORT! Probably the biggest and most ambitious mod. Gives Grimora a full act!",
 	"dependencies": [
-		"API_dev-API-2.0.1"
+		"API_dev-API-2.1.0"
 	]
 }

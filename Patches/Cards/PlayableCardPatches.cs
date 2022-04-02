@@ -1,4 +1,6 @@
-﻿using DiskCardGame;
+﻿using System.Collections;
+using System.Runtime.CompilerServices;
+using DiskCardGame;
 using HarmonyLib;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -7,105 +9,37 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(PlayableCard))]
 public class PlayableCardPatches
 {
-	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.GetOpposingSlots))]
-	public static void AreaOfEffectStrikeGetOpposingSlotsPatch(PlayableCard __instance, ref List<CardSlot> __result)
+	[HarmonyPrefix, HarmonyPatch(nameof(PlayableCard.ManagedUpdate))]
+	private static bool StopManagedUpdate() { return false; }
+	
+	[HarmonyReversePatch, HarmonyPatch(nameof(PlayableCard.ManagedUpdate))]
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	private static void OriginalManagedUpdate(PlayableCard instance) { throw new NotImplementedException(); }
+
+	public static void UpdateAllCards()
 	{
-		bool hasRaider = __instance.HasAbility(Raider.ability);
-		bool hasAOEStrike = __instance.HasAbility(AreaOfEffectStrike.ability);
-		bool hasInvertedStrike = __instance.HasAbility(InvertedStrike.ability);
-		bool hasAlternatingStrike = __instance.HasAbility(AlternatingStrike.ability);
-
-		if (hasAOEStrike || hasRaider)
+		var cardsInHandAndBoard = BoardManager.Instance.CardsOnBoard.Concat(PlayerHand.Instance.CardsInHand).ToList();
+		// Log.LogDebug($"Updating all cards: [{cardsInHandAndBoard.Join(pCard => $"\nCard [{pCard.Info.displayedName}] on board? [{pCard.OnBoard}] In hand? [{pCard.InHand}]")}]");
+		foreach (PlayableCard c in cardsInHandAndBoard)
 		{
-			var toLeftSlot = BoardManager.Instance.GetAdjacent(__instance.Slot, true);
-			var toRightSlot = BoardManager.Instance.GetAdjacent(__instance.Slot, false);
-
-			if (hasRaider)
+			OriginalManagedUpdate(c);
+			if (c.OnBoard && c.GetComponent<VariableStatBehaviour>())
 			{
-				// by default result will have at least 1 slot, which is the opposing slot
-				__result.Clear();
+				c.GetComponent<VariableStatBehaviour>().UpdateStats();
 			}
-
-			// insert at beginning
-			if (toLeftSlot.IsNotNull())
-			{
-				if (!hasRaider || toLeftSlot.Card.IsNull() || !toLeftSlot.Card.HasAbility(Raider.ability))
-				{
-					__result.Insert(0, toLeftSlot);
-				}
-			}
-
-			// insert at end
-			if (toRightSlot.IsNotNull())
-			{
-				if (!hasRaider || toRightSlot.Card.IsNull() || !toRightSlot.Card.HasAbility(Raider.ability))
-				{
-					__result.Insert(__result.Count, toRightSlot);
-				}
-			}
-
-
-			if (hasInvertedStrike)
-			{
-				// this will make it so that instead of attacking the slots in a clockwise manner, left to right,
-				// it will now be right to left, counter-clockwise
-				__result.Reverse();
-			}
-
-			if (hasAlternatingStrike && hasAOEStrike)
-			{
-				List<CardSlot> alternatedResult = new List<CardSlot>()
-				{
-					__result[4], // right adj
-					__result[0], // left adj
-					__result[3], // right opposing
-					__result[1], // left opposing
-					__result[2], // center
-				};
-
-				__result = alternatedResult;
-			}
-		}
-		else if (hasInvertedStrike)
-		{
-			List<CardSlot> slotsToCheck = __instance.OpponentCard
-				? BoardManager.Instance.PlayerSlotsCopy
-				: BoardManager.Instance.OpponentSlotsCopy;
-
-			int slotIndex = __instance.Slot.Index;
-			// 3 - 0 (card slot) == 3 (opposing slot)
-			// 3 - 1 (card slot) == 2 (opposing slot)
-			// 3 - 2 (card slot) == 1 (opposing slot)
-			// 3 - 3 (card slot) == 0 (opposing slot)
-			// if for whatever reason we increase the number of card slots in the mod, don't hardcode to 3
-			int slotToAttack = (BoardManager.Instance.playerSlots.Count - 1) - slotIndex;
-
-			__result = new List<CardSlot>() { slotsToCheck[slotToAttack] };
-		}
-		else if (hasAlternatingStrike)
-		{
-			__result.Clear();
-			bool isAttackingLeft = __instance.GetComponent<AlternatingStrike>().isAttackingLeft;
-			CardSlot slotToAttack = BoardManager.Instance.GetAdjacent(__instance.Slot.opposingSlot, isAttackingLeft);
-			if (slotToAttack.IsNull())
-			{
-				// if in far left slot, adj slot left will be null
-				// if in far left slot and attacked right last, need to keep attack to the right slot
-				slotToAttack = BoardManager.Instance.GetAdjacent(__instance.Slot.opposingSlot, !isAttackingLeft);
-			}
-
-			__result.Add(slotToAttack);
-			// Log.LogDebug($"[AlternatingStrike.Patch] Attacking slot [{slotToAttack.Index}]");
 		}
 	}
 
-	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.HasTriStrike))]
-	public static void AreaOfEffectHasTriStrikePatches(PlayableCard __instance, ref bool __result)
+	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.Die))]
+	public static IEnumerator ExtendDieMethod(
+		IEnumerator enumerator,
+		PlayableCard __instance,
+		bool wasSacrifice,
+		PlayableCard killer = null,
+		bool playSound = true
+	)
 	{
-		if (__instance.HasAbility(AreaOfEffectStrike.ability))
-		{
-			__result = true;
-		}
+		yield return __instance.DieCustom(wasSacrifice, killer, playSound);
 	}
 
 	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.GetOpposingSlots))]
@@ -114,93 +48,55 @@ public class PlayableCardPatches
 		if (__instance.Slot.opposingSlot.CardIsNotNullAndHasAbility(Possessive.ability))
 		{
 			var adjSlots = BoardManager.Instance
-				.GetAdjacentSlots(__instance.Slot)
-				.Where(_ => _.Card.IsNotNull())
-				.ToList();
+			 .GetAdjacentSlots(__instance.Slot)
+			 .Where(_ => _.Card)
+			 .ToList();
 
 			__result = new List<CardSlot>();
 			if (adjSlots.IsNotEmpty())
 			{
-				CardSlot slotToTarget = adjSlots[UnityEngine.Random.RandomRangeInt(0, adjSlots.Count)];
+				CardSlot slotToTarget = adjSlots[UnityEngine.Random.Range(0, adjSlots.Count)];
 				// Log.LogDebug($"[OpposingPatches.Possessive] Slot targeted for attack [{slotToTarget.Index}]");
 				__result.Add(slotToTarget);
 			}
 		}
 	}
 
-
-	private static List<CardSlot> GetTwinGiantOpposingSlots(PlayableCard giant)
+	[HarmonyPrefix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetPassiveAttackBuffs))]
+	public static bool CorrectBuffsAndDebuffsForGrimoraGiants(PlayableCard __instance, ref int __result)
 	{
-		return BoardManager.Instance.PlayerSlotsCopy
-			.Where(slot => slot.opposingSlot.Card == giant)
-			.ToList();
-	}
-
-	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.GetOpposingSlots))]
-	public static void GrimoraGiantAttackSlotsPatch(PlayableCard __instance, ref List<CardSlot> __result)
-	{
-		if (__instance.HasAbility(GiantStrike.ability))
+		bool isGrimoraGiant = __instance.Info.HasTrait(Trait.Giant) && __instance.HasSpecialAbility(GrimoraGiant.FullSpecial.Id);
+		if (__instance.OnBoard && isGrimoraGiant)
 		{
-			__result = new List<CardSlot>();
-			List<CardSlot> slotsToTarget = GetTwinGiantOpposingSlots(__instance);
-			if (slotsToTarget.Exists(slot => slot.Card.IsNotNull()))
+			int finalAttackNum = 0;
+			List<CardSlot> opposingSlots = BoardManager.Instance.GetSlots(__instance.OpponentCard).Where(slot => slot.Card).ToList();
+			foreach (var opposingSlot in opposingSlots)
 			{
-				List<CardSlot> slotsWithCards = slotsToTarget
-					.Where(slot => slot.Card.IsNotNull())
-					.ToList();
-				if (slotsWithCards.Count == 1)
+				if (opposingSlot.Card.HasAbility(Ability.BuffEnemy))
 				{
-					__result.Add(slotsWithCards[0]);
-					// single card has health greater than current attack, then attack twice 
-					if (slotsWithCards[0].Card.Health > __instance.Attack)
-					{
-						__result.Add(slotsWithCards[0]);
-					}
+					finalAttackNum++;
 				}
-				else
+
+				if (!__instance.HasAbility(Ability.MadeOfStone) && opposingSlot.Card.HasAbility(Ability.DebuffEnemy))
 				{
-					__result.AddRange(slotsWithCards);
+					finalAttackNum--;
 				}
 			}
-			else
+
+			List<CardSlot> slotsWithGiants = BoardManager.Instance.GetSlots(!__instance.OpponentCard).Where(slot => slot.Card == __instance).ToList();
+			foreach (var giant in slotsWithGiants)
 			{
-				__result.AddRange(slotsToTarget);
-			}
-
-			Log.LogInfo($"[GiantStrike] Opposing slots is now [{__result.Join(slot => slot.Index.ToString())}]");
-		}
-		else if (__instance.HasAbility(GiantStrikeEnraged.ability))
-		{
-			__result = GetTwinGiantOpposingSlots(__instance);
-
-			Log.LogInfo($"[GiantStrikeEnraged] Opposing slots is now [{string.Join(",", __result.Select(_ => _.Index))}]");
-		}
-	}
-
-	[HarmonyPostfix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetPassiveAttackBuffs))]
-	public static void CorrectDebuffEnemiesLogicForGiants(PlayableCard __instance, ref int __result)
-	{
-		if (__instance.OnBoard && __instance.Info.HasTrait(Trait.Giant) && !__instance.HasAbility(Ability.MadeOfStone))
-		{
-			List<CardSlot> slotsToTarget = BoardManager.Instance.GetSlots(__instance.OpponentCard);
-
-			foreach (var slot in slotsToTarget.Where(slot => slot.Card.IsNotNull()))
-			{
-				// if(!hasPrinted)
-				// 	Log.LogDebug($"[Giant PlayableCard Patch] Slot [{__instance.Slot.Index}] for stinky");
-
-				if (slot.Card.HasAbility(Ability.DebuffEnemy) && slot.opposingSlot.Card != __instance)
+				List<CardSlot> adjSlotsWithCards = BoardManager.Instance.GetAdjacentSlots(giant).Where(slot => slot && slot.Card && slot.Card != __instance).ToList();
+				if (adjSlotsWithCards.Exists(slot => slot.Card.HasAbility(Ability.BuffNeighbours)))
 				{
-					// __result is -1 right now
-					// G1 IS FIRST GIANT, G2 IS SECOND GIANT
-					// D IS THE CARD WITH STINKY
-					// G1 G1 G2 G2
-					//  x  x  D  X
-
-					// G1 SHOULD HAVE THE -1 REVERSED, BUT G2 SHOULD STILL HAVE -1 APPLIED TO ATTACK
-					__result += 1;
+					finalAttackNum++;
 				}
 			}
+
+			__result = finalAttackNum;
+			return false;
 		}
+
+		return true;
 	}
 }

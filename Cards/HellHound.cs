@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameHellHound = $"{GUID}_HellHound";
 
-	private void Add_HellHound()
+	private void Add_Card_HellHound()
 	{
 		CardBuilder.Builder
 			.SetAbilities(Ability.WhackAMole, Ability.Reach)

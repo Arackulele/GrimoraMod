@@ -29,7 +29,7 @@ public static class AssetUtils
 		var bundle = bundleLoadRequest.assetBundle;
 		var allAssetsRequest = bundle.LoadAllAssetsAsync<T>();
 		yield return allAssetsRequest;
-		// GrimoraPlugin.Log.LogDebug($"Bundle [{assetBundle}] - {string.Join(",", loadedBundle.Select(_ => _.name))}");
+		// Log.LogDebug($"Bundle [{bundle}] - {bundle.GetAllAssetNames().Join()}");
 		if (type == typeof(AudioClip))
 		{
 			AllSounds = allAssetsRequest.allAssets.Cast<AudioClip>().ToList();
@@ -52,7 +52,7 @@ public static class AssetUtils
 		}
 		else if (type == typeof(Texture))
 		{
-			AllAbilityTextures = allAssetsRequest.allAssets.Cast<Texture>().ToList();
+			AllAbilitiesTextures = allAssetsRequest.allAssets.Cast<Texture>().ToList();
 		}
 
 		bundle.Unload(false);
@@ -94,15 +94,15 @@ public static class AssetUtils
 			}
 			else if (type == typeof(Texture))
 			{
-				objToReturn = AllAbilityTextures.Single(go => NameMatchesAsset(go, prefabName)) as T;
+				objToReturn = AllAbilitiesTextures.Single(go => NameMatchesAsset(go, prefabName)) as T;
 			}
 		}
 		catch (Exception e)
 		{
 			Log.LogError(
 				$"Unable to find prefab [{prefabName}]! This could mean the asset bundle doesn't contain it, or, most likely, your mod manager didn't correctly update the asset bundle files."
-				+ $"If it worked last update, delete your files and download the mod files again. "
-				+ $"There's a weird issue with how mod managers handle asset bundle between mod updates."
+			+ "If it worked last update, delete your files and download the mod files again. "
+			+ "There's a weird issue with how mod managers handle asset bundle between mod updates."
 			);
 			throw;
 		}

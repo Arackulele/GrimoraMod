@@ -83,7 +83,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			GlitchOutAssetEffect.GlitchModel(TableVisualEffectsManager.Instance.Table.transform);
 			yield return new WaitForSeconds(0.5f);
 
-			if (FindObjectOfType<StinkbugInteractable>().IsNotNull())
+			if (FindObjectOfType<StinkbugInteractable>())
 			{
 				FindObjectOfType<StinkbugInteractable>().OnCursorSelectStart();
 			}
@@ -108,7 +108,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			ViewManager.Instance.OffsetFOV(150f, 1.5f);
 
 			yield return new WaitForSeconds(1f);
-			ConfigHelper.Instance.ResetRun();
+			yield return MenuController.Instance.TransitionToGame2(true);
 		}
 	}
 
@@ -143,11 +143,11 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		var cardsToAdd = new List<CardInfo>();
 		var gravedigger = GrimoraSaveUtil.DeckList.Find(info => info.name.Equals(NameGravedigger));
 		var bonepile = GrimoraSaveUtil.DeckList.Find(info => info.name.Equals(NameBonepile));
-		if (bonepile.IsNotNull())
+		if (bonepile)
 		{
 			cardsToAdd.Add(bonepile);
 		}
-		else if (gravedigger.IsNotNull())
+		else if (gravedigger)
 		{
 			cardsToAdd.Add(gravedigger);
 		}
@@ -163,7 +163,8 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			// Log.LogDebug($"[GrimoraModBattleSequencer Adding enemy to config [{ActiveEnemyPiece.name}]");
 			ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
 			_cardsThatHaveDiedThisMatch.Clear();
-			SkinCrawler.SlotsThatHaveCrawlersHidingUnderCards.Clear();
+			ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue = 0;
+			GrimoraItemsManagerExt.Instance.hammerSlot.gameObject.SetActive(true);
 		}
 
 		yield break;

@@ -15,6 +15,21 @@ public class CardBuilder
 	public CardInfo Build()
 	{
 		_cardInfo.temple = CardTemple.Undead;
+		_cardInfo.flipPortraitForStrafe = true;
+
+		if (_cardInfo.name.EndsWith("_tail"))
+		{
+			string cardNameNoGuid = _cardInfo.name.Replace($"{GUID}_", "").Replace("_tail", "");
+			Log.LogDebug($"Setting tail and tailLostPortrait for [{cardNameNoGuid}]");
+			Sprite tailLostSprite = AllSprites.Single(_ => _.name.Equals($"{cardNameNoGuid}_tailless"));
+			tailLostSprite.RegisterEmissionForSprite(AllSprites.Single(_ => _.name.Equals($"{cardNameNoGuid}_emission")));
+			CardInfo owner = AllGrimoraModCards.Single(info => info.name.EndsWith(cardNameNoGuid));
+			owner.tailParams = new TailParams
+			{
+				tail = _cardInfo,
+				tailLostPortrait = tailLostSprite
+			};
+		}
 
 		AllGrimoraModCards.Add(_cardInfo);
 		CardManager.Add(GUID, _cardInfo);
@@ -33,7 +48,7 @@ public class CardBuilder
 
 	internal CardBuilder SetTribes(params Tribe[] tribes)
 	{
-		_cardInfo.tribes = tribes?.ToList();
+		_cardInfo.tribes = tribes.ToList();
 		return this;
 	}
 
@@ -44,13 +59,10 @@ public class CardBuilder
 			cardName = cardName.Replace($"{GUID}_", "");
 			_cardInfo.portraitTex = AssetUtils.GetPrefab<Sprite>(cardName);
 
-			// TODO: refactor when API 2.0 comes out
-			if (AllSprites.Exists(_ => _.name.Equals($"{cardName}_emission")))
+			Sprite emissionSprite = AllSprites.Find(_ => _.name.Equals($"{cardName}_emission"));
+			if (emissionSprite)
 			{
-				AllSprites.Single(_ => _.name.Equals(cardName))
-					.RegisterEmissionForSprite(
-						AllSprites.Single(_ => _.name.Equals($"{cardName}_emission"))
-					);
+				AllSprites.Single(_ => _.name.Equals(cardName)).RegisterEmissionForSprite(emissionSprite);
 			}
 		}
 		else
@@ -60,11 +72,6 @@ public class CardBuilder
 		}
 
 		return this;
-	}
-
-	internal CardBuilder SetPortrait(Sprite sprite)
-	{
-		return SetPortrait(null, sprite);
 	}
 
 	internal CardBuilder SetBoneCost(int bonesCost)
@@ -77,18 +84,6 @@ public class CardBuilder
 	{
 		_cardInfo.energyCost = energyCost;
 		return this;
-		// Texture energyDecal = energyCost switch
-		// {
-		// 	1 => ImageUtils.Energy1,
-		// 	2 => ImageUtils.Energy2,
-		// 	3 => ImageUtils.Energy3,
-		// 	4 => ImageUtils.Energy4,
-		// 	5 => ImageUtils.Energy5,
-		// 	6 => ImageUtils.Energy6,
-		// 	_ => null
-		// };
-		//
-		// return SetDecals(energyDecal);
 	}
 
 	internal CardBuilder SetBaseAttackAndHealth(int baseAttack, int baseHealth)
@@ -142,13 +137,13 @@ public class CardBuilder
 
 	internal CardBuilder SetAbilities(params Ability[] abilities)
 	{
-		_cardInfo.abilities = abilities?.ToList();
+		_cardInfo.abilities = abilities.ToList();
 		return this;
 	}
 
 	internal CardBuilder SetSpecialAbilities(params SpecialTriggeredAbility[] specialTriggeredAbilities)
 	{
-		_cardInfo.specialAbilities = specialTriggeredAbilities?.ToList();
+		_cardInfo.specialAbilities = specialTriggeredAbilities.ToList();
 		return this;
 	}
 

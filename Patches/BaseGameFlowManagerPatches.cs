@@ -10,9 +10,6 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(GameFlowManager))]
 public class BaseGameFlowManagerPatches
 {
-	private const string ErrorMessageFromOldMod =
-		"Due to changing the name prefix from `ara_` to `GrimoraMod_`, your deck needs to be reset. Otherwise exceptions will be thrown.";
-
 	[HarmonyPrefix, HarmonyPatch(nameof(GameFlowManager.Start))]
 	public static void PrefixStart(GameFlowManager __instance)
 	{
@@ -20,25 +17,7 @@ public class BaseGameFlowManagerPatches
 		{
 			return;
 		}
-
-		// since the card names are now prefixed with GrimoraMod_, any cards that have ara_ will throw an exception
-		try
-		{
-			if (GrimoraSaveUtil.DeckListCopy.Exists(info => info.name.StartsWith("ara_")))
-			{
-				Log.LogWarning($"Card with ara_ exists in DeckList");
-				Log.LogWarning(ErrorMessageFromOldMod);
-				ConfigHelper.ResetDeck();
-			}
-		}
-		catch (Exception e)
-		{
-			Log.LogWarning(
-				$"Exception thrown while attempting to reset deck with a card prefixed with 'ara_', resetting deck. " + e
-			);
-			ConfigHelper.ResetDeck();
-		}
-
+		
 		Log.LogDebug($"[GameFlowManager] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");
 
 		if (!AllSounds.Any(clip => AudioController.Instance.Loops.Contains(clip)))
@@ -49,7 +28,7 @@ public class BaseGameFlowManagerPatches
 		GameObject rightWrist = GameObject.Find("Grimora_RightWrist");
 		if (rightWrist && rightWrist.transform.GetChild(6))
 		{
-			Object.Destroy(rightWrist.transform.GetChild(6).gameObject);
+			UnityObject.Destroy(rightWrist.transform.GetChild(6).gameObject);
 		}
 
 		DisableAttackAndHealthStatShadowsAndScaleUpStatIcons();
@@ -72,8 +51,6 @@ public class BaseGameFlowManagerPatches
 
 		AddRareCardSequencerToScene();
 
-		ChangeStartDeckIfNotAlreadyChanged();
-
 		AddCardSelectorObjectForTutor();
 
 		// AddBoonLordBoonConsumable();
@@ -82,8 +59,8 @@ public class BaseGameFlowManagerPatches
 
 		CryptHelper.SetupNewCryptAndZones();
 
-		GrimoraAnimationController.Instance.transform.SetParent(Object.FindObjectOfType<InputManagerSpawner>().transform);
-		
+		GrimoraAnimationController.Instance.transform.SetParent(UnityObject.FindObjectOfType<InputManagerSpawner>().transform);
+
 		Log.LogDebug($"Assigning controller to game table");
 		GameObject.Find("GameTable")
 			.AddComponent<Animator>()
@@ -135,7 +112,7 @@ public class BaseGameFlowManagerPatches
 
 	private static void AddCardSelectorObjectForTutor()
 	{
-		if (BoardManager.Instance.IsNotNull() && BoardManager.Instance.cardSelector.IsNull())
+		if (BoardManager.Instance && BoardManager.Instance.cardSelector.IsNull())
 		{
 			SelectableCardArray boardCardSelection
 				= new GameObject("BoardCardSelection").AddComponent<SelectableCardArray>();
@@ -153,7 +130,7 @@ public class BaseGameFlowManagerPatches
 
 	private static void DisableAttackAndHealthStatShadowsAndScaleUpStatIcons()
 	{
-		GravestoneCardDisplayer displayer = Object.FindObjectOfType<GravestoneCardDisplayer>();
+		GravestoneCardDisplayer displayer = UnityObject.FindObjectOfType<GravestoneCardDisplayer>();
 		var statsParent = displayer.transform.Find("Stats");
 		statsParent.Find("Attack_Shadow").gameObject.SetActive(false);
 		statsParent.Find("Health_Shadow").gameObject.SetActive(false);
@@ -180,7 +157,7 @@ public class BaseGameFlowManagerPatches
 	public static void AddBoonLordBoonConsumable()
 	{
 		Log.LogDebug($"Adding Boon Lord Consumable");
-		GameObject ramSkull = Object.Instantiate(
+		GameObject ramSkull = UnityObject.Instantiate(
 			ResourceBank.Get<GameObject>("Art/Assets3D/NodeSequences/GoatSkull/RamSkull_NoHorn"),
 			new Vector3(4.59f, 4.8f, 0),
 			Quaternion.Euler(270, 235, 0)
@@ -204,7 +181,7 @@ public class BaseGameFlowManagerPatches
 		itemData.rulebookCategory = AbilityMetaCategory.Part1Modular;
 		itemData.rulebookName = "Bone Lord Boon of Bones";
 		itemData.rulebookDescription = "How gracious of the Bone Lord to give you 8 starting bones.";
-		itemData.rulebookSprite = Sprite.Create(Rect.zero, Vector2.zero, float.Epsilon);
+		// itemData.rulebookSprite = Sprite.Create(Rect.zero, Vector2.zero, float.Epsilon);
 		itemData.regionSpecific = false;
 
 		if (!ItemsUtil.allData.Exists(x => ((ConsumableItemData)x).rulebookName == itemData.rulebookName))
@@ -223,7 +200,7 @@ public class BaseGameFlowManagerPatches
 		// var prefab = AllPrefabAssets.LoadAssetWithSubAssets("Hexalantern")[0];
 		//
 		// Log.LogDebug($"Creating custom energy object [{prefab}]");
-		// GameObject energyObj = (GameObject)Object.Instantiate(
+		// GameObject energyObj = (GameObject)UnityObject.Instantiate(
 		// 	prefab,
 		// 	new Vector3(-2.69f, 5.82f, -0.48f),
 		// 	Quaternion.Euler(0, 0, 0f),
@@ -237,56 +214,41 @@ public class BaseGameFlowManagerPatches
 	{
 		ResourceDrone resourceEnergy = ResourceDrone.Instance;
 
-		if (BoardManager3D.Instance.IsNotNull() && resourceEnergy.IsNull())
+		if (BoardManager3D.Instance && resourceEnergy.IsNull())
 		{
-			resourceEnergy = Object.Instantiate(
+			resourceEnergy = UnityObject.Instantiate(
 				ResourceBank.Get<ResourceDrone>("Prefabs/CardBattle/ResourceModules"),
 				new Vector3(5.3f, 5.5f, 1.92f),
 				Quaternion.Euler(270f, 0f, -146.804f),
 				BoardManager3D.Instance.gameObject.transform
 			);
-
-			resourceEnergy.name = "Grimora Resource Modules";
-			resourceEnergy.baseCellColor = GrimoraColors.GrimoraText;
-			resourceEnergy.highlightedCellColor = GrimoraColors.ResourceEnergyCell;
-
-			Animator animator = resourceEnergy.GetComponentInChildren<Animator>();
-			animator.enabled = false;
-
-			Transform moduleEnergy = animator.transform.GetChild(0);
-			moduleEnergy.gameObject.GetComponent<MeshFilter>().mesh = null;
-
-			for (int i = 1; i < 7; i++)
-			{
-				Transform energyCell = moduleEnergy.GetChild(i);
-				energyCell.gameObject.GetComponent<MeshFilter>().mesh = null;
-				var energyCellCase = energyCell.GetChild(0);
-				energyCellCase.GetChild(0).GetComponent<MeshRenderer>().material.SetEmissionColor(resourceEnergy.baseCellColor);
-				energyCellCase.GetChild(1).GetComponent<MeshFilter>().mesh = null;
-				energyCellCase.GetChild(2).GetComponent<MeshFilter>().mesh = null;
-			}
-
-			Object.Destroy(moduleEnergy.Find("Connector").gameObject);
-			resourceEnergy.emissiveRenderers.Clear();
-			Object.Destroy(moduleEnergy.Find("Propellers").gameObject);
 		}
-	}
 
-	private static void ChangeStartDeckIfNotAlreadyChanged()
-	{
-		List<CardInfo> grimoraDeck = GrimoraSaveUtil.DeckList;
-		int graveDiggerCount = grimoraDeck.Count(info => info.name == "Gravedigger");
-		int frankNSteinCount = grimoraDeck.Count(info => info.name == "FrankNStein");
-		if (grimoraDeck.Count == 5 && graveDiggerCount == 3 && frankNSteinCount == 2)
+		resourceEnergy.name = "Grimora Resource Modules";
+		resourceEnergy.baseCellColor = GrimoraColors.GrimoraText;
+		resourceEnergy.highlightedCellColor = GrimoraColors.ResourceEnergyCell;
+
+		Animator animator = resourceEnergy.GetComponentInChildren<Animator>();
+		Transform moduleEnergy = animator.transform.GetChild(0);
+		moduleEnergy.gameObject.GetComponent<MeshFilter>().mesh = null;
+
+		for (int i = 1; i < 7; i++)
 		{
-			Log.LogWarning($"[ChangeStartDeckIfNotAlreadyChanged] Starter deck needs reset");
-			GrimoraSaveData.Data.Initialize();
+			Transform energyCell = moduleEnergy.GetChild(i);
+			energyCell.gameObject.GetComponent<MeshFilter>().mesh = null;
+			var energyCellCase = energyCell.GetChild(0);
+			energyCellCase.GetChild(0).GetComponent<MeshRenderer>().material.SetEmissionColor(resourceEnergy.baseCellColor);
+			energyCellCase.GetChild(1).GetComponent<MeshFilter>().mesh = null;
+			energyCellCase.GetChild(2).GetComponent<MeshFilter>().mesh = null;
 		}
+
+		UnityObject.Destroy(moduleEnergy.Find("Connector").gameObject);
+		resourceEnergy.emissiveRenderers.Clear();
 	}
 
 	private static void AddDeckReviewSequencerToScene()
 	{
-		if (DeckReviewSequencer.Instance.IsNotNull())
+		if (DeckReviewSequencer.Instance)
 		{
 			// DeckReviewSequencer reviewSequencer = deckReviewSequencerObj.GetComponent<DeckReviewSequencer>();
 			SelectableCardArray cardArray = DeckReviewSequencer.Instance.GetComponentInChildren<SelectableCardArray>();
@@ -301,7 +263,7 @@ public class BaseGameFlowManagerPatches
 			return;
 		}
 
-		GameObject rareCardChoicesSelector = Object.Instantiate(
+		GameObject rareCardChoicesSelector = UnityObject.Instantiate(
 			ResourceBank.Get<GameObject>("Prefabs/SpecialNodeSequences/RareCardChoiceSelector"),
 			SpecialNodeHandler.Instance.transform
 		);

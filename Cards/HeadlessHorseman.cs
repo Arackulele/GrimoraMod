@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameHeadlessHorseman = $"{GUID}_HeadlessHorseman";
 
-	private void Add_HeadlessHorseman()
+	private void Add_Card_HeadlessHorseman()
 	{
 		CardBuilder.Builder
 			.SetAsRareCard()

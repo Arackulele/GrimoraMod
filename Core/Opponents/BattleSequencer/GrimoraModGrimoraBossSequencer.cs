@@ -55,7 +55,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 	private bool SlotContainsTwinGiant(CardSlot cardSlot)
 	{
-		return cardSlot.CardIsNotNullAndHasSpecialAbility(GrimoraGiant.FullAbility.Id) && cardSlot.CardInSlotIs(NameGiant);
+		return cardSlot.CardIsNotNullAndHasSpecialAbility(GrimoraGiant.FullSpecial.Id) && cardSlot.CardInSlotIs(NameGiant);
 	}
 
 	public override IEnumerator OpponentUpkeep()
@@ -122,25 +122,28 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 	)
 	{
 		CardSlot remainingGiantSlot = BoardManager.Instance.OpponentSlotsCopy
-			.Find(slot => slot.Card.IsNotNull() && card.Slot != slot && slot.Card.InfoName() == NameGiant);
+			.Find(slot => slot.Card && card.Slot != slot && slot.Card.InfoName() == NameGiant);
 		List<CardSlot> opponentQueuedSlots = BoardManager.Instance.GetQueueSlots();
 		if (card.InfoName() == NameGiant)
 		{
-			if (remainingGiantSlot.IsNotNull())
+			if (remainingGiantSlot)
 			{
+				ViewManager.Instance.SwitchToView(View.OpponentQueue);
 				PlayableCard lastGiant = remainingGiantSlot.Card;
 				yield return TextDisplayer.Instance.ShowUntilInput(
 					$"Oh dear, you've made {lastGiant.Info.displayedName.Red()} quite angry."
 				);
-				ViewManager.Instance.SwitchToView(View.Board);
 				CardModificationInfo modInfo = new CardModificationInfo
 				{
 					abilities = new List<Ability> { GiantStrikeEnraged.ability },
-					attackAdjustment = 1
+					attackAdjustment = 1,
+					negateAbilities = new List<Ability> { GiantStrike.ability }
 				};
 				lastGiant.Anim.PlayTransformAnimation();
-				lastGiant.Info.RemoveBaseAbility(GiantStrike.ability);
 				lastGiant.AddTemporaryMod(modInfo);
+				yield return new WaitForSeconds(0.1f);
+				lastGiant.StatsLayer.SetEmissionColor(GameColors.Instance.red);
+				
 				yield return new WaitForSeconds(0.5f);
 			}
 		}

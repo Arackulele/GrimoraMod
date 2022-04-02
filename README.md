@@ -34,6 +34,84 @@
 
 ## Update Notes
 
+### 2.8.3
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed hammer not resetting and not being usable. Also fixed not correctly disappearing after third use.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed card flip only playing the first time for a card.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed electric chaired cards having broken names.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added config option to randomize enemy encounters! Disabled by default.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Now able to view your deck and get up from the table using W and S (or respective joysticks)! No more buttons!
+
+  - **This does however lock the player chess piece movement to the arrow keys. Joystick will no longer work moving the player piece.**
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Cards with the `Sentry` ability now has a custom attack animation with the awesome work courtesy of
+  `JestAnotherAnimator#9226`!
+
+  - The twin giants also have custom attacks now as well!
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed Part 1 metacategories for rulebook abilities so they don't show up in Act 1.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Royal ship sway happens every other turn instead of every turn.
+
+  - Cards with flying are not affected by board sway.
+
+#### Card Changes
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png)
+
+  - Honestly, too many added that I don't feel like typing out except for the specifics.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) `Yellowbeard` now becomes `Bluebeard` if electric chaired.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Starvation` art update by `Nevernamed`.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `The Walkers` art update by `Catboy Stinkbug`.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Amoeba` replaced by `Apparition`. Normal 1/2, 4 Energy with Amorpheous (sigils from the electric chair).
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Corpse Maggots` replaced by `Wight`. Normal 2/1, 5 Bones with `Corpse Eater`.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Project` now just has `Chaos Strike` ability.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Danse Macabre` cost reduced to 6 from 8.
+
+##### Kaycee
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png)
+  - Ice Cube: Normal, 1/1, 5 Bones with `Cold Front`.
+  - Glacier: Normal, 0,4, 10 Bones with `Ice Cube`.
+  - Frost Giant: Unobtainable, 2,4, 10 Bones with `Split Strike`.
+
+##### Sawyer
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) `Kennel` terrain card.
+
+##### Royal
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) `Shipreck` terrain card.
+
+#### Ability Changes
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Area of Effect Strike` attacking the opposing slot first, then the rest.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) `Skin Crawler` ability reworked again to hopefully be a lot more stable, added back to the pool!
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png)
+
+  - Boneless: [creature] yields no bones upon death.
+  - Bone Thief: When [creature] kills another card, gain 1 bone.
+  - Chaos Strike: [creature] will strike each opposing space to the left, right, and center of it, randomly.
+  - Cold Front: When [creature] perishes, the card opposing it is Frozen Away.
+  - Haunter: When [creature] perishes, it haunts the space it died in. The first creature played on this space gains its old sigils.
+    - Original code logic from `Never`, refactored and cleaned up by `BongMaster`.
+  - Imbued: When a non-brittle ally card perishes, [creature] gains 1 power.
+  - Loose Limb: Thematic version of `Loose Tail`.
+  - Marching Dead: When [creature] is played, also play the cards in your hand that were adjacent to this card for free.
+  - Puppeteer: Cards on the owner's side of the field are unaffected by Brittle.
+  - Sea Legs: Renamed to `Anchored` with art courtesy of `Blind, the Bound Demon`.
+  - Warren (Draw Rabbits): Received card is now `Spectrabbit`.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Inverted Strike` now has logic to handle TriStrike.
+
 ### 2.8.2 KAYCEES MOD SUPPORT
 
 **ALL CARDS HAVE NEW INTERNAL NAMES! YOU WILL NEED TO RESET YOUR SAVE DATA MOST LIKELY!**

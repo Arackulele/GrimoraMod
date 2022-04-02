@@ -6,7 +6,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameVellum = $"{GUID}_Vellum";
 
-	private void Add_Vellum()
+	private void Add_Card_Vellum()
 	{
 		CardBuilder.Builder
 			.SetBaseAttackAndHealth(0, 2)

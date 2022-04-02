@@ -26,7 +26,7 @@ public class CryptHelper
 
 	public static void SetupNewCryptAndZones()
 	{
-		if (CryptManager.Instance.IsNotNull())
+		if (CryptManager.Instance)
 		{
 			Log.LogDebug($"Finding structure");
 			CryptManager.Instance.transform.Find("Structure").gameObject.SetActive(false);
@@ -40,13 +40,13 @@ public class CryptHelper
 			}
 
 			Log.LogDebug($"Creating layout");
-			GameObject newLayout = Object.Instantiate(
+			GameObject newLayout = UnityObject.Instantiate(
 				AssetUtils.GetPrefab<GameObject>("NewNewLayout"),
 				CryptManager.Instance.transform
 			);
 
 			Log.LogDebug($"Getting nav grid");
-			NavigationGrid navGrid = Object.FindObjectsOfType<NavigationGrid>().Single(grid => grid.name == "NavigationGrid");
+			NavigationGrid navGrid = UnityObject.FindObjectsOfType<NavigationGrid>().Single(grid => grid.name == "NavigationGrid");
 			navGrid.zones = new NavigationZone[7, 7];
 			NavigationZone[,] zones = navGrid.zones;
 
@@ -65,18 +65,18 @@ public class CryptHelper
 
 			Log.LogDebug($"Destroying existing zones");
 			// destroy existing zones to avoid confusion
-			UnityEngine.Object.Destroy(navGrid.transform.Find("East_1").gameObject);
-			UnityEngine.Object.Destroy(navGrid.transform.Find("East_2").gameObject);
-			UnityEngine.Object.Destroy(navGrid.transform.Find("West_1").gameObject);
-			UnityEngine.Object.Destroy(navGrid.transform.Find("West_1").gameObject);
-			UnityEngine.Object.Destroy(navGrid.transform.Find("West_2").gameObject);
+			UnityObject.Destroy(navGrid.transform.Find("East_1").gameObject);
+			UnityObject.Destroy(navGrid.transform.Find("East_2").gameObject);
+			UnityObject.Destroy(navGrid.transform.Find("West_1").gameObject);
+			UnityObject.Destroy(navGrid.transform.Find("West_1").gameObject);
+			UnityObject.Destroy(navGrid.transform.Find("West_2").gameObject);
 
 
 			#region Lights
 
 			Transform lightsParent = CryptManager.Instance.transform.Find("Lights");
 			Light lightToCopy = lightsParent.Find("CryptLight").GetComponent<Light>();
-			Light traderRoomLight = Object.Instantiate(
+			Light traderRoomLight = UnityObject.Instantiate(
 				lightToCopy,
 				new Vector3(-70, LightHeight, -27.5f),
 				Quaternion.identity,
@@ -84,7 +84,7 @@ public class CryptHelper
 			);
 			traderRoomLight.range = 24;
 
-			Light kayceesRoomLight = Object.Instantiate(
+			Light kayceesRoomLight = UnityObject.Instantiate(
 				traderRoomLight,
 				new Vector3(-35, LightHeight, -27.5f),
 				Quaternion.identity,
@@ -92,7 +92,7 @@ public class CryptHelper
 			);
 			kayceesRoomLight.name = "kaycees_room";
 
-			Light wellRoomLight = Object.Instantiate(
+			Light wellRoomLight = UnityObject.Instantiate(
 				traderRoomLight,
 				new Vector3(-35, LightHeight, 19),
 				Quaternion.identity,
@@ -100,7 +100,7 @@ public class CryptHelper
 			);
 			wellRoomLight.name = "well_room";
 
-			Light mirrorRoomLight = Object.Instantiate(
+			Light mirrorRoomLight = UnityObject.Instantiate(
 				traderRoomLight,
 				new Vector3(30, LightHeight, 57.5f),
 				Quaternion.identity,
@@ -108,7 +108,7 @@ public class CryptHelper
 			);
 			mirrorRoomLight.name = "mirror_room";
 
-			Light doubleCryptRoomLight = Object.Instantiate(
+			Light doubleCryptRoomLight = UnityObject.Instantiate(
 				traderRoomLight,
 				new Vector3(30, LightHeight, 19),
 				Quaternion.identity,
@@ -116,7 +116,7 @@ public class CryptHelper
 			);
 			doubleCryptRoomLight.name = "double_crypt_room";
 
-			Light centralRoomEast1Light = Object.Instantiate(
+			Light centralRoomEast1Light = UnityObject.Instantiate(
 				traderRoomLight,
 				new Vector3(37.5f, LightHeight, -42.5f),
 				Quaternion.identity,
@@ -124,7 +124,7 @@ public class CryptHelper
 			);
 			centralRoomEast1Light.name = "central_room_east1";
 			
-			Light centralRoomEast2Light = Object.Instantiate(
+			Light centralRoomEast2Light = UnityObject.Instantiate(
 				traderRoomLight,
 				new Vector3(37.5f, LightHeight, -10f),
 				Quaternion.identity,
@@ -132,7 +132,7 @@ public class CryptHelper
 			);
 			centralRoomEast2Light.name = "central_room_east2";
 			
-			Light centralRoomWestLight = Object.Instantiate(
+			Light centralRoomWestLight = UnityObject.Instantiate(
 				traderRoomLight,
 				new Vector3(-2.5f, LightHeight, -42.5f),
 				Quaternion.identity,
@@ -146,7 +146,7 @@ public class CryptHelper
 
 			NavigationZone3D CreateZone(string name, Vector3 position, int x, int y)
 			{
-				NavigationZone3D newZone = Object.Instantiate(
+				NavigationZone3D newZone = UnityObject.Instantiate(
 						east3Zone,
 						position,
 						Quaternion.identity,

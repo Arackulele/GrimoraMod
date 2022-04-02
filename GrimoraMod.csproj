@@ -12,6 +12,7 @@
 		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
 		<Configurations>Debug;Release;HotReload;Thunderstore</Configurations>
 		<Platforms>AnyCPU</Platforms>
+<!--		<ManagedFolder>C:\Program Files (x86)\GOG Galaxy\Games\Inscryption\Inscryption_Data\Managed</ManagedFolder>-->
 	</PropertyGroup>
 
 	<!-- BepInEx dependencies -->
@@ -25,6 +26,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+<!--		<Reference Include="$(ManagedFolder)/UnityEngine.*.dll" />-->
 		<Reference Include="InscryptionAPI">
 			<HintPath>lib\InscryptionAPI.dll</HintPath>
 			<Private>False</Private>

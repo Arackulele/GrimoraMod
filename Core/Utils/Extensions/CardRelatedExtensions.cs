@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using Pixelplacement;
 using Pixelplacement.TweenSystem;
 using Sirenix.Utilities;
@@ -9,13 +10,13 @@ namespace GrimoraMod;
 
 public static class CardRelatedExtension
 {
-	private static readonly int Hover = Animator.StringToHash("hover");
+	private static readonly int Hover    = Animator.StringToHash("hover");
 	private static readonly int Hovering = Animator.StringToHash("hovering");
 
 	public static string GetNameAndSlot(this PlayableCard playableCard)
 	{
 		string printedNameAndSlot = $"[{playableCard.Info.displayedName}]";
-		if (playableCard.Slot.IsNotNull())
+		if (playableCard.Slot)
 		{
 			printedNameAndSlot += $" Slot [{playableCard.Slot.Index}]";
 		}
@@ -23,30 +24,47 @@ public static class CardRelatedExtension
 		return printedNameAndSlot;
 	}
 
+	/// <summary>
+	/// Create a basic CardBlueprint based off the CardInfo object.
+	/// </summary>
+	/// <param name="cardInfo">CardInfo to access</param>
+	/// <returns>The same card info so a chain can continue</returns>
+	public static EncounterBlueprintData.CardBlueprint CreateBlueprint(this CardInfo cardInfo)
+	{
+		return new EncounterBlueprintData.CardBlueprint
+		{
+			card = cardInfo
+		};
+	}
+
+	/// <summary>
+	/// Create a basic CardBlueprint based from the name of the card.
+	/// </summary>
+	/// <param name="cardName">Name of the card</param>
+	/// <returns>The CardBlueprint containing the card.</returns>
+	public static EncounterBlueprintData.CardBlueprint CreateCardBlueprint(this string cardName)
+	{
+		return CreateBlueprint(cardName.GetCardInfo());
+	}
+
+	public static CardInfo GetCardInfo(this string self)
+	{
+		return CardManager.AllCardsCopy.Single(info => info.name == self);
+	}
+
 	public static bool CardIsNotNullAndHasAbility(this CardSlot cardSlot, Ability ability)
 	{
-		return cardSlot.Card.IsNotNull() && cardSlot.Card.HasAbility(ability);
+		return cardSlot.Card && cardSlot.Card.HasAbility(ability);
 	}
-
-	public static bool CardDoesNotHaveAbility(this CardSlot cardSlot, Ability ability)
-	{
-		return cardSlot.Card.IsNotNull() && !cardSlot.CardIsNotNullAndHasAbility(ability);
-	}
-
 
 	public static bool CardIsNotNullAndHasSpecialAbility(this CardSlot cardSlot, SpecialTriggeredAbility ability)
 	{
-		return cardSlot.Card.IsNotNull() && cardSlot.Card.Info.SpecialAbilities.Contains(ability);
-	}
-
-	public static bool CardDoesNotHaveSpecialAbility(this CardSlot cardSlot, SpecialTriggeredAbility ability)
-	{
-		return cardSlot.Card.IsNull() || !cardSlot.CardIsNotNullAndHasSpecialAbility(ability);
+		return cardSlot.Card && cardSlot.Card.Info.SpecialAbilities.Contains(ability);
 	}
 
 	public static bool CardInSlotIs(this CardSlot cardSlot, string cardName)
 	{
-		return cardSlot.Card.IsNotNull() && cardSlot.Card.InfoName().Equals(cardName);
+		return cardSlot.Card && cardSlot.Card.InfoName().Equals(cardName);
 	}
 
 	public static string InfoName(this Card card)
@@ -56,7 +74,7 @@ public static class CardRelatedExtension
 
 	public static T GetRandomItem<T>(this List<T> self)
 	{
-		return self[UnityEngine.Random.RandomRangeInt(0, self.Count)];
+		return self[UnityEngine.Random.Range(0, self.Count)];
 	}
 
 	public static bool IsNotEmpty<T>(this List<T> self)
@@ -76,6 +94,11 @@ public static class CardRelatedExtension
 		controller.Anim.SetBool(Hovering, isHovering);
 	}
 
+	public static bool HasSpecialAbility(this PlayableCard playableCard, SpecialTriggeredAbility ability)
+	{
+		return playableCard.Info.SpecialAbilities.Contains(ability);
+	}
+
 	public static bool HasAnyAbilities(this PlayableCard playableCard, params Ability[] abilities)
 	{
 		return playableCard.Info.Abilities.Any(abilities.Contains);
@@ -91,100 +114,24 @@ public static class CardRelatedExtension
 		return cardInfo.Mods.Exists(mod => mod.singletonId == "GrimoraMod_ElectricChaired");
 	}
 
-	public static void RemoveAbilityFromThisCard(this PlayableCard playableCard, CardModificationInfo modInfo)
+	public static void RemoveAbilityFromThisCard(
+		this PlayableCard    playableCard,
+		CardModificationInfo modInfo,
+		Action               callback = null
+	)
 	{
 		CardInfo cardInfoClone = playableCard.Info.Clone() as CardInfo;
 		cardInfoClone.Mods.Add(modInfo);
 		playableCard.SetInfo(cardInfoClone);
-	}
-
-	public static CardInfo DeepCopy(this CardInfo cardInfo)
-	{
-		if (cardInfo.IsNull())
-		{
-			return cardInfo;
-		}
-
-		GrimoraPlugin.Log.LogDebug($"[DeepCopy] Creating a deep copy of [{cardInfo.name}]");
-		CardInfo deepCopy = ScriptableObject.CreateInstance<CardInfo>();
-		deepCopy.abilities = new List<Ability>(cardInfo.abilities);
-		if (cardInfo.alternatePortrait.IsNotNull())
-		{
-			deepCopy.alternatePortrait = Object.Internal_CloneSingle(cardInfo.alternatePortrait) as Sprite;
-		}
-
-		if (cardInfo.animatedPortrait.IsNotNull())
-		{
-			deepCopy.animatedPortrait = Object.Internal_CloneSingle(cardInfo.animatedPortrait) as GameObject;
-		}
-
-		deepCopy.appearanceBehaviour = new List<CardAppearanceBehaviour.Appearance>(cardInfo.appearanceBehaviour);
-		deepCopy.baseAttack = cardInfo.baseAttack;
-		deepCopy.baseHealth = cardInfo.baseHealth;
-		deepCopy.bonesCost = cardInfo.bonesCost;
-		deepCopy.boon = cardInfo.boon;
-		deepCopy.cardComplexity = cardInfo.cardComplexity;
-		deepCopy.cost = cardInfo.cost;
-		deepCopy.decals = new List<Texture>(cardInfo.decals);
-		deepCopy.defaultEvolutionName = cardInfo.defaultEvolutionName;
-		deepCopy.description = cardInfo.description;
-		deepCopy.displayedName = cardInfo.displayedName;
-		deepCopy.energyCost = cardInfo.energyCost;
-		deepCopy.evolveParams = cardInfo.evolveParams;
-		deepCopy.flipPortraitForStrafe = cardInfo.flipPortraitForStrafe;
-		deepCopy.gemsCost = cardInfo.gemsCost;
-		deepCopy.get_decals = new List<Texture>(cardInfo.get_decals);
-		deepCopy.hideAttackAndHealth = cardInfo.hideAttackAndHealth;
-		if (cardInfo.holoPortraitPrefab.IsNotNull())
-		{
-			deepCopy.holoPortraitPrefab = Object.Internal_CloneSingle(cardInfo.holoPortraitPrefab) as GameObject;
-		}
-
-		deepCopy.iceCubeParams = cardInfo.iceCubeParams;
-		deepCopy.metaCategories = new List<CardMetaCategory>(cardInfo.metaCategories);
-		deepCopy.mods = new List<CardModificationInfo>(cardInfo.mods);
-		deepCopy.onePerDeck = cardInfo.onePerDeck;
-		if (cardInfo.pixelPortrait.IsNotNull())
-		{
-			deepCopy.pixelPortrait = Object.Internal_CloneSingle(cardInfo.pixelPortrait) as Sprite;
-		}
-
-		if (cardInfo.portraitTex.IsNotNull())
-		{
-			deepCopy.portraitTex = Object.Internal_CloneSingle(cardInfo.portraitTex) as Sprite;
-		}
-
-		deepCopy.specialAbilities = new List<SpecialTriggeredAbility>(cardInfo.specialAbilities);
-		deepCopy.specialStatIcon = cardInfo.specialStatIcon;
-		deepCopy.tailParams = cardInfo.tailParams;
-		deepCopy.temple = cardInfo.temple;
-		deepCopy.temporaryDecals = new List<Texture>(cardInfo.temporaryDecals);
-		if (cardInfo.titleGraphic.IsNotNull())
-		{
-			deepCopy.titleGraphic = Object.Internal_CloneSingle(cardInfo.titleGraphic) as Texture;
-		}
-
-		deepCopy.traits = new List<Trait>(cardInfo.traits);
-		deepCopy.tribes = new List<Tribe>(cardInfo.tribes);
-
-		return deepCopy;
-	}
-
-	public static void AddTempModGrimora(this PlayableCard playableCard, CardModificationInfo mod)
-	{
-		playableCard.Info.Mods.Add(mod);
-		playableCard.Anim.PlayTransformAnimation();
-		playableCard.RenderCard();
-		playableCard.Info.Mods.Remove(mod);
-		playableCard.AddTemporaryMod(mod);
+		callback?.Invoke();
 	}
 
 	public static IEnumerator DieCustom(
 		this PlayableCard playableCard,
-		bool wasSacrifice,
-		PlayableCard killer = null,
-		bool playSound = true,
-		float royalTableSwayValue = 0f
+		bool              wasSacrifice,
+		PlayableCard      killer              = null,
+		bool              playSound           = true,
+		float             royalTableSwayValue = 0f
 	)
 	{
 		if (!playableCard.Dead)
@@ -222,7 +169,8 @@ public static class CardRelatedExtension
 				}
 			}
 
-			if (!playableCard.HasAbility(Ability.QuadrupleBones) && slotBeforeDeath.IsPlayerSlot)
+			if ((!playableCard.HasAbility(Ability.QuadrupleBones)
+			  || !playableCard.HasAbility(Boneless.ability)) && slotBeforeDeath.IsPlayerSlot)
 			{
 				yield return ResourcesManager.Instance.AddBones(1, slotBeforeDeath);
 			}

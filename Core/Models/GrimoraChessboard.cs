@@ -166,12 +166,17 @@ public class GrimoraChessboard
 
 	public void UpdatePlayerMarkerPosition(bool changingRegion)
 	{
+		if (GrimoraSaveData.Data.gridX == -1)
+		{
+			SetSavePositions();
+		}
+		
 		int x = GrimoraSaveData.Data.gridX;
 		int y = GrimoraSaveData.Data.gridY;
 
 		ChessboardMapNode nodeAtSpace = GetNodeAtSpace(x, y);
 
-		bool pieceAtSpaceIsNotPlayer = nodeAtSpace.OccupyingPiece.IsNotNull()
+		bool pieceAtSpaceIsNotPlayer = nodeAtSpace.OccupyingPiece
 		                               && nodeAtSpace.OccupyingPiece.GetType() != typeof(PlayerMarker)
 		                               || !nodeAtSpace.isActiveAndEnabled;
 
@@ -188,10 +193,10 @@ public class GrimoraChessboard
 		   )
 		{
 			Log.LogDebug(
-				$"[UpdatePlayerMarkerPosition]"
-				+ $" Changing region? [{changingRegion}]"
-				+ $" Not reached table? [{!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable)}]"
-				+ $"PieceAtSpaceIsNotPlayer? [{pieceAtSpaceIsNotPlayer}]"
+				$"[UpdatePlayerMarkerPosition] "
+				+ $"Changing region? [{changingRegion}] "
+				+ $"Not reached table? [{!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable)}] "
+				+ $"PieceAtSpaceIsNotPlayer? [{pieceAtSpaceIsNotPlayer}] Piece is [{nodeAtSpace.OccupyingPiece}]"
 				+ $"hasNotInteractedWithAnyPiece? [{hasNotInteractedWithAnyPiece}]"
 			);
 			// the PlayerNode will be different since this is now a different chessboard
@@ -241,12 +246,8 @@ public class GrimoraChessboard
 
 		Log.LogDebug($"Boss name to place piece for [{specialSequencerId}]");
 		GameObject prefabToUse = BossHelper.OpponentTupleBySpecialId[specialSequencerId].Item2;
-		int newX = x == -1
-			? BossNode.GridX
-			: x;
-		int newY = x == -1
-			? BossNode.GridY
-			: y;
+		int newX = x == -1 ? BossNode.GridX : x;
+		int newY = x == -1 ? BossNode.GridY : y;
 		return CreateChessPiece<ChessboardEnemyPiece>(
 			prefabToUse,
 			newX,
@@ -294,7 +295,7 @@ public class GrimoraChessboard
 
 		ChessboardPiece piece = ChessboardMapExt.Instance.pieces.Find(p => p.gridXPos == x && p.gridYPos == y);
 
-		if (piece.IsNotNull())
+		if (piece)
 		{
 			// Log.LogDebug($"[CreateChessPiece<{typeof(T).Name}>] Skipping x{x}y{y}");
 			return piece.GetComponent<T>();
@@ -302,7 +303,7 @@ public class GrimoraChessboard
 
 		piece = HandlePieceSetup<T>(prefab, specialEncounterId);
 
-		if (piece.anim.IsNull() && piece.transform.Find("Anim").IsNotNull())
+		if (piece.anim.IsNull() && piece.transform.Find("Anim"))
 		{
 			piece.anim = piece.transform.Find("Anim").GetComponent<Animator>();
 		}
@@ -339,7 +340,7 @@ public class GrimoraChessboard
 
 	private T HandlePieceSetup<T>(GameObject prefab, string specialEncounterId = "") where T : ChessboardPiece
 	{
-		GameObject pieceObj = Object.Instantiate(prefab, ChessboardMapExt.Instance.dynamicElementsParent);
+		GameObject pieceObj = UnityObject.Instantiate(prefab, ChessboardMapExt.Instance.dynamicElementsParent);
 
 		if (pieceObj.GetComponent<T>().IsNull())
 		{
@@ -391,9 +392,13 @@ public class GrimoraChessboard
 
 	private static EncounterBlueprintData GetBlueprint()
 	{
-		var blueprints
-			= BlueprintUtils.RegionWithBlueprints.ElementAt(ConfigHelper.Instance.BossesDefeated).Value;
-		return blueprints[UnityEngine.Random.RandomRangeInt(0, blueprints.Count)];
+		if (ConfigHelper.Instance.isRandomizedBlueprintsEnabled)
+		{
+			return BlueprintUtils.BuildRandomBlueprint();
+		}
+
+		var blueprints = BlueprintUtils.RegionWithBlueprints.ElementAt(ConfigHelper.Instance.BossesDefeated).Value;
+		return blueprints[UnityEngine.Random.Range(0, blueprints.Count)];
 	}
 
 	#endregion

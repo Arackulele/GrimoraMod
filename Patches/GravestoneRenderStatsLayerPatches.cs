@@ -21,17 +21,14 @@ public class GravestoneRenderStatsLayerPatches
 	private static readonly int ZWrite = Shader.PropertyToID("_ZWrite");
 
 	[HarmonyPostfix, HarmonyPatch(nameof(GravestoneRenderStatsLayer.RenderCard))]
-	public static void ChangeEmissionColorBasedOnModSingletonId(
+	public static void PrefixChangeEmissionColorBasedOnModSingletonId(
 		ref GravestoneRenderStatsLayer __instance,
-		CardRenderInfo info
+		ref CardRenderInfo info
 	)
 	{
-		if (__instance.PlayableCard.IsNotNull() && __instance.PlayableCard.HasBeenElectricChaired())
-		{
-			__instance.SetEmissionColor(GameColors.Instance.blue);
-		}
-		else if (__instance.GetComponentInParent<SelectableCard>().IsNotNull()
-		         && __instance.GetComponentInParent<SelectableCard>().Info.HasBeenElectricChaired())
+		PlayableCard playableCard = __instance.PlayableCard;
+		SelectableCard selectableCard = __instance.GetComponentInParent<SelectableCard>();
+		if (playableCard && playableCard.HasBeenElectricChaired() || selectableCard && selectableCard.Info.HasBeenElectricChaired())
 		{
 			__instance.SetEmissionColor(GameColors.Instance.blue);
 		}
@@ -42,18 +39,18 @@ public class GravestoneRenderStatsLayerPatches
 	{
 		if (__instance.transform.parent.Find("CardStatIcons_Invisible").IsNull())
 		{
-			CardStatIcons statIcons = Object.Instantiate(
+			CardStatIcons statIcons = UnityObject.Instantiate(
 				CardStatIcons,
 				__instance.transform.parent
 			);
 			statIcons.name = "CardStatIcons_Invisible";
 			statIcons.transform.localPosition = new Vector3(-0.11f, -0.72f, 0f);
 
-			if (__instance.PlayableCard.IsNotNull())
+			if (__instance.PlayableCard)
 			{
 				__instance.PlayableCard.statIcons = statIcons;
 			}
-			else if (__instance.GetComponentInParent<SelectableCard>().IsNotNull())
+			else if (__instance.GetComponentInParent<SelectableCard>())
 			{
 				__instance.GetComponentInParent<SelectableCard>().statIcons = statIcons;
 			}
@@ -69,7 +66,7 @@ public class GravestoneRenderStatsLayerPatches
 			int energyCost = info.energyCost;
 			if (energyCost > 0)
 			{
-				MeshRenderer energyCellsLeft = Object.Instantiate(
+				MeshRenderer energyCellsLeft = UnityObject.Instantiate(
 						EnergyCellsLeft,
 						__instance.gameObject.transform
 					)
@@ -78,7 +75,7 @@ public class GravestoneRenderStatsLayerPatches
 				MeshRenderer energyCellsRight = null;
 				if (energyCost > 3)
 				{
-					energyCellsRight = Object.Instantiate(
+					energyCellsRight = UnityObject.Instantiate(
 							EnergyCellsRight,
 							__instance.gameObject.transform
 						)
@@ -112,7 +109,7 @@ public class GravestoneRenderStatsLayerPatches
 			}
 		}
 
-		if (energyCellsRight.IsNotNull())
+		if (energyCellsRight)
 		{
 			int energyCellsRightLength = energyCellsRight.materials.Length;
 			for (int i = 0; i < energyCellsRightLength; i++)

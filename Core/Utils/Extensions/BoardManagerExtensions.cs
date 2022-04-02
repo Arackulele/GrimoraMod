@@ -20,7 +20,7 @@ public static class BoardManagerExtensions
 	{
 		return manager
 			.PlayerSlotsCopy
-			.Where(slot => slot.Card.IsNotNull() && (filterOnPredicate is null || filterOnPredicate.Invoke(slot.Card)))
+			.Where(slot => slot.Card && (filterOnPredicate is null || filterOnPredicate.Invoke(slot.Card)))
 			.Select(slot => slot.Card)
 			.ToList();
 	}
@@ -42,7 +42,7 @@ public static class BoardManagerExtensions
 	{
 		return manager
 			.OpponentSlotsCopy
-			.Where(slot => slot.Card.IsNotNull() && (filterOnPredicate is null || filterOnPredicate.Invoke(slot.Card)))
+			.Where(slot => slot.Card && (filterOnPredicate is null || filterOnPredicate.Invoke(slot.Card)))
 			.Select(slot => slot.Card)
 			.ToList();
 	}

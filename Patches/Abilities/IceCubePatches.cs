@@ -23,19 +23,12 @@ public class IceCubePatches
 		yield return __instance.PreSuccessfulTriggerSequence();
 		yield return new WaitForSeconds(0.3f);
 		CardInfo creatureToSpawn = "Skeleton".GetCardInfo();
-		if (__instance.Card.Info.iceCubeParams != null && __instance.Card.Info.iceCubeParams.creatureWithin.IsNotNull())
+		if (__instance.Card.Info.iceCubeParams != null && __instance.Card.Info.iceCubeParams.creatureWithin)
 		{
 			creatureToSpawn = __instance.Card.Info.iceCubeParams.creatureWithin;
 		}
 
-		CardSlot slot = __instance.Card.Slot;
-		SkinCrawler skinCrawler = SkinCrawler.GetSkinCrawlerFromCard(__instance.Card);
-		if (skinCrawler.IsNotNull())
-		{
-			Log.LogWarning($"[IceCube] SkinCrawler will now die under [{__instance.Card.InfoName()}]");
-			yield return skinCrawler.GetComponent<PlayableCard>().Die(false);
-		}
-		yield return BoardManager.Instance.CreateCardInSlot(creatureToSpawn, slot, 0.15f);
+		yield return BoardManager.Instance.CreateCardInSlot(creatureToSpawn, __instance.Card.Slot, 0.15f);
 		yield return __instance.LearnAbility(0.5f);
 	}
 }

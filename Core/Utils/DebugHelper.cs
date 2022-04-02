@@ -12,7 +12,7 @@ public class DebugHelper : ManagedBehaviour
 
 	private static string[] _allGrimoraCustomCardNames;
 
-	private static readonly Rect RectCardListArea = new(Screen.width - 420, 180, 400, Screen.height - 300);
+	private static readonly Rect RectCardListArea = new(Screen.width - 420, 180, 400, Screen.height - 200);
 
 	private bool _toggleSpawnCardInOpponentSlot1;
 
@@ -34,7 +34,7 @@ public class DebugHelper : ManagedBehaviour
 
 	private readonly string[] _btnTools =
 	{
-		"Win Round", "Lose Round",
+		"Win Round", "Lose Round", "Add Energy",
 		"Clear Deck", "Add Bones", "Reset Removed Pieces"
 	};
 
@@ -183,6 +183,10 @@ public class DebugHelper : ManagedBehaviour
 						break;
 					case "Add Bones":
 						ResourcesManager.Instance.StartCoroutine(ResourcesManager.Instance.AddBones(25));
+						break;
+					case "Add Energy":
+						ResourcesManager.Instance.StartCoroutine(ResourcesManager.Instance.AddMaxEnergy(1));
+						ResourcesManager.Instance.StartCoroutine(ResourcesManager.Instance.AddEnergy(1));
 						break;
 					case "Reset Removed Pieces":
 						ConfigHelper.Instance.ResetRemovedPieces();

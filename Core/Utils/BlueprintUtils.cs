@@ -1,4 +1,5 @@
 using DiskCardGame;
+using HarmonyLib;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -8,242 +9,111 @@ public static class BlueprintUtils
 {
 	#region CardBlueprints
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Bonehound = new()
-	{
-		card = CardLoader.GetCardByName(NameBonehound)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Bonehound = NameBonehound.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Bonelord = new()
-	{
-		card = CardLoader.GetCardByName(NameBonelord)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Bonelord = NameBonelord.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Bonepile = new()
-	{
-		card = CardLoader.GetCardByName(NameBonepile)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Bonepile = NameBonepile.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_BonePrince = new()
-	{
-		card = CardLoader.GetCardByName(NameBonePrince)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_BonePrince = NameBonePrince.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_PlagueDoctor = new()
-	{
-		card = CardLoader.GetCardByName(NamePlagueDoctor)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_PlagueDoctor = NamePlagueDoctor.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Summoner = new()
-	{
-		card = CardLoader.GetCardByName(NameSummoner)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Summoner = NameSummoner.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_DeadHand = new()
-	{
-		card = CardLoader.GetCardByName(NameDeadHand)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_DeadHand = NameDeadHand.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_DeadPets = new()
-	{
-		card = CardLoader.GetCardByName(NameDeadPets)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_DeadPets = NameDeadPets.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Draugr = new()
-	{
-		card = CardLoader.GetCardByName(NameDraugr)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Draugr = NameDraugr.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_DrownedSoul = new()
-	{
-		card = CardLoader.GetCardByName(NameDrownedSoul)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_DrownedSoul = NameDrownedSoul.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_EmberSpirit = new()
-	{
-		card = CardLoader.GetCardByName(NameEmberSpirit)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_EmberSpirit = NameEmberSpirit.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Family = new()
-	{
-		card = CardLoader.GetCardByName(NameFamily)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Family = NameFamily.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Flames = new()
-	{
-		card = CardLoader.GetCardByName(NameFlames)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Flames = NameFlames.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_FrankAndStein = new()
-	{
-		card = CardLoader.GetCardByName(NameFranknstein)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_FrankAndStein = NameFranknstein.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_GhostShip = new()
-	{
-		card = CardLoader.GetCardByName(NameGhostShip)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_GhostShip = NameGhostShip.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Gravedigger = new()
-	{
-		card = CardLoader.GetCardByName(NameGravedigger)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Gravedigger = NameGravedigger.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_HeadlessHorseman = new()
-	{
-		card = CardLoader.GetCardByName(NameHeadlessHorseman)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint
+		bp_HeadlessHorseman = NameHeadlessHorseman.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Hydra = new()
-	{
-		card = CardLoader.GetCardByName(NameHydra)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Hydra = NameHydra.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Mummy = new()
-	{
-		card = CardLoader.GetCardByName(NameMummy)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Mummy = NameMummy.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Necromancer = new()
-	{
-		card = CardLoader.GetCardByName(NameNecromancer)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Necromancer = NameNecromancer.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Obol = new()
-	{
-		card = CardLoader.GetCardByName(NameObol)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Obol = NameObol.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Poltergeist = new()
-	{
-		card = CardLoader.GetCardByName(NamePoltergeist)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Poltergeist = NamePoltergeist.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Revenant = new()
-	{
-		card = CardLoader.GetCardByName(NameRevenant)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Revenant = NameRevenant.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Sarcophagus = new()
-	{
-		card = CardLoader.GetCardByName(NameSarcophagus)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Sarcophagus = NameSarcophagus.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Skelemancer = new()
-	{
-		card = CardLoader.GetCardByName(NameVengefulSpirit)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Skelemancer = NameVengefulSpirit.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Skeleton = new()
-	{
-		card = CardLoader.GetCardByName(NameSkeleton)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Skeleton = NameSkeleton.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_SkeletonMage = new()
-	{
-		card = CardLoader.GetCardByName(NameSkelemagus)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_SkeletonMage = NameSkelemagus.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Sporedigger = new()
-	{
-		card = CardLoader.GetCardByName(NameSporedigger)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Sporedigger = NameSporedigger.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_TombRobber = new()
-	{
-		card = CardLoader.GetCardByName(NameTombRobber)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_TombRobber = NameTombRobber.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Zombie = new()
-	{
-		card = CardLoader.GetCardByName(NameZombie)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Zombie = NameZombie.CreateCardBlueprint();
 
 	//V2.5 Cards
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_BooHag = new()
-	{
-		card = CardLoader.GetCardByName(NameBooHag)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_BooHag = NameBooHag.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_DanseMacabre = new()
-	{
-		card = CardLoader.GetCardByName(NameDanseMacabre)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_DanseMacabre = NameDanseMacabre.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Dybbuk = new()
-	{
-		card = CardLoader.GetCardByName(NameDybbuk)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Dybbuk = NameDybbuk.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Giant = new()
-	{
-		card = CardLoader.GetCardByName(NameGiant)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Giant = NameGiant.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Project = new()
-	{
-		card = CardLoader.GetCardByName(NameProject)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Project = NameProject.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Ripper = new()
-	{
-		card = CardLoader.GetCardByName(NameRipper)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Ripper = NameRipper.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_ScreamingSkull = new()
-	{
-		card = CardLoader.GetCardByName(NameScreamingSkull)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_ScreamingSkull =
+		NameScreamingSkull.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Silbon = new()
-	{
-		card = CardLoader.GetCardByName(NameSilbon)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Silbon = NameSilbon.CreateCardBlueprint();
 
 	//V2.7.4
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_CompoundFracture = new()
-	{
-		card = CardLoader.GetCardByName(NameCompoundFracture)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_CompoundFracture =
+		NameCompoundFracture.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Centurion = new()
-	{
-		card = CardLoader.GetCardByName(NameCenturion)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Centurion = NameCenturion.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_FesteringWretch = new()
-	{
-		card = CardLoader.GetCardByName(NameFesteringWretch)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint
+		bp_FesteringWretch = NameFesteringWretch.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Manananggal = new()
-	{
-		card = CardLoader.GetCardByName(NameManananggal)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Manananggal = NameManananggal.CreateCardBlueprint();
 
 
 	#region Pirates
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_CaptainYellowbeard = new()
-	{
-		card = CardLoader.GetCardByName(NamePirateCaptainYellowbeard)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_CaptainYellowbeard =
+		NamePirateCaptainYellowbeard.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_FirstMateSnag = new()
-	{
-		card = CardLoader.GetCardByName(NamePirateFirstMateSnag)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_FirstMateSnag =
+		NamePirateFirstMateSnag.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Privateer = new()
-	{
-		card = CardLoader.GetCardByName(NamePiratePrivateer)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Privateer = NamePiratePrivateer.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Swashbuckler = new()
-	{
-		card = CardLoader.GetCardByName(NamePirateSwashbuckler)
-	};
+	public static readonly EncounterBlueprintData.CardBlueprint
+		bp_Swashbuckler = NamePirateSwashbuckler.CreateCardBlueprint();
 
 	#endregion
 
@@ -297,26 +167,30 @@ public static class BlueprintUtils
 		}
 	};
 
-
-	#region RegionBlueprints
-
-	private static EncounterBlueprintData BuildGeneralRegionBlueprintOne()
+	public static EncounterBlueprintData BuildRandomBlueprint()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.name = "General_Blueprint";
-		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		blueprint.name = $"Random{UnityEngine.Random.Range(1, 99999999)}_Blueprint";
+		int numberOfTurns = UnityEngine.Random.Range(3, 15);
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>();
+		for (int i = 0; i < numberOfTurns; i++)
 		{
-			new() { bp_Zombie },
-			new() { bp_BonePrince, bp_Zombie },
-			new() { bp_Zombie },
-			new() { bp_GhostShip },
-			new(),
-			new() { bp_BonePrince },
-			new() { bp_Zombie }
-		};
+			int numberOfCardsThisTurn = UnityEngine.Random.Range(0, 4);
+			List<EncounterBlueprintData.CardBlueprint> cardBlueprints = new();
+			for (int j = 0; j < numberOfCardsThisTurn; j++)
+			{
+				cardBlueprints.Add(AllPlayableGrimoraModCards.GetRandomItem().CreateBlueprint());
+			}
+			Log.LogDebug($"[Blueprints] Turn [{i}] [{cardBlueprints.Join(bp => bp.card.DisplayedNameEnglish)}]");
+			blueprint.turns.Add(cardBlueprints);
+		}
+		Log.LogDebug("\n");
 
 		return blueprint;
 	}
+	
+
+	#region RegionBlueprints
 
 	#region Kaycee
 
