@@ -202,9 +202,6 @@ public class ConfigHelper
 		ResetConfig();
 		ResetDeck();
 		StoryEventsData.EraseEvent(StoryEvent.GrimoraReachedTable);
-		SaveManager.SaveToFile();
-
-		LoadingScreenManager.LoadScene("finale_grimora");
 	}
 
 	public static void ResetDeck()
