@@ -253,10 +253,10 @@ public class SkinCrawlerSlot : NonCardTriggerReceiver
 	{
 		hidingOnSlot = null;
 		hidingUnderCard = null;
-		Log.LogDebug($"[CrawlerSlot.OnOtherCardDie] Resolving [{skinCrawlerCard.GetNameAndSlot()}] to deathSlot [{deathSlot.Index}]");
+		Log.LogInfo($"[CrawlerSlot.OnOtherCardDie] Resolving [{skinCrawlerCard.GetNameAndSlot()}] to deathSlot [{deathSlot.Index}]");
 		yield return BoardManager.Instance.TransitionAndResolveCreatedCard(skinCrawlerCard, deathSlot, 0, false);
 		yield return new WaitForSeconds(0.25f);
-		Log.LogDebug($"[CrawlerSlot.OnOtherCardDie] Destroying [{gameObject}] at slot [{deathSlot.Index}]");
+		Log.LogInfo($"[CrawlerSlot.OnOtherCardDie] Destroying [{gameObject}] at slot [{deathSlot.Index}]");
 		Destroy(gameObject);
 	}
 }
