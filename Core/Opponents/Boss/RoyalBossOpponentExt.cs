@@ -55,6 +55,24 @@ public class RoyalBossOpponentExt : BaseBossExt
 		PlayTheme();
 	}
 
+	public override void ModifyQueuedCard(PlayableCard card)
+	{
+		AddAnchoredAbility(card);
+	}
+
+	public override void ModifySpawnedCard(PlayableCard card)
+	{
+		AddAnchoredAbility(card);
+	}
+
+	private void AddAnchoredAbility(PlayableCard playableCard)
+	{
+		if (!playableCard.TemporaryMods.Exists(mod => mod.abilities.Contains(Anchored.ability)))
+		{
+			playableCard.AddTemporaryMod(new CardModificationInfo(Anchored.ability));
+		}
+	}
+
 	public override void PlayTheme()
 	{
 		Log.LogDebug($"Playing royal theme 1");
