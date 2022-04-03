@@ -1,20 +1,17 @@
-using APIPlugin;
-
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameVengefulSpirit = "GrimoraMod_VengefulSpirit";
+	public const string NameVengefulSpirit = $"{GUID}_VengefulSpirit";
 
-	private void Add_VengefulSpirit()
+	private void Add_Card_VengefulSpirit()
 	{
-		NewCard.Add(CardBuilder.Builder
+		CardBuilder.Builder
 			.SetAsNormalCard()
 			.SetBaseAttackAndHealth(1, 1)
 			.SetEnergyCost(3)
 			.SetDescription("COMING FOR VENGEANCE, AND A BIT OF FUN, TOO!")
 			.SetNames(NameVengefulSpirit, "Vengeful Spirit")
-			.Build()
-		);
+			.Build();
 	}
 }

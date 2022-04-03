@@ -8,6 +8,13 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(DrawNewHand))]
 public class DrawNewHandPatch
 {
+	[HarmonyPrefix, HarmonyPatch(nameof(DrawNewHand.RespondsToResolveOnBoard))]
+	public static bool OnlyDrawNewCardsForPlayer(DrawNewHand __instance, ref bool __result)
+	{
+		__result = !__instance.Card.OpponentCard;
+		return false;
+	}
+
 	[HarmonyPostfix, HarmonyPatch(nameof(DrawNewHand.OnResolveOnBoard))]
 	public static IEnumerator PostfixChangeViewAndCorrectVisuals(IEnumerator enumerator, DrawNewHand __instance)
 	{
@@ -20,13 +27,13 @@ public class DrawNewHandPatch
 		{
 			cardsNotChoosingASlot[0].SetInteractionEnabled(false);
 			cardsNotChoosingASlot[0].Anim.PlayDeathAnimation();
-			Object.Destroy(cardsNotChoosingASlot[0].gameObject, 1f);
+			UnityObject.Destroy(cardsNotChoosingASlot[0].gameObject, 1f);
 			PlayerHand.Instance.RemoveCardFromHand(cardsNotChoosingASlot[0]);
 			cardsNotChoosingASlot.RemoveAt(0);
 		}
 
 		yield return new WaitForSeconds(0.5f);
-		bool drawPile3DIsActive = CardDrawPiles3D.Instance is not null && CardDrawPiles3D.Instance.pile is not null;
+		bool drawPile3DIsActive = CardDrawPiles3D.Instance && CardDrawPiles3D.Instance.pile;
 		for (int i = 0; i < 4; i++)
 		{
 			if (drawPile3DIsActive)

@@ -6,7 +6,8 @@ public static class GrimoraSaveUtil
 {
 	public static void ClearDeck()
 	{
-		GrimoraSaveData.Data.deck.Cards.Clear();
+		DeckInfo.Cards.Clear();
+		DeckInfo.cardIds.Clear();
 	}
 
 	public static bool isGrimora => SaveManager.SaveFile.IsGrimora;

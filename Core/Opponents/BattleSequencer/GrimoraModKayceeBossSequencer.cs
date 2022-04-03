@@ -1,6 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
-using Sirenix.Utilities;
+using InscryptionAPI.Encounters;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -8,63 +8,68 @@ namespace GrimoraMod;
 
 public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 {
-	public override Opponent.Type BossType => BaseBossExt.KayceeOpponent;
+	public static readonly SpecialSequenceManager.FullSpecialSequencer FullSequencer = SpecialSequenceManager.Add(
+		GUID,
+		nameof(GrimoraModKayceeBossSequencer),
+		typeof(GrimoraModKayceeBossSequencer)
+	);
 
-	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
-	{
-		return new EncounterData()
-		{
-			opponentType = BossType
-		};
-	}
+	private bool _playedDialogueSubmerge = false;
+
+	private bool _playedDialogueHookLineAndSinker = false;
+
+	private bool _playedDialoguePossessive = false;
+	
+	private bool _playedDialogueStinky = false;
+
+	public override Opponent.Type BossType => KayceeBossOpponent.FullOpponent.Id;
 
 	public override bool RespondsToUpkeep(bool playerUpkeep)
 	{
 		return playerUpkeep;
 	}
 
-	private int _freezeCounter = 0;
+	private int _freezeCounter = 2;
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
 		var playerCardsWithAttacks
-			= BoardManager.Instance.GetPlayerCards().Where(pCard => pCard.Attack > 0).ToList();
+			= BoardManager.Instance.GetPlayerCards(pCard => pCard.Attack > 0 && !pCard.FaceDown && !pCard.HasAbility(Ability.IceCube));
 
-		_freezeCounter++;
-		if (!playerCardsWithAttacks.IsNullOrEmpty())
+		_freezeCounter += playerCardsWithAttacks.Count;
+		Log.LogWarning($"[Kaycee] Freeze counter [{_freezeCounter}]");
+
+		if (playerCardsWithAttacks.IsNotEmpty())
 		{
-			if (_freezeCounter >= 3)
+			if (_freezeCounter >= 5)
 			{
 				ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 				yield return TextDisplayer.Instance.ShowUntilInput(
-					"It's time for your cards to freeze! CHILLED TO THE BONE!"
+					$"Y-Your strikes are only making me {"c-colder".Blue()}!"
 				);
-				foreach (var card in playerCardsWithAttacks)
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					$"IT'S TIME FOR YOUR CARDS TO FREEZE! {"CHILLED".Blue()} TO THE BONE!"
+				);
+				foreach (var playableCard in playerCardsWithAttacks)
 				{
-					int attack = card.Attack == 0 ? 0 : -card.Attack;
-					var modInfo = new CardModificationInfo()
-					{
-						attackAdjustment = attack,
-						healthAdjustment = 1 - card.Health,
-						abilities = new List<Ability>() { Ability.IceCube }
-					};
-					card.Info.iceCubeParams = new IceCubeParams() { creatureWithin = card.Info };
-					card.AddTemporaryMod(modInfo);
-					card.Anim.PlayTransformAnimation();
+					yield return CheckCardForAbilitiesThatBreakWhileBeingFrozen(playableCard);
+
+					playableCard.Anim.PlayTransformAnimation();
 					yield return new WaitForSeconds(0.05f);
-					card.RenderCard();
+					playableCard.RenderCard();
 					_freezeCounter = 0;
 				}
 			}
 		}
 
-		var draugrCards 
-			= BoardManager.Instance.GetOpponentCards(pCard => pCard.InfoName().Equals(NameDraugr));
+		var draugrCards = BoardManager.Instance.GetOpponentCards(pCard => pCard.InfoName().Equals(NameDraugr));
 		Log.LogDebug($"[KayceeSequencer] Draugr cards found [{draugrCards.GetDelimitedString()}]");
 		if (draugrCards.Count >= 2)
 		{
 			ViewManager.Instance.SwitchToView(View.Board);
-			yield return TextDisplayer.Instance.ShowUntilInput("ALL THIS ICE IS TAKING UP TOO MUCH SPACE!");
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				$"ALL THIS {"ICE".BrightBlue()} IS TAKING UP TOO MUCH SPACE!"
+			);
 			foreach (var card in draugrCards)
 			{
 				yield return card.Die(false);
@@ -73,5 +78,76 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 		}
 
 		ViewManager.Instance.SwitchToView(View.Default);
+		ViewManager.Instance.SetViewUnlocked();
+	}
+
+	private IEnumerator CheckCardForAbilitiesThatBreakWhileBeingFrozen(PlayableCard playableCard)
+	{
+		var modInfo = CreateModForFreeze(playableCard);
+		if (playableCard.HasAbility(Ability.Submerge))
+		{
+			if (!_playedDialogueSubmerge)
+			{
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					$"{playableCard.Info.displayedName.Blue()} MIGHT HAVE SOME DIFFICULTY SUBMERGING IF IT'S FROZEN SOLID!"
+				);
+				_playedDialogueSubmerge = true;
+			}
+		}
+		else if (playableCard.HasAbility(Possessive.ability))
+		{
+			if (!_playedDialoguePossessive)
+			{
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					$"{playableCard.Info.displayedName.Blue()} CAN'T POSSESS ANYTHING IF IT CAN'T MOVE!"
+				);
+				_playedDialoguePossessive = true;
+			}
+		}
+		else if (playableCard.HasAbility(HookLineAndSinker.ability))
+		{
+			if (!_playedDialogueHookLineAndSinker)
+			{
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					$"{playableCard.Info.displayedName.Blue()} WILL HAVE A HARD TIME HOOKING ANYTHING IF IT'S FROZEN SOLID!"
+				);
+				_playedDialogueHookLineAndSinker = true;
+			}
+		}
+		else if (playableCard.HasAbility(Ability.DebuffEnemy))
+		{
+			if (!_playedDialogueStinky)
+			{
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					$"{playableCard.Info.displayedName.Blue()} FINALLY! TO GET RID OF THAT FOUL SMELL!"
+				);
+				_playedDialogueStinky = true;
+			}
+		}
+		else
+		{
+			playableCard.AddTemporaryMod(modInfo);
+			yield break;
+		}
+
+		playableCard.RemoveAbilityFromThisCard(modInfo);
+	}
+
+	public static CardModificationInfo CreateModForFreeze(PlayableCard playableCard)
+	{
+		int attack = playableCard.Attack == 0 ? 0 : -playableCard.Attack;
+		var modInfo = new CardModificationInfo
+		{
+			attackAdjustment = attack,
+			healthAdjustment = 1 - playableCard.Health,
+			negateAbilities = new List<Ability> { Ability.DebuffEnemy, Ability.Submerge, HookLineAndSinker.ability, Possessive.ability }
+		};
+		if (!playableCard.HasAbility(Ability.IceCube))
+		{
+			modInfo.abilities = new List<Ability> { Ability.IceCube };
+			playableCard.Info.iceCubeParams = new IceCubeParams { creatureWithin = playableCard.Info };
+		}
+
+		return modInfo;
 	}
 }

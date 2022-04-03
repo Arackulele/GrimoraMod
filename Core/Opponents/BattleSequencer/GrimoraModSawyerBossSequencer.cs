@@ -1,40 +1,42 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Encounters;
 using UnityEngine;
 
 namespace GrimoraMod;
 
 public class GrimoraModSawyerBossSequencer : GrimoraModBossBattleSequencer
 {
-	public override Opponent.Type BossType => BaseBossExt.SawyerOpponent;
+	public static readonly SpecialSequenceManager.FullSpecialSequencer FullSequencer = SpecialSequenceManager.Add(
+		GrimoraPlugin.GUID,
+		nameof(GrimoraModSawyerBossSequencer),
+		typeof(GrimoraModSawyerBossSequencer)
+	);
 
-	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
+	public override Opponent.Type BossType => SawyerBossOpponent.FullOpponent.Id;
+
+	public override bool RespondsToTurnEnd(bool playerTurnEnd)
 	{
-		return new EncounterData()
-		{
-			opponentType = BossType
-		};
+		return playerTurnEnd;
 	}
 
-	public override bool RespondsToUpkeep(bool playerUpkeep)
-	{
-		return playerUpkeep;
-	}
+	public int bonesTakenCounter = 0;
 
-	public override IEnumerator OnUpkeep(bool playerUpkeep)
+	public override IEnumerator OnTurnEnd(bool playerTurnEnd)
 	{
-		bool isBonehoundOnBoard = BoardManager.Instance.opponentSlots.Exists(info => info.name.Equals("Bonehound"));
-		if (new RandomEx().NextBoolean() && isBonehoundOnBoard && ResourcesManager.Instance.PlayerBones > 5)
+		bonesTakenCounter++;
+
+		if (bonesTakenCounter >= 2 && ResourcesManager.Instance.PlayerBones >= 3)
 		{
+			ViewManager.Instance.SwitchToView(View.BoneTokens, lockAfter: true);
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"PLEASE, WON'T YOU SPARE SOME BONES FOR [c:R]BONEHOUND[c:]?",
-				-0.65f,
-				0.4f
+				"PLEASE, WON'T YOU SPARE SOME BONES FOR A POOR GHOUL LIKE ME?"
 			);
-			ViewManager.Instance.SwitchToView(View.BoneTokens);
-			yield return new WaitForSeconds(0.1f);
+			yield return new WaitForSeconds(0.75f);
 			yield return ResourcesManager.Instance.SpendBones(1);
-			yield return new WaitForSeconds(1f);
+			yield return new WaitForSeconds(0.75f);
+			bonesTakenCounter = 0;
+			ViewManager.Instance.SetViewUnlocked();
 		}
 	}
 }

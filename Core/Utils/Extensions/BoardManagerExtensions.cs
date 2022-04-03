@@ -20,8 +20,19 @@ public static class BoardManagerExtensions
 	{
 		return manager
 			.PlayerSlotsCopy
-			.Where(slot => slot.Card != null && (filterOnPredicate is null || filterOnPredicate.Invoke(slot.Card)))
+			.Where(slot => slot.Card && (filterOnPredicate is null || filterOnPredicate.Invoke(slot.Card)))
 			.Select(slot => slot.Card)
+			.ToList();
+	}
+	
+	public static List<CardSlot> GetPlayerOpenSlots(
+		this BoardManager manager,
+		Predicate<CardSlot> filterOnPredicate = null
+	)
+	{
+		return manager
+			.PlayerSlotsCopy
+			.Where(slot => slot.Card.IsNull() && (filterOnPredicate is null || filterOnPredicate.Invoke(slot)))
 			.ToList();
 	}
 
@@ -31,8 +42,19 @@ public static class BoardManagerExtensions
 	{
 		return manager
 			.OpponentSlotsCopy
-			.Where(slot => slot.Card != null)
+			.Where(slot => slot.Card && (filterOnPredicate is null || filterOnPredicate.Invoke(slot.Card)))
 			.Select(slot => slot.Card)
+			.ToList();
+	}
+
+	public static List<CardSlot> GetOpponentOpenSlots(
+		this BoardManager manager,
+		Predicate<CardSlot> filterOnPredicate = null
+	)
+	{
+		return manager
+			.OpponentSlotsCopy
+			.Where(slot => slot.Card.IsNull() && (filterOnPredicate is null || filterOnPredicate.Invoke(slot)))
 			.ToList();
 	}
 }

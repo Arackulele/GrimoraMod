@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using Pixelplacement;
 using Sirenix.Utilities;
@@ -12,22 +12,24 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 {
 	private static readonly int Exit = Animator.StringToHash("exit");
 
-	public new IEnumerator RemoveSequence()
+	private IEnumerator InitialSetup()
 	{
-		Log.LogDebug($"Starting removal sequence");
 		sacrificeSlot.Disable();
-		Log.LogDebug($"Setting rulebook on board");
-		TableRuleBook.Instance.SetOnBoard(onBoard: true);
+		TableRuleBook.Instance.SetOnBoard(true);
 
 		ViewManager.Instance.Controller.SwitchToControlMode(ViewController.ControlMode.CardMerging);
-		ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+		ViewManager.Instance.SetViewLocked();
 		yield return new WaitForSeconds(0.3f);
 
-		Log.LogDebug($"stoneCircleAnim is active");
-		stoneCircleAnim.gameObject.SetActive(value: true);
+		stoneCircleAnim.gameObject.SetActive(true);
 		yield return new WaitForSeconds(0.5f);
+		if (!ProgressionData.LearnedMechanic(GrimoraEnums.Mechanics.CardRemoval))
+		{
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				"HE WILL PROVIDE A HELPFUL OR HARMFUL CURSE UPON YOUR ARMY IF YOU LEAVE HIM AN OFFERING."
+			);
+		}
 
-		Log.LogDebug($"Spawning cards");
 		yield return deckPile.SpawnCards(GrimoraSaveUtil.DeckList.Count, 0.5f);
 		ViewManager.Instance.SwitchToView(View.CardMergeSlots);
 
@@ -36,11 +38,14 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			GameColors.Instance.orange,
 			0.1f
 		);
+		if (!ProgressionData.LearnedMechanic(GrimoraEnums.Mechanics.CardRemoval))
+		{
+			yield return TextDisplayer.Instance.ShowUntilInput("I HOPE FOR YOUR SAKE HE IS FEELING GENEROUS.");
 
-		Log.LogDebug($"sacrificeSlot reveal and enable");
+			ProgressionData.SetMechanicLearned(GrimoraEnums.Mechanics.CardRemoval);
+		}
+
 		sacrificeSlot.RevealAndEnable();
-
-		Log.LogDebug($"sacrificeSlot clear delegates");
 		sacrificeSlot.ClearDelegates();
 
 		SelectCardFromDeckSlot selectCardFromDeckSlot = sacrificeSlot;
@@ -52,22 +57,27 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 		sacrificeSlot.backOutInputPressed = null;
 		SelectCardFromDeckSlot selectCardFromDeckSlot2 = sacrificeSlot;
-		selectCardFromDeckSlot2.backOutInputPressed = (Action)Delegate.Combine(selectCardFromDeckSlot2.backOutInputPressed,
+		selectCardFromDeckSlot2.backOutInputPressed = (Action)Delegate.Combine(
+			selectCardFromDeckSlot2.backOutInputPressed,
 			(Action)delegate
 			{
 				if (sacrificeSlot.Enabled)
 				{
 					OnSlotSelected(sacrificeSlot);
 				}
-			});
+			}
+		);
 		gamepadGrid.enabled = true;
 		yield return confirmStone.WaitUntilConfirmation();
+	}
 
-		Log.LogDebug($"sacrificeSlot disable");
+	public new IEnumerator RemoveSequence()
+	{
+		yield return InitialSetup();
+
 		sacrificeSlot.Disable();
 
-		Log.LogDebug($"rulebook controller set shown to false");
-		RuleBookController.Instance.SetShown(shown: false);
+		RuleBookController.Instance.SetShown(false);
 		yield return new WaitForSeconds(0.25f);
 		SpecialCardBehaviour[] components = sacrificeSlot.Card.GetComponents<SpecialCardBehaviour>();
 		foreach (SpecialCardBehaviour specialCardBehaviour in components)
@@ -77,13 +87,10 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 		CardInfo sacrificedInfo = sacrificeSlot.Card.Info;
 
-		Log.LogDebug($"Removing card from deck");
 		GrimoraSaveUtil.RemoveCard(sacrificedInfo);
 
-		Log.LogDebug($"Playing death animation");
-		sacrificeSlot.Card.Anim.PlayDeathAnimation(playSound: false);
+		sacrificeSlot.Card.Anim.PlayDeathAnimation(false);
 
-		Log.LogDebug($"Sound 3D");
 		AudioController.Instance.PlaySound3D(
 			"sacrifice_default",
 			MixerGroup.TableObjectsSFX,
@@ -91,18 +98,13 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		);
 		yield return new WaitForSeconds(0.5f);
 
-		Log.LogDebug($"Destroy card");
 		sacrificeSlot.DestroyCard();
 
 		yield return new WaitForSeconds(0.5f);
 
-		Log.LogDebug($"Skull eyes active");
-		skullEyes.SetActive(value: true);
+		skullEyes.SetActive(true);
 		AudioController.Instance.PlaySound2D("creepy_rattle_lofi");
-		yield return new WaitForSeconds(0.5f);
 
-		yield return TextDisplayer.Instance.ShowUntilInput("SACRIFICE A CARD FOR THE BONE LORD, AND HE MAY JUST REWARD YOU!");
-		
 		if (!sacrificedInfo.HasTrait(Trait.Pelt))
 		{
 			CardInfo randomCard = GetRandomCardForEffect();
@@ -110,24 +112,26 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			Log.LogDebug($"Spawning card");
 			SelectableCard boonCard = SpawnCard(transform);
 			Log.LogDebug($"boon card game object is now active");
-			boonCard.gameObject.SetActive(value: true);
+			boonCard.gameObject.SetActive(true);
 
-			boonCard.SetInfo(sacrificedInfo.HasTrait(Trait.Goat)
-				? BoonsUtil.CreateCardForBoon(BoonData.Type.StartingBones)
-				: randomCard);
+			boonCard.SetInfo(
+				sacrificedInfo.HasTrait(Trait.Goat)
+					? BoonsUtil.CreateCardForBoon(BoonData.Type.StartingBones)
+					: randomCard
+			);
 
 			Log.LogDebug($"boon card is now inactive");
-			boonCard.SetEnabled(enabled: false);
+			boonCard.SetEnabled(false);
 			gamepadGrid.Rows[0].interactables.Add(boonCard);
 			boonCard.transform.position = sacrificeSlot.transform.position + Vector3.up * 3f;
 			boonCard.Anim.Play("fly_on");
 
 			Log.LogDebug($"Placing card on slot");
 			sacrificeSlot.PlaceCardOnSlot(boonCard.transform, 0.5f);
-			yield return new WaitForSeconds(0.5f);
+			yield return new WaitForSeconds(0.25f);
 
 			Log.LogDebug($"boon card is now active");
-			boonCard.SetEnabled(enabled: true);
+			boonCard.SetEnabled(true);
 
 			boonCard.CursorSelectEnded = (Action<MainInputInteractable>)Delegate.Combine(
 				boonCard.CursorSelectEnded,
@@ -155,6 +159,11 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			Destroy(boonCard.gameObject);
 		}
 
+		yield return OutroSequence();
+	}
+
+	private IEnumerator OutroSequence()
+	{
 		Log.LogDebug($"Destroying deck pile");
 		yield return deckPile.DestroyCards();
 
@@ -162,7 +171,6 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		stoneCircleAnim.SetTrigger(Exit);
 
 		ExplorableAreaManager.Instance.ResetHangingLightsToZoneColors(0.25f);
-		// dustEmission.rateOverTime = new ParticleSystem.MinMaxCurve(0f, 0f);
 		yield return new WaitForSeconds(0.25f);
 
 		Log.LogDebug($"Confirm stone exit");
@@ -170,10 +178,10 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		yield return new WaitForSeconds(0.75f);
 
 		Log.LogDebug($"stoneCircleAnim.gameObject false");
-		stoneCircleAnim.gameObject.SetActive(value: false);
+		stoneCircleAnim.gameObject.SetActive(false);
 
 		Log.LogDebug($"skullEyes.SetActive(value: false);");
-		skullEyes.SetActive(value: false);
+		skullEyes.SetActive(false);
 
 		Log.LogDebug($"confirmStone.SetStoneInactive");
 		confirmStone.SetStoneInactive();
@@ -184,9 +192,9 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 	private new void OnBoonSelected(MainInputInteractable boonCard)
 	{
 		BoonData data = BoonsUtil.GetData(((SelectableCard)boonCard).Info.boon);
-		RuleBookController.Instance.SetShown(shown: false);
-		boonCard.SetEnabled(enabled: false);
-		((SelectableCard)boonCard).SetInteractionEnabled(interactionEnabled: false);
+		RuleBookController.Instance.SetShown(false);
+		boonCard.SetEnabled(false);
+		((SelectableCard)boonCard).SetInteractionEnabled(false);
 
 		boonTaken = true;
 	}
@@ -200,78 +208,82 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		switch (rngValue)
 		{
 			// decrease entire deck by 1
-			case <= 0.005f:
+			case <= 0.02f:
 			{
 				// grimora_deck_decrease_cost
 				cardThatWillHaveEffectApplied = ApplyEffectToCards(
 					"grimora_deck_bones_decrease",
-					"... WHAT? WHY DID YOU DO THAT BONE LORD?! [c:bR]DECREASING THE COST OF THE ENTIRE DECK?![c:] YOU FOOL!",
-					"THAT'S UNFORTUNATE. YOU WERE SUPPOSED TO HAVE YOUR ENTIRE DECK DECREASED, BUT IT LOOKS LIKE THE BONE LORD HAS ALREADY GIFTED YOU THAT. BEGONE!",
+					$"... WHAT? WHY DID YOU DO THAT BONE LORD?! {"DECREASING THE COST OF THE ENTIRE DECK?!".BrightRed()} YOU FOOL!",
+					$"THAT'S UNFORTUNATE. YOU WERE SUPPOSED TO HAVE YOUR ENTIRE DECK DECREASED, BUT IT LOOKS LIKE THE BONE LORD HAS ALREADY GIFTED YOU THAT. BEGONE!",
 					false,
 					info => info.BonesCost > 0
 				);
 
 				break;
 			}
-			// increase entire deck by 1
-			case <= 0.01f:
-			{
-				cardThatWillHaveEffectApplied = ApplyEffectToCards(
-					"grimora_deck_bones_increase",
-					"OH MY, THE BONE LORD HAS NO EMPATHY TODAY. [c:bR]INCREASING THE COST OF YOUR ENTIRE DECK BY 1[c:], I AM QUITE CURIOUS HOW YOU'LL SURVIVE NOW.",
-					"YOU'RE QUITE LUCKY. THE BONE LORD [c:bR]WANTED[c:] TO INCREASE YOUR ENTIRE DECK BY 1, BUT I FELT THAT WAS A BIT HARSH SINCE IT ALREADY HAS HAPPENED. YOU BEST THANK ME.",
-					false
-				);
+			/*
+		// increase entire deck by 1
+		case <= 0.01f:
+		{
+			cardThatWillHaveEffectApplied = ApplyEffectToCards(
+				"grimora_deck_bones_increase",
+				$"OH MY, THE BONE LORD HAS NO EMPATHY TODAY. {"INCREASING THE COST OF YOUR ENTIRE DECK BY 1".BrightRed()}, I AM QUITE CURIOUS HOW YOU'LL SURVIVE NOW.",
+				$"YOU'RE QUITE LUCKY. THE BONE LORD {"WANTED".BrightRed()} TO INCREASE YOUR ENTIRE DECK BY 1, BUT I FELT THAT WAS A BIT HARSH SINCE IT ALREADY HAS HAPPENED. YOU BEST THANK ME.",
+				false
+			);
 
-				break;
-			}
-			// card bonesCost increase = 9%~
-			case <= 0.10f:
-			{
-				cardThatWillHaveEffectApplied = ApplyEffectToCards(
-					"grimora_card_bones_increase",
-					"I hope this doesn't hurt too much. [c:bR]{0}[c:] cost has increased!",
-					"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]INCREASE THEIR BONE COST[c:], HOW SAD. NOW PLEASE LEAVE."
-				);
+			break;
+		}
+		// card bonesCost increase = 9%~
+		case <= 0.10f:
+		{
+			cardThatWillHaveEffectApplied = ApplyEffectToCards(
+				"grimora_card_bones_increase",
+				"I hope this doesn't hurt too much.\n[c:bR]{0}[c:] cost has increased!",
+				$"YOU DON'T HAVE ANYMORE CARDS TO {"INCREASE THEIR BONE COST".BrightRed()}, HOW SAD. NOW PLEASE LEAVE."
+			);
 
-				break;
-			}
+			break;
+		}
+			*/
 			// card bonesCost reduce = 20% of the time
-			case <= 0.30f:
+			case <= 0.5f:
 			{
 				cardThatWillHaveEffectApplied = ApplyEffectToCards(
 					"grimora_card_bones_decrease",
 					"Oh dear, it looks like [c:bR]{0}[c:] cost has decreased!",
-					"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]REDUCE THEIR BONE COST[c:], HOW SAD. NOW PLEASE LEAVE.",
+					$"YOU DON'T HAVE ANYMORE CARDS TO {"REDUCE THEIR BONE COST".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
 					filterCardsOnPredicate: info => info.BonesCost > 0
 				);
 
 				break;
 			}
 			// card gains 1 HP = 10%?
-			case <= 40f:
+			case <= 1f:
 			{
 				cardThatWillHaveEffectApplied = ApplyEffectToCards(
 					"grimora_card_health_increase",
-					"The Bone Lord has been generous. [c:bR]{0}[c:] base health has increased!",
-					"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]GAIN HP[c:], HOW SAD. NOW PLEASE LEAVE.",
+					"The Bone Lord has been generous.\n[c:bR]{0}[c:] base health has increased!",
+					$"YOU DON'T HAVE ANYMORE CARDS TO {"GAIN HP".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
 					filterCardsOnPredicate: info => info.Health > 0
 				);
 
 				break;
 			}
-			// card loses 1 HP = 10%?
-			case <= 50f:
-			{
-				cardThatWillHaveEffectApplied = ApplyEffectToCards(
-					"grimora_card_health_decrease",
-					"Be glad the Bone Lord doesn't take more. [c:bR]{0}[c:] base health has decreased!",
-					"YOU DON'T HAVE ANYMORE CARDS TO [c:bR]LOSE HP[c:], HOW SAD. NOW PLEASE LEAVE.",
-					filterCardsOnPredicate: info => info.Health > 1
-				);
+			/*
+		// card loses 1 HP = 10%?
+		case <= 50f:
+		{
+			cardThatWillHaveEffectApplied = ApplyEffectToCards(
+				"grimora_card_health_decrease",
+				"Be glad the Bone Lord doesn't take more.\n[c:bR]{0}[c:] base health has decreased!",
+				$"YOU DON'T HAVE ANYMORE CARDS TO {"LOSE HP".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
+				filterCardsOnPredicate: info => info.Health > 1
+			);
 
-				break;
-			}
+			break;
+		}
+			*/
 		}
 
 		GrimoraSaveUtil.DeckInfo.UpdateModDictionary();
@@ -282,8 +294,11 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 	private List<CardInfo> GetCardsWithoutMod(string singletonId, Predicate<CardInfo> cardInfoPredicate = null)
 	{
 		return GrimoraSaveUtil.DeckList
-			.Where(info => (cardInfoPredicate is null || cardInfoPredicate.Invoke(info))
-			               && !info.mods.Exists(mod => mod.singletonId == singletonId))
+			.Where(
+				info => (cardInfoPredicate is null || cardInfoPredicate.Invoke(info))
+				        && info.Mods != null
+				        && !info.Mods.Exists(mod => mod.singletonId == singletonId)
+			)
 			.Randomize()
 			.ToList();
 	}
@@ -295,7 +310,9 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		string whetherIncreaseOrDecrease = splitSingleton[3];
 		var modificationInfo = new CardModificationInfo();
 
-		int howMuchToAdjust = whetherIncreaseOrDecrease.Equals("increase") ? 1 : -1;
+		int howMuchToAdjust = whetherIncreaseOrDecrease.Equals("increase")
+			? 1
+			: -1;
 
 		if (whatToApplyTo.Equals("health"))
 		{
@@ -324,34 +341,38 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		CardInfo cardToReturn = BoonsUtil.CreateCardForBoon(BoonData.Type.StartingBones);
 		if (cards.IsNullOrEmpty())
 		{
-			StartCoroutine(TextDisplayer.Instance.ShowUntilInput(
-				dialogueNoCardsChosen,
-				-0.65f,
-				0.4f,
-				Emotion.Neutral,
-				TextDisplayer.LetterAnimation.WavyJitter
-			));
+			StartCoroutine(
+				TextDisplayer.Instance.ShowUntilInput(
+					dialogueNoCardsChosen,
+					-0.65f,
+					0.4f,
+					Emotion.Neutral,
+					TextDisplayer.LetterAnimation.WavyJitter
+				)
+			);
 		}
 		else
 		{
 			if (isForSingleCard)
 			{
 				cardToReturn = cards[0];
-				cardToReturn.mods.Add(modificationInfo);
-				dialogueOnAtLeastOneCard = dialogueOnAtLeastOneCard.Replace("{0}", $"{cardToReturn.displayedName}");
+				cardToReturn.Mods.Add(modificationInfo);
+				dialogueOnAtLeastOneCard = dialogueOnAtLeastOneCard.Replace("{0}", $"{cardToReturn.DisplayedNameLocalized}");
 			}
 			else
 			{
-				cards.ForEach(info => info.mods.Add(modificationInfo));
+				cards.ForEach(info => info.Mods.Add(modificationInfo));
 			}
 
-			StartCoroutine(TextDisplayer.Instance.ShowUntilInput(
-				dialogueOnAtLeastOneCard,
-				-0.65f,
-				0.4f,
-				Emotion.Neutral,
-				TextDisplayer.LetterAnimation.WavyJitter
-			));
+			StartCoroutine(
+				TextDisplayer.Instance.ShowUntilInput(
+					dialogueOnAtLeastOneCard,
+					-0.65f,
+					0.4f,
+					Emotion.Neutral,
+					TextDisplayer.LetterAnimation.WavyJitter
+				)
+			);
 		}
 
 		return cardToReturn;
@@ -360,7 +381,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 	private new void OnSlotSelected(MainInputInteractable slot)
 	{
 		gamepadGrid.enabled = false;
-		sacrificeSlot.SetEnabled(enabled: false);
+		sacrificeSlot.SetEnabled(false);
 		sacrificeSlot.ShowState(HighlightedInteractable.State.NonInteractable);
 		confirmStone.Exit();
 		((SelectCardFromDeckSlot)slot).SelectFromCards(GrimoraSaveUtil.DeckListCopy, OnSelectionEnded, false);
@@ -370,7 +391,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 	{
 		// TODO: This will work, but it doesn't show the boon art correctly.
 
-		if (SpecialNodeHandler.Instance is null || SpecialNodeHandler.Instance.cardRemoveSequencer is not null)
+		if (SpecialNodeHandler.Instance.IsNull() || SpecialNodeHandler.Instance.cardRemoveSequencer)
 		{
 			return;
 		}
@@ -386,22 +407,20 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		var cardRemoveSequencer = cardRemoveSequencerObj.AddComponent<GrimoraCardRemoveSequencer>();
 
 		cardRemoveSequencer.gamepadGrid = oldRemoveSequencer.gamepadGrid;
-		cardRemoveSequencer.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
+		cardRemoveSequencer.selectableCardPrefab = AssetConstants.GrimoraSelectableCard;
 		cardRemoveSequencer.confirmStone = oldRemoveSequencer.confirmStone;
 		cardRemoveSequencer.sacrificeSlot = oldRemoveSequencer.sacrificeSlot;
-		cardRemoveSequencer.sacrificeSlot.cardSelector.selectableCardPrefab = PrefabConstants.GrimoraSelectableCard;
-		cardRemoveSequencer.sacrificeSlot.pile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
+		cardRemoveSequencer.sacrificeSlot.cardSelector.selectableCardPrefab = AssetConstants.GrimoraSelectableCard;
+		cardRemoveSequencer.sacrificeSlot.pile.cardbackPrefab = AssetConstants.GrimoraCardBack;
 		cardRemoveSequencer.skullEyes = oldRemoveSequencer.skullEyes;
 		cardRemoveSequencer.stoneCircleAnim = oldRemoveSequencer.stoneCircleAnim;
 
 		cardRemoveSequencer.deckPile = oldRemoveSequencer.deckPile;
-		cardRemoveSequencer.deckPile.cardbackPrefab = PrefabConstants.GrimoraCardBack;
+		cardRemoveSequencer.deckPile.cardbackPrefab = AssetConstants.GrimoraCardBack;
 
 		Destroy(oldRemoveSequencer);
 
 		SpecialNodeHandler.Instance.cardRemoveSequencer = cardRemoveSequencer;
-
-		// AddDecalRenders();
 	}
 
 	private static void AddDecalRenders()

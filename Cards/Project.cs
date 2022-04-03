@@ -1,22 +1,20 @@
-﻿using APIPlugin;
-using DiskCardGame;
+﻿using DiskCardGame;
 
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameProject = "GrimoraMod_Project";
+	public const string NameProject = $"{GUID}_Project";
 
-	private void Add_Project()
+	private void Add_Card_Project()
 	{
-		NewCard.Add(CardBuilder.Builder
+		CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(Erratic.ability, Ability.SplitStrike)
+			.SetAbilities(ChaosStrike.ability)
 			.SetBaseAttackAndHealth(1, 3)
 			.SetBoneCost(5)
 			.SetDescription("AN EXPERIMENT GONE WRONG, OR RIGHT. IT DEPENDS ON YOUR WORLD VIEW.")
 			.SetNames(NameProject, "Project")
-			.Build()
-		);
+			.Build();
 	}
 }

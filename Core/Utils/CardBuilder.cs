@@ -1,6 +1,6 @@
-﻿using APIPlugin;
-using DiskCardGame;
-using HarmonyLib;
+﻿using DiskCardGame;
+using InscryptionAPI.Card;
+using InscryptionAPI.Helpers;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -14,12 +14,25 @@ public class CardBuilder
 
 	public CardInfo Build()
 	{
-		if (_cardInfo.metaCategories.Contains(CardMetaCategory.Rare))
+		_cardInfo.temple = CardTemple.Undead;
+		_cardInfo.flipPortraitForStrafe = true;
+
+		if (_cardInfo.name.EndsWith("_tail"))
 		{
-			_cardInfo.appearanceBehaviour = CardUtils.getRareAppearance;
+			string cardNameNoGuid = _cardInfo.name.Replace($"{GUID}_", "").Replace("_tail", "");
+			Log.LogDebug($"Setting tail and tailLostPortrait for [{cardNameNoGuid}]");
+			Sprite tailLostSprite = AllSprites.Single(_ => _.name.Equals($"{cardNameNoGuid}_tailless"));
+			tailLostSprite.RegisterEmissionForSprite(AllSprites.Single(_ => _.name.Equals($"{cardNameNoGuid}_emission")));
+			CardInfo owner = AllGrimoraModCards.Single(info => info.name.EndsWith(cardNameNoGuid));
+			owner.tailParams = new TailParams
+			{
+				tail = _cardInfo,
+				tailLostPortrait = tailLostSprite
+			};
 		}
 
 		AllGrimoraModCards.Add(_cardInfo);
+		CardManager.Add(GUID, _cardInfo);
 		return _cardInfo;
 	}
 
@@ -27,27 +40,30 @@ public class CardBuilder
 	{
 	}
 
+	internal CardBuilder SetSpecialStatIcon(SpecialStatIcon statIcon)
+	{
+		_cardInfo.specialStatIcon = statIcon;
+		return this;
+	}
+
 	internal CardBuilder SetTribes(params Tribe[] tribes)
 	{
-		_cardInfo.tribes ??= new List<Tribe>();
-		tribes.DoIf(tribe => !_cardInfo.tribes.Contains(tribe), tribe => _cardInfo.tribes.Add(tribe));
+		_cardInfo.tribes = tribes.ToList();
 		return this;
 	}
 
 	private CardBuilder SetPortrait(string cardName, Sprite ogCardArt = null)
 	{
-		if (ogCardArt is null)
+		if (ogCardArt.IsNull())
 		{
-			cardName = cardName.Replace("GrimoraMod_", "");
-			// Log.LogDebug($"Looking in AllSprites for [{cardName}]");
+			cardName = cardName.Replace($"{GUID}_", "");
 			_cardInfo.portraitTex = AssetUtils.GetPrefab<Sprite>(cardName);
 
-			// TODO: refactor when API 2.0 comes out
-			AllSprites.DoIf(
-				_ => !NewCard.emissions.ContainsKey(cardName)
-				     && _.name.Equals(cardName + "_emission", StringComparison.OrdinalIgnoreCase),
-				delegate(Sprite sprite) { NewCard.emissions.Add(cardName, sprite); }
-			);
+			Sprite emissionSprite = AllSprites.Find(_ => _.name.Equals($"{cardName}_emission"));
+			if (emissionSprite)
+			{
+				AllSprites.Single(_ => _.name.Equals(cardName)).RegisterEmissionForSprite(emissionSprite);
+			}
 		}
 		else
 		{
@@ -56,11 +72,6 @@ public class CardBuilder
 		}
 
 		return this;
-	}
-
-	internal CardBuilder SetPortrait(Sprite sprite)
-	{
-		return SetPortrait(null, sprite);
 	}
 
 	internal CardBuilder SetBoneCost(int bonesCost)
@@ -73,18 +84,6 @@ public class CardBuilder
 	{
 		_cardInfo.energyCost = energyCost;
 		return this;
-		// Texture energyDecal = energyCost switch
-		// {
-		// 	1 => ImageUtils.Energy1,
-		// 	2 => ImageUtils.Energy2,
-		// 	3 => ImageUtils.Energy3,
-		// 	4 => ImageUtils.Energy4,
-		// 	5 => ImageUtils.Energy5,
-		// 	6 => ImageUtils.Energy6,
-		// 	_ => null
-		// };
-		//
-		// return SetDecals(energyDecal);
 	}
 
 	internal CardBuilder SetBaseAttackAndHealth(int baseAttack, int baseHealth)
@@ -118,78 +117,51 @@ public class CardBuilder
 		return this;
 	}
 
+	internal CardBuilder SetAppearance(params CardAppearanceBehaviour.Appearance[] appearance)
+	{
+		_cardInfo.appearanceBehaviour = appearance.ToList();
+		return this;
+	}
+
 	internal CardBuilder SetMetaCategories(params CardMetaCategory[] categories)
 	{
-		_cardInfo.metaCategories ??= new List<CardMetaCategory>();
-		categories.DoIf(
-			category => !_cardInfo.metaCategories.Contains(category),
-			category => _cardInfo.metaCategories.Add(category)
-		);
+		_cardInfo.metaCategories = categories?.ToList();
+		if ((categories ?? Array.Empty<CardMetaCategory>()).Contains(CardMetaCategory.Rare))
+		{
+			_cardInfo.appearanceBehaviour = new List<CardAppearanceBehaviour.Appearance>
+				{ CardAppearanceBehaviour.Appearance.RareCardBackground };
+		}
+
 		return this;
 	}
 
 	internal CardBuilder SetAbilities(params Ability[] abilities)
 	{
-		_cardInfo.abilities = abilities?.ToList();
+		_cardInfo.abilities = abilities.ToList();
 		return this;
 	}
 
-	internal CardBuilder SetAbilities(params SpecialTriggeredAbility[] specialTriggeredAbilities)
+	internal CardBuilder SetSpecialAbilities(params SpecialTriggeredAbility[] specialTriggeredAbilities)
 	{
-		_cardInfo.specialAbilities ??= new List<SpecialTriggeredAbility>();
-		specialTriggeredAbilities.DoIf(
-			tribe => !_cardInfo.specialAbilities.Contains(tribe),
-			tribe => _cardInfo.specialAbilities.Add(tribe)
-		);
-
+		_cardInfo.specialAbilities = specialTriggeredAbilities.ToList();
 		return this;
 	}
 
 	internal CardBuilder SetIceCube(string iceCubeName)
 	{
-		CardInfo cardToLoad = null;
-		try
-		{
-			cardToLoad = iceCubeName.GetCardInfo();
-		}
-		catch (Exception e)
-		{
-			cardToLoad = NewCard.cards.Single(_ => _.name.Equals(iceCubeName));
-		}
-
-		_cardInfo.iceCubeParams = new IceCubeParams
-		{
-			creatureWithin = cardToLoad
-		};
-
+		_cardInfo.SetIceCube(iceCubeName);
 		return this;
 	}
 
 	internal CardBuilder SetEvolve(string evolveInto, int numberOfTurns)
 	{
-		CardInfo cardToLoad = null;
-		try
-		{
-			cardToLoad = evolveInto.GetCardInfo();
-		}
-		catch (Exception e)
-		{
-			cardToLoad = NewCard.cards.Single(_ => _.name.Equals(evolveInto));
-		}
-
-		_cardInfo.evolveParams = new EvolveParams
-		{
-			turnsToEvolve = numberOfTurns,
-			evolution = cardToLoad
-		};
+		_cardInfo.SetEvolve(evolveInto, numberOfTurns);
 		return this;
 	}
 
 	internal CardBuilder SetTraits(params Trait[] traits)
 	{
-		_cardInfo.traits ??= new List<Trait>();
-		traits.DoIf(trait => !_cardInfo.traits.Contains(trait), trait => _cardInfo.traits.Add(trait));
-
+		_cardInfo.traits = traits?.ToList();
 		return this;
 	}
 

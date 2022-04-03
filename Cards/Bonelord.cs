@@ -1,20 +1,21 @@
-using APIPlugin;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameBonelord = "GrimoraMod_Bonelord";
+	public const string NameBonelord = $"{GUID}_Bonelord";
 
-	private void Add_Bonelord()
+	private void Add_Card_Bonelord()
 	{
-		NewCard.Add(CardBuilder.Builder
-			.SetAbilities(BoneLordsReign.ability)
-			.SetBaseAttackAndHealth(4, 10)
+		CardBuilder.Builder
+			.SetAbilities(GiantStrike.ability, Ability.Reach, Ability.MadeOfStone)
+			.SetSpecialAbilities(GrimoraGiant.FullSpecial.Id)
+			.SetBaseAttackAndHealth(1, 20)
 			.SetBoneCost(666)
-			.SetDescription("WHEN THE BONE LORD APPEARS, EVERY CREATURE WILL FALL.")
-			.SetNames(NameBonelord, "The Bone Lord")
-			.Build()
-		);
+			.SetDescription("WHEN THE BONELORD APPEARS, EVERY CREATURE WILL FALL.")
+			.SetTraits(Trait.Giant, Trait.Uncuttable)
+			.SetNames(NameBonelord, "The Bonelord")
+			.Build();
 	}
 }

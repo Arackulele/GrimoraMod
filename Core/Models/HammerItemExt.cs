@@ -1,5 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
+using HarmonyLib;
 using Pixelplacement;
 using UnityEngine;
 
@@ -7,9 +8,12 @@ namespace GrimoraMod;
 
 public class HammerItemExt : HammerItem
 {
+	private static readonly int Glossiness = Shader.PropertyToID("_GlossMapScale");
 	private static readonly int Hit = Animator.StringToHash("hit");
+
+	private Material HammerHandleMat => transform.Find("Handle").GetComponent<MeshRenderer>().material;
+
 	private int _useCounter = 0;
-	private bool _dialoguePlayed = false;
 
 	public override IEnumerator OnValidTargetSelected(CardSlot targetSlot, GameObject firstPersonItem)
 	{
@@ -26,53 +30,80 @@ public class HammerItemExt : HammerItem
 			delegate { firstPersonItem.gameObject.SetActive(false); }
 		);
 
-		if (targetSlot.Card != null)
+		if (targetSlot.Card && !targetSlot.Card.Dead)
 		{
 			if (_useCounter < 3)
 			{
-				if (TurnManager.Instance.Opponent is not null
-				    && TurnManager.Instance.Opponent is KayceeBossOpponent
-				    && targetSlot.Card.HasAbility(Ability.IceCube)
-				   )
+				if (TurnManager.Instance.Opponent is KayceeBossOpponent && targetSlot.CardIsNotNullAndHasAbility(Ability.IceCube))
 				{
-					yield return TextDisplayer.Instance.ShowUntilInput(
-						"I can't make it that easy for you! There's no fun if you destroy all this ice!"
-					);
+					ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue = 2;
+					_useCounter = 3;
 				}
-				else
-				{
-					yield return targetSlot.Card.TakeDamage(100, null);
-					_useCounter++;
-				}
+
+				yield return targetSlot.Card.Die(false);
+				_useCounter++;
 			}
 		}
 
-		if (!_dialoguePlayed && _useCounter == 1)
+		if (_useCounter == 1 && ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue == 0)
 		{
-			StartCoroutine(
-				TextDisplayer.Instance.ShowUntilInput(
-					"Don't get too comfortable with that, this Hammer is fragile and will break after the 3rd use!")
+			yield return PlayDialogue(
+				"THE FRAIL THING WILL SHATTER AFTER EXCESSIVE USE. THREE STRIKES, AND IT'S OUT, FOR THIS BATTLE AT LEAST."
 			);
+			HammerHandleMat.SetFloat(Glossiness, 0.6f);
+			ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue = 1;
 		}
-		else if (!_dialoguePlayed && _useCounter == 2)
+		else if (_useCounter == 2 && ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue == 1)
 		{
-			StartCoroutine(
-				TextDisplayer.Instance.ShowUntilInput("Getting carried away are we? You can only use it one more time.")
-			);
+			yield return PlayDialogue("GETTING CARRIED AWAY ARE WE? YOU CAN ONLY USE IT ONE MORE TIME.");
+			HammerHandleMat.SetFloat(Glossiness, 1f);
+			ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue = 2;
 		}
-		else if (!_dialoguePlayed && _useCounter >= 3)
+		else if (_useCounter >= 3 && ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue == 2)
 		{
-			StartCoroutine(
-				TextDisplayer.Instance.ShowUntilInput("The Hammer is now broken and you can no longer use it. I will have it fixed for the next battle though...")
+			yield return PlayDialogue(
+				"THE HAMMER IS NOW BROKEN DEAR. I WILL HAVE IT FIXED FOR THE NEXT BATTLE THOUGH..."
 			);
-			_dialoguePlayed = true;
+			gameObject.SetActive(false);
+			ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue = 3;
 		}
 
+		TextDisplayer.Instance.Clear();
+
 		yield return new WaitForSeconds(0.65f);
+	}
+
+
+	public IEnumerator PlayDialogue(string dialogue)
+	{
+		if (ChessboardMapExt.Instance.HasNotPlayedDialogueOnce || ConfigHelper.Instance.HammerDialogueOption == 2)
+		{
+			yield return TextDisplayer.Instance.ShowThenClear(dialogue, 3f);
+		}
 	}
 
 	public override bool ExtraActivationPrerequisitesMet()
 	{
 		return _useCounter < 3 && GetValidTargets().Count > 0;
+	}
+}
+
+[HarmonyPatch(typeof(SelectableCardArray))]
+public class FixCursorInteractionFromCorpseEaterTutorAfterHammeringACard
+{
+	[HarmonyPrefix, HarmonyPatch(nameof(SelectableCardArray.SelectCardFrom))]
+	public static void SelectCardFromLogging(
+		List<CardInfo> cards,
+		CardPile pile,
+		Action<SelectableCard> cardSelectedCallback,
+		Func<bool> cancelCondition = null,
+		bool forPositiveEffect = true
+	)
+	{
+		if (InteractionCursor.Instance.InteractionDisabled)
+		{
+			GrimoraPlugin.Log.LogDebug($"Cursor interaction is disabled, re-enabling so you can select a card.");
+			InteractionCursor.Instance.InteractionDisabled = false;
+		}
 	}
 }

@@ -1,15 +1,14 @@
-using APIPlugin;
 using DiskCardGame;
 
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameBoneLordsHorn = "GrimoraMod_BonelordsHorn";
+	public const string NameBoneLordsHorn = $"{GUID}_BonelordsHorn";
 
-	private void Add_BonelordsHorn()
+	private void Add_Card_BonelordsHorn()
 	{
-		NewCard.Add(CardBuilder.Builder
+		CardBuilder.Builder
 			.SetAsRareCard()
 			.SetAbilities(Ability.IceCube, Ability.QuadrupleBones)
 			.SetBaseAttackAndHealth(0, 1)
@@ -18,7 +17,6 @@ public partial class GrimoraPlugin
 			.SetEnergyCost(2)
 			.SetIceCube(NameBonePrince)
 			.SetNames(NameBoneLordsHorn, "Bone Lord's Horn")
-			.Build()
-		);
+			.Build();
 	}
 }
