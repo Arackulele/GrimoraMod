@@ -106,12 +106,12 @@ public static class CardRelatedExtension
 
 	public static bool HasBeenElectricChaired(this PlayableCard playableCard)
 	{
-		return playableCard.Info.Mods.Exists(mod => mod.singletonId == "GrimoraMod_ElectricChaired");
+		return playableCard.Info.Mods.Exists(mod => mod.singletonId == ElectricChairSequencer.ModSingletonId);
 	}
 
 	public static bool HasBeenElectricChaired(this CardInfo cardInfo)
 	{
-		return cardInfo.Mods.Exists(mod => mod.singletonId == "GrimoraMod_ElectricChaired");
+		return cardInfo.Mods.Exists(mod => mod.singletonId == ElectricChairSequencer.ModSingletonId);
 	}
 
 	public static void RemoveAbilityFromThisCard(

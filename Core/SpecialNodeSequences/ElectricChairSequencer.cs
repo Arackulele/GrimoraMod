@@ -11,6 +11,8 @@ namespace GrimoraMod;
 [SuppressMessage("ReSharper", "InconsistentNaming")]
 public class ElectricChairSequencer : CardStatBoostSequencer
 {
+	public const string ModSingletonId = "GrimoraMod_ElectricChaired";
+	
 	public static ElectricChairSequencer Instance => FindObjectOfType<ElectricChairSequencer>();
 
 	public static readonly List<Ability> AbilitiesToChoseRandomly = new()
@@ -18,6 +20,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		ActivatedDealDamageGrimora.ability,
 		ActivatedDrawSkeletonGrimora.ability,
 		ActivatedEnergyDrawWyvern.ability,
+		ActivatedGainEnergySoulSucker.ability,
 		AlternatingStrike.ability,
 		AreaOfEffectStrike.ability,
 		BoneThief.ability,
@@ -281,18 +284,18 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	#region ApplyingModToCard
 
-	private static void ApplyModToCard(CardInfo card)
+	private void ApplyModToCard(CardInfo card)
 	{
 		CardModificationInfo cardModificationInfo = new CardModificationInfo
 		{
 			abilities = new List<Ability> { GetRandomAbility(card) },
-			singletonId = "GrimoraMod_ElectricChaired",
+			singletonId = ModSingletonId,
 			nameReplacement = card.displayedName.Replace("Yellowbeard", "Bluebeard")
 		};
 		GrimoraSaveUtil.DeckInfo.ModifyCard(card, cardModificationInfo);
 	}
 
-	private static Ability GetRandomAbility(CardInfo card)
+	private Ability GetRandomAbility(CardInfo card)
 	{
 		Ability randomSigil = AbilitiesToChoseRandomly.GetRandomItem();
 		while (card.HasAbility(randomSigil) || HasAbilityComboThatWillBreakTheGame(card, randomSigil))
@@ -311,21 +314,26 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private static readonly List<Ability> AbilitiesThatShouldNotExistOnZeroAttackCards = new()
 	{
-		AlternatingStrike.ability, AreaOfEffectStrike.ability, InvertedStrike.ability,
+		AlternatingStrike.ability, AreaOfEffectStrike.ability, BoneThief.ability, InvertedStrike.ability,
 		Ability.Sniper, Ability.SplitStrike, Ability.TriStrike
 	};
 
-	private static bool HasAbilityComboThatWillBreakTheGame(CardInfo card, Ability randomSigil)
+	private bool HasAbilityComboThatWillBreakTheGame(CardInfo card, Ability randomSigil)
 	{
 		return CheckCardHavingAbilityAndViceVersa(card, Ability.StrafePush, randomSigil, SkinCrawler.ability)
 		       || randomSigil == Ability.SwapStats && (card.Attack < 1 || card.Health < 3)
-		       || card.Attack < 1
-		       && (AbilitiesThatShouldNotExistOnZeroAttackCards.Contains(randomSigil)
-		           || randomSigil == Ability.Deathtouch
-		           && !card.Abilities.Exists(
-			           ab => ab is Ability.Sentry or Ability.Sharp
-		           ))
+		       || RandomSigilShouldNotExistOnZeroAttackCard(card, randomSigil)
 			;
+	}
+
+	private bool RandomSigilShouldNotExistOnZeroAttackCard(CardInfo card, Ability randomSigil)
+	{
+		if (card.Attack >= 1)
+		{
+			return false;
+		}
+		return AbilitiesThatShouldNotExistOnZeroAttackCards.Contains(randomSigil)
+			 || randomSigil == Ability.Deathtouch && !card.Abilities.Exists(ab => ab is Ability.Sentry or Ability.Sharp);
 	}
 
 	private static bool CheckCardHavingAbilityAndViceVersa(
