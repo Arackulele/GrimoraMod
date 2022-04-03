@@ -8,8 +8,6 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(GravestoneRenderStatsLayer))]
 public class GravestoneRenderStatsLayerPatches
 {
-	private static readonly Color GrimoraTextColor = new(0.420f, 1f, 0.63f, 0.25f);
-
 	private static readonly CardStatIcons CardStatIcons = ResourceBank.Get<CardStatIcons>(
 		"Prefabs/Cards/CardSurfaceInteraction/CardStatIcons_Invisible"
 	);
@@ -31,6 +29,41 @@ public class GravestoneRenderStatsLayerPatches
 		if (playableCard && playableCard.HasBeenElectricChaired() || selectableCard && selectableCard.Info.HasBeenElectricChaired())
 		{
 			__instance.SetEmissionColor(GameColors.Instance.blue);
+		}
+
+		HandleImbuedAbility(__instance, playableCard, selectableCard);
+	}
+
+	private static void HandleElectricChair(
+		GravestoneRenderStatsLayer statsLayer,
+		PlayableCard playableCard,
+		SelectableCard selectableCard
+	)
+	{
+		if (playableCard && playableCard.HasBeenElectricChaired() 
+		 || selectableCard && selectableCard.Info.HasBeenElectricChaired())
+		{
+			statsLayer.SetEmissionColor(GameColors.Instance.blue);
+		}
+	}
+
+	private static void HandleImbuedAbility(
+		GravestoneRenderStatsLayer statsLayer, 
+		PlayableCard playableCard, 
+		SelectableCard selectableCard
+		)
+	{
+		if (playableCard && playableCard.HasAbility(Imbued.ability)
+		 || selectableCard && selectableCard.Info.HasAbility(Imbued.ability))
+		{
+			if (playableCard && playableCard.Attack == 0)
+			{
+				statsLayer.SetEmissionColor(GrimoraColors.AlphaZeroBlack);
+			}
+			else if (selectableCard && selectableCard.Info.Attack == 0)
+			{
+				statsLayer.SetEmissionColor(GrimoraColors.AlphaZeroBlack);
+			}
 		}
 	}
 
@@ -70,7 +103,7 @@ public class GravestoneRenderStatsLayerPatches
 						EnergyCellsLeft,
 						__instance.gameObject.transform
 					)
-					.GetComponent<MeshRenderer>();
+				 .GetComponent<MeshRenderer>();
 
 				MeshRenderer energyCellsRight = null;
 				if (energyCost > 3)
@@ -79,7 +112,7 @@ public class GravestoneRenderStatsLayerPatches
 							EnergyCellsRight,
 							__instance.gameObject.transform
 						)
-						.GetComponent<MeshRenderer>();
+					 .GetComponent<MeshRenderer>();
 				}
 
 				UpdateEnergyCost(energyCost, energyCellsLeft, energyCellsRight);
@@ -94,7 +127,7 @@ public class GravestoneRenderStatsLayerPatches
 		{
 			if (i < energyCost)
 			{
-				energyCellsLeft.materials[energyCellsLeftLength - i - 1].color = GrimoraTextColor;
+				energyCellsLeft.materials[energyCellsLeftLength - i - 1].color = GrimoraColors.GrimoraEnergyCost;
 			}
 			else
 			{
@@ -116,7 +149,7 @@ public class GravestoneRenderStatsLayerPatches
 			{
 				if (i < energyCost - 3)
 				{
-					energyCellsRight.materials[energyCellsRightLength - i - 1].color = GrimoraTextColor;
+					energyCellsRight.materials[energyCellsRightLength - i - 1].color = GrimoraColors.GrimoraEnergyCost;
 				}
 				else
 				{
