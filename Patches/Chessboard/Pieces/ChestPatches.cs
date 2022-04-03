@@ -33,8 +33,14 @@ public class ChestPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(ChessboardChestPiece.OpenSequence))]
 	public static IEnumerator OpenSequencePostfix(IEnumerator enumerator, ChessboardChestPiece __instance)
 	{
+		if (!SaveManager.SaveFile.IsGrimora)
+		{
+			yield return enumerator;
+			yield break;
+		}
+
 		GrimoraPlugin.Log.LogDebug($"[ChessboardChestPiece.OpenSequence] Piece [{__instance.name}]");
-		ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(__instance.name);
+		ConfigHelper.AddPieceToRemovedPiecesConfig(__instance.name);
 
 		MapNodeManager.Instance.SetAllNodesInteractable(false);
 
