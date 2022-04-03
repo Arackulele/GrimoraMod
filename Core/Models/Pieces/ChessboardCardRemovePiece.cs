@@ -1,6 +1,4 @@
-﻿using DiskCardGame;
-
-namespace GrimoraMod;
+﻿namespace GrimoraMod;
 
 public class ChessboardCardRemovePiece : ChessboardPieceExt
 {

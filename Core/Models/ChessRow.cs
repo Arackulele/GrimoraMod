@@ -5,7 +5,7 @@ public class ChessRow
 	public readonly List<ChessNode> Columns;
 	protected internal readonly int Index;
 
-	public ChessRow(List<int> columns, int index)
+	public ChessRow(IEnumerable<int> columns, int index)
 	{
 		this.Columns = columns.Select((c, idx) => new ChessNode(c, idx, this)).ToList();
 		this.Index = index;

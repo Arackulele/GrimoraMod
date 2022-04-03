@@ -1,14 +1,18 @@
-﻿using DiskCardGame;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using DiskCardGame;
 using HarmonyLib;
 using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
+using Random = UnityEngine.Random;
 
 namespace GrimoraMod;
 
 public class GrimoraChessboard
 {
-	private readonly Dictionary<System.Type, Tuple<Func<GameObject>, Func<List<ChessNode>>>> _nodesByPieceType;
+	private readonly Dictionary<Type, Tuple<Func<GameObject>, Func<List<ChessNode>>>> _nodesByPieceType;
 
 	private Dictionary<Type, Tuple<Func<GameObject>, Func<List<ChessNode>>>> BuildDictionary()
 	{
@@ -398,7 +402,7 @@ public class GrimoraChessboard
 		}
 
 		var blueprints = BlueprintUtils.RegionWithBlueprints.ElementAt(ConfigHelper.Instance.BossesDefeated).Value;
-		return blueprints[UnityEngine.Random.Range(0, blueprints.Count)];
+		return blueprints[Random.Range(0, blueprints.Count)];
 	}
 
 	#endregion

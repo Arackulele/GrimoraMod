@@ -1,17 +1,22 @@
+global using Color = UnityEngine.Color;
 global using UnityObject = UnityEngine.Object;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using BepInEx;
 using BepInEx.Logging;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers;
 using UnityEngine;
 
 namespace GrimoraMod;
 
-[BepInDependency(InscryptionAPI.InscryptionAPIPlugin.ModGUID)]
+[BepInDependency(InscryptionAPIPlugin.ModGUID)]
 [BepInPlugin(GUID, Name, Version)]
 public partial class GrimoraPlugin : BaseUnityPlugin
 {
