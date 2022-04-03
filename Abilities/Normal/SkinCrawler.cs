@@ -13,9 +13,7 @@ public class SkinCrawler : AbilityBehaviour
 
 	public override Ability Ability => ability;
 
-	private SkinCrawlerSlot slotHidingUnderCard = null;
-
-	public static Action DoCreateAfterGlobalHandlerFinishes;
+	private SkinCrawlerSlot _slotHidingUnderCard = null;
 
 	public static bool SlotDoesNotHaveSkinCrawler(CardSlot cardSlot)
 	{
@@ -85,7 +83,7 @@ public class SkinCrawler : AbilityBehaviour
 			BoardManager.Instance.GetSlots(!Card.OpponentCard)[Card.Slot.Index].Card = null;
 			Card.slot = null;
 			Log.LogDebug($"[Crawler.AssignSkinCrawlerCardToHost] Setting up slot.");
-			slotHidingUnderCard = SkinCrawlerSlot.SetupSlot(Card, cardToPick);
+			_slotHidingUnderCard = SkinCrawlerSlot.SetupSlot(Card, cardToPick);
 
 			yield return new WaitForSeconds(0.25f);
 			ViewManager.Instance.SwitchToView(View.Default);
@@ -164,11 +162,11 @@ public class SkinCrawler : AbilityBehaviour
 		Log.LogDebug(
 			$"[Crawler.RespondsToOtherCardAssignedToSlot]"
 		+ $" This {Card.GetNameAndSlot()} OtherCard {otherCard.GetNameAndSlot()} "
-		+ $"_slotHidingUnderCard [{slotHidingUnderCard}] "
+		+ $"_slotHidingUnderCard [{_slotHidingUnderCard}] "
 		+ $"otherCard.Slot != Card.Slot [{otherCard.Slot != Card.Slot}]"
 		);
 
-		return slotHidingUnderCard.IsNull()
+		return _slotHidingUnderCard.IsNull()
 		    && otherCard.Slot != Card.Slot
 		    && CardIsAdjacent(otherCard);
 	}
@@ -219,18 +217,6 @@ public class SkinCrawlerSlot : NonCardTriggerReceiver
 		return crawlerSlot;
 	}
 
-	public override bool RespondsToTurnEnd(bool playerTurnEnd)
-	{
-		return skinCrawlerCard.IsNull();
-	}
-
-	public override IEnumerator OnTurnEnd(bool playerTurnEnd)
-	{
-		Log.LogDebug($"[CrawlerSlot.OnOtherCardDie] Destroying crawler slot [{this}]");
-		Destroy(gameObject);
-		yield break;
-	}
-
 	public override bool RespondsToOtherCardAssignedToSlot(PlayableCard otherCard)
 	{
 		return skinCrawlerCard != otherCard && otherCard.Slot == hidingOnSlot && hidingUnderCard.Dead;
@@ -268,15 +254,9 @@ public class SkinCrawlerSlot : NonCardTriggerReceiver
 		hidingOnSlot = null;
 		hidingUnderCard = null;
 		Log.LogDebug($"[CrawlerSlot.OnOtherCardDie] Resolving [{skinCrawlerCard.GetNameAndSlot()}] to deathSlot [{deathSlot.Index}]");
-		SkinCrawler.DoCreateAfterGlobalHandlerFinishes += () =>
-			BoardManager.Instance.StartCoroutine(SpawnCrawlerCardThenDeleteOldCrawlerSlot(deathSlot));
-		yield break;
-	}
-
-	private IEnumerator SpawnCrawlerCardThenDeleteOldCrawlerSlot(CardSlot deathSlot)
-	{
-		Log.LogDebug("[CrawlerSlot.SpawningCrawler] Starting coroutine for creating crawler and then deleting old slot");
-		yield return BoardManager.Instance.TransitionAndResolveCreatedCard(skinCrawlerCard, deathSlot, 0);
+		yield return BoardManager.Instance.TransitionAndResolveCreatedCard(skinCrawlerCard, deathSlot, 0, false);
+		yield return new WaitForSeconds(0.25f);
+		Log.LogDebug($"[CrawlerSlot.OnOtherCardDie] Destroying [{gameObject}] at slot [{deathSlot.Index}]");
 		Destroy(gameObject);
 	}
 }
