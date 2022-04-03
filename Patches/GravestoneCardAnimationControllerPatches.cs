@@ -147,7 +147,7 @@ public class GravestoneCardAnimationControllerPatches
 		CardSlot targetSlot
 	)
 	{
-		Log.LogInfo($"Checking Playable card {playableCard.GetNameAndSlot()} TargetSlot {targetSlot} Attack == 0 ? [{playableCard.Attack == 0}] Has sniper? [{playableCard.HasAbility(Ability.Sniper)}]");
+		Log.LogDebug($"Checking Playable card {playableCard.GetNameAndSlot()} TargetSlot {targetSlot} Attack == 0 ? [{playableCard.Attack == 0}] Has sniper? [{playableCard.HasAbility(Ability.Sniper)}]");
 		bool doPlaySentryAttack = targetSlot.IsNull() && playableCard.HasAbility(Ability.Sentry);
 		if (doPlaySentryAttack)
 		{
