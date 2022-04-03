@@ -95,7 +95,7 @@ public class SkinCrawler : AbilityBehaviour
 
 	public IEnumerator DoAnimationSequence(PlayableCard cardToPick, CardSlot cardSlotToPick)
 	{
-		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
+		ViewManager.Instance.SwitchToView(View.Board);
 
 		yield return new WaitForSeconds(0.4f);
 
@@ -211,7 +211,7 @@ public class SkinCrawlerSlot : NonCardTriggerReceiver
 	{
 		SkinCrawlerSlot crawlerSlot = new GameObject("SkinCrawler_" + skinCrawler.Info.DisplayedNameEnglish).AddComponent<SkinCrawlerSlot>();
 		crawlerSlot.transform.SetParent(hidingUnderCard.Slot.transform);
-		// skinCrawler.transform.SetParent(crawlerSlot.transform);
+		skinCrawler.transform.SetParent(hidingUnderCard.Slot.transform);
 		crawlerSlot.skinCrawlerCard = skinCrawler;
 		crawlerSlot.hidingOnSlot = hidingUnderCard.Slot;
 		crawlerSlot.hidingUnderCard = hidingUnderCard;

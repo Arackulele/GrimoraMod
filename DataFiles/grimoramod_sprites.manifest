@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3616123400
+CRC: 2615060136
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8956a34acdec2ed4a1e2bee60d04733d
+    Hash: 4a37d8fb11eec54cf99d5f68bbcfe4b9
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -137,6 +137,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/PiratePrivateer.png
 - Assets/GrimoraMod_Unity/Cards/Nixie_emission.png
 - Assets/GrimoraMod_Unity/Cards/Warthr_emission.png
+- Assets/GrimoraMod_Unity/Menu/MenuCard_ResetRun.png
 - Assets/GrimoraMod_Unity/Cards/Summoner.png
 - Assets/GrimoraMod_Unity/Cards/Doll.png
 - Assets/GrimoraMod_Unity/Cards/Manananggal_emission.png

@@ -108,7 +108,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			ViewManager.Instance.OffsetFOV(150f, 1.5f);
 
 			yield return new WaitForSeconds(1f);
-			ConfigHelper.Instance.ResetRun();
+			yield return MenuController.Instance.TransitionToGame2(true);
 		}
 	}
 

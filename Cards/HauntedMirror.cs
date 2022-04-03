@@ -12,8 +12,8 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetSpecialAbilities(SpecialTriggeredAbility.Mirror)
 			.SetBaseAttackAndHealth(0, 2)
+			.SetDescription("I advise against staring into it, you won't like what stares back.")
 			.SetEnergyCost(4)
-			// .SetDescription("")
 			.SetNames(NameHauntedMirror, "Haunted Mirror")
 			.SetSpecialStatIcon(SpecialStatIcon.Mirror)
 			.Build();

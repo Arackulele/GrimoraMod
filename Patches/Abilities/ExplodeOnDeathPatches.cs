@@ -25,10 +25,12 @@ public class ExplodeOnDeathPatches
 	{
 		if (target)
 		{
+			GrimoraPlugin.Log.LogDebug($"[BombCard] Target {target.GetNameAndSlot()} is not null");
 			yield return enumerator;
 		}
 		else
 		{
+			GrimoraPlugin.Log.LogDebug($"[BombCard] Target is NULL. Rerunning ExplodeFromSlot. Attacker? [{attacker}]");
 			yield return __instance.ExplodeFromSlot(attacker.Slot);
 		}
 	}

@@ -9,12 +9,12 @@ public partial class GrimoraPlugin
 	private void Add_Card_BloodySack()
 	{
 		CardBuilder.Builder
-			.SetAsNormalCard()
-			.SetAbilities(Ability.DrawRandomCardOnDeath)
-			.SetBaseAttackAndHealth(0, 2)
-			.SetBoneCost(2)
-			// .SetDescription("A troublesome lake spirit. It drags others down to a watery grave.")
-			.SetNames(NameBloodySack, "Bloody Sack")
-			.Build();
+		 .SetAsNormalCard()
+		 .SetAbilities(Ability.DrawRandomCardOnDeath)
+		 .SetBaseAttackAndHealth(0, 2)
+		 .SetBoneCost(2)
+		 .SetDescription("This sack is full of body parts. Maybe you'll find something useful in there?")
+		 .SetNames(NameBloodySack, "Bloody Sack")
+		 .Build();
 	}
 }

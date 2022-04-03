@@ -9,18 +9,22 @@ public class FuneralFacade : SpecialCardBehaviour
 {
 	public static SpecialTriggeredAbilityManager.FullSpecialTriggeredAbility FullSpecial;
 
-	public override bool RespondsToOtherCardDie(PlayableCard card,
-	                                            CardSlot deathSlot,
-	                                            bool fromCombat,
-	                                            PlayableCard killer)
+	public override bool RespondsToOtherCardDie(
+		PlayableCard card,
+		CardSlot deathSlot,
+		bool fromCombat,
+		PlayableCard killer
+	)
 	{
 		return card && killer == Card;
 	}
 
-	public override IEnumerator OnOtherCardDie(PlayableCard card,
-	                                           CardSlot deathSlot,
-	                                           bool fromCombat,
-	                                           PlayableCard killer)
+	public override IEnumerator OnOtherCardDie(
+		PlayableCard card,
+		CardSlot deathSlot,
+		bool fromCombat,
+		PlayableCard killer
+	)
 	{
 		if (card.InfoName() != GrimoraPlugin.NameTamperedCoffin)
 		{

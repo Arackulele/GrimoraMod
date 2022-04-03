@@ -12,11 +12,14 @@ public class GrimoraGameFlowManagerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(GrimoraGameFlowManager.CanTransitionToFirstPerson))]
 	public static bool CanTransitionToFirstPerson(GrimoraGameFlowManager __instance, ref bool __result)
 	{
-		if (!Input.GetKeyDown(KeyCode.DownArrow)
+		bool inputTypeisWasd = ConfigHelper.Instance.InputType == 0 && Input.GetKeyDown(KeyCode.S);
+		bool inputTypeIsArrowKeys = ConfigHelper.Instance.InputType == 1 && Input.GetKeyDown(KeyCode.DownArrow);
+		if ((inputTypeisWasd || inputTypeIsArrowKeys)
 		 && __instance.CurrentGameState == GameState.Map
 		 && !__instance.Transitioning
 		 && ProgressionData.LearnedMechanic(MechanicsConcept.FirstPersonNavigation)
-		 && GameMap.Instance)
+		 && GameMap.Instance
+		)
 		{
 			__result = GameMap.Instance.FullyUnrolled;
 		}

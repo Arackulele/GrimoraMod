@@ -1,11 +1,39 @@
-﻿using DiskCardGame;
+﻿using System.Collections;
+using DiskCardGame;
 using HarmonyLib;
+using UnityEngine;
 
 namespace GrimoraMod;
 
 [HarmonyPatch(typeof(BoardManager))]
 public class BoardManagerPatches
 {
+	[HarmonyPostfix, HarmonyPatch(nameof(BoardManager.ClearBoard))]
+	public static IEnumerator CheckForNonCardTriggersOnTheBoardStill(IEnumerator enumerator, BoardManager __instance)
+	{
+		yield return enumerator;
+
+		if (GrimoraSaveUtil.isGrimora)
+		{
+			foreach (var slot in __instance.AllSlotsCopy)
+			{
+				var nonCardReceivers = slot.GetComponentsInChildren<NonCardTriggerReceiver>();
+				foreach (var nonCardTriggerReceiver in nonCardReceivers)
+				{
+					GrimoraPlugin.Log.LogWarning($"[CleanUp] Destroying NonCardTriggerReceiver [{nonCardTriggerReceiver}] from slot [{slot}]");
+					UnityObject.Destroy(nonCardTriggerReceiver);
+				}
+				var playableCardsNotOnTheBoard = slot.GetComponentsInChildren<PlayableCard>();
+				foreach (var card in playableCardsNotOnTheBoard)
+				{
+					GrimoraPlugin.Log.LogWarning($"[CleanUp] Playing exit for playable card as it exists but not on the board technically [{card}] from slot [{slot}]");
+					card.ExitBoard(0.3f, Vector3.zero);
+					yield return new WaitForSeconds(0.1f);
+				}
+			}
+		}
+	}
+
 	[HarmonyPostfix, HarmonyPatch(nameof(BoardManager.QueueCardForSlot))]
 	public static void PostfixAssignAsChildForQueuedCard(
 		PlayableCard card,
@@ -50,8 +78,8 @@ public class BoardManagerPatches
 		{
 			__result = new List<CardSlot>();
 			List<CardSlot> slotsWithGiant = __instance.opponentSlots
-				.Where(x => x.Card && x.Card.InfoName() == slot.Card.InfoName())
-				.ToList();
+			 .Where(x => x.Card && x.Card.InfoName() == slot.Card.InfoName())
+			 .ToList();
 
 			if (slotsWithGiant.Count < 2)
 			{
@@ -60,7 +88,7 @@ public class BoardManagerPatches
 			}
 
 			// Log.LogDebug($"Slots that contain [{slot.Card.GetNameAndSlot()}] = {secondSlot.Join(x => x.Index.ToString())}");
-				
+
 			int leftAdjSlotIndex = slotsWithGiant[0].Index - 1;
 			int rightAdjSlotIndex = slotsWithGiant[1].Index + 1;
 			// Log.LogDebug($"Adjacent slot indexes to check left-[{leftAdjSlotIndex}] right-[{rightAdjSlotIndex}]");
@@ -68,6 +96,7 @@ public class BoardManagerPatches
 			{
 				__result.Add(__instance.opponentSlots[leftAdjSlotIndex]);
 			}
+
 			if (__instance.opponentSlots.Exists(x => x.Index == rightAdjSlotIndex && x.Card != slot.Card))
 			{
 				__result.Add(__instance.opponentSlots[rightAdjSlotIndex]);

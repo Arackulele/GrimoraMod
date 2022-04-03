@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.CorpseEater)
 			.SetBaseAttackAndHealth(2, 1)
 			.SetBoneCost(5)
-			// .SetDescription("THIS GELID SPECTER ENVELOPS WOULD-BE ATTACKERS IN AN ICY MIST.")
+			.SetDescription("Hideous beings that will jump out to consume freshly killed corpses. They'll spare any expense to do so.")
 			.SetNames(NameWight, "Wight")
 			.Build();
 	}

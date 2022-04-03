@@ -16,10 +16,7 @@ public class Puppeteer : AbilityBehaviour
 
 	public override Ability Ability => ability;
 
-	public override bool RespondsToResolveOnBoard()
-	{
-		return true;
-	}
+	public override bool RespondsToResolveOnBoard() => true;
 
 	public override IEnumerator OnResolveOnBoard()
 	{
@@ -56,6 +53,19 @@ public class Puppeteer : AbilityBehaviour
 		playableCard.Anim.PlayTransformAnimation();
 		yield return new WaitForSeconds(0.25f);
 		playableCard.RemoveAbilityFromThisCard(NegateBrittleMod);
+	}
+
+	public override bool RespondsToOtherCardPreDeath(CardSlot deathSlot, bool fromCombat, PlayableCard killer)
+	{
+		return deathSlot.IsPlayerSlot 
+		    && deathSlot.Card 
+		    && deathSlot.Card != Card 
+		    && deathSlot.Card.TemporaryMods.Exists(mod => mod.singletonId == "grimoramod_puppeteer");
+	}
+
+	public override IEnumerator OnOtherCardPreDeath(CardSlot deathSlot, bool fromCombat, PlayableCard killer)
+	{
+		yield return AddBrittleBack(deathSlot.Card);
 	}
 
 	public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer) => true;

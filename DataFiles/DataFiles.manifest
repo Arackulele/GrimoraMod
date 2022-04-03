@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 946201146
+CRC: 3540660546
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -13,11 +13,11 @@ AssetBundleManifest:
       Name: grimoramod_mats
       Dependencies: {}
     Info_3:
-      Name: grimoramod_abilities
-      Dependencies: {}
-    Info_4:
       Name: grimoramod_controller
       Dependencies: {}
-    Info_5:
+    Info_4:
       Name: grimoramod_sounds
+      Dependencies: {}
+    Info_5:
+      Name: grimoramod_abilities
       Dependencies: {}

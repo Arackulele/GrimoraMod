@@ -80,6 +80,10 @@ public class ConfigHelper
 	public bool isRandomizedBlueprintsEnabled => _configRandomizedBlueprintsEnabled.Value;
 
 	private ConfigEntry<string> _configCurrentRemovedPieces;
+	
+	private ConfigEntry<int> _configInputConfig;
+
+	public int InputType => _configInputConfig.Value;
 
 	public List<string> RemovedPieces
 	{
@@ -155,6 +159,14 @@ public class ConfigHelper
 			new ConfigDescription("If enabled, every single enemy encounter, minus the bosses, are completely randomized.")
 		);
 
+		_configInputConfig = GrimoraConfigFile.Bind(
+			Name,
+			"Input Movement Type",
+			0,
+			"0 = W for viewing deck, S for getting up from the table."
+			+ "\n1 = Up arrow for viewing deck, down arrow for getting up from the table."
+		);
+
 		var list = _configCurrentRemovedPieces.Value.Split(',').ToList();
 
 		_configCurrentRemovedPieces.Value = string.Join(",", list.Distinct());
@@ -202,9 +214,6 @@ public class ConfigHelper
 		ResetConfig();
 		ResetDeck();
 		StoryEventsData.EraseEvent(StoryEvent.GrimoraReachedTable);
-		SaveManager.SaveToFile();
-
-		LoadingScreenManager.LoadScene("finale_grimora");
 	}
 
 	public static void ResetDeck()

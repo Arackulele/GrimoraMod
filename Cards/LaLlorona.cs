@@ -12,7 +12,7 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetAbilities(Ability.Submerge)
 			.SetBaseAttackAndHealth(1, 1)
-			// .SetDescription("GOING INTO THAT WELL WASN'T THE BEST IDEA...")
+			.SetDescription("After drowning her children and then herself, she continues to drown others.")
 			.SetEnergyCost(3)
 			.SetNames(NameLaLlorona, "La Llorona")
 			.Build();

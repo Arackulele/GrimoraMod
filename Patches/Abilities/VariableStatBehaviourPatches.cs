@@ -3,7 +3,7 @@ using HarmonyLib;
 
 namespace GrimoraMod;
 
-[HarmonyPatch(typeof(VariableStatBehaviour))]
+// [HarmonyPatch(typeof(VariableStatBehaviour))]
 public class VariableStatBehaviourPatches
 {
 	

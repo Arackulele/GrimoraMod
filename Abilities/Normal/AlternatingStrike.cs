@@ -47,10 +47,10 @@ public class AlternatingStrike : ExtendedAbilityBehaviour
 
 	public override List<CardSlot> GetOpposingSlots(List<CardSlot> originalSlots, List<CardSlot> otherAddedSlots)
 	{
-		CardSlot slotToAttack = BoardManager.Instance.GetAdjacent(Card.Slot, isAttackingLeft);
+		CardSlot slotToAttack = BoardManager.Instance.GetAdjacent(Card.Slot.opposingSlot, isAttackingLeft);
 		if (!slotToAttack)
 		{
-			slotToAttack = BoardManager.Instance.GetAdjacent(Card.Slot, !isAttackingLeft);
+			slotToAttack = BoardManager.Instance.GetAdjacent(Card.Slot.opposingSlot, !isAttackingLeft);
 		}
 
 		return new List<CardSlot> { slotToAttack };

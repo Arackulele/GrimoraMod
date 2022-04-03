@@ -27,8 +27,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	public static List<Material> AllMats;
 	public static List<RuntimeAnimatorController> AllControllers;
 	public static List<Sprite> AllSprites;
-	public static List<Texture> AllAbilityTextures;
 	public static List<AudioClip> AllSounds;
+	public static List<Texture> AllAbilitiesTextures;
 
 	// Gets populated in CardBuilder.Build()
 	public static List<CardInfo> AllGrimoraModCards = new();
@@ -43,6 +43,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		ConfigHelper.Instance.BindConfig();
 
 		AllSprites = AssetUtils.LoadAssetBundle<Sprite>("grimoramod_sprites");
+		AllAbilitiesTextures = AssetUtils.LoadAssetBundle<Texture>("grimoramod_abilities");
 	}
 
 	// private IEnumerator HotReloadMenuCardAdd()
@@ -76,12 +77,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		Log.LogDebug($"Loading cards");
 
-		CardBuilder.Builder
-		 .SetAbilities(Ability.BoneDigger, Ability.SteelTrap, Haunter.ability)
-		 .SetBaseAttackAndHealth(0, 1)
-		 .SetNames($"{GUID}_TrapTest", "Trap Test", "Trap".GetCardInfo().portraitTex)
-		 .Build();
-
 		// What this does, is that every method that exists under this partial class, Grimora Plugin,
 		//	will be searched for and of the ones that start with 'Add_', will be invoked all at once after sorting by name.
 		// We sort by name so Abilities come first because abilities have their method name like 'Add_Ability_' while cards have 'Add_Card_'
@@ -99,11 +94,17 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		CardInfo card = CardManager.BaseGameCards.CardByName("Starvation");
 		card.portraitTex = AllSprites.Single(sp => sp.name.Equals("Starvation"));
 		card.portraitTex.RegisterEmissionForSprite(AllSprites.Single(sp => sp.name.Equals("Starvation_emission")));
+
+		CardBuilder.Builder
+		 .SetAbilities(Ability.BoneDigger, Ability.SteelTrap, Haunter.ability)
+		 .SetBaseAttackAndHealth(0, 1)
+		 .SetNames($"{GUID}_TrapTest", "Trap Test", "Trap".GetCardInfo().portraitTex)
+		 .Build();
 	}
 
 	private void OnDestroy()
 	{
-		AllAbilityTextures = null;
+		AllAbilitiesTextures = null;
 		AllControllers = null;
 		AllMats = null;
 		AllPrefabs = null;
@@ -154,7 +155,5 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		yield return AssetUtils.LoadAssetBundleAsync<RuntimeAnimatorController>("grimoramod_controller");
 
 		yield return AssetUtils.LoadAssetBundleAsync<Material>("grimoramod_mats");
-
-		yield return AssetUtils.LoadAssetBundleAsync<Texture>("grimoramod_abilities");
 	}
 }

@@ -12,7 +12,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(LooseLimb.ability)
 			.SetBaseAttackAndHealth(1, 2)
 			.SetBoneCost(5)
-			// .SetDescription("A SENSE OF DREAD CONSUMES YOU AS YOU REALIZE YOU ARE NOT ALONE IN THESE WOODS.")
+			.SetDescription("It's a wonder this one has stayed together! Though it may lose that arm if it tries to flee...")
 			.SetNames(NameRot, "Rot")
 			.Build()
 			;
