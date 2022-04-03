@@ -40,7 +40,7 @@ public class ChestPatches
 		}
 
 		GrimoraPlugin.Log.LogDebug($"[ChessboardChestPiece.OpenSequence] Piece [{__instance.name}]");
-		ConfigHelper.AddPieceToRemovedPiecesConfig(__instance.name);
+		ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(__instance.name);
 
 		MapNodeManager.Instance.SetAllNodesInteractable(false);
 
