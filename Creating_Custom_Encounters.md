@@ -87,6 +87,10 @@ Zombie
 
 </details>
 
+## How to Enable
+
+In this `grimoramod_config.cfg` file, set the option `Encounter Blueprints` to either 2 or 3.
+
 ## File Creation
 
 Place a `.json` file prefixed with the name `GrimoraMod_Encounter` in the `DataFiles` directory, the same directory where `GrimoraChessboards.json` file is.

@@ -34,7 +34,9 @@
 
 ## Update Notes
 
-### 2.8.4
+### 2.8.4 Custom Encounters
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Custom encounters! Please read the readme here on how to create one: [Creating Custom Encounters](https://github.com/julian-perge/GrimoraMod/blob/main/Creating_Custom_Encounters.md)
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Bone Thief` is not a possible choice to get on a card during the Electric Chair sequence if the card has zero attack.
 
