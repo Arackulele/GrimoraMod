@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Reflection;
 using DiskCardGame;
 using HarmonyLib;
 using Sirenix.Utilities;
@@ -25,9 +26,6 @@ public class ChessboardMapExt : GameMap
 
 	public int hasNotPlayedAllHammerDialogue = 0;
 
-	public GrimoraChessboard ActiveChessboard { get; set; }
-
-	private List<GrimoraChessboard> _chessboards;
 
 	public new static ChessboardMapExt Instance => GameMap.Instance as ChessboardMapExt;
 
@@ -45,6 +43,10 @@ public class ChessboardMapExt : GameMap
 	private bool ChangingRegion { get; set; }
 
 	public bool BossDefeated { get; protected internal set; }
+	
+	public GrimoraChessboard ActiveChessboard { get; set; }
+	
+	private List<GrimoraChessboard> _chessboards;
 
 	private List<GrimoraChessboard> Chessboards
 	{
@@ -52,6 +54,17 @@ public class ChessboardMapExt : GameMap
 		{
 			LoadData();
 			return _chessboards;
+		}
+	}
+
+	private List<EncounterBlueprintData> _customBlueprints;
+	
+	public List<EncounterBlueprintData> CustomBlueprints
+	{
+		get
+		{
+			LoadData();
+			return _customBlueprints;
 		}
 	}
 
@@ -70,6 +83,36 @@ public class ChessboardMapExt : GameMap
 			_chessboards = ParseJson(
 				SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString)
 			);
+		} 
+		
+		if (_customBlueprints == null)
+		{
+			_customBlueprints = new List<EncounterBlueprintData>();
+			string[] encounters = Directory.GetFiles(
+					Assembly.GetExecutingAssembly().Location.Replace("GrimoraMod.dll", ""), "GrimoraMod_Encounter*", SearchOption.AllDirectories)
+			 .Select(File.ReadAllText)
+			 .ToArray();
+
+			Log.LogDebug($"Encounters found [{encounters.Length}]");
+
+			foreach (var encounter in encounters)
+			{
+				Log.LogDebug($"-> Encounter: {encounter}");
+				var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+				Log.LogDebug($"-> blueprint made, reading json FromJson");
+				EncounterJsonUtil.EncountersFromJson encountersFromJson = SimpleJson.DeserializeObject<EncounterJsonUtil.EncountersFromJson>(encounter);
+				Log.LogDebug($"-> EncountersFromJson: [{encountersFromJson.encounters}]");
+				foreach (var encounterFromJson in encountersFromJson.encounters)
+				{
+					for (var i = 0; i < encounterFromJson.turns.Count; i++)
+					{
+						Log.LogDebug($"--> Turn {i+1} Cards: [{encounterFromJson.turns[i].Join()}]");
+					}
+					blueprint.name = encounterFromJson.id;
+					blueprint.turns = encounterFromJson.BuildBlueprints();
+				}
+				_customBlueprints.Add(blueprint);
+			}
 		}
 	}
 
@@ -128,10 +171,10 @@ public class ChessboardMapExt : GameMap
 			if (ConfigHelper.Instance.EnableCardsLeftInDeckView && _toggleCardsLeftInDeck)
 			{
 				GUI.SelectionGrid(
-					new Rect(25, 350, 150, CardDrawPiles3D.Instance.Deck.cards.Count * 25f),
+					new Rect(25, Screen.height * 0.75f, 150, CardDrawPiles3D.Instance.Deck.cards.Count * 25f),
 					-1,
 					CardsLeftInDeck,
-					1
+					2
 				);
 			}
 		}

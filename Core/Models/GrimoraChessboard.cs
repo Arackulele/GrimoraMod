@@ -396,13 +396,37 @@ public class GrimoraChessboard
 
 	private static EncounterBlueprintData GetBlueprint()
 	{
-		if (ConfigHelper.Instance.isRandomizedBlueprintsEnabled)
+		switch (ConfigHelper.Instance.EncounterBlueprintType)
 		{
-			return BlueprintUtils.BuildRandomBlueprint();
-		}
+			case 1:
+			{
+				return BlueprintUtils.BuildRandomBlueprint();
+			}
+			case 2:
+			{
+				if (ChessboardMapExt.Instance.CustomBlueprints.Any())
+				{
+					return ChessboardMapExt.Instance.CustomBlueprints.GetRandomItem();
+				}
 
-		var blueprints = BlueprintUtils.RegionWithBlueprints.ElementAt(ConfigHelper.Instance.BossesDefeated).Value;
-		return blueprints[Random.Range(0, blueprints.Count)];
+				throw new Exception("Unable to set custom blueprint as no custom blueprints were found! Make sure the file is prefixed with 'GrimoraMod_Encounter'");
+			}
+			case 3:
+			{
+				return BlueprintUtils
+				 .RegionWithBlueprints
+				 .ElementAt(ConfigHelper.Instance.BossesDefeated).Value
+				 .Concat(ChessboardMapExt.Instance.CustomBlueprints)
+				 .ToList()
+				 .GetRandomItem();
+			}
+			default:
+			{
+				var blueprints = BlueprintUtils.RegionWithBlueprints.ElementAt(ConfigHelper.Instance.BossesDefeated).Value;
+				return blueprints[Random.Range(0, blueprints.Count)];
+			}
+		}
+		
 	}
 
 	#endregion

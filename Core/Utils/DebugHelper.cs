@@ -63,6 +63,11 @@ public class DebugHelper : ManagedBehaviour
 	private void Start()
 	{
 		_encounters.AddRange(Resources.LoadAll<EncounterBlueprintData>("Data/EncounterBlueprints/").Where(ebd => ebd.name.StartsWith("Grimora")));
+		foreach (var lst in BlueprintUtils.RegionWithBlueprints.Values)
+		{
+			_encounters.AddRange(lst);
+		}
+		
 		_encounterNames = _encounters.Select(ebd => ebd.name).ToArray();
 
 		_allGrimoraCardNames = AllGrimoraModCards.Select(card => card.name.Replace($"{GUID}_", "")).ToArray();
@@ -101,7 +106,7 @@ public class DebugHelper : ManagedBehaviour
 			_toggleEncounters = GUI.Toggle(
 				new Rect(20, 300, 120, 20),
 				_toggleEncounters,
-				"Debug Enemies"
+				"Debug Encounters"
 			);
 
 			_toggleDebugBaseModCardsHand = GUI.Toggle(

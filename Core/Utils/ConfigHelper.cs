@@ -75,9 +75,9 @@ public class ConfigHelper
 
 	public bool isHotReloadEnabled => _configHotReloadEnabled.Value;
 	
-	private ConfigEntry<bool> _configRandomizedBlueprintsEnabled;
+	private ConfigEntry<int> _configEncounterBlueprintType;
 
-	public bool isRandomizedBlueprintsEnabled => _configRandomizedBlueprintsEnabled.Value;
+	public int EncounterBlueprintType => _configEncounterBlueprintType.Value;
 
 	private ConfigEntry<string> _configCurrentRemovedPieces;
 	
@@ -90,6 +90,11 @@ public class ConfigHelper
 		get => _configCurrentRemovedPieces.Value.Split(',').Distinct().ToList();
 		set => _configCurrentRemovedPieces.Value = string.Join(",", value);
 	}
+	
+	public int BonesToAdd => BossesDefeated;
+
+	private ConfigEntry<bool> _useCustomEncountersOnly;
+	public bool UseCustomEncountersOnly => _useCustomEncountersOnly.Value;
 
 	internal void BindConfig()
 	{
@@ -152,11 +157,16 @@ public class ConfigHelper
 			)
 		);
 		
-		_configRandomizedBlueprintsEnabled = GrimoraConfigFile.Bind(
+		_configEncounterBlueprintType = GrimoraConfigFile.Bind(
 			Name,
-			"Enable Randomized Encounters",
-			false,
-			new ConfigDescription("If enabled, every single enemy encounter, minus the bosses, are completely randomized.")
+			"Encounter Blueprints",
+			0,
+			new ConfigDescription(
+				"0 = Default. Use the mod's internal blueprint system."
+				+ "\n1 = Randomized. Encounters are completely randomized using the mod's internal card pool."
+				+ "\n2 = Custom. Encounters are from made and used from the JSON files."
+				+ "\n3 = Mixed. Encounters are from both default list and custom list."
+			)
 		);
 
 		_configInputConfig = GrimoraConfigFile.Bind(
@@ -179,8 +189,6 @@ public class ConfigHelper
 	}
 
 	public static bool HasIncreaseSlotsMod => Harmony.HasAnyPatches("julianperge.inscryption.act1.increaseCardSlots");
-
-	public int BonesToAdd => BossesDefeated;
 
 	public void HandleHotReloadBefore()
 	{

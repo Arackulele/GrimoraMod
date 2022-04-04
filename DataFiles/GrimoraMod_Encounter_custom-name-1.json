@@ -1,0 +1,31 @@
+{
+	"encounters": [
+		{
+			"id": "Kaycee_Region3",
+			"turns": [
+				[
+					"Animator",
+					"Bonehound"
+				],
+				[
+					"Wight",
+					"Wight"
+				]
+			]
+		},
+		{
+			"id": "Kaycee_Region4",
+			"turns": [
+				[
+					"SlingersSoul",
+					"IceCube"
+				],
+				[],
+				[
+					"Writher",
+					"PlagueDoctor"
+				]
+			]
+		}
+	]
+}
