@@ -253,7 +253,7 @@ public class DebugHelper : ManagedBehaviour
 		if (_toggleEncounters)
 		{
 			int selectedButton = GUI.SelectionGrid(
-				new Rect(25, 320, 300, 40),
+				new Rect(25, 320, 300, Screen.height - 320),
 				-1,
 				_encounterNames,
 				2

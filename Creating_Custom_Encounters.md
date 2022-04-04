@@ -91,6 +91,8 @@ Zombie
 
 In this `grimoramod_config.cfg` file, set the option `Encounter Blueprints` to either 2 or 3.
 
+If you wish to immediately go into that specific encounter, then enable developer mode and there is a `Debug Encounters` toggle with a bunch of the encounters to choose from.
+
 ## File Creation
 
 Place a `.json` file prefixed with the name `GrimoraMod_Encounter` in the `DataFiles` directory, the same directory where `GrimoraChessboards.json` file is.

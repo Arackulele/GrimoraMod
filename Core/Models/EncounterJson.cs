@@ -25,9 +25,9 @@ public class EncounterJson
 		foreach (var turn in turns)
 		{
 			List<EncounterBlueprintData.CardBlueprint> internalList = new();
-			foreach (var s in turn)
+			foreach (var cardName in turn)
 			{
-				internalList.Add(s.CreateCardBlueprint());
+				internalList.Add($"{GrimoraPlugin.GUID}_{cardName}".CreateCardBlueprint());
 			}
 			list.Add(internalList);
 		}
