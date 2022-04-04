@@ -32,17 +32,17 @@ public class AbilityBuilder<T> where T: AbilityBehaviour
 
 	public AbilityManager.FullAbility Build()
 	{
-		Texture icon = _rulebookIcon
-			               ? _rulebookIcon
-			               : AssetUtils.GetPrefab<Texture>("ability_" + typeof(T).Name);
-		
 		HandleRulebookName();
 		
-		return SetupAbility(icon);
+		return SetupAbility();
 	}
 
-	private AbilityManager.FullAbility SetupAbility(Texture icon)
+	private AbilityManager.FullAbility SetupAbility()
 	{
+		Texture icon = _rulebookIcon
+			               ? _rulebookIcon
+			               : AssetUtils.GetPrefab<Texture>("ability_" + _type.Name);
+		
 		// instantiate
 		var newAbility = AbilityManager.Add(
 			GrimoraPlugin.GUID,
