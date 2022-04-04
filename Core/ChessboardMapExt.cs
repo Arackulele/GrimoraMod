@@ -237,6 +237,11 @@ public class ChessboardMapExt : GameMap
 
 	public override IEnumerator UnrollingSequence(float unrollSpeed)
 	{
+		if (FinaleDeletionWindowManager.instance)
+		{
+			Destroy(FinaleDeletionWindowManager.instance.gameObject);
+		}
+		
 		StoryEventsData.SetEventCompleted(StoryEvent.GrimoraReachedTable, true);
 
 		TableRuleBook.Instance.SetOnBoard(false);
