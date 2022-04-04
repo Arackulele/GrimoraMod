@@ -6,10 +6,17 @@ namespace GrimoraMod;
 
 public class Puppeteer : AbilityBehaviour
 {
+	public const string ModSingletonId = "GrimoraMod_Puppeteer";
+
+	private bool CardHasBeenPuppeteered(PlayableCard playableCard)
+	{
+		return playableCard.TemporaryMods.Exists(mod => mod.singletonId == ModSingletonId);
+	}
+
 	private static readonly CardModificationInfo NegateBrittleMod = new()
 	{
 		negateAbilities = new List<Ability> { Ability.Brittle },
-		singletonId = "grimoramod_puppeteer"
+		singletonId = ModSingletonId
 	};
 
 	public static Ability ability;
@@ -48,36 +55,16 @@ public class Puppeteer : AbilityBehaviour
 		}
 	}
 
-	private IEnumerator RemoveBrittle(PlayableCard playableCard)
-	{
-		playableCard.Anim.PlayTransformAnimation();
-		yield return new WaitForSeconds(0.25f);
-		playableCard.RemoveAbilityFromThisCard(NegateBrittleMod);
-	}
-
-	public override bool RespondsToOtherCardPreDeath(CardSlot deathSlot, bool fromCombat, PlayableCard killer)
-	{
-		return deathSlot.IsPlayerSlot 
-		    && deathSlot.Card 
-		    && deathSlot.Card != Card 
-		    && deathSlot.Card.TemporaryMods.Exists(mod => mod.singletonId == "grimoramod_puppeteer");
-	}
-
-	public override IEnumerator OnOtherCardPreDeath(CardSlot deathSlot, bool fromCombat, PlayableCard killer)
-	{
-		yield return AddBrittleBack(deathSlot.Card);
-	}
-
 	public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer) => true;
 
 	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
 	{
-		List<PlayableCard> cardsWithThatNoLongerHaveBrittle = BoardManager.Instance.GetSlots(!Card.OpponentCard)
-		 .Where(slot => slot.Card && slot.Card.Info.Mods.Exists(mod => mod.singletonId == "grimoramod_puppeteer"))
+		List<PlayableCard> cardsThatHadBrittle = BoardManager.Instance.GetSlots(!Card.OpponentCard)
+		 .Where(slot => slot.Card && CardHasBeenPuppeteered(slot.Card))
 		 .Select(slot => slot.Card)
 		 .ToList();
 
-		foreach (var card in cardsWithThatNoLongerHaveBrittle)
+		foreach (var card in cardsThatHadBrittle)
 		{
 			yield return AddBrittleBack(card);
 		}
@@ -87,9 +74,14 @@ public class Puppeteer : AbilityBehaviour
 	{
 		playableCard.Anim.PlayTransformAnimation();
 		yield return new WaitForSeconds(0.25f);
-		CardInfo cardInfoClone = playableCard.Info.Clone() as CardInfo;
-		cardInfoClone.Mods.Remove(NegateBrittleMod);
-		playableCard.SetInfo(cardInfoClone);
+		playableCard.RemoveTemporaryMod(NegateBrittleMod);
+	}
+
+	private IEnumerator RemoveBrittle(PlayableCard playableCard)
+	{
+		playableCard.Anim.PlayTransformAnimation();
+		yield return new WaitForSeconds(0.25f);
+		playableCard.AddTemporaryMod(NegateBrittleMod);
 	}
 }
 
