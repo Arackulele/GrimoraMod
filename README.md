@@ -34,6 +34,36 @@
 
 ## Update Notes
 
+### 2.8.4
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Bone Thief` is not a possible choice to get on a card during the Electric Chair sequence if the card has zero attack.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Soul Sucker` is now possible to get in the Electric Chair.
+
+#### Bosses
+
+##### Royal
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed the logic in Royal's board sway to hopefully no longer merge cards together.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed patches related to adding `Anchor` to cards for Royal's fight.
+  - Now using how the game does it with `ModifyQueuedCard` and `ModifySpawnedCard` methods.
+
+#### Ability Changes
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with `Puppeteer` ability also removing `Puppeteer` ability if the card has `Brittle`.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Bone Thief` now gives 2 bones instead of 1.
+
+#### Card Changes
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with `Yellowbeard` buff if five lanes mod was installed.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed emission not working with `Doll` after gaining power.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) No longer using static Action call for resolving `Skin Crawler` after the host dies.
+  - Now just calling `TransitionAndResolveCreatedCard` with `resolveTriggers` param set to false.
+
 ### 2.8.3, 30+ NEW CARDS
 
 - NOTE: - Adding extra logging to see what's happening for Explode on Death ability. There are still issues with being Hooked and then exploding.

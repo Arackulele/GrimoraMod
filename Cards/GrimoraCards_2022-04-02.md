@@ -125,11 +125,11 @@
 </summary>
 
 | Name                  | Description                                                                                                                                                                    |
-| :-------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| :-------------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Alternating Strike    | A card bearing this sigil alternates between striking the opposing space to the left and right from it.                                                                        |
 | Anchored              | A card bearing this sigil is unaffected by the motion of the ship.                                                                                                             |
 | Area Of Effect Strike | A card bearing this sigil will strike its adjacent slots, and each opposing space to the left, right, and center of it.                                                        |
-| Bone Thief            | When A card bearing this sigil kills another creature, gain 1 bone.                                                                                                            |
+| Bone Thief            | When A card bearing this sigil kills another creature, gain 2 bone.                                                                                                            |
 | Boneless              | A card bearing this sigil yields no bones upon death.                                                                                                                          |
 | Chaos Strike          | A card bearing this sigil will strike each opposing space to the left, right, and center of it, randomly.                                                                      |
 | Cold Front            | When A card bearing this sigil perishes, the card opposing it is Frozen Away if not already frozen.                                                                            |
