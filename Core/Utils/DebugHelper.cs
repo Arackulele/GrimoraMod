@@ -14,6 +14,8 @@ public class DebugHelper : ManagedBehaviour
 
 	private static readonly Rect RectCardListArea = new(Screen.width - 420, 180, 400, Screen.height - 200);
 
+	private bool _toggleEncounterMenu;
+
 	private bool _toggleSpawnCardInOpponentSlot1;
 
 	private bool _toggleSpawnCardInOpponentSlot2;
@@ -52,25 +54,27 @@ public class DebugHelper : ManagedBehaviour
 		"Win Round", "Lose Round"
 	};
 
-	private bool _toggleEnemies;
+	private bool _toggleEncounters;
 
-	private readonly string[] _btnEnemies =
-	{
-		"Place Enemies"
-	};
+	private readonly List<EncounterBlueprintData> _encounters = new();
+
+	private string[] _encounterNames;
 
 	private void Start()
 	{
+		_encounters.AddRange(Resources.LoadAll<EncounterBlueprintData>("Data/EncounterBlueprints/").Where(ebd => ebd.name.StartsWith("Grimora")));
+		_encounterNames = _encounters.Select(ebd => ebd.name).ToArray();
+
 		_allGrimoraCardNames = AllGrimoraModCards.Select(card => card.name.Replace($"{GUID}_", "")).ToArray();
 
 		_allGrimoraCustomCardNames
 			= CardManager.AllCardsCopy
-				.FindAll(
+			 .FindAll(
 					info => info.name.StartsWith($"{GUID}_")
-					        && !AllGrimoraModCards.Exists(modInfo => modInfo.name == info.name)
+					     && !AllGrimoraModCards.Exists(modInfo => modInfo.name == info.name)
 				)
-				.Select(info => info.name.Replace($"{GUID}_", ""))
-				.ToArray();
+			 .Select(info => info.name.Replace($"{GUID}_", ""))
+			 .ToArray();
 	}
 
 	private void OnGUI()
@@ -94,9 +98,9 @@ public class DebugHelper : ManagedBehaviour
 				"Debug Chests"
 			);
 
-			_toggleEnemies = GUI.Toggle(
+			_toggleEncounters = GUI.Toggle(
 				new Rect(20, 300, 120, 20),
-				_toggleEnemies,
+				_toggleEncounters,
 				"Debug Enemies"
 			);
 
@@ -241,24 +245,56 @@ public class DebugHelper : ManagedBehaviour
 			}
 		}
 
-		if (_toggleEnemies)
+		if (_toggleEncounters)
 		{
 			int selectedButton = GUI.SelectionGrid(
 				new Rect(25, 320, 300, 40),
 				-1,
-				_btnEnemies,
+				_encounterNames,
 				2
 			);
 
 			if (selectedButton >= 0)
 			{
-				var copy = ConfigHelper.Instance.RemovedPieces;
-				copy.RemoveAll(piece => piece.Contains("Enemy"));
-				ConfigHelper.Instance.RemovedPieces = copy;
-				for (int i = 0; i < 8; i++)
+				EncounterBlueprintData encounter = _encounters[selectedButton];
+				// the asset names have P1 or P2 at the end,
+				//	so we'll remove it so that we can correctly get a boss if a boss was selected
+				string scrubbedName = encounter.name.Replace("P1", "").Replace("P2", "");
+
+				CardBattleNodeData node = new CardBattleNodeData
 				{
-					ChessboardMapExt.Instance.ActiveChessboard.PlacePiece<ChessboardEnemyPiece>(0, i);
+					blueprint = encounter
+				};
+
+				if (Enum.TryParse(scrubbedName, true, out Opponent.Type bossType))
+				{
+					node = new BossBattleNodeData();
+					((BossBattleNodeData)node).specialBattleId = BossBattleSequencer.GetSequencerIdForBoss(bossType);
+					((BossBattleNodeData)node).bossType = bossType;
 				}
+
+				Opponent opponent = TurnManager.Instance.Opponent;
+				if (opponent && !TurnManager.Instance.GameIsOver())
+				{
+					Log.LogDebug($"Setting NumLives to 1");
+					opponent.NumLives = 1;
+					Log.LogDebug($"Game is not over, making opponent surrender");
+					opponent.SurrenderImmediate();
+					Log.LogDebug($"Playing LifeLostSequence for [{opponent.GetType()}]");
+					StartCoroutine(opponent.LifeLostSequence());
+				}
+
+				Log.LogDebug($"Transitioning to encounter [{encounter.name}]");
+				bool canTransitionToFight = GrimoraGameFlowManager.Instance.CurrentGameState == GameState.Map
+				                         && !GrimoraGameFlowManager.Instance.Transitioning
+				                         && GameMap.Instance;
+				CustomCoroutine.WaitOnConditionThenExecute(
+					() => canTransitionToFight,
+					delegate
+					{
+						Log.LogDebug($"-> No longer in transitioning state, transitioning to new encounter");
+						GameFlowManager.Instance.TransitionToGameState(GameState.CardBattle, node);
+					});
 			}
 		}
 
