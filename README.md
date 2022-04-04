@@ -34,6 +34,10 @@
 
 ## Update Notes
 
+### 2.8.5
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed not being able to view your deck in Act 1.
+
 ### 2.8.4 Custom Encounters
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Custom encounters! Please read the readme here on how to create one: [Creating Custom Encounters](https://github.com/julian-perge/GrimoraMod/blob/main/Creating_Custom_Encounters.md)
@@ -386,6 +390,8 @@
 
 - Lich Underling (Lich underling#7678) for additional Card Art
 
+- Blind, the Bound Demon (Blind, the Bound Demon#6475) for Gameplay footage
+
 ### 3D Models
 
 - Pink (Pink#6999) for making the Boss Skull Models , currently working on a full crypt 3D Model, etc
@@ -407,7 +413,5 @@
 - JulianMods (xXxStoner420BongMasterxXx) for additional Dialogue
 
 ### Additional Credits
-
-- Blind, the Bound Demon (Blind, the Bound Demon#6475) for Gameplay footage
 
 - The people of the Grimora Mod Discord Server, for Ideas , voting on features and being awesome
