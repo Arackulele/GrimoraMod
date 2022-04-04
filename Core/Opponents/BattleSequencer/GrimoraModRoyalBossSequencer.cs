@@ -117,7 +117,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 
 		// if the slot and the slot is occupied, check the adjacent slot of that card
 		Log.LogInfo($"[TableSway.SlotHasSpace] Checking {(toLeft ? "left" : "right")} adjacent slot of card [{adjacent.Card.GetNameAndSlot()}]");
-		return SlotHasSpace(adjacent, toLeft) && (!adjacent.Card.HasAbility(Anchored.ability) || !adjacent.Card.HasAbility(Ability.Flying));
+		return !adjacent.Card.HasAbility(Anchored.ability) && !adjacent.Card.HasAbility(Ability.Flying) && SlotHasSpace(adjacent, toLeft);
 	}
 
 	protected virtual IEnumerator DoStrafe(PlayableCard playableCard, bool movingLeft)
@@ -165,7 +165,13 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		{
 			bool destinationSlotCardHasAnchoredOrFlying = destination.Card
 			                                     && (destination.Card.HasAbility(Anchored.ability) || destination.Card.HasAbility(Ability.Flying));
-			if (destinationValid)
+			if (destinationSlotCardHasAnchoredOrFlying)
+			{
+				Log.LogInfo($"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} Destination card is not null and has anchored or flying.");
+				playableCard.Anim.StrongNegationEffect();
+				yield return new WaitForSeconds(0.15f);
+			}
+			else if (destinationValid)
 			{
 				Log.LogInfo($"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} will be moved to slot [{destination.name}]");
 
@@ -178,12 +184,6 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 					Tween.EaseIn
 				);
 				yield return new WaitForSeconds(0.25f);
-			}
-			else if (destinationSlotCardHasAnchoredOrFlying)
-			{
-				Log.LogInfo($"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} Destination card is not null and has anchored or flying.");
-				playableCard.Anim.StrongNegationEffect();
-				yield return new WaitForSeconds(0.15f);
 			}
 		}
 		else
