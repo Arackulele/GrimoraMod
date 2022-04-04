@@ -17,7 +17,6 @@ public class GrimoraGameFlowManagerPatches
 		if ((inputTypeisWasd || inputTypeIsArrowKeys)
 		 && __instance.CurrentGameState == GameState.Map
 		 && !__instance.Transitioning
-		 && ProgressionData.LearnedMechanic(MechanicsConcept.FirstPersonNavigation)
 		 && GameMap.Instance
 		)
 		{
