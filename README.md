@@ -38,6 +38,8 @@
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed not being able to view your deck in Act 1.
 
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed playing dialogue for hammer entirely after the first time it is played. Similar to how other mechanic dialogues are only played once.
+
 ### 2.8.4 Custom Encounters
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Custom encounters! Please read the readme here on how to create one: [Creating Custom Encounters](https://github.com/julian-perge/GrimoraMod/blob/main/Creating_Custom_Encounters.md)
