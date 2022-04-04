@@ -111,6 +111,7 @@ Arackulele-GrimoraMod
 ```
 
 **id**: The name of the encounter. Required.
+
 **turns**: A list of lists. The internal list are the card names.
 
 Using the example below for "Kaycee_Region3", the first turn has `Animator` and `Bonehound`. Second turn `Wight` and `Wight`.
