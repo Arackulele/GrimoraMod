@@ -21,12 +21,6 @@ public class ChessboardMapExt : GameMap
 
 	private bool _toggleCardsLeftInDeck = false;
 
-	public bool HasNotPlayedDialogueOnce =>
-		ConfigHelper.Instance.HammerDialogueOption == 1 && hasNotPlayedAllHammerDialogue < 3;
-
-	public int hasNotPlayedAllHammerDialogue = 0;
-
-
 	public new static ChessboardMapExt Instance => GameMap.Instance as ChessboardMapExt;
 
 	public void SetAnimActiveIfInactive()

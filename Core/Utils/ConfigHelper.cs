@@ -145,18 +145,6 @@ public class ConfigHelper
 			new ConfigDescription("For players who want to continue playing with their deck after defeating Grimora.")
 		);
 
-		_configHammerDialogue = GrimoraConfigFile.Bind(
-			Name,
-			"Hammer Dialogue Option",
-			1,
-			new ConfigDescription(
-				"How you want the hammer dialogue to be handled."
-				+ "\n0 = Disable entirely. Does not play the dialogue ever."
-				+ "\n1 = Play only once. Will only play the dialogue once. Resets if you leave and then re-enter the game."
-				+ "\n2 = Play each battle. Will play each dialogue after you use the hammer, for each battle."
-			)
-		);
-		
 		_configEncounterBlueprintType = GrimoraConfigFile.Bind(
 			Name,
 			"Encounter Blueprints",

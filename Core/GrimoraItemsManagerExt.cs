@@ -104,7 +104,7 @@ public class DeactivateHammerAfterThreeUses
 			yield break;
 		}
 		
-		if (__instance.Consumable is HammerItemExt && ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue == 3)
+		if (__instance.Consumable is HammerItemExt { useCounter: 3 })
 		{
 			Log.LogDebug($"Destroying hammer as all 3 uses have been used");
 			__instance.coll.enabled = false;
