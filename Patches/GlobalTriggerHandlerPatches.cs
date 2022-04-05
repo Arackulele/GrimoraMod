@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using DiskCardGame;
+﻿using DiskCardGame;
 using HarmonyLib;
 
 namespace GrimoraMod;
@@ -15,9 +14,8 @@ public class GlobalTriggerHandlerPatches
 	}
 
 	[HarmonyPostfix, HarmonyPatch(nameof(GlobalTriggerHandler.TriggerCardsOnBoard))]
-	public static IEnumerator AdjustForSkinCrawler(IEnumerator enumerator, Trigger trigger, bool triggerFacedown, params object[] otherArgs)
+	public static void AdjustForSkinCrawler(Trigger trigger, bool triggerFacedown, params object[] otherArgs)
 	{
-		yield return enumerator;
 		PlayableCardPatches.UpdateAllCards();
 	}
 }
