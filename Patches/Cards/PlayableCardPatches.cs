@@ -22,11 +22,11 @@ public class PlayableCardPatches
 		// Log.LogDebug($"Updating all cards: [{cardsInHandAndBoard.Join(pCard => $"\nCard [{pCard.Info.displayedName}] on board? [{pCard.OnBoard}] In hand? [{pCard.InHand}]")}]");
 		foreach (PlayableCard c in cardsInHandAndBoard)
 		{
-			OriginalManagedUpdate(c);
 			if (c.OnBoard && c.GetComponent<VariableStatBehaviour>())
 			{
 				c.GetComponent<VariableStatBehaviour>().UpdateStats();
 			}
+			OriginalManagedUpdate(c);
 		}
 	}
 
