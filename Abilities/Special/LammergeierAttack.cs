@@ -27,7 +27,7 @@ public partial class GrimoraPlugin
 		StatIconInfo ogInfo = StatIconInfo.GetIconInfo(SpecialStatIcon.Bones);
 
 		StatIconBuilder<LammergeierAttack>.Builder
-		 .SetAppliesToAttack(false)
+		 .SetAppliesToHealth(false)
 		 .SetIconGraphic(ogInfo.iconGraphic)
 		 .SetRulebookName(LammergeierAttack.RulebookName)
 		 .SetRulebookDescription(ogInfo.rulebookDescription)
