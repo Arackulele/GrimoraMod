@@ -21,8 +21,7 @@ public class DrawNewHandPatch
 		ViewManager.Instance.SwitchToView(View.Hand);
 		yield return __instance.PreSuccessfulTriggerSequence();
 		yield return new WaitForSeconds(0.25f);
-		List<PlayableCard> cardsNotChoosingASlot
-			= PlayerHand.Instance.CardsInHand.FindAll(x => x != PlayerHand.Instance.ChoosingSlotCard);
+		List<PlayableCard> cardsNotChoosingASlot = PlayerHand.Instance.CardsInHand.FindAll(x => x != PlayerHand.Instance.ChoosingSlotCard);
 		while (cardsNotChoosingASlot.Count > 0)
 		{
 			cardsNotChoosingASlot[0].SetInteractionEnabled(false);
