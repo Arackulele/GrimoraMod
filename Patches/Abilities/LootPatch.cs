@@ -7,8 +7,8 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(Loot))]
 public class LootPatch
 {
-	[HarmonyPrefix, HarmonyPatch(nameof(Loot.OnDealDamageDirectly))]
-	public static IEnumerator FixVisualDraw(Loot __instance, int amount)
+	[HarmonyPostfix, HarmonyPatch(nameof(Loot.OnDealDamageDirectly))]
+	public static IEnumerator FixVisualDraw(IEnumerator enumerator, Loot __instance, int amount)
 	{
 		yield return __instance.PreSuccessfulTriggerSequence();
 		bool drawPile3DIsActive = CardDrawPiles3D.Instance && CardDrawPiles3D.Instance.pile;
