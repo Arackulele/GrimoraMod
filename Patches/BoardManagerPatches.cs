@@ -23,7 +23,7 @@ public class BoardManagerPatches
 					GrimoraPlugin.Log.LogWarning($"[CleanUp] Destroying NonCardTriggerReceiver [{nonCardTriggerReceiver}] from slot [{slot}]");
 					UnityObject.Destroy(nonCardTriggerReceiver);
 				}
-				var playableCardsNotOnTheBoard = slot.GetComponentsInChildren<PlayableCard>();
+				var playableCardsNotOnTheBoard = slot.GetComponentsInChildren<PlayableCard>().Where(card => card.HasAbility(SkinCrawler.ability));
 				foreach (var card in playableCardsNotOnTheBoard)
 				{
 					GrimoraPlugin.Log.LogWarning($"[CleanUp] Playing exit for playable card as it exists but not on the board technically [{card}] from slot [{slot}]");
