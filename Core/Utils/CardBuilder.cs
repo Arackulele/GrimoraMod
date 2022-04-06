@@ -15,7 +15,6 @@ public class CardBuilder
 	public CardInfo Build()
 	{
 		_cardInfo.temple = CardTemple.Undead;
-		_cardInfo.flipPortraitForStrafe = true;
 
 		if (_cardInfo.name.EndsWith("_tail"))
 		{
@@ -38,6 +37,12 @@ public class CardBuilder
 
 	private CardBuilder()
 	{
+	}
+
+	internal CardBuilder FlipPortraitForStrafe()
+	{
+		_cardInfo.flipPortraitForStrafe = true;
+		return this;
 	}
 
 	internal CardBuilder SetSpecialStatIcon(SpecialStatIcon statIcon)
