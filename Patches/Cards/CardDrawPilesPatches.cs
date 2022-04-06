@@ -25,7 +25,7 @@ public class CardDrawPilesPatches
 		{
 			if (__instance.turnsSinceExhausted == 0)
 			{
-				yield return __instance.ExhaustedSequence();
+				yield return TextDisplayer.Instance.PlayDialogueEvent("Part1CardsExhausted", TextDisplayer.MessageAdvanceMode.Input);
 			}
 
 			var opponentOpenSlots = BoardManager.Instance.GetOpponentOpenSlots();
@@ -43,6 +43,7 @@ public class CardDrawPilesPatches
 			
 			ViewManager.Instance.SwitchToView(View.Board, false, true);
 			yield return new WaitForSeconds(0.25f);
+			bonelordSlot.Card.Anim.StrongNegationEffect();
 			bonelordSlot.Card.AddTemporaryMod(new CardModificationInfo(1, 0));
 			bonelordSlot.Card.Anim.StrongNegationEffect();
 			yield return new WaitForSeconds(1f);
