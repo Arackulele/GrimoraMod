@@ -14,9 +14,6 @@ public class GravestoneRenderStatsLayerPatches
 
 	private static readonly GameObject EnergyCellsLeft = AssetUtils.GetPrefab<GameObject>("EnergyCells_Left");
 	private static readonly GameObject EnergyCellsRight = AssetUtils.GetPrefab<GameObject>("EnergyCells_Right");
-	private static readonly int SrcBlend = Shader.PropertyToID("_SrcBlend");
-	private static readonly int DstBlend = Shader.PropertyToID("_DstBlend");
-	private static readonly int ZWrite = Shader.PropertyToID("_ZWrite");
 
 	[HarmonyPostfix, HarmonyPatch(nameof(GravestoneRenderStatsLayer.RenderCard))]
 	public static void PrefixChangeEmissionColorBasedOnModSingletonId(
@@ -132,13 +129,7 @@ public class GravestoneRenderStatsLayerPatches
 			else
 			{
 				Material material = energyCellsLeft.materials[energyCellsLeftLength - i - 1];
-				material.SetInt(SrcBlend, (int)BlendMode.One);
-				material.SetInt(DstBlend, (int)BlendMode.Zero);
-				material.SetInt(ZWrite, 1);
-				material.EnableKeyword("_ALPHATEST_ON");
-				material.DisableKeyword("_ALPHABLEND_ON");
-				material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
-				material.renderQueue = 2450;
+				material.ChangeRenderMode(UnityObjectExtensions.BlendMode.Cutout);
 			}
 		}
 
@@ -154,13 +145,7 @@ public class GravestoneRenderStatsLayerPatches
 				else
 				{
 					Material material = energyCellsRight.materials[energyCellsRightLength - i - 1];
-					material.SetInt(SrcBlend, (int)BlendMode.One);
-					material.SetInt(DstBlend, (int)BlendMode.Zero);
-					material.SetInt(ZWrite, 1);
-					material.EnableKeyword("_ALPHATEST_ON");
-					material.DisableKeyword("_ALPHABLEND_ON");
-					material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
-					material.renderQueue = 2450;
+					material.ChangeRenderMode(UnityObjectExtensions.BlendMode.Cutout);
 				}
 			}
 		}
