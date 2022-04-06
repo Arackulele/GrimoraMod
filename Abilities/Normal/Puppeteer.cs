@@ -75,6 +75,7 @@ public class Puppeteer : AbilityBehaviour
 		playableCard.Anim.PlayTransformAnimation();
 		yield return new WaitForSeconds(0.25f);
 		playableCard.RemoveTemporaryMod(NegateBrittleMod);
+		playableCard.TriggerHandler.AddAbility(Ability.Brittle);
 	}
 
 	private IEnumerator RemoveBrittle(PlayableCard playableCard)
