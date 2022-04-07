@@ -21,7 +21,7 @@ public class BoardManagerPatches
 				foreach (var nonCardTriggerReceiver in nonCardReceivers)
 				{
 					GrimoraPlugin.Log.LogWarning($"[CleanUp] Destroying NonCardTriggerReceiver [{nonCardTriggerReceiver}] from slot [{slot}]");
-					UnityObject.Destroy(nonCardTriggerReceiver);
+					UnityObject.Destroy(nonCardTriggerReceiver.gameObject);
 				}
 				var playableCardsNotOnTheBoard = slot.GetComponentsInChildren<PlayableCard>().Where(card => card.HasAbility(SkinCrawler.ability));
 				foreach (var card in playableCardsNotOnTheBoard)
