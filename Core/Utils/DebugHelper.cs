@@ -105,13 +105,13 @@ public class DebugHelper : ManagedBehaviour
 		if (ConfigHelper.Instance.BossesDefeated == 3)
 		{
 			StartAtTwinGiants = GUI.Toggle(
-				new Rect(Screen.width / 3f, 100, 200, 20),
+				new Rect(Screen.width / 3f, 40, 200, 20),
 				StartAtTwinGiants,
 				"Start at Twin Giants"
 			);
 
 			StartAtBonelord = GUI.Toggle(
-				new Rect(Screen.width / 3f + 200, 100, 200, 20),
+				new Rect(Screen.width / 3f + 200, 40, 200, 20),
 				StartAtBonelord,
 				"Start at Bonelord"
 			);
