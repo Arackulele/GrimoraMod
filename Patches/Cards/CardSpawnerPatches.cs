@@ -7,8 +7,18 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(CardSpawner))]
 public class CardSpawnerPatches
 {
+	[HarmonyPrefix, HarmonyPatch(nameof(CardSpawner.SpawnPlayableCardWithCopiedMods))]
+	public static void CheckForLooseLimb(CardInfo info, PlayableCard copyFrom, ref Ability excludedAbility, ref PlayableCard __result)
+	{
+		if (GrimoraSaveUtil.isGrimora && excludedAbility == Ability.TailOnHit)
+		{
+			GrimoraPlugin.Log.LogDebug($"[SpawnPlayableCardWithCopiedMods] Changing TailOnHit ability to Loose Limb");
+			excludedAbility = LooseLimb.ability;
+		}
+	}
+
 	[HarmonyPostfix, HarmonyPatch(nameof(CardSpawner.SpawnPlayableCard))]
-	public static void Postfix(CardInfo info, ref PlayableCard __result)
+	public static void AddCustomAttackPrefabs(CardInfo info, ref PlayableCard __result)
 	{
 		if (GrimoraSaveUtil.isGrimora)
 		{
