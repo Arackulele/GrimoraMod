@@ -18,11 +18,14 @@ public class PlayableCardPatches
 
 	public static void UpdateAllCards()
 	{
-		var cardsInHandAndBoard = BoardManager.Instance.CardsOnBoard.Concat(PlayerHand.Instance.CardsInHand).ToList();
-		// Log.LogDebug($"Updating all cards: [{cardsInHandAndBoard.Join(pCard => $"\nCard [{pCard.Info.displayedName}] on board? [{pCard.OnBoard}] In hand? [{pCard.InHand}]")}]");
+		var cardsInHandAndBoard
+			= BoardManager.Instance.CardsOnBoard
+			 .Concat(PlayerHand.Instance.CardsInHand)
+			 .Where(card => !card.Dead)
+			 .ToList();
 		foreach (PlayableCard c in cardsInHandAndBoard)
 		{
-			if (!c.Dead && c.OnBoard && c.GetComponent<VariableStatBehaviour>())
+			if (c.OnBoard && c.GetComponent<VariableStatBehaviour>())
 			{
 				c.GetComponent<VariableStatBehaviour>().UpdateStats();
 			}
