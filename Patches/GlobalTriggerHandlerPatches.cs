@@ -8,13 +8,13 @@ public class GlobalTriggerHandlerPatches
 {
 
 	[HarmonyPostfix, HarmonyPatch(nameof(GlobalTriggerHandler.TriggerCardsInHand))]
-	private static void UpdateCardStatsA()
+	private static void TriggerUpdateForAllCardsManuallyHand()
 	{
 		PlayableCardPatches.UpdateAllCards();
 	}
 
 	[HarmonyPostfix, HarmonyPatch(nameof(GlobalTriggerHandler.TriggerCardsOnBoard))]
-	public static void AdjustForSkinCrawler(Trigger trigger, bool triggerFacedown, params object[] otherArgs)
+	public static void TriggerUpdateForAllCardsManuallyBoard(Trigger trigger, bool triggerFacedown, params object[] otherArgs)
 	{
 		PlayableCardPatches.UpdateAllCards();
 	}
