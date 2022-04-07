@@ -24,13 +24,20 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		AlternatingStrike.ability,
 		AreaOfEffectStrike.ability,
 		BoneThief.ability,
+		BuffCrewMates.ability,
+		ChaosStrike.ability,
 		ColdFront.ability,
 		CreateArmyOfSkeletons.ability,
 		Erratic.ability,
-		GrimoraRandomAbility.ability,
+		FlameStrafe.ability,
 		Fylgja_GuardDog.ability,
+		GrimoraRandomAbility.ability,
+		Haunter.ability,
+		HookLineAndSinker.ability,
 		Imbued.ability,
 		InvertedStrike.ability,
+		LatchSubmerge.ability,
+		LooseLimb.ability,
 		MarchingDead.ability,
 		Possessive.ability,
 		Puppeteer.ability,
@@ -321,7 +328,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private static readonly List<Ability> AbilitiesThatShouldNotExistOnZeroAttackCards = new()
 	{
-		AlternatingStrike.ability, AreaOfEffectStrike.ability, BoneThief.ability, InvertedStrike.ability,
+		AlternatingStrike.ability, AreaOfEffectStrike.ability, BoneThief.ability, ChaosStrike.ability, InvertedStrike.ability,
 		Ability.Sniper, Ability.SplitStrike, Ability.TriStrike
 	};
 
