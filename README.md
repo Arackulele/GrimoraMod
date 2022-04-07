@@ -19,6 +19,10 @@
 
 ## Known Issues
 
+### Haunter sigils can be seen through cards in hand
+
+- Currently investigating, although I'm not quite sure where the issue exactly lies. Tried messing around with the layer ordering and that didn't seem to fix the issue.
+
 ### Activated abilities no longer work
 
 - The primary cause of this is whenever another ability gets added to the card. The bug lies in the `Activated Ability Fix` mod, but I'm not sure where.
@@ -38,7 +42,24 @@
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed not being able to view your deck in Act 1.
 
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed softlock during Bonelord fight when starvation sets in.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) More changes to how custom encounters are read. Please see updated readme: [Creating Custom Encounters](https://github.com/julian-perge/GrimoraMod/blob/main/Creating_Custom_Encounters.md)
+
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed playing dialogue for hammer entirely after the first time it is played. Similar to how other mechanic dialogues are only played once.
+  - Having custom options for the hammer was just annoying code-wise, and didn't add much honestly to give the player the option to listen to the hammer dialogue _each time_.
+
+#### Ability Changes
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed cards with `Strafe` sigils flipping portraits when they shouldn't have.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) `Handy` and `Looter` sigil have been tweaked to better indicate that cards are being drawn when the sigils activate.
+
+#### Card Changes
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Catacomb` having an overlapping attack icon.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with `Puppeteer` sigil not adding back `Brittle` to cards.
 
 ### 2.8.4 Custom Encounters
 
