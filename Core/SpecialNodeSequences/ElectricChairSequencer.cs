@@ -207,7 +207,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			yield return new WaitForSeconds(0.1f);
 			if (confirmStone.SelectionConfirmed)
 			{
-				if (UnityEngine.Random.value > 0.5f)
+				if (UnityRandom.value > 0.5f)
 				{
 					AudioController.Instance.PlaySound3D(
 						"teslacoil_overload",
@@ -395,7 +395,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 				selectCardFromDeckSlot.CursorSelectStarted,
 				new Action<MainInputInteractable>(OnSlotSelected)
 			);
-		if (UnityEngine.Random.value < 0.25f && VideoCameraRig.Instance)
+		if (UnityRandom.value < 0.25f && VideoCameraRig.Instance)
 		{
 			VideoCameraRig.Instance.PlayCameraAnim("refocus_quick");
 		}

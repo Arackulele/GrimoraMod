@@ -1,9 +1,7 @@
 global using Color = UnityEngine.Color;
 global using UnityObject = UnityEngine.Object;
-using System;
+global using UnityRandom = UnityEngine.Random;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using BepInEx;
 using BepInEx.Logging;

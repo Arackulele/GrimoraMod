@@ -87,7 +87,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 					selectCardFromDeckSlot.CursorSelectStarted,
 					new Action<MainInputInteractable>(OnSlotSelected)
 				);
-			if (UnityEngine.Random.value < 0.25f && VideoCameraRig.Instance)
+			if (UnityRandom.value < 0.25f && VideoCameraRig.Instance)
 			{
 				VideoCameraRig.Instance.PlayCameraAnim("refocus_quick");
 			}

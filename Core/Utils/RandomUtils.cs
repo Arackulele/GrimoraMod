@@ -42,6 +42,6 @@ public static class RandomUtils
 
 	public static int GenerateRandomSeed()
 	{
-		return SaveManager.SaveFile.GetCurrentRandomSeed() + UnityEngine.Random.Range(1, 666);
+		return SaveManager.SaveFile.GetCurrentRandomSeed() + UnityRandom.Range(1, 666);
 	}
 }
