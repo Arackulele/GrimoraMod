@@ -86,12 +86,12 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		ViewManager.Instance.SetViewUnlocked();
 
-		if (ChessboardMapExt.Instance._debugHelper.StartAtTwinGiants)
+		if (ChessboardMapExt.Instance.debugHelper.StartAtTwinGiants)
 		{
 			NumLives = 2;
 			yield return PostResetScalesSequence();
 		} 
-		else if (ChessboardMapExt.Instance._debugHelper.StartAtBonelord)
+		else if (ChessboardMapExt.Instance.debugHelper.StartAtBonelord)
 		{
 			NumLives = 1;
 			yield return PostResetScalesSequence();

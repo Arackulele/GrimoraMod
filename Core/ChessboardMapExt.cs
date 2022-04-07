@@ -17,7 +17,7 @@ public class ChessboardMapExt : GameMap
 
 	[SerializeField] internal List<ChessboardPiece> pieces;
 
-	internal DebugHelper _debugHelper;
+	internal DebugHelper debugHelper;
 
 	private bool _toggleCardsLeftInDeck = false;
 
@@ -110,7 +110,7 @@ public class ChessboardMapExt : GameMap
 				}
 			}
 			Log.LogDebug($"Final custom blueprint names: [{_customBlueprints.Join(kv => kv.Value.name)}]");
-			_debugHelper.SetupEncounterData();
+			debugHelper.SetupEncounterData();
 		}
 	}
 
@@ -125,7 +125,7 @@ public class ChessboardMapExt : GameMap
 		instance.ViewChanged = (Action<View, View>)Delegate
 			.Combine(instance.ViewChanged, new Action<View, View>(OnViewChanged));
 
-		_debugHelper = gameObject.AddComponent<DebugHelper>();
+		debugHelper = gameObject.AddComponent<DebugHelper>();
 	}
 
 	public static string[] CardsLeftInDeck => CardDrawPiles3D
