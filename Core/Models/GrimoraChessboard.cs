@@ -356,7 +356,7 @@ public class GrimoraChessboard
 				if (BossHelper.OpponentTupleBySpecialId.ContainsKey(specialEncounterId))
 				{
 					// enemyPiece.blueprint = BossHelper.OpponentTupleBySpecialId[specialEncounterId].Item3;
-					enemyPiece.blueprint = GetBlueprint(specialEncounterId, true);
+					enemyPiece.blueprint = GetBlueprint(true);
 					int bossesDefeated = ConfigHelper.Instance.BossesDefeated;
 					switch (bossesDefeated)
 					{
@@ -393,7 +393,7 @@ public class GrimoraChessboard
 		return pieceObj.GetComponent<T>();
 	}
 
-	private EncounterBlueprintData GetBlueprint(string specialEncounterId = "", bool isForBoss = false)
+	private EncounterBlueprintData GetBlueprint(bool isForBoss = false)
 	{
 		switch (ConfigHelper.Instance.EncounterBlueprintType)
 		{
@@ -441,7 +441,9 @@ public class GrimoraChessboard
 			}
 			default:
 			{
-				return BlueprintUtils.GetRandomBlueprintForRegion();
+				return isForBoss 
+					       ? BossHelper.OpponentTupleBySpecialId[_activeBossId].Item3 
+					       : BlueprintUtils.GetRandomBlueprintForRegion();
 			}
 		}
 		
