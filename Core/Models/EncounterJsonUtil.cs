@@ -1,19 +1,13 @@
-﻿namespace GrimoraMod;
+﻿using System.Runtime.Serialization;
+
+namespace GrimoraMod;
 
 public class EncounterJsonUtil
 {
-	[Serializable]
+	[DataContract]
 	public class EncountersFromJson
 	{
-		public List<EncounterJson> encounters;
-
-		public EncountersFromJson()
-		{
-		}
-
-		public EncountersFromJson(List<EncounterJson> encounters)
-		{
-			this.encounters = encounters;
-		}
+		[DataMember]
+		public List<EncounterJson> encounters { get; set; }
 	}
 }

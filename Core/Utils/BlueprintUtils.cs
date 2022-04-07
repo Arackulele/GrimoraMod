@@ -167,6 +167,11 @@ public static class BlueprintUtils
 		}
 	};
 
+	public static EncounterBlueprintData GetRandomBlueprintForRegion()
+	{
+		return RegionWithBlueprints.ElementAt(ConfigHelper.Instance.BossesDefeated).Value.GetRandomItem();
+	}
+
 	public static EncounterBlueprintData BuildRandomBlueprint()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();

@@ -100,6 +100,7 @@ Place a `.json` file prefixed with the name `GrimoraMod_Encounter` in the `DataF
 If you do not have a DataFiles directory, the same directory as `GrimoraMod.dll` will suffice.
 
 Example:
+
 ```
 Arackulele-GrimoraMod
 - DataFiles
@@ -114,24 +115,34 @@ Arackulele-GrimoraMod
 
 **id**: The name of the encounter. Required.
 
+- See `WHAT TO NAME THE ID FOR THE ENCOUNTER` section.
+
 **turns**: A list of lists. The internal list are the card names.
 
-Using the example below for "Kaycee_Region3", the first turn has `Animator` and `Bonehound`. Second turn `Wight` and `Wight`.
+Using the example below for "Custom_Kaycee_Region3", the first turn has `Animator` and `Bonehound`. Second turn `Wight` and `Wight`.
 
-For "Kaycee_Region4", the first turn has `SlingersSoul` and `IceCube`. Second turn nothing, then third turn a `Writher` and `PlagueDoctor`.
+For "Custom_Kaycee_Region4", the first turn has `SlingersSoul` and `IceCube`. Second turn nothing, then third turn a `Writher` and `PlagueDoctor`.
 
 ```json
 {
 	"encounters": [
 		{
-			"id": "Kaycee_Region3",
+			"id": "Kaycee_Region_3",
 			"turns": [
 				["Animator", "Bonehound"],
 				["Wight", "Wight"]
 			]
 		},
 		{
-			"id": "Kaycee_Region4",
+			"id": "Kaycee_Region_4",
+			"turns": [
+				["SlingersSoul", "IceCube"],
+				[],
+				["Writher", "PlagueDoctor"]
+			]
+		},
+		{
+			"id": "Sawyer_Fight",
 			"turns": [
 				["SlingersSoul", "IceCube"],
 				[],
@@ -141,3 +152,13 @@ For "Kaycee_Region4", the first turn has `SlingersSoul` and `IceCube`. Second tu
 	]
 }
 ```
+
+### WHAT TO NAME THE ID FOR THE ENCOUNTER
+
+The scheme goes like this between the underscores. Meaning, if you split the id on the underscore, using `Kaycee_Region_3` as an example, each word is it's own section.
+
+1. `Kaycee` - The name of the boss for the region. Allowable values are: Kaycee, Sawyer, Royal, Grimora
+2. `Region` - Whether or not the bluprint is for the region or the boss fight.
+   1. If you want to set this blueprint for the boss fight's first phase, change `Region` to `Fight`.
+3. `3` - The number is optional. If no number is provided, one will be append at the end.
+   1. IF YOU DO DECIDE TO PUT A NUMBER IN THE ID, PLEASE MAKE SURE IT HAS AN UNDERSCORE BEFORE THE NUMBER.

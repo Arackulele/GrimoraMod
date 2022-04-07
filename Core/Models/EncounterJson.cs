@@ -1,22 +1,92 @@
-﻿using DiskCardGame;
+﻿using System.Runtime.Serialization;
+using DiskCardGame;
+using UnityEngine;
 
 namespace GrimoraMod;
 
-[Serializable]
+[DataContract]
 public class EncounterJson
 {
-	public string id;
 
-	public List<List<string>> turns;
-
-	public EncounterJson()
+	private static readonly Dictionary<string, string> SpecialEncounterIdByBossName = new()
 	{
+		{ "kaycee", "SpecialSequencer_arackulele.inscryption.grimoramod_GrimoraModKayceeBossSequencer" },
+		{ "sawyer", "SpecialSequencer_arackulele.inscryption.grimoramod_GrimoraModSawyerBossSequencer" },
+		{ "royal", "SpecialSequencer_arackulele.inscryption.grimoramod_GrimoraModRoyalBossSequencer" },
+		{ "grimora", "SpecialSequencer_arackulele.inscryption.grimoramod_GrimoraModGrimoraBossSequencer" },
+	};
+
+	private static int _customEncounterTally = 0;
+
+	private int GetBossIndex(List<string> splitId)
+	{
+		foreach (var s in splitId)
+		{
+			if (SpecialEncounterIdByBossName.Keys.Any(validBossName => s.StartsWith(validBossName, StringComparison.InvariantCultureIgnoreCase)))
+			{
+				return SpecialEncounterIdByBossName.Keys.ToList().IndexOf(s.ToLowerInvariant());
+			}
+		}
+
+		return -1;
+	}
+	
+	private static readonly List<string> ValidBlueprintType = new List<string> { "region", "fight" };
+	
+	private int GetBlueprintTypeIndex(List<string> splitId)
+	{
+		foreach (var s in splitId)
+		{
+			if (ValidBlueprintType.Any(valueBlueprintType => s.StartsWith(valueBlueprintType, StringComparison.InvariantCultureIgnoreCase)))
+			{
+				return ValidBlueprintType.IndexOf(s.ToLowerInvariant());
+			}
+		}
+
+		return -1;
+	}
+	
+	[DataMember]
+	public string id { get; set; }
+
+	[DataMember]
+	public List<List<string>> turns { get; set; }
+	
+	public string bossName;
+
+	public int bossIndex;
+
+	public string blueprintType;
+	
+	public void SetupOtherFields()
+	{
+		List<string> splitId = id.Split('_').ToList();
+		int bossNameIndex = GetBossIndex(splitId);
+		int blueprintTypeIndex = GetBlueprintTypeIndex(splitId);
+		if (bossNameIndex == -1 || blueprintTypeIndex == -1)
+		{
+			throw new Exception("Unable to determine where to place blueprint as the naming scheme is wrong! Please read the readme here: https://github.com/julian-perge/GrimoraMod/blob/main/Creating_Custom_Encounters.md");
+		}
+		bossIndex = bossNameIndex;
+		bossName = SpecialEncounterIdByBossName.Keys.ElementAt(bossNameIndex);
+		blueprintType = ValidBlueprintType[blueprintTypeIndex];
+
+		string idTemp = id;
+		if (!idTemp.StartsWith("Custom_", StringComparison.OrdinalIgnoreCase))
+		{
+			idTemp = "Custom_" + id;
+		}
+		
+		id = $"{idTemp}_{++_customEncounterTally}";
 	}
 
-	public EncounterJson(string id, List<List<string>> turns)
+	public EncounterBlueprintData BuildEncounter()
 	{
-		this.id = id;
-		this.turns = turns;
+		SetupOtherFields();
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = id;
+		blueprint.turns = BuildBlueprints();
+		return blueprint;
 	}
 
 	public List<List<EncounterBlueprintData.CardBlueprint>> BuildBlueprints()

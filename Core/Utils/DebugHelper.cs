@@ -60,26 +60,35 @@ public class DebugHelper : ManagedBehaviour
 
 	private string[] _encounterNames;
 
-	private void Start()
+	public void SetupEncounterData()
 	{
-		_encounters.AddRange(Resources.LoadAll<EncounterBlueprintData>("Data/EncounterBlueprints/").Where(ebd => ebd.name.StartsWith("Grimora")));
-		foreach (var lst in BlueprintUtils.RegionWithBlueprints.Values)
-		{
-			_encounters.AddRange(lst);
-		}
-		
-		_encounterNames = _encounters.Select(ebd => ebd.name).ToArray();
+		CustomCoroutine.WaitOnConditionThenExecute(
+			() => !GameFlowManager.Instance.Transitioning,
+			() =>
+			{
+				_encounters.AddRange(Resources.LoadAll<EncounterBlueprintData>("Data/EncounterBlueprints/").Where(ebd => ebd.name.StartsWith("Grimora")));
+				List<EncounterBlueprintData> largeList = BlueprintUtils.RegionWithBlueprints.Values.SelectMany(ebd => ebd.ToList())
+				 .Concat(ChessboardMapExt.Instance.CustomBlueprints.Values)
+				 .ToList();
+				foreach (var lst in largeList)
+				{
+					Log.LogDebug($"Adding blueprint [{lst.name}] to _encounters");
+					_encounters.Add(lst);
+				}
 
-		_allGrimoraCardNames = AllGrimoraModCards.Select(card => card.name.Replace($"{GUID}_", "")).ToArray();
+				_encounterNames = _encounters.Select(ebd => ebd.name).ToArray();
 
-		_allGrimoraCustomCardNames
-			= CardManager.AllCardsCopy
-			 .FindAll(
-					info => info.name.StartsWith($"{GUID}_")
-					     && !AllGrimoraModCards.Exists(modInfo => modInfo.name == info.name)
-				)
-			 .Select(info => info.name.Replace($"{GUID}_", ""))
-			 .ToArray();
+				_allGrimoraCardNames = AllGrimoraModCards.Select(card => card.name.Replace($"{GUID}_", "")).ToArray();
+
+				_allGrimoraCustomCardNames
+					= CardManager.AllCardsCopy
+					 .FindAll(
+							info => info.name.StartsWith($"{GUID}_")
+							     && !AllGrimoraModCards.Exists(modInfo => modInfo.name == info.name)
+						)
+					 .Select(info => info.name.Replace($"{GUID}_", ""))
+					 .ToArray();
+			});
 	}
 
 	private void OnGUI()
@@ -236,8 +245,8 @@ public class DebugHelper : ManagedBehaviour
 						copy.RemoveAll(piece => piece.Contains("Chest"));
 						ConfigHelper.Instance.RemovedPieces = copy;
 						ChessboardMapExt.Instance
-							.ActiveChessboard
-							.PlacePiece<ChessboardChestPiece>(i, 0, specialNodeData: specialNode);
+						 .ActiveChessboard
+						 .PlacePiece<ChessboardChestPiece>(i, 0, specialNodeData:specialNode);
 					}
 				}
 				else
@@ -304,14 +313,14 @@ public class DebugHelper : ManagedBehaviour
 		}
 
 		if (_toggleDebugBaseModCardsHand
-		    && !_toggleDebugCustomCardsHand
-		    && !_toggleDebugBaseModCardsDeck
-		    && !_toggleDebugCustomCardsDeck
-		    && !_toggleSpawnCardInOpponentSlot1
-		    && !_toggleSpawnCardInOpponentSlot2
-		    && !_toggleSpawnCardInOpponentSlot3
-		    && !_toggleSpawnCardInOpponentSlot4
-		   )
+		 && !_toggleDebugCustomCardsHand
+		 && !_toggleDebugBaseModCardsDeck
+		 && !_toggleDebugCustomCardsDeck
+		 && !_toggleSpawnCardInOpponentSlot1
+		 && !_toggleSpawnCardInOpponentSlot2
+		 && !_toggleSpawnCardInOpponentSlot3
+		 && !_toggleSpawnCardInOpponentSlot4
+		)
 		{
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,
@@ -329,14 +338,14 @@ public class DebugHelper : ManagedBehaviour
 		}
 
 		if (_toggleDebugCustomCardsHand
-		    && !_toggleDebugBaseModCardsHand
-		    && !_toggleDebugBaseModCardsDeck
-		    && !_toggleDebugCustomCardsDeck
-		    && !_toggleSpawnCardInOpponentSlot1
-		    && !_toggleSpawnCardInOpponentSlot2
-		    && !_toggleSpawnCardInOpponentSlot3
-		    && !_toggleSpawnCardInOpponentSlot4
-		   )
+		 && !_toggleDebugBaseModCardsHand
+		 && !_toggleDebugBaseModCardsDeck
+		 && !_toggleDebugCustomCardsDeck
+		 && !_toggleSpawnCardInOpponentSlot1
+		 && !_toggleSpawnCardInOpponentSlot2
+		 && !_toggleSpawnCardInOpponentSlot3
+		 && !_toggleSpawnCardInOpponentSlot4
+		)
 		{
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,
@@ -356,14 +365,14 @@ public class DebugHelper : ManagedBehaviour
 		}
 
 		if (_toggleDebugBaseModCardsDeck
-		    && !_toggleDebugCustomCardsDeck
-		    && !_toggleDebugCustomCardsHand
-		    && !_toggleDebugBaseModCardsHand
-		    && !_toggleSpawnCardInOpponentSlot1
-		    && !_toggleSpawnCardInOpponentSlot2
-		    && !_toggleSpawnCardInOpponentSlot3
-		    && !_toggleSpawnCardInOpponentSlot4
-		   )
+		 && !_toggleDebugCustomCardsDeck
+		 && !_toggleDebugCustomCardsHand
+		 && !_toggleDebugBaseModCardsHand
+		 && !_toggleSpawnCardInOpponentSlot1
+		 && !_toggleSpawnCardInOpponentSlot2
+		 && !_toggleSpawnCardInOpponentSlot3
+		 && !_toggleSpawnCardInOpponentSlot4
+		)
 		{
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,
@@ -379,14 +388,14 @@ public class DebugHelper : ManagedBehaviour
 		}
 
 		if (_toggleDebugCustomCardsDeck
-		    && !_toggleDebugBaseModCardsDeck
-		    && !_toggleDebugCustomCardsHand
-		    && !_toggleDebugBaseModCardsHand
-		    && !_toggleSpawnCardInOpponentSlot1
-		    && !_toggleSpawnCardInOpponentSlot2
-		    && !_toggleSpawnCardInOpponentSlot3
-		    && !_toggleSpawnCardInOpponentSlot4
-		   )
+		 && !_toggleDebugBaseModCardsDeck
+		 && !_toggleDebugCustomCardsHand
+		 && !_toggleDebugBaseModCardsHand
+		 && !_toggleSpawnCardInOpponentSlot1
+		 && !_toggleSpawnCardInOpponentSlot2
+		 && !_toggleSpawnCardInOpponentSlot3
+		 && !_toggleSpawnCardInOpponentSlot4
+		)
 		{
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,
@@ -402,13 +411,13 @@ public class DebugHelper : ManagedBehaviour
 		}
 
 		if (_toggleSpawnCardInOpponentSlot1
-		    && !_toggleDebugCustomCardsDeck
-		    && !_toggleDebugBaseModCardsDeck
-		    && !_toggleDebugCustomCardsHand
-		    && !_toggleDebugBaseModCardsHand
-		    && !_toggleSpawnCardInOpponentSlot2
-		    && !_toggleSpawnCardInOpponentSlot3
-		    && !_toggleSpawnCardInOpponentSlot4)
+		 && !_toggleDebugCustomCardsDeck
+		 && !_toggleDebugBaseModCardsDeck
+		 && !_toggleDebugCustomCardsHand
+		 && !_toggleDebugBaseModCardsHand
+		 && !_toggleSpawnCardInOpponentSlot2
+		 && !_toggleSpawnCardInOpponentSlot3
+		 && !_toggleSpawnCardInOpponentSlot4)
 		{
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,
@@ -429,13 +438,13 @@ public class DebugHelper : ManagedBehaviour
 		}
 
 		if (_toggleSpawnCardInOpponentSlot2
-		    && !_toggleDebugCustomCardsDeck
-		    && !_toggleDebugBaseModCardsDeck
-		    && !_toggleDebugCustomCardsHand
-		    && !_toggleDebugBaseModCardsHand
-		    && !_toggleSpawnCardInOpponentSlot1
-		    && !_toggleSpawnCardInOpponentSlot3
-		    && !_toggleSpawnCardInOpponentSlot4)
+		 && !_toggleDebugCustomCardsDeck
+		 && !_toggleDebugBaseModCardsDeck
+		 && !_toggleDebugCustomCardsHand
+		 && !_toggleDebugBaseModCardsHand
+		 && !_toggleSpawnCardInOpponentSlot1
+		 && !_toggleSpawnCardInOpponentSlot3
+		 && !_toggleSpawnCardInOpponentSlot4)
 		{
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,
@@ -456,13 +465,13 @@ public class DebugHelper : ManagedBehaviour
 		}
 
 		if (_toggleSpawnCardInOpponentSlot3
-		    && !_toggleDebugCustomCardsDeck
-		    && !_toggleDebugBaseModCardsDeck
-		    && !_toggleDebugCustomCardsHand
-		    && !_toggleDebugBaseModCardsHand
-		    && !_toggleSpawnCardInOpponentSlot1
-		    && !_toggleSpawnCardInOpponentSlot2
-		    && !_toggleSpawnCardInOpponentSlot4)
+		 && !_toggleDebugCustomCardsDeck
+		 && !_toggleDebugBaseModCardsDeck
+		 && !_toggleDebugCustomCardsHand
+		 && !_toggleDebugBaseModCardsHand
+		 && !_toggleSpawnCardInOpponentSlot1
+		 && !_toggleSpawnCardInOpponentSlot2
+		 && !_toggleSpawnCardInOpponentSlot4)
 		{
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,
@@ -483,13 +492,13 @@ public class DebugHelper : ManagedBehaviour
 		}
 
 		if (_toggleSpawnCardInOpponentSlot4
-		    && !_toggleDebugCustomCardsDeck
-		    && !_toggleDebugBaseModCardsDeck
-		    && !_toggleDebugCustomCardsHand
-		    && !_toggleDebugBaseModCardsHand
-		    && !_toggleSpawnCardInOpponentSlot1
-		    && !_toggleSpawnCardInOpponentSlot2
-		    && !_toggleSpawnCardInOpponentSlot3)
+		 && !_toggleDebugCustomCardsDeck
+		 && !_toggleDebugBaseModCardsDeck
+		 && !_toggleDebugCustomCardsHand
+		 && !_toggleDebugBaseModCardsHand
+		 && !_toggleSpawnCardInOpponentSlot1
+		 && !_toggleSpawnCardInOpponentSlot2
+		 && !_toggleSpawnCardInOpponentSlot3)
 		{
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,

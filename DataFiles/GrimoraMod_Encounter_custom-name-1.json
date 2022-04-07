@@ -1,7 +1,7 @@
 {
 	"encounters": [
 		{
-			"id": "Kaycee_Region3",
+			"id": "Kaycee_Region_3",
 			"turns": [
 				[
 					"Animator",
@@ -14,7 +14,21 @@
 			]
 		},
 		{
-			"id": "Kaycee_Region4",
+			"id": "Kaycee_Region_4",
+			"turns": [
+				[
+					"SlingersSoul",
+					"IceCube"
+				],
+				[],
+				[
+					"Writher",
+					"PlagueDoctor"
+				]
+			]
+		},
+		{
+			"id": "Sawyer_Fight",
 			"turns": [
 				[
 					"SlingersSoul",

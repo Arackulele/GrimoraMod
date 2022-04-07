@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Reflection;
+using System.Runtime.Serialization.Json;
+using System.Text;
 using DiskCardGame;
 using HarmonyLib;
 using Sirenix.Utilities;
@@ -14,6 +16,8 @@ public class ChessboardMapExt : GameMap
 	[SerializeField] internal NavigationGrid navGrid;
 
 	[SerializeField] internal List<ChessboardPiece> pieces;
+
+	internal DebugHelper _debugHelper;
 
 	public bool StartAtTwinGiants;
 
@@ -51,9 +55,12 @@ public class ChessboardMapExt : GameMap
 		}
 	}
 
-	private List<EncounterBlueprintData> _customBlueprints;
+	public Dictionary<EncounterJson, EncounterBlueprintData> CustomBlueprintsRegions { get; set; } = new();
+	public Dictionary<EncounterJson, EncounterBlueprintData> CustomBlueprintsBosses { get; set; } = new();
 	
-	public List<EncounterBlueprintData> CustomBlueprints
+	private Dictionary<EncounterJson, EncounterBlueprintData> _customBlueprints;
+	
+	public Dictionary<EncounterJson, EncounterBlueprintData> CustomBlueprints
 	{
 		get
 		{
@@ -81,32 +88,33 @@ public class ChessboardMapExt : GameMap
 		
 		if (_customBlueprints == null)
 		{
-			_customBlueprints = new List<EncounterBlueprintData>();
+			_customBlueprints = new Dictionary<EncounterJson, EncounterBlueprintData>();
 			string[] encounters = Directory.GetFiles(
 					Assembly.GetExecutingAssembly().Location.Replace("GrimoraMod.dll", ""), "GrimoraMod_Encounter*", SearchOption.AllDirectories)
 			 .Select(File.ReadAllText)
 			 .ToArray();
 
-			Log.LogDebug($"Encounters found [{encounters.Length}]");
-
-			foreach (var encounter in encounters)
+			foreach (var encounterFile in encounters)
 			{
-				Log.LogDebug($"-> Encounter: {encounter}");
-				var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-				Log.LogDebug($"-> blueprint made, reading json FromJson");
-				EncounterJsonUtil.EncountersFromJson encountersFromJson = SimpleJson.DeserializeObject<EncounterJsonUtil.EncountersFromJson>(encounter);
-				Log.LogDebug($"-> EncountersFromJson: [{encountersFromJson.encounters}]");
+				using var ms = new MemoryStream(Encoding.Unicode.GetBytes(encounterFile));
+				DataContractJsonSerializer deserial = new DataContractJsonSerializer(typeof(EncounterJsonUtil.EncountersFromJson));
+				EncounterJsonUtil.EncountersFromJson encountersFromJson = (EncounterJsonUtil.EncountersFromJson)deserial.ReadObject(ms);
 				foreach (var encounterFromJson in encountersFromJson.encounters)
 				{
-					for (var i = 0; i < encounterFromJson.turns.Count; i++)
+					EncounterBlueprintData blueprint = encounterFromJson.BuildEncounter();
+					if (encounterFromJson.blueprintType.Equals("Region", StringComparison.InvariantCultureIgnoreCase))
 					{
-						Log.LogDebug($"--> Turn {i+1} Cards: [{encounterFromJson.turns[i].Join()}]");
+						CustomBlueprintsRegions.Add(encounterFromJson, blueprint);
 					}
-					blueprint.name = encounterFromJson.id;
-					blueprint.turns = encounterFromJson.BuildBlueprints();
+					else
+					{
+						CustomBlueprintsBosses.Add(encounterFromJson, blueprint);
+					}
+					_customBlueprints.Add(encounterFromJson, blueprint);
 				}
-				_customBlueprints.Add(blueprint);
 			}
+			Log.LogDebug($"Final custom blueprint names: [{_customBlueprints.Join(kv => kv.Value.name)}]");
+			_debugHelper.SetupEncounterData();
 		}
 	}
 
@@ -121,7 +129,7 @@ public class ChessboardMapExt : GameMap
 		instance.ViewChanged = (Action<View, View>)Delegate
 			.Combine(instance.ViewChanged, new Action<View, View>(OnViewChanged));
 
-		gameObject.AddComponent<DebugHelper>();
+		_debugHelper = gameObject.AddComponent<DebugHelper>();
 	}
 
 	public static string[] CardsLeftInDeck => CardDrawPiles3D
