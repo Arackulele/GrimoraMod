@@ -35,7 +35,7 @@ public class GrimoraChessboard
 			},
 			{
 				typeof(ChessboardElectricChairPiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.ElectricChair, GetElectricChairNodes)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.ElectricChairFigurine, GetElectricChairNodes)
 			},
 			{
 				typeof(ChessboardEnemyPiece),

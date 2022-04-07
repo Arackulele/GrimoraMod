@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 4030541139
+CRC: 2370792815
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 3ea65b2ddfd0ddfdd766c217bea34ab3
+    Hash: 3dce51daf1a2d34ad4746081b290df86
   TypeTreeHash:
     serializedVersion: 2
     Hash: 182394b89d7174747cf6fb22f6fa4531
@@ -53,7 +53,6 @@ Assets:
 - Assets/GrimoraMod_Unity/Models/sawyer/SawyerBossSkull.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/Kaycee/Blocker_Kaycee.prefab
 - Assets/GrimoraMod_Unity/BoneyardBurialGrave.obj
-- Assets/GrimoraMod_Unity/ElectricChairV2.prefab
 - Assets/GrimoraMod_Unity/Animations/CardSkeletonAnim/SkeletonArms_Giants.prefab
 - Assets/GrimoraMod_Unity/Animations/CardSkeletonAnim/SkeletonArm_BoneLordSnap.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/ChessboardPiece_GoatEye.prefab
@@ -62,6 +61,7 @@ Assets:
 - Assets/GrimoraMod_Unity/ChessboardPieces/Sawyer/Blocker_Sawyer.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/ChessboardPiece_CardRemove.prefab
 - Assets/Resources/animation/Prefabs/Hexalantern.prefab
+- Assets/GrimoraMod_Unity/Electric_Chair.prefab
 - Assets/GrimoraMod_Unity/Models/Layout/NewNewLayout.prefab
 - Assets/GrimoraMod_Unity/ChessboardPieces/Blocker_Grimora.prefab
 - Assets/GrimoraMod_Unity/Animations/VfxBoltLightning.prefab

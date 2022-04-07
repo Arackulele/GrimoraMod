@@ -87,6 +87,13 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		fov = 55f
 	};
 
+	private ElectricChairLever _lever;
+
+	private void Start()
+	{
+		_lever = figurines[0].transform.Find("Lever").gameObject.AddComponent<ElectricChairLever>();
+	}
+
 	public IEnumerator StartSequence()
 	{
 		yield return InitialSetup();
@@ -498,8 +505,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		var positionCopy = confirmStoneButton.position;
 		confirmStoneButton.position = new Vector3(positionCopy.x, positionCopy.y, -0.5f);
 
-		newSequencer.figurines = new List<CompositeFigurine>();
-		newSequencer.figurines.AddRange(CreateElectricChair(cardStatObj));
+		newSequencer.figurines = new List<CompositeFigurine>{ CreateElectricChair(cardStatObj) };
 
 		newSequencer.pile = oldSequencer.pile;
 		newSequencer.pile.cardbackPrefab = AssetConstants.GrimoraCardBack;
@@ -525,37 +531,19 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		Destroy(oldSequencer);
 	}
 
-	private static IEnumerable<CompositeFigurine> CreateElectricChair(GameObject cardStatObj)
+	private static CompositeFigurine CreateElectricChair(GameObject cardStatObj)
 	{
-		CompositeFigurine chairFigurine = Instantiate(
-				AssetConstants.ElectricChairForSelectionSlot,
+		CompositeFigurine electricChair = Instantiate(
+				AssetConstants.ElectricChair,
 				new Vector3(-0.05f, 4.9f, 1.2f),
 				Quaternion.Euler(0, 180, 0),
 				cardStatObj.transform
 			)
 			.AddComponent<CompositeFigurine>();
-		chairFigurine.name = "Electric Chair Selection Slot";
-		chairFigurine.transform.localScale = new Vector3(1.15f, 1, 0.75f);
-		chairFigurine.gameObject.SetActive(false);
+		electricChair.name = "Electric Chair";
+		electricChair.gameObject.SetActive(false);
 
-		return new List<CompositeFigurine> { chairFigurine };
-	}
-
-	private static ConfirmStoneButton CreateLever(GameObject cardStatObj)
-	{
-		GameObject lever = Instantiate(
-			AssetUtils.GetPrefab<GameObject>("ElectricChair_Lever"),
-			new Vector3(0, 5, -0.5f),
-			Quaternion.identity,
-			cardStatObj.transform
-		);
-		lever.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-		ConfirmStoneButton button = lever.transform.GetChild(0).GetChild(1).gameObject.AddComponent<ConfirmStoneButton>();
-		button.confirmView = View.CardMergeSlots;
-		button.anim = button.transform.parent.GetComponent<Animator>();
-		lever.gameObject.SetActive(false);
-
-		return button;
+		return electricChair;
 	}
 
 	#endregion
