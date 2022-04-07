@@ -30,19 +30,22 @@ public class DrawNewHandPatch
 			PlayerHand.Instance.RemoveCardFromHand(cardsNotChoosingASlot[0]);
 			cardsNotChoosingASlot.RemoveAt(0);
 		}
-
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(1f);
 		bool drawPile3DIsActive = CardDrawPiles3D.Instance && CardDrawPiles3D.Instance.pile;
+		ViewManager.Instance.SwitchToView(View.CardPiles, lockAfter: true);
+		yield return new WaitForSeconds(0.75f);
 		for (int i = 0; i < 4; i++)
 		{
 			if (drawPile3DIsActive)
 			{
 				CardDrawPiles3D.Instance.pile.Draw();
 			}
-
 			yield return CardDrawPiles.Instance.DrawCardFromDeck();
+			yield return new WaitForSeconds(0.1f);
 		}
-
+		yield return new WaitForSeconds(0.5f);
+		ViewManager.Instance.SwitchToView(View.Default);
+		ViewManager.Instance.SetViewUnlocked();
 		yield return __instance.LearnAbility(0.5f);
 	}
 }
