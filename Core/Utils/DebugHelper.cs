@@ -14,6 +14,10 @@ public class DebugHelper : ManagedBehaviour
 
 	private static readonly Rect RectCardListArea = new(Screen.width - 420, 180, 400, Screen.height - 200);
 
+	public bool StartAtTwinGiants;
+
+	public bool StartAtBonelord;
+
 	private bool _toggleEncounterMenu;
 
 	private bool _toggleSpawnCardInOpponentSlot1;
@@ -96,6 +100,21 @@ public class DebugHelper : ManagedBehaviour
 		if (!ConfigHelper.Instance.isDevModeEnabled)
 		{
 			return;
+		}
+
+		if (ConfigHelper.Instance.BossesDefeated == 3)
+		{
+			StartAtTwinGiants = GUI.Toggle(
+				new Rect(Screen.width / 3f, 100, 200, 20),
+				StartAtTwinGiants,
+				"Start at Twin Giants"
+			);
+
+			StartAtBonelord = GUI.Toggle(
+				new Rect(Screen.width / 3f + 200, 100, 200, 20),
+				StartAtBonelord,
+				"Start at Bonelord"
+			);
 		}
 
 		_toggleDebugTools = GUI.Toggle(

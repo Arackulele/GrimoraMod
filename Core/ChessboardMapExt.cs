@@ -19,10 +19,6 @@ public class ChessboardMapExt : GameMap
 
 	internal DebugHelper _debugHelper;
 
-	public bool StartAtTwinGiants;
-
-	public bool StartAtBonelord;
-
 	private bool _toggleCardsLeftInDeck = false;
 
 	public new static ChessboardMapExt Instance => GameMap.Instance as ChessboardMapExt;
@@ -142,21 +138,6 @@ public class ChessboardMapExt : GameMap
 
 	private void OnGUI()
 	{
-		if (ConfigHelper.Instance.isDevModeEnabled)
-		{
-			StartAtTwinGiants = GUI.Toggle(
-				new Rect(Screen.width - 200, 180, 200, 20),
-				StartAtTwinGiants, 
-				"Start at Twin Giants"
-			);
-
-			StartAtBonelord = GUI.Toggle(
-				new Rect(Screen.width - 200, 200, 200, 20),
-				StartAtBonelord, 
-				"Start at Bonelord"
-			);
-		}
-
 		if (GrimoraGameFlowManager.Instance.CurrentGameState == GameState.CardBattle)
 		{
 			_toggleCardsLeftInDeck = GUI.Toggle(
