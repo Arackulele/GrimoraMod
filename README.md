@@ -40,14 +40,26 @@
 
 ### 2.8.5
 
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed audio continuing to play after dying during a boss battle.
+
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed not being able to view your deck in Act 1.
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed softlock during Bonelord fight when starvation sets in.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed haunted slot sigils not disappearing after combat ends.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) More changes to how custom encounters are read. Please see updated readme: [Creating Custom Encounters](https://github.com/julian-perge/GrimoraMod/blob/main/Creating_Custom_Encounters.md)
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed playing dialogue for hammer entirely after the first time it is played. Similar to how other mechanic dialogues are only played once.
   - Having custom options for the hammer was just annoying code-wise, and didn't add much honestly to give the player the option to listen to the hammer dialogue _each time_.
+
+#### Electric Chair Rework
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png)
+
+#### Bosses
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Kaycee, Sawyer, Royal new phase blueprints slightly tweaked to include new cards.
 
 #### Ability Changes
 
@@ -55,11 +67,21 @@
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) `Handy` and `Looter` sigil have been tweaked to better indicate that cards are being drawn when the sigils activate.
 
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added patch to change the default tail for `Loose Limb` sigil.
+  - This also fixes the card's loose limb having `Loose Limb` when spawning.
+
 #### Card Changes
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Catacomb` having an overlapping attack icon.
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with `Puppeteer` sigil not adding back `Brittle` to cards.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Chime` card not showing sigils from host.
+  - Art for `Chime` shrunk so it doesn't overlap sigils.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Corrected alignment for Wyvern emission.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Project` nerfed to 7 bones from 5.
 
 ### 2.8.4 Custom Encounters
 
