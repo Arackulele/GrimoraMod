@@ -102,7 +102,7 @@ public static class BlueprintUtils
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Manananggal = NameManananggal.CreateCardBlueprint();
 
 
-	#region Pirates
+	#region PiratesRoyal
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_CaptainYellowbeard =
 		NamePirateCaptainYellowbeard.CreateCardBlueprint();
@@ -115,7 +115,23 @@ public static class BlueprintUtils
 	public static readonly EncounterBlueprintData.CardBlueprint
 		bp_Swashbuckler = NamePirateSwashbuckler.CreateCardBlueprint();
 
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Shipwreck = NameShipwreck.CreateCardBlueprint();
+		
 	#endregion
+
+	#region Kaycee
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_IceCube = NameIceCube.CreateCardBlueprint();
+	
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Glacier = NameGlacier.CreateCardBlueprint();
+
+  #endregion
+
+	#region Sawyer
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Kennel = NameKennel.CreateCardBlueprint();
+
+  #endregion
 
 	#endregion
 
