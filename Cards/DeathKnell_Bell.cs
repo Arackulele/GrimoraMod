@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAppearance(Appearance.TerrainBackground, Appearance.TerrainLayout)
-			.SetBaseAttackAndHealth(0, 1)
+			.SetBaseAttackAndHealth(0, 2)
 			.SetNames(NameDeathKnellBell, "Chime")
 			.SetTraits(Trait.Structure, Trait.Terrain)
 			.Build();
