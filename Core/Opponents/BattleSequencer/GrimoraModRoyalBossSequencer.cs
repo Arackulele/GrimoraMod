@@ -175,6 +175,33 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			{
 				Log.LogInfo($"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} will be moved to slot [{destination.name}]");
 
+				SkinCrawlerSlot crawlerSlot = null;
+				if (playableCard.Slot.GetComponentInChildren<SkinCrawlerSlot>())
+				{
+					Log.LogWarning($"[TableSway.MoveToSlot] SkinCrawlerSlot is not null, sliding to new slot");
+					crawlerSlot = playableCard.Slot.GetComponentInChildren<SkinCrawlerSlot>();
+					var crawlerCard = crawlerSlot.skinCrawlerCard;
+					crawlerCard.transform.SetParent(destination.transform);
+					crawlerSlot.transform.SetParent(destination.transform);
+					Tween.LocalPosition(
+						crawlerCard.transform, 
+						Vector3.up * (BoardManager3D.Instance.SlotHeightOffset + crawlerCard.SlotHeightOffset) + new Vector3(0f, 0f, 0.31f),
+						DurationTableSway + 2,
+						0.05f, 
+						Tween.EaseOut, 
+						Tween.LoopType.None, 
+						null, 
+						delegate { crawlerCard.Anim.PlayRiffleSound(); }
+					);
+					Tween.Rotation(
+						crawlerCard.transform, 
+						destination.transform.GetChild(0).rotation, 
+						DurationTableSway + 2.5f, 
+						0f, 
+						Tween.EaseOut
+					);
+				}
+
 				yield return BoardManager.Instance.AssignCardToSlot(playableCard, destination, DurationTableSway + 2);
 				Tween.LocalRotation(
 					playableCard.transform,
@@ -183,6 +210,16 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 					0,
 					Tween.EaseIn
 				);
+				if (crawlerSlot)
+				{
+					Tween.LocalRotation(
+						crawlerSlot.skinCrawlerCard.transform,
+						new Vector3(90, 0, 0),
+						0,
+						0,
+						Tween.EaseIn
+					);
+				}
 				yield return new WaitForSeconds(0.25f);
 			}
 		}
