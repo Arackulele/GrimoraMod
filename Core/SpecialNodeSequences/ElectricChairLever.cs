@@ -7,7 +7,7 @@ namespace GrimoraMod;
 
 public class ElectricChairLever : HighlightedInteractable
 {
-	private static readonly Color DarkCellColor = new Color(0, 0.08637799f, 0.1132075f, 1f);
+	private static readonly Color DarkCellColor = new Color(0, 0.1f, 0.1f, 1f);
 
 	public enum SigilRisk
 	{
@@ -25,21 +25,31 @@ public class ElectricChairLever : HighlightedInteractable
 	[SerializeField]
 	private CursorType pressCursorType = CursorType.Rotate;
 
-	private readonly List<MeshRenderer> _cellRenderers = new();
+	private Tuple<MeshRenderer, Color> _cellSaferRisk;
+	private Tuple<MeshRenderer, Color> _cellMinorRisk;
+	private Tuple<MeshRenderer, Color> _cellMajorRisk;
 
 
 	private void Start()
 	{
 		animHandle = gameObject.transform.Find("Anim").gameObject;
 		Transform cells = gameObject.transform.Find("Cells");
-		for (int i = 0; i < cells.childCount; i++)
-		{
-			// CetChild(i) EnergyCell -> Case -> Cell
-			_cellRenderers.Add(cells.GetChild(i).GetChild(0).GetChild(0).GetComponent<MeshRenderer>());
-		}
+		// CetChild(i) EnergyCell -> Case -> Cell
+		_cellSaferRisk = new Tuple<MeshRenderer, Color>(
+			cells.GetChild(0).Find("Case").GetChild(0).GetComponent<MeshRenderer>(),
+			new Color(0.1f, 0, 1)
+		);
+		_cellMinorRisk = new Tuple<MeshRenderer, Color>(
+			cells.GetChild(1).Find("Case").GetChild(0).GetComponent<MeshRenderer>(),
+			new Color(0.2f, 0, 0.5f)
+		);
+		_cellMajorRisk = new Tuple<MeshRenderer, Color>(
+			cells.GetChild(2).Find("Case").GetChild(0).GetComponent<MeshRenderer>(),
+			new Color(0.35f, 0, 0.5f)
+		);
 
-		SetCellColor(_cellRenderers[1], DarkCellColor);
-		SetCellColor(_cellRenderers[2], DarkCellColor);
+		SetCellColor(_cellMinorRisk.Item1, DarkCellColor);
+		SetCellColor(_cellMajorRisk.Item1, DarkCellColor);
 
 		HighlightCursorType = pressCursorType;
 
@@ -60,7 +70,7 @@ public class ElectricChairLever : HighlightedInteractable
 				TweenBase rotation = Tween.LocalRotation(animHandle.transform, Quaternion.Euler(0, 0, 0), 0.75f, 0.1f, Tween.EaseIn);
 				CustomCoroutine.WaitOnConditionThenExecute(
 					() => rotation.Status == Tween.TweenStatus.Finished,
-					() => { SetCellColor(_cellRenderers[1], Color.green); }
+					() => { SetCellColor(_cellMinorRisk.Item1, _cellMinorRisk.Item2); }
 				);
 				break;
 			case SigilRisk.Minor:
@@ -69,7 +79,7 @@ public class ElectricChairLever : HighlightedInteractable
 				rotation = Tween.LocalRotation(animHandle.transform, Quaternion.Euler(0, 0, 45), 0.75f, 0.1f, Tween.EaseIn);
 				CustomCoroutine.WaitOnConditionThenExecute(
 					() => rotation.Status == Tween.TweenStatus.Finished,
-					() => { SetCellColor(_cellRenderers[2], Color.green); }
+					() => { SetCellColor(_cellMajorRisk.Item1, _cellMajorRisk.Item2); }
 				);
 				break;
 			case SigilRisk.Major:
@@ -82,8 +92,8 @@ public class ElectricChairLever : HighlightedInteractable
 					() => rotation.Status == Tween.TweenStatus.Finished,
 					() =>
 					{
-						SetCellColor(_cellRenderers[1], DarkCellColor);
-						SetCellColor(_cellRenderers[2], DarkCellColor);
+						SetCellColor(_cellMinorRisk.Item1, DarkCellColor);
+						SetCellColor(_cellMajorRisk.Item1, DarkCellColor);
 					});
 				break;
 		}
