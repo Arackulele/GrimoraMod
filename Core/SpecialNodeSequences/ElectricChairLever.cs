@@ -9,6 +9,8 @@ public class ElectricChairLever : HighlightedInteractable
 {
 	private static readonly Color DarkCellColor = new Color(0, 0.1f, 0.1f, 1f);
 
+	private const float DefaultLeverDuration = 0.375f;
+
 	public static readonly List<Ability> AbilitiesSaferRisk = new()
 	{
 		Ability.BeesOnHit,
@@ -174,42 +176,37 @@ public class ElectricChairLever : HighlightedInteractable
 
 	private void ChangeRisk(MainInputInteractable i)
 	{
-		GrimoraPlugin.Log.LogDebug($"[ChangeRisk] current risk is [{currentSigilRisk}]");
 		switch (currentSigilRisk)
 		{
 			case SigilRisk.Safe:
 				// -45 zed rotation to 0
-				currentSigilRisk = SigilRisk.Minor;
-				TweenBase rotation = Tween.LocalRotation(animHandle.transform, Quaternion.Euler(0, 0, 0), 0.75f, 0.1f, Tween.EaseIn);
-				CustomCoroutine.WaitOnConditionThenExecute(
-					() => rotation.Status == Tween.TweenStatus.Finished,
-					() => { SetCellColor(_cellMinorRisk.Item1, _cellMinorRisk.Item2); }
-				);
+				DoLeverAnimAndSetCurrentRisk(SigilRisk.Minor, 0, () => SetCellColor(_cellMinorRisk.Item1, _cellMinorRisk.Item2));
 				break;
 			case SigilRisk.Minor:
 				// 0 zed rotation to 45
-				currentSigilRisk = SigilRisk.Major;
-				rotation = Tween.LocalRotation(animHandle.transform, Quaternion.Euler(0, 0, 45), 0.75f, 0.1f, Tween.EaseIn);
-				CustomCoroutine.WaitOnConditionThenExecute(
-					() => rotation.Status == Tween.TweenStatus.Finished,
-					() => { SetCellColor(_cellMajorRisk.Item1, _cellMajorRisk.Item2); }
-				);
+				DoLeverAnimAndSetCurrentRisk(SigilRisk.Major, 45, () => SetCellColor(_cellMajorRisk.Item1, _cellMajorRisk.Item2));
 				break;
 			case SigilRisk.Major:
 			default:
 				// 45 to -45 zed
-				currentSigilRisk = SigilRisk.Safe;
-				rotation = Tween.LocalRotation(animHandle.transform, Quaternion.Euler(0, 0, -45), 0.75f, 0.1f, Tween.EaseIn);
-
-				CustomCoroutine.WaitOnConditionThenExecute(
-					() => rotation.Status == Tween.TweenStatus.Finished,
-					() =>
-					{
-						SetCellColor(_cellMinorRisk.Item1, DarkCellColor);
-						SetCellColor(_cellMajorRisk.Item1, DarkCellColor);
-					});
+				DoLeverAnimAndSetCurrentRisk(SigilRisk.Safe, -45, () =>
+				{
+					SetCellColor(_cellMinorRisk.Item1, DarkCellColor);
+					SetCellColor(_cellMajorRisk.Item1, DarkCellColor);
+				});
 				break;
 		}
+	}
+
+	private void DoLeverAnimAndSetCurrentRisk(SigilRisk riskToSetTo, int zedRotation, Action afterLeverAnimFinishes)
+	{
+		GrimoraPlugin.Log.LogDebug($"[ChangeRisk] current risk is [{currentSigilRisk}], setting to [{riskToSetTo}]");
+		currentSigilRisk = riskToSetTo;
+		TweenBase rotation = Tween.LocalRotation(animHandle.transform, Quaternion.Euler(0, 0, zedRotation), DefaultLeverDuration, 0.1f, Tween.EaseIn);
+		CustomCoroutine.WaitOnConditionThenExecute(
+			() => rotation.Status == Tween.TweenStatus.Finished,
+			afterLeverAnimFinishes.Invoke
+		);
 	}
 
 	private void SetCellColor(Renderer cell, Color c)
