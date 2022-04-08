@@ -15,75 +15,88 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	
 	public static ElectricChairSequencer Instance => FindObjectOfType<ElectricChairSequencer>();
 
-	public static readonly List<Ability> AbilitiesToChoseRandomly = new()
+	public static readonly List<Ability> AbilitiesSaferRisk = new()
 	{
-		ActivatedDealDamageGrimora.ability,
-		ActivatedDrawSkeletonGrimora.ability,
-		ActivatedEnergyDrawWyvern.ability,
-		ActivatedGainEnergySoulSucker.ability,
-		AlternatingStrike.ability,
-		AreaOfEffectStrike.ability,
-		BoneThief.ability,
-		BuffCrewMates.ability,
-		ChaosStrike.ability,
-		ColdFront.ability,
-		CreateArmyOfSkeletons.ability,
-		Erratic.ability,
-		FlameStrafe.ability,
-		Fylgja_GuardDog.ability,
-		GrimoraRandomAbility.ability,
-		Haunter.ability,
-		HookLineAndSinker.ability,
-		Imbued.ability,
-		InvertedStrike.ability,
-		LatchSubmerge.ability,
-		LooseLimb.ability,
-		MarchingDead.ability,
-		Possessive.ability,
-		Puppeteer.ability,
-		// SkinCrawler.ability,
-		SpiritBearer.ability,
-		Ability.ActivatedDealDamage,
-		Ability.ActivatedHeal,
-		Ability.ActivatedRandomPowerEnergy,
-		Ability.ActivatedStatsUp,
-		Ability.ActivatedStatsUpEnergy,
 		Ability.BeesOnHit,
-		Ability.BombSpawner,
-		Ability.BoneDigger,
-		Ability.BuffNeighbours,
-		Ability.CorpseEater,
-		Ability.CreateBells,
 		Ability.DeathShield,
-		Ability.Deathtouch,
-		Ability.DebuffEnemy,
-		Ability.DoubleDeath,
-		Ability.DrawCopy,
-		Ability.DrawNewHand,
 		Ability.DrawRabbits,
+		Ability.DrawRandomCardOnDeath,
 		Ability.Evolve,
-		Ability.ExplodeOnDeath,
-		Ability.Flying,
-		Ability.GuardDog,
-		Ability.IceCube,
-		Ability.MoveBeside,
+		Ability.LatchDeathShield,
+		Ability.OpponentBones,
 		Ability.QuadrupleBones,
-		Ability.Reach,
 		Ability.Sentry,
 		Ability.Sharp,
+		BoneThief.ability,
+		ColdFront.ability,
+		LatchSubmerge.ability,
+		LooseLimb.ability,
+		SpiritBearer.ability
+	};
+	
+	public static readonly List<Ability> AbilitiesMinorRisk = new(AbilitiesSaferRisk)
+	{
+		Ability.BoneDigger,
+		Ability.BuffNeighbours,
+		Ability.CreateBells,
+		Ability.CreateDams,
+		Ability.Deathtouch,
+		Ability.DebuffEnemy,
+		Ability.DrawCopyOnDeath,
+		Ability.DrawNewHand,
+		Ability.Flying,
+		Ability.GainAttackOnKill,
+		Ability.IceCube,
+		Ability.LatchBrittle,
+		Ability.LatchExplodeOnDeath,
+		Ability.Loot,
+		Ability.MadeOfStone,
+		Ability.Reach,
 		Ability.SkeletonStrafe,
 		Ability.Sniper,
 		Ability.SplitStrike,
+		Ability.Tutor,
+		ActivatedDrawSkeletonGrimora.ability,
+		ActivatedEnergyDrawWyvern.ability,
+		ActivatedGainEnergySoulSucker.ability,
+		AreaOfEffectStrike.ability,
+		BuffCrewMates.ability,
+		ChaosStrike.ability,
+		CreateArmyOfSkeletons.ability,
+		GrimoraRandomAbility.ability,
+		Haunter.ability,
+		HookLineAndSinker.ability,
+		Imbued.ability
+	};
+
+	public static readonly List<Ability> AbilitiesMajorRisk = new(AbilitiesMinorRisk)
+	{
+		Ability.ActivatedRandomPowerEnergy,
+		Ability.ActivatedStatsUp,
+		Ability.ActivatedStatsUpEnergy,
+		Ability.AllStrike,
+		Ability.CorpseEater,
+		Ability.DoubleDeath,
+		Ability.DoubleStrike,
+		Ability.DrawCopy,
+		Ability.ExplodeOnDeath,
+		Ability.GuardDog,
 		Ability.SteelTrap,
 		Ability.Strafe,
 		Ability.StrafePush,
+		Ability.StrafeSwap,
 		Ability.Submerge,
 		Ability.SwapStats,
-		Ability.TailOnHit,
-		// Ability.Transformer,
 		Ability.TriStrike,
-		Ability.Tutor,
-		Ability.WhackAMole
+		Ability.WhackAMole,
+		ActivatedDealDamageGrimora.ability,
+		Anchored.ability,
+		FlameStrafe.ability,
+		Fylgja_GuardDog.ability,
+		InvertedStrike.ability,
+		MarchingDead.ability,
+		Possessive.ability,
+		Puppeteer.ability
 	};
 
 	private static readonly ViewInfo ChairViewInfo = new()
@@ -306,15 +319,15 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			singletonId = ModSingletonId,
 			nameReplacement = card.displayedName.Replace("Yellowbeard", "Bluebeard")
 		};
-		GrimoraSaveUtil.DeckInfo.ModifyCard(card, cardModificationInfo);
+		GrimoraSaveUtil.ModifyCard(card, cardModificationInfo);
 	}
 
 	private Ability GetRandomAbility(CardInfo card)
 	{
-		Ability randomSigil = AbilitiesToChoseRandomly.GetRandomItem();
+		Ability randomSigil = GetAbilityFromLeverRisk();
 		while (card.HasAbility(randomSigil) || HasAbilityComboThatWillBreakTheGame(card, randomSigil))
 		{
-			randomSigil = AbilitiesToChoseRandomly.GetRandomItem();
+			randomSigil = GetAbilityFromLeverRisk();
 		}
 
 		if (randomSigil == Ability.IceCube)
@@ -326,10 +339,21 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		return randomSigil;
 	}
 
+	private Ability GetAbilityFromLeverRisk()
+	{
+		Log.LogDebug($"[GetAbilityFromLeverRisk] Current risk is [{_lever.currentSigilRisk}]");
+		return _lever.currentSigilRisk switch
+		{
+			ElectricChairLever.SigilRisk.Minor => AbilitiesMinorRisk.GetRandomItem(),
+			ElectricChairLever.SigilRisk.Major => AbilitiesMajorRisk.GetRandomItem(),
+			_                                  => AbilitiesSaferRisk.GetRandomItem()
+		};
+	}
+
 	private static readonly List<Ability> AbilitiesThatShouldNotExistOnZeroAttackCards = new()
 	{
 		AlternatingStrike.ability, AreaOfEffectStrike.ability, BoneThief.ability, ChaosStrike.ability, InvertedStrike.ability,
-		Ability.Sniper, Ability.SplitStrike, Ability.TriStrike
+		Ability.AllStrike, Ability.DoubleStrike, Ability.GainAttackOnKill, Ability.Sniper, Ability.SplitStrike, Ability.TriStrike
 	};
 
 	private bool HasAbilityComboThatWillBreakTheGame(CardInfo card, Ability randomSigil)

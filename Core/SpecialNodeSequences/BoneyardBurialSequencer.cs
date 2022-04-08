@@ -267,7 +267,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 			bonesCostAdjustment = -Mathf.CeilToInt(card.BonesCost / 2f),
 			singletonId = "GrimoraMod_BoneyardBuried"
 		};
-		GrimoraSaveUtil.DeckInfo.ModifyCard(card, cardModificationInfo);
+		GrimoraSaveUtil.ModifyCard(card, cardModificationInfo);
 	}
 
 	private new void OnSlotSelected(MainInputInteractable slot)

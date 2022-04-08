@@ -29,4 +29,9 @@ public static class GrimoraSaveUtil
 	{
 		DeckInfo.AddCard(cardToAdd);
 	}
+	
+	public static void ModifyCard(CardInfo cardToModify, CardModificationInfo modInfo)
+	{
+		DeckInfo.ModifyCard(cardToModify, modInfo);
+	}
 }
