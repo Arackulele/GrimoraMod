@@ -12,93 +12,8 @@ namespace GrimoraMod;
 public class ElectricChairSequencer : CardStatBoostSequencer
 {
 	public const string ModSingletonId = "GrimoraMod_ElectricChaired";
-	
+
 	public static ElectricChairSequencer Instance => FindObjectOfType<ElectricChairSequencer>();
-
-	public static readonly List<Ability> AbilitiesSaferRisk = new()
-	{
-		Ability.BeesOnHit,
-		Ability.DeathShield,
-		Ability.DrawRabbits,
-		Ability.DrawRandomCardOnDeath,
-		Ability.Evolve,
-		Ability.IceCube,
-		Ability.LatchDeathShield,
-		Ability.OpponentBones,
-		Ability.QuadrupleBones,
-		Ability.Sentry,
-		Ability.Sharp,
-		BoneThief.ability,
-		ColdFront.ability,
-		LatchSubmerge.ability,
-		LooseLimb.ability,
-		SpiritBearer.ability
-	};
-	
-	public static readonly List<Ability> AbilitiesMinorRisk = new(AbilitiesSaferRisk)
-	{
-		Ability.BoneDigger,
-		Ability.BuffNeighbours,
-		Ability.CreateBells,
-		Ability.CreateDams,
-		Ability.Deathtouch,
-		Ability.DebuffEnemy,
-		Ability.DrawCopyOnDeath,
-		Ability.DrawNewHand,
-		Ability.Flying,
-		Ability.GainAttackOnKill,
-		Ability.LatchBrittle,
-		Ability.LatchExplodeOnDeath,
-		Ability.Loot,
-		Ability.MadeOfStone,
-		Ability.MoveBeside,
-		Ability.Reach,
-		Ability.SkeletonStrafe,
-		Ability.Sniper,
-		Ability.SplitStrike,
-		Ability.Tutor,
-		ActivatedDrawSkeletonGrimora.ability,
-		ActivatedEnergyDrawWyvern.ability,
-		ActivatedGainEnergySoulSucker.ability,
-		AreaOfEffectStrike.ability,
-		BuffCrewMates.ability,
-		ChaosStrike.ability,
-		CreateArmyOfSkeletons.ability,
-		GrimoraRandomAbility.ability,
-		Haunter.ability,
-		HookLineAndSinker.ability,
-		Imbued.ability
-	};
-
-	public static readonly List<Ability> AbilitiesMajorRisk = new(AbilitiesMinorRisk)
-	{
-		Ability.ActivatedRandomPowerEnergy,
-		Ability.ActivatedStatsUp,
-		Ability.ActivatedStatsUpEnergy,
-		Ability.AllStrike,
-		Ability.CorpseEater,
-		Ability.DoubleDeath,
-		Ability.DoubleStrike,
-		Ability.DrawCopy,
-		Ability.ExplodeOnDeath,
-		Ability.GuardDog,
-		Ability.SteelTrap,
-		Ability.Strafe,
-		Ability.StrafePush,
-		Ability.StrafeSwap,
-		Ability.Submerge,
-		Ability.SwapStats,
-		Ability.TriStrike,
-		Ability.WhackAMole,
-		ActivatedDealDamageGrimora.ability,
-		Anchored.ability,
-		FlameStrafe.ability,
-		Fylgja_GuardDog.ability,
-		InvertedStrike.ability,
-		MarchingDead.ability,
-		Possessive.ability,
-		Puppeteer.ability
-	};
 
 	private static readonly ViewInfo ChairViewInfo = new()
 	{
@@ -158,6 +73,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	{
 		yield return confirmStone.WaitUntilConfirmation();
 		CardInfo destroyedCard = null;
+		float baseChanceToDie = 0.3f;
 		bool finishedBuffing = false;
 		int numBuffsGiven = 0;
 		while (!finishedBuffing && destroyedCard.IsNull())
@@ -180,6 +96,8 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 				selectionSlot.transform.position,
 				skipToTime: 0.5f
 			);
+			baseChanceToDie += _lever.GetChanceToDieFromRisk();
+			Log.LogWarning($"[ElectricChair] Base chance to die from first shock is now [{baseChanceToDie}]");
 			ApplyModToCard(selectionSlot.Card.Info);
 			selectionSlot.Card.Anim.PlayTransformAnimation();
 			yield return new WaitForSeconds(0.15f);
@@ -235,7 +153,9 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			yield return new WaitForSeconds(0.1f);
 			if (confirmStone.SelectionConfirmed)
 			{
-				if (UnityRandom.value > 0.5f)
+				baseChanceToDie += _lever.GetChanceToDieFromRisk();
+				Log.LogWarning($"[ElectricChair] Base chance to die from second shock is now [{baseChanceToDie}]");
+				if (UnityRandom.value < baseChanceToDie)
 				{
 					AudioController.Instance.PlaySound3D(
 						"teslacoil_overload",
@@ -325,10 +245,10 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private Ability GetRandomAbility(CardInfo card)
 	{
-		Ability randomSigil = GetAbilityFromLeverRisk();
+		Ability randomSigil = _lever.GetAbilityFromLeverRisk();
 		while (card.HasAbility(randomSigil) || HasAbilityComboThatWillBreakTheGame(card, randomSigil))
 		{
-			randomSigil = GetAbilityFromLeverRisk();
+			randomSigil = _lever.GetAbilityFromLeverRisk();
 		}
 
 		if (randomSigil == Ability.IceCube)
@@ -338,17 +258,6 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 		Log.LogDebug($"[ApplyModToCard] Ability from electric chair [{randomSigil}]");
 		return randomSigil;
-	}
-
-	private Ability GetAbilityFromLeverRisk()
-	{
-		Log.LogDebug($"[GetAbilityFromLeverRisk] Current risk is [{_lever.currentSigilRisk}]");
-		return _lever.currentSigilRisk switch
-		{
-			ElectricChairLever.SigilRisk.Minor => AbilitiesMinorRisk.GetRandomItem(),
-			ElectricChairLever.SigilRisk.Major => AbilitiesMajorRisk.GetRandomItem(),
-			_                                  => AbilitiesSaferRisk.GetRandomItem()
-		};
 	}
 
 	private static readonly List<Ability> AbilitiesThatShouldNotExistOnZeroAttackCards = new()
@@ -468,6 +377,8 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		stakeRingParent.SetActive(false);
 		confirmStone.SetStoneInactive();
 		selectionSlot.gameObject.SetActive(false);
+		
+		_lever.ResetRisk();
 
 		CustomCoroutine.WaitThenExecute(
 			0.4f,

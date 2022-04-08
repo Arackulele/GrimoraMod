@@ -9,6 +9,91 @@ public class ElectricChairLever : HighlightedInteractable
 {
 	private static readonly Color DarkCellColor = new Color(0, 0.1f, 0.1f, 1f);
 
+	public static readonly List<Ability> AbilitiesSaferRisk = new()
+	{
+		Ability.BeesOnHit,
+		Ability.DeathShield,
+		Ability.DrawRabbits,
+		Ability.DrawRandomCardOnDeath,
+		Ability.Evolve,
+		Ability.IceCube,
+		Ability.LatchDeathShield,
+		Ability.OpponentBones,
+		Ability.QuadrupleBones,
+		Ability.Sentry,
+		Ability.Sharp,
+		BoneThief.ability,
+		ColdFront.ability,
+		LatchSubmerge.ability,
+		LooseLimb.ability,
+		SpiritBearer.ability
+	};
+
+	public static readonly List<Ability> AbilitiesMinorRisk = new(AbilitiesSaferRisk)
+	{
+		Ability.BoneDigger,
+		Ability.BuffNeighbours,
+		Ability.CreateBells,
+		Ability.CreateDams,
+		Ability.Deathtouch,
+		Ability.DebuffEnemy,
+		Ability.DrawCopyOnDeath,
+		Ability.DrawNewHand,
+		Ability.Flying,
+		Ability.GainAttackOnKill,
+		Ability.LatchBrittle,
+		Ability.LatchExplodeOnDeath,
+		Ability.Loot,
+		Ability.MadeOfStone,
+		Ability.MoveBeside,
+		Ability.Reach,
+		Ability.SkeletonStrafe,
+		Ability.Sniper,
+		Ability.SplitStrike,
+		Ability.Tutor,
+		ActivatedDrawSkeletonGrimora.ability,
+		ActivatedEnergyDrawWyvern.ability,
+		ActivatedGainEnergySoulSucker.ability,
+		AreaOfEffectStrike.ability,
+		BuffCrewMates.ability,
+		ChaosStrike.ability,
+		CreateArmyOfSkeletons.ability,
+		GrimoraRandomAbility.ability,
+		Haunter.ability,
+		HookLineAndSinker.ability,
+		Imbued.ability
+	};
+
+	public static readonly List<Ability> AbilitiesMajorRisk = new(AbilitiesMinorRisk)
+	{
+		Ability.ActivatedRandomPowerEnergy,
+		Ability.ActivatedStatsUp,
+		Ability.ActivatedStatsUpEnergy,
+		Ability.AllStrike,
+		Ability.CorpseEater,
+		Ability.DoubleDeath,
+		Ability.DoubleStrike,
+		Ability.DrawCopy,
+		Ability.ExplodeOnDeath,
+		Ability.GuardDog,
+		Ability.SteelTrap,
+		Ability.Strafe,
+		Ability.StrafePush,
+		Ability.StrafeSwap,
+		Ability.Submerge,
+		Ability.SwapStats,
+		Ability.TriStrike,
+		Ability.WhackAMole,
+		ActivatedDealDamageGrimora.ability,
+		Anchored.ability,
+		FlameStrafe.ability,
+		Fylgja_GuardDog.ability,
+		InvertedStrike.ability,
+		MarchingDead.ability,
+		Possessive.ability,
+		Puppeteer.ability
+	};
+
 	public enum SigilRisk
 	{
 		Safe,
@@ -28,7 +113,6 @@ public class ElectricChairLever : HighlightedInteractable
 	private Tuple<MeshRenderer, Color> _cellSaferRisk;
 	private Tuple<MeshRenderer, Color> _cellMinorRisk;
 	private Tuple<MeshRenderer, Color> _cellMajorRisk;
-
 
 	private void Start()
 	{
@@ -57,6 +141,35 @@ public class ElectricChairLever : HighlightedInteractable
 			CursorSelectStarted,
 			(Action<MainInputInteractable>)ChangeRisk
 		);
+	}
+
+	public void ResetRisk()
+	{
+		do
+		{
+			ChangeRisk(null);
+		} while (currentSigilRisk != SigilRisk.Safe);
+	}
+
+	public float GetChanceToDieFromRisk()
+	{
+		return currentSigilRisk switch
+		{
+			SigilRisk.Minor => 0.1f,
+			SigilRisk.Major => 0.2f,
+			_               => 0f
+		};
+	}
+
+	public Ability GetAbilityFromLeverRisk()
+	{
+		GrimoraPlugin.Log.LogDebug($"[GetAbilityFromLeverRisk] Current risk is [{currentSigilRisk}]");
+		return currentSigilRisk switch
+		{
+			SigilRisk.Minor => AbilitiesMinorRisk.GetRandomItem(),
+			SigilRisk.Major => AbilitiesMajorRisk.GetRandomItem(),
+			_               => AbilitiesSaferRisk.GetRandomItem()
+		};
 	}
 
 	private void ChangeRisk(MainInputInteractable i)
