@@ -116,6 +116,8 @@ public static class BlueprintUtils
 		bp_Swashbuckler = NamePirateSwashbuckler.CreateCardBlueprint();
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Shipwreck = NameShipwreck.CreateCardBlueprint();
+	
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Polly = NamePiratePolly.CreateCardBlueprint();
 		
 	#endregion
 
