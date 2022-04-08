@@ -46,6 +46,13 @@ public class CardSpawnerPatches
 					animObj.gameObject.SetActive(false);
 				}
 			}
+
+			if (__result.Info.HasTrait(Trait.Terrain) && __result.Info.Mods.Exists(mod => mod.fromCardMerge))
+			{
+				GrimoraPlugin.Log.LogDebug($"[SpawnPlayableCard] Card [{info.displayedName}] has FromCardMerge mod, setting fromCardMerge to false");
+				__result.Info.Mods.FindAll(mods => mods.fromCardMerge)
+				 .ForEach(mod => mod.fromCardMerge = false);
+			}
 		}
 	}
 }
