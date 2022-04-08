@@ -153,16 +153,6 @@ public class ElectricChairLever : HighlightedInteractable
 		} while (currentSigilRisk != SigilRisk.Safe);
 	}
 
-	public float GetChanceToDieFromRisk()
-	{
-		return currentSigilRisk switch
-		{
-			SigilRisk.Minor => 0.1f,
-			SigilRisk.Major => 0.2f,
-			_               => 0f
-		};
-	}
-
 	public Ability GetAbilityFromLeverRisk()
 	{
 		GrimoraPlugin.Log.LogDebug($"[GetAbilityFromLeverRisk] Current risk is [{currentSigilRisk}]");

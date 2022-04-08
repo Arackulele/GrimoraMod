@@ -73,7 +73,6 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	{
 		yield return confirmStone.WaitUntilConfirmation();
 		CardInfo destroyedCard = null;
-		float baseChanceToDie = 0.3f;
 		bool finishedBuffing = false;
 		int numBuffsGiven = 0;
 		while (!finishedBuffing && destroyedCard.IsNull())
@@ -96,8 +95,6 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 				selectionSlot.transform.position,
 				skipToTime: 0.5f
 			);
-			baseChanceToDie += _lever.GetChanceToDieFromRisk();
-			Log.LogWarning($"[ElectricChair] Base chance to die from first shock is now [{baseChanceToDie}]");
 			ApplyModToCard(selectionSlot.Card.Info);
 			selectionSlot.Card.Anim.PlayTransformAnimation();
 			yield return new WaitForSeconds(0.15f);
@@ -153,9 +150,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			yield return new WaitForSeconds(0.1f);
 			if (confirmStone.SelectionConfirmed)
 			{
-				baseChanceToDie += _lever.GetChanceToDieFromRisk();
-				Log.LogWarning($"[ElectricChair] Base chance to die from second shock is now [{baseChanceToDie}]");
-				if (UnityRandom.value < baseChanceToDie)
+				if (UnityRandom.value > 0.5f)
 				{
 					AudioController.Instance.PlaySound3D(
 						"teslacoil_overload",
