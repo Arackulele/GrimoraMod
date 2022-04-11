@@ -4,7 +4,6 @@ using Pixelplacement;
 using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
-using Random = UnityEngine.Random;
 
 namespace GrimoraMod;
 
@@ -202,7 +201,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 	// TODO: Need to refactor this into much cleaner method calls
 	private CardInfo GetRandomCardForEffect()
 	{
-		float rngValue = Random.value;
+		float rngValue = UnityRandom.value;
 
 		CardInfo cardThatWillHaveEffectApplied = BoonsUtil.CreateCardForBoon(BoonData.Type.StartingBones);
 		switch (rngValue)

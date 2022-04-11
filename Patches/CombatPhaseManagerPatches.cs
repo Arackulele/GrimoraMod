@@ -59,8 +59,7 @@ public class CombatPhaseManagerPatches
 		{
 			yield return enumerator;
 
-			bool cardHasStrikeAdjacentAbility = slot.CardIsNotNullAndHasAbility(AreaOfEffectStrike.ability)
-			                                 || slot.CardIsNotNullAndHasAbility(Raider.ability);
+			bool cardHasStrikeAdjacentAbility = slot.Card && slot.Card.GetComponent<StrikeAdjacentSlots>();
 			if (cardHasStrikeAdjacentAbility)
 			{
 				yield return new WaitForSeconds(1f);

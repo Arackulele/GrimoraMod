@@ -88,12 +88,12 @@ public static class AssetConstants
 
 	#region ElectricChair
 
-	public static GameObject ElectricChair => AssetUtils.GetPrefab<GameObject>("ChessboardPiece_ElectricChair");
+	public static GameObject ElectricChairFigurine => AssetUtils.GetPrefab<GameObject>("ChessboardPiece_ElectricChair");
 
 	public static Material ElectricChairSelectionSlot =>
 		AssetUtils.GetPrefab<Material>("ElectricChair_SelectionSlot");
 
-	public static GameObject ElectricChairForSelectionSlot => AssetUtils.GetPrefab<GameObject>("ElectricChairV2");
+	public static GameObject ElectricChair => AssetUtils.GetPrefab<GameObject>("Electric_Chair");
 
 	#endregion
 

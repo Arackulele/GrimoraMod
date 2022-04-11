@@ -155,7 +155,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 				TextDisplayer.MessageAdvanceMode.Input
 			);
 
-			CardSlot slot = opponentQueuedSlots[UnityEngine.Random.Range(0, opponentQueuedSlots.Count)];
+			CardSlot slot = opponentQueuedSlots[UnityRandom.Range(0, opponentQueuedSlots.Count)];
 			yield return TurnManager.Instance.Opponent.QueueCard(card.Info, slot);
 			_willReanimateCardThatDied = false;
 			yield return new WaitForSeconds(0.5f);

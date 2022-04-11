@@ -14,6 +14,12 @@ public class DebugHelper : ManagedBehaviour
 
 	private static readonly Rect RectCardListArea = new(Screen.width - 420, 180, 400, Screen.height - 200);
 
+	public bool StartAtTwinGiants;
+
+	public bool StartAtBonelord;
+
+	private bool _toggleEncounterMenu;
+
 	private bool _toggleSpawnCardInOpponentSlot1;
 
 	private bool _toggleSpawnCardInOpponentSlot2;
@@ -34,7 +40,7 @@ public class DebugHelper : ManagedBehaviour
 
 	private readonly string[] _btnTools =
 	{
-		"Win Round", "Lose Round",
+		"Win Round", "Lose Round", "Add Energy",
 		"Clear Deck", "Add Bones", "Reset Removed Pieces"
 	};
 
@@ -52,25 +58,41 @@ public class DebugHelper : ManagedBehaviour
 		"Win Round", "Lose Round"
 	};
 
-	private bool _toggleEnemies;
+	private bool _toggleEncounters;
 
-	private readonly string[] _btnEnemies =
+	private readonly List<EncounterBlueprintData> _encounters = new();
+
+	private string[] _encounterNames;
+
+	public void SetupEncounterData()
 	{
-		"Place Enemies"
-	};
+		CustomCoroutine.WaitOnConditionThenExecute(
+			() => !GameFlowManager.Instance.Transitioning,
+			() =>
+			{
+				_encounters.AddRange(Resources.LoadAll<EncounterBlueprintData>("Data/EncounterBlueprints/").Where(ebd => ebd.name.StartsWith("Grimora")));
+				List<EncounterBlueprintData> largeList = BlueprintUtils.RegionWithBlueprints.Values.SelectMany(ebd => ebd.ToList())
+				 .Concat(ChessboardMapExt.Instance.CustomBlueprints.Values)
+				 .ToList();
+				foreach (var lst in largeList)
+				{
+					Log.LogDebug($"Adding blueprint [{lst.name}] to _encounters");
+					_encounters.Add(lst);
+				}
 
-	private void Start()
-	{
-		_allGrimoraCardNames = AllGrimoraModCards.Select(card => card.name.Replace($"{GUID}_", "")).ToArray();
+				_encounterNames = _encounters.Select(ebd => ebd.name).ToArray();
 
-		_allGrimoraCustomCardNames
-			= CardManager.AllCardsCopy
-				.FindAll(
-					info => info.name.StartsWith($"{GUID}_")
-					        && !AllGrimoraModCards.Exists(modInfo => modInfo.name == info.name)
-				)
-				.Select(info => info.name.Replace($"{GUID}_", ""))
-				.ToArray();
+				_allGrimoraCardNames = AllGrimoraModCards.Select(card => card.name.Replace($"{GUID}_", "")).ToArray();
+
+				_allGrimoraCustomCardNames
+					= CardManager.AllCardsCopy
+					 .FindAll(
+							info => info.name.StartsWith($"{GUID}_")
+							     && !AllGrimoraModCards.Exists(modInfo => modInfo.name == info.name)
+						)
+					 .Select(info => info.name.Replace($"{GUID}_", ""))
+					 .ToArray();
+			});
 	}
 
 	private void OnGUI()
@@ -78,6 +100,21 @@ public class DebugHelper : ManagedBehaviour
 		if (!ConfigHelper.Instance.isDevModeEnabled)
 		{
 			return;
+		}
+
+		if (ConfigHelper.Instance.BossesDefeated == 3)
+		{
+			StartAtTwinGiants = GUI.Toggle(
+				new Rect(Screen.width / 3f, 40, 200, 20),
+				StartAtTwinGiants,
+				"Start at Twin Giants"
+			);
+
+			StartAtBonelord = GUI.Toggle(
+				new Rect(Screen.width / 3f + 200, 40, 200, 20),
+				StartAtBonelord,
+				"Start at Bonelord"
+			);
 		}
 
 		_toggleDebugTools = GUI.Toggle(
@@ -94,10 +131,10 @@ public class DebugHelper : ManagedBehaviour
 				"Debug Chests"
 			);
 
-			_toggleEnemies = GUI.Toggle(
+			_toggleEncounters = GUI.Toggle(
 				new Rect(20, 300, 120, 20),
-				_toggleEnemies,
-				"Debug Enemies"
+				_toggleEncounters,
+				"Debug Encounters"
 			);
 
 			_toggleDebugBaseModCardsHand = GUI.Toggle(
@@ -184,6 +221,10 @@ public class DebugHelper : ManagedBehaviour
 					case "Add Bones":
 						ResourcesManager.Instance.StartCoroutine(ResourcesManager.Instance.AddBones(25));
 						break;
+					case "Add Energy":
+						ResourcesManager.Instance.StartCoroutine(ResourcesManager.Instance.AddMaxEnergy(1));
+						ResourcesManager.Instance.StartCoroutine(ResourcesManager.Instance.AddEnergy(1));
+						break;
 					case "Reset Removed Pieces":
 						ConfigHelper.Instance.ResetRemovedPieces();
 						break;
@@ -223,8 +264,8 @@ public class DebugHelper : ManagedBehaviour
 						copy.RemoveAll(piece => piece.Contains("Chest"));
 						ConfigHelper.Instance.RemovedPieces = copy;
 						ChessboardMapExt.Instance
-							.ActiveChessboard
-							.PlacePiece<ChessboardChestPiece>(i, 0, specialNodeData: specialNode);
+						 .ActiveChessboard
+						 .PlacePiece<ChessboardChestPiece>(i, 0, specialNodeData:specialNode);
 					}
 				}
 				else
@@ -237,36 +278,68 @@ public class DebugHelper : ManagedBehaviour
 			}
 		}
 
-		if (_toggleEnemies)
+		if (_toggleEncounters)
 		{
 			int selectedButton = GUI.SelectionGrid(
-				new Rect(25, 320, 300, 40),
+				new Rect(25, 320, 300, Screen.height - 320),
 				-1,
-				_btnEnemies,
+				_encounterNames,
 				2
 			);
 
 			if (selectedButton >= 0)
 			{
-				var copy = ConfigHelper.Instance.RemovedPieces;
-				copy.RemoveAll(piece => piece.Contains("Enemy"));
-				ConfigHelper.Instance.RemovedPieces = copy;
-				for (int i = 0; i < 8; i++)
+				EncounterBlueprintData encounter = _encounters[selectedButton];
+				// the asset names have P1 or P2 at the end,
+				//	so we'll remove it so that we can correctly get a boss if a boss was selected
+				string scrubbedName = encounter.name.Replace("P1", "").Replace("P2", "");
+
+				CardBattleNodeData node = new CardBattleNodeData
 				{
-					ChessboardMapExt.Instance.ActiveChessboard.PlacePiece<ChessboardEnemyPiece>(0, i);
+					blueprint = encounter
+				};
+
+				if (Enum.TryParse(scrubbedName, true, out Opponent.Type bossType))
+				{
+					node = new BossBattleNodeData();
+					((BossBattleNodeData)node).specialBattleId = BossBattleSequencer.GetSequencerIdForBoss(bossType);
+					((BossBattleNodeData)node).bossType = bossType;
 				}
+
+				Opponent opponent = TurnManager.Instance.Opponent;
+				if (opponent && !TurnManager.Instance.GameIsOver())
+				{
+					Log.LogDebug($"Setting NumLives to 1");
+					opponent.NumLives = 1;
+					Log.LogDebug($"Game is not over, making opponent surrender");
+					opponent.SurrenderImmediate();
+					Log.LogDebug($"Playing LifeLostSequence for [{opponent.GetType()}]");
+					StartCoroutine(opponent.LifeLostSequence());
+				}
+
+				Log.LogDebug($"Transitioning to encounter [{encounter.name}]");
+				bool canTransitionToFight = GrimoraGameFlowManager.Instance.CurrentGameState == GameState.Map
+				                         && !GrimoraGameFlowManager.Instance.Transitioning
+				                         && GameMap.Instance;
+				CustomCoroutine.WaitOnConditionThenExecute(
+					() => canTransitionToFight,
+					delegate
+					{
+						Log.LogDebug($"-> No longer in transitioning state, transitioning to new encounter");
+						GameFlowManager.Instance.TransitionToGameState(GameState.CardBattle, node);
+					});
 			}
 		}
 
 		if (_toggleDebugBaseModCardsHand
-		    && !_toggleDebugCustomCardsHand
-		    && !_toggleDebugBaseModCardsDeck
-		    && !_toggleDebugCustomCardsDeck
-		    && !_toggleSpawnCardInOpponentSlot1
-		    && !_toggleSpawnCardInOpponentSlot2
-		    && !_toggleSpawnCardInOpponentSlot3
-		    && !_toggleSpawnCardInOpponentSlot4
-		   )
+		 && !_toggleDebugCustomCardsHand
+		 && !_toggleDebugBaseModCardsDeck
+		 && !_toggleDebugCustomCardsDeck
+		 && !_toggleSpawnCardInOpponentSlot1
+		 && !_toggleSpawnCardInOpponentSlot2
+		 && !_toggleSpawnCardInOpponentSlot3
+		 && !_toggleSpawnCardInOpponentSlot4
+		)
 		{
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,
@@ -284,14 +357,14 @@ public class DebugHelper : ManagedBehaviour
 		}
 
 		if (_toggleDebugCustomCardsHand
-		    && !_toggleDebugBaseModCardsHand
-		    && !_toggleDebugBaseModCardsDeck
-		    && !_toggleDebugCustomCardsDeck
-		    && !_toggleSpawnCardInOpponentSlot1
-		    && !_toggleSpawnCardInOpponentSlot2
-		    && !_toggleSpawnCardInOpponentSlot3
-		    && !_toggleSpawnCardInOpponentSlot4
-		   )
+		 && !_toggleDebugBaseModCardsHand
+		 && !_toggleDebugBaseModCardsDeck
+		 && !_toggleDebugCustomCardsDeck
+		 && !_toggleSpawnCardInOpponentSlot1
+		 && !_toggleSpawnCardInOpponentSlot2
+		 && !_toggleSpawnCardInOpponentSlot3
+		 && !_toggleSpawnCardInOpponentSlot4
+		)
 		{
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,
@@ -311,14 +384,14 @@ public class DebugHelper : ManagedBehaviour
 		}
 
 		if (_toggleDebugBaseModCardsDeck
-		    && !_toggleDebugCustomCardsDeck
-		    && !_toggleDebugCustomCardsHand
-		    && !_toggleDebugBaseModCardsHand
-		    && !_toggleSpawnCardInOpponentSlot1
-		    && !_toggleSpawnCardInOpponentSlot2
-		    && !_toggleSpawnCardInOpponentSlot3
-		    && !_toggleSpawnCardInOpponentSlot4
-		   )
+		 && !_toggleDebugCustomCardsDeck
+		 && !_toggleDebugCustomCardsHand
+		 && !_toggleDebugBaseModCardsHand
+		 && !_toggleSpawnCardInOpponentSlot1
+		 && !_toggleSpawnCardInOpponentSlot2
+		 && !_toggleSpawnCardInOpponentSlot3
+		 && !_toggleSpawnCardInOpponentSlot4
+		)
 		{
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,
@@ -334,14 +407,14 @@ public class DebugHelper : ManagedBehaviour
 		}
 
 		if (_toggleDebugCustomCardsDeck
-		    && !_toggleDebugBaseModCardsDeck
-		    && !_toggleDebugCustomCardsHand
-		    && !_toggleDebugBaseModCardsHand
-		    && !_toggleSpawnCardInOpponentSlot1
-		    && !_toggleSpawnCardInOpponentSlot2
-		    && !_toggleSpawnCardInOpponentSlot3
-		    && !_toggleSpawnCardInOpponentSlot4
-		   )
+		 && !_toggleDebugBaseModCardsDeck
+		 && !_toggleDebugCustomCardsHand
+		 && !_toggleDebugBaseModCardsHand
+		 && !_toggleSpawnCardInOpponentSlot1
+		 && !_toggleSpawnCardInOpponentSlot2
+		 && !_toggleSpawnCardInOpponentSlot3
+		 && !_toggleSpawnCardInOpponentSlot4
+		)
 		{
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,
@@ -357,13 +430,13 @@ public class DebugHelper : ManagedBehaviour
 		}
 
 		if (_toggleSpawnCardInOpponentSlot1
-		    && !_toggleDebugCustomCardsDeck
-		    && !_toggleDebugBaseModCardsDeck
-		    && !_toggleDebugCustomCardsHand
-		    && !_toggleDebugBaseModCardsHand
-		    && !_toggleSpawnCardInOpponentSlot2
-		    && !_toggleSpawnCardInOpponentSlot3
-		    && !_toggleSpawnCardInOpponentSlot4)
+		 && !_toggleDebugCustomCardsDeck
+		 && !_toggleDebugBaseModCardsDeck
+		 && !_toggleDebugCustomCardsHand
+		 && !_toggleDebugBaseModCardsHand
+		 && !_toggleSpawnCardInOpponentSlot2
+		 && !_toggleSpawnCardInOpponentSlot3
+		 && !_toggleSpawnCardInOpponentSlot4)
 		{
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,
@@ -384,13 +457,13 @@ public class DebugHelper : ManagedBehaviour
 		}
 
 		if (_toggleSpawnCardInOpponentSlot2
-		    && !_toggleDebugCustomCardsDeck
-		    && !_toggleDebugBaseModCardsDeck
-		    && !_toggleDebugCustomCardsHand
-		    && !_toggleDebugBaseModCardsHand
-		    && !_toggleSpawnCardInOpponentSlot1
-		    && !_toggleSpawnCardInOpponentSlot3
-		    && !_toggleSpawnCardInOpponentSlot4)
+		 && !_toggleDebugCustomCardsDeck
+		 && !_toggleDebugBaseModCardsDeck
+		 && !_toggleDebugCustomCardsHand
+		 && !_toggleDebugBaseModCardsHand
+		 && !_toggleSpawnCardInOpponentSlot1
+		 && !_toggleSpawnCardInOpponentSlot3
+		 && !_toggleSpawnCardInOpponentSlot4)
 		{
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,
@@ -411,13 +484,13 @@ public class DebugHelper : ManagedBehaviour
 		}
 
 		if (_toggleSpawnCardInOpponentSlot3
-		    && !_toggleDebugCustomCardsDeck
-		    && !_toggleDebugBaseModCardsDeck
-		    && !_toggleDebugCustomCardsHand
-		    && !_toggleDebugBaseModCardsHand
-		    && !_toggleSpawnCardInOpponentSlot1
-		    && !_toggleSpawnCardInOpponentSlot2
-		    && !_toggleSpawnCardInOpponentSlot4)
+		 && !_toggleDebugCustomCardsDeck
+		 && !_toggleDebugBaseModCardsDeck
+		 && !_toggleDebugCustomCardsHand
+		 && !_toggleDebugBaseModCardsHand
+		 && !_toggleSpawnCardInOpponentSlot1
+		 && !_toggleSpawnCardInOpponentSlot2
+		 && !_toggleSpawnCardInOpponentSlot4)
 		{
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,
@@ -438,13 +511,13 @@ public class DebugHelper : ManagedBehaviour
 		}
 
 		if (_toggleSpawnCardInOpponentSlot4
-		    && !_toggleDebugCustomCardsDeck
-		    && !_toggleDebugBaseModCardsDeck
-		    && !_toggleDebugCustomCardsHand
-		    && !_toggleDebugBaseModCardsHand
-		    && !_toggleSpawnCardInOpponentSlot1
-		    && !_toggleSpawnCardInOpponentSlot2
-		    && !_toggleSpawnCardInOpponentSlot3)
+		 && !_toggleDebugCustomCardsDeck
+		 && !_toggleDebugBaseModCardsDeck
+		 && !_toggleDebugCustomCardsHand
+		 && !_toggleDebugBaseModCardsHand
+		 && !_toggleSpawnCardInOpponentSlot1
+		 && !_toggleSpawnCardInOpponentSlot2
+		 && !_toggleSpawnCardInOpponentSlot3)
 		{
 			int selectedButton = GUI.SelectionGrid(
 				RectCardListArea,

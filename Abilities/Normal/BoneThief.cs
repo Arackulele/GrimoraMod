@@ -34,7 +34,7 @@ public class BoneThief : AbilityBehaviour
 	{
 		yield return PreSuccessfulTriggerSequence();
 		Card.Anim.LightNegationEffect();
-		yield return ResourcesManager.Instance.AddBones(1, deathSlot);
+		yield return ResourcesManager.Instance.AddBones(2, deathSlot);
 		yield return LearnAbility();
 		yield return new WaitForSeconds(0.25f);
 	}
@@ -44,7 +44,7 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_BoneThief()
 	{
-		const string rulebookDescription = "When [creature] kills another creature, gain 1 bone.";
+		const string rulebookDescription = "When [creature] kills another creature, gain 2 bones.";
 
 		ApiUtils.CreateAbility<BoneThief>(rulebookDescription);
 	}

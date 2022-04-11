@@ -54,16 +54,17 @@ public class KayceeBossOpponent : BaseBossExt
 
 	private static void SetSceneEffectsShownKaycee()
 	{
+		Color brightBlue = GameColors.Instance.brightBlue;
 		TableVisualEffectsManager.Instance.ChangeTableColors(
-			GameColors.Instance.brightBlue,
-			GameColors.Instance.brightBlue,
-			GameColors.Instance.brightBlue,
+			brightBlue,
+			brightBlue,
+			brightBlue,
 			GameColors.Instance.darkBlue,
-			GameColors.Instance.brightBlue,
+			brightBlue,
 			GameColors.Instance.nearWhite,
 			GameColors.Instance.blue,
-			GameColors.Instance.brightBlue,
-			GameColors.Instance.brightBlue
+			brightBlue,
+			brightBlue
 		);
 	}
 
@@ -72,17 +73,17 @@ public class KayceeBossOpponent : BaseBossExt
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
+			new() { bp_Draugr, bp_IceCube },
 			new() { bp_Draugr, bp_Draugr },
-			new() { bp_Draugr, bp_Draugr },
-			new() { bp_Zombie },
+			new() { bp_Glacier },
 			new(),
 			new() { bp_Skeleton, bp_Revenant, bp_Draugr },
 			new(),
 			new(),
-			new() { bp_Draugr, bp_Skeleton, bp_Draugr, bp_Revenant },
+			new() { bp_Draugr, bp_Skeleton, bp_Draugr, bp_Glacier },
 			new() { bp_Skeleton, bp_Skeleton, },
 			new() { bp_Skeleton },
-			new() { bp_Skeleton },
+			new() { bp_Glacier },
 			new() { bp_Skeleton },
 			new(),
 			new() { bp_Skeleton },

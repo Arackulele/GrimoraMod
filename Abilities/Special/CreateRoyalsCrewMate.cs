@@ -12,19 +12,25 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 
 	private int _timeToSpawnCounter = 0;
 
-	private readonly CardInfo _swashBuckler = NamePirateSwashbuckler.GetCardInfo();
+	private CardInfo _swashBuckler;
+
+	private void Start()
+	{
+		_swashBuckler = NamePirateSwashbuckler.GetCardInfo();
+	}
 
 	private CardSlot GetCardSlotForSwashbuckler()
 	{
 		CardSlot slotToSpawnIn = null;
 		var playerOpenSlots = BoardManager.Instance.GetPlayerOpenSlots();
-		if (playerOpenSlots.IsNotEmpty())
+		if (playerOpenSlots.Any())
 		{
-			slotToSpawnIn =
-				playerOpenSlots.FirstOrDefault(slot => slot.opposingSlot.Card.IsNull() || slot.opposingSlot.Card.Attack == 0);
+			slotToSpawnIn = playerOpenSlots.FirstOrDefault(slot => slot.opposingSlot.Card.IsNull() || slot.opposingSlot.Card.Attack == 0);
+			Log.LogInfo($"[Swashbuckler] Slot to spawn in [{slotToSpawnIn}]");
 			if (slotToSpawnIn.IsNull())
 			{
 				slotToSpawnIn = playerOpenSlots.GetRandomItem();
+				Log.LogInfo($"[Swashbuckler] -> First choice is null, now spawning in [{slotToSpawnIn}]");
 			}
 		}
 

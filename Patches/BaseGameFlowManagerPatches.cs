@@ -2,9 +2,6 @@
 using DiskCardGame;
 using GrimoraMod.Consumables;
 using HarmonyLib;
-using InscryptionAPI.Card;
-using InscryptionAPI.Helpers;
-using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -22,12 +19,6 @@ public class BaseGameFlowManagerPatches
 		}
 		
 		Log.LogDebug($"[GameFlowManager] Instance is [{__instance.GetType()}] GameMap.Instance [{GameMap.Instance}]");
-
-		AbilitiesUtil.allData.Single(abInfo => abInfo.ability == Ability.LatchBrittle)
-		 .SetIcon(AssetUtils.GetPrefab<Texture2D>("ability_LatchBrittle"));
-		
-		AbilitiesUtil.allData.Single(abInfo => abInfo.ability == Ability.LatchDeathShield)
-		 .SetIcon(AssetUtils.GetPrefab<Texture2D>("ability_LatchShield"));
 
 		if (!AllSounds.Any(clip => AudioController.Instance.Loops.Contains(clip)))
 		{
@@ -59,8 +50,6 @@ public class BaseGameFlowManagerPatches
 		AddEnergyDrone();
 
 		AddRareCardSequencerToScene();
-
-		ChangeStartDeckIfNotAlreadyChanged();
 
 		AddCardSelectorObjectForTutor();
 
@@ -255,25 +244,6 @@ public class BaseGameFlowManagerPatches
 
 		UnityObject.Destroy(moduleEnergy.Find("Connector").gameObject);
 		resourceEnergy.emissiveRenderers.Clear();
-	}
-
-	private static void ChangeStartDeckIfNotAlreadyChanged()
-	{
-		if (GrimoraSaveUtil.DeckInfo.CardInfos.IsNullOrEmpty())
-		{
-			GrimoraSaveData.Data.Initialize();
-		}
-		else
-		{
-			List<CardInfo> grimoraDeck = GrimoraSaveUtil.DeckList;
-			int graveDiggerCount = grimoraDeck.Count(info => info.name == "Gravedigger");
-			int frankNSteinCount = grimoraDeck.Count(info => info.name == "FrankNStein");
-			if (grimoraDeck.Count == 5 && graveDiggerCount == 3 && frankNSteinCount == 2)
-			{
-				Log.LogWarning($"[ChangeStartDeckIfNotAlreadyChanged] Starter deck needs reset");
-				GrimoraSaveData.Data.Initialize();
-			}
-		}
 	}
 
 	private static void AddDeckReviewSequencerToScene()

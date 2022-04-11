@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using Pixelplacement;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ public class GrimoraRareChoiceGenerator : CardChoiceGenerator
 {
 	public override List<CardChoice> GenerateChoices(CardChoicesNodeData data, int randomSeed)
 	{
-		return RandomUtils.GenerateRandomChoicesOfCategory(CardLoader.allData, CardMetaCategory.Rare);
+		return RandomUtils.GenerateRandomChoicesOfCategory(CardManager.AllCardsCopy, CardMetaCategory.Rare);
 	}
 }
 

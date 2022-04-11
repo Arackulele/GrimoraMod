@@ -55,6 +55,24 @@ public class RoyalBossOpponentExt : BaseBossExt
 		PlayTheme();
 	}
 
+	public override void ModifyQueuedCard(PlayableCard card)
+	{
+		AddAnchoredAbility(card);
+	}
+
+	public override void ModifySpawnedCard(PlayableCard card)
+	{
+		AddAnchoredAbility(card);
+	}
+
+	private void AddAnchoredAbility(PlayableCard playableCard)
+	{
+		if (!playableCard.TemporaryMods.Exists(mod => mod.abilities.Contains(Anchored.ability)))
+		{
+			playableCard.AddTemporaryMod(new CardModificationInfo(Anchored.ability));
+		}
+	}
+
 	public override void PlayTheme()
 	{
 		Log.LogDebug($"Playing royal theme 1");
@@ -67,14 +85,15 @@ public class RoyalBossOpponentExt : BaseBossExt
 	private static void SetSceneEffectsShownRoyal()
 	{
 		Color brightBlue = GameColors.Instance.brightBlue;
-		brightBlue.a = 0.5f;
+		Color brightBlueModified = GameColors.Instance.brightBlue;
+		brightBlueModified.a = 0.5f;
 		TableVisualEffectsManager.Instance.ChangeTableColors(
 			GameColors.Instance.blue,
 			GameColors.Instance.marigold,
-			GameColors.Instance.brightBlue,
 			brightBlue,
-			GameColors.Instance.brightBlue,
-			GameColors.Instance.brightBlue,
+			brightBlueModified,
+			brightBlue,
+			brightBlue,
 			GameColors.Instance.gray,
 			GameColors.Instance.gray,
 			GameColors.Instance.lightGray
@@ -123,10 +142,10 @@ public class RoyalBossOpponentExt : BaseBossExt
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
+			new() { bp_Shipwreck },
 			new(),
-			new(),
-			new() { bp_CaptainYellowbeard, NamePiratePolly.CreateCardBlueprint() },
-			new(),
+			new() { bp_CaptainYellowbeard, bp_Polly },
+			new() { bp_Shipwreck },
 			new(),
 			new() { bp_CompoundFracture, bp_Skeleton },
 			new(),
@@ -201,8 +220,5 @@ public class RoyalBossOpponentExt : BaseBossExt
 			// 	yield return new WaitForSeconds(1.5f);
 			// }
 		}
-
-
-		yield break;
 	}
 }

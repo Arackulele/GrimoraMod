@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using DiskCardGame;
 using InscryptionAPI.Encounters;
 using UnityEngine;
@@ -108,7 +111,9 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			ViewManager.Instance.OffsetFOV(150f, 1.5f);
 
 			yield return new WaitForSeconds(1f);
-			ConfigHelper.Instance.ResetRun();
+			AudioController.Instance.StopAllLoops();
+			AudioController.Instance.StopAllCoroutines();
+			yield return MenuController.Instance.TransitionToGame2(true);
 		}
 	}
 
@@ -163,7 +168,6 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			// Log.LogDebug($"[GrimoraModBattleSequencer Adding enemy to config [{ActiveEnemyPiece.name}]");
 			ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
 			_cardsThatHaveDiedThisMatch.Clear();
-			ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue = 0;
 			GrimoraItemsManagerExt.Instance.hammerSlot.gameObject.SetActive(true);
 		}
 

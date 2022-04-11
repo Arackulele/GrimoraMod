@@ -63,32 +63,32 @@ public class AddNewHammerExt
 	[HarmonyPrefix]
 	public static bool InitHammerExtAfter(ItemSlot __instance, ItemData data, bool skipDropAnimation = false)
 	{
-		if (GrimoraSaveUtil.isGrimora)
+		if (GrimoraSaveUtil.isNotGrimora)
 		{
-			if (__instance.Item)
-			{
-				UnityObject.Destroy(__instance.Item.gameObject);
-			}
-
-			if (data.prefabId.Equals("HammerItem"))
-			{
-				Log.LogDebug($"Adding new HammerItemExt");
-				HammerItemExt grimoraHammer = UnityObject.Instantiate(
-						AssetConstants.GrimoraHammer,
-						__instance.transform
-					)
-					.AddComponent<HammerItemExt>();
-				Log.LogDebug($"Setting data to old hammer data");
-				grimoraHammer.Data = ResourceBank.Get<Item>("Prefabs/Items/" + data.PrefabId).Data;
-				__instance.Item = grimoraHammer;
-				__instance.Item.SetData(data);
-				__instance.Item.PlayEnterAnimation();
-			}
-
-			return false;
+			return true;
 		}
 
-		return true;
+		if (__instance.Item)
+		{
+			UnityObject.Destroy(__instance.Item.gameObject);
+		}
+
+		if (data.prefabId.Equals("HammerItem"))
+		{
+			Log.LogDebug($"Adding new HammerItemExt");
+			HammerItemExt grimoraHammer = UnityObject.Instantiate(
+					AssetConstants.GrimoraHammer,
+					__instance.transform
+				)
+			 .AddComponent<HammerItemExt>();
+			Log.LogDebug($"Setting data to old hammer data");
+			grimoraHammer.Data = ResourceBank.Get<Item>("Prefabs/Items/" + data.PrefabId).Data;
+			__instance.Item = grimoraHammer;
+			__instance.Item.SetData(data);
+			__instance.Item.PlayEnterAnimation();
+		}
+
+		return false;
 	}
 }
 
@@ -103,8 +103,8 @@ public class DeactivateHammerAfterThreeUses
 		{
 			yield break;
 		}
-		
-		if (__instance.Consumable is HammerItemExt && ChessboardMapExt.Instance.hasNotPlayedAllHammerDialogue == 3)
+
+		if (__instance.Consumable is HammerItemExt { useCounter: 3 })
 		{
 			Log.LogDebug($"Destroying hammer as all 3 uses have been used");
 			__instance.coll.enabled = false;

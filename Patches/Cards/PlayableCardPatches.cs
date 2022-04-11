@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Runtime.CompilerServices;
 using DiskCardGame;
 using HarmonyLib;
 using static GrimoraMod.GrimoraPlugin;
@@ -8,39 +9,27 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(PlayableCard))]
 public class PlayableCardPatches
 {
-	// [HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.CanPlay))]
-	public static void CanPlayCheckSoulSucker(PlayableCard __instance, ref bool __result)
-	{
-		List<CardSlot> soulSuckerSlots = BoardManager.Instance.PlayerSlotsCopy.FindAll(slot => slot.Card && slot.Card.HasAbility(SoulSucker.ability));
-		int energyCost = __instance.EnergyCost;
-		bool doesNotHaveEnoughEnergy = __instance.Info.BonesCost <= ResourcesManager.Instance.PlayerBones
-		                            && energyCost > ResourcesManager.Instance.PlayerEnergy;
-		if (!__result && doesNotHaveEnoughEnergy && soulSuckerSlots.Any())
-		{
-			Log.LogDebug($"[CanPlay] result is false and does not have enough energy. Energy Cost [{energyCost}]");
-			int energyDiff = energyCost - ResourcesManager.Instance.PlayerEnergy;
-			int energyToAdd = 0;
-			foreach (var suckerCard in soulSuckerSlots.Select(slot => slot.Card))
-			{
-				// if I have 3 energy
-				// and soul sucker has 2 energy
-				// and I want to play Skelemagus
-				// then soul sucker should now be zero energy, and I now have zero energy 
+	[HarmonyPrefix, HarmonyPatch(nameof(PlayableCard.ManagedUpdate))]
+	private static bool StopManagedUpdate() { return false; }
+	
+	[HarmonyReversePatch, HarmonyPatch(nameof(PlayableCard.ManagedUpdate))]
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	private static void OriginalManagedUpdate(PlayableCard instance) { throw new NotImplementedException(); }
 
-				// if I have 4 energy
-				// and soul sucker has 2 energy
-				// and I want to play Skelemagus
-				// then soul sucker should now be zero energy, and I now have 1 energy
-				SoulSucker soulSucker = suckerCard.GetComponent<SoulSucker>();
-				// energyToAdd += soulSucker.UseSoulsAndReturnEnergyToAdd(energyDiff);
-				if (energyToAdd == energyDiff)
-				{
-					ResourcesManager.Instance.PlayerEnergy += energyToAdd;
-					ResourceDrone.Instance.UpdateCellAndGemColors();
-					__result = true;
-					break;
-				}
+	public static void UpdateAllCards()
+	{
+		var cardsInHandAndBoard
+			= BoardManager.Instance.CardsOnBoard
+			 .Concat(PlayerHand.Instance.CardsInHand)
+			 .Where(card => !card.Dead)
+			 .ToList();
+		foreach (PlayableCard c in cardsInHandAndBoard)
+		{
+			if (c.OnBoard && c.GetComponent<VariableStatBehaviour>())
+			{
+				c.GetComponent<VariableStatBehaviour>().UpdateStats();
 			}
+			OriginalManagedUpdate(c);
 		}
 	}
 
@@ -69,7 +58,7 @@ public class PlayableCardPatches
 			__result = new List<CardSlot>();
 			if (adjSlots.IsNotEmpty())
 			{
-				CardSlot slotToTarget = adjSlots[UnityEngine.Random.Range(0, adjSlots.Count)];
+				CardSlot slotToTarget = adjSlots[UnityRandom.Range(0, adjSlots.Count)];
 				// Log.LogDebug($"[OpposingPatches.Possessive] Slot targeted for attack [{slotToTarget.Index}]");
 				__result.Add(slotToTarget);
 			}

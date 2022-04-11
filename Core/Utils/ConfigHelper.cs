@@ -75,17 +75,26 @@ public class ConfigHelper
 
 	public bool isHotReloadEnabled => _configHotReloadEnabled.Value;
 	
-	private ConfigEntry<bool> _configRandomizedBlueprintsEnabled;
+	private ConfigEntry<int> _configEncounterBlueprintType;
 
-	public bool isRandomizedBlueprintsEnabled => _configRandomizedBlueprintsEnabled.Value;
+	public int EncounterBlueprintType => _configEncounterBlueprintType.Value;
 
 	private ConfigEntry<string> _configCurrentRemovedPieces;
+	
+	private ConfigEntry<int> _configInputConfig;
+
+	public int InputType => _configInputConfig.Value;
 
 	public List<string> RemovedPieces
 	{
 		get => _configCurrentRemovedPieces.Value.Split(',').Distinct().ToList();
 		set => _configCurrentRemovedPieces.Value = string.Join(",", value);
 	}
+	
+	public int BonesToAdd => BossesDefeated;
+
+	private ConfigEntry<bool> _useCustomEncountersOnly;
+	public bool UseCustomEncountersOnly => _useCustomEncountersOnly.Value;
 
 	internal void BindConfig()
 	{
@@ -136,23 +145,24 @@ public class ConfigHelper
 			new ConfigDescription("For players who want to continue playing with their deck after defeating Grimora.")
 		);
 
-		_configHammerDialogue = GrimoraConfigFile.Bind(
+		_configEncounterBlueprintType = GrimoraConfigFile.Bind(
 			Name,
-			"Hammer Dialogue Option",
-			1,
+			"Encounter Blueprints",
+			0,
 			new ConfigDescription(
-				"How you want the hammer dialogue to be handled."
-				+ "\n0 = Disable entirely. Does not play the dialogue ever."
-				+ "\n1 = Play only once. Will only play the dialogue once. Resets if you leave and then re-enter the game."
-				+ "\n2 = Play each battle. Will play each dialogue after you use the hammer, for each battle."
+				"0 = Default. Use the mod's internal blueprint system."
+				+ "\n1 = Randomized. Encounters are completely randomized using the mod's internal card pool."
+				+ "\n2 = Custom. Encounters are from made and used from the JSON files."
+				+ "\n3 = Mixed. Encounters are from both default list and custom list."
 			)
 		);
-		
-		_configRandomizedBlueprintsEnabled = GrimoraConfigFile.Bind(
+
+		_configInputConfig = GrimoraConfigFile.Bind(
 			Name,
-			"Enable Randomized Encounters",
-			false,
-			new ConfigDescription("If enabled, every single enemy encounter, minus the bosses, are completely randomized.")
+			"Input Movement Type",
+			0,
+			"0 = W for viewing deck, S for getting up from the table."
+			+ "\n1 = Up arrow for viewing deck, down arrow for getting up from the table."
 		);
 
 		var list = _configCurrentRemovedPieces.Value.Split(',').ToList();
@@ -167,8 +177,6 @@ public class ConfigHelper
 	}
 
 	public static bool HasIncreaseSlotsMod => Harmony.HasAnyPatches("julianperge.inscryption.act1.increaseCardSlots");
-
-	public int BonesToAdd => BossesDefeated;
 
 	public void HandleHotReloadBefore()
 	{
@@ -202,9 +210,6 @@ public class ConfigHelper
 		ResetConfig();
 		ResetDeck();
 		StoryEventsData.EraseEvent(StoryEvent.GrimoraReachedTable);
-		SaveManager.SaveToFile();
-
-		LoadingScreenManager.LoadScene("finale_grimora");
 	}
 
 	public static void ResetDeck()

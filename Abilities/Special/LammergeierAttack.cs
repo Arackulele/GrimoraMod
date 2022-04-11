@@ -6,6 +6,8 @@ namespace GrimoraMod;
 
 public class LammergeierAttack : VariableStatBehaviour
 {
+	public const string RulebookName = "One Half Bones";
+	
 	public static SpecialTriggeredAbilityManager.FullSpecialTriggeredAbility FullSpecial;
 
 	public static StatIconManager.FullStatIcon FullStatIcon;
@@ -23,13 +25,12 @@ public partial class GrimoraPlugin
 	public static void Add_Ability_LammergeierAttack()
 	{
 		StatIconInfo ogInfo = StatIconInfo.GetIconInfo(SpecialStatIcon.Bones);
-		StatIconInfo info = ScriptableObject.CreateInstance<StatIconInfo>();
-		info.appliesToHealth = false;
-		info.iconGraphic = ogInfo.iconGraphic;
-		info.rulebookName = "One Half Bones";
-		info.rulebookDescription = ogInfo.rulebookDescription;
 
-		ApiUtils.CreateSpecialAbility<LammergeierAttack>();
-		ApiUtils.CreateStatIcon<LammergeierAttack>(info);
+		StatIconBuilder<LammergeierAttack>.Builder
+		 .SetAppliesToHealth(false)
+		 .SetIconGraphic(ogInfo.iconGraphic)
+		 .SetRulebookName(LammergeierAttack.RulebookName)
+		 .SetRulebookDescription(ogInfo.rulebookDescription)
+		 .Build();
 	}
 }

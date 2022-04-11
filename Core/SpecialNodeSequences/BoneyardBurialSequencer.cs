@@ -87,7 +87,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 					selectCardFromDeckSlot.CursorSelectStarted,
 					new Action<MainInputInteractable>(OnSlotSelected)
 				);
-			if (UnityEngine.Random.value < 0.25f && VideoCameraRig.Instance)
+			if (UnityRandom.value < 0.25f && VideoCameraRig.Instance)
 			{
 				VideoCameraRig.Instance.PlayCameraAnim("refocus_quick");
 			}
@@ -267,7 +267,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 			bonesCostAdjustment = -Mathf.CeilToInt(card.BonesCost / 2f),
 			singletonId = "GrimoraMod_BoneyardBuried"
 		};
-		GrimoraSaveUtil.DeckInfo.ModifyCard(card, cardModificationInfo);
+		GrimoraSaveUtil.ModifyCard(card, cardModificationInfo);
 	}
 
 	private new void OnSlotSelected(MainInputInteractable slot)

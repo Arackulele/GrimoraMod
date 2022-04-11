@@ -43,7 +43,7 @@ public class GrimoraRandomAbility : AbilityBehaviour
 		int num2 = 0;
 		while (randomAbility == Ability.RandomAbility)
 		{
-			randomAbility = ElectricChairSequencer.AbilitiesToChoseRandomly.GetRandomItem();
+			randomAbility = ElectricChairLever.AbilitiesMajorRisk.GetRandomItem();
 			num2++;
 			if (num2 > 100)
 			{

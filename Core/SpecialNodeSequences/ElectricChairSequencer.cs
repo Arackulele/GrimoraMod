@@ -11,70 +11,9 @@ namespace GrimoraMod;
 [SuppressMessage("ReSharper", "InconsistentNaming")]
 public class ElectricChairSequencer : CardStatBoostSequencer
 {
-	public static ElectricChairSequencer Instance => FindObjectOfType<ElectricChairSequencer>();
+	public const string ModSingletonId = "GrimoraMod_ElectricChaired";
 
-	public static readonly List<Ability> AbilitiesToChoseRandomly = new()
-	{
-		ActivatedDealDamageGrimora.ability,
-		ActivatedDrawSkeletonGrimora.ability,
-		ActivatedEnergyDrawWyvern.ability,
-		AlternatingStrike.ability,
-		AreaOfEffectStrike.ability,
-		BoneThief.ability,
-		ColdFront.ability,
-		CreateArmyOfSkeletons.ability,
-		Erratic.ability,
-		GrimoraRandomAbility.ability,
-		Fylgja_GuardDog.ability,
-		Imbued.ability,
-		InvertedStrike.ability,
-		MarchingDead.ability,
-		Possessive.ability,
-		Puppeteer.ability,
-		// SkinCrawler.ability,
-		SpiritBearer.ability,
-		Ability.ActivatedDealDamage,
-		Ability.ActivatedHeal,
-		Ability.ActivatedRandomPowerEnergy,
-		Ability.ActivatedStatsUp,
-		Ability.ActivatedStatsUpEnergy,
-		Ability.BeesOnHit,
-		Ability.BombSpawner,
-		Ability.BoneDigger,
-		Ability.BuffNeighbours,
-		Ability.CorpseEater,
-		Ability.CreateBells,
-		Ability.DeathShield,
-		Ability.Deathtouch,
-		Ability.DebuffEnemy,
-		Ability.DoubleDeath,
-		Ability.DrawCopy,
-		Ability.DrawNewHand,
-		Ability.DrawRabbits,
-		Ability.Evolve,
-		Ability.ExplodeOnDeath,
-		Ability.Flying,
-		Ability.GuardDog,
-		Ability.IceCube,
-		Ability.MoveBeside,
-		Ability.QuadrupleBones,
-		Ability.Reach,
-		Ability.Sentry,
-		Ability.Sharp,
-		Ability.SkeletonStrafe,
-		Ability.Sniper,
-		Ability.SplitStrike,
-		Ability.SteelTrap,
-		Ability.Strafe,
-		Ability.StrafePush,
-		Ability.Submerge,
-		Ability.SwapStats,
-		Ability.TailOnHit,
-		// Ability.Transformer,
-		Ability.TriStrike,
-		Ability.Tutor,
-		Ability.WhackAMole
-	};
+	public static ElectricChairSequencer Instance => FindObjectOfType<ElectricChairSequencer>();
 
 	private static readonly ViewInfo ChairViewInfo = new()
 	{
@@ -83,6 +22,13 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		camRotation = new Vector3(32.5f, 0f, 0f),
 		fov = 55f
 	};
+
+	private ElectricChairLever _lever;
+
+	private void Start()
+	{
+		_lever = figurines[0].transform.Find("Lever").gameObject.AddComponent<ElectricChairLever>();
+	}
 
 	public IEnumerator StartSequence()
 	{
@@ -204,7 +150,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			yield return new WaitForSeconds(0.1f);
 			if (confirmStone.SelectionConfirmed)
 			{
-				if (UnityEngine.Random.value > 0.5f)
+				if (UnityRandom.value > 0.5f)
 				{
 					AudioController.Instance.PlaySound3D(
 						"teslacoil_overload",
@@ -257,7 +203,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		}
 	}
 
-	private new void OnSlotSelected(MainInputInteractable slot)
+	private void OnSlotSelected(MainInputInteractable slot)
 	{
 		selectionSlot.SetEnabled(false);
 		selectionSlot.ShowState(HighlightedInteractable.State.NonInteractable);
@@ -281,23 +227,23 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	#region ApplyingModToCard
 
-	private static void ApplyModToCard(CardInfo card)
+	private void ApplyModToCard(CardInfo card)
 	{
 		CardModificationInfo cardModificationInfo = new CardModificationInfo
 		{
 			abilities = new List<Ability> { GetRandomAbility(card) },
-			singletonId = "GrimoraMod_ElectricChaired",
+			singletonId = ModSingletonId,
 			nameReplacement = card.displayedName.Replace("Yellowbeard", "Bluebeard")
 		};
-		GrimoraSaveUtil.DeckInfo.ModifyCard(card, cardModificationInfo);
+		GrimoraSaveUtil.ModifyCard(card, cardModificationInfo);
 	}
 
-	private static Ability GetRandomAbility(CardInfo card)
+	private Ability GetRandomAbility(CardInfo card)
 	{
-		Ability randomSigil = AbilitiesToChoseRandomly.GetRandomItem();
+		Ability randomSigil = _lever.GetAbilityFromLeverRisk();
 		while (card.HasAbility(randomSigil) || HasAbilityComboThatWillBreakTheGame(card, randomSigil))
 		{
-			randomSigil = AbilitiesToChoseRandomly.GetRandomItem();
+			randomSigil = _lever.GetAbilityFromLeverRisk();
 		}
 
 		if (randomSigil == Ability.IceCube)
@@ -311,21 +257,27 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private static readonly List<Ability> AbilitiesThatShouldNotExistOnZeroAttackCards = new()
 	{
-		AlternatingStrike.ability, AreaOfEffectStrike.ability, InvertedStrike.ability,
-		Ability.Sniper, Ability.SplitStrike, Ability.TriStrike
+		AlternatingStrike.ability, AreaOfEffectStrike.ability, BoneThief.ability, ChaosStrike.ability, InvertedStrike.ability,
+		Ability.AllStrike, Ability.DoubleStrike, Ability.GainAttackOnKill, Ability.Sniper, Ability.SplitStrike, Ability.TriStrike
 	};
 
-	private static bool HasAbilityComboThatWillBreakTheGame(CardInfo card, Ability randomSigil)
+	private bool HasAbilityComboThatWillBreakTheGame(CardInfo card, Ability randomSigil)
 	{
 		return CheckCardHavingAbilityAndViceVersa(card, Ability.StrafePush, randomSigil, SkinCrawler.ability)
+		       || randomSigil == Haunter.ability && card.Abilities.Count == 0
 		       || randomSigil == Ability.SwapStats && (card.Attack < 1 || card.Health < 3)
-		       || card.Attack < 1
-		       && (AbilitiesThatShouldNotExistOnZeroAttackCards.Contains(randomSigil)
-		           || randomSigil == Ability.Deathtouch
-		           && !card.Abilities.Exists(
-			           ab => ab is Ability.Sentry or Ability.Sharp
-		           ))
+		       || RandomSigilShouldNotExistOnZeroAttackCard(card, randomSigil)
 			;
+	}
+
+	private bool RandomSigilShouldNotExistOnZeroAttackCard(CardInfo card, Ability randomSigil)
+	{
+		if (card.Attack >= 1)
+		{
+			return false;
+		}
+		return AbilitiesThatShouldNotExistOnZeroAttackCards.Contains(randomSigil)
+			 || randomSigil == Ability.Deathtouch && !card.Abilities.Exists(ab => ab is Ability.Sentry or Ability.Sharp);
 	}
 
 	private static bool CheckCardHavingAbilityAndViceVersa(
@@ -342,11 +294,12 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	#endregion
 
 
-	private new static List<CardInfo> GetValidCards()
+	private static List<CardInfo> GetValidCards()
 	{
 		List<CardInfo> deckCopy = GrimoraSaveUtil.DeckListCopy;
 		deckCopy.RemoveAll(
 			card => card.Abilities.Count == 4
+			        || card.HasAbility(SkinCrawler.ability)
 			        || card.SpecialAbilities.Contains(SpecialTriggeredAbility.RandomCard)
 			        || card.traits.Contains(Trait.Pelt)
 			        || card.traits.Contains(Trait.Terrain)
@@ -386,7 +339,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 				selectCardFromDeckSlot.CursorSelectStarted,
 				new Action<MainInputInteractable>(OnSlotSelected)
 			);
-		if (UnityEngine.Random.value < 0.25f && VideoCameraRig.Instance)
+		if (UnityRandom.value < 0.25f && VideoCameraRig.Instance)
 		{
 			VideoCameraRig.Instance.PlayCameraAnim("refocus_quick");
 		}
@@ -420,6 +373,8 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		stakeRingParent.SetActive(false);
 		confirmStone.SetStoneInactive();
 		selectionSlot.gameObject.SetActive(false);
+		
+		_lever.ResetRisk();
 
 		CustomCoroutine.WaitThenExecute(
 			0.4f,
@@ -489,8 +444,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		var positionCopy = confirmStoneButton.position;
 		confirmStoneButton.position = new Vector3(positionCopy.x, positionCopy.y, -0.5f);
 
-		newSequencer.figurines = new List<CompositeFigurine>();
-		newSequencer.figurines.AddRange(CreateElectricChair(cardStatObj));
+		newSequencer.figurines = new List<CompositeFigurine>{ CreateElectricChair(cardStatObj) };
 
 		newSequencer.pile = oldSequencer.pile;
 		newSequencer.pile.cardbackPrefab = AssetConstants.GrimoraCardBack;
@@ -516,37 +470,19 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		Destroy(oldSequencer);
 	}
 
-	private static IEnumerable<CompositeFigurine> CreateElectricChair(GameObject cardStatObj)
+	private static CompositeFigurine CreateElectricChair(GameObject cardStatObj)
 	{
-		CompositeFigurine chairFigurine = Instantiate(
-				AssetConstants.ElectricChairForSelectionSlot,
+		CompositeFigurine electricChair = Instantiate(
+				AssetConstants.ElectricChair,
 				new Vector3(-0.05f, 4.9f, 1.2f),
 				Quaternion.Euler(0, 180, 0),
 				cardStatObj.transform
 			)
 			.AddComponent<CompositeFigurine>();
-		chairFigurine.name = "Electric Chair Selection Slot";
-		chairFigurine.transform.localScale = new Vector3(1.15f, 1, 0.75f);
-		chairFigurine.gameObject.SetActive(false);
+		electricChair.name = "Electric Chair";
+		electricChair.gameObject.SetActive(false);
 
-		return new List<CompositeFigurine> { chairFigurine };
-	}
-
-	private static ConfirmStoneButton CreateLever(GameObject cardStatObj)
-	{
-		GameObject lever = Instantiate(
-			AssetUtils.GetPrefab<GameObject>("ElectricChair_Lever"),
-			new Vector3(0, 5, -0.5f),
-			Quaternion.identity,
-			cardStatObj.transform
-		);
-		lever.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-		ConfirmStoneButton button = lever.transform.GetChild(0).GetChild(1).gameObject.AddComponent<ConfirmStoneButton>();
-		button.confirmView = View.CardMergeSlots;
-		button.anim = button.transform.parent.GetComponent<Animator>();
-		lever.gameObject.SetActive(false);
-
-		return button;
+		return electricChair;
 	}
 
 	#endregion

@@ -57,7 +57,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		PlayTableSway();
 
 		var allCardsOnBoard = BoardManager.Instance.AllSlotsCopy
-			.Where(slot => slot.Card && slot.Card && (!slot.Card.HasAbility(Anchored.ability) || !slot.Card.HasAbility(Ability.Flying)))
+			.Where(slot => slot.Card && slot.Card && !slot.Card.HasAbility(Anchored.ability) && !slot.Card.HasAbility(Ability.Flying))
 			.Select(slot => slot.Card)
 			.ToList();
 
@@ -88,7 +88,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 
 		if (_rng.NextBoolean() && _rng.NextBoolean())
 		{
-			yield return ApplyLitFuseToPlayerCard(activePlayerCards[UnityEngine.Random.Range(0, activePlayerCards.Count)]);
+			yield return ApplyLitFuseToPlayerCard(activePlayerCards[UnityRandom.Range(0, activePlayerCards.Count)]);
 		}
 
 		if (++boardSwayCounter >= 2)
@@ -117,7 +117,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 
 		// if the slot and the slot is occupied, check the adjacent slot of that card
 		Log.LogInfo($"[TableSway.SlotHasSpace] Checking {(toLeft ? "left" : "right")} adjacent slot of card [{adjacent.Card.GetNameAndSlot()}]");
-		return SlotHasSpace(adjacent, toLeft) && (!adjacent.Card.HasAbility(Anchored.ability) || !adjacent.Card.HasAbility(Ability.Flying));
+		return !adjacent.Card.HasAbility(Anchored.ability) && !adjacent.Card.HasAbility(Ability.Flying) && SlotHasSpace(adjacent, toLeft);
 	}
 
 	protected virtual IEnumerator DoStrafe(PlayableCard playableCard, bool movingLeft)
@@ -165,9 +165,42 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		{
 			bool destinationSlotCardHasAnchoredOrFlying = destination.Card
 			                                     && (destination.Card.HasAbility(Anchored.ability) || destination.Card.HasAbility(Ability.Flying));
-			if (destinationValid)
+			if (destinationSlotCardHasAnchoredOrFlying)
+			{
+				Log.LogInfo($"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} Destination card is not null and has anchored or flying.");
+				playableCard.Anim.StrongNegationEffect();
+				yield return new WaitForSeconds(0.15f);
+			}
+			else if (destinationValid)
 			{
 				Log.LogInfo($"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} will be moved to slot [{destination.name}]");
+
+				SkinCrawlerSlot crawlerSlot = null;
+				if (playableCard.Slot.GetComponentInChildren<SkinCrawlerSlot>())
+				{
+					Log.LogWarning($"[TableSway.MoveToSlot] SkinCrawlerSlot is not null, sliding to new slot");
+					crawlerSlot = playableCard.Slot.GetComponentInChildren<SkinCrawlerSlot>();
+					var crawlerCard = crawlerSlot.skinCrawlerCard;
+					crawlerCard.transform.SetParent(destination.transform);
+					crawlerSlot.transform.SetParent(destination.transform);
+					Tween.LocalPosition(
+						crawlerCard.transform, 
+						Vector3.up * (BoardManager3D.Instance.SlotHeightOffset + crawlerCard.SlotHeightOffset) + new Vector3(0f, 0f, 0.31f),
+						DurationTableSway + 2,
+						0.05f, 
+						Tween.EaseOut, 
+						Tween.LoopType.None, 
+						null, 
+						delegate { crawlerCard.Anim.PlayRiffleSound(); }
+					);
+					Tween.Rotation(
+						crawlerCard.transform, 
+						destination.transform.GetChild(0).rotation, 
+						DurationTableSway + 2.5f, 
+						0f, 
+						Tween.EaseOut
+					);
+				}
 
 				yield return BoardManager.Instance.AssignCardToSlot(playableCard, destination, DurationTableSway + 2);
 				Tween.LocalRotation(
@@ -177,13 +210,17 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 					0,
 					Tween.EaseIn
 				);
+				if (crawlerSlot)
+				{
+					Tween.LocalRotation(
+						crawlerSlot.skinCrawlerCard.transform,
+						new Vector3(90, 0, 0),
+						0,
+						0,
+						Tween.EaseIn
+					);
+				}
 				yield return new WaitForSeconds(0.25f);
-			}
-			else if (destinationSlotCardHasAnchoredOrFlying)
-			{
-				Log.LogInfo($"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} Destination card is not null and has anchored or flying.");
-				playableCard.Anim.StrongNegationEffect();
-				yield return new WaitForSeconds(0.15f);
 			}
 		}
 		else

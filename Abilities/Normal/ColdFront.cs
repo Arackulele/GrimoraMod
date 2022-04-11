@@ -10,10 +10,7 @@ public class ColdFront : AbilityBehaviour
 
 	public override Ability Ability => ability;
 
-	public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer)
-	{
-		return true;
-	}
+	public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer) => true;
 
 	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
 	{
@@ -32,7 +29,7 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_ColdFront()
 	{
-		const string rulebookDescription = "When [creature] perishes, the card opposing it is Frozen Away.";
+		const string rulebookDescription = "When [creature] perishes, the card opposing it is Frozen Away if not already frozen.";
 
 		ApiUtils.CreateAbility<ColdFront>(rulebookDescription);
 	}

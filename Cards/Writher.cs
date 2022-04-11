@@ -7,14 +7,12 @@ public partial class GrimoraPlugin
 	private void Add_Card_Writher()
 	{
 		CardBuilder.Builder
-			//Removed for now as its not fun, maybe at a special event later
-			.SetAsRareCard()
-			.SetAbilities(LooseLimb.ability)
-			.SetBaseAttackAndHealth(3, 1)
-			.SetBoneCost(7)
-			// .SetDescription("A SENSE OF DREAD CONSUMES YOU AS YOU REALIZE YOU ARE NOT ALONE IN THESE WOODS.")
-			.SetNames(NameWrither, "Writher")
-			.Build()
-			;
+		 .SetAsRareCard()
+		 .SetAbilities(LooseLimb.ability)
+		 .SetBaseAttackAndHealth(3, 1)
+		 .SetBoneCost(7)
+		 .SetDescription("Any attempts to strike at it will only make it shed it's prickly spine as a painful decoy.")
+		 .SetNames(NameWrither, "Writher")
+		 .Build();
 	}
 }

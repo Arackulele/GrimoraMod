@@ -1,5 +1,9 @@
 ﻿using System.Collections;
+using System.Reflection;
+using System.Runtime.Serialization.Json;
+using System.Text;
 using DiskCardGame;
+using HarmonyLib;
 using Sirenix.Utilities;
 using Unity.Cloud.UserReporting.Plugin.SimpleJson;
 using UnityEngine;
@@ -13,17 +17,9 @@ public class ChessboardMapExt : GameMap
 
 	[SerializeField] internal List<ChessboardPiece> pieces;
 
+	internal DebugHelper debugHelper;
+
 	private bool _toggleCardsLeftInDeck = false;
-	private bool _btnReset = false;
-
-	public bool HasNotPlayedDialogueOnce =>
-		ConfigHelper.Instance.HammerDialogueOption == 1 && hasNotPlayedAllHammerDialogue < 3;
-
-	public int hasNotPlayedAllHammerDialogue = 0;
-
-	public GrimoraChessboard ActiveChessboard { get; set; }
-
-	private List<GrimoraChessboard> _chessboards;
 
 	public new static ChessboardMapExt Instance => GameMap.Instance as ChessboardMapExt;
 
@@ -41,6 +37,10 @@ public class ChessboardMapExt : GameMap
 	private bool ChangingRegion { get; set; }
 
 	public bool BossDefeated { get; protected internal set; }
+	
+	public GrimoraChessboard ActiveChessboard { get; set; }
+	
+	private List<GrimoraChessboard> _chessboards;
 
 	private List<GrimoraChessboard> Chessboards
 	{
@@ -48,6 +48,20 @@ public class ChessboardMapExt : GameMap
 		{
 			LoadData();
 			return _chessboards;
+		}
+	}
+
+	public Dictionary<EncounterJson, EncounterBlueprintData> CustomBlueprintsRegions { get; set; } = new();
+	public Dictionary<EncounterJson, EncounterBlueprintData> CustomBlueprintsBosses { get; set; } = new();
+	
+	private Dictionary<EncounterJson, EncounterBlueprintData> _customBlueprints;
+	
+	public Dictionary<EncounterJson, EncounterBlueprintData> CustomBlueprints
+	{
+		get
+		{
+			LoadData();
+			return _customBlueprints;
 		}
 	}
 
@@ -66,6 +80,37 @@ public class ChessboardMapExt : GameMap
 			_chessboards = ParseJson(
 				SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString)
 			);
+		} 
+		
+		if (_customBlueprints == null)
+		{
+			_customBlueprints = new Dictionary<EncounterJson, EncounterBlueprintData>();
+			string[] encounters = Directory.GetFiles(
+					Assembly.GetExecutingAssembly().Location.Replace("GrimoraMod.dll", ""), "GrimoraMod_Encounter*", SearchOption.AllDirectories)
+			 .Select(File.ReadAllText)
+			 .ToArray();
+
+			foreach (var encounterFile in encounters)
+			{
+				using var ms = new MemoryStream(Encoding.Unicode.GetBytes(encounterFile));
+				DataContractJsonSerializer deserial = new DataContractJsonSerializer(typeof(EncounterJsonUtil.EncountersFromJson));
+				EncounterJsonUtil.EncountersFromJson encountersFromJson = (EncounterJsonUtil.EncountersFromJson)deserial.ReadObject(ms);
+				foreach (var encounterFromJson in encountersFromJson.encounters)
+				{
+					EncounterBlueprintData blueprint = encounterFromJson.BuildEncounter();
+					if (encounterFromJson.blueprintType.Equals("Region", StringComparison.InvariantCultureIgnoreCase))
+					{
+						CustomBlueprintsRegions.Add(encounterFromJson, blueprint);
+					}
+					else
+					{
+						CustomBlueprintsBosses.Add(encounterFromJson, blueprint);
+					}
+					_customBlueprints.Add(encounterFromJson, blueprint);
+				}
+			}
+			Log.LogDebug($"Final custom blueprint names: [{_customBlueprints.Join(kv => kv.Value.name)}]");
+			debugHelper.SetupEncounterData();
 		}
 	}
 
@@ -80,7 +125,7 @@ public class ChessboardMapExt : GameMap
 		instance.ViewChanged = (Action<View, View>)Delegate
 			.Combine(instance.ViewChanged, new Action<View, View>(OnViewChanged));
 
-		gameObject.AddComponent<DebugHelper>();
+		debugHelper = gameObject.AddComponent<DebugHelper>();
 	}
 
 	public static string[] CardsLeftInDeck => CardDrawPiles3D
@@ -93,28 +138,12 @@ public class ChessboardMapExt : GameMap
 
 	private void OnGUI()
 	{
-		if (PauseMenu.instance.menuParent.activeInHierarchy)
-		{
-			_btnReset = GUI.Button(
-				new Rect(200, 0, 100, 50),
-				"Reset Run"
-			);
-
-			if (_btnReset)
-			{
-				ConfigHelper.Instance.ResetRun();
-			}
-		}
-
-
 		if (GrimoraGameFlowManager.Instance.CurrentGameState == GameState.CardBattle)
 		{
 			_toggleCardsLeftInDeck = GUI.Toggle(
 				new Rect(
+					(ConfigHelper.Instance.isDevModeEnabled ? Screen.width - 400 : 20),
 					20,
-					(ConfigHelper.Instance.isDevModeEnabled
-						? 360
-						: 60),
 					150,
 					15
 				),
@@ -125,10 +154,15 @@ public class ChessboardMapExt : GameMap
 			if (ConfigHelper.Instance.EnableCardsLeftInDeckView && _toggleCardsLeftInDeck)
 			{
 				GUI.SelectionGrid(
-					new Rect(25, 350, 150, CardDrawPiles3D.Instance.Deck.cards.Count * 25f),
+					new Rect(
+						(ConfigHelper.Instance.isDevModeEnabled ? Screen.width - 400 : 25), 
+						Screen.height * 0.75f, 
+						150, 
+						CardDrawPiles3D.Instance.Deck.cards.Count * 25f
+						),
 					-1,
 					CardsLeftInDeck,
-					1
+					2
 				);
 			}
 		}
@@ -186,6 +220,13 @@ public class ChessboardMapExt : GameMap
 
 	public override IEnumerator UnrollingSequence(float unrollSpeed)
 	{
+		if (FinaleDeletionWindowManager.instance)
+		{
+			Destroy(FinaleDeletionWindowManager.instance.gameObject);
+		}
+		
+		StoryEventsData.SetEventCompleted(StoryEvent.GrimoraReachedTable, true);
+
 		TableRuleBook.Instance.SetOnBoard(false);
 
 		pieces.ForEach(delegate(ChessboardPiece x) { x.gameObject.SetActive(false); });
@@ -223,7 +264,7 @@ public class ChessboardMapExt : GameMap
 			);
 		}
 
-		StoryEventsData.SetEventCompleted(StoryEvent.GrimoraReachedTable);
+		ChangeStartDeckIfNotAlreadyChanged();
 
 		SaveManager.SaveToFile();
 	}
@@ -411,6 +452,35 @@ public class ChessboardMapExt : GameMap
 			piece.MapNode.OccupyingPiece = null;
 			piece.gameObject.SetActive(false);
 			Destroy(piece.gameObject);
+		}
+	}
+
+	private static void ChangeStartDeckIfNotAlreadyChanged()
+	{
+		if (GrimoraSaveUtil.DeckInfo.cardIds.IsNullOrEmpty())
+		{
+			Log.LogWarning($"Re-initializing player deck as there are no cardIds! This means the deck was never loaded correctly.");
+			GrimoraSaveData.Data.Initialize();
+		}
+		else
+		{
+			try
+			{
+				List<CardInfo> grimoraDeck = GrimoraSaveUtil.DeckList;
+
+				int graveDiggerCount = grimoraDeck.Count(info => info.name == "Gravedigger");
+				int frankNSteinCount = grimoraDeck.Count(info => info.name == "FrankNStein");
+				if (grimoraDeck.Count == 5 && graveDiggerCount == 3 && frankNSteinCount == 2)
+				{
+					Log.LogWarning($"[ChangeStartDeckIfNotAlreadyChanged] Starter deck needs reset");
+					GrimoraSaveData.Data.Initialize();
+				}
+			}
+			catch (Exception e)
+			{
+				Log.LogWarning($"[ChangingDeck] Had trouble retrieving deck list! Resetting deck. Current card Ids: [{GrimoraSaveUtil.DeckInfo.cardIds.Join()}]");
+				GrimoraSaveData.Data.Initialize();
+			}
 		}
 	}
 }

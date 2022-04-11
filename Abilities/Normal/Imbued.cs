@@ -6,12 +6,17 @@ namespace GrimoraMod;
 
 public class Imbued : AbilityBehaviour
 {
+	public const string ModIdImbued = "grimoramod_Imbued";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
 
-	public const string ModIdImbued = "grimoramod_Imbued";
-
+	private CardModificationInfo GetImbuedMod(PlayableCard playableCard)
+	{
+		return playableCard.TemporaryMods.Find(mod => mod.singletonId == ModIdImbued);
+	}
+	
 	public override bool RespondsToOtherCardDie(
 		PlayableCard card,
 		CardSlot deathSlot,
@@ -29,11 +34,12 @@ public class Imbued : AbilityBehaviour
 		PlayableCard killer
 	)
 	{
-		if (Card.TemporaryMods.Exists(mod => mod.singletonId == ModIdImbued))
+		CardModificationInfo imbuedMod = GetImbuedMod(Card);
+		if (imbuedMod != null)
 		{
 			Card.Anim.StrongNegationEffect();
-			var mod = Card.TemporaryMods.Find(mod => mod.singletonId == ModIdImbued);
-			mod.attackAdjustment += 1;
+			imbuedMod.attackAdjustment += 1;
+			Card.OnStatsChanged();
 		}
 		else
 		{
@@ -42,10 +48,8 @@ public class Imbued : AbilityBehaviour
 				singletonId = ModIdImbued
 			});
 			Card.Anim.PlayTransformAnimation();
-			Card.StatsLayer.RenderCard(Card.RenderInfo);
+			Card.StatsLayer.SetEmissionColor(GrimoraColors.DefaultEmission);
 		}
-
-		Card.OnStatsChanged();
 		yield return new WaitForSeconds(0.25f);
 	}
 }

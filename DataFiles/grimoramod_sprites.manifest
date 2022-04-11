@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3616123400
+CRC: 1242608030
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8956a34acdec2ed4a1e2bee60d04733d
+    Hash: b25fb7a88212b7085324c9e8659b206e
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -35,6 +35,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Gashadokuro.png
 - Assets/GrimoraMod_Unity/Cards/DavyJones_emission.png
 - Assets/GrimoraMod_Unity/Cards/Rot.png
+- Assets/GrimoraMod_Unity/Cards/Vampire_emission.png
 - Assets/GrimoraMod_Unity/Cards/Dybbuk.png
 - Assets/GrimoraMod_Unity/Cards/Unknown_CoffinLad_emission.png
 - Assets/GrimoraMod_Unity/Cards/Manananggal.png
@@ -137,6 +138,8 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/PiratePrivateer.png
 - Assets/GrimoraMod_Unity/Cards/Nixie_emission.png
 - Assets/GrimoraMod_Unity/Cards/Warthr_emission.png
+- Assets/GrimoraMod_Unity/Menu/MenuCard_ResetRun.png
+- Assets/GrimoraMod_Unity/Cards/Vampire.png
 - Assets/GrimoraMod_Unity/Cards/Summoner.png
 - Assets/GrimoraMod_Unity/Cards/Doll.png
 - Assets/GrimoraMod_Unity/Cards/Manananggal_emission.png

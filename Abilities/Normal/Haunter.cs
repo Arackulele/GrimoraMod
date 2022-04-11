@@ -53,8 +53,8 @@ public class HauntedSlot : NonCardTriggerReceiver
 		hauntedSlot.transform.SetParent(playableCard.Slot.transform);
 		hauntedSlot.cardSlot = playableCard.Slot;
 		hauntedSlot.abilities = playableCard.AbilityIcons.abilityIcons
-			.Where(abilityIconInteractable => abilityIconInteractable.Ability != Haunter.ability)
-			.ForEach(icon =>
+		 .Where(abilityIconInteractable => abilityIconInteractable.Ability != Haunter.ability)
+		 .ForEach(icon =>
 			{
 				AbilityIconInteractable hauntedIcon = Instantiate(
 					icon,
@@ -62,11 +62,13 @@ public class HauntedSlot : NonCardTriggerReceiver
 					Quaternion.Euler(90, 0, 0),
 					hauntedSlot.transform
 				);
+				hauntedIcon.gameObject.layer = icon.gameObject.layer;
 				hauntedIcon.name = AbilityManager.AllAbilities.Find(fa => fa.Id == icon.Ability).Info.rulebookName;
 				Renderer renderer = hauntedIcon.GetComponent<MeshRenderer>();
 				renderer.enabled = true;
+				// renderer.material.ChangeRenderMode(UnityObjectExtensions.BlendMode.Cutout);
 				// this is so that it doesn't appear behind the card slot texture at the lowest point in the wave movement 
-				renderer.sortingOrder = 1;
+				// renderer.sortingOrder = 1;
 				hauntedIcon.SetIcon(icon.GetComponent<Renderer>().material.mainTexture);
 
 				SineWaveMovement wave = hauntedIcon.gameObject.AddComponent<SineWaveMovement>();
@@ -77,8 +79,8 @@ public class HauntedSlot : NonCardTriggerReceiver
 
 				hauntedSlot.abilities.Add(icon.Ability);
 			})
-			.Select(icon => icon.Ability)
-			.ToList();
+		 .Select(icon => icon.Ability)
+		 .ToList();
 
 		hauntedSlot._modInfo = new CardModificationInfo
 		{

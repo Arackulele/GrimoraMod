@@ -1,6 +1,4 @@
-﻿using DiskCardGame;
-
-namespace GrimoraMod;
+﻿namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
@@ -12,7 +10,7 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetAbilities(ChaosStrike.ability)
 			.SetBaseAttackAndHealth(1, 3)
-			.SetBoneCost(5)
+			.SetBoneCost(7)
 			.SetDescription("AN EXPERIMENT GONE WRONG, OR RIGHT. IT DEPENDS ON YOUR WORLD VIEW.")
 			.SetNames(NameProject, "Project")
 			.Build();

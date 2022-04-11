@@ -16,7 +16,7 @@ public partial class GrimoraPlugin
 			.SetIceCube(NameFrostGiant)
 			.SetNames(NameGlacier, "Glacier")
 			.SetTraits(Trait.Giant, Trait.Uncuttable)
-			.SetDescription("I WONDER WHAT HAS BEEN LOCKED AWAY FOR SO LONG?")
+			.SetDescription("I WONDER WHAT HAS BEEN FROZEN AWAY FOR SO LONG?")
 			.Build()
 			;
 	}

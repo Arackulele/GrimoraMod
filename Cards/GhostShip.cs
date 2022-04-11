@@ -14,6 +14,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(0, 1)
 			.SetBoneCost(4)
 			.SetDescription("THE SKELETON ARMY NEVER RESTS.")
+		  .FlipPortraitForStrafe()
 			.SetNames(NameGhostShip, "Ghost Ship")
 			.Build();
 	}

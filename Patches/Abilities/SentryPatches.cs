@@ -14,14 +14,14 @@ public class SentryPatches
 		if (__instance.Card.Anim is GravestoneCardAnimationController)
 		{
 			GrimoraPlugin.Log.LogDebug($"Adding skeleton arm shoot object to card [{__instance.Card.InfoName()}]");
-			Animator skeletonArmShoot = UnityObject.Instantiate(
+			GameObject grimoraSentry = UnityObject.Instantiate(
 					AssetUtils.GetPrefab<GameObject>("Grimora_Sentry"),
 					__instance.transform
-				)
-				.GetComponent<Animator>();
-			skeletonArmShoot.name = "Grimora_Sentry";
-			skeletonArmShoot.gameObject.AddComponent<AnimMethods>();
-			skeletonArmShoot.gameObject.SetActive(false);
+				);
+			grimoraSentry.name = "Grimora_Sentry";
+			Transform animObj = grimoraSentry.transform.GetChild(0);
+			animObj.gameObject.AddComponent<AnimMethods>();
+			animObj.gameObject.SetActive(false);
 		}
 	}
 

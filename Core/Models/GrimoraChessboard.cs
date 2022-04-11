@@ -8,7 +8,7 @@ namespace GrimoraMod;
 
 public class GrimoraChessboard
 {
-	private readonly Dictionary<System.Type, Tuple<Func<GameObject>, Func<List<ChessNode>>>> _nodesByPieceType;
+	private readonly Dictionary<Type, Tuple<Func<GameObject>, Func<List<ChessNode>>>> _nodesByPieceType;
 
 	private Dictionary<Type, Tuple<Func<GameObject>, Func<List<ChessNode>>>> BuildDictionary()
 	{
@@ -35,7 +35,7 @@ public class GrimoraChessboard
 			},
 			{
 				typeof(ChessboardElectricChairPiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.ElectricChair, GetElectricChairNodes)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.ElectricChairFigurine, GetElectricChairNodes)
 			},
 			{
 				typeof(ChessboardEnemyPiece),
@@ -73,6 +73,7 @@ public class GrimoraChessboard
 		return blockerPrefab;
 	}
 
+	private string _activeBossId;
 	public readonly int indexInList;
 	public readonly ChessNode BossNode;
 
@@ -166,6 +167,11 @@ public class GrimoraChessboard
 
 	public void UpdatePlayerMarkerPosition(bool changingRegion)
 	{
+		if (GrimoraSaveData.Data.gridX == -1)
+		{
+			SetSavePositions();
+		}
+		
 		int x = GrimoraSaveData.Data.gridX;
 		int y = GrimoraSaveData.Data.gridY;
 
@@ -188,10 +194,10 @@ public class GrimoraChessboard
 		   )
 		{
 			Log.LogDebug(
-				$"[UpdatePlayerMarkerPosition]"
-				+ $" Changing region? [{changingRegion}]"
-				+ $" Not reached table? [{!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable)}]"
-				+ $"PieceAtSpaceIsNotPlayer? [{pieceAtSpaceIsNotPlayer}]"
+				$"[UpdatePlayerMarkerPosition] "
+				+ $"Changing region? [{changingRegion}] "
+				+ $"Not reached table? [{!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable)}] "
+				+ $"PieceAtSpaceIsNotPlayer? [{pieceAtSpaceIsNotPlayer}] Piece is [{nodeAtSpace.OccupyingPiece}]"
 				+ $"hasNotInteractedWithAnyPiece? [{hasNotInteractedWithAnyPiece}]"
 			);
 			// the PlayerNode will be different since this is now a different chessboard
@@ -240,6 +246,7 @@ public class GrimoraChessboard
 		}
 
 		Log.LogDebug($"Boss name to place piece for [{specialSequencerId}]");
+		_activeBossId = specialSequencerId;
 		GameObject prefabToUse = BossHelper.OpponentTupleBySpecialId[specialSequencerId].Item2;
 		int newX = x == -1 ? BossNode.GridX : x;
 		int newY = x == -1 ? BossNode.GridY : y;
@@ -348,7 +355,8 @@ public class GrimoraChessboard
 			{
 				if (BossHelper.OpponentTupleBySpecialId.ContainsKey(specialEncounterId))
 				{
-					enemyPiece.blueprint = BossHelper.OpponentTupleBySpecialId[specialEncounterId].Item3;
+					// enemyPiece.blueprint = BossHelper.OpponentTupleBySpecialId[specialEncounterId].Item3;
+					enemyPiece.blueprint = GetBlueprint(true);
 					int bossesDefeated = ConfigHelper.Instance.BossesDefeated;
 					switch (bossesDefeated)
 					{
@@ -385,15 +393,60 @@ public class GrimoraChessboard
 		return pieceObj.GetComponent<T>();
 	}
 
-	private static EncounterBlueprintData GetBlueprint()
+	private EncounterBlueprintData GetBlueprint(bool isForBoss = false)
 	{
-		if (ConfigHelper.Instance.isRandomizedBlueprintsEnabled)
+		switch (ConfigHelper.Instance.EncounterBlueprintType)
 		{
-			return BlueprintUtils.BuildRandomBlueprint();
-		}
+			case 1:
+			{
+				return BlueprintUtils.BuildRandomBlueprint();
+			}
+			case 2:
+			{
+				if (isForBoss)
+				{
+					if (ChessboardMapExt.Instance.CustomBlueprintsBosses.Keys.ToList().Exists(json => json.bossName == _activeBossId))
+					{
+						Log.LogDebug($"[GetBlueprint.ForBoss] -> Active boss id exists in custom blueprints [{_activeBossId}]");
+						return ChessboardMapExt.Instance
+						 .CustomBlueprintsBosses
+						 .Single(kv => kv.Key.bossName == _activeBossId)
+						 .Value;
+					}
+					Log.LogDebug($"[GetBlueprint.ForBoss] -> Active boss id does not exist in custom blueprints, getting base mod blueprints.");
+					return BossHelper.OpponentTupleBySpecialId[_activeBossId].Item3; 
+				}
+				
+				if (ChessboardMapExt.Instance.CustomBlueprintsRegions.Keys.ToList().Exists(json => json.bossName == _activeBossId))
+				{
+					Log.LogDebug($"[GetBlueprint.NormalEnemy] -> Custom blueprints exist for regions, getting [{_activeBossId}] region blueprint.");
+					return ChessboardMapExt.Instance.CustomBlueprintsRegions
+					 .Where(k => k.Key.bossName == _activeBossId)
+					 .Select(k => k.Value)
+					 .ToList()
+					 .GetRandomItem();
+				}
 
-		var blueprints = BlueprintUtils.RegionWithBlueprints.ElementAt(ConfigHelper.Instance.BossesDefeated).Value;
-		return blueprints[UnityEngine.Random.Range(0, blueprints.Count)];
+				Log.LogWarning($"Unable to find custom blueprint for boss [{_activeBossId}], defaulting to base mod blueprints");
+				return BlueprintUtils.GetRandomBlueprintForRegion();
+			}
+			case 3:
+			{
+				return BlueprintUtils
+				 .RegionWithBlueprints
+				 .ElementAt(ConfigHelper.Instance.BossesDefeated).Value
+				 .Concat(ChessboardMapExt.Instance.CustomBlueprints.Values)
+				 .ToList()
+				 .GetRandomItem();
+			}
+			default:
+			{
+				return isForBoss 
+					       ? BossHelper.OpponentTupleBySpecialId[_activeBossId].Item3 
+					       : BlueprintUtils.GetRandomBlueprintForRegion();
+			}
+		}
+		
 	}
 
 	#endregion

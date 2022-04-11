@@ -102,7 +102,7 @@ public static class BlueprintUtils
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Manananggal = NameManananggal.CreateCardBlueprint();
 
 
-	#region Pirates
+	#region PiratesRoyal
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_CaptainYellowbeard =
 		NamePirateCaptainYellowbeard.CreateCardBlueprint();
@@ -115,7 +115,25 @@ public static class BlueprintUtils
 	public static readonly EncounterBlueprintData.CardBlueprint
 		bp_Swashbuckler = NamePirateSwashbuckler.CreateCardBlueprint();
 
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Shipwreck = NameShipwreck.CreateCardBlueprint();
+	
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Polly = NamePiratePolly.CreateCardBlueprint();
+		
 	#endregion
+
+	#region Kaycee
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_IceCube = NameIceCube.CreateCardBlueprint();
+	
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Glacier = NameGlacier.CreateCardBlueprint();
+
+  #endregion
+
+	#region Sawyer
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Kennel = NameKennel.CreateCardBlueprint();
+
+  #endregion
 
 	#endregion
 
@@ -167,15 +185,20 @@ public static class BlueprintUtils
 		}
 	};
 
+	public static EncounterBlueprintData GetRandomBlueprintForRegion()
+	{
+		return RegionWithBlueprints.ElementAt(ConfigHelper.Instance.BossesDefeated).Value.GetRandomItem();
+	}
+
 	public static EncounterBlueprintData BuildRandomBlueprint()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.name = $"Random{UnityEngine.Random.Range(1, 99999999)}_Blueprint";
-		int numberOfTurns = UnityEngine.Random.Range(3, 15);
+		blueprint.name = $"Random{UnityRandom.Range(1, 99999999)}_Blueprint";
+		int numberOfTurns = UnityRandom.Range(3, 15);
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>();
 		for (int i = 0; i < numberOfTurns; i++)
 		{
-			int numberOfCardsThisTurn = UnityEngine.Random.Range(0, 4);
+			int numberOfCardsThisTurn = UnityRandom.Range(0, 4);
 			List<EncounterBlueprintData.CardBlueprint> cardBlueprints = new();
 			for (int j = 0; j < numberOfCardsThisTurn; j++)
 			{
