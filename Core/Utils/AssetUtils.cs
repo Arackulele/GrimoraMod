@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Diagnostics;
+using System.Security.Cryptography;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -7,6 +8,16 @@ namespace GrimoraMod;
 
 public static class AssetUtils
 {
+	private static readonly Dictionary<string, string> FileChecksums = new()
+	{
+		{ "grimoramod_prefabs", "683DB17E991683778343B38474207BED2507F3276E494E69623421C288F51254" },
+		{ "grimoramod_sprites", "2BBA88DADA1F3412807EC614AE82F60226F8B24E8D89FE35C667111A97964545" },
+		{ "grimoramod_abilities", "AC5719A574804B3D961613BBE941091E84A097BF1E284C3DDB7A49D076CA52CC" },
+		{ "grimoramod_controller", "74BC4A80C0FA64CF5EF3F578DCB49625DBA54079785C210E7B2DC79B87C86FC5" },
+		{ "grimoramod_mats", "939AD534C55F4150F586CE706345E19E80ABA39EC1D4298A61192220B3B1790F" },
+		{ "grimoramod_sounds", "A2FC231C491780A59F925C4F3FB83B2E789DE4323516C74FE148ADCC4549E1D2" },
+	};
+
 	public static List<T> LoadAssetBundle<T>(string assetBundleFile) where T : UnityEngine.Object
 	{
 		Stopwatch stopwatch = Stopwatch.StartNew();
@@ -24,7 +35,20 @@ public static class AssetUtils
 		Stopwatch stopwatch = Stopwatch.StartNew();
 
 		Type type = typeof(T);
-		var bundleLoadRequest = AssetBundle.LoadFromFileAsync(FileUtils.FindFileInPluginDir(assetBundleFile));
+		string fileToRead = FileUtils.FindFileInPluginDir(assetBundleFile);
+		string sha265Checksum;
+		using (var sha256 = SHA256.Create())
+		using (var stream = File.OpenRead(fileToRead))
+		{
+			byte[] checksum = sha256.ComputeHash(stream);
+			sha265Checksum = BitConverter.ToString(checksum).Replace("-", string.Empty);
+			if (FileChecksums.TryGetValue(Path.GetFileName(fileToRead), out string correctChecksum) && correctChecksum != sha265Checksum)
+			{
+				Log.LogError($"[AssetUtils] File [{Path.GetFileName(fileToRead)}] checksum [{sha265Checksum}] does not match the correct one [{correctChecksum}]");
+			}
+		}
+
+		var bundleLoadRequest = AssetBundle.LoadFromFileAsync(fileToRead);
 		yield return bundleLoadRequest;
 		var bundle = bundleLoadRequest.assetBundle;
 		var allAssetsRequest = bundle.LoadAllAssetsAsync<T>();
