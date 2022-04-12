@@ -29,6 +29,21 @@ public class CombatPhaseManagerPatches
 				ViewManager.Instance.SwitchToView(BoardManager.Instance.CombatView);
 				if (opposingSlot.Card)
 				{
+					yield return GlobalTriggerHandler.Instance.TriggerCardsOnBoard(
+						Trigger.SlotTargetedForAttack,
+						false,
+						opposingSlot,
+						giantCard
+					);
+					
+					yield return new WaitForSeconds(0.025f);
+					
+					if (giantCard.Anim.DoingAttackAnimation)
+					{
+						yield return new WaitUntil(() => !giantCard.Anim.DoingAttackAnimation);
+						yield return new WaitForSeconds(0.25f);
+					}
+					
 					bool impactFrameReached = false;
 					giantCard.Anim.PlayAttackAnimation(giantCard.IsFlyingAttackingReach(), opposingSlot, delegate { impactFrameReached = true; });
 
