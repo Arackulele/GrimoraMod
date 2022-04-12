@@ -392,11 +392,11 @@ public class GrimoraChessboard
 	{
 		switch (ConfigHelper.Instance.EncounterBlueprintType)
 		{
-			case 1:
+			case BlueprintTypeForEncounter.Randomized:
 			{
 				return BlueprintUtils.BuildRandomBlueprint();
 			}
-			case 2:
+			case BlueprintTypeForEncounter.CustomOnly:
 			{
 				if (isForBoss)
 				{
@@ -425,7 +425,7 @@ public class GrimoraChessboard
 				Log.LogWarning($"Unable to find custom blueprint for boss [{_activeBossId}], defaulting to base mod blueprints");
 				return BlueprintUtils.GetRandomBlueprintForRegion();
 			}
-			case 3:
+			case BlueprintTypeForEncounter.Mixed:
 			{
 				return BlueprintUtils
 				 .RegionWithBlueprints

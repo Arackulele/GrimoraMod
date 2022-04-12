@@ -77,7 +77,7 @@ public class ConfigHelper
 	
 	private ConfigEntry<int> _configEncounterBlueprintType;
 
-	public int EncounterBlueprintType => _configEncounterBlueprintType.Value;
+	public BlueprintTypeForEncounter EncounterBlueprintType => (BlueprintTypeForEncounter)Enum.GetValues(typeof(BlueprintTypeForEncounter)).GetValue(_configEncounterBlueprintType.Value);
 
 	private ConfigEntry<string> _configCurrentRemovedPieces;
 	
