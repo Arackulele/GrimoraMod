@@ -43,6 +43,7 @@ public static class CardRelatedExtension
 				customSkeletonArmPrefab = playableCard.transform.Find(SkeletonArmsSentry).GetChild(0).GetComponent<Animator>();
 			}
 			
+			GrimoraPlugin.Log.LogDebug($"[CustomArms] Adding custom prefab for card {playableCard.GetNameAndSlot()}");
 			CustomArmPrefabsCache.Add(playableCard, customSkeletonArmPrefab);
 		}
 

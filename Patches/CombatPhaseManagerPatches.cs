@@ -70,7 +70,10 @@ public class CombatPhaseManagerPatches
 				yield return new WaitForSeconds(0.1f);
 			}
 
-			giantCard.SetCustomArmsPrefabActive(false);
+			if(giantCard && !giantCard.Dead)
+			{
+				giantCard.SetCustomArmsPrefabActive(false);
+			}
 		}
 		else
 		{
@@ -97,7 +100,10 @@ public class CombatPhaseManagerPatches
 					(__instance as CombatPhaseManager3D).damageWeights.Clear();
 				}
 			}
-			slot.Card.SetCustomArmsPrefabActive(false);
+			if(slot.Card && !slot.Card.Dead)
+			{
+				slot.Card.SetCustomArmsPrefabActive(false);
+			}
 		}
 	}
 }
