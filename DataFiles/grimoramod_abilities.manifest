@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2809585691
+CRC: 3853133375
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 2f609b98f4c8e0478d1361b9332ba700
+    Hash: 53120330289a8fb5f8a69ab5b7723e69
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7859cd501ea75098bcf7e53f1b477c26
@@ -16,6 +16,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Abilities/ability_ActivatedGainEnergySoulSucker_4.png
 - Assets/GrimoraMod_Unity/Abilities/ability_Raider.png
 - Assets/GrimoraMod_Unity/Abilities/ability_LooseLimb.png
+- Assets/GrimoraMod_Unity/Abilities/ability_LatchBomb.png
 - Assets/GrimoraMod_Unity/Abilities/ability_BoneThief.png
 - Assets/GrimoraMod_Unity/Abilities/ability_InvertedStrike.png
 - Assets/GrimoraMod_Unity/Abilities/ability_ActivatedGainEnergySoulSucker_3.png
