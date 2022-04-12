@@ -187,16 +187,11 @@ public class GrimoraChessboard
 				piece => piece.Contains("EnemyPiece_x") || piece.Contains("ChestPiece_x")
 			);
 
-		if (changingRegion
-		    || !StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable)
-		    || pieceAtSpaceIsNotPlayer
-		    || hasNotInteractedWithAnyPiece
-		   )
+		if (changingRegion || pieceAtSpaceIsNotPlayer || hasNotInteractedWithAnyPiece)
 		{
 			Log.LogDebug(
 				$"[UpdatePlayerMarkerPosition] "
 				+ $"Changing region? [{changingRegion}] "
-				+ $"Not reached table? [{!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable)}] "
 				+ $"PieceAtSpaceIsNotPlayer? [{pieceAtSpaceIsNotPlayer}] Piece is [{nodeAtSpace.OccupyingPiece}]"
 				+ $"hasNotInteractedWithAnyPiece? [{hasNotInteractedWithAnyPiece}]"
 			);
