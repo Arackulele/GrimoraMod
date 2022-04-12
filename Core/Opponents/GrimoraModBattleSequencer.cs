@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Encounters;
 using UnityEngine;
@@ -166,6 +163,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		if (playerWon)
 		{
 			// Log.LogDebug($"[GrimoraModBattleSequencer Adding enemy to config [{ActiveEnemyPiece.name}]");
+			CardRelatedExtension.CustomArmPrefabsCache.Clear();
 			ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
 			_cardsThatHaveDiedThisMatch.Clear();
 			GrimoraItemsManagerExt.Instance.hammerSlot.gameObject.SetActive(true);

@@ -13,7 +13,7 @@ public static class CardRelatedExtension
 	private static readonly int Hover    = Animator.StringToHash("hover");
 	private static readonly int Hovering = Animator.StringToHash("hovering");
 	
-	private static readonly Dictionary<PlayableCard, Animator> CustomArmPrefabsCache = new();
+	public static readonly Dictionary<PlayableCard, Animator> CustomArmPrefabsCache = new();
 
 	private const string SkeletonArmsGiants = "SkeletonArms_Giants";
 	private const string SkeletonArmsInvertedStrike = "Skeleton2ArmsAttacks";
@@ -21,9 +21,12 @@ public static class CardRelatedExtension
 
 	public static void SetCustomArmsPrefabActive(this PlayableCard playableCard, bool active = true)
 	{
-		GameObject customSkeletonArmPrefab = playableCard.GetCorrectCustomArmsPrefab().gameObject;
-		GrimoraPlugin.Log.LogDebug($"Setting custom arm [{customSkeletonArmPrefab.name}] active? [{active}]");
-		customSkeletonArmPrefab.SetActive(active);
+		Animator customSkeletonArmPrefab = playableCard.GetCorrectCustomArmsPrefab();
+		if (customSkeletonArmPrefab)
+		{
+			GrimoraPlugin.Log.LogDebug($"Setting custom arm [{customSkeletonArmPrefab.name}] active? [{active}]");
+			customSkeletonArmPrefab.gameObject.SetActive(active);
+		}
 	}
 	
 	public static Animator GetCorrectCustomArmsPrefab(this PlayableCard playableCard, CardSlot targetSlot = null)
