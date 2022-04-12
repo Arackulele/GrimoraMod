@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(Ability.SplitStrike)
+			.SetAbilities(Ability.DoubleStrike)
 			.SetBaseAttackAndHealth(1, 2)
 			.SetBoneCost(5)
 			.SetDescription("The vicious wechuge, corrupted by the spirit of an animal.")
