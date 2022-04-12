@@ -36,12 +36,11 @@ public static class AssetUtils
 
 		Type type = typeof(T);
 		string fileToRead = FileUtils.FindFileInPluginDir(assetBundleFile);
-		string sha265Checksum;
 		using (var sha256 = SHA256.Create())
 		using (var stream = File.OpenRead(fileToRead))
 		{
 			byte[] checksum = sha256.ComputeHash(stream);
-			sha265Checksum = BitConverter.ToString(checksum).Replace("-", string.Empty);
+			var sha265Checksum = BitConverter.ToString(checksum).Replace("-", string.Empty);
 			if (FileChecksums.TryGetValue(Path.GetFileName(fileToRead), out string correctChecksum) && correctChecksum != sha265Checksum)
 			{
 				Log.LogError($"[AssetUtils] File [{Path.GetFileName(fileToRead)}] checksum [{sha265Checksum}] does not match the correct one [{correctChecksum}]");
