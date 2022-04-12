@@ -170,8 +170,22 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			_cardsThatHaveDiedThisMatch.Clear();
 			GrimoraItemsManagerExt.Instance.hammerSlot.gameObject.SetActive(true);
 		}
-
-		yield break;
+		
+		foreach (var slot in BoardManager.Instance.AllSlotsCopy)
+		{
+			var nonCardReceivers = slot.GetComponentsInChildren<NonCardTriggerReceiver>();
+			foreach (var nonCardTriggerReceiver in nonCardReceivers)
+			{
+				Log.LogWarning($"[GameEnd] Destroying NonCardTriggerReceiver [{nonCardTriggerReceiver}] from slot [{slot}]");
+				if (nonCardTriggerReceiver is SkinCrawlerSlot crawlerSlot && crawlerSlot.skinCrawlerCard)
+				{
+					Log.LogWarning($"[GameEnd] Playing exit for playable card as it exists but not on the board technically [{crawlerSlot.skinCrawlerCard}] from slot [{slot}]");
+					crawlerSlot.skinCrawlerCard.ExitBoard(0.3f, Vector3.zero);
+					yield return new WaitForSeconds(0.2f);
+				}
+				UnityObject.Destroy(nonCardTriggerReceiver.gameObject);
+			}
+		}
 	}
 
 	public static IEnumerator GlitchOutBoardAndHandCards()
