@@ -21,16 +21,21 @@ public class PlayableCardPatches
 		var cardsInHandAndBoard
 			= BoardManager.Instance.CardsOnBoard
 			 .Concat(PlayerHand.Instance.CardsInHand)
-			 .Where(card => !card.Dead)
 			 .ToList();
 		foreach (PlayableCard c in cardsInHandAndBoard)
 		{
-			if (c.OnBoard && c.GetComponent<VariableStatBehaviour>())
+			if (c.GetComponent<VariableStatBehaviour>())
 			{
 				c.GetComponent<VariableStatBehaviour>().UpdateStats();
 			}
 			OriginalManagedUpdate(c);
 		}
+	}
+
+	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.DestroyWhenStackIsClear))]
+	public static void DoUpdateCardsAfterStackSizeIsZero()
+	{
+		UpdateAllCards();
 	}
 
 	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.Die))]
