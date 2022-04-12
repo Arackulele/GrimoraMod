@@ -106,6 +106,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 		TurnPlan.Clear();
 		yield return ClearQueue();
+		yield return ClearBoard();
 
 		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput(
@@ -145,6 +146,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 			new() { bp_Shipwreck },
 			new(),
 			new() { bp_CaptainYellowbeard, bp_Polly },
+			new(),
 			new() { bp_Shipwreck },
 			new(),
 			new() { bp_CompoundFracture, bp_Skeleton },
