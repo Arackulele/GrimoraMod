@@ -4,13 +4,6 @@ namespace GrimoraMod;
 
 public static class GrimoraEnums
 {
-	public static class Mechanics
-	{
-		public const MechanicsConcept Boneyard = (MechanicsConcept)6660;
-		public const MechanicsConcept CardRemoval = (MechanicsConcept)6661;
-		public const MechanicsConcept ElectricChar = (MechanicsConcept)6662;
-		public const MechanicsConcept HammerDialoguePlayed = (MechanicsConcept)6663;
-	}
 
 	public static class StoryEvents
 	{

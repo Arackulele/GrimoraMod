@@ -43,12 +43,12 @@ public class HammerItemExt : HammerItem
 
 		switch (useCounter)
 		{
-			case 1 when !ProgressionData.LearnedMechanic(GrimoraEnums.Mechanics.HammerDialoguePlayed):
+			case 1 when !ConfigHelper.HasLearnedMechanicHammerSmashes:
 				yield return TextDisplayer.Instance.ShowUntilInput(
 					"THE FRAIL THING WILL SHATTER AFTER EXCESSIVE USE. THREE STRIKES, AND IT'S OUT, FOR THIS BATTLE AT LEAST."
 				);
 				HammerHandleMat.SetFloat(Glossiness, 0.6f);
-				ProgressionData.SetMechanicLearned(GrimoraEnums.Mechanics.HammerDialoguePlayed);
+				ConfigHelper.HasLearnedMechanicHammerSmashes = true;
 				break;
 			case 2:
 				HammerHandleMat.SetFloat(Glossiness, 1f);

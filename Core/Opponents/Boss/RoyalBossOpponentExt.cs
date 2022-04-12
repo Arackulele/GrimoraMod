@@ -30,7 +30,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 		SetSceneEffectsShownRoyal();
 
-		if (!ConfigHelper.Instance.isDevModeEnabled)
+		if (!ConfigHelper.Instance.IsDevModeEnabled)
 		{
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput("VAR, I SEE YOU MADE IT TO ME SHIP CHALLENGER!");
@@ -44,7 +44,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 			BoardManager3D.Instance.transform
 		);
 
-		if (!ConfigHelper.Instance.isDevModeEnabled)
+		if (!ConfigHelper.Instance.IsDevModeEnabled)
 		{
 			AudioController.Instance.PlaySound2D("boss_royal", volume: 0.5f);
 			yield return new WaitForSeconds(0.1f);

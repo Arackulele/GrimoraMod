@@ -46,7 +46,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		}
 		else
 		{
-			if (!ProgressionData.LearnedMechanic(GrimoraEnums.Mechanics.ElectricChar))
+			if (!ConfigHelper.HasLearnedMechanicElectricChair)
 			{
 				yield return TextDisplayer.Instance.ShowUntilInput("OH! I LOVE THIS ONE!");
 				yield return TextDisplayer.Instance.ShowUntilInput(
@@ -56,7 +56,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 					"OF COURSE, IT DOESN'T HURT.\nYOU CAN'T DIE TWICE AFTER ALL."
 				);
 
-				ProgressionData.SetMechanicLearned(GrimoraEnums.Mechanics.ElectricChar);
+				ConfigHelper.HasLearnedMechanicElectricChair = true;
 			}
 
 			yield return UntilFinishedBuffingOrCardIsDestroyed();

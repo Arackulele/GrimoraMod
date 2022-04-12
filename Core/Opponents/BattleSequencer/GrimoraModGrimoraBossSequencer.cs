@@ -39,12 +39,15 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 					TextDisplayer.MessageAdvanceMode.Input
 				);
 			}
+			
+			yield return new WaitForSeconds(0.5f);
+			Log.LogInfo($"Player won against Grimora! Resetting run...");
+			ConfigHelper.Instance.ResetRun();
 
-			if (!ConfigHelper.Instance.isEndlessModeEnabled)
+			if (!ConfigHelper.Instance.IsEndlessModeEnabled)
 			{
-				yield return new WaitForSeconds(0.5f);
-				Log.LogInfo($"Player won against Grimora! Resetting run...");
-				ConfigHelper.Instance.ResetRun();
+				FinaleDeletionWindowManager.instance.gameObject.SetActive(true);
+				yield return ((GrimoraGameFlowManager)GameFlowManager.Instance).EndSceneSequence();
 			}
 		}
 		else

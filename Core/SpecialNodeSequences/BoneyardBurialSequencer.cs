@@ -57,7 +57,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		}
 		else
 		{
-			if (!ProgressionData.LearnedMechanic(GrimoraEnums.Mechanics.Boneyard))
+			if (!ConfigHelper.HasLearnedMechanicBoneyard)
 			{
 				yield return TextDisplayer.Instance.ShowUntilInput(
 					"A LONE GRAVE SITS SOLEMNLY IN FRONT OF YOU.",
@@ -128,7 +128,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 				finishedBuffing = true;
 			}
 
-			if (ProgressionData.LearnedMechanic(GrimoraEnums.Mechanics.Boneyard))
+			if (ConfigHelper.HasLearnedMechanicBoneyard)
 			{
 				yield return TextDisplayer.Instance.ShowUntilInput("MARVELOUS! THEY CAME CRAWLING BACK AFTER YOU BURIED THEM.");
 				yield return TextDisplayer.Instance.ShowUntilInput("THEY STILL CARE ABOUT YOU IT SEEMS!");
@@ -143,11 +143,10 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 				);
 				yield return TextDisplayer.Instance.ShowUntilInput("THOUGH THE WEIGHT OF CONSEQUENCE ALSO SEEMS LIFTED...");
 
-				ProgressionData.SetMechanicLearned(GrimoraEnums.Mechanics.Boneyard);
+				ConfigHelper.HasLearnedMechanicBoneyard = true;
 			}
 		}
-
-
+		
 		yield return OutroEnvTeardown();
 
 		if (GameFlowManager.Instance)

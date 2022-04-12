@@ -3,6 +3,7 @@ using BepInEx.Configuration;
 using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Card;
+using InscryptionAPI.Saves;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -14,6 +15,36 @@ public class ConfigHelper
 		StoryEvent.BasicTutorialCompleted, StoryEvent.TutorialRunCompleted, StoryEvent.BonesTutorialCompleted,
 		StoryEvent.TutorialRun2Completed, StoryEvent.TutorialRun3Completed
 	};
+
+	public static bool HasLoadedIntoModBefore
+	{
+		get => ModdedSaveManager.SaveData.GetValueAsBoolean(GUID, "HasLoadedIntoModBefore");
+		set => ModdedSaveManager.SaveData.SetValue(GUID, "HasLoadedIntoModBefore", value);
+	}
+
+	public static bool HasLearnedMechanicBoneyard
+	{
+		get => ModdedSaveManager.SaveData.GetValueAsBoolean(GUID, "Boneyard");
+		set => ModdedSaveManager.SaveData.SetValue(GUID, "Boneyard", value);
+	}
+	
+	public static bool HasLearnedMechanicCardRemoval
+	{
+		get => ModdedSaveManager.SaveData.GetValueAsBoolean(GUID, "CardRemoval");
+		set => ModdedSaveManager.SaveData.SetValue(GUID, "CardRemoval", value);
+	}
+	
+	public static bool HasLearnedMechanicElectricChair
+	{
+		get => ModdedSaveManager.SaveData.GetValueAsBoolean(GUID, "ElectricChair");
+		set => ModdedSaveManager.SaveData.SetValue(GUID, "ElectricChair", value);
+	}
+	
+	public static bool HasLearnedMechanicHammerSmashes
+	{
+		get => ModdedSaveManager.SaveData.GetValueAsBoolean(GUID, "HammerSmashes");
+		set => ModdedSaveManager.SaveData.SetValue(GUID, "HammerSmashes", value);
+	}
 
 	private static ConfigHelper m_Instance;
 	public static ConfigHelper Instance => m_Instance ??= new ConfigHelper();
@@ -31,13 +62,9 @@ public class ConfigHelper
 		+ "Tombstone_Wall1,Tombstone_Wall2,Tombstone_Wall3,Tombstone_Wall4,Tombstone_Wall5,"
 		+ "Tombstone_South1,Tombstone_South2,Tombstone_South3,";
 
-	private ConfigEntry<int> _configHammerDialogue;
-
-	public int HammerDialogueOption => _configHammerDialogue.Value;
-
 	private ConfigEntry<bool> _configEndlessMode;
 
-	public bool isEndlessModeEnabled => _configEndlessMode.Value;
+	public bool IsEndlessModeEnabled => _configEndlessMode.Value;
 
 	private ConfigEntry<bool> _configCardsLeftInDeck;
 
@@ -59,21 +86,21 @@ public class ConfigHelper
 		set => _configBossesDefeated.Value = value;
 	}
 
-	public bool isKayceeDead => BossesDefeated == 1;
+	public bool IsKayceeDead => BossesDefeated == 1;
 
-	public bool isSawyerDead => BossesDefeated == 2;
+	public bool IsSawyerDead => BossesDefeated == 2;
 
-	public bool isRoyalDead => BossesDefeated == 3;
+	public bool IsRoyalDead => BossesDefeated == 3;
 
-	public bool isGrimoraDead => BossesDefeated == 4;
+	public bool IsGrimoraDead => BossesDefeated == 4;
 
 	private ConfigEntry<bool> _configDeveloperMode;
 
-	public bool isDevModeEnabled => _configDeveloperMode.Value;
+	public bool IsDevModeEnabled => _configDeveloperMode.Value;
 
 	private ConfigEntry<bool> _configHotReloadEnabled;
 
-	public bool isHotReloadEnabled => _configHotReloadEnabled.Value;
+	public bool IsHotReloadEnabled => _configHotReloadEnabled.Value;
 	
 	private ConfigEntry<int> _configEncounterBlueprintType;
 
@@ -92,9 +119,6 @@ public class ConfigHelper
 	}
 	
 	public int BonesToAdd => BossesDefeated;
-
-	private ConfigEntry<bool> _useCustomEncountersOnly;
-	public bool UseCustomEncountersOnly => _useCustomEncountersOnly.Value;
 
 	internal void BindConfig()
 	{
@@ -167,7 +191,7 @@ public class ConfigHelper
 
 		var list = _configCurrentRemovedPieces.Value.Split(',').ToList();
 
-		_configCurrentRemovedPieces.Value = string.Join(",", list.Distinct());
+		_configCurrentRemovedPieces.Value = string.Join(",", list.Distinct()).Trim(',');
 
 		GrimoraConfigFile.SaveOnConfigSet = true;
 
@@ -235,7 +259,7 @@ public class ConfigHelper
 
 	private void ResetConfigDataIfGrimoraHasNotReachedTable()
 	{
-		if (!StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable))
+		if (!HasLoadedIntoModBefore)
 		{
 			Log.LogWarning($"Grimora has not reached the table yet, resetting values to false again.");
 			ResetConfig();

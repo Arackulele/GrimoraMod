@@ -16,7 +16,7 @@ public class TurnManagerPatches
 	)
 	{
 		yield return enumerator;
-		if (ConfigHelper.Instance.isDevModeEnabled)
+		if (ConfigHelper.Instance.IsDevModeEnabled)
 		{
 			yield return ResourcesManager.Instance.AddBones(25);
 		}

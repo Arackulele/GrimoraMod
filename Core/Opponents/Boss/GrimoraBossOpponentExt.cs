@@ -47,7 +47,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	{
 		PlayTheme();
 
-		if (!ConfigHelper.Instance.isDevModeEnabled)
+		if (!ConfigHelper.Instance.IsDevModeEnabled)
 		{
 			yield return TextDisplayer.Instance.PlayDialogueEvent(
 				"RoyalBossPreIntro",
@@ -63,7 +63,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		yield return base.IntroSequence(encounter);
 
 		ViewManager.Instance.SwitchToView(View.BossSkull, false, true);
-		if (!ConfigHelper.Instance.isDevModeEnabled)
+		if (!ConfigHelper.Instance.IsDevModeEnabled)
 		{
 			yield return TextDisplayer.Instance.PlayDialogueEvent(
 				"LeshyBossAddCandle",
@@ -86,15 +86,18 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		ViewManager.Instance.SetViewUnlocked();
 
-		if (ChessboardMapExt.Instance.debugHelper.StartAtTwinGiants)
+		if(ChessboardMapExt.Instance.debugHelper)
 		{
-			NumLives = 2;
-			yield return PostResetScalesSequence();
-		} 
-		else if (ChessboardMapExt.Instance.debugHelper.StartAtBonelord)
-		{
-			NumLives = 1;
-			yield return PostResetScalesSequence();
+			if (ChessboardMapExt.Instance.debugHelper.StartAtTwinGiants)
+			{
+				NumLives = 2;
+				yield return PostResetScalesSequence();
+			}
+			else if (ChessboardMapExt.Instance.debugHelper.StartAtBonelord)
+			{
+				NumLives = 1;
+				yield return PostResetScalesSequence();
+			}
 		}
 		
 	}
@@ -176,7 +179,8 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		infoGiant.displayedName = giantName;
 		infoGiant.abilities = new List<Ability> { Ability.Reach, GiantStrike.ability, Ability.MadeOfStone };
 		infoGiant.specialAbilities.Add(GrimoraGiant.FullSpecial.Id);
-		infoGiant.Mods.Add(new CardModificationInfo(-1, 1));
+		infoGiant.baseAttack = 1;
+		infoGiant.baseHealth = 8;
 
 		playableGiant.SetInfo(infoGiant);
 		yield return BoardManager.Instance.TransitionAndResolveCreatedCard(playableGiant, slotToSpawnIn, 0.3f);
