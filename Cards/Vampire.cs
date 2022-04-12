@@ -12,7 +12,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(3, 1)
 			.SetBoneCost(6)
 			.SetDescription("Cursed with eternal life, but only if their thirst can be satisfied.")
-			.SetNames(NameVampire, "Forgotten Man")
+			.SetNames(NameVampire, "Vampire")
 			.Build();
 	}
 }
