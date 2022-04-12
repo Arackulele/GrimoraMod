@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1242608030
+CRC: 3624955079
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b25fb7a88212b7085324c9e8659b206e
+    Hash: 3bc2b49e381e03d770cb45226f9bbb8f
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -105,6 +105,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Sluagh.png
 - Assets/GrimoraMod_Unity/Cards/Catacomb_emission.png
 - Assets/GrimoraMod_Unity/Cards/Doppelganger_emission.png
+- Assets/GrimoraMod_Unity/Cards/ForgottenMan_emission.png
 - Assets/GrimoraMod_Unity/Cards/Ripper_emission.png
 - Assets/GrimoraMod_Unity/Cards/Nixie.png
 - Assets/GrimoraMod_Unity/Cards/Frostbiter.png
@@ -231,6 +232,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/ScreamingSkull_emission.png
 - Assets/GrimoraMod_Unity/Cards/HeadlessHorseman_emission.png
 - Assets/GrimoraMod_Unity/Cards/OldCards/Amoeba.png
+- Assets/GrimoraMod_Unity/Cards/ForgottenMan.png
 - Assets/GrimoraMod_Unity/Cards/Hydra.png
 - Assets/GrimoraMod_Unity/Cards/Animator.png
 - Assets/GrimoraMod_Unity/Cards/Silbon.png
