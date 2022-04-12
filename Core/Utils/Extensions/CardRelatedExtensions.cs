@@ -174,8 +174,7 @@ public static class CardRelatedExtension
 				}
 			}
 
-			if ((!playableCard.HasAbility(Ability.QuadrupleBones)
-			  || !playableCard.HasAbility(Boneless.ability)) && slotBeforeDeath.IsPlayerSlot)
+			if (!playableCard.HasAbility(Ability.QuadrupleBones) && !playableCard.HasAbility(Boneless.ability) && slotBeforeDeath.IsPlayerSlot)
 			{
 				yield return ResourcesManager.Instance.AddBones(1, slotBeforeDeath);
 			}
