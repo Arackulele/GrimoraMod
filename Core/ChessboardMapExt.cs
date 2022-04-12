@@ -227,9 +227,9 @@ public class ChessboardMapExt : GameMap
 	public override IEnumerator UnrollingSequence(float unrollSpeed)
 	{
 		InteractionCursor.Instance.InteractionDisabled = true;
-		if (FinaleDeletionWindowManager.instance)
+		if (FinaleDeletionWindowManager.instance && FinaleDeletionWindowManager.instance.mainWindow.isActiveAndEnabled)
 		{
-			Destroy(FinaleDeletionWindowManager.instance.gameObject);
+			FinaleDeletionWindowManager.instance.mainWindow.gameObject.SetActive(false);
 		}
 
 		TableRuleBook.Instance.SetOnBoard(false);

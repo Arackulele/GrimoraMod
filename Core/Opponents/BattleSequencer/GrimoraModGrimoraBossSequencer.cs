@@ -46,7 +46,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 			if (!ConfigHelper.Instance.IsEndlessModeEnabled)
 			{
-				FinaleDeletionWindowManager.instance.gameObject.SetActive(true);
+				FinaleDeletionWindowManager.instance.mainWindow.gameObject.SetActive(true);
 				yield return ((GrimoraGameFlowManager)GameFlowManager.Instance).EndSceneSequence();
 			}
 		}

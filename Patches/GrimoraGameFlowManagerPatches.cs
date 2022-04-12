@@ -36,9 +36,9 @@ public class GrimoraGameFlowManagerPatches
 		// bool skipIntro = GrimoraPlugin.ConfigHasPlayedRevealSequence.Value;
 		bool setLightsActive = true;
 
-		if (FinaleDeletionWindowManager.instance)
+		if (FinaleDeletionWindowManager.instance && FinaleDeletionWindowManager.instance.mainWindow.isActiveAndEnabled)
 		{
-			UnityObject.Destroy(FinaleDeletionWindowManager.instance.gameObject);
+			FinaleDeletionWindowManager.instance.mainWindow.gameObject.SetActive(false);
 		}
 
 		ViewManager.Instance.SwitchToView(View.Default, true);
