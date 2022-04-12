@@ -19,7 +19,7 @@ public class ChessboardMapExt : GameMap
 
 	internal DebugHelper debugHelper;
 
-	private bool _toggleCardsLeftInDeck = false;
+	private bool _toggleCardsLeftInDeck;
 
 	public new static ChessboardMapExt Instance => GameMap.Instance as ChessboardMapExt;
 
@@ -226,12 +226,11 @@ public class ChessboardMapExt : GameMap
 
 	public override IEnumerator UnrollingSequence(float unrollSpeed)
 	{
+		InteractionCursor.Instance.InteractionDisabled = true;
 		if (FinaleDeletionWindowManager.instance)
 		{
 			Destroy(FinaleDeletionWindowManager.instance.gameObject);
 		}
-		
-		StoryEventsData.SetEventCompleted(StoryEvent.GrimoraReachedTable, true);
 
 		TableRuleBook.Instance.SetOnBoard(false);
 
@@ -273,6 +272,7 @@ public class ChessboardMapExt : GameMap
 		ChangeStartDeckIfNotAlreadyChanged();
 
 		SaveManager.SaveToFile();
+		InteractionCursor.Instance.InteractionDisabled = false;
 	}
 
 	private void UpdateActiveChessboard()
