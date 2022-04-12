@@ -33,6 +33,15 @@ public class BaseGameFlowManagerPatches
 
 		DisableAttackAndHealthStatShadowsAndScaleUpStatIcons();
 
+		if (UnityObject.FindObjectOfType<CombatBell3D>())
+		{
+			CombatBell3D bell = UnityObject.FindObjectOfType<CombatBell3D>();
+			SphereCollider collider = bell.GetComponent<SphereCollider>();
+			Vector3 currentCenter = collider.center;
+			collider.center = new Vector3(currentCenter.x, 0.75f, 0);
+			collider.radius = 0.5f;
+		}
+
 		SetupPlayableAndSelectableCardPrefabs();
 
 		ChessboardMapExt.ChangeChessboardToExtendedClass();
