@@ -138,6 +138,11 @@ public static class CardRelatedExtension
 		{
 			playableCard.Dead = true;
 			CardSlot slotBeforeDeath = playableCard.Slot;
+			if (playableCard.Info != null && playableCard.Info.name.ToLower().Contains("squirrel"))
+			{
+				AscensionStatsData.TryIncrementStat(AscensionStat.Type.SquirrelsKilled);
+			}
+			
 			if (playableCard.TriggerHandler.RespondsToTrigger(Trigger.PreDeathAnimation, wasSacrifice))
 			{
 				yield return playableCard.TriggerHandler.OnTrigger(Trigger.PreDeathAnimation, wasSacrifice);
