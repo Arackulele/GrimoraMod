@@ -23,6 +23,7 @@ public class BoardManagerPatches
 					GrimoraPlugin.Log.LogWarning($"[CleanUp] Destroying NonCardTriggerReceiver [{nonCardTriggerReceiver}] from slot [{slot}]");
 					UnityObject.Destroy(nonCardTriggerReceiver.gameObject);
 				}
+
 				var playableCardsNotOnTheBoard = slot.GetComponentsInChildren<PlayableCard>().Where(card => card.HasAbility(SkinCrawler.ability));
 				foreach (var card in playableCardsNotOnTheBoard)
 				{
@@ -32,5 +33,22 @@ public class BoardManagerPatches
 				}
 			}
 		}
+	}
+}
+
+[HarmonyPatch(typeof(BoardManager3D))]
+public class BoardManager3DPatches
+{
+	[HarmonyPostfix, HarmonyPatch(nameof(BoardManager3D.MoveQueuedCardToSlot))]
+	public static void CheckForNonCardTriggersOnTheBoardStill(
+		BoardManager3D __instance,
+		PlayableCard card,
+		CardSlot slot,
+		float transitionDuration = 0.1f,
+		bool doTween = true,
+		bool setStartPosition = true
+	)
+	{
+		card.transform.SetParent(BoardManager.Instance.OpponentQueueSlots[card.Slot.Index].transform);
 	}
 }
