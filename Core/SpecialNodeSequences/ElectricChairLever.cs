@@ -88,6 +88,7 @@ public class ElectricChairLever : HighlightedInteractable
 		Ability.WhackAMole,
 		ActivatedDealDamageGrimora.ability,
 		Anchored.ability,
+		BloodGuzzler.ability,
 		FlameStrafe.ability,
 		Fylgja_GuardDog.ability,
 		InvertedStrike.ability,
