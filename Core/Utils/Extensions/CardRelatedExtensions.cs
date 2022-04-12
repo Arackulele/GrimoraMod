@@ -12,6 +12,43 @@ public static class CardRelatedExtension
 {
 	private static readonly int Hover    = Animator.StringToHash("hover");
 	private static readonly int Hovering = Animator.StringToHash("hovering");
+	
+	private static readonly Dictionary<PlayableCard, Animator> CustomArmPrefabsCache = new();
+
+	private const string SkeletonArmsGiants = "SkeletonArms_Giants";
+	private const string SkeletonArmsInvertedStrike = "Skeleton2ArmsAttacks";
+	private const string SkeletonArmsSentry = "Grimora_Sentry";
+
+	public static void SetCustomArmsPrefabActive(this PlayableCard playableCard, bool active = true)
+	{
+		GameObject customSkeletonArmPrefab = playableCard.GetCorrectCustomArmsPrefab().gameObject;
+		GrimoraPlugin.Log.LogDebug($"Setting custom arm [{customSkeletonArmPrefab.name}] active? [{active}]");
+		customSkeletonArmPrefab.SetActive(active);
+	}
+	
+	public static Animator GetCorrectCustomArmsPrefab(this PlayableCard playableCard, CardSlot targetSlot = null)
+	{
+		if (!CustomArmPrefabsCache.TryGetValue(playableCard, out Animator customSkeletonArmPrefab))
+		{
+			if (playableCard.transform.Find(SkeletonArmsInvertedStrike))
+			{
+				customSkeletonArmPrefab = playableCard.transform.Find(SkeletonArmsInvertedStrike).GetComponent<Animator>();
+			}
+			if (playableCard.transform.Find(SkeletonArmsGiants))
+			{
+				customSkeletonArmPrefab = playableCard.transform.Find(SkeletonArmsGiants).GetComponent<Animator>();
+			} 
+			if ((targetSlot.IsNull() ^ playableCard.HasAbility(Ability.Sniper)) && playableCard.transform.Find(SkeletonArmsSentry))
+			{
+				customSkeletonArmPrefab = playableCard.transform.Find(SkeletonArmsSentry).GetChild(0).GetComponent<Animator>();
+			}
+			
+			CustomArmPrefabsCache.Add(playableCard, customSkeletonArmPrefab);
+		}
+
+		return customSkeletonArmPrefab;
+	}
+	
 
 	public static string GetNameAndSlot(this PlayableCard playableCard)
 	{

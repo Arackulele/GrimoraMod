@@ -10,35 +10,6 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(GravestoneCardAnimationController))]
 public class GravestoneCardAnimationControllerPatches
 {
-	private const string SkeletonArmsGiants = "SkeletonArms_Giants";
-	private const string SkeletonArmsInvertedStrike = "Skeleton2ArmsAttacks";
-	private const string SkeletonArmsSentry = "Grimora_Sentry";
-
-	private static Animator GetCorrectCustomArmsPrefab(GravestoneCardAnimationController controller, CardSlot targetSlot)
-	{
-		Animator customSkeletonArmPrefab = null;
-		if (controller.transform.Find(SkeletonArmsInvertedStrike))
-		{
-			customSkeletonArmPrefab = controller.transform.Find(SkeletonArmsInvertedStrike).GetComponent<Animator>();
-		}
-		if (controller.transform.Find(SkeletonArmsGiants))
-		{
-			customSkeletonArmPrefab = controller.transform.Find(SkeletonArmsGiants).GetComponent<Animator>();
-		} 
-		if ((targetSlot.IsNull() ^ controller.PlayableCard.HasAbility(Ability.Sniper)) && controller.transform.Find(SkeletonArmsSentry))
-		{
-			customSkeletonArmPrefab = controller.transform.Find(SkeletonArmsSentry).GetChild(0).GetComponent<Animator>();
-		}
-
-		if (customSkeletonArmPrefab)
-		{
-			Log.LogDebug($"Setting custom arm [{customSkeletonArmPrefab.name}] inactive");
-			customSkeletonArmPrefab.gameObject.SetActive(false);
-		}
-
-		return customSkeletonArmPrefab;
-	}
-
 	[HarmonyPatch(nameof(GravestoneCardAnimationController.PlayAttackAnimation))]
 	public static bool Prefix(
 		ref GravestoneCardAnimationController __instance,
@@ -46,8 +17,8 @@ public class GravestoneCardAnimationControllerPatches
 		CardSlot targetSlot
 	)
 	{
-		Animator customArmPrefab = GetCorrectCustomArmsPrefab(__instance, targetSlot);
 		PlayableCard playableCard = __instance.PlayableCard;
+		Animator customArmPrefab = playableCard.GetCorrectCustomArmsPrefab(targetSlot);
 
 		__instance.armAnim.gameObject.SetActive(false);
 		__instance.Anim.Play("shake", 0, 0f);
