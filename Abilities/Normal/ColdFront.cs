@@ -32,16 +32,7 @@ public class ColdFront : AbilityBehaviour
 			else
 			{
 				var frozenAway = GrimoraModKayceeBossSequencer.CreateModForFreeze(opposingSlotCard);
-				if (frozenAway.negateAbilities.Exists(opposingSlotCard.HasAbility))
-				{
-					GrimoraPlugin.Log.LogDebug($"[ColdFront.OnDie] Opposing Card {opposingSlotCard.GetNameAndSlot()} has negated ability, removing...");
-					opposingSlotCard.RemoveAbilityFromThisCard(frozenAway);
-				}
-				else
-				{
-					GrimoraPlugin.Log.LogDebug($"[ColdFront.OnDie] Opposing Card {opposingSlotCard.GetNameAndSlot()} does not have a negated ability, just adding temp mod.");
-					opposingSlotCard.AddTemporaryMod(frozenAway);
-				}
+				opposingSlotCard.RemoveAbilityFromThisCard(frozenAway);
 				opposingSlotCard.Anim.PlayTransformAnimation();
 				yield return new WaitForSeconds(0.25f);
 			}
@@ -51,7 +42,7 @@ public class ColdFront : AbilityBehaviour
 
 public partial class GrimoraPlugin
 {
-	public void _Ability_ColdFront()
+	public void Add_Ability_ColdFront()
 	{
 		const string rulebookDescription = "When [creature] perishes, the card opposing it is Frozen Away if not already frozen.";
 
