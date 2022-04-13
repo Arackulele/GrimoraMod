@@ -23,7 +23,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<CreateShipwrecks>.Builder
 		 .SetRulebookDescription(rulebookDescription)
-		 .SetRulebookName("Shipwreck Builder")
+		 .SetRulebookName("Shipwreck Finder")
 		 .Build();
 	}
 }
