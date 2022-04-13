@@ -25,10 +25,12 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	};
 
 	private ElectricChairLever _lever;
+	private int _burnRateTypeInt = 0;
 
 	private void Start()
 	{
 		_lever = figurines[0].transform.Find("Lever").gameObject.AddComponent<ElectricChairLever>();
+		_burnRateTypeInt = ConfigHelper.Instance.ElectricChairBurnRateType;
 	}
 
 	public IEnumerator StartSequence()
@@ -50,12 +52,8 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			if (!ConfigHelper.HasLearnedMechanicElectricChair)
 			{
 				yield return TextDisplayer.Instance.ShowUntilInput("OH! I LOVE THIS ONE!");
-				yield return TextDisplayer.Instance.ShowUntilInput(
-					$"YOU STRAP ONE OF YOUR CARDS TO THE CHAIR, {"EMPOWERING".Blue()} IT!"
-				);
-				yield return TextDisplayer.Instance.ShowUntilInput(
-					"OF COURSE, IT DOESN'T HURT.\nYOU CAN'T DIE TWICE AFTER ALL."
-				);
+				yield return TextDisplayer.Instance.ShowUntilInput($"YOU STRAP ONE OF YOUR CARDS TO THE CHAIR, {"EMPOWERING".Blue()} IT!");
+				yield return TextDisplayer.Instance.ShowUntilInput("OF COURSE, IT DOESN'T HURT.\nYOU CAN'T DIE TWICE AFTER ALL.");
 
 				ConfigHelper.HasLearnedMechanicElectricChair = true;
 			}
@@ -82,6 +80,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private readonly Dictionary<int, Dictionary<ElectricChairLever.SigilRisk, float>> ElectricChairBurnRateByType = new()
 	{
+		{ 0, BuildWithChances(0.000f, 0.000f, 0.000f) },
 		{ 1, BuildWithChances(0.000f, 0.100f, 0.200f) },
 		{ 2, BuildWithChances(0.125f, 0.175f, 0.300f) },
 		{ 3, BuildWithChances(0.125f, 0.200f, 0.275f) }
@@ -89,24 +88,19 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private float GetInitialChanceToDie()
 	{
-		return ConfigHelper.Instance.ElectricChairBurnRateType switch
+		if (_burnRateTypeInt == 0)
 		{
-			1 => 0.3f + ElectricChairBurnRateByType.GetValueSafe(1)[_lever.currentSigilRisk],
-			2 => ElectricChairBurnRateByType.GetValueSafe(2)[_lever.currentSigilRisk],
-			3 => ElectricChairBurnRateByType.GetValueSafe(3)[_lever.currentSigilRisk],
-			_ => 0.5f
-		};
+			return 0.5f;
+		}
+		
+		float chance = _burnRateTypeInt == 1 ? 0.3f : 0f;
+		chance += ElectricChairBurnRateByType.GetValueSafe(_burnRateTypeInt)[_lever.currentSigilRisk];
+		return chance;
 	}
 	
 	private float AddChanceToDieForSecondZap()
 	{
-		return ConfigHelper.Instance.ElectricChairBurnRateType switch
-		{
-			1 => ElectricChairBurnRateByType.GetValueSafe(1)[_lever.currentSigilRisk],
-			2 => ElectricChairBurnRateByType.GetValueSafe(2)[_lever.currentSigilRisk],
-			3 => ElectricChairBurnRateByType.GetValueSafe(3)[_lever.currentSigilRisk],
-			_ => 0f
-		};
+		return ElectricChairBurnRateByType.GetValueSafe(_burnRateTypeInt)[_lever.currentSigilRisk];
 	}
 
 	private IEnumerator UntilFinishedBuffingOrCardIsDestroyed()
