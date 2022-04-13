@@ -12,27 +12,26 @@ public partial class GrimoraPlugin
 	{
 		Sprite ogSprite = "Gravedigger".GetCardInfo().portraitTex;
 		CardBuilder.Builder
-			.SetAsNormalCard()
-			.SetAbilities(Ability.BoneDigger)
-			.SetBaseAttackAndHealth(0, 3)
-			.SetBoneCost(1)
-			.SetDescription(
-				"HE SPENDS HIS TIME ALONE DIGGING FOR BONES IN HOPES OF FINDING A TREASURE. JUST LIKE HIS GRANDPA."
-			)
-			.SetNames(NameGravedigger, "Gravedigger", ogSprite)
-			.Build();
+		 .SetAsNormalCard()
+		 .SetAbilities(Ability.BoneDigger)
+		 .SetBaseAttackAndHealth(0, 3)
+		 .SetBoneCost(1)
+		 .SetDescription("HE SPENDS HIS TIME ALONE DIGGING FOR BONES IN HOPES OF FINDING A TREASURE. JUST LIKE HIS GRANDPA.")
+		 .SetEvolve(NameSporedigger, 1)
+		 .SetNames(NameGravedigger, "Gravedigger", ogSprite)
+		 .Build();
 	}
 
 	private void Add_Card_Sporedigger()
 	{
 		CardBuilder.Builder
-			.SetAsRareCard()
-			.SetAbilities(Ability.BoneDigger, Ability.BoneDigger)
-			.SetBaseAttackAndHealth(0, 3)
-			.SetBoneCost(1)
-			.SetDescription("A POOR, BRUTALIZED SOUL. ITS MYCELIA PROBES FAR INTO THE SOIL, GUIDING ITS SPADE.")
-			.SetNames(NameSporedigger, "Sporedigger")
-			.SetTraits(Trait.Fused)
-			.Build();
+		 .SetAsRareCard()
+		 .SetAbilities(Ability.BoneDigger, Ability.BoneDigger)
+		 .SetBaseAttackAndHealth(0, 3)
+		 .SetBoneCost(1)
+		 .SetDescription("A POOR, BRUTALIZED SOUL. ITS MYCELIA PROBES FAR INTO THE SOIL, GUIDING ITS SPADE.")
+		 .SetNames(NameSporedigger, "Sporedigger")
+		 .SetTraits(Trait.Fused)
+		 .Build();
 	}
 }
