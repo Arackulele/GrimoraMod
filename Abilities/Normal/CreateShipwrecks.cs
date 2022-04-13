@@ -22,6 +22,7 @@ public partial class GrimoraPlugin
 			$"When [creature] is played, a Shipwreck is created on each empty adjacent space. [define:{NameShipwreckDams}]";
 
 		AbilityBuilder<CreateShipwrecks>.Builder
+		 .SetIcon(AbilitiesUtil.LoadAbilityIcon(Ability.CreateDams.ToString()))
 		 .SetRulebookDescription(rulebookDescription)
 		 .SetRulebookName("Shipwreck Finder")
 		 .Build();
