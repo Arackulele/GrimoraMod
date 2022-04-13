@@ -148,7 +148,7 @@ public class ChessboardMapExt : GameMap
 		{
 			_toggleCardsLeftInDeck = GUI.Toggle(
 				new Rect(
-					(ConfigHelper.Instance.IsDevModeEnabled ? Screen.width - 400 : 20),
+					(ConfigHelper.Instance.IsDevModeEnabled ? 400 : 20),
 					20,
 					150,
 					15
@@ -161,7 +161,7 @@ public class ChessboardMapExt : GameMap
 			{
 				GUI.SelectionGrid(
 					new Rect(
-						(ConfigHelper.Instance.IsDevModeEnabled ? Screen.width - 400 : 25), 
+						(ConfigHelper.Instance.IsDevModeEnabled ? 400 : 25), 
 						Screen.height * 0.75f, 
 						150, 
 						CardDrawPiles3D.Instance.Deck.cards.Count * 25f
