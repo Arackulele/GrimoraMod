@@ -16,6 +16,12 @@ public class CombatPhaseManagerPatches
 		CardSlot slot
 	)
 	{
+		if (GrimoraSaveUtil.isNotGrimora)
+		{
+			yield return enumerator;
+			yield break;
+		}
+		
 		bool cardIsGrimoraGiant = slot.Card.HasSpecialAbility(GrimoraGiant.FullSpecial.Id);
 		if (cardIsGrimoraGiant)
 		{
