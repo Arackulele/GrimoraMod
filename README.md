@@ -19,13 +19,13 @@
 
 ## Known Issues
 
+### During Royal's board sway, if a card slides off the table but has Corpse Eater and Undying, the new card will be placed in the same slot as the card that slid off the table
+
+- This is a rather inconvenient one, since Corpse Eater triggers _right_ after Undying finishes but before the other cards start swaying.
+
 ### Haunter sigils can be seen through cards in hand
 
 - Currently investigating, although I'm not quite sure where the issue exactly lies. Tried messing around with the layer ordering and that didn't seem to fix the issue.
-
-### Activated abilities no longer work
-
-- The primary cause of this is whenever another ability gets added to the card. The bug lies in the `Activated Ability Fix` mod, but I'm not sure where.
 
 ### A card with Area of Effect Strike, Tri Strike, and Sniper sigils only allows 3 attacks
 
@@ -143,6 +143,8 @@
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Project` nerfed to 7 bones from 5.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Wechuge` card has `Double Strike` now instead of split strike.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Ice Cube` disabled/unobtainable until more time can be spent configuring fixing certain scenarios.
 
 ### 2.8.4 Custom Encounters
 
