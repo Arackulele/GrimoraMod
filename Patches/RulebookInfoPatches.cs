@@ -2,7 +2,6 @@
 using HarmonyLib;
 using InscryptionAPI.Card;
 using Sirenix.Utilities;
-using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -10,6 +9,61 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(RuleBookInfo))]
 public class RulebookInfoPatches
 {
+	private static readonly List<Ability> AbilitiesToRemoveFromRulebook = new()
+	{
+		Ability.CreateDams,
+		Ability.DrawAnt,
+		Ability.Sacrificial,
+		Ability.TripleBlood,
+		Ability.Sinkhole,
+		Ability.RandomAbility,
+		Ability.SquirrelOrbit,
+		Ability.GainGemGreen,
+		Ability.GainGemOrange,
+		Ability.GainGemBlue,
+		Ability.BuffGems,
+		Ability.DropRubyOnDeath,
+		Ability.GemsDraw,
+		Ability.GemDependant,
+		Ability.GainGemTriple,
+		Ability.SquirrelStrafe,
+		Ability.ConduitBuffAttack,
+		Ability.ConduitFactory,
+		Ability.ConduitHeal,
+		Ability.ConduitNull,
+		Ability.GainBattery,
+		Ability.PermaDeath,
+		Ability.FileSizeDamage,
+		Ability.DeleteFile,
+		Ability.Transformer,
+		Ability.ExplodeGems,
+		Ability.ShieldGems,
+		Ability.DrawVesselOnHit,
+		Ability.ConduitEnergy,
+		Ability.ActivatedRandomPowerBone,
+		Ability.ActivatedDrawSkeleton,
+		Ability.ActivatedDealDamage,
+		Ability.ConduitSpawnGems,
+		Ability.ActivatedSacrificeDrawCards,
+		Ability.ActivatedStatsUpEnergy,
+		Ability.ActivatedHeal,
+		Ability.CellBuffSelf,
+		Ability.CellDrawRandomCardOnDeath,
+		Ability.CellTriStrike,
+		Ability.ActivatedEnergyToBones,
+		Ability.BloodGuzzler,
+		Ability.Haunter,
+		Ability.Apparition,
+		Ability.VirtualReality,
+		Ability.EdaxioHead,
+		Ability.EdaxioArms,
+		Ability.EdaxioLegs,
+		Ability.EdaxioTorso,
+		Ability.CreateEgg,
+		Ability.Morsel,
+		Ability.HydraEgg
+	};
+
 	[HarmonyAfter(InscryptionAPI.InscryptionAPIPlugin.ModGUID)]
 	[HarmonyPostfix, HarmonyPatch(nameof(RuleBookInfo.ConstructPageData), typeof(AbilityMetaCategory))]
 	public static void PostfixAddRestOfAbilities(
@@ -32,7 +86,7 @@ public class RulebookInfoPatches
 		allAbilities.AddRange(
 			AbilityManager.AllAbilityInfos
 				// this is needed because Sinkhole and another ability will throw IndexOutOfBounds exceptions
-			 .Where(info => info.LocalizedRulebookDescription.IsNotEmpty())
+			 .Where(info => info.LocalizedRulebookDescription.IsNotEmpty() && !AbilitiesToRemoveFromRulebook.Contains(info.ability))
 			 .ForEach(
 					x =>
 					{
