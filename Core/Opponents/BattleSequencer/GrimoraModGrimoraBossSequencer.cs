@@ -71,8 +71,8 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 	public override IEnumerator OpponentUpkeep()
 	{
 		if (!playedDialogueDeathTouch
-		 && BoardManager.Instance.GetSlots(true).Exists(x => x.CardIsNotNullAndHasAbility(Ability.Deathtouch))
-		 && BoardManager.Instance.GetSlots(false).Exists(SlotContainsTwinGiant)
+		 && BoardManager.Instance.PlayerSlotsCopy.Exists(x => x.CardIsNotNullAndHasAbility(Ability.Deathtouch))
+		 && BoardManager.Instance.OpponentSlotsCopy.Exists(SlotContainsTwinGiant)
 		)
 		{
 			yield return new WaitForSeconds(0.5f);
@@ -83,8 +83,8 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 			playedDialogueDeathTouch = true;
 		}
 		else if (!playedDialoguePossessive
-		      && BoardManager.Instance.GetSlots(true).Exists(x => x.CardIsNotNullAndHasAbility(Possessive.ability))
-		      && BoardManager.Instance.GetSlots(false).Exists(slot => slot.CardInSlotIs(NameBonelord))
+		      && BoardManager.Instance.PlayerSlotsCopy.Exists(x => x.CardIsNotNullAndHasAbility(Possessive.ability))
+		      && BoardManager.Instance.OpponentSlotsCopy.Exists(slot => slot.CardInSlotIs(NameBonelord))
 		)
 		{
 			yield return new WaitForSeconds(0.5f);
