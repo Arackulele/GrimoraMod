@@ -4,7 +4,7 @@ public partial class GrimoraPlugin
 {
 	public const string NameIceCube = $"{GUID}_IceCube";
 
-	private void Add_Card_IceCube()
+	private void _Card_IceCube()
 	{
 		CardBuilder.Builder
 		 .SetAsNormalCard()
