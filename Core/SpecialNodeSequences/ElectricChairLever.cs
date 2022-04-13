@@ -25,7 +25,7 @@ public class ElectricChairLever : HighlightedInteractable
 		Ability.Sentry,
 		Ability.Sharp,
 		BoneThief.ability,
-		ColdFront.ability,
+		// ColdFront.ability,
 		LatchSubmerge.ability,
 		LooseLimb.ability,
 		SpiritBearer.ability
@@ -68,6 +68,7 @@ public class ElectricChairLever : HighlightedInteractable
 
 	public static readonly List<Ability> AbilitiesMajorRisk = new(AbilitiesMinorRisk)
 	{
+		Ability.ActivatedHeal,
 		Ability.ActivatedRandomPowerEnergy,
 		Ability.ActivatedStatsUp,
 		Ability.ActivatedStatsUpEnergy,
