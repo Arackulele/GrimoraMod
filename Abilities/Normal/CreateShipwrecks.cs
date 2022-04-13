@@ -10,7 +10,7 @@ public class CreateShipwrecks : CreateCardsAdjacent
 
 	public override string SpawnedCardId => GrimoraPlugin.NameShipwreckDams;
 
-	public override string CannotSpawnDialogue => "Blocked on both sides. No Shipwrecks for the Forgotten Man";
+	public override string CannotSpawnDialogue => "Blocked on both sides. No Shipwrecks for the Forgotten Man.";
 
 }
 
