@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(Ability.CreateDams, Ability.Submerge)
+			.SetAbilities(CreateShipwrecks.ability, Ability.Submerge)
 			.SetBaseAttackAndHealth(1, 2)
 			.SetBoneCost(5)
 			.SetDescription("A waterlogged sailor who wanders the ocean floor and carries his tragic past beside him.")
