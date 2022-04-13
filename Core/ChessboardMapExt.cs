@@ -34,7 +34,7 @@ public class ChessboardMapExt : GameMap
 
 	public ChessboardEnemyPiece BossPiece => ActiveChessboard.BossPiece;
 
-	private bool ChangingRegion { get; set; }
+	public bool ChangingRegion { get; set; }
 
 	public bool BossDefeated { get; protected internal set; }
 	
@@ -210,7 +210,7 @@ public class ChessboardMapExt : GameMap
 		Log.LogInfo($"[CompleteRegionSequence] No longer ChangingRegion");
 	}
 
-	private void ClearBoardForChangingRegion()
+	public void ClearBoardForChangingRegion()
 	{
 		pieces.RemoveAll(
 			delegate(ChessboardPiece piece)
