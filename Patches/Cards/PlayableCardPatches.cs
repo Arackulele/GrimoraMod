@@ -22,8 +22,10 @@ public class PlayableCardPatches
 			= BoardManager.Instance.CardsOnBoard
 			 .Concat(PlayerHand.Instance.CardsInHand)
 			 .ToList();
-		foreach (PlayableCard c in cardsInHandAndBoard)
+		Log.LogDebug($"Attempting to update cards [{cardsInHandAndBoard.Join(c => c.Info.displayedName)}]");
+		foreach (var c in cardsInHandAndBoard.Where(c => c))
 		{
+			Log.LogDebug($"--> Updating card {c.GetNameAndSlot()}");
 			if (c.GetComponent<VariableStatBehaviour>())
 			{
 				c.GetComponent<VariableStatBehaviour>().UpdateStats();
