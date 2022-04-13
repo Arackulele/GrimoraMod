@@ -39,13 +39,20 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 					TextDisplayer.MessageAdvanceMode.Input
 				);
 			}
-			
-			yield return new WaitForSeconds(0.5f);
-			Log.LogInfo($"Player won against Grimora! Resetting run...");
-			ConfigHelper.Instance.ResetRun();
 
-			if (!ConfigHelper.Instance.IsEndlessModeEnabled)
+			yield return new WaitForSeconds(0.5f);
+
+			if (ConfigHelper.Instance.IsEndlessModeEnabled)
 			{
+				Log.LogInfo($"Player won against Grimora! Now to win again, endlessly...");
+				yield return TextDisplayer.Instance.ShowUntilInput("Wonderful! I am pleasantly surprised by your triumph against me!");
+				yield return TextDisplayer.Instance.ShowUntilInput("...You wish to continue? Endlessly? Splendid!");
+				yield return TextDisplayer.Instance.ShowUntilInput("Please, take a card of your choosing.");
+			}
+			else
+			{
+				Log.LogInfo($"Player won against Grimora! Resetting run...");
+				ConfigHelper.Instance.ResetRun();
 				FinaleDeletionWindowManager.instance.mainWindow.gameObject.SetActive(true);
 				yield return ((GrimoraGameFlowManager)GameFlowManager.Instance).EndSceneSequence();
 			}
@@ -64,21 +71,21 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 	public override IEnumerator OpponentUpkeep()
 	{
 		if (!playedDialogueDeathTouch
-		    && BoardManager.Instance.GetSlots(true).Exists(x => x.CardIsNotNullAndHasAbility(Ability.Deathtouch))
-		    && BoardManager.Instance.GetSlots(false).Exists(SlotContainsTwinGiant)
-		   )
+		 && BoardManager.Instance.GetSlots(true).Exists(x => x.CardIsNotNullAndHasAbility(Ability.Deathtouch))
+		 && BoardManager.Instance.GetSlots(false).Exists(SlotContainsTwinGiant)
+		)
 		{
 			yield return new WaitForSeconds(0.5f);
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"DEATH TOUCH WON'T HELP YOU HERE DEAR."
-				+ "\nI MADE THESE GIANTS SPECIAL, IMMUNE TO QUITE A FEW DIFFERENT TRICKS!"
+			+ "\nI MADE THESE GIANTS SPECIAL, IMMUNE TO QUITE A FEW DIFFERENT TRICKS!"
 			);
 			playedDialogueDeathTouch = true;
 		}
 		else if (!playedDialoguePossessive
-		         && BoardManager.Instance.GetSlots(true).Exists(x => x.CardIsNotNullAndHasAbility(Possessive.ability))
-		         && BoardManager.Instance.GetSlots(false).Exists(slot => slot.CardInSlotIs(NameBonelord))
-		        )
+		      && BoardManager.Instance.GetSlots(true).Exists(x => x.CardIsNotNullAndHasAbility(Possessive.ability))
+		      && BoardManager.Instance.GetSlots(false).Exists(slot => slot.CardInSlotIs(NameBonelord))
+		)
 		{
 			yield return new WaitForSeconds(0.5f);
 			yield return TextDisplayer.Instance.ShowUntilInput("THE BONE LORD CANNOT BE POSSESSED!");
@@ -125,7 +132,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 	)
 	{
 		CardSlot remainingGiantSlot = BoardManager.Instance.OpponentSlotsCopy
-			.Find(slot => slot.Card && card.Slot != slot && slot.Card.InfoName() == NameGiant);
+		 .Find(slot => slot.Card && card.Slot != slot && slot.Card.InfoName() == NameGiant);
 		List<CardSlot> opponentQueuedSlots = BoardManager.Instance.GetQueueSlots();
 		if (card.InfoName() == NameGiant)
 		{
@@ -146,7 +153,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 				lastGiant.AddTemporaryMod(modInfo);
 				yield return new WaitForSeconds(0.1f);
 				lastGiant.StatsLayer.SetEmissionColor(GameColors.Instance.red);
-				
+
 				yield return new WaitForSeconds(0.5f);
 			}
 		}
