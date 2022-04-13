@@ -9,9 +9,9 @@ public partial class GrimoraPlugin
 	private void Add_Card_Shipwreck_Dams()
 	{
 		CardBuilder.Builder
-		 .SetBaseAttackAndHealth(0, 2)
-			.SetNames(NameShipwreckDams, "Shipwreck")
-			.SetTraits(Trait.Structure, Trait.Terrain)
-			.Build();
+		 .SetBaseAttackAndHealth(1, 1)
+		 .SetNames(NameShipwreckDams, "Shipwreck")
+		 .SetTraits(Trait.Structure, Trait.Terrain)
+		 .Build();
 	}
 }
