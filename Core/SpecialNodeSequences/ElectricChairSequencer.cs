@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using DiskCardGame;
+using HarmonyLib;
 using Pixelplacement;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -68,12 +69,53 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			GameFlowManager.Instance.TransitionToGameState(GameState.Map);
 		}
 	}
+	
+	public static Dictionary<ElectricChairLever.SigilRisk, float> BuildWithChances(float safeRiskChance, float minorRiskChance, float majorRiskChance)
+	{
+		return new Dictionary<ElectricChairLever.SigilRisk, float>
+		{
+			{ ElectricChairLever.SigilRisk.Safe, safeRiskChance },
+			{ ElectricChairLever.SigilRisk.Minor, minorRiskChance },
+			{ ElectricChairLever.SigilRisk.Major, majorRiskChance }
+		};
+	}
+
+	private readonly Dictionary<int, Dictionary<ElectricChairLever.SigilRisk, float>> ElectricChairBurnRateByType = new()
+	{
+		{ 1, BuildWithChances(0.000f, 0.100f, 0.200f) },
+		{ 2, BuildWithChances(0.125f, 0.175f, 0.300f) },
+		{ 3, BuildWithChances(0.125f, 0.200f, 0.275f) }
+	};
+
+	private float GetInitialChanceToDie()
+	{
+		return ConfigHelper.Instance.ElectricChairBurnRateType switch
+		{
+			1 => 0.3f + ElectricChairBurnRateByType.GetValueSafe(1)[_lever.currentSigilRisk],
+			2 => ElectricChairBurnRateByType.GetValueSafe(2)[_lever.currentSigilRisk],
+			3 => ElectricChairBurnRateByType.GetValueSafe(3)[_lever.currentSigilRisk],
+			_ => 0.5f
+		};
+	}
+	
+	private float AddChanceToDieForSecondZap()
+	{
+		return ConfigHelper.Instance.ElectricChairBurnRateType switch
+		{
+			1 => ElectricChairBurnRateByType.GetValueSafe(1)[_lever.currentSigilRisk],
+			2 => ElectricChairBurnRateByType.GetValueSafe(2)[_lever.currentSigilRisk],
+			3 => ElectricChairBurnRateByType.GetValueSafe(3)[_lever.currentSigilRisk],
+			_ => 0f
+		};
+	}
 
 	private IEnumerator UntilFinishedBuffingOrCardIsDestroyed()
 	{
 		yield return confirmStone.WaitUntilConfirmation();
 		CardInfo destroyedCard = null;
 		bool finishedBuffing = false;
+		float chanceToDie = GetInitialChanceToDie();
+		Log.LogDebug($"[ElectricChair] Initial chance to die is [{chanceToDie}] for second zap");
 		int numBuffsGiven = 0;
 		while (!finishedBuffing && destroyedCard.IsNull())
 		{
@@ -95,6 +137,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 				selectionSlot.transform.position,
 				skipToTime: 0.5f
 			);
+			
 			ApplyModToCard(selectionSlot.Card.Info);
 			selectionSlot.Card.Anim.PlayTransformAnimation();
 			yield return new WaitForSeconds(0.15f);
@@ -150,7 +193,9 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			yield return new WaitForSeconds(0.1f);
 			if (confirmStone.SelectionConfirmed)
 			{
-				if (UnityRandom.value > 0.5f)
+				chanceToDie += AddChanceToDieForSecondZap();
+				Log.LogDebug($"[ElectricChair] Chance to die is now [{chanceToDie}]");
+				if (UnityRandom.value < chanceToDie)
 				{
 					AudioController.Instance.PlaySound3D(
 						"teslacoil_overload",

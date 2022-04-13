@@ -117,6 +117,10 @@ public class ConfigHelper
 		get => _configCurrentRemovedPieces.Value.Split(',').Distinct().ToList();
 		set => _configCurrentRemovedPieces.Value = string.Join(",", value);
 	}
+
+	private ConfigEntry<int> _configElectricChairBurnRateType;
+
+	public int ElectricChairBurnRateType => _configElectricChairBurnRateType.Value;
 	
 	public int BonesToAdd => BossesDefeated;
 
@@ -187,6 +191,16 @@ public class ConfigHelper
 			0,
 			"0 = W for viewing deck, S for getting up from the table."
 			+ "\n1 = Up arrow for viewing deck, down arrow for getting up from the table."
+		);
+
+		_configElectricChairBurnRateType = GrimoraConfigFile.Bind(
+			Name,
+			"Electric Chair Burn Rate",
+			0,
+			"0 = Default. Flat 50% burn rate for each lever option on second shock."
+			+ "\n1 = Base 30% chance to burn plus 0%, 10%, or 20% for low, medium, high, respectively. Meaning, if the first shock is high then the second is high, the chance for the card to be destroyed is 70%."
+			+ "\n2 = Low: 12.5%, Medium: 17.5%, High 30%. Meaning, if the first shock is high, then the second one is also high, the chance for the card to be destroyed is 60%."
+			+ "\n3 = Low: 12.5%, Medium: 20%, High 27.5%. Meaning, if the first shock is high, then the second one is also high, the chance for the card to be destroyed is 55%."
 		);
 
 		var list = _configCurrentRemovedPieces.Value.Split(',').ToList();
