@@ -12,11 +12,17 @@ public class Imbued : AbilityBehaviour
 
 	public override Ability Ability => ability;
 
-	private CardModificationInfo GetImbuedMod(PlayableCard playableCard)
+	private CardModificationInfo _modInfo;
+
+	private void Start()
 	{
-		return playableCard.TemporaryMods.Find(mod => mod.singletonId == ModIdImbued);
+		_modInfo = new CardModificationInfo
+		{
+			singletonId = ModIdImbued
+		};
+		Card.AddTemporaryMod(_modInfo);
 	}
-	
+
 	public override bool RespondsToOtherCardDie(
 		PlayableCard card,
 		CardSlot deathSlot,
@@ -24,7 +30,7 @@ public class Imbued : AbilityBehaviour
 		PlayableCard killer
 	)
 	{
-		return card && !card.OpponentCard && !card.HasAbility(Ability.Brittle);
+		return card && card != Card && !card.OpponentCard && !card.HasAbility(Ability.Brittle);
 	}
 
 	public override IEnumerator OnOtherCardDie(
@@ -34,22 +40,15 @@ public class Imbued : AbilityBehaviour
 		PlayableCard killer
 	)
 	{
-		CardModificationInfo imbuedMod = GetImbuedMod(Card);
-		if (imbuedMod != null)
+		Card.Anim.StrongNegationEffect();
+		if (_modInfo.attackAdjustment == 0)
 		{
-			Card.Anim.StrongNegationEffect();
-			imbuedMod.attackAdjustment += 1;
-			Card.OnStatsChanged();
-		}
-		else
-		{
-			Card.AddTemporaryMod(new CardModificationInfo(1, 0)
-			{
-				singletonId = ModIdImbued
-			});
 			Card.Anim.PlayTransformAnimation();
 			Card.StatsLayer.SetEmissionColor(GrimoraColors.DefaultEmission);
 		}
+		_modInfo.attackAdjustment += 1;
+		Card.OnStatsChanged();
+		
 		yield return new WaitForSeconds(0.25f);
 	}
 }
