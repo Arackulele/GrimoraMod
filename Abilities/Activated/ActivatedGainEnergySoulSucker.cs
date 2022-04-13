@@ -29,10 +29,8 @@ public class ActivatedGainEnergySoulSucker : ActivatedAbilityBehaviour
 		ViewManager.Instance.SwitchToView(View.Default);
 	}
 
-	public override bool RespondsToOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
-	{
-		return fromCombat && killer && !killer.OpponentCard;
-	}
+	public override bool RespondsToOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer) 
+		=> Card.OnBoard && card.OpponentCard;
 
 	public override IEnumerator OnOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
 	{
