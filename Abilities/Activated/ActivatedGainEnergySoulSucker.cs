@@ -16,7 +16,7 @@ public class ActivatedGainEnergySoulSucker : ActivatedAbilityBehaviour
 
 	public int kills = 0;
 
-	public override bool CanActivate() => kills > 0 && !ResourcesManager.Instance.EnergyAtMax;
+	public override bool CanActivate() => kills > 0 && ResourcesManager.Instance.PlayerEnergy < 6;
 
 	public override IEnumerator Activate()
 	{
