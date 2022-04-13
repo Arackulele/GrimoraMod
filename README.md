@@ -70,7 +70,11 @@
 
 #### Electric Chair Rework
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png)
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Electric Chair has been reworked to give a little more control for the player.
+  - There is now a lever to specify the sigil pool that you randomize for. [Here is the full list.](https://github.com/julian-perge/GrimoraMod/blob/main/Abilities/AbilitiesInElectricChair.md)
+    - Safe Risk (lowest point): Sigils that are generally not that powerful, like `Fledgling` or `Spirit Bearer`.
+    - Minor Risk (midway point): More helpful and/or utility sigils like `Bone Digger`, `Stinky`, or `Haunter`.
+    - Major Risk (highest point): The strongest sigils in the pool like `Blood Guzzler`, `Tri-Strike`, `Double Strike`.
 
 #### Bosses
 
