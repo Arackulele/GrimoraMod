@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2016791961
+CRC: 3613928158
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: c7ac2272776e89973645b2151a530cbb
+    Hash: 17b70d44a73680cf4034dd30262ce0dc
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7859cd501ea75098bcf7e53f1b477c26
@@ -36,7 +36,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Abilities/ability_ActivatedGainEnergySoulSucker_1.png
 - Assets/GrimoraMod_Unity/Abilities/ability_GiantStrike.png
 - Assets/GrimoraMod_Unity/Abilities/ability_ChaosStrike.png
-- Assets/GrimoraMod_Unity/Abilities/ability_SkeletonsWithin.png
+- Assets/GrimoraMod_Unity/Abilities/ability_DrawSkeletonOnHit.png
 - Assets/GrimoraMod_Unity/Abilities/ability_CreateArmyOfSkeletons.png
 - Assets/GrimoraMod_Unity/Abilities/ability_LitFuse.png
 - Assets/GrimoraMod_Unity/Abilities/ability_ActivatedEnergyDrawWyvern.png
