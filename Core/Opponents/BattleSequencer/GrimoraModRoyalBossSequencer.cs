@@ -168,7 +168,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		if (destination)
 		{
 			bool destinationSlotCardHasAnchoredOrFlying = destination.Card
-			                                     && (destination.Card.HasAbility(Anchored.ability) || destination.Card.HasAbility(Ability.Flying));
+			                                           && (destination.Card.HasAbility(Anchored.ability) || destination.Card.HasAbility(Ability.Flying));
 			if (destinationSlotCardHasAnchoredOrFlying)
 			{
 				Log.LogInfo($"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} Destination card is not null and has anchored or flying.");
@@ -189,25 +189,29 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 					crawlerSlot.transform.SetParent(destination.transform);
 					crawlerSlot.hidingOnSlot = destination;
 					Tween.LocalPosition(
-						crawlerCard.transform, 
+						crawlerCard.transform,
 						Vector3.up * (BoardManager3D.Instance.SlotHeightOffset + crawlerCard.SlotHeightOffset) + new Vector3(0f, 0f, 0.31f),
 						DurationTableSway + 2,
-						0.05f, 
-						Tween.EaseOut, 
-						Tween.LoopType.None, 
-						null, 
+						0.05f,
+						Tween.EaseOut,
+						Tween.LoopType.None,
+						null,
 						delegate { crawlerCard.Anim.PlayRiffleSound(); }
 					);
 					Tween.Rotation(
-						crawlerCard.transform, 
-						destination.transform.GetChild(0).rotation, 
-						DurationTableSway + 2.5f, 
-						0f, 
+						crawlerCard.transform,
+						destination.transform.GetChild(0).rotation,
+						DurationTableSway + 2.5f,
+						0f,
 						Tween.EaseOut
 					);
 				}
 
-				yield return BoardManager.Instance.AssignCardToSlot(playableCard, destination, DurationTableSway + 2);
+				yield return BoardManager.Instance.AssignCardToSlot(
+					playableCard,
+					destination,
+					DurationTableSway + 2
+				);
 				Tween.LocalRotation(
 					playableCard.transform,
 					new Vector3(90, 0, 0),
@@ -224,7 +228,9 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 						0,
 						Tween.EaseIn
 					);
+					yield return new WaitForSeconds(3f);
 				}
+
 				yield return new WaitForSeconds(0.25f);
 			}
 		}
@@ -233,8 +239,8 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			Log.LogInfo($"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} is about to fucking die me hearty!");
 			Vector3 positionCopy = playableCard.transform.localPosition;
 			float leftOrRightX = movingLeft
-				? positionCopy.x - 6
-				: positionCopy.x + 6;
+				                     ? positionCopy.x - 6
+				                     : positionCopy.x + 6;
 			yield return playableCard.DieCustom(
 				false,
 				royalTableSwayValue: leftOrRightX
