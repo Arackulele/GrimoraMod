@@ -19,6 +19,7 @@ public class Malnourishment : AbilityBehaviour
 		{
 			singletonId = ModSingletonId
 		};
+		Card.AddTemporaryMod(_modInfo);
 	}
 
 	public override bool RespondsToDealDamageDirectly(int amount) => amount > 0;
