@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3853133375
+CRC: 2016791961
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 53120330289a8fb5f8a69ab5b7723e69
+    Hash: c7ac2272776e89973645b2151a530cbb
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7859cd501ea75098bcf7e53f1b477c26
@@ -47,6 +47,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Abilities/ability_LitFuse_Blind.png
 - Assets/GrimoraMod_Unity/Abilities/ability_LatchBrittle.png
 - Assets/GrimoraMod_Unity/Abilities/ability_Possessive.png
+- Assets/GrimoraMod_Unity/Abilities/ability_Malnourishment.png
 - Assets/GrimoraMod_Unity/Abilities/ability_Erratic.png
 - Assets/GrimoraMod_Unity/Abilities/ability_LatchSubmerge.png
 - Assets/GrimoraMod_Unity/Abilities/ability_GainAttackBones.png

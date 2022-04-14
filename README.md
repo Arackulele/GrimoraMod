@@ -38,6 +38,12 @@
 
 ## Update Notes
 
+### 2.8.6
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added `The Starved Man` card from contest winner `~=Lost Soul=~` from Fanscryption!
+  - [Link](https://discord.com/channels/943941747552174120/945282318224982096/960612155344957451) to GrimoraMod discord for more info and descriptions.
+  - The Starved Man: 3/3, 4 Bone Cost with `Shipwreck Finder`;
+
 ### 2.8.5
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Chessboard now correctly resets during endless mode and shouldn't overlap from the previous board anymore.
@@ -138,11 +144,10 @@
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Skin Crawler now buffs and works when it is under a frozen card and that card breaks.
   - <https://discord.com/channels/943941747552174120/943944558079774720/962684896818630657>
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Added `Forgotten Man` and `Vampire` card contest winners from InscryptionIRL!
-  - Waiting on the artist for The Starved Man to respond with the artwork.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added `Forgotten Man` and `Vampire` card contest winners from Fanscryption!
   - [Link](https://discord.com/channels/943941747552174120/945282318224982096/960612155344957451) to GrimoraMod discord for more info and descriptions.
-  - Forgotten Man: 1/2, 5 Bone Cost with `Shipwreck Finder` and `Waterborne`.
-  - Vampire: 3/1, 6 Bone Cost with `Blood Guzzler`.
+  - Forgotten Man: 1/2, 5 Bone Cost with `Shipwreck Finder` and `Waterborne`. `Anne Bean` contest winner!
+  - Vampire: 3/1, 6 Bone Cost with `Blood Guzzler`. `gabe` contest winner!
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Project` nerfed to 7 bones from 5.
 
