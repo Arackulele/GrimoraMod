@@ -27,7 +27,7 @@ public class DebugHelper : ManagedBehaviour
 
 	private static string[] _allGrimoraCustomCardNames;
 
-	private static readonly Rect RectCardListArea = new(Screen.width - 420, 180, 400, Screen.height - DefaultToggleWidth);
+	private static readonly Rect RectCardListArea = new(Screen.width - 420, 140, 400, Screen.height - 150);
 
 	public bool StartAtTwinGiants;
 
