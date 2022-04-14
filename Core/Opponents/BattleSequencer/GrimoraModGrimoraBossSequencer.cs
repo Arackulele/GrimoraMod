@@ -16,11 +16,11 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 	private readonly RandomEx _rng = new();
 
-	private bool hasPlayedArmyDialogue = false;
+	private bool _hasPlayedArmyDialogue = false;
 
-	private bool playedDialogueDeathTouch;
+	private bool _playedDialogueDeathTouch;
 
-	private bool playedDialoguePossessive;
+	private bool _playedDialoguePossessive;
 
 	public override Opponent.Type BossType => GrimoraBossOpponentExt.FullOpponent.Id;
 
@@ -70,8 +70,8 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 	public override IEnumerator OpponentUpkeep()
 	{
-		if (!playedDialogueDeathTouch
-		 && BoardManager.Instance.PlayerSlotsCopy.Exists(x => x.CardIsNotNullAndHasAbility(Ability.Deathtouch))
+		if (!_playedDialogueDeathTouch
+		 && BoardManager.Instance.PlayerSlotsCopy.Exists(slot => slot.Card && slot.Card.HasAbility(Ability.Deathtouch))
 		 && BoardManager.Instance.OpponentSlotsCopy.Exists(SlotContainsTwinGiant)
 		)
 		{
@@ -80,16 +80,16 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 				"DEATH TOUCH WON'T HELP YOU HERE DEAR."
 			+ "\nI MADE THESE GIANTS SPECIAL, IMMUNE TO QUITE A FEW DIFFERENT TRICKS!"
 			);
-			playedDialogueDeathTouch = true;
+			_playedDialogueDeathTouch = true;
 		}
-		else if (!playedDialoguePossessive
-		      && BoardManager.Instance.PlayerSlotsCopy.Exists(x => x.CardIsNotNullAndHasAbility(Possessive.ability))
+		else if (!_playedDialoguePossessive
+		      && BoardManager.Instance.PlayerSlotsCopy.Exists(slot => slot.Card && slot.Card.HasAbility(Possessive.ability))
 		      && BoardManager.Instance.OpponentSlotsCopy.Exists(slot => slot.CardInSlotIs(NameBonelord))
 		)
 		{
 			yield return new WaitForSeconds(0.5f);
 			yield return TextDisplayer.Instance.ShowUntilInput("THE BONE LORD CANNOT BE POSSESSED!");
-			playedDialoguePossessive = true;
+			_playedDialoguePossessive = true;
 		}
 	}
 
@@ -114,11 +114,6 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 	{
 		bool isPhaseOne = !card.OpponentCard && TurnManager.Instance.Opponent.NumLives == 3;
 		bool giantDied = card.Info.HasTrait(Trait.Giant) && card.InfoName() == NameGiant;
-		if (giantDied)
-		{
-			Log.LogDebug($"[GrimoraBoss] Giant died [{card.GetNameAndSlot()}]");
-		}
-
 		return isPhaseOne || giantDied;
 	}
 
