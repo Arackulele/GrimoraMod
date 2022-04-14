@@ -101,6 +101,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			yield return StartCoroutine(DoStrafe(playableCard, boardSwayedLeftLast));
 		}
 
+		yield return new WaitForSeconds(3f);
 		ViewManager.Instance.SetViewUnlocked();
 	}
 
@@ -139,12 +140,8 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		bool toRightIsNotOccupied = SlotHasSpace(playableCard.Slot, false);
 		Log.LogInfo($"[TableSway.DoStrafe] Card {playableCard.GetNameAndSlot()} toLeftIsNotOccupied? [{toLeftIsNotOccupied}] toRightIsNotOccupied [{toRightIsNotOccupied}]");
 
-		CardSlot destination = movingLeft
-			? toLeft
-			: toRight;
-		bool destinationValid = movingLeft
-			? toLeftIsNotOccupied
-			: toRightIsNotOccupied;
+		CardSlot destination = movingLeft ? toLeft : toRight;
+		bool destinationValid = movingLeft ? toLeftIsNotOccupied : toRightIsNotOccupied;
 
 		yield return MoveToSlot(playableCard, destination, destinationValid, movingLeft);
 	}
