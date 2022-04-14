@@ -349,6 +349,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private IEnumerator InitialSetup()
 	{
+		InteractionCursor.Instance.SetEnabled(false);
 		stakeRingParent.SetActive(false);
 		campfireLight.gameObject.SetActive(false);
 		campfireLight.intensity = 0f;
@@ -387,7 +388,6 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		AudioController.Instance.SetLoopAndPlay("campfire_loop", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
 		AudioController.Instance.FadeInLoop(0.5f, 0.75f, 1);
-		InteractionCursor.Instance.SetEnabled(false);
 		yield return new WaitForSeconds(0.25f);
 
 		yield return pile.SpawnCards(GrimoraSaveUtil.DeckList.Count, 0.5f);
