@@ -66,7 +66,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 
 	public override IEnumerator PlayerUpkeep()
 	{
-		if (++boardSwayCounter >= 2)
+		if (boardSwayCounter++ >= 2)
 		{
 			yield return StartBoardSway();
 		}
