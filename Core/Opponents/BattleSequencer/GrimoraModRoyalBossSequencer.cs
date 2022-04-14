@@ -187,6 +187,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 					var crawlerCard = crawlerSlot.skinCrawlerCard;
 					crawlerCard.transform.SetParent(destination.transform);
 					crawlerSlot.transform.SetParent(destination.transform);
+					crawlerSlot.hidingOnSlot = destination;
 					Tween.LocalPosition(
 						crawlerCard.transform, 
 						Vector3.up * (BoardManager3D.Instance.SlotHeightOffset + crawlerCard.SlotHeightOffset) + new Vector3(0f, 0f, 0.31f),
