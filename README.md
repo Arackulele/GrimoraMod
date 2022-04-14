@@ -19,10 +19,6 @@
 
 ## Known Issues
 
-### During Royal's board sway, if a card slides off the table but has Corpse Eater and Undying, the new card will be placed in the same slot as the card that slid off the table
-
-- This is a rather inconvenient one, since Corpse Eater triggers _right_ after Undying finishes but before the other cards start swaying.
-
 ### Haunter sigils can be seen through cards in hand
 
 - Currently investigating, although I'm not quite sure where the issue exactly lies. Tried messing around with the layer ordering and that didn't seem to fix the issue.
@@ -40,9 +36,15 @@
 
 ### 2.8.6
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Added `The Starved Man` card from contest winner `~=Lost Soul=~` from Fanscryption!
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with cards having `Flying` being possessed from `Possessive` and attacking directly instead of the adjacent friendly card.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added `Starved Man` card from contest winner `~=Lost Soul=~` from Fanscryption!
   - [Link](https://discord.com/channels/943941747552174120/945282318224982096/960612155344957451) to GrimoraMod discord for more info and descriptions.
-  - The Starved Man: 3/3, 4 Bone Cost with `Shipwreck Finder`;
+  - Starved Man: 3/3, 4 Bone Cost with `Malnourishment`;
+  - Malnourishment: Each time [creature] deals damage directly, it loses 1 power and health.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Royal's board sway now happens at player upkeep, and not after enemy combat ends.
+  - This is to avoid ugly interactions like a card with `Undying` and `Corpse Eater` falling off the board, being placed back in the hand, then being played on the exact same slot before the other cards start to sway.
 
 ### 2.8.5
 
