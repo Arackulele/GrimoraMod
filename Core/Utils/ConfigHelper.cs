@@ -248,6 +248,7 @@ public class ConfigHelper
 		ResetConfig();
 		ResetDeck();
 		StoryEventsData.EraseEvent(StoryEvent.GrimoraReachedTable);
+		SaveManager.SaveToFile();
 	}
 
 	public static void ResetDeck()
