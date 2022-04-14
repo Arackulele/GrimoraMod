@@ -10,7 +10,7 @@ public static class AssetUtils
 {
 	private static readonly Dictionary<string, string> FileChecksums = new()
 	{
-		{ "grimoramod_abilities", "26ADC08904EFF8B0024F08030AE2314B9900C5FE351917F2CD12D0FFE7B93B60" },
+		{ "grimoramod_abilities", "A9FCA994A5E65157281BDB4F35E6E5CCD26D72F890E2E4B07A287810B57D4148" },
 		{ "grimoramod_controller", "74BC4A80C0FA64CF5EF3F578DCB49625DBA54079785C210E7B2DC79B87C86FC5" },
 		{ "grimoramod_mats", "939AD534C55F4150F586CE706345E19E80ABA39EC1D4298A61192220B3B1790F" },
 		{ "grimoramod_prefabs", "683DB17E991683778343B38474207BED2507F3276E494E69623421C288F51254" },
@@ -18,10 +18,26 @@ public static class AssetUtils
 		{ "grimoramod_sprites", "CB845554E1ADB811452B3BE999E3B93E9F9D46B9A441EA709EC330C97D3FFC67" },
 	};
 
+	private static string ValidateFile(string assetBundleFile)
+	{
+		string fileToRead = FileUtils.FindFileInPluginDir(assetBundleFile);
+		using var sha256 = SHA256.Create();
+		using var stream = File.OpenRead(fileToRead);
+		byte[] checksum = sha256.ComputeHash(stream);
+		var sha265Checksum = BitConverter.ToString(checksum).Replace("-", string.Empty);
+		if (FileChecksums.TryGetValue(Path.GetFileName(fileToRead), out string correctChecksum) && correctChecksum != sha265Checksum)
+		{
+			Log.LogError($"[AssetUtils] File [{Path.GetFileName(fileToRead)}] checksum [{sha265Checksum}] does not match the correct one [{correctChecksum}]");
+		}
+
+		return fileToRead;
+	}
+
 	public static List<T> LoadAssetBundle<T>(string assetBundleFile) where T : UnityEngine.Object
 	{
 		Stopwatch stopwatch = Stopwatch.StartNew();
-		AssetBundle assetBundle = AssetBundle.LoadFromFile(FileUtils.FindFileInPluginDir(assetBundleFile));
+		string fileToRead = ValidateFile(assetBundleFile);
+		AssetBundle assetBundle = AssetBundle.LoadFromFile(fileToRead);
 		var loadedBundle = assetBundle.LoadAllAssets<T>();
 		// GrimoraPlugin.Log.LogDebug($"Bundle [{assetBundle}] - {string.Join(",", loadedBundle.Select(_ => _.name))}");
 		assetBundle.Unload(false);
@@ -35,18 +51,7 @@ public static class AssetUtils
 		Stopwatch stopwatch = Stopwatch.StartNew();
 
 		Type type = typeof(T);
-		string fileToRead = FileUtils.FindFileInPluginDir(assetBundleFile);
-		using (var sha256 = SHA256.Create())
-		using (var stream = File.OpenRead(fileToRead))
-		{
-			byte[] checksum = sha256.ComputeHash(stream);
-			var sha265Checksum = BitConverter.ToString(checksum).Replace("-", string.Empty);
-			if (FileChecksums.TryGetValue(Path.GetFileName(fileToRead), out string correctChecksum) && correctChecksum != sha265Checksum)
-			{
-				Log.LogError($"[AssetUtils] File [{Path.GetFileName(fileToRead)}] checksum [{sha265Checksum}] does not match the correct one [{correctChecksum}]");
-			}
-		}
-
+		string fileToRead = ValidateFile(assetBundleFile);
 		var bundleLoadRequest = AssetBundle.LoadFromFileAsync(fileToRead);
 		yield return bundleLoadRequest;
 		var bundle = bundleLoadRequest.assetBundle;
