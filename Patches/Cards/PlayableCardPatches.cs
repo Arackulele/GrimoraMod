@@ -72,6 +72,15 @@ public class PlayableCardPatches
 		}
 	}
 
+	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.CanAttackDirectly))]
+	public static void PossessiveCanAttackDirectlyPatch(PlayableCard __instance, CardSlot opposingSlot, ref bool __result)
+	{
+		Log.LogDebug($"[Possessive.CanAttackDirectly] Result before [{__result}]");
+		bool oppositeSlotHasPossessive = __instance.Slot.opposingSlot.CardIsNotNullAndHasAbility(Possessive.ability);
+		__result &= !oppositeSlotHasPossessive;
+		Log.LogDebug($"[Possessive.CanAttackDirectly] Result after [{__result}]");
+	}
+
 	[HarmonyPrefix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetPassiveAttackBuffs))]
 	public static bool CorrectBuffsAndDebuffsForGrimoraGiants(PlayableCard __instance, ref int __result)
 	{
