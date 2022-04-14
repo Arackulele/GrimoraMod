@@ -131,31 +131,11 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		PlayableCard killer
 	)
 	{
-		CardSlot remainingGiantSlot = BoardManager.Instance.OpponentSlotsCopy
-		 .Find(slot => slot.Card && card.Slot != slot && slot.Card.InfoName() == NameGiant);
+
 		List<CardSlot> opponentQueuedSlots = BoardManager.Instance.GetQueueSlots();
 		if (card.InfoName() == NameGiant)
 		{
-			if (remainingGiantSlot)
-			{
-				ViewManager.Instance.SwitchToView(View.OpponentQueue);
-				PlayableCard lastGiant = remainingGiantSlot.Card;
-				yield return TextDisplayer.Instance.ShowUntilInput(
-					$"Oh dear, you've made {lastGiant.Info.displayedName.Red()} quite angry."
-				);
-				CardModificationInfo modInfo = new CardModificationInfo
-				{
-					abilities = new List<Ability> { GiantStrikeEnraged.ability },
-					attackAdjustment = 1,
-					negateAbilities = new List<Ability> { GiantStrike.ability }
-				};
-				lastGiant.Anim.PlayTransformAnimation();
-				lastGiant.AddTemporaryMod(modInfo);
-				yield return new WaitForSeconds(0.1f);
-				lastGiant.StatsLayer.SetEmissionColor(GameColors.Instance.red);
-
-				yield return new WaitForSeconds(0.5f);
-			}
+			yield return EnrageLastTwinGiant(card);
 		}
 		else if (opponentQueuedSlots.IsNotEmpty() && _willReanimateCardThatDied)
 		{
@@ -171,5 +151,32 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 			yield return new WaitForSeconds(0.5f);
 		}
 		else { _willReanimateCardThatDied = true; }
+	}
+
+	private IEnumerator EnrageLastTwinGiant(PlayableCard playableCard)
+	{
+		CardSlot remainingGiantSlot = BoardManager.Instance.OpponentSlotsCopy
+		 .Find(slot => slot.Card && playableCard.Slot != slot && slot.Card.InfoName() == NameGiant);
+		
+		if (remainingGiantSlot)
+		{
+			ViewManager.Instance.SwitchToView(View.OpponentQueue);
+			PlayableCard lastGiant = remainingGiantSlot.Card;
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				$"Oh dear, you've made {lastGiant.Info.displayedName.Red()} quite angry."
+			);
+			CardModificationInfo modInfo = new CardModificationInfo
+			{
+				abilities = new List<Ability> { GiantStrikeEnraged.ability },
+				attackAdjustment = 1,
+				negateAbilities = new List<Ability> { GiantStrike.ability }
+			};
+			lastGiant.Anim.PlayTransformAnimation();
+			lastGiant.AddTemporaryMod(modInfo);
+			yield return new WaitForSeconds(0.1f);
+			lastGiant.StatsLayer.SetEmissionColor(GameColors.Instance.red);
+
+			yield return new WaitForSeconds(0.5f);
+		}
 	}
 }
