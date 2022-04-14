@@ -18,20 +18,23 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 
 	private readonly RandomEx _rng = new();
 
-	private GameObject GameTable => GameObject.Find("GameTable");
+	private Animator _gameTableAnimator;
 
 	public const float DurationTableSway = 3.5f;
 
 	public int boardSwayCounter = 0;
-	public bool boardSwayedLeftLast = false;
+	public bool boardSwayedLeftLast;
 
 	public override Opponent.Type BossType => RoyalBossOpponentExt.FullOpponent.Id;
 
+	private void Start()
+	{
+		_gameTableAnimator = GameObject.Find("GameTable").GetComponent<Animator>();
+	}
+
 	private void PlayTableSway()
 	{
-		GameTable
-			.GetComponent<Animator>()
-			.Play(!boardSwayedLeftLast ? "sway_left" : "sway_right", 0, 0f);
+		_gameTableAnimator.Play(!boardSwayedLeftLast ? "sway_left" : "sway_right", 0, 0f);
 
 		boardSwayedLeftLast = !boardSwayedLeftLast;
 	}
@@ -46,6 +49,30 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		playerCard.AddTemporaryMod(new CardModificationInfo(LitFuse.ability));
 	}
 
+	public override IEnumerator OpponentCombatEnd()
+	{
+		var activePlayerCards =
+			BoardManager.Instance.GetPlayerCards(pCard => !pCard.FaceDown && pCard.InfoName() != NamePirateSwashbuckler);
+		if (activePlayerCards.IsNullOrEmpty())
+		{
+			yield break;
+		}
+
+		if (_rng.NextBoolean() && _rng.NextBoolean())
+		{
+			yield return ApplyLitFuseToPlayerCard(activePlayerCards.GetRandomItem());
+		}
+	}
+
+	public override IEnumerator PlayerUpkeep()
+	{
+		if (++boardSwayCounter >= 2)
+		{
+			yield return StartBoardSway();
+		}
+		yield return base.PlayerUpkeep();
+	}
+
 	private IEnumerator StartBoardSway()
 	{
 		boardSwayCounter = 0;
@@ -57,9 +84,9 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		PlayTableSway();
 
 		var allCardsOnBoard = BoardManager.Instance.AllSlotsCopy
-			.Where(slot => slot.Card && slot.Card && !slot.Card.HasAbility(Anchored.ability) && !slot.Card.HasAbility(Ability.Flying))
-			.Select(slot => slot.Card)
-			.ToList();
+		 .Where(slot => slot.Card && !slot.Card.HasAbility(Anchored.ability) && !slot.Card.HasAbility(Ability.Flying))
+		 .Select(slot => slot.Card)
+		 .ToList();
 
 		if (!boardSwayedLeftLast)
 		{
@@ -75,26 +102,6 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		}
 
 		ViewManager.Instance.SetViewUnlocked();
-	}
-
-	public override IEnumerator OpponentCombatEnd()
-	{
-		var activePlayerCards =
-			BoardManager.Instance.GetPlayerCards(pCard => !pCard.FaceDown && pCard.InfoName() != NamePirateSwashbuckler);
-		if (activePlayerCards.IsNullOrEmpty())
-		{
-			yield break;
-		}
-
-		if (_rng.NextBoolean() && _rng.NextBoolean())
-		{
-			yield return ApplyLitFuseToPlayerCard(activePlayerCards[UnityRandom.Range(0, activePlayerCards.Count)]);
-		}
-
-		if (++boardSwayCounter >= 2)
-		{
-			yield return StartBoardSway();
-		}
 	}
 
 	private bool SlotHasSpace(CardSlot slot, bool toLeft)
