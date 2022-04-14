@@ -53,6 +53,8 @@ public class DebugHelper : ManagedBehaviour
 
 	private bool _toggleDebugCustomCardsHand;
 
+	private bool _togglePlayerHandModel;
+
 	private const int DebugToolsHeight = 20;
 
 	private bool _toggleDebugTools;
@@ -150,6 +152,8 @@ public class DebugHelper : ManagedBehaviour
 				((BoardManager3D)BoardManager.Instance).Bell.gameObject.SetActive(!_toggleCombatBell);
 
 				GrimoraItemsManagerExt.Instance.hammerSlot.gameObject.SetActive(!_toggleHammer);
+
+				((PlayerHand3D)PlayerHand.Instance).anim.transform.Find("HandModel_Male").gameObject.SetActive(!_togglePlayerHandModel);
 			}
 		}
 
@@ -245,15 +249,21 @@ public class DebugHelper : ManagedBehaviour
 	private void SetupInBattleHelpers()
 	{
 		_toggleCombatBell = GUI.Toggle(
-			new Rect(Screen.width - 600, 30, DefaultToggleWidth, 15),
+			new Rect(Screen.width - 600, 30, DefaultToggleWidth, DefaultToggleHeight),
 			_toggleCombatBell,
 			"Disable Combat Bell"
 		);
 
 		_toggleHammer = GUI.Toggle(
-			new Rect(Screen.width - 600, 45, DefaultToggleWidth, 15),
+			new Rect(Screen.width - 600, 50, DefaultToggleWidth, DefaultToggleHeight),
 			_toggleHammer,
 			"Disable Hammer"
+		);
+		
+		_togglePlayerHandModel = GUI.Toggle(
+			new Rect(Screen.width - 600, 70, DefaultToggleWidth, DefaultToggleHeight),
+			_togglePlayerHandModel,
+			"Disable Hand Model"
 		);
 
 		_toggleDebugBaseModCardsHand = GUI.Toggle(
