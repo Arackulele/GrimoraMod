@@ -13,7 +13,6 @@ public class ElectricChairLever : HighlightedInteractable
 
 	public static readonly List<Ability> AbilitiesSaferRisk = new()
 	{
-		Ability.BeesOnHit,
 		Ability.DeathShield,
 		Ability.DrawRabbits,
 		Ability.DrawRandomCardOnDeath,
@@ -25,6 +24,7 @@ public class ElectricChairLever : HighlightedInteractable
 		Ability.Sentry,
 		Ability.Sharp,
 		BoneThief.ability,
+		DrawSkeletonOnHit.ability,
 		// ColdFront.ability,
 		LatchSubmerge.ability,
 		LooseLimb.ability,

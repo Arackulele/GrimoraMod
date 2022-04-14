@@ -1,7 +1,6 @@
 # Safe Risk
 
 ```c#
-Ability.BeesOnHit
 Ability.DeathShield
 Ability.DrawRabbits
 Ability.DrawRandomCardOnDeath
@@ -12,7 +11,8 @@ Ability.OpponentBones
 Ability.QuadrupleBones
 Ability.Sentry
 Ability.Sharp
-Bone Thief
+Bone Thief,
+Draw Skeleton On Hit (Skeletons Within)
 // ColdFront
 Latch Submerge
 Loose Limb
@@ -43,9 +43,9 @@ Ability.SkeletonStrafe
 Ability.Sniper
 Ability.SplitStrike
 Ability.Tutor
-ActivatedDrawSkeletonGrimora (Disinter)
-ActivatedEnergyDrawWyvern (Screeching Call)
-ActivatedGainEnergySoulSucker (Soul Sucker)
+Activated Draw Skeleton Grimora (Disinter)
+Activated Energy Draw Wyvern (Screeching Call)
+Activated Gain Energy Soul Sucker (Soul Sucker)
 Area Of Effect Strike
 Buff Crew Mates (Sea Shanty)
 Chaos Strike
@@ -88,7 +88,7 @@ Flame Strafe
 Fylgja_GuardDog (Warding Presence)
 Inverted Strike
 Malnourishment
-MarchingDead
+Marching Dead
 Possessive
 Puppeteer
 ```
