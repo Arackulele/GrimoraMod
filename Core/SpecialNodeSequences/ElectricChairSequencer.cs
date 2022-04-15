@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using DiskCardGame;
+using HarmonyLib;
 using Pixelplacement;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -24,10 +25,12 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	};
 
 	private ElectricChairLever _lever;
+	private int _burnRateTypeInt = 0;
 
 	private void Start()
 	{
 		_lever = figurines[0].transform.Find("Lever").gameObject.AddComponent<ElectricChairLever>();
+		_burnRateTypeInt = ConfigHelper.Instance.ElectricChairBurnRateType;
 	}
 
 	public IEnumerator StartSequence()
@@ -46,17 +49,13 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		}
 		else
 		{
-			if (!ProgressionData.LearnedMechanic(GrimoraEnums.Mechanics.ElectricChar))
+			if (!ConfigHelper.HasLearnedMechanicElectricChair)
 			{
 				yield return TextDisplayer.Instance.ShowUntilInput("OH! I LOVE THIS ONE!");
-				yield return TextDisplayer.Instance.ShowUntilInput(
-					$"YOU STRAP ONE OF YOUR CARDS TO THE CHAIR, {"EMPOWERING".Blue()} IT!"
-				);
-				yield return TextDisplayer.Instance.ShowUntilInput(
-					"OF COURSE, IT DOESN'T HURT.\nYOU CAN'T DIE TWICE AFTER ALL."
-				);
+				yield return TextDisplayer.Instance.ShowUntilInput($"YOU STRAP ONE OF YOUR CARDS TO THE CHAIR, {"EMPOWERING".Blue()} IT!");
+				yield return TextDisplayer.Instance.ShowUntilInput("OF COURSE, IT DOESN'T HURT.\nYOU CAN'T DIE TWICE AFTER ALL.");
 
-				ProgressionData.SetMechanicLearned(GrimoraEnums.Mechanics.ElectricChar);
+				ConfigHelper.HasLearnedMechanicElectricChair = true;
 			}
 
 			yield return UntilFinishedBuffingOrCardIsDestroyed();
@@ -68,12 +67,49 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			GameFlowManager.Instance.TransitionToGameState(GameState.Map);
 		}
 	}
+	
+	public static Dictionary<ElectricChairLever.SigilRisk, float> BuildWithChances(float safeRiskChance, float minorRiskChance, float majorRiskChance)
+	{
+		return new Dictionary<ElectricChairLever.SigilRisk, float>
+		{
+			{ ElectricChairLever.SigilRisk.Safe, safeRiskChance },
+			{ ElectricChairLever.SigilRisk.Minor, minorRiskChance },
+			{ ElectricChairLever.SigilRisk.Major, majorRiskChance }
+		};
+	}
+
+	private readonly Dictionary<int, Dictionary<ElectricChairLever.SigilRisk, float>> ElectricChairBurnRateByType = new()
+	{
+		{ 0, BuildWithChances(0.000f, 0.000f, 0.000f) },
+		{ 1, BuildWithChances(0.000f, 0.100f, 0.200f) },
+		{ 2, BuildWithChances(0.125f, 0.175f, 0.300f) },
+		{ 3, BuildWithChances(0.125f, 0.200f, 0.275f) }
+	};
+
+	private float GetInitialChanceToDie()
+	{
+		if (_burnRateTypeInt == 0)
+		{
+			return 0.5f;
+		}
+		
+		float chance = _burnRateTypeInt == 1 ? 0.3f : 0f;
+		chance += ElectricChairBurnRateByType.GetValueSafe(_burnRateTypeInt)[_lever.currentSigilRisk];
+		return chance;
+	}
+	
+	private float AddChanceToDieForSecondZap()
+	{
+		return ElectricChairBurnRateByType.GetValueSafe(_burnRateTypeInt)[_lever.currentSigilRisk];
+	}
 
 	private IEnumerator UntilFinishedBuffingOrCardIsDestroyed()
 	{
 		yield return confirmStone.WaitUntilConfirmation();
 		CardInfo destroyedCard = null;
 		bool finishedBuffing = false;
+		float chanceToDie = GetInitialChanceToDie();
+		Log.LogDebug($"[ElectricChair] Initial chance to die is [{chanceToDie}] for second zap");
 		int numBuffsGiven = 0;
 		while (!finishedBuffing && destroyedCard.IsNull())
 		{
@@ -95,6 +131,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 				selectionSlot.transform.position,
 				skipToTime: 0.5f
 			);
+			
 			ApplyModToCard(selectionSlot.Card.Info);
 			selectionSlot.Card.Anim.PlayTransformAnimation();
 			yield return new WaitForSeconds(0.15f);
@@ -150,7 +187,9 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			yield return new WaitForSeconds(0.1f);
 			if (confirmStone.SelectionConfirmed)
 			{
-				if (UnityRandom.value > 0.5f)
+				chanceToDie += AddChanceToDieForSecondZap();
+				Log.LogDebug($"[ElectricChair] Chance to die is now [{chanceToDie}]");
+				if (UnityRandom.value < chanceToDie)
 				{
 					AudioController.Instance.PlaySound3D(
 						"teslacoil_overload",
@@ -310,6 +349,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private IEnumerator InitialSetup()
 	{
+		InteractionCursor.Instance.SetEnabled(false);
 		stakeRingParent.SetActive(false);
 		campfireLight.gameObject.SetActive(false);
 		campfireLight.intensity = 0f;
@@ -348,7 +388,6 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		AudioController.Instance.SetLoopAndPlay("campfire_loop", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
 		AudioController.Instance.FadeInLoop(0.5f, 0.75f, 1);
-		InteractionCursor.Instance.SetEnabled(false);
 		yield return new WaitForSeconds(0.25f);
 
 		yield return pile.SpawnCards(GrimoraSaveUtil.DeckList.Count, 0.5f);

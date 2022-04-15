@@ -26,19 +26,39 @@ public class CardSingleChoicesSequencerPatches
 		if (SaveManager.saveFile.IsGrimora)
 		{
 			CardChoicesNodeData choicesData = nodeData as CardChoicesNodeData;
-			if (StoryEventsData.EventCompleted(StoryEvent.CloverFound) && __state.rerollInteractable)
+			if (StoryEventsData.EventCompleted(StoryEvent.CloverFound) && __state.rerollInteractable != null)
 			{
-				__state.rerollInteractable.gameObject.SetActive(true);
-				__state.rerollInteractable.SetEnabled(false);
-				CustomCoroutine.WaitThenExecute(1f, delegate { __state.rerollInteractable.SetEnabled(true); });
+				if (!AscensionSaveData.Data.ChallengeIsActive(AscensionChallenge.NoClover))
+				{
+					__state.rerollInteractable.gameObject.SetActive(true);
+					__state.rerollInteractable.SetEnabled(false);
+					CustomCoroutine.WaitThenExecute(1f, delegate
+					{
+						__state.rerollInteractable.SetEnabled(true);
+					});
+				}
+				ChallengeActivationUI.TryShowActivation(AscensionChallenge.NoClover);
+				if (AscensionSaveData.Data.ChallengeIsActive(AscensionChallenge.NoClover) && !DialogueEventsData.EventIsPlayed("ChallengeNoClover"))
+				{
+					yield return new WaitForSeconds(1f);
+					yield return TextDisplayer.Instance.PlayDialogueEvent("ChallengeNoClover", TextDisplayer.MessageAdvanceMode.Input);
+				}
 			}
 
 			__state.chosenReward = null;
 			int randomSeed = SaveManager.SaveFile.GetCurrentRandomSeed();
 			while (__state.chosenReward.IsNull())
 			{
-				var choices = __state.choiceGenerator.GenerateChoices(choicesData, randomSeed);
-				randomSeed *= 2;
+				List<CardChoice> choices;
+				if (choicesData.overrideChoices != null)
+				{
+					choices = choicesData.overrideChoices;
+				}
+				else
+				{
+					choices = __state.choiceGenerator.GenerateChoices(choicesData, randomSeed);
+					randomSeed *= 2;
+				}
 
 				float x = (float)((choices.Count - 1) * 0.5 * -1.5);
 				__state.selectableCards = __state.SpawnCards(

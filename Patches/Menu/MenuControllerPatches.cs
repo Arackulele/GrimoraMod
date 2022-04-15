@@ -123,6 +123,11 @@ public class MenuControllerPatches
 
 public static class TransitionExt
 {
+	public static IEnumerator TransitionToGame2(bool resetRun = false)
+	{
+		yield return TransitionToGame2(MenuController.Instance, resetRun);
+	}
+
 	public static IEnumerator TransitionToGame2(this MenuController controller, bool resetRun = false)
 	{
 		Log.LogDebug($"[TransitionToGame2] TransitioningToScene = true");

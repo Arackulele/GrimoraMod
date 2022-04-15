@@ -73,15 +73,16 @@ public class KayceeBossOpponent : BaseBossExt
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Draugr, bp_IceCube },
+			new() { bp_Draugr },
 			new() { bp_Draugr, bp_Draugr },
 			new() { bp_Glacier },
 			new(),
 			new() { bp_Skeleton, bp_Revenant, bp_Draugr },
 			new(),
 			new(),
-			new() { bp_Draugr, bp_Skeleton, bp_Draugr, bp_Glacier },
+			new() { bp_Draugr, bp_Skeleton, bp_Draugr },
 			new() { bp_Skeleton, bp_Skeleton, },
+			new() { bp_Glacier },
 			new() { bp_Skeleton },
 			new() { bp_Glacier },
 			new() { bp_Skeleton },

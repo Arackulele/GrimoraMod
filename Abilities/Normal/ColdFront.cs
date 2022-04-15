@@ -6,6 +6,8 @@ namespace GrimoraMod;
 
 public class ColdFront : AbilityBehaviour
 {
+	private static bool _playedDialogueGrimoraGiantFrozen;
+	
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -17,10 +19,23 @@ public class ColdFront : AbilityBehaviour
 		PlayableCard opposingSlotCard = Card.Slot.opposingSlot.Card;
 		if (opposingSlotCard)
 		{
-			var frozenAway = GrimoraModKayceeBossSequencer.CreateModForFreeze(opposingSlotCard);
-			opposingSlotCard.RemoveAbilityFromThisCard(frozenAway);
-			opposingSlotCard.Anim.PlayTransformAnimation();
-			yield return new WaitForSeconds(0.25f);
+			if (opposingSlotCard.Info.SpecialAbilities.Contains(GrimoraGiant.FullSpecial.Id))
+			{
+				if (!_playedDialogueGrimoraGiantFrozen)
+				{
+					yield return new WaitForSeconds(0.25f);
+					yield return TextDisplayer.Instance.ShowUntilInput($"THE BITTER CHILL MIGHT HURT, BUT IT WON'T SLOW DOWN {opposingSlotCard.Info.DisplayedNameLocalized}!");
+					_playedDialogueGrimoraGiantFrozen = true;
+				}
+				yield return opposingSlotCard.TakeDamage(4, Card);
+			}
+			else
+			{
+				var frozenAway = GrimoraModKayceeBossSequencer.CreateModForFreeze(opposingSlotCard);
+				opposingSlotCard.RemoveAbilityFromThisCard(frozenAway);
+				opposingSlotCard.Anim.PlayTransformAnimation();
+				yield return new WaitForSeconds(0.25f);
+			}
 		}
 	}
 }

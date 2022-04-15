@@ -7,22 +7,22 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(AbilitiesUtil))]
 public class AbilitiesUtilPatches
 {
+	private static readonly Dictionary<string, Texture> UpdatedLatchIcons = new()
+	{
+		{ Ability.LatchBrittle.ToString(), AssetUtils.GetPrefab<Texture>("ability_LatchBrittle") },
+		{ Ability.LatchDeathShield.ToString(), AssetUtils.GetPrefab<Texture>("ability_LatchShield") },
+		{ Ability.LatchExplodeOnDeath.ToString(), AssetUtils.GetPrefab<Texture>("ability_LatchBomb") },
+	};
+
 	[HarmonyPrefix, HarmonyPatch(nameof(AbilitiesUtil.LoadAbilityIcon))]
 	public static bool ChangeStupidNegativeYScalingLogWarning(ref Texture __result, string abilityName, bool fillerAbility = false, bool scratched = false)
 	{
-		if (GrimoraSaveUtil.isNotGrimora || abilityName != Ability.LatchBrittle.ToString() && abilityName != Ability.LatchDeathShield.ToString())
+		if (GrimoraSaveUtil.isNotGrimora || !UpdatedLatchIcons.ContainsKey(abilityName))
 		{
 			return true;
 		}
 
-		if (abilityName == Ability.LatchBrittle.ToString())
-		{
-			__result = AssetUtils.GetPrefab<Texture>("ability_LatchBrittle");
-		}
-		else if (abilityName == Ability.LatchDeathShield.ToString())
-		{
-			__result = AssetUtils.GetPrefab<Texture>("ability_LatchShield");
-		}
+		__result = UpdatedLatchIcons.GetValueSafe(abilityName);
 		return false;
 	}
 }

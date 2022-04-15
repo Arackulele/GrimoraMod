@@ -23,10 +23,6 @@
 
 - Currently investigating, although I'm not quite sure where the issue exactly lies. Tried messing around with the layer ordering and that didn't seem to fix the issue.
 
-### Activated abilities no longer work
-
-- The primary cause of this is whenever another ability gets added to the card. The bug lies in the `Activated Ability Fix` mod, but I'm not sure where.
-
 ### A card with Area of Effect Strike, Tri Strike, and Sniper sigils only allows 3 attacks
 
 - Believe it or not, this is how the vanilla game code for the `Sniper` ability is handled. It doesn't base it off how many attacks you're doing, it hard codes to either 2 for `Split Strike` or 3 for `Tri Strike`.
@@ -38,7 +34,21 @@
 
 ## Update Notes
 
+### 2.8.6
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with cards having `Flying` being possessed from `Possessive` and attacking directly instead of the adjacent friendly card.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added `Starved Man` card from contest winner `~=Lost Soul=~` from Fanscryption!
+  - [Link](https://discord.com/channels/943941747552174120/945282318224982096/960612155344957451) to GrimoraMod discord for more info and descriptions.
+  - Starved Man: 3/3, 4 Bone Cost with `Malnourishment`;
+  - Malnourishment: Each time [creature] deals damage directly, it loses 1 power and health.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Royal's board sway now happens at player upkeep, and not after enemy combat ends.
+  - This is to avoid ugly interactions like a card with `Undying` and `Corpse Eater` falling off the board, being placed back in the hand, then being played on the exact same slot before the other cards start to sway.
+
 ### 2.8.5
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Chessboard now correctly resets during endless mode and shouldn't overlap from the previous board anymore.
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed audio continuing to play after dying during a boss battle.
 
@@ -48,6 +58,19 @@
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed haunted slot sigils not disappearing after combat ends.
 
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Cursor interaction is now disabled until the chessboard finishes unrolling to avoid spam clicking and the player chess piece being able to traverse across the board.
+  - <https://discord.com/channels/943941747552174120/943944558079774720/962000959972728902>
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed visual issue with skeleton arms not disappearing after playing attack animation.
+  - <https://discord.com/channels/943941747552174120/943944558079774720/962692354278580254>
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) A list of abilities will no longer appear in the rulebook.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Adjusted combat bell click radius to interfere less with the bone tokens. See screenshot for new clickable area for the bell, roughly.
+  - ![NewBellRadius](https://media.discordapp.net/attachments/944826743259287582/963410428774461510/unknown.png?width=518&height=380)
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Added checksum file validation to log an error if the asset bundles are missing bytes of data from a bad download.
+
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) More changes to how custom encounters are read. Please see updated readme: [Creating Custom Encounters](https://github.com/julian-perge/GrimoraMod/blob/main/Creating_Custom_Encounters.md)
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Removed playing dialogue for hammer entirely after the first time it is played. Similar to how other mechanic dialogues are only played once.
@@ -55,20 +78,54 @@
 
 #### Electric Chair Rework
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png)
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Electric Chair has been reworked to give a little more control for the player.
+  - There is now a lever to specify the sigil pool that you randomize for. [Here is the full list.](https://github.com/julian-perge/GrimoraMod/blob/main/Abilities/AbilitiesInElectricChair.md)
+    - Safe Risk (lowest point): Sigils that are generally not that powerful, like `Fledgling` or `Spirit Bearer`.
+    - Minor Risk (midway point): More helpful and/or utility sigils like `Bone Digger`, `Stinky`, or `Haunter`.
+    - Major Risk (highest point): The strongest sigils in the pool like `Blood Guzzler`, `Tri-Strike`, `Double Strike`.
 
 #### Bosses
 
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed audio not stopping after losing during a boss battle.
+
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Kaycee, Sawyer, Royal new phase blueprints slightly tweaked to include new cards.
+
+##### Royal
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) `Skin Crawler` cards now move with Royal's board sway.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Queued cards now correctly sway with the board during Royal's fight.
+  - <https://discord.com/channels/943941747552174120/943944558079774720/962310936956395540>
+
+##### Grimora
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) When the player wins against Grimora now and endless mode is not enabled, the original handshake sequence is played.
+  - <https://discord.com/channels/943941747552174120/943944558079774720/962038275596509246>
 
 #### Ability Changes
 
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Soul Sucker` not activating if the player has reached max energy but current energy is less than 6.
+  - Also adjusted logic for `RespondsToOtherCardDie` method.
+
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed cards with `Strafe` sigils flipping portraits when they shouldn't have.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed haunted slot sigils not disappearing after combat ends.
+  - There is still a visual issue with the sigils appearing through the cards in your hand.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed cards with Bone King giving 5 bones.
+  - <https://discord.com/channels/943941747552174120/943944558079774720/962022433144061993>
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added `Blood Guzzler` and `Shipwreck Finder`.
+  - Blood Guzzler: When [creature] deals damage, it gains 1 health for each damage dealt.
+  - Shipwreck Finder: Rethemed `Dam Builder`. When [creature] is played, a Shipwreck is created on each empty adjacent space.
+    - Shipwreck: 1/1
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) `Handy` and `Looter` sigil have been tweaked to better indicate that cards are being drawn when the sigils activate.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Added patch to change the default tail for `Loose Limb` sigil.
   - This also fixes the card's loose limb having `Loose Limb` when spawning.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Haunter` sigil cannot be obtained in the Electric Chair if the card doesn't have any sigils to start.
 
 #### Card Changes
 
@@ -76,12 +133,29 @@
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with `Puppeteer` sigil not adding back `Brittle` to cards.
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Chime` card not showing sigils from host.
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Chime`, `Rabbit`, and other cards that are drawn from sigils not showing sigils from host.
   - Art for `Chime` shrunk so it doesn't overlap sigils.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) `Ghost Ship` art now correctly flips when strafing.
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Corrected alignment for Wyvern emission.
 
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Added patch for setting the default lost tail for `Loose Limb` sigil.
+  - This also fixes limbs that spawn having the `Loose Limb` sigil when they shouldn't.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Skin Crawler now buffs and works when it is under a frozen card and that card breaks.
+  - <https://discord.com/channels/943941747552174120/943944558079774720/962684896818630657>
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added `Forgotten Man` and `Vampire` card contest winners from Fanscryption!
+  - [Link](https://discord.com/channels/943941747552174120/945282318224982096/960612155344957451) to GrimoraMod discord for more info and descriptions.
+  - Forgotten Man: 1/2, 5 Bone Cost with `Shipwreck Finder` and `Waterborne`. `Anne Bean` contest winner!
+  - Vampire: 3/1, 6 Bone Cost with `Blood Guzzler`. `gabe` contest winner!
+
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Project` nerfed to 7 bones from 5.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Wechuge` card has `Double Strike` now instead of split strike.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Ice Cube` disabled/unobtainable until more time can be spent configuring fixing certain scenarios.
 
 ### 2.8.4 Custom Encounters
 

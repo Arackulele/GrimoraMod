@@ -19,7 +19,7 @@ public class ChessboardMapExt : GameMap
 
 	internal DebugHelper debugHelper;
 
-	private bool _toggleCardsLeftInDeck = false;
+	private bool _toggleCardsLeftInDeck;
 
 	public new static ChessboardMapExt Instance => GameMap.Instance as ChessboardMapExt;
 
@@ -34,7 +34,7 @@ public class ChessboardMapExt : GameMap
 
 	public ChessboardEnemyPiece BossPiece => ActiveChessboard.BossPiece;
 
-	private bool ChangingRegion { get; set; }
+	public bool ChangingRegion { get; set; }
 
 	public bool BossDefeated { get; protected internal set; }
 	
@@ -71,7 +71,7 @@ public class ChessboardMapExt : GameMap
 		{
 			string jsonString = File.ReadAllText(
 				FileUtils.FindFileInPluginDir(
-					ConfigHelper.Instance.isDevModeEnabled
+					ConfigHelper.Instance.IsDevModeEnabled
 						? "GrimoraChessboardDevMode.json"
 						: "GrimoraChessboardsStatic.json"
 				)
@@ -110,7 +110,10 @@ public class ChessboardMapExt : GameMap
 				}
 			}
 			Log.LogDebug($"Final custom blueprint names: [{_customBlueprints.Join(kv => kv.Value.name)}]");
-			debugHelper.SetupEncounterData();
+			if(debugHelper)
+			{
+				debugHelper.SetupEncounterData();
+			}
 		}
 	}
 
@@ -119,22 +122,25 @@ public class ChessboardMapExt : GameMap
 		return chessboardsFromJson.Select((board, idx) => new GrimoraChessboard(board, idx)).ToList();
 	}
 
+	public static string[] CardsLeftInDeck => CardDrawPiles3D
+	 .Instance
+	 .Deck
+	 .cards
+	 .OrderBy(info => info.name)
+	 .Select(_ => _.name.Replace($"{GUID}_", ""))
+	 .ToArray();
+
 	private void Awake()
 	{
 		ViewManager instance = ViewManager.Instance;
 		instance.ViewChanged = (Action<View, View>)Delegate
 			.Combine(instance.ViewChanged, new Action<View, View>(OnViewChanged));
 
-		debugHelper = gameObject.AddComponent<DebugHelper>();
+		if (ConfigHelper.Instance.IsDevModeEnabled && debugHelper.IsNull())
+		{
+			debugHelper = gameObject.AddComponent<DebugHelper>();
+		}
 	}
-
-	public static string[] CardsLeftInDeck => CardDrawPiles3D
-		.Instance
-		.Deck
-		.cards
-		.OrderBy(info => info.name)
-		.Select(_ => _.name.Replace($"{GUID}_", ""))
-		.ToArray();
 
 	private void OnGUI()
 	{
@@ -142,7 +148,7 @@ public class ChessboardMapExt : GameMap
 		{
 			_toggleCardsLeftInDeck = GUI.Toggle(
 				new Rect(
-					(ConfigHelper.Instance.isDevModeEnabled ? Screen.width - 400 : 20),
+					(ConfigHelper.Instance.IsDevModeEnabled ? 400 : 20),
 					20,
 					150,
 					15
@@ -155,7 +161,7 @@ public class ChessboardMapExt : GameMap
 			{
 				GUI.SelectionGrid(
 					new Rect(
-						(ConfigHelper.Instance.isDevModeEnabled ? Screen.width - 400 : 25), 
+						(ConfigHelper.Instance.IsDevModeEnabled ? 400 : 25), 
 						Screen.height * 0.75f, 
 						150, 
 						CardDrawPiles3D.Instance.Deck.cards.Count * 25f
@@ -204,7 +210,7 @@ public class ChessboardMapExt : GameMap
 		Log.LogInfo($"[CompleteRegionSequence] No longer ChangingRegion");
 	}
 
-	private void ClearBoardForChangingRegion()
+	public void ClearBoardForChangingRegion()
 	{
 		pieces.RemoveAll(
 			delegate(ChessboardPiece piece)
@@ -220,12 +226,11 @@ public class ChessboardMapExt : GameMap
 
 	public override IEnumerator UnrollingSequence(float unrollSpeed)
 	{
-		if (FinaleDeletionWindowManager.instance)
+		InteractionCursor.Instance.InteractionDisabled = true;
+		if (FinaleDeletionWindowManager.instance && FinaleDeletionWindowManager.instance.mainWindow.isActiveAndEnabled)
 		{
-			Destroy(FinaleDeletionWindowManager.instance.gameObject);
+			FinaleDeletionWindowManager.instance.mainWindow.gameObject.SetActive(false);
 		}
-		
-		StoryEventsData.SetEventCompleted(StoryEvent.GrimoraReachedTable, true);
 
 		TableRuleBook.Instance.SetOnBoard(false);
 
@@ -239,7 +244,7 @@ public class ChessboardMapExt : GameMap
 		dynamicElementsParent.gameObject.SetActive(true);
 
 		// for checking which nodes are active/inactive
-		if (ConfigHelper.Instance.isDevModeEnabled) RenameMapNodesWithGridCoords();
+		if (ConfigHelper.Instance.IsDevModeEnabled) RenameMapNodesWithGridCoords();
 
 		// if the boss piece exists in the removed pieces,
 		// this means the game didn't complete clearing the board for changing the region
@@ -267,6 +272,7 @@ public class ChessboardMapExt : GameMap
 		ChangeStartDeckIfNotAlreadyChanged();
 
 		SaveManager.SaveToFile();
+		InteractionCursor.Instance.InteractionDisabled = false;
 	}
 
 	private void UpdateActiveChessboard()

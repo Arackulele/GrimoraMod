@@ -36,9 +36,9 @@ public class GrimoraGameFlowManagerPatches
 		// bool skipIntro = GrimoraPlugin.ConfigHasPlayedRevealSequence.Value;
 		bool setLightsActive = true;
 
-		if (FinaleDeletionWindowManager.instance)
+		if (FinaleDeletionWindowManager.instance && FinaleDeletionWindowManager.instance.mainWindow.isActiveAndEnabled)
 		{
-			UnityObject.Destroy(FinaleDeletionWindowManager.instance.gameObject);
+			FinaleDeletionWindowManager.instance.mainWindow.gameObject.SetActive(false);
 		}
 
 		ViewManager.Instance.SwitchToView(View.Default, true);
@@ -53,6 +53,7 @@ public class GrimoraGameFlowManagerPatches
 				ChessboardMap.Instance.gameObject.transform.GetChild(0).gameObject.SetActive(false);
 				__instance.CurrentGameState = GameState.Map;
 				__instance.StartCoroutine(__instance.TransitionTo(GameState.Map, null, true));
+				SetLightsActive(__instance);
 				PlayTombstonesFalling();
 			}
 		}
@@ -77,8 +78,10 @@ public class GrimoraGameFlowManagerPatches
 
 			__instance.StartCoroutine(((GrimoraGameFlowManager)GameFlowManager.Instance).RevealGrimoraSequence());
 
-			SaveManager.SaveToFile();
+			StoryEventsData.SetEventCompleted(StoryEvent.GrimoraReachedTable, true);
 		}
+
+		ConfigHelper.HasLoadedIntoModBefore = true;
 
 		return false;
 	}

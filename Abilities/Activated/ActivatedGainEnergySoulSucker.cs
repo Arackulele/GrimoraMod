@@ -16,23 +16,21 @@ public class ActivatedGainEnergySoulSucker : ActivatedAbilityBehaviour
 
 	public int kills = 0;
 
-	public override bool CanActivate() => kills > 0 && !ResourcesManager.Instance.EnergyAtMax;
+	public override bool CanActivate() => kills > 0 && ResourcesManager.Instance.PlayerEnergy < 6;
 
 	public override IEnumerator Activate()
 	{
-		ViewManager.Instance.SwitchToView(View.Scales, lockAfter: true);
+		ViewManager.Instance.SwitchToView(View.Scales);
 		yield return new WaitForSeconds(0.25f);
 		yield return ResourcesManager.Instance.AddMaxEnergy(1);
 		yield return ResourcesManager.Instance.AddEnergy(1);
 		UpdateKillCountAndRerenderCard(--kills);
-		yield return new WaitForSeconds(0.25f);
-		ViewManager.Instance.SetViewUnlocked();
+		yield return new WaitForSeconds(0.5f);
+		ViewManager.Instance.SwitchToView(View.Default);
 	}
 
-	public override bool RespondsToOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
-	{
-		return fromCombat && killer && !killer.OpponentCard;
-	}
+	public override bool RespondsToOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer) 
+		=> Card.OnBoard && card.OpponentCard;
 
 	public override IEnumerator OnOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
 	{

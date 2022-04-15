@@ -12,6 +12,47 @@ public static class CardRelatedExtension
 {
 	private static readonly int Hover    = Animator.StringToHash("hover");
 	private static readonly int Hovering = Animator.StringToHash("hovering");
+	
+	public static readonly Dictionary<PlayableCard, Animator> CustomArmPrefabsCache = new();
+
+	private const string SkeletonArmsGiants = "SkeletonArms_Giants";
+	private const string SkeletonArmsInvertedStrike = "Skeleton2ArmsAttacks";
+	private const string SkeletonArmsSentry = "Grimora_Sentry";
+
+	public static void SetCustomArmsPrefabActive(this PlayableCard playableCard, bool active = true)
+	{
+		Animator customSkeletonArmPrefab = playableCard.GetCorrectCustomArmsPrefab();
+		if (customSkeletonArmPrefab)
+		{
+			GrimoraPlugin.Log.LogDebug($"Setting custom arm [{customSkeletonArmPrefab.name}] active? [{active}]");
+			customSkeletonArmPrefab.gameObject.SetActive(active);
+		}
+	}
+	
+	public static Animator GetCorrectCustomArmsPrefab(this PlayableCard playableCard, CardSlot targetSlot = null)
+	{
+		if (!CustomArmPrefabsCache.TryGetValue(playableCard, out Animator customSkeletonArmPrefab))
+		{
+			if (playableCard.transform.Find(SkeletonArmsInvertedStrike))
+			{
+				customSkeletonArmPrefab = playableCard.transform.Find(SkeletonArmsInvertedStrike).GetComponent<Animator>();
+			}
+			if (playableCard.transform.Find(SkeletonArmsGiants))
+			{
+				customSkeletonArmPrefab = playableCard.transform.Find(SkeletonArmsGiants).GetComponent<Animator>();
+			} 
+			if ((targetSlot.IsNull() ^ playableCard.HasAbility(Ability.Sniper)) && playableCard.transform.Find(SkeletonArmsSentry))
+			{
+				customSkeletonArmPrefab = playableCard.transform.Find(SkeletonArmsSentry).GetChild(0).GetComponent<Animator>();
+			}
+			
+			GrimoraPlugin.Log.LogDebug($"[CustomArms] Adding custom prefab for card {playableCard.GetNameAndSlot()}");
+			CustomArmPrefabsCache.Add(playableCard, customSkeletonArmPrefab);
+		}
+
+		return customSkeletonArmPrefab;
+	}
+	
 
 	public static string GetNameAndSlot(this PlayableCard playableCard)
 	{
@@ -138,6 +179,11 @@ public static class CardRelatedExtension
 		{
 			playableCard.Dead = true;
 			CardSlot slotBeforeDeath = playableCard.Slot;
+			if (playableCard.Info != null && playableCard.Info.name.ToLower().Contains("squirrel"))
+			{
+				AscensionStatsData.TryIncrementStat(AscensionStat.Type.SquirrelsKilled);
+			}
+			
 			if (playableCard.TriggerHandler.RespondsToTrigger(Trigger.PreDeathAnimation, wasSacrifice))
 			{
 				yield return playableCard.TriggerHandler.OnTrigger(Trigger.PreDeathAnimation, wasSacrifice);
@@ -169,8 +215,7 @@ public static class CardRelatedExtension
 				}
 			}
 
-			if ((!playableCard.HasAbility(Ability.QuadrupleBones)
-			  || !playableCard.HasAbility(Boneless.ability)) && slotBeforeDeath.IsPlayerSlot)
+			if (!playableCard.HasAbility(Ability.QuadrupleBones) && !playableCard.HasAbility(Boneless.ability) && slotBeforeDeath.IsPlayerSlot)
 			{
 				yield return ResourcesManager.Instance.AddBones(1, slotBeforeDeath);
 			}

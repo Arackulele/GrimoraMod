@@ -9,6 +9,8 @@ namespace GrimoraMod;
 
 public class SkinCrawler : AbilityBehaviour
 {
+	public const string ModSingletonId = "GrimoraMod_SkinCrawler";
+	
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -67,17 +69,7 @@ public class SkinCrawler : AbilityBehaviour
 			CardSlot cardSlotToPick = slotToPick.Card.Slot;
 
 			Log.LogDebug($"[Crawler.AssignSkinCrawlerCardToHost] Playing animation sequence");
-			yield return DoAnimationSequence(cardToPick, cardSlotToPick);
-
-			// reassign the card to the slot
-			Log.LogDebug($"[Crawler.AssignSkinCrawlerCardToHost] Assigning [{cardToPick.Info.name}] to slot");
-			yield return BoardManager.Instance.AssignCardToSlot(cardToPick, cardSlotToPick);
-
-			cardToPick.AddTemporaryMod(new CardModificationInfo(1, 1));
-
-			yield return new WaitUntil(
-				() => !Tween.activeTweens.Exists(t => t.targetInstanceID == cardToPick.transform.GetInstanceID())
-			);
+			yield return ApplyModAndDoAnimationSequence(cardToPick, cardSlotToPick);
 
 			Log.LogDebug($"[Crawler.AssignSkinCrawlerCardToHost] Nulling slots out");
 			BoardManager.Instance.GetSlots(!Card.OpponentCard)[Card.Slot.Index].Card = null;
@@ -91,19 +83,21 @@ public class SkinCrawler : AbilityBehaviour
 		}
 	}
 
-	public IEnumerator DoAnimationSequence(PlayableCard cardToPick, CardSlot cardSlotToPick)
+	public IEnumerator ApplyModAndDoAnimationSequence(PlayableCard cardToPick, CardSlot cardSlotToPick)
 	{
 		ViewManager.Instance.SwitchToView(View.Board);
 
 		yield return new WaitForSeconds(0.4f);
 
 		// to the left and up, like something is being added under it
-		Vector3 vector = new Vector3(0f, 0.25f, 0f);
+		Log.LogDebug($"[ApplyModAndDoAnimationSequence] CardToPick [{cardToPick.GetNameAndSlot()}] Current Position [{cardToPick.transform.position}] SlotHeightOffset [{cardToPick.SlotHeightOffset}]");
 
-		// do to card that will be hiding Boo Hag
+		Vector3 vectorHeight = new Vector3(0f, 0.25f, 0f);
+
+		// card that will be hiding Boo Hag
 		Tween.Position(
 			cardToPick.transform,
-			cardSlotToPick.transform.position + vector,
+			cardSlotToPick.transform.position + vectorHeight,
 			0.1f,
 			0f,
 			Tween.EaseInOut
@@ -119,8 +113,7 @@ public class SkinCrawler : AbilityBehaviour
 		// base.Card.transform.position = positionFurtherAwayFromBaseCard;
 
 		// move pack from current position to the baseCardSlotPosition
-		// Log.LogDebug($"[SkinCrawler] moving BooHag to [{toRightSlotTransform.position}]");
-		TweenBase tweenMoveIntoCardSlot = Tween.Position(
+		TweenBase tweenCrawlerMoveIntoCardSlot = Tween.Position(
 			Card.transform,
 			cardSlotToPick.transform.position,
 			0.4f,
@@ -128,13 +121,18 @@ public class SkinCrawler : AbilityBehaviour
 			Tween.EaseOut
 		);
 
-		while (tweenMoveIntoCardSlot.Status is not Tween.TweenStatus.Finished)
+		while (tweenCrawlerMoveIntoCardSlot.Status is not Tween.TweenStatus.Finished)
 		{
 			cardToPick.Anim.StrongNegationEffect();
 			yield return new WaitForSeconds(0.1f);
 		}
+		
+		cardToPick.AddTemporaryMod(new CardModificationInfo(1, 1)
+		{
+			singletonId = ModSingletonId
+		});
 
-		TweenBase tweenMoveUpward = Tween.Position(
+		TweenBase tweenCrawlerMoveUpward = Tween.Position(
 			Card.transform,
 			cardSlotToPick.transform.position + new Vector3(0f, 0f, 0.31f),
 			0.2f,
@@ -148,6 +146,13 @@ public class SkinCrawler : AbilityBehaviour
 
 		// offset the card to be a little higher
 		cardToPick.SlotHeightOffset = 0.13f;
+		
+		Log.LogDebug($"[Crawler.AssignSkinCrawlerCardToHost] Assigning [{cardToPick.Info.name}] to slot, current position [{cardToPick.transform.position}]");
+		yield return BoardManager.Instance.AssignCardToSlot(cardToPick, cardSlotToPick);
+		
+		yield return new WaitUntil(
+			() => !Tween.activeTweens.Exists(t => t.targetInstanceID == cardToPick.transform.GetInstanceID())
+		);
 	}
 
 
@@ -227,7 +232,7 @@ public class SkinCrawlerSlot : NonCardTriggerReceiver
 		Log.LogDebug($"[CrawlerSlot.OnOtherCardAssignedToSlot] Card {skinCrawlerCard.GetNameAndSlot()} will now hide under {otherCard.GetNameAndSlot()}");
 		hidingUnderCard = otherCard;
 		transform.SetParent(otherCard.Slot.transform);
-		yield return skinCrawlerCard.GetComponent<SkinCrawler>().DoAnimationSequence(hidingUnderCard, hidingOnSlot);
+		yield return skinCrawlerCard.GetComponent<SkinCrawler>().ApplyModAndDoAnimationSequence(hidingUnderCard, hidingOnSlot);
 	}
 
 	public override bool RespondsToOtherCardDie(

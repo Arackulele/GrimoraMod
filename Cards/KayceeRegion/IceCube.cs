@@ -7,7 +7,7 @@ public partial class GrimoraPlugin
 	private void Add_Card_IceCube()
 	{
 		CardBuilder.Builder
-		 .SetAsNormalCard()
+		 // .SetAsNormalCard()
 		 .SetAbilities(ColdFront.ability)
 		 .SetBaseAttackAndHealth(1, 1)
 		 .SetBoneCost(5)

@@ -16,6 +16,12 @@ public class CombatPhaseManagerPatches
 		CardSlot slot
 	)
 	{
+		if (GrimoraSaveUtil.isNotGrimora)
+		{
+			yield return enumerator;
+			yield break;
+		}
+		
 		bool cardIsGrimoraGiant = slot.Card.HasSpecialAbility(GrimoraGiant.FullSpecial.Id);
 		if (cardIsGrimoraGiant)
 		{
@@ -29,6 +35,21 @@ public class CombatPhaseManagerPatches
 				ViewManager.Instance.SwitchToView(BoardManager.Instance.CombatView);
 				if (opposingSlot.Card)
 				{
+					yield return GlobalTriggerHandler.Instance.TriggerCardsOnBoard(
+						Trigger.SlotTargetedForAttack,
+						false,
+						opposingSlot,
+						giantCard
+					);
+					
+					yield return new WaitForSeconds(0.025f);
+					
+					if (giantCard.Anim.DoingAttackAnimation)
+					{
+						yield return new WaitUntil(() => !giantCard.Anim.DoingAttackAnimation);
+						yield return new WaitForSeconds(0.25f);
+					}
+					
 					bool impactFrameReached = false;
 					giantCard.Anim.PlayAttackAnimation(giantCard.IsFlyingAttackingReach(), opposingSlot, delegate { impactFrameReached = true; });
 
@@ -53,6 +74,11 @@ public class CombatPhaseManagerPatches
 				}
 
 				yield return new WaitForSeconds(0.1f);
+			}
+
+			if(giantCard && !giantCard.Dead)
+			{
+				giantCard.SetCustomArmsPrefabActive(false);
 			}
 		}
 		else
@@ -79,6 +105,10 @@ public class CombatPhaseManagerPatches
 					yield return (__instance as CombatPhaseManager3D).VisualizeDamageMovingToScales(!slot.IsPlayerSlot);
 					(__instance as CombatPhaseManager3D).damageWeights.Clear();
 				}
+			}
+			if(slot.Card && !slot.Card.Dead)
+			{
+				slot.Card.SetCustomArmsPrefabActive(false);
 			}
 		}
 	}

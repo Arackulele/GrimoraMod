@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1242608030
+CRC: 1928027273
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b25fb7a88212b7085324c9e8659b206e
+    Hash: 869c9f6939e14282c5186876b277216e
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -104,7 +104,10 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/PiratePrivateer_emission.png
 - Assets/GrimoraMod_Unity/Cards/Sluagh.png
 - Assets/GrimoraMod_Unity/Cards/Catacomb_emission.png
+- Assets/GrimoraMod_Unity/Cards/Terrain/Shipwreck_Dams.png
 - Assets/GrimoraMod_Unity/Cards/Doppelganger_emission.png
+- Assets/GrimoraMod_Unity/Cards/Terrain/Shipwreck_Dams_emission.png
+- Assets/GrimoraMod_Unity/Cards/ForgottenMan_emission.png
 - Assets/GrimoraMod_Unity/Cards/Ripper_emission.png
 - Assets/GrimoraMod_Unity/Cards/Nixie.png
 - Assets/GrimoraMod_Unity/Cards/Frostbiter.png
@@ -118,6 +121,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/HellHound.png
 - Assets/GrimoraMod_Unity/Cards/DanseMacabre.png
 - Assets/GrimoraMod_Unity/Cards/PlagueDoctor.png
+- Assets/GrimoraMod_Unity/Cards/StarvedMan_emission.png
 - Assets/GrimoraMod_Unity/Cards/Obol.png
 - Assets/GrimoraMod_Unity/Cards/Skelemagus_emission.png
 - Assets/GrimoraMod_Unity/Cards/Bigbones.png
@@ -186,6 +190,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/GraveCarver.png
 - Assets/GrimoraMod_Unity/Cards/Apparition_emission.png
 - Assets/GrimoraMod_Unity/Cards/Animator_emission.png
+- Assets/GrimoraMod_Unity/Cards/StarvedMan.png
 - Assets/GrimoraMod_Unity/Cards/Project_emission.png
 - Assets/GrimoraMod_Unity/Cards/Project.png
 - Assets/GrimoraMod_Unity/Cards/Draugr.png
@@ -231,6 +236,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/ScreamingSkull_emission.png
 - Assets/GrimoraMod_Unity/Cards/HeadlessHorseman_emission.png
 - Assets/GrimoraMod_Unity/Cards/OldCards/Amoeba.png
+- Assets/GrimoraMod_Unity/Cards/ForgottenMan.png
 - Assets/GrimoraMod_Unity/Cards/Hydra.png
 - Assets/GrimoraMod_Unity/Cards/Animator.png
 - Assets/GrimoraMod_Unity/Cards/Silbon.png

@@ -18,20 +18,23 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 
 	private readonly RandomEx _rng = new();
 
-	private GameObject GameTable => GameObject.Find("GameTable");
+	private Animator _gameTableAnimator;
 
 	public const float DurationTableSway = 3.5f;
 
 	public int boardSwayCounter = 0;
-	public bool boardSwayedLeftLast = false;
+	public bool boardSwayedLeftLast;
 
 	public override Opponent.Type BossType => RoyalBossOpponentExt.FullOpponent.Id;
 
+	private void Start()
+	{
+		_gameTableAnimator = GameObject.Find("GameTable").GetComponent<Animator>();
+	}
+
 	private void PlayTableSway()
 	{
-		GameTable
-			.GetComponent<Animator>()
-			.Play(!boardSwayedLeftLast ? "sway_left" : "sway_right", 0, 0f);
+		_gameTableAnimator.Play(!boardSwayedLeftLast ? "sway_left" : "sway_right", 0, 0f);
 
 		boardSwayedLeftLast = !boardSwayedLeftLast;
 	}
@@ -46,6 +49,30 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		playerCard.AddTemporaryMod(new CardModificationInfo(LitFuse.ability));
 	}
 
+	public override IEnumerator OpponentCombatEnd()
+	{
+		var activePlayerCards =
+			BoardManager.Instance.GetPlayerCards(pCard => !pCard.FaceDown && pCard.InfoName() != NamePirateSwashbuckler);
+		if (activePlayerCards.IsNullOrEmpty())
+		{
+			yield break;
+		}
+
+		if (_rng.NextBoolean() && _rng.NextBoolean())
+		{
+			yield return ApplyLitFuseToPlayerCard(activePlayerCards.GetRandomItem());
+		}
+	}
+
+	public override IEnumerator PlayerUpkeep()
+	{
+		if (boardSwayCounter++ >= 2)
+		{
+			yield return StartBoardSway();
+		}
+		yield return base.PlayerUpkeep();
+	}
+
 	private IEnumerator StartBoardSway()
 	{
 		boardSwayCounter = 0;
@@ -57,9 +84,9 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		PlayTableSway();
 
 		var allCardsOnBoard = BoardManager.Instance.AllSlotsCopy
-			.Where(slot => slot.Card && slot.Card && !slot.Card.HasAbility(Anchored.ability) && !slot.Card.HasAbility(Ability.Flying))
-			.Select(slot => slot.Card)
-			.ToList();
+		 .Where(slot => slot.Card && !slot.Card.HasAbility(Anchored.ability) && !slot.Card.HasAbility(Ability.Flying))
+		 .Select(slot => slot.Card)
+		 .ToList();
 
 		if (!boardSwayedLeftLast)
 		{
@@ -74,27 +101,8 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			yield return StartCoroutine(DoStrafe(playableCard, boardSwayedLeftLast));
 		}
 
+		yield return new WaitForSeconds(3f);
 		ViewManager.Instance.SetViewUnlocked();
-	}
-
-	public override IEnumerator OpponentCombatEnd()
-	{
-		var activePlayerCards =
-			BoardManager.Instance.GetPlayerCards(pCard => !pCard.FaceDown && pCard.InfoName() != NamePirateSwashbuckler);
-		if (activePlayerCards.IsNullOrEmpty())
-		{
-			yield break;
-		}
-
-		if (_rng.NextBoolean() && _rng.NextBoolean())
-		{
-			yield return ApplyLitFuseToPlayerCard(activePlayerCards[UnityRandom.Range(0, activePlayerCards.Count)]);
-		}
-
-		if (++boardSwayCounter >= 2)
-		{
-			yield return StartBoardSway();
-		}
 	}
 
 	private bool SlotHasSpace(CardSlot slot, bool toLeft)
@@ -132,12 +140,8 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		bool toRightIsNotOccupied = SlotHasSpace(playableCard.Slot, false);
 		Log.LogInfo($"[TableSway.DoStrafe] Card {playableCard.GetNameAndSlot()} toLeftIsNotOccupied? [{toLeftIsNotOccupied}] toRightIsNotOccupied [{toRightIsNotOccupied}]");
 
-		CardSlot destination = movingLeft
-			? toLeft
-			: toRight;
-		bool destinationValid = movingLeft
-			? toLeftIsNotOccupied
-			: toRightIsNotOccupied;
+		CardSlot destination = movingLeft ? toLeft : toRight;
+		bool destinationValid = movingLeft ? toLeftIsNotOccupied : toRightIsNotOccupied;
 
 		yield return MoveToSlot(playableCard, destination, destinationValid, movingLeft);
 	}
@@ -164,7 +168,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		if (destination)
 		{
 			bool destinationSlotCardHasAnchoredOrFlying = destination.Card
-			                                     && (destination.Card.HasAbility(Anchored.ability) || destination.Card.HasAbility(Ability.Flying));
+			                                           && (destination.Card.HasAbility(Anchored.ability) || destination.Card.HasAbility(Ability.Flying));
 			if (destinationSlotCardHasAnchoredOrFlying)
 			{
 				Log.LogInfo($"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} Destination card is not null and has anchored or flying.");
@@ -183,26 +187,31 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 					var crawlerCard = crawlerSlot.skinCrawlerCard;
 					crawlerCard.transform.SetParent(destination.transform);
 					crawlerSlot.transform.SetParent(destination.transform);
+					crawlerSlot.hidingOnSlot = destination;
 					Tween.LocalPosition(
-						crawlerCard.transform, 
+						crawlerCard.transform,
 						Vector3.up * (BoardManager3D.Instance.SlotHeightOffset + crawlerCard.SlotHeightOffset) + new Vector3(0f, 0f, 0.31f),
 						DurationTableSway + 2,
-						0.05f, 
-						Tween.EaseOut, 
-						Tween.LoopType.None, 
-						null, 
+						0.05f,
+						Tween.EaseOut,
+						Tween.LoopType.None,
+						null,
 						delegate { crawlerCard.Anim.PlayRiffleSound(); }
 					);
 					Tween.Rotation(
-						crawlerCard.transform, 
-						destination.transform.GetChild(0).rotation, 
-						DurationTableSway + 2.5f, 
-						0f, 
+						crawlerCard.transform,
+						destination.transform.GetChild(0).rotation,
+						DurationTableSway + 2.5f,
+						0f,
 						Tween.EaseOut
 					);
 				}
 
-				yield return BoardManager.Instance.AssignCardToSlot(playableCard, destination, DurationTableSway + 2);
+				yield return BoardManager.Instance.AssignCardToSlot(
+					playableCard,
+					destination,
+					DurationTableSway + 2
+				);
 				Tween.LocalRotation(
 					playableCard.transform,
 					new Vector3(90, 0, 0),
@@ -219,7 +228,9 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 						0,
 						Tween.EaseIn
 					);
+					yield return new WaitForSeconds(3f);
 				}
+
 				yield return new WaitForSeconds(0.25f);
 			}
 		}
@@ -228,8 +239,8 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			Log.LogInfo($"[TableSway.MoveToSlot] Card {playableCard.GetNameAndSlot()} is about to fucking die me hearty!");
 			Vector3 positionCopy = playableCard.transform.localPosition;
 			float leftOrRightX = movingLeft
-				? positionCopy.x - 6
-				: positionCopy.x + 6;
+				                     ? positionCopy.x - 6
+				                     : positionCopy.x + 6;
 			yield return playableCard.DieCustom(
 				false,
 				royalTableSwayValue: leftOrRightX

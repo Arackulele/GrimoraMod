@@ -13,7 +13,6 @@ public class ElectricChairLever : HighlightedInteractable
 
 	public static readonly List<Ability> AbilitiesSaferRisk = new()
 	{
-		Ability.BeesOnHit,
 		Ability.DeathShield,
 		Ability.DrawRabbits,
 		Ability.DrawRandomCardOnDeath,
@@ -25,7 +24,8 @@ public class ElectricChairLever : HighlightedInteractable
 		Ability.Sentry,
 		Ability.Sharp,
 		BoneThief.ability,
-		ColdFront.ability,
+		DrawSkeletonOnHit.ability,
+		// ColdFront.ability,
 		LatchSubmerge.ability,
 		LooseLimb.ability,
 		SpiritBearer.ability
@@ -36,7 +36,6 @@ public class ElectricChairLever : HighlightedInteractable
 		Ability.BoneDigger,
 		Ability.BuffNeighbours,
 		Ability.CreateBells,
-		Ability.CreateDams,
 		Ability.Deathtouch,
 		Ability.DebuffEnemy,
 		Ability.DrawCopyOnDeath,
@@ -60,6 +59,7 @@ public class ElectricChairLever : HighlightedInteractable
 		BuffCrewMates.ability,
 		ChaosStrike.ability,
 		CreateArmyOfSkeletons.ability,
+		CreateShipwrecks.ability,
 		GrimoraRandomAbility.ability,
 		Haunter.ability,
 		HookLineAndSinker.ability,
@@ -68,6 +68,7 @@ public class ElectricChairLever : HighlightedInteractable
 
 	public static readonly List<Ability> AbilitiesMajorRisk = new(AbilitiesMinorRisk)
 	{
+		Ability.ActivatedHeal,
 		Ability.ActivatedRandomPowerEnergy,
 		Ability.ActivatedStatsUp,
 		Ability.ActivatedStatsUpEnergy,
@@ -88,10 +89,12 @@ public class ElectricChairLever : HighlightedInteractable
 		Ability.WhackAMole,
 		ActivatedDealDamageGrimora.ability,
 		Anchored.ability,
+		BloodGuzzler.ability,
 		FlameStrafe.ability,
 		Fylgja_GuardDog.ability,
 		InvertedStrike.ability,
 		MarchingDead.ability,
+		Malnourishment.ability,
 		Possessive.ability,
 		Puppeteer.ability
 	};

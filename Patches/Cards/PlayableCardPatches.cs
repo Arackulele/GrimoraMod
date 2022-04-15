@@ -21,16 +21,23 @@ public class PlayableCardPatches
 		var cardsInHandAndBoard
 			= BoardManager.Instance.CardsOnBoard
 			 .Concat(PlayerHand.Instance.CardsInHand)
-			 .Where(card => !card.Dead)
 			 .ToList();
-		foreach (PlayableCard c in cardsInHandAndBoard)
+		Log.LogDebug($"Attempting to update cards [{cardsInHandAndBoard.Join(c => c.Info.displayedName)}]");
+		foreach (var c in cardsInHandAndBoard.Where(c => c))
 		{
-			if (c.OnBoard && c.GetComponent<VariableStatBehaviour>())
+			Log.LogDebug($"--> Updating card {c.GetNameAndSlot()}");
+			if (c.GetComponent<VariableStatBehaviour>())
 			{
 				c.GetComponent<VariableStatBehaviour>().UpdateStats();
 			}
 			OriginalManagedUpdate(c);
 		}
+	}
+
+	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.DestroyWhenStackIsClear))]
+	public static void DoUpdateCardsAfterStackSizeIsZero()
+	{
+		UpdateAllCards();
 	}
 
 	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.Die))]
@@ -56,13 +63,22 @@ public class PlayableCardPatches
 			 .ToList();
 
 			__result = new List<CardSlot>();
-			if (adjSlots.IsNotEmpty())
+			if (adjSlots.Any())
 			{
-				CardSlot slotToTarget = adjSlots[UnityRandom.Range(0, adjSlots.Count)];
+				CardSlot slotToTarget = adjSlots.GetRandomItem();
 				// Log.LogDebug($"[OpposingPatches.Possessive] Slot targeted for attack [{slotToTarget.Index}]");
 				__result.Add(slotToTarget);
 			}
 		}
+	}
+
+	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.CanAttackDirectly))]
+	public static void PossessiveCanAttackDirectlyPatch(PlayableCard __instance, CardSlot opposingSlot, ref bool __result)
+	{
+		Log.LogDebug($"[Possessive.CanAttackDirectly] Result before [{__result}]");
+		bool oppositeSlotHasPossessive = __instance.Slot.opposingSlot.CardIsNotNullAndHasAbility(Possessive.ability);
+		__result &= !oppositeSlotHasPossessive;
+		Log.LogDebug($"[Possessive.CanAttackDirectly] Result after [{__result}]");
 	}
 
 	[HarmonyPrefix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetPassiveAttackBuffs))]
