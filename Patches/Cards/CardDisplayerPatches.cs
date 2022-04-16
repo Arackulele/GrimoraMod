@@ -17,14 +17,7 @@ public class CardDisplayerPatches
 			return true;
 		}
 
-		if (playableCard)
-		{
-			int maxHealth = playableCard.MaxHealth;
-		}
-		else
-		{
-			int health = renderInfo.baseInfo.Health;
-		}
+		_ = playableCard ? playableCard.MaxHealth : renderInfo.baseInfo.Health;
 
 		__instance.SetHealthTextColor(
 			renderInfo.health >= renderInfo.baseInfo.Health
@@ -43,7 +36,7 @@ public class CardDisplayerPatches
 public class GravestoneCardDisplayerPatches
 {
 	[HarmonyPostfix, HarmonyPatch(nameof(GravestoneCardDisplayer.DisplayInfo))]
-	public static void PrefixChangeRenderColors(GravestoneCardDisplayer __instance, CardRenderInfo renderInfo, PlayableCard playableCard)
+	public static void CorrectRenderBoneCost(GravestoneCardDisplayer __instance, CardRenderInfo renderInfo, PlayableCard playableCard)
 	{
 		string bonesCost = Mathf.Max(0, renderInfo.baseInfo.BonesCost).ToString();
 		__instance.costShadow.text = bonesCost;
