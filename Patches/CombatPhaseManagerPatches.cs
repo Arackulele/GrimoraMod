@@ -46,7 +46,7 @@ public class CombatPhaseManagerPatches
 					
 					yield return new WaitForSeconds(0.025f);
 					
-					if (giantCard.IsNull())
+					if (giantCard.IsNull() || giantCard.Dead)
 					{
 						yield break;
 					}
