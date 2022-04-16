@@ -65,6 +65,7 @@ public partial class GrimoraPlugin
 		AbilityBuilder<ActivatedGainEnergySoulSucker>.Builder
 		 .SetRulebookDescription(rulebookDescription)
 		 .SetRulebookName(ActivatedGainEnergySoulSucker.RulebookName)
+		 .SetIcon(AllAbilitiesTextures.Single(spr => spr.name.Equals("ability_ActivatedGainEnergySoulSucker_0")))
 		 .Build();
 	}
 }
