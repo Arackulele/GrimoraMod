@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3613928158
+CRC: 3523917911
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 17b70d44a73680cf4034dd30262ce0dc
+    Hash: 9f9f933ee7cd5dc17b96a5b8f07a77fd
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7859cd501ea75098bcf7e53f1b477c26
@@ -56,5 +56,5 @@ Assets:
 - Assets/GrimoraMod_Unity/Abilities/ability_MarchingDead.png
 - Assets/GrimoraMod_Unity/Abilities/ability_SeaLegs_LichUnderling.png
 - Assets/GrimoraMod_Unity/Abilities/ability_ActivatedDrawSkeletonGrimora.png
-- Assets/GrimoraMod_Unity/Abilities/ability_ActivatedGainEnergySoulSucker.png
+- Assets/GrimoraMod_Unity/Abilities/ability_ActivatedGainEnergySoulSucker_0.png
 Dependencies: []

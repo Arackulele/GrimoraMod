@@ -8,11 +8,13 @@ public class ActivatedGainEnergySoulSucker : ActivatedAbilityBehaviour
 {
 	public const string RulebookName = "Soul Sucker";
 	
-	private const string defaultAbilityName = "ability_ActivatedGainEnergySoulSucker";
+	private const string DefaultAbilityName = "ability_ActivatedGainEnergySoulSucker";
 	
 	public static Ability ability;
 
 	public override Ability Ability => ability;
+
+	private Texture GetIconTexture => AssetUtils.GetPrefab<Texture>($"{DefaultAbilityName}_{kills}");
 
 	public int kills = 0;
 
@@ -48,8 +50,7 @@ public class ActivatedGainEnergySoulSucker : ActivatedAbilityBehaviour
 		ViewManager.Instance.SwitchToView(View.Board);
 		kills = setKillsTo;
 		Card.Anim.StrongNegationEffect();
-		string iconNumber = setKillsTo == 0 ? defaultAbilityName : $"{defaultAbilityName}_{kills}";
-		Card.RenderInfo.OverrideAbilityIcon(ability, AssetUtils.GetPrefab<Texture>(iconNumber));
+		Card.RenderInfo.OverrideAbilityIcon(ability, GetIconTexture);
 		Card.RenderCard();
 	}
 }
