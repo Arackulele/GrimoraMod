@@ -140,7 +140,7 @@ public class GravestoneCardAnimationControllerPatches
 		{
 			< 0 => "_left",
 			> 0 => "_right",
-			_   => ""
+			_   => string.Empty
 		};
 		Log.LogDebug($"Num to determine rotation [{numToDetermineRotation}] Direction To Attack [{directionToAttack}]");
 

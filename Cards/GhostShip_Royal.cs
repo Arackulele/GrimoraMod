@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetSpecialAbilities(CreateRoyalsCrewMate.FullSpecial.Id)
 			.SetAppearance(CardAppearanceBehaviour.Appearance.RareCardBackground)
 			.SetBaseAttackAndHealth(0, 15)
-			.SetNames(NameGhostShipRoyal, "")
+			.SetNames(NameGhostShipRoyal, string.Empty)
 			.Build();
 	}
 }

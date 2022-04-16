@@ -326,7 +326,7 @@ public class GrimoraChessboard
 
 	private static string CreateNameOfPiece<T>(string specialEncounterId, string coordName) where T : ChessboardPiece
 	{
-		string nameTemp = typeof(T).Name.Replace("Chessboard", "") + "_" + coordName;
+		string nameTemp = typeof(T).Name.Replace("Chessboard", string.Empty) + "_" + coordName;
 		if (BossHelper.OpponentTupleBySpecialId.ContainsKey(specialEncounterId))
 		{
 			nameTemp = nameTemp.Replace("Enemy", "Boss");

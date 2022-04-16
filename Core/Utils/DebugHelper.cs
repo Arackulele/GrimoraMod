@@ -114,7 +114,7 @@ public class DebugHelper : ManagedBehaviour
 
 				_encounterNames = _encounters.Select(ebd => ebd.name).ToArray();
 
-				_allGrimoraCardNames = AllGrimoraModCards.Select(card => card.name.Replace($"{GUID}_", "")).ToArray();
+				_allGrimoraCardNames = AllGrimoraModCardsNoGuid.ToArray();
 
 				AllGrimoraCustomCards.AddRange(
 					CardManager.AllCardsCopy.FindAll(
@@ -127,7 +127,7 @@ public class DebugHelper : ManagedBehaviour
 				}
 				foreach (var customCard in AllGrimoraCustomCards)
 				{
-					_allGrimoraCustomCardNames.AddToArray(customCard.name.Replace($"{GUID}_", ""));
+					_allGrimoraCustomCardNames.AddToArray(customCard.name.Replace($"{GUID}_", string.Empty));
 				}
 			});
 	}
@@ -637,7 +637,7 @@ public class DebugHelper : ManagedBehaviour
 				EncounterBlueprintData encounter = _encounters[selectedButton];
 				// the asset names have P1 or P2 at the end,
 				//	so we'll remove it so that we can correctly get a boss if a boss was selected
-				string scrubbedName = encounter.name.Replace("P1", "").Replace("P2", "");
+				string scrubbedName = encounter.name.Replace("P1", string.Empty).Replace("P2", string.Empty);
 
 				CardBattleNodeData node = new CardBattleNodeData
 				{

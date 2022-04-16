@@ -35,6 +35,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	// Gets populated in CardBuilder.Build()
 	public static List<CardInfo> AllGrimoraModCards = new();
+	public static List<string> AllGrimoraModCardsNoGuid = new();
 	public static List<CardInfo> AllPlayableGrimoraModCards = new();
 
 	private void Awake()

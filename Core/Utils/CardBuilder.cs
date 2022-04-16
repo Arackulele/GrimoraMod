@@ -20,6 +20,7 @@ public class CardBuilder
 	{
 		_cardInfo.temple = CardTemple.Undead;
 
+		AllGrimoraModCardsNoGuid.Add(_cardNameNoGuid);
 		AllGrimoraModCards.Add(_cardInfo);
 		CardManager.Add(GUID, _cardInfo);
 		return _cardInfo;
