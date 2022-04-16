@@ -12,6 +12,8 @@ public class CardBuilder
 
 	private readonly CardInfo _cardInfo = ScriptableObject.CreateInstance<CardInfo>();
 
+	private string _cardNameNoGuid;
+
 	public CardInfo Build()
 	{
 		_cardInfo.temple = CardTemple.Undead;
@@ -43,23 +45,22 @@ public class CardBuilder
 		return this;
 	}
 
-	private CardBuilder SetPortrait(string cardName, Sprite ogCardArt = null)
+	private CardBuilder SetPortrait(Sprite ogCardArt = null)
 	{
 		if (ogCardArt.IsNull())
 		{
-			cardName = cardName.Replace($"{GUID}_", "");
-			_cardInfo.portraitTex = AssetUtils.GetPrefab<Sprite>(cardName);
+			_cardInfo.SetPortrait(AssetUtils.GetPrefab<Sprite>(_cardNameNoGuid));
 
-			Sprite emissionSprite = AllSprites.Find(_ => _.name.Equals($"{cardName}_emission"));
+			Sprite emissionSprite = AllSprites.Find(_ => _.name.Equals($"{_cardNameNoGuid}_emission"));
 			if (emissionSprite)
 			{
-				AllSprites.Single(_ => _.name.Equals(cardName)).RegisterEmissionForSprite(emissionSprite);
+				_cardInfo.SetEmissivePortrait(emissionSprite);
 			}
 		}
 		else
 		{
 			Log.LogDebug($"Setting original card art [{ogCardArt.name}]");
-			_cardInfo.portraitTex = ogCardArt;
+			_cardInfo.SetPortrait(ogCardArt);
 		}
 
 		return this;
@@ -86,10 +87,11 @@ public class CardBuilder
 
 	internal CardBuilder SetNames(string name, string displayedName, Sprite ogSprite = null)
 	{
+		_cardNameNoGuid = name.Replace($"{GUID}_", string.Empty);
 		_cardInfo.name = name;
 		_cardInfo.displayedName = displayedName;
 
-		return SetPortrait(name, ogSprite);
+		return SetPortrait(ogSprite);
 	}
 
 	internal CardBuilder SetAsNormalCard()
@@ -162,14 +164,7 @@ public class CardBuilder
 	
 	internal CardBuilder SetTraits(params Trait[] traits)
 	{
-		_cardInfo.traits = traits?.ToList();
-		return this;
-	}
-
-	internal CardBuilder SetDecals(params Texture[] decals)
-	{
-		_cardInfo.decals ??= new List<Texture>();
-		_cardInfo.decals = decals.ToList();
+		_cardInfo.SetTraits(traits);
 		return this;
 	}
 }
