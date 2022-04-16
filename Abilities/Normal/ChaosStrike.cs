@@ -1,22 +1,24 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Card;
+using InscryptionAPI.Helpers.Extensions;
+using InscryptionAPI.Triggers;
 
 namespace GrimoraMod;
 
-public class ChaosStrike : ExtendedAbilityBehaviour
+public class ChaosStrike : AbilityBehaviour, IGetOpposingSlots
 {
 	public static Ability ability;
 
 	public override Ability Ability => ability;
 
-	public override bool RemoveDefaultAttackSlot() => true;
+	public bool RemoveDefaultAttackSlot() => true;
 
-	public override bool RespondsToGetOpposingSlots() => true;
+	public bool RespondsToGetOpposingSlots() => true;
 
-	public override List<CardSlot> GetOpposingSlots(List<CardSlot> originalSlots, List<CardSlot> otherAddedSlots)
+	public List<CardSlot> GetOpposingSlots(List<CardSlot> originalSlots, List<CardSlot> otherAddedSlots)
 	{
-		List<CardSlot> slotsToTarget = new List<CardSlot>(BoardManager.Instance.GetAdjacentSlots(Card.Slot.opposingSlot))
+		List<CardSlot> slotsToTarget = new List<CardSlot>(Card.Slot.opposingSlot.GetAdjacentSlots())
 			{ Card.Slot.opposingSlot };
 
 		slotsToTarget = slotsToTarget.Randomize().ToList();
@@ -32,6 +34,9 @@ public partial class GrimoraPlugin
 	{
 		const string rulebookDescription = "[creature] will strike each opposing space to the left, right, and center of it, randomly.";
 
-		ApiUtils.CreateAbility<ChaosStrike>(rulebookDescription, flipYIfOpponent: true);
+		AbilityBuilder<ChaosStrike>.Builder
+		 .FlipIconIfOnOpponentSide()
+		 .SetRulebookDescription(rulebookDescription)
+		 .Build();
 	}
 }

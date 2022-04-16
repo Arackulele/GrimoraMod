@@ -15,6 +15,10 @@ public partial class GrimoraPlugin
 	{
 		const string rulebookDescription = "[creature] will strike each opposing space.";
 
-		ApiUtils.CreateAbility<GiantStrikeEnraged>(rulebookDescription, "Enraged Giant", flipYIfOpponent: true);
+		AbilityBuilder<GiantStrikeEnraged>.Builder
+		 .FlipIconIfOnOpponentSide()
+		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName("Enraged Giant")
+		 .Build();
 	}
 }

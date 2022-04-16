@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Card;
+using InscryptionAPI.Helpers.Extensions;
 using Pixelplacement;
 using Pixelplacement.TweenSystem;
 using UnityEngine;
@@ -41,8 +43,8 @@ public class SkinCrawler : AbilityBehaviour
 		Log.LogDebug($"[Crawler.FindValid] Checking if adj slots from [{Card.Slot}] are not null");
 		CardSlot slotToPick = null;
 
-		CardSlot toLeftSlot = BoardManager.Instance.GetAdjacent(Card.Slot, true);
-		CardSlot toRightSlot = BoardManager.Instance.GetAdjacent(Card.Slot, false);
+		CardSlot toLeftSlot = Card.Slot.GetAdjacent(true);
+		CardSlot toRightSlot = Card.Slot.GetAdjacent(false);
 		Log.LogDebug($"[Crawler.FindValid] Slot for SkinCrawler [{Card.Slot}] toLeftSlot [{toLeftSlot}] toRightSlot [{toRightSlot}]");
 		bool toLeftSlotHasNoCrawler = SlotDoesNotHaveSkinCrawler(toLeftSlot);
 		bool toRightSlotHasNoCrawler = SlotDoesNotHaveSkinCrawler(toRightSlot);
@@ -72,7 +74,7 @@ public class SkinCrawler : AbilityBehaviour
 			yield return ApplyModAndDoAnimationSequence(cardToPick, cardSlotToPick);
 
 			Log.LogDebug($"[Crawler.AssignSkinCrawlerCardToHost] Nulling slots out");
-			BoardManager.Instance.GetSlots(!Card.OpponentCard)[Card.Slot.Index].Card = null;
+			BoardManager.Instance.GetSlots(Card.IsPlayerCard())[Card.Slot.Index].Card = null;
 			Card.slot = null;
 			Log.LogDebug($"[Crawler.AssignSkinCrawlerCardToHost] Setting up slot.");
 			_slotHidingUnderCard = SkinCrawlerSlot.SetupSlot(Card, cardToPick);
@@ -158,8 +160,7 @@ public class SkinCrawler : AbilityBehaviour
 
 	private bool CardIsAdjacent(PlayableCard playableCard)
 	{
-		return BoardManager.Instance.GetAdjacentSlots(Card.Slot)
-		 .Exists(slot => slot && slot.Card == playableCard);
+		return Card.Slot.GetAdjacentSlots().Exists(slot => slot && slot.Card == playableCard);
 	}
 
 	public override bool RespondsToOtherCardAssignedToSlot(PlayableCard otherCard)
@@ -200,7 +201,9 @@ public partial class GrimoraPlugin
 			"[creature] will attempt to find a host in an adjacent friendly slot, hiding under it providing a +1/+1 buff. "
 		+ "Cards on the left take priority.";
 
-		ApiUtils.CreateAbility<SkinCrawler>(rulebookDescription);
+		AbilityBuilder<SkinCrawler>.Builder
+		 .SetRulebookDescription(rulebookDescription)
+		 .Build();
 	}
 }
 
@@ -246,7 +249,7 @@ public class SkinCrawlerSlot : NonCardTriggerReceiver
 		           + $"Crawler {skinCrawlerCard.GetNameAndSlot()} Dying Card [{card.GetNameAndSlot()}] deathSlot [{deathSlot.name}] "
 		           + $"_slotHidingUnderCard [{hidingOnSlot}] is deathSlot? [{hidingOnSlot == deathSlot}]"
 		);
-		return hidingOnSlot == deathSlot && card == hidingUnderCard && !card.HasAbility(Ability.IceCube);
+		return hidingOnSlot == deathSlot && card == hidingUnderCard && card.LacksAbility(Ability.IceCube);
 	}
 
 	public override IEnumerator OnOtherCardDie(

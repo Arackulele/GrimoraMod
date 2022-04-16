@@ -16,6 +16,8 @@ public partial class GrimoraPlugin
 		const string rulebookDescription =
 			"When [creature] would be struck, a severed limb is created in its place and this card moves into an adjacent open slot.";
 
-		ApiUtils.CreateAbility<LooseLimb>(rulebookDescription);
+		AbilityBuilder<LooseLimb>.Builder
+		 .SetRulebookDescription(rulebookDescription)
+		 .Build();
 	}
 }

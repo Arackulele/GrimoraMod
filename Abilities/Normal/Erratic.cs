@@ -53,6 +53,8 @@ public partial class GrimoraPlugin
 	{
 		const string rulebookDescription = "At the end of the owner's turn, [creature] will move in a random direction.";
 
-		ApiUtils.CreateAbility<Erratic>(rulebookDescription);
+		AbilityBuilder<Erratic>.Builder
+		 .SetRulebookDescription(rulebookDescription)
+		 .Build();
 	}
 }

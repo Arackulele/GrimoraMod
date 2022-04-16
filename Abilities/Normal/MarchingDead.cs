@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Helpers.Extensions;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -21,8 +22,8 @@ public class MarchingDead : AbilityBehaviour
 
 	public override IEnumerator OnResolveOnBoard()
 	{
-		CardSlot leftAdjSlot = BoardManager.Instance.GetAdjacent(Card.Slot, true);
-		CardSlot rightAdjSlot = BoardManager.Instance.GetAdjacent(Card.Slot, false);
+		CardSlot leftAdjSlot = Card.Slot.GetAdjacent(true);
+		CardSlot rightAdjSlot = Card.Slot.GetAdjacent(false);
 		if (leftAdjCard && leftAdjSlot && leftAdjSlot.Card.IsNull())
 		{
 			ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
@@ -67,6 +68,8 @@ public partial class GrimoraPlugin
 		const string rulebookDescription
 			= "When [creature] is played, also play the cards in your hand that were adjacent to this card for free.";
 
-		ApiUtils.CreateAbility<MarchingDead>(rulebookDescription);
+		AbilityBuilder<MarchingDead>.Builder
+		 .SetRulebookDescription(rulebookDescription)
+		 .Build();
 	}
 }

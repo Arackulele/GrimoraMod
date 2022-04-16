@@ -2,6 +2,7 @@ using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Encounters;
+using InscryptionAPI.Helpers.Extensions;
 using Pixelplacement;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -23,7 +24,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 	public override int StartingLives => 3;
 
-	private Animator bonelordSnapAnim = null;
+	private Animator _bonelordSnapAnim = null;
 
 	private static void SetSceneEffectsShownGrimora(Color cardLightColor)
 	{
@@ -161,7 +162,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		if (ConfigHelper.HasIncreaseSlotsMod)
 		{
-			yield return BoardManager.Instance.CreateCardInSlot(NameObol.GetCardInfo(), oppSlots[2], 0.2f);
+			yield return oppSlots[2].CreateCardInSlot(NameObol.GetCardInfo(), 0.2f);
 			CardSlot thirdLaneQueueSlot = BoardManager.Instance.GetQueueSlots()[2];
 			yield return TurnManager.Instance.Opponent.QueueCard(NameObol.GetCardInfo(), thirdLaneQueueSlot);
 		}
@@ -226,8 +227,8 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		if (activePlayerCards.Any())
 		{
 			ViewManager.Instance.SwitchToView(View.Default, false, true);
-			bonelordSnapAnim.gameObject.SetActive(true);
-			bonelordSnapAnim.Play("bonelord_snap", 0, 0);
+			_bonelordSnapAnim.gameObject.SetActive(true);
+			_bonelordSnapAnim.Play("bonelord_snap", 0, 0);
 			yield return new WaitForSeconds(1.2f);
 			foreach (var playableCard in activePlayerCards)
 			{
@@ -312,14 +313,14 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	private void AddBonelordSnapAnim(PlayableCard playableCard)
 	{
 		Log.LogDebug($"Spawning new sentry prefab for card [{playableCard.Info.displayedName}]");
-		bonelordSnapAnim = Instantiate(
+		_bonelordSnapAnim = Instantiate(
 				AssetUtils.GetPrefab<GameObject>("SkeletonArm_BoneLordSnap"),
 				playableCard.transform
 			)
 		 .GetComponent<Animator>();
-		bonelordSnapAnim.name = "SkeletonArm_BoneLordSnap";
-		bonelordSnapAnim.gameObject.AddComponent<AnimMethods>();
-		bonelordSnapAnim.gameObject.SetActive(false);
+		_bonelordSnapAnim.name = "SkeletonArm_BoneLordSnap";
+		_bonelordSnapAnim.gameObject.AddComponent<AnimMethods>();
+		_bonelordSnapAnim.gameObject.SetActive(false);
 	}
 	
 	private IEnumerator CreateHornsInFarLeftAndRightLanes(List<CardSlot> oppSlots)
@@ -341,7 +342,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		for (int i = 0; i < 2; i++)
 		{
 			yield return TurnManager.Instance.Opponent.QueueCard(bonelordsHorn, leftAndRightQueueSlots[i]);
-			yield return BoardManager.Instance.CreateCardInSlot(bonelordsHorn, oppSlots[i], 0.2f);
+			yield return oppSlots[i].CreateCardInSlot(bonelordsHorn, 0.2f);
 			yield return new WaitForSeconds(0.25f);
 		}
 	}

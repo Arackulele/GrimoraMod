@@ -23,11 +23,8 @@ public class GravestoneRenderStatsLayerPatches
 	{
 		PlayableCard playableCard = __instance.PlayableCard;
 		SelectableCard selectableCard = __instance.GetComponentInParent<SelectableCard>();
-		if (playableCard && playableCard.HasBeenElectricChaired() || selectableCard && selectableCard.Info.HasBeenElectricChaired())
-		{
-			__instance.SetEmissionColor(GameColors.Instance.blue);
-		}
-
+		
+		HandleElectricChair(__instance, playableCard, selectableCard);
 		HandleImbuedAbility(__instance, playableCard, selectableCard);
 	}
 

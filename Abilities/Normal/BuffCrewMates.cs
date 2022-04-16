@@ -1,32 +1,15 @@
 ﻿using DiskCardGame;
-using InscryptionAPI.Card;
+using InscryptionAPI.Triggers;
 
 namespace GrimoraMod;
 
-public class BuffCrewMates : ExtendedAbilityBehaviour
+public class BuffCrewMates : AbilityBehaviour, IPassiveAttackBuff
 {
 	public static Ability ability;
 
 	public override Ability Ability => ability;
 
-	public override bool ProvidesPassiveAttackBuff => true;
-
-	public override int[] GetPassiveAttackBuffs()
-	{
-		int[] arrForSkeletonsToBuff = ConfigHelper.HasIncreaseSlotsMod ? new[] { 0, 0, 0, 0, 0 } : new[] { 0, 0, 0, 0 };
-		var skeletonSlotIndexes = BoardManager.Instance
-		 .GetSlots(!Card.OpponentCard)
-		 .Where(slot => slot.CardInSlotIs(GrimoraPlugin.NameSkeleton))
-		 .Select(slot => slot.Index)
-		 .ToList();
-
-		foreach (var slotIndex in skeletonSlotIndexes)
-		{
-			arrForSkeletonsToBuff[slotIndex] = 1;
-		}
-
-		return arrForSkeletonsToBuff;
-	}
+	public int GetPassiveAttackBuff(PlayableCard target) => target.Info.name == GrimoraPlugin.NameSkeleton ? 1 : 0;
 }
 
 public partial class GrimoraPlugin

@@ -1,5 +1,6 @@
 using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Helpers.Extensions;
 
 namespace GrimoraMod;
 
@@ -22,10 +23,7 @@ public class CreateArmyOfSkeletons : AbilityBehaviour
 	{
 		ViewManager.Instance.SwitchToView(View.Board);
 
-		var openSlots = BoardManager.Instance
-		                            .GetSlots(Card.Slot.IsPlayerSlot)
-		                            .Where(slot => slot.Card.IsNull())
-		                            .ToList();
+		var openSlots = BoardManager.Instance.GetSlots(Card.Slot.IsPlayerSlot).OpenSlots();
 
 		foreach (var slot in openSlots)
 		{
@@ -45,7 +43,7 @@ public class CreateArmyOfSkeletons : AbilityBehaviour
 
 	private IEnumerator SpawnCardOnSlot(CardSlot slot)
 	{
-		yield return BoardManager.Instance.CreateCardInSlot("Skeleton".GetCardInfo(), slot, 0.15f);
+		yield return slot.CreateCardInSlot("Skeleton".GetCardInfo(), 0.15f);
 	}
 }
 
@@ -56,6 +54,9 @@ public partial class GrimoraPlugin
 		const string rulebookDescription =
 			"When [creature] is played, a Skeleton is created in each empty space on the owner's side. [define:Skeleton]";
 
-		ApiUtils.CreateAbility<CreateArmyOfSkeletons>(rulebookDescription, "Skeleton Horde");
+		AbilityBuilder<CreateArmyOfSkeletons>.Builder
+		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName("Skeleton Horde")
+		 .Build();
 	}
 }

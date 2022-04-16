@@ -133,7 +133,7 @@ public class FirstPersonHammerPatch
 
 		if (!HasPlayedIceDialogue
 		    && TurnManager.Instance.Opponent is KayceeBossOpponent
-		    && BoardManager.Instance.PlayerSlotsCopy.Exists(slot => slot.CardIsNotNullAndHasAbility(Ability.IceCube))
+		    && BoardManager.Instance.PlayerSlotsCopy.Exists(slot => slot.Card && slot.Card.HasAbility(Ability.IceCube))
 		   )
 		{
 			__instance.StartCoroutine(

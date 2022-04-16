@@ -66,46 +66,18 @@ public static class CardRelatedExtension
 	}
 
 	/// <summary>
-	/// Create a basic CardBlueprint based off the CardInfo object.
-	/// </summary>
-	/// <param name="cardInfo">CardInfo to access</param>
-	/// <returns>The same card info so a chain can continue</returns>
-	public static EncounterBlueprintData.CardBlueprint CreateBlueprint(this CardInfo cardInfo)
-	{
-		return new EncounterBlueprintData.CardBlueprint
-		{
-			card = cardInfo
-		};
-	}
-
-	/// <summary>
 	/// Create a basic CardBlueprint based from the name of the card.
 	/// </summary>
 	/// <param name="cardName">Name of the card</param>
 	/// <returns>The CardBlueprint containing the card.</returns>
 	public static EncounterBlueprintData.CardBlueprint CreateCardBlueprint(this string cardName)
 	{
-		return CreateBlueprint(cardName.GetCardInfo());
+		return cardName.GetCardInfo().CreateBlueprint();
 	}
 
 	public static CardInfo GetCardInfo(this string self)
 	{
 		return CardManager.AllCardsCopy.Single(info => info.name == self);
-	}
-
-	public static bool CardIsNotNullAndHasAbility(this CardSlot cardSlot, Ability ability)
-	{
-		return cardSlot.Card && cardSlot.Card.HasAbility(ability);
-	}
-
-	public static bool CardIsNotNullAndHasSpecialAbility(this CardSlot cardSlot, SpecialTriggeredAbility ability)
-	{
-		return cardSlot.Card && cardSlot.Card.Info.SpecialAbilities.Contains(ability);
-	}
-
-	public static bool CardInSlotIs(this CardSlot cardSlot, string cardName)
-	{
-		return cardSlot.Card && cardSlot.Card.InfoName().Equals(cardName);
 	}
 
 	public static string InfoName(this Card card)
@@ -133,11 +105,6 @@ public static class CardRelatedExtension
 		}
 
 		controller.Anim.SetBool(Hovering, isHovering);
-	}
-
-	public static bool HasSpecialAbility(this PlayableCard playableCard, SpecialTriggeredAbility ability)
-	{
-		return playableCard.Info.SpecialAbilities.Contains(ability);
 	}
 
 	public static bool HasAnyAbilities(this PlayableCard playableCard, params Ability[] abilities)
@@ -175,7 +142,7 @@ public static class CardRelatedExtension
 		float             royalTableSwayValue = 0f
 	)
 	{
-		if (!playableCard.Dead)
+		if (playableCard.NotDead())
 		{
 			playableCard.Dead = true;
 			CardSlot slotBeforeDeath = playableCard.Slot;
@@ -215,7 +182,7 @@ public static class CardRelatedExtension
 				}
 			}
 
-			if (!playableCard.HasAbility(Ability.QuadrupleBones) && !playableCard.HasAbility(Boneless.ability) && slotBeforeDeath.IsPlayerSlot)
+			if (playableCard.LacksAbility(Ability.QuadrupleBones) && playableCard.LacksAbility(Boneless.ability) && slotBeforeDeath.IsPlayerSlot)
 			{
 				yield return ResourcesManager.Instance.AddBones(1, slotBeforeDeath);
 			}

@@ -28,6 +28,8 @@ public partial class GrimoraPlugin
 			"[creature] cannot be attacked from the opposing slot. "
 		+ "The opposing slot, if possible, instead attacks one of its adjacent friendly cards.";
 
-		ApiUtils.CreateAbility<Possessive>(rulebookDescription);
+		AbilityBuilder<Possessive>.Builder
+		 .SetRulebookDescription(rulebookDescription)
+		 .Build();
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
+using InscryptionAPI.Helpers.Extensions;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -29,7 +30,7 @@ public class FuneralFacade : SpecialCardBehaviour
 		if (card.InfoName() != GrimoraPlugin.NameTamperedCoffin)
 		{
 			Card.Anim.LightNegationEffect();
-			yield return BoardManager.Instance.CreateCardInSlot(GrimoraPlugin.NameTamperedCoffin.GetCardInfo(), deathSlot);
+			yield return deathSlot.CreateCardInSlot(GrimoraPlugin.NameTamperedCoffin.GetCardInfo());
 			yield return new WaitForSeconds(0.25f);
 		}
 	}

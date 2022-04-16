@@ -1,6 +1,8 @@
 using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using InscryptionAPI.Encounters;
+using InscryptionAPI.Helpers.Extensions;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -65,7 +67,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 	private bool SlotContainsTwinGiant(CardSlot cardSlot)
 	{
-		return cardSlot.CardIsNotNullAndHasSpecialAbility(GrimoraGiant.FullSpecial.Id) && cardSlot.CardInSlotIs(NameGiant);
+		return cardSlot.HasCard(NameGiant) && cardSlot.Card.HasSpecialAbility(GrimoraGiant.FullSpecial.Id);
 	}
 
 	public override IEnumerator OpponentUpkeep()
@@ -84,7 +86,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		}
 		else if (!_playedDialoguePossessive
 		      && BoardManager.Instance.PlayerSlotsCopy.Exists(slot => slot.Card && slot.Card.HasAbility(Possessive.ability))
-		      && BoardManager.Instance.OpponentSlotsCopy.Exists(slot => slot.CardInSlotIs(NameBonelord))
+		      && BoardManager.Instance.OpponentSlotsCopy.Exists(slot => slot.HasCard(NameBonelord))
 		)
 		{
 			yield return new WaitForSeconds(0.5f);
@@ -112,8 +114,8 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		PlayableCard killer
 	)
 	{
-		bool isPhaseOne = !card.OpponentCard && TurnManager.Instance.Opponent.NumLives == 3;
-		bool giantDied = card.Info.HasTrait(Trait.Giant) && card.InfoName() == NameGiant;
+		bool isPhaseOne = card.IsPlayerCard() && TurnManager.Instance.Opponent.NumLives == 3;
+		bool giantDied = card.HasTrait(Trait.Giant) && card.InfoName() == NameGiant;
 		return isPhaseOne || giantDied;
 	}
 
@@ -140,7 +142,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 				TextDisplayer.MessageAdvanceMode.Input
 			);
 
-			CardSlot slot = opponentQueuedSlots[UnityRandom.Range(0, opponentQueuedSlots.Count)];
+			CardSlot slot = opponentQueuedSlots.GetRandomItem();
 			yield return TurnManager.Instance.Opponent.QueueCard(card.Info, slot);
 			_willReanimateCardThatDied = false;
 			yield return new WaitForSeconds(0.5f);
@@ -151,7 +153,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 	private IEnumerator EnrageLastTwinGiant(PlayableCard playableCard)
 	{
 		CardSlot remainingGiantSlot = BoardManager.Instance.OpponentSlotsCopy
-		 .Find(slot => slot.Card && playableCard.Slot != slot && slot.Card.InfoName() == NameGiant);
+		 .Find(slot => slot.HasCard(NameGiant) && playableCard.Slot != slot);
 		
 		if (remainingGiantSlot)
 		{

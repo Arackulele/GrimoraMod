@@ -1,6 +1,7 @@
 using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Encounters;
+using InscryptionAPI.Helpers.Extensions;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
 using static GrimoraMod.GrimoraPlugin;
@@ -88,11 +89,9 @@ public class SawyerBossOpponent : BaseBossExt
 		);
 
 		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
-		yield return BoardManager.Instance.CreateCardInSlot(
-			NameHellHound.GetCardInfo(),
-			BoardManager.Instance.OpponentSlotsCopy[2],
-			1.0f
-		);
+		yield return BoardManager.Instance
+		 .OpponentSlotsCopy[2]
+		 .CreateCardInSlot(NameHellHound.GetCardInfo(), 1.0f);
 		yield return new WaitForSeconds(0.8f);
 
 		yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());

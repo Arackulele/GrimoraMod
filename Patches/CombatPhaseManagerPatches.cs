@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
+using InscryptionAPI.Helpers.Extensions;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -76,7 +78,7 @@ public class CombatPhaseManagerPatches
 				yield return new WaitForSeconds(0.1f);
 			}
 
-			if(giantCard && !giantCard.Dead)
+			if(giantCard.NotDead())
 			{
 				giantCard.SetCustomArmsPrefabActive(false);
 			}
@@ -102,11 +104,11 @@ public class CombatPhaseManagerPatches
 
 					Log.LogDebug($"[SlotAttackSequence.StrikeAdj] Subtracting [{dmgDoneToPlayer}] from DamageDealtThisPhase");
 					__instance.DamageDealtThisPhase -= dmgDoneToPlayer;
-					yield return (__instance as CombatPhaseManager3D).VisualizeDamageMovingToScales(!slot.IsPlayerSlot);
+					yield return (__instance as CombatPhaseManager3D).VisualizeDamageMovingToScales(slot.IsOpponentSlot());
 					(__instance as CombatPhaseManager3D).damageWeights.Clear();
 				}
 			}
-			if(slot.Card && !slot.Card.Dead)
+			if(slot.Card.NotDead())
 			{
 				slot.Card.SetCustomArmsPrefabActive(false);
 			}

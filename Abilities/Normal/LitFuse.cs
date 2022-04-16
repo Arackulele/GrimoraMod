@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -12,7 +13,7 @@ public class LitFuse : ExplodeOnDeath
 
 	public override bool RespondsToUpkeep(bool playerUpkeep)
 	{
-		return !Card.OpponentCard && playerUpkeep || Card.OpponentCard && !playerUpkeep;
+		return Card.IsPlayerCard() && playerUpkeep || Card.OpponentCard && !playerUpkeep;
 	}
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
@@ -33,6 +34,8 @@ public partial class GrimoraPlugin
 			"[creature] loses 1 health per turn. "
 		+ "When [creature] dies, the creature opposing it, as well as adjacent friendly creatures, are dealt 10 damage.";
 
-		ApiUtils.CreateAbility<LitFuse>(rulebookDescription);
+		AbilityBuilder<LitFuse>.Builder
+		 .SetRulebookDescription(rulebookDescription)
+		 .Build();
 	}
 }

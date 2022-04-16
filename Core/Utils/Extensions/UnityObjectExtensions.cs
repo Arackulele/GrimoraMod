@@ -16,11 +16,6 @@ public static class UnityObjectExtensions
 		Transparent
 	}
 
-	public static bool IsNotNull(this UnityEngine.Object obj)
-	{
-		return obj;
-	}
-
 	public static bool IsNull(this UnityEngine.Object obj)
 	{
 		return !obj;

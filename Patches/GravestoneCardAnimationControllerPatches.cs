@@ -2,6 +2,7 @@
 using System.Text;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -193,7 +194,7 @@ public class GravestoneCardAnimationControllerPatches
 
 	private static void SetSkeletonArmAttackPositionForGiantCards(GravestoneCardAnimationController __instance)
 	{
-		if (__instance.PlayableCard.Info.HasTrait(Trait.Giant))
+		if (__instance.PlayableCard.HasTrait(Trait.Giant))
 		{
 			float xValPosition = -0.7f;
 			Transform skeletonArm = __instance.transform.GetChild(1);

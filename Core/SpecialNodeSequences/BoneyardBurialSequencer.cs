@@ -295,7 +295,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		list.RemoveAll(
 			card => card.BonesCost <= 1
 			        || card.Abilities.Count == 4
-			        || card.Abilities.Contains(Ability.Brittle)
+			        || card.HasAbility(Ability.Brittle)
 			        || card.SpecialAbilities.Contains(SpecialTriggeredAbility.RandomCard)
 			        || card.traits.Contains(Trait.Pelt)
 			        || card.traits.Contains(Trait.Terrain)

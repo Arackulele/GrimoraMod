@@ -1,21 +1,19 @@
 ﻿using DiskCardGame;
 using InscryptionAPI.Card;
+using InscryptionAPI.Triggers;
 
 namespace GrimoraMod;
 
-public class InvertedStrike : ExtendedAbilityBehaviour
+public class InvertedStrike : AbilityBehaviour, IGetOpposingSlots
 {
 	public static Ability ability;
 	public override Ability Ability => ability;
 
-	public override bool RemoveDefaultAttackSlot() => true;
+	public bool RemoveDefaultAttackSlot() => true;
 
-	public override bool RespondsToGetOpposingSlots()
-	{
-		return !Card.HasAbility(AreaOfEffectStrike.ability);
-	}
+	public bool RespondsToGetOpposingSlots() => Card.LacksAbility(AreaOfEffectStrike.ability);
 
-	public override List<CardSlot> GetOpposingSlots(List<CardSlot> originalSlots, List<CardSlot> otherAddedSlots)
+	public List<CardSlot> GetOpposingSlots(List<CardSlot> originalSlots, List<CardSlot> otherAddedSlots)
 	{
 		int slotIdx = Card.Slot.Index;
 		int totalSlotCount = BoardManager.Instance.PlayerSlotsCopy.Count;
@@ -86,6 +84,9 @@ public partial class GrimoraPlugin
 			"[creature] will strike the opposing slot as if the board was flipped. "
 		+ "A card in the far left slot will attack the opposing far right slot.";
 
-		ApiUtils.CreateAbility<InvertedStrike>(rulebookDescription, flipYIfOpponent: true);
+		AbilityBuilder<InvertedStrike>.Builder
+		 .SetRulebookDescription(rulebookDescription)
+		 .FlipIconIfOnOpponentSide()
+		 .Build();
 	}
 }

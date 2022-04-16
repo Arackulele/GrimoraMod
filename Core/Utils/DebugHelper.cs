@@ -1,6 +1,7 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Card;
+using InscryptionAPI.Helpers.Extensions;
 using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -452,10 +453,9 @@ public class DebugHelper : ManagedBehaviour
 			if (selectedButton >= 0)
 			{
 				StartCoroutine(
-					BoardManager.Instance.CreateCardInSlot(
-						AllGrimoraModCards[selectedButton],
-						BoardManager.Instance.OpponentSlotsCopy[0]
-					)
+					BoardManager.Instance
+					 .OpponentSlotsCopy[0]
+					 .CreateCardInSlot(AllGrimoraModCards[selectedButton])
 				);
 			}
 		}
@@ -481,10 +481,9 @@ public class DebugHelper : ManagedBehaviour
 			if (selectedButton >= 0)
 			{
 				StartCoroutine(
-					BoardManager.Instance.CreateCardInSlot(
-						AllGrimoraModCards[selectedButton],
-						BoardManager.Instance.OpponentSlotsCopy[1]
-					)
+					BoardManager.Instance
+					 .OpponentSlotsCopy[1]
+					 .CreateCardInSlot(AllGrimoraModCards[selectedButton])
 				);
 			}
 		}
@@ -510,10 +509,9 @@ public class DebugHelper : ManagedBehaviour
 			if (selectedButton >= 0)
 			{
 				StartCoroutine(
-					BoardManager.Instance.CreateCardInSlot(
-						AllGrimoraModCards[selectedButton],
-						BoardManager.Instance.OpponentSlotsCopy[2]
-					)
+					BoardManager.Instance
+					 .OpponentSlotsCopy[2]
+					 .CreateCardInSlot(AllGrimoraModCards[selectedButton])
 				);
 			}
 		}
@@ -539,10 +537,9 @@ public class DebugHelper : ManagedBehaviour
 			if (selectedButton >= 0)
 			{
 				StartCoroutine(
-					BoardManager.Instance.CreateCardInSlot(
-						AllGrimoraModCards[selectedButton],
-						BoardManager.Instance.OpponentSlotsCopy[3]
-					)
+					BoardManager.Instance
+					 .OpponentSlotsCopy[3]
+					 .CreateCardInSlot(AllGrimoraModCards[selectedButton])
 				);
 			}
 		}
@@ -569,12 +566,7 @@ public class DebugHelper : ManagedBehaviour
 			{
 				foreach (var cardSlot in BoardManager.Instance.OpponentSlotsCopy)
 				{
-					StartCoroutine(
-						BoardManager.Instance.CreateCardInSlot(
-							AllGrimoraModCards[selectedButton],
-							cardSlot
-						)
-					);
+					StartCoroutine(cardSlot.CreateCardInSlot(AllGrimoraModCards[selectedButton]));
 				}
 			}
 		}

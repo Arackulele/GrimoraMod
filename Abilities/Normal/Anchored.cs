@@ -15,6 +15,8 @@ public partial class GrimoraPlugin
 	{
 		const string rulebookDescription = "[creature] is unaffected by the motion of the ship.";
 
-		ApiUtils.CreateAbility<Anchored>(rulebookDescription);
+		AbilityBuilder<Anchored>.Builder
+		 .SetRulebookDescription(rulebookDescription)
+		 .Build();
 	}
 }

@@ -43,10 +43,9 @@ public partial class GrimoraPlugin
 	public void Add_Ability_BloodGuzzler()
 	{
 		AbilityInfo abilityInfo = AbilitiesUtil.GetInfo(Ability.BloodGuzzler);
-		Texture icon = AbilitiesUtil.LoadAbilityIcon(Ability.BloodGuzzler.ToString());
 		AbilityBuilder<BloodGuzzler>.Builder
+		 .SetIcon(AbilitiesUtil.LoadAbilityIcon(Ability.BloodGuzzler.ToString()))
 		 .SetRulebookDescription(abilityInfo.rulebookDescription)
-		 .SetIcon(icon)
 		 .Build();
 	}
 }

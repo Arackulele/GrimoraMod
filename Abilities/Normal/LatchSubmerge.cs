@@ -16,6 +16,8 @@ public partial class GrimoraPlugin
 		const string rulebookDescription =
 			"When [creature] perishes, its owner chooses a creature to gain the Waterborne sigil.";
 
-		ApiUtils.CreateAbility<LatchSubmerge>(rulebookDescription);
+		AbilityBuilder<LatchSubmerge>.Builder
+		 .SetRulebookDescription(rulebookDescription)
+		 .Build();
 	}
 }

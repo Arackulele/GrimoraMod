@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -30,7 +31,7 @@ public class Imbued : AbilityBehaviour
 		PlayableCard killer
 	)
 	{
-		return card && card != Card && !card.OpponentCard && !card.HasAbility(Ability.Brittle);
+		return card && card != Card && card.IsPlayerCard() && card.LacksAbility(Ability.Brittle);
 	}
 
 	public override IEnumerator OnOtherCardDie(
@@ -59,6 +60,8 @@ public partial class GrimoraPlugin
 	{
 		const string rulebookDescription = "When a non-brittle ally card perishes, [creature] gains 1 power.";
 
-		ApiUtils.CreateAbility<Imbued>(rulebookDescription);
+		AbilityBuilder<Imbued>.Builder
+		 .SetRulebookDescription(rulebookDescription)
+		 .Build();
 	}
 }

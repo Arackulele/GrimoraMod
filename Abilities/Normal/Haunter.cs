@@ -35,8 +35,10 @@ public partial class GrimoraPlugin
 		const string rulebookDescription = "When [creature] perishes, it haunts the space it died in. "
 		                                 + "The first creature played on this space gain its old sigils.";
 
-		Texture icon = AbilitiesUtil.LoadAbilityIcon(Ability.Haunter.ToString());
-		ApiUtils.CreateAbility<Haunter>(rulebookDescription, rulebookIcon: icon);
+		AbilityBuilder<Haunter>.Builder
+		 .SetIcon(AbilitiesUtil.LoadAbilityIcon(Ability.Haunter.ToString()))
+		 .SetRulebookDescription(rulebookDescription)
+		 .Build();
 	}
 }
 

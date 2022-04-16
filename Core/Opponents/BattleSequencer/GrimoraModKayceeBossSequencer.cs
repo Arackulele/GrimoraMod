@@ -1,6 +1,8 @@
 using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using InscryptionAPI.Encounters;
+using InscryptionAPI.Helpers.Extensions;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -34,12 +36,12 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
 		var playerCardsWithAttacks
-			= BoardManager.Instance.GetPlayerCards(pCard => pCard.Attack > 0 && !pCard.FaceDown && !pCard.HasAbility(Ability.IceCube));
+			= BoardManager.Instance.GetPlayerCards(pCard => pCard.Attack > 0 && !pCard.FaceDown && pCard.LacksAbility(Ability.IceCube));
 
 		_freezeCounter += playerCardsWithAttacks.Count;
 		Log.LogWarning($"[Kaycee] Freeze counter [{_freezeCounter}]");
 
-		if (playerCardsWithAttacks.IsNotEmpty())
+		if (playerCardsWithAttacks.Any())
 		{
 			if (_freezeCounter >= 5)
 			{

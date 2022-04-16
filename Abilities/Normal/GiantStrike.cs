@@ -1,19 +1,20 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Card;
+using InscryptionAPI.Triggers;
 using UnityEngine;
 
 namespace GrimoraMod;
 
-public class GiantStrike : ExtendedAbilityBehaviour
+public class GiantStrike : AbilityBehaviour, IGetOpposingSlots
 {
 	public static Ability ability;
 
 	public override Ability Ability => ability;
 
-	public override bool RemoveDefaultAttackSlot() => true;
+	public bool RemoveDefaultAttackSlot() => true;
 
-	public override bool RespondsToGetOpposingSlots() => true;
+	public bool RespondsToGetOpposingSlots() => true;
 
 	private void Awake()
 	{
@@ -37,7 +38,7 @@ public class GiantStrike : ExtendedAbilityBehaviour
 		 .ToList();
 	}
 
-	public override List<CardSlot> GetOpposingSlots(List<CardSlot> originalSlots, List<CardSlot> otherAddedSlots)
+	public List<CardSlot> GetOpposingSlots(List<CardSlot> originalSlots, List<CardSlot> otherAddedSlots)
 	{
 		// assume giant is in slot indexes 0, 1
 		// original slots has opposing slot of index 1
@@ -72,6 +73,9 @@ public partial class GrimoraPlugin
 			"[creature] will strike each opposing space. "
 		+ "If only one creature is in the opposing spaces, this card will strike that creature twice. ";
 
-		ApiUtils.CreateAbility<GiantStrike>(rulebookDescription, flipYIfOpponent: true);
+		AbilityBuilder<GiantStrike>.Builder
+		 .FlipIconIfOnOpponentSide()
+		 .SetRulebookDescription(rulebookDescription)
+		 .Build();
 	}
 }
