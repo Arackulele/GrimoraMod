@@ -9,37 +9,6 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(PlayableCard))]
 public class PlayableCardPatches
 {
-	[HarmonyPrefix, HarmonyPatch(nameof(PlayableCard.ManagedUpdate))]
-	private static bool StopManagedUpdate() { return false; }
-	
-	[HarmonyReversePatch, HarmonyPatch(nameof(PlayableCard.ManagedUpdate))]
-	[MethodImpl(MethodImplOptions.NoInlining)]
-	private static void OriginalManagedUpdate(PlayableCard instance) { throw new NotImplementedException(); }
-
-	public static void UpdateAllCards()
-	{
-		var cardsInHandAndBoard
-			= BoardManager.Instance.CardsOnBoard
-			 .Concat(PlayerHand.Instance.CardsInHand)
-			 .ToList();
-		Log.LogDebug($"Attempting to update cards [{cardsInHandAndBoard.Join(c => c.Info.displayedName)}]");
-		foreach (var c in cardsInHandAndBoard.Where(c => c))
-		{
-			Log.LogDebug($"--> Updating card {c.GetNameAndSlot()}");
-			if (c.GetComponent<VariableStatBehaviour>())
-			{
-				c.GetComponent<VariableStatBehaviour>().UpdateStats();
-			}
-			OriginalManagedUpdate(c);
-		}
-	}
-
-	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.DestroyWhenStackIsClear))]
-	public static void DoUpdateCardsAfterStackSizeIsZero()
-	{
-		UpdateAllCards();
-	}
-
 	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.Die))]
 	public static IEnumerator ExtendDieMethod(
 		IEnumerator enumerator,
