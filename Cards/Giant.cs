@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -28,9 +29,7 @@ public partial class GrimoraPlugin
 [HarmonyPatch]
 public class ModifyLocalPositionsOfTableObjects
 {
-	[HarmonyPostfix,
-	 HarmonyPatch(typeof(BoardManager3D), nameof(BoardManager3D.TransitionAndResolveCreatedCard))
-	]
+	[HarmonyPostfix, HarmonyPatch(typeof(BoardManager3D), nameof(BoardManager3D.TransitionAndResolveCreatedCard))]
 	public static IEnumerator ChangeScaleOfMoonCardToFitAcrossAllSlots(
 		IEnumerator enumerator,
 		PlayableCard card,
@@ -40,8 +39,8 @@ public class ModifyLocalPositionsOfTableObjects
 	)
 	{
 		if (GrimoraSaveUtil.isGrimora
-		    && card.Info.HasTrait(Trait.Giant)
-		    && card.Info.SpecialAbilities.Contains(GrimoraGiant.FullSpecial.Id))
+		    && card.HasTrait(Trait.Giant)
+		    && card.HasSpecialAbility(GrimoraGiant.FullSpecial.Id))
 		{
 			bool isBonelord = card.InfoName().Equals(NameBonelord);
 			// Card -> RotatingParent (child zero) -> TombstoneParent -> Cardbase_StatsLayer
