@@ -35,7 +35,7 @@ public class SentryPatches
 		}
 
 		__instance.lastShotCard = otherCard;
-		__instance.lastShotTurn = Singleton<TurnManager>.Instance.TurnNumber;
+		__instance.lastShotTurn = TurnManager.Instance.TurnNumber;
 		ViewManager.Instance.SwitchToView(View.Board, false, true);
 		yield return new WaitForSeconds(0.25f);
 		for (int i = 0; i < __instance.NumShots; i++)
