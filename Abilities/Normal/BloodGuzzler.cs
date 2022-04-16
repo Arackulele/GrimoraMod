@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -26,7 +27,7 @@ public class BloodGuzzler : AbilityBehaviour
 
 	public override bool RespondsToDealDamage(int amount, PlayableCard target)
 	{
-		return amount > 0;
+		return Card.NotDead() && amount > 0;
 	}
 
 	public override IEnumerator OnDealDamage(int amount, PlayableCard target)
