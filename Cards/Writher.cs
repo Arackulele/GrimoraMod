@@ -13,6 +13,7 @@ public partial class GrimoraPlugin
 		 .SetBoneCost(7)
 		 .SetDescription("Any attempts to strike at it will only make it shed it's prickly spine as a painful decoy.")
 		 .SetNames(NameWrither, "Writher")
+		 .SetTail(NameWritherTail.GetCardInfo())
 		 .Build();
 	}
 }

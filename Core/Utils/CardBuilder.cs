@@ -16,20 +16,6 @@ public class CardBuilder
 	{
 		_cardInfo.temple = CardTemple.Undead;
 
-		if (_cardInfo.name.EndsWith("_tail"))
-		{
-			string cardNameNoGuid = _cardInfo.name.Replace($"{GUID}_", "").Replace("_tail", "");
-			Log.LogDebug($"Setting tail and tailLostPortrait for [{cardNameNoGuid}]");
-			Sprite tailLostSprite = AllSprites.Single(_ => _.name.Equals($"{cardNameNoGuid}_tailless"));
-			tailLostSprite.RegisterEmissionForSprite(AllSprites.Single(_ => _.name.Equals($"{cardNameNoGuid}_emission")));
-			CardInfo owner = AllGrimoraModCards.Single(info => info.name.EndsWith(cardNameNoGuid));
-			owner.tailParams = new TailParams
-			{
-				tail = _cardInfo,
-				tailLostPortrait = tailLostSprite
-			};
-		}
-
 		AllGrimoraModCards.Add(_cardInfo);
 		CardManager.Add(GUID, _cardInfo);
 		return _cardInfo;
@@ -164,6 +150,16 @@ public class CardBuilder
 		return this;
 	}
 
+	internal CardBuilder SetTail(CardInfo tailInfo)
+	{
+		string cardNameNoGuid = _cardInfo.name.Replace($"{GUID}_", string.Empty).Replace("_tail", string.Empty);
+		Log.LogDebug($"Setting tail and tailLostPortrait for [{cardNameNoGuid}]");
+		Sprite tailLostSprite = AllSprites.Single(_ => _.name.Equals($"{cardNameNoGuid}_tailless"));
+		tailLostSprite.RegisterEmissionForSprite(AllSprites.Single(_ => _.name.Equals($"{cardNameNoGuid}_emission")));
+		_cardInfo.SetTail(tailInfo, tailLostSprite);
+		return this;
+	}
+	
 	internal CardBuilder SetTraits(params Trait[] traits)
 	{
 		_cardInfo.traits = traits?.ToList();

@@ -8,13 +8,13 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			//Removed for now as its not fun, maybe at a special event later
-			.SetAsNormalCard()
-			.SetAbilities(LooseLimb.ability)
-			.SetBaseAttackAndHealth(1, 2)
-			.SetBoneCost(5)
-			.SetDescription("It's a wonder this one has stayed together! Though it may lose that arm if it tries to flee...")
-			.SetNames(NameRot, "Rot")
-			.Build()
-			;
+		 .SetAsNormalCard()
+		 .SetAbilities(LooseLimb.ability)
+		 .SetBaseAttackAndHealth(1, 2)
+		 .SetBoneCost(5)
+		 .SetDescription("It's a wonder this one has stayed together! Though it may lose that arm if it tries to flee...")
+		 .SetNames(NameRot, "Rot")
+		 .SetTail(NameRotTail.GetCardInfo())
+		 .Build();
 	}
 }
