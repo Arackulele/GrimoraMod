@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 		 .SetBoneCost(5)
 		 .SetDescription("It's a wonder this one has stayed together! Though it may lose that arm if it tries to flee...")
 		 .SetNames(NameRot, "Rot")
-		 .SetTail(NameRotTail.GetCardInfo())
+		 .SetTail(NameRotTail)
 		 .Build();
 	}
 }

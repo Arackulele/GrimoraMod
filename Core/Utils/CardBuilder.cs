@@ -14,6 +14,8 @@ public class CardBuilder
 
 	private string _cardNameNoGuid;
 
+	private string _cardEmissionNoGuid;
+
 	public CardInfo Build()
 	{
 		_cardInfo.temple = CardTemple.Undead;
@@ -49,9 +51,9 @@ public class CardBuilder
 	{
 		if (ogCardArt.IsNull())
 		{
-			_cardInfo.SetPortrait(AssetUtils.GetPrefab<Sprite>(_cardNameNoGuid));
+			_cardInfo.portraitTex = AssetUtils.GetPrefab<Sprite>(_cardNameNoGuid);
 
-			Sprite emissionSprite = AllSprites.Find(_ => _.name.Equals($"{_cardNameNoGuid}_emission"));
+			Sprite emissionSprite = AllSprites.Find(spr => spr.name.Equals(_cardEmissionNoGuid));
 			if (emissionSprite)
 			{
 				_cardInfo.SetEmissivePortrait(emissionSprite);
@@ -59,8 +61,7 @@ public class CardBuilder
 		}
 		else
 		{
-			Log.LogDebug($"Setting original card art [{ogCardArt.name}]");
-			_cardInfo.SetPortrait(ogCardArt);
+			_cardInfo.portraitTex = ogCardArt;
 		}
 
 		return this;
@@ -88,6 +89,7 @@ public class CardBuilder
 	internal CardBuilder SetNames(string name, string displayedName, Sprite ogSprite = null)
 	{
 		_cardNameNoGuid = name.Replace($"{GUID}_", string.Empty);
+		_cardEmissionNoGuid = _cardNameNoGuid + "_emission";
 		_cardInfo.name = name;
 		_cardInfo.displayedName = displayedName;
 
@@ -152,13 +154,11 @@ public class CardBuilder
 		return this;
 	}
 
-	internal CardBuilder SetTail(CardInfo tailInfo)
+	internal CardBuilder SetTail(string tailName)
 	{
-		string cardNameNoGuid = _cardInfo.name.Replace($"{GUID}_", string.Empty).Replace("_tail", string.Empty);
-		Log.LogDebug($"Setting tail and tailLostPortrait for [{cardNameNoGuid}]");
-		Sprite tailLostSprite = AllSprites.Single(_ => _.name.Equals($"{cardNameNoGuid}_tailless"));
-		tailLostSprite.RegisterEmissionForSprite(AllSprites.Single(_ => _.name.Equals($"{cardNameNoGuid}_emission")));
-		_cardInfo.SetTail(tailInfo, tailLostSprite);
+		Sprite tailLostSprite = AllSprites.Single(spr => spr.name == $"{_cardNameNoGuid}_tailless");
+		tailLostSprite.RegisterEmissionForSprite(AllSprites.Single(spr => spr.name.Equals(_cardEmissionNoGuid)));
+		_cardInfo.SetTail(tailName, tailLostSprite);
 		return this;
 	}
 	
