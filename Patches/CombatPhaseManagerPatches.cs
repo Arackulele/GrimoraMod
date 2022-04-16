@@ -46,6 +46,11 @@ public class CombatPhaseManagerPatches
 					
 					yield return new WaitForSeconds(0.025f);
 					
+					if (giantCard.IsNull())
+					{
+						yield break;
+					}
+					
 					if (giantCard.Anim.DoingAttackAnimation)
 					{
 						yield return new WaitUntil(() => !giantCard.Anim.DoingAttackAnimation);
