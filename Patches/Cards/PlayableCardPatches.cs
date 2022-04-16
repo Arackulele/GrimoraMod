@@ -1,7 +1,8 @@
 ﻿using System.Collections;
-using System.Runtime.CompilerServices;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
+using InscryptionAPI.Helpers.Extensions;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -24,19 +25,16 @@ public class PlayableCardPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.GetOpposingSlots))]
 	public static void PossessiveGetOpposingSlotsPatch(PlayableCard __instance, ref List<CardSlot> __result)
 	{
-		if (__instance.Slot.opposingSlot.CardIsNotNullAndHasAbility(Possessive.ability))
+		CardSlot opposingSlot = __instance.Slot.opposingSlot;
+		if (opposingSlot.Card && opposingSlot.Card.HasAbility(Possessive.ability))
 		{
-			var adjSlots = BoardManager.Instance
-			 .GetAdjacentSlots(__instance.Slot)
-			 .Where(_ => _.Card)
-			 .ToList();
+			var adjCards = __instance.Slot.GetAdjacentSlots(true).GetCards();
 
 			__result = new List<CardSlot>();
-			if (adjSlots.Any())
+			if (adjCards.Any())
 			{
-				CardSlot slotToTarget = adjSlots.GetRandomItem();
 				// Log.LogDebug($"[OpposingPatches.Possessive] Slot targeted for attack [{slotToTarget.Index}]");
-				__result.Add(slotToTarget);
+				__result.Add(adjCards.GetRandomItem().Slot);
 			}
 		}
 	}
@@ -45,7 +43,8 @@ public class PlayableCardPatches
 	public static void PossessiveCanAttackDirectlyPatch(PlayableCard __instance, CardSlot opposingSlot, ref bool __result)
 	{
 		Log.LogDebug($"[Possessive.CanAttackDirectly] Result before [{__result}]");
-		bool oppositeSlotHasPossessive = __instance.Slot.opposingSlot.CardIsNotNullAndHasAbility(Possessive.ability);
+		CardSlot oppositeSlot = __instance.Slot.opposingSlot;
+		bool oppositeSlotHasPossessive = oppositeSlot.Card && oppositeSlot.Card.HasAbility(Possessive.ability);
 		__result &= !oppositeSlotHasPossessive;
 		Log.LogDebug($"[Possessive.CanAttackDirectly] Result after [{__result}]");
 	}
@@ -53,29 +52,29 @@ public class PlayableCardPatches
 	[HarmonyPrefix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetPassiveAttackBuffs))]
 	public static bool CorrectBuffsAndDebuffsForGrimoraGiants(PlayableCard __instance, ref int __result)
 	{
-		bool isGrimoraGiant = __instance.Info.HasTrait(Trait.Giant) && __instance.HasSpecialAbility(GrimoraGiant.FullSpecial.Id);
+		bool isGrimoraGiant = __instance.HasTrait(Trait.Giant) && __instance.HasSpecialAbility(GrimoraGiant.FullSpecial.Id);
 		if (__instance.OnBoard && isGrimoraGiant)
 		{
 			int finalAttackNum = 0;
-			List<CardSlot> opposingSlots = BoardManager.Instance.GetSlots(__instance.OpponentCard).Where(slot => slot.Card).ToList();
-			foreach (var opposingSlot in opposingSlots)
+			List<PlayableCard> opposingSlots = BoardManager.Instance.GetSlots(__instance.OpponentCard).GetCards();
+			foreach (var opposingCard in opposingSlots)
 			{
-				if (opposingSlot.Card.HasAbility(Ability.BuffEnemy))
+				if (opposingCard.HasAbility(Ability.BuffEnemy))
 				{
 					finalAttackNum++;
 				}
 
-				if (!__instance.HasAbility(Ability.MadeOfStone) && opposingSlot.Card.HasAbility(Ability.DebuffEnemy))
+				if (!__instance.HasAbility(Ability.MadeOfStone) && opposingCard.HasAbility(Ability.DebuffEnemy))
 				{
 					finalAttackNum--;
 				}
 			}
 
-			List<CardSlot> slotsWithGiants = BoardManager.Instance.GetSlots(!__instance.OpponentCard).Where(slot => slot.Card == __instance).ToList();
-			foreach (var giant in slotsWithGiants)
+			List<PlayableCard> giantCards = BoardManager.Instance.GetSlots(__instance.IsPlayerCard()).GetCards(pCard => pCard == __instance);
+			foreach (var giant in giantCards)
 			{
-				List<CardSlot> adjSlotsWithCards = BoardManager.Instance.GetAdjacentSlots(giant).Where(slot => slot && slot.Card && slot.Card != __instance).ToList();
-				if (adjSlotsWithCards.Exists(slot => slot.Card.HasAbility(Ability.BuffNeighbours)))
+				List<PlayableCard> adjCards = giant.Slot.GetAdjacentSlots(true).GetCards(pCard => pCard != __instance);
+				if (adjCards.Exists(pCard => pCard.HasAbility(Ability.BuffNeighbours)))
 				{
 					finalAttackNum++;
 				}
