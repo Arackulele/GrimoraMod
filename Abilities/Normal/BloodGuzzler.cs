@@ -25,10 +25,7 @@ public class BloodGuzzler : AbilityBehaviour
 		Card.AddTemporaryMod(_modInfo);
 	}
 
-	public override bool RespondsToDealDamage(int amount, PlayableCard target)
-	{
-		return Card.NotDead() && amount > 0;
-	}
+	public override bool RespondsToDealDamage(int amount, PlayableCard target) => Card.NotDead() && amount > 0;
 
 	public override IEnumerator OnDealDamage(int amount, PlayableCard target)
 	{
