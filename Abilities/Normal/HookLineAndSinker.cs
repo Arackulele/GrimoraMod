@@ -16,13 +16,13 @@ public class HookLineAndSinker : AbilityBehaviour
 
 	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
 	{
-		if (Card.OpposingCard().HasSpecialAbility(GrimoraGiant.FullSpecial.Id))
+		PlayableCard targetCard = Card.OpposingCard();
+		
+		if (targetCard.HasSpecialAbility(GrimoraGiant.FullSpecial.Id))
 		{
 			yield break;
 		}
 		
-		PlayableCard targetCard = Card.OpposingCard();
-
 		AudioController.Instance.PlaySound3D(
 			"angler_use_hook",
 			MixerGroup.TableObjectsSFX,
@@ -34,6 +34,7 @@ public class HookLineAndSinker : AbilityBehaviour
 
 		if (targetCard.NotDead())
 		{
+			GrimoraPlugin.Log.LogInfo($"[HookLineAndSinker] Hooked card {targetCard.GetNameAndSlot()}, moving to slot [{Card.Slot.Index}]");
 			targetCard.SetIsOpponentCard(Card.Slot.IsOpponentSlot());
 			yield return Card.Slot.AssignCardToSlot(targetCard, 0.33f);
 			if (targetCard.FaceDown)
