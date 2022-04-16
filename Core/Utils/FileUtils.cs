@@ -19,11 +19,6 @@ public static class FileUtils
 			: Assembly.GetExecutingAssembly().Location.Replace("GrimoraMod.dll", "");
 	}
 
-	public static byte[] ReadFileAsBytes(string file, bool isPng = false)
-	{
-		return File.ReadAllBytes(FindFileInPluginDir(file, isPng));
-	}
-
 	public static string FindFileInPluginDir(string file, bool isPng = false)
 	{
 		if (isPng && !file.EndsWith(".png"))
