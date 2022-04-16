@@ -6,6 +6,8 @@ namespace GrimoraMod;
 
 public class BloodGuzzler : AbilityBehaviour
 {
+	public const string ModSingletonId = "GrimoraMod_BloodGuzzler";
+	
 	public static Ability ability;
 	
 	public override Ability Ability => ability;
@@ -17,7 +19,7 @@ public class BloodGuzzler : AbilityBehaviour
 		_modInfo = new CardModificationInfo
 		{
 			nonCopyable = true,
-			singletonId = "grimoramod_BloodGuzzler"
+			singletonId = ModSingletonId
 		};
 		Card.AddTemporaryMod(_modInfo);
 	}
