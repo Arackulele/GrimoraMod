@@ -11,6 +11,11 @@ public class ExplodeOnDeathPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(ExplodeOnDeath.Awake))]
 	public static bool ChangeToGrimoraBombFist(ExplodeOnDeath __instance)
 	{
+		if (GrimoraSaveUtil.isNotGrimora)
+		{
+			return true;
+		}
+		
 		__instance.bombPrefab = AssetUtils.GetPrefab<GameObject>("SkeletonArm_BombFist");
 		return false;
 	}
