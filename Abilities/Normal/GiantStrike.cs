@@ -1,6 +1,6 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
-using InscryptionAPI.Card;
+using InscryptionAPI.Helpers.Extensions;
 using InscryptionAPI.Triggers;
 using UnityEngine;
 
@@ -21,7 +21,7 @@ public class GiantStrike : AbilityBehaviour, IGetOpposingSlots
 		if (Card.Anim is GravestoneCardAnimationController && Card.transform.Find("SkeletonArms_Giants").IsNull())
 		{
 			GrimoraPlugin.Log.LogDebug($"Adding skeleton arm giant prefab to card [{Card.InfoName()}]");
-			Animator skeletonArm2Attacks = UnityObject.Instantiate(
+			Animator skeletonArm2Attacks = Instantiate(
 					AssetUtils.GetPrefab<GameObject>("SkeletonArms_Giants"),
 					Card.transform
 				).GetComponent<Animator>();
@@ -45,17 +45,16 @@ public class GiantStrike : AbilityBehaviour, IGetOpposingSlots
 		List<CardSlot> slotsToTarget = new List<CardSlot>(GetTwinGiantOpposingSlots());
 		if (slotsToTarget.Exists(slot => slot.Card))
 		{
-			List<CardSlot> slotsWithCards = slotsToTarget
-			 .Where(slot => slot.Card)
-			 .ToList();
-			if (slotsWithCards.Count == 1)
+			List<PlayableCard> cards = slotsToTarget.GetCards();
+			if (cards.Count == 1)
 			{
+				PlayableCard onlyCard = cards[0];
 				slotsToTarget.Clear();
-				slotsToTarget.Add(slotsWithCards[0]);
+				slotsToTarget.Add(onlyCard.Slot);
 				// single card has health greater than current attack, then attack twice 
-				if (slotsWithCards[0].Card.Health > Card.Attack)
+				if (onlyCard.Health > Card.Attack)
 				{
-					slotsToTarget.Add(slotsWithCards[0]);
+					slotsToTarget.Add(onlyCard.Slot);
 				}
 			}
 		}
