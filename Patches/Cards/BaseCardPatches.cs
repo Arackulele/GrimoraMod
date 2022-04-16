@@ -1,5 +1,6 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -15,7 +16,7 @@ public class BaseCardPatches
 			return true;
 		}
 
-		if (!(__instance as PlayableCard).Dead)
+		if ((__instance as PlayableCard).NotDead())
 		{
 			__instance.SetCardback(ResourceBank.Get<Texture>("Art/Cards/card_back_submerge"));
 		}

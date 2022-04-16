@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -39,7 +40,7 @@ public class SentryPatches
 		yield return new WaitForSeconds(0.25f);
 		for (int i = 0; i < __instance.NumShots; i++)
 		{
-			if (otherCard != null && !otherCard.Dead)
+			if (otherCard.NotDead())
 			{
 				yield return __instance.PreSuccessfulTriggerSequence();
 				__instance.Card.Anim.LightNegationEffect();

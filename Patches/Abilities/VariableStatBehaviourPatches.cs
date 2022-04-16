@@ -1,5 +1,6 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 
 namespace GrimoraMod;
 
@@ -10,7 +11,7 @@ public class VariableStatBehaviourPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(VariableStatBehaviour.Start))]
 	public static void CallUpdateStatsAfterStart(VariableStatBehaviour __instance)
 	{
-		if (__instance.PlayableCard && !__instance.PlayableCard.Dead)
+		if (__instance.PlayableCard.NotDead())
 		{
 			GrimoraPlugin.Log.LogDebug($"[VariableStatBehaviour] After Start for card {__instance.PlayableCard}");
 			__instance.UpdateStats();

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Helpers.Extensions;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -11,7 +12,10 @@ public class IceCubePatches
 {
 	[HarmonyPostfix, HarmonyPatch(nameof(IceCube.OnDie))]
 	public static IEnumerator PostfixUseInfoObjectAndNotJustName(
-		IEnumerator enumerator, IceCube __instance, bool wasSacrifice, PlayableCard killer
+		IEnumerator enumerator,
+		IceCube __instance,
+		bool wasSacrifice,
+		PlayableCard killer
 	)
 	{
 		if (GrimoraSaveUtil.isNotGrimora)
@@ -28,7 +32,7 @@ public class IceCubePatches
 			creatureToSpawn = __instance.Card.Info.iceCubeParams.creatureWithin;
 		}
 
-		yield return BoardManager.Instance.CreateCardInSlot(creatureToSpawn, __instance.Card.Slot, 0.15f);
+		yield return __instance.Card.Slot.CreateCardInSlot(creatureToSpawn, 0.15f);
 		yield return __instance.LearnAbility(0.5f);
 	}
 }
