@@ -1,7 +1,6 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace GrimoraMod;
 
@@ -17,52 +16,23 @@ public class GravestoneRenderStatsLayerPatches
 
 	[HarmonyPostfix, HarmonyPatch(nameof(GravestoneRenderStatsLayer.RenderCard))]
 	public static void PrefixChangeEmissionColorBasedOnModSingletonId(
-		ref GravestoneRenderStatsLayer __instance,
+		GravestoneRenderStatsLayer __instance,
 		ref CardRenderInfo info
 	)
 	{
-		PlayableCard playableCard = __instance.PlayableCard;
-		SelectableCard selectableCard = __instance.GetComponentInParent<SelectableCard>();
-		
-		HandleElectricChair(__instance, playableCard, selectableCard);
-		HandleImbuedAbility(__instance, playableCard, selectableCard);
-	}
-
-	private static void HandleElectricChair(
-		GravestoneRenderStatsLayer statsLayer,
-		PlayableCard playableCard,
-		SelectableCard selectableCard
-	)
-	{
-		if (playableCard && playableCard.HasBeenElectricChaired() 
-		 || selectableCard && selectableCard.Info.HasBeenElectricChaired())
+		if (info.baseInfo.HasBeenElectricChaired())
 		{
-			statsLayer.SetEmissionColor(GameColors.Instance.blue);
+			__instance.SetEmissionColor(GameColors.Instance.blue);
 		}
-	}
 
-	private static void HandleImbuedAbility(
-		GravestoneRenderStatsLayer statsLayer, 
-		PlayableCard playableCard, 
-		SelectableCard selectableCard
-		)
-	{
-		if (playableCard && playableCard.HasAbility(Imbued.ability)
-		 || selectableCard && selectableCard.Info.HasAbility(Imbued.ability))
+		if (info.baseInfo.HasAbility(Imbued.ability) && info.attack == 0)
 		{
-			if (playableCard && playableCard.Attack == 0)
-			{
-				statsLayer.SetEmissionColor(GrimoraColors.AlphaZeroBlack);
-			}
-			else if (selectableCard && selectableCard.Info.Attack == 0)
-			{
-				statsLayer.SetEmissionColor(GrimoraColors.AlphaZeroBlack);
-			}
+			__instance.SetEmissionColor(GrimoraColors.AlphaZeroBlack);
 		}
 	}
 
 	[HarmonyPrefix, HarmonyPatch(nameof(GravestoneRenderStatsLayer.RenderCard))]
-	public static void PrefixAddStatIcons(ref GravestoneRenderStatsLayer __instance, CardRenderInfo info)
+	public static void PrefixAddStatIcons(GravestoneRenderStatsLayer __instance, CardRenderInfo info)
 	{
 		if (__instance.transform.parent.Find("CardStatIcons_Invisible").IsNull())
 		{
