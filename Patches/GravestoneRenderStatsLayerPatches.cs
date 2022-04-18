@@ -58,29 +58,26 @@ public class GravestoneRenderStatsLayerPatches
 	public static void AddEnergyCellsToCards(GravestoneRenderStatsLayer __instance, CardRenderInfo info)
 	{
 		// RenderStatsLayer in the prefab has zero children
-		if (__instance.transform.childCount == 0)
+		if (info is { energyCost: > 0 } && __instance && __instance.transform.childCount == 0)
 		{
 			int energyCost = info.energyCost;
-			if (energyCost > 0)
+			MeshRenderer energyCellsLeft = UnityObject.Instantiate(
+					EnergyCellsLeft,
+					__instance.gameObject.transform
+				)
+			 .GetComponent<MeshRenderer>();
+
+			MeshRenderer energyCellsRight = null;
+			if (energyCost > 3)
 			{
-				MeshRenderer energyCellsLeft = UnityObject.Instantiate(
-						EnergyCellsLeft,
+				energyCellsRight = UnityObject.Instantiate(
+						EnergyCellsRight,
 						__instance.gameObject.transform
 					)
 				 .GetComponent<MeshRenderer>();
-
-				MeshRenderer energyCellsRight = null;
-				if (energyCost > 3)
-				{
-					energyCellsRight = UnityObject.Instantiate(
-							EnergyCellsRight,
-							__instance.gameObject.transform
-						)
-					 .GetComponent<MeshRenderer>();
-				}
-
-				UpdateEnergyCost(energyCost, energyCellsLeft, energyCellsRight);
 			}
+
+			UpdateEnergyCost(energyCost, energyCellsLeft, energyCellsRight);
 		}
 	}
 
