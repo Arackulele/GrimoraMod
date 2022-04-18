@@ -9,23 +9,6 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(Sentry))]
 public class SentryPatches
 {
-	[HarmonyPostfix, HarmonyPatch(nameof(Sentry.Awake))]
-	public static void AddNewSkeletonArm(Sentry __instance)
-	{
-		if (__instance.Card.Anim is GravestoneCardAnimationController)
-		{
-			GrimoraPlugin.Log.LogDebug($"Adding skeleton arm shoot object to card [{__instance.Card.InfoName()}]");
-			GameObject grimoraSentry = UnityObject.Instantiate(
-					AssetUtils.GetPrefab<GameObject>("Grimora_Sentry"),
-					__instance.transform
-				);
-			grimoraSentry.name = "Grimora_Sentry";
-			Transform animObj = grimoraSentry.transform.GetChild(0);
-			animObj.gameObject.AddComponent<AnimMethods>();
-			animObj.gameObject.SetActive(false);
-		}
-	}
-
 	[HarmonyPostfix, HarmonyPatch(nameof(Sentry.FireAtOpposingSlot))]
 	public static IEnumerator PlayShootingAnim(IEnumerator enumerator, Sentry __instance, PlayableCard otherCard)
 	{
@@ -60,16 +43,14 @@ public class SentryPatches
 						}
 					);
 				}
-				else if (__instance.Card.Anim is GravestoneCardAnimationController graveController)
+				else if (__instance.Card.Anim is GraveControllerExt graveController)
 				{
 					GrimoraPlugin.Log.LogDebug($"Playing shoot animation!");
-					graveController.PlayAttackAnimation(
+					graveController.PlaySpecificAttackAnimation(
+						"attack_sentry",
 						__instance.Card.IsFlyingAttackingReach(),
-						null,
-						delegate
-						{
-							impactFrameReached = true;
-						}
+						otherCard.Slot,
+						delegate { impactFrameReached = true; }
 					);
 				}
 

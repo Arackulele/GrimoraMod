@@ -88,7 +88,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 		GrimoraSaveUtil.RemoveCard(sacrificedInfo);
 
-		sacrificeSlot.Card.Anim.PlayDeathAnimation(false);
+		((GraveControllerExt)sacrificeSlot.Card.Anim).PlayGlitchOutAnimation();
 
 		AudioController.Instance.PlaySound3D(
 			"sacrifice_default",

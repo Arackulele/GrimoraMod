@@ -27,4 +27,22 @@ public class BaseCardPatches
 		
 		return false;
 	}
+
+
+	[HarmonyPostfix, HarmonyPatch(nameof(Card.SetInfo))]
+	public static void AddNewController(Card __instance, CardInfo info)
+	{
+		if (GrimoraSaveUtil.isNotGrimora)
+		{
+			return;
+		}
+		
+		if (__instance.GetComponent<GraveControllerExt>().IsNull())
+		{
+			GrimoraPlugin.Log.LogDebug($"[Card.SetInfo] Setting up new controller for card [{info.displayedName}]");
+			var oldController = __instance.GetComponent<GravestoneCardAnimationController>();
+			var newController = __instance.gameObject.AddComponent<GraveControllerExt>();
+			newController.Setup(oldController);
+		}
+	}
 }

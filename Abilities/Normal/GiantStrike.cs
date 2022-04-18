@@ -43,21 +43,6 @@ public class GiantStrike : AbilityBehaviour, IGetOpposingSlots
 
 	public bool RespondsToGetOpposingSlots() => true;
 
-	private void Awake()
-	{
-		if (Card.Anim is GravestoneCardAnimationController && Card.transform.Find("SkeletonArms_Giants").IsNull())
-		{
-			GrimoraPlugin.Log.LogDebug($"Adding skeleton arm giant prefab to card [{Card.InfoName()}]");
-			Animator skeletonArm2Attacks = Instantiate(
-					AssetUtils.GetPrefab<GameObject>("SkeletonArms_Giants"),
-					Card.transform
-				).GetComponent<Animator>();
-			skeletonArm2Attacks.name = "SkeletonArms_Giants";
-			skeletonArm2Attacks.gameObject.AddComponent<AnimMethods>();
-			skeletonArm2Attacks.gameObject.SetActive(false);
-		}
-	}
-
 	public List<CardSlot> GetTwinGiantOpposingSlots()
 	{
 		return BoardManager.Instance.PlayerSlotsCopy
