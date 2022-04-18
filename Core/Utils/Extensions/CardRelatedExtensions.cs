@@ -13,7 +13,7 @@ public static class CardRelatedExtension
 	
 	public static Animator GetCustomArm(this CardAnimationController controller)
 	{
-		return ((GraveControllerExt)controller).GetCustomArm();
+		return GrimoraSaveUtil.isGrimora ? ((GraveControllerExt)controller).GetCustomArm() : null;
 	}
 
 	public static void PlaySpecificAttackAnimation(
