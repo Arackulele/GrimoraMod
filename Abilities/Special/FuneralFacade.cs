@@ -10,6 +10,13 @@ public class FuneralFacade : SpecialCardBehaviour
 {
 	public static SpecialTriggeredAbilityManager.FullSpecialTriggeredAbility FullSpecial;
 
+	private CardInfo _tamperedCoffin;
+
+	private void Start()
+	{
+		_tamperedCoffin = GrimoraPlugin.NameTamperedCoffin.GetCardInfo();
+	}
+
 	public override bool RespondsToOtherCardDie(
 		PlayableCard card,
 		CardSlot deathSlot,
@@ -17,7 +24,7 @@ public class FuneralFacade : SpecialCardBehaviour
 		PlayableCard killer
 	)
 	{
-		return card && killer == Card;
+		return card && killer == Card && card.InfoName() != _tamperedCoffin.name;
 	}
 
 	public override IEnumerator OnOtherCardDie(
@@ -27,12 +34,9 @@ public class FuneralFacade : SpecialCardBehaviour
 		PlayableCard killer
 	)
 	{
-		if (card.InfoName() != GrimoraPlugin.NameTamperedCoffin)
-		{
-			Card.Anim.LightNegationEffect();
-			yield return deathSlot.CreateCardInSlot(GrimoraPlugin.NameTamperedCoffin.GetCardInfo());
-			yield return new WaitForSeconds(0.25f);
-		}
+		Card.Anim.LightNegationEffect();
+		yield return deathSlot.CreateCardInSlot(_tamperedCoffin);
+		yield return new WaitForSeconds(0.25f);
 	}
 }
 
