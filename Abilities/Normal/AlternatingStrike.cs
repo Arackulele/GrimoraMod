@@ -61,6 +61,7 @@ public partial class GrimoraPlugin
 			"[creature] alternates between striking the opposing space to the left and right from it.";
 
 		AbilityBuilder<AlternatingStrike>.Builder
+		 .FlipIconIfOnOpponentSide()
 		 .SetRulebookDescription(rulebookDescription)
 		 .Build();
 	}
