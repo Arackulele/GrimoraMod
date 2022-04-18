@@ -4,6 +4,6 @@
 	"website_url": "https://github.com/Arackulele/GrimoraMod",
 	"description": "More bug fixes and other fun additions! Probably the biggest and most ambitious mod. Gives Grimora a full act!",
 	"dependencies": [
-		"API_dev-API-2.1.0"
+		"API_dev-API-2.2.0"
 	]
 }
