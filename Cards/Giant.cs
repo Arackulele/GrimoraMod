@@ -38,11 +38,11 @@ public class ModifyLocalPositionsOfTableObjects
 		bool resolveTriggers = true
 	)
 	{
+		bool isBonelord = card.InfoName().Equals(NameBonelord);
 		if (GrimoraSaveUtil.isGrimora
 		    && card.HasTrait(Trait.Giant)
-		    && card.HasSpecialAbility(GrimoraGiant.FullSpecial.Id))
+		    && card.InfoName() == NameGiant || isBonelord)
 		{
-			bool isBonelord = card.InfoName().Equals(NameBonelord);
 			// Card -> RotatingParent (child zero) -> TombstoneParent -> Cardbase_StatsLayer
 			Transform rotatingParent = card.transform.GetChild(0);
 
