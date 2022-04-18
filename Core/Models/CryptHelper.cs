@@ -28,7 +28,7 @@ public class CryptHelper
 	{
 		if (CryptManager.Instance)
 		{
-			Log.LogDebug($"Finding structure");
+			Log.LogDebug($"[SetupNewCryptAndZones] Finding structure");
 			CryptManager.Instance.transform.Find("Structure").gameObject.SetActive(false);
 			Transform interactbles = CryptManager.Instance.transform.Find("Interactables");
 			for (int i = 0; i < interactbles.transform.childCount; i++)
@@ -39,18 +39,18 @@ public class CryptHelper
 				}
 			}
 
-			Log.LogDebug($"Creating layout");
+			Log.LogDebug($"[SetupNewCryptAndZones] Creating layout");
 			GameObject newLayout = UnityObject.Instantiate(
 				AssetUtils.GetPrefab<GameObject>("NewNewLayout"),
 				CryptManager.Instance.transform
 			);
 
-			Log.LogDebug($"Getting nav grid");
+			Log.LogDebug($"[SetupNewCryptAndZones] Getting nav grid");
 			NavigationGrid navGrid = UnityObject.FindObjectsOfType<NavigationGrid>().Single(grid => grid.name == "NavigationGrid");
 			navGrid.zones = new NavigationZone[7, 7];
 			NavigationZone[,] zones = navGrid.zones;
 
-			Log.LogDebug($"Setting existing zones to null");
+			Log.LogDebug($"[SetupNewCryptAndZones] Setting existing zones to null");
 			for (int i = 0; i < zones.GetLength(0); i++)
 			{
 				for (int j = 0; j < zones.GetLength(1); j++)
@@ -63,7 +63,7 @@ public class CryptHelper
 
 			NavigationZone3D east3Zone = navGrid.transform.Find("East_3").GetComponent<NavigationZone3D>();
 
-			Log.LogDebug($"Destroying existing zones");
+			Log.LogDebug($"[SetupNewCryptAndZones] Destroying existing zones");
 			// destroy existing zones to avoid confusion
 			UnityObject.Destroy(navGrid.transform.Find("East_1").gameObject);
 			UnityObject.Destroy(navGrid.transform.Find("East_2").gameObject);
@@ -154,7 +154,7 @@ public class CryptHelper
 					)
 					.GetComponent<NavigationZone3D>();
 				newZone.name = $"x{x}_y{y}_" + name;
-				Log.LogDebug($"Creating zone [{newZone.name}]");
+				Log.LogDebug($"[SetupNewCryptAndZones] Creating zone [{newZone.name}]");
 
 				navGrid.InsertZone(newZone, x, y);
 				return newZone;
