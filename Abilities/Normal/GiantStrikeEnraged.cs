@@ -7,6 +7,13 @@ public class GiantStrikeEnraged : GiantStrike
 	public new static Ability ability;
 
 	public override Ability Ability => ability;
+
+	private void Awake()
+	{
+		Card.Anim.PlayTransformAnimation();
+
+		Card.StatsLayer.SetEmissionColor(GameColors.Instance.red);
+	}
 }
 
 public partial class GrimoraPlugin

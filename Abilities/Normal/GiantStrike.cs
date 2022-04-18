@@ -1,16 +1,43 @@
-﻿using DiskCardGame;
+﻿using System.Collections;
+using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Helpers.Extensions;
 using InscryptionAPI.Triggers;
-using UnityEngine;
 
 namespace GrimoraMod;
 
 public class GiantStrike : AbilityBehaviour, IGetOpposingSlots
 {
+	public const string ModSingletonId = "GrimoraMod_EnragedGiant";
+	
 	public static Ability ability;
 
 	public override Ability Ability => ability;
+
+	private readonly CardModificationInfo _modInfo = new(1, 0)
+	{
+		abilities = new List<Ability> { GiantStrikeEnraged.ability },
+		negateAbilities = new List<Ability> { GiantStrike.ability },
+		singletonId = ModSingletonId
+	};
+
+	public override bool RespondsToOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
+	{
+		return ability != GiantStrikeEnraged.ability
+		    && TurnManager.Instance.Opponent.OpponentType == GrimoraBossOpponentExt.FullOpponent.Id
+		    && card != Card
+		    && card.InfoName() == GrimoraPlugin.NameGiant
+		    && deathSlot.IsOpponentSlot();
+	}
+
+	public override IEnumerator OnOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
+	{
+		ViewManager.Instance.SwitchToView(View.OpponentQueue);
+		yield return TextDisplayer.Instance.ShowUntilInput(
+			$"Oh dear, you've made {Card.Info.displayedName.Red()} quite angry."
+		);
+		Card.AddTemporaryMod(_modInfo);
+	}
 
 	public bool RemoveDefaultAttackSlot() => true;
 
@@ -43,7 +70,7 @@ public class GiantStrike : AbilityBehaviour, IGetOpposingSlots
 		// assume giant is in slot indexes 0, 1
 		// original slots has opposing slot of index 1
 		List<CardSlot> slotsToTarget = new List<CardSlot>(GetTwinGiantOpposingSlots());
-		if (slotsToTarget.Exists(slot => slot.Card))
+		if (ability != GiantStrikeEnraged.ability && slotsToTarget.Exists(slot => slot.Card))
 		{
 			List<PlayableCard> cards = slotsToTarget.GetCards();
 			if (cards.Count == 1)

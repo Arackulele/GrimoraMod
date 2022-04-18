@@ -115,8 +115,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 	)
 	{
 		bool isPhaseOne = card.IsPlayerCard() && TurnManager.Instance.Opponent.NumLives == 3;
-		bool giantDied = card.HasTrait(Trait.Giant) && card.InfoName() == NameGiant;
-		return isPhaseOne || giantDied;
+		return isPhaseOne;
 	}
 
 	private bool _willReanimateCardThatDied = false;
@@ -128,13 +127,8 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		PlayableCard killer
 	)
 	{
-
 		List<CardSlot> opponentQueuedSlots = BoardManager.Instance.GetQueueSlots();
-		if (card.InfoName() == NameGiant)
-		{
-			yield return EnrageLastTwinGiant(card);
-		}
-		else if (opponentQueuedSlots.IsNotEmpty() && _willReanimateCardThatDied)
+		if (opponentQueuedSlots.IsNotEmpty() && _willReanimateCardThatDied)
 		{
 			ViewManager.Instance.SwitchToView(View.BossCloseup);
 			yield return TextDisplayer.Instance.PlayDialogueEvent(
@@ -148,32 +142,5 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 			yield return new WaitForSeconds(0.5f);
 		}
 		else { _willReanimateCardThatDied = true; }
-	}
-
-	private IEnumerator EnrageLastTwinGiant(PlayableCard playableCard)
-	{
-		CardSlot remainingGiantSlot = BoardManager.Instance.OpponentSlotsCopy
-		 .Find(slot => slot.HasCard(NameGiant) && playableCard.Slot != slot);
-		
-		if (remainingGiantSlot)
-		{
-			ViewManager.Instance.SwitchToView(View.OpponentQueue);
-			PlayableCard lastGiant = remainingGiantSlot.Card;
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				$"Oh dear, you've made {lastGiant.Info.displayedName.Red()} quite angry."
-			);
-			CardModificationInfo modInfo = new CardModificationInfo
-			{
-				abilities = new List<Ability> { GiantStrikeEnraged.ability },
-				attackAdjustment = 1,
-				negateAbilities = new List<Ability> { GiantStrike.ability }
-			};
-			lastGiant.Anim.PlayTransformAnimation();
-			lastGiant.AddTemporaryMod(modInfo);
-			yield return new WaitForSeconds(0.1f);
-			lastGiant.StatsLayer.SetEmissionColor(GameColors.Instance.red);
-
-			yield return new WaitForSeconds(0.5f);
-		}
 	}
 }
