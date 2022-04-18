@@ -130,8 +130,8 @@ public class CombatPhaseManagerPatches
 
 			if (slot.Card.NotDead())
 			{
-				Log.LogWarning($"[SlotAttackSequence.Regular] Card is still doing attack anim, waiting until finished");
-				yield return new WaitUntil(() => !slot.Card.Anim.DoingAttackAnimation);
+				// Log.LogWarning($"[SlotAttackSequence.Regular] Card is still doing attack anim, waiting until finished");
+				// yield return new WaitUntil(() => !slot.Card.Anim.DoingAttackAnimation);
 				customArmPrefab.gameObject.SetActive(false);
 			}
 		}
