@@ -18,8 +18,8 @@ public class ChaosStrike : AbilityBehaviour, IGetOpposingSlots
 
 	public List<CardSlot> GetOpposingSlots(List<CardSlot> originalSlots, List<CardSlot> otherAddedSlots)
 	{
-		List<CardSlot> slotsToTarget = new List<CardSlot>(Card.Slot.opposingSlot.GetAdjacentSlots())
-			{ Card.Slot.opposingSlot };
+		CardSlot opposingSlot = Card.OpposingSlot();
+		List<CardSlot> slotsToTarget = new List<CardSlot>(opposingSlot.GetAdjacentSlots()) { opposingSlot };
 
 		slotsToTarget = slotsToTarget.Randomize().ToList();
 

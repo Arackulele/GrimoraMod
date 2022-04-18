@@ -25,7 +25,7 @@ public class PlayableCardPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(PlayableCard.GetOpposingSlots))]
 	public static void PossessiveGetOpposingSlotsPatch(PlayableCard __instance, ref List<CardSlot> __result)
 	{
-		CardSlot opposingSlot = __instance.Slot.opposingSlot;
+		CardSlot opposingSlot = __instance.OpposingSlot();
 		if (opposingSlot.Card && opposingSlot.Card.HasAbility(Possessive.ability))
 		{
 			var adjCards = __instance.Slot.GetAdjacentSlots(true).GetCards();
@@ -43,7 +43,7 @@ public class PlayableCardPatches
 	public static void PossessiveCanAttackDirectlyPatch(PlayableCard __instance, CardSlot opposingSlot, ref bool __result)
 	{
 		Log.LogDebug($"[Possessive.CanAttackDirectly] Result before [{__result}]");
-		CardSlot oppositeSlot = __instance.Slot.opposingSlot;
+		CardSlot oppositeSlot = __instance.OpposingSlot();
 		bool oppositeSlotHasPossessive = oppositeSlot.Card && oppositeSlot.Card.HasAbility(Possessive.ability);
 		__result &= !oppositeSlotHasPossessive;
 		Log.LogDebug($"[Possessive.CanAttackDirectly] Result after [{__result}]");

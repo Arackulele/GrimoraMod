@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Card;
 
 namespace GrimoraMod;
 
@@ -10,7 +11,7 @@ public class Possessive : AbilityBehaviour
 
 	public override bool RespondsToSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
 	{
-		return attacker && attacker.Slot == Card.Slot.opposingSlot;
+		return attacker && attacker.Slot == Card.OpposingSlot();
 	}
 
 	public override IEnumerator OnSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)

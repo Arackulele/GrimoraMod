@@ -17,7 +17,7 @@ public class ColdFront : AbilityBehaviour
 
 	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
 	{
-		PlayableCard opposingSlotCard = Card.Slot.opposingSlot.Card;
+		PlayableCard opposingSlotCard = Card.OpposingCard();
 		if (opposingSlotCard)
 		{
 			if (opposingSlotCard.HasTrait(Trait.Giant))

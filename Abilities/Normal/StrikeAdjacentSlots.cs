@@ -52,6 +52,7 @@ public abstract class StrikeAdjacentSlots : AbilityBehaviour, IGetOpposingSlots
 	{
 		var toLeftSlot = Card.Slot.GetAdjacent(true);
 		var toRightSlot = Card.Slot.GetAdjacent(false);
+		var opposingSlot = Card.OpposingSlot();
 
 		bool hasInvertedStrike = Card.HasAbility(InvertedStrike.ability);
 		bool hasAlternatingStrike = Card.HasAbility(AlternatingStrike.ability);
@@ -60,8 +61,8 @@ public abstract class StrikeAdjacentSlots : AbilityBehaviour, IGetOpposingSlots
 
 		if (StrikeAdjacentAbility != Raider.ability)
 		{
-			slotsToTarget.AddRange(Card.Slot.opposingSlot.GetAdjacentSlots());
-			slotsToTarget.Add(Card.Slot.opposingSlot);
+			slotsToTarget.AddRange(opposingSlot.GetAdjacentSlots());
+			slotsToTarget.Add(opposingSlot);
 		}
 
 		if (toLeftSlot && (StrikeAdjacentAbility != Raider.ability
