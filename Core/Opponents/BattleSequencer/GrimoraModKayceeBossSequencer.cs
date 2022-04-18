@@ -144,7 +144,7 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 			healthAdjustment = 1 - playableCard.Health,
 			negateAbilities = new List<Ability> { Ability.DebuffEnemy, Ability.Submerge, HookLineAndSinker.ability, Possessive.ability }
 		};
-		if (!playableCard.HasAbility(Ability.IceCube))
+		if (playableCard.LacksAbility(Ability.IceCube))
 		{
 			modInfo.abilities = new List<Ability> { Ability.IceCube };
 			playableCard.Info.iceCubeParams = new IceCubeParams { creatureWithin = playableCard.Info };
