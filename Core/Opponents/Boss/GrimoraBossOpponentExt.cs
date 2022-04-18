@@ -112,6 +112,60 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		AudioController.Instance.SetLoopVolume(0.8f, 10f, 1);
 	}
 
+	private bool _hasSpawnedFirstGiant;
+
+	public override void ModifyQueuedCard(PlayableCard card)
+	{
+		if (card.Info.name == NameBoneLordsHorn)
+		{
+			ModifyBonelordsHorn(card);
+		}
+	}
+
+	public override void ModifySpawnedCard(PlayableCard card)
+	{
+		switch (card.Info.name)
+		{
+			case NameGiant:
+				ModifyTwinGiant(card);
+				break;
+			case NameBoneLordsHorn:
+				ModifyBonelordsHorn(card);
+				break;
+			case NameBonePrince:
+				ModifyBonePrince(card);
+				break;
+		}
+	}
+
+	private void ModifyTwinGiant(PlayableCard playableCard)
+	{
+		var modInfo = new CardModificationInfo(-1, 1)
+		{
+			abilities = new List<Ability> { Ability.Reach, GiantStrike.ability, Ability.MadeOfStone },
+			negateAbilities = new List<Ability> { Ability.QuadrupleBones, Ability.SplitStrike },
+			specialAbilities = new List<SpecialTriggeredAbility> { GrimoraGiant.FullSpecial.Id },
+			nameReplacement = _hasSpawnedFirstGiant ? "Ephialtes" :  "Otis"
+		};
+		_hasSpawnedFirstGiant = true;
+		playableCard.AddTemporaryMod(modInfo);
+	}
+
+	private void ModifyBonelordsHorn(PlayableCard playableCard)
+	{
+		var modInfo = new CardModificationInfo(2, 0)
+		{
+			abilities = new List<Ability> { Ability.Reach, GiantStrike.ability, Ability.MadeOfStone },
+			negateAbilities = new List<Ability> { Ability.QuadrupleBones },
+		};
+		playableCard.AddTemporaryMod(modInfo);
+	}
+
+	private void ModifyBonePrince(PlayableCard playableCard)
+	{
+		playableCard.AddTemporaryMod(new CardModificationInfo(Ability.BuffNeighbours));
+	}
+	
 	public override IEnumerator StartNewPhaseSequence()
 	{
 		TurnPlan.Clear();
@@ -162,9 +216,10 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		if (ConfigHelper.HasIncreaseSlotsMod)
 		{
-			yield return oppSlots[2].CreateCardInSlot(NameObol.GetCardInfo(), 0.2f);
+			CardInfo obol = NameObol.GetCardInfo();
+			yield return oppSlots[2].CreateCardInSlot(obol, 0.2f);
 			CardSlot thirdLaneQueueSlot = BoardManager.Instance.GetQueueSlots()[2];
-			yield return TurnManager.Instance.Opponent.QueueCard(NameObol.GetCardInfo(), thirdLaneQueueSlot);
+			yield return TurnManager.Instance.Opponent.QueueCard(obol, thirdLaneQueueSlot);
 		}
 
 		yield return new WaitForSeconds(0.5f);
@@ -173,18 +228,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	private IEnumerator CreateAndPlaceModifiedGiant(string giantName, CardSlot slotToSpawnIn)
 	{
 		Log.LogInfo("[Grimora] Creating modified Giant");
-		PlayableCard playableGiant = CardSpawner.SpawnPlayableCard(NameGiant.GetCardInfo());
-		playableGiant.SetIsOpponentCard();
-
-		CardInfo infoGiant = NameGiant.GetCardInfo().Clone() as CardInfo;
-		infoGiant.displayedName = giantName;
-		infoGiant.abilities = new List<Ability> { Ability.Reach, GiantStrike.ability, Ability.MadeOfStone };
-		infoGiant.specialAbilities.Add(GrimoraGiant.FullSpecial.Id);
-		infoGiant.baseAttack = 1;
-		infoGiant.baseHealth = 8;
-
-		playableGiant.SetInfo(infoGiant);
-		yield return BoardManager.Instance.TransitionAndResolveCreatedCard(playableGiant, slotToSpawnIn, 0.3f);
+		yield return slotToSpawnIn.CreateCardInSlot(NameGiant.GetCardInfo(), 0.3f);
 		yield return TextDisplayer.Instance.ShowUntilInput($"[size:5]{giantName}![size:]");
 	}
 
@@ -338,28 +382,13 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		); // slot 1, slot 4 remain
 		var leftAndRightQueueSlots = GetFarLeftAndFarRightQueueSlots();
 
-		CardInfo bonelordsHorn = CreateModifiedBonelordsHorn();
+		CardInfo bonelordsHorn = NameBoneLordsHorn.GetCardInfo();
 		for (int i = 0; i < 2; i++)
 		{
 			yield return TurnManager.Instance.Opponent.QueueCard(bonelordsHorn, leftAndRightQueueSlots[i]);
 			yield return oppSlots[i].CreateCardInSlot(bonelordsHorn, 0.2f);
 			yield return new WaitForSeconds(0.25f);
 		}
-	}
-
-	private CardInfo CreateModifiedBonelordsHorn()
-	{
-		Log.LogInfo("[Grimora] Creating modified Bone Lords Horn");
-		PlayableCard playableHorn = CardSpawner.SpawnPlayableCard(NameBoneLordsHorn.GetCardInfo());
-		playableHorn.SetIsOpponentCard();
-
-		CardInfo infoHorn = NameBoneLordsHorn.GetCardInfo().Clone() as CardInfo;
-		infoHorn.Mods.Add(new CardModificationInfo { attackAdjustment = 2 });
-		infoHorn.abilities.Remove(Ability.QuadrupleBones);
-		infoHorn.iceCubeParams.creatureWithin.abilities.Add(Ability.BuffNeighbours);
-
-		playableHorn.SetInfo(infoHorn);
-		return infoHorn;
 	}
 
 	private List<CardSlot> GetFarLeftAndFarRightQueueSlots()
