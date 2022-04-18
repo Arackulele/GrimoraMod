@@ -15,10 +15,7 @@ public class GravestoneRenderStatsLayerPatches
 	private static readonly GameObject EnergyCellsRight = AssetUtils.GetPrefab<GameObject>("EnergyCells_Right");
 
 	[HarmonyPostfix, HarmonyPatch(nameof(GravestoneRenderStatsLayer.RenderCard))]
-	public static void PrefixChangeEmissionColorBasedOnModSingletonId(
-		GravestoneRenderStatsLayer __instance,
-		ref CardRenderInfo info
-	)
+	public static void PrefixChangeEmissionColorBasedOnModSingletonId(GravestoneRenderStatsLayer __instance, ref CardRenderInfo info)
 	{
 		if (info.baseInfo.HasBeenElectricChaired())
 		{
