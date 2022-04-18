@@ -9,7 +9,9 @@ public class BuffCrewMates : AbilityBehaviour, IPassiveAttackBuff
 
 	public override Ability Ability => ability;
 
-	public int GetPassiveAttackBuff(PlayableCard target) => target.Info.name == GrimoraPlugin.NameSkeleton ? 1 : 0;
+	private bool IsSkeleton(PlayableCard playableCard) => playableCard.InfoName().Equals(GrimoraPlugin.NameSkeleton);
+
+	public int GetPassiveAttackBuff(PlayableCard target) => IsSkeleton(target) ? 1 : 0;
 }
 
 public partial class GrimoraPlugin
