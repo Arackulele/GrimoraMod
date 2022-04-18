@@ -34,7 +34,7 @@ public class GravestoneRenderStatsLayerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(GravestoneRenderStatsLayer.RenderCard))]
 	public static void PrefixAddStatIcons(GravestoneRenderStatsLayer __instance, CardRenderInfo info)
 	{
-		if (__instance.transform.parent.Find("CardStatIcons_Invisible").IsNull())
+		if (__instance && __instance.transform.parent.Find("CardStatIcons_Invisible").IsNull())
 		{
 			CardStatIcons statIcons = UnityObject.Instantiate(
 				CardStatIcons,
