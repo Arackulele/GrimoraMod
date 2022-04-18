@@ -96,27 +96,6 @@ public class BaseGameFlowManagerPatches
 			.runtimeAnimatorController = AssetConstants.GraveStoneController;
 
 		CardSpawner.Instance.giantPlayableCardPrefab = AssetConstants.GrimoraPlayableCard;
-
-		Vector3 boxColliderSize = new Vector3(0.4f, 0.4f, 0.1f);
-		var cardAbilityIcons = AssetConstants.GrimoraPlayableCard.GetComponentInChildren<CardAbilityIcons>();
-		foreach (var group in cardAbilityIcons.defaultIconGroups)
-		{
-			var childBoxColliders = group.GetComponentsInChildren<BoxCollider>();
-			foreach (var collider in childBoxColliders)
-			{
-				collider.extents = boxColliderSize;
-			}
-		}
-
-		cardAbilityIcons = AssetConstants.GrimoraSelectableCard.GetComponentInChildren<CardAbilityIcons>();
-		foreach (var group in cardAbilityIcons.defaultIconGroups)
-		{
-			var childBoxColliders = group.GetComponentsInChildren<BoxCollider>();
-			foreach (var collider in childBoxColliders)
-			{
-				collider.extents = boxColliderSize;
-			}
-		}
 	}
 
 	private static void AddCardSelectorObjectForTutor()
@@ -150,17 +129,6 @@ public class BaseGameFlowManagerPatches
 
 		statIcons.healthIconRenderer.transform.localPosition = new Vector3(-0.39f, 0.19f, 0);
 		statIcons.healthIconRenderer.transform.localScale = new Vector3(0.33f, 0.33f, 1);
-
-		CardAbilityIcons cardAbilityIcons = displayer.AbilityIcons;
-		Vector3 boxColliderSize = new Vector3(0.4f, 0.4f, 0.1f);
-		foreach (var group in cardAbilityIcons.defaultIconGroups)
-		{
-			var childBoxColliders = group.GetComponentsInChildren<BoxCollider>();
-			foreach (var collider in childBoxColliders)
-			{
-				collider.extents = boxColliderSize;
-			}
-		}
 	}
 
 	public static void AddBoonLordBoonConsumable()
