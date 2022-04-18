@@ -48,6 +48,10 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		AllSprites = AssetUtils.LoadAssetBundle<Sprite>("grimoramod_sprites");
 		AllAbilitiesTextures = AssetUtils.LoadAssetBundle<Texture>("grimoramod_abilities");
+		AllControllers = AssetUtils.LoadAssetBundle<RuntimeAnimatorController>("grimoramod_controller");
+		AllMats = AssetUtils.LoadAssetBundle<Material>("grimoramod_mats");
+
+		StartCoroutine(LoadAssetsAsync());
 	}
 
 	// private IEnumerator HotReloadMenuCardAdd()
@@ -62,18 +66,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	// 	}
 	// }
 
-	private IEnumerator Start()
+	private void Start()
 	{
-		yield return LoadEverything();
-
-		// yield return new WaitUntil(() => FindObjectOfType<StartScreenThemeSetter>());
-		// StartScreenPatches.SetBackgroundToGrimoraTheme(FindObjectOfType<StartScreenThemeSetter>());
-	}
-
-	private IEnumerator LoadEverything()
-	{
-		yield return LoadAssetsAsync();
-
 		LoadAbilitiesAndCards();
 	}
 
@@ -115,6 +109,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AllSprites = null;
 		AllSounds = null;
 		AllGrimoraModCards = new List<CardInfo>();
+		AllGrimoraModCardsNoGuid = new List<string>();
 		ConfigHelper.Instance.HandleHotReloadBefore();
 		Resources.UnloadUnusedAssets();
 		GrimoraModBattleSequencer.ActiveEnemyPiece = null;
@@ -155,9 +150,5 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		yield return StartCoroutine(AssetUtils.LoadAssetBundleAsync<GameObject>("grimoramod_prefabs"));
 
 		yield return StartCoroutine(AssetUtils.LoadAssetBundleAsync<AudioClip>("grimoramod_sounds"));
-
-		yield return AssetUtils.LoadAssetBundleAsync<RuntimeAnimatorController>("grimoramod_controller");
-
-		yield return AssetUtils.LoadAssetBundleAsync<Material>("grimoramod_mats");
 	}
 }
