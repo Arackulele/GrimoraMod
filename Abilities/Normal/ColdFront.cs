@@ -20,7 +20,7 @@ public class ColdFront : AbilityBehaviour
 		PlayableCard opposingSlotCard = Card.Slot.opposingSlot.Card;
 		if (opposingSlotCard)
 		{
-			if (opposingSlotCard.HasSpecialAbility(GrimoraGiant.FullSpecial.Id))
+			if (opposingSlotCard.HasTrait(Trait.Giant))
 			{
 				if (!_playedDialogueGrimoraGiantFrozen)
 				{

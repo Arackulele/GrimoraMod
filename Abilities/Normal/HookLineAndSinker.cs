@@ -18,7 +18,7 @@ public class HookLineAndSinker : AbilityBehaviour
 	{
 		PlayableCard targetCard = Card.OpposingCard();
 		
-		if (targetCard.HasSpecialAbility(GrimoraGiant.FullSpecial.Id))
+		if (targetCard.HasTrait(Trait.Giant))
 		{
 			yield break;
 		}

@@ -52,19 +52,19 @@ public class PlayableCardPatches
 	[HarmonyPrefix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetPassiveAttackBuffs))]
 	public static bool CorrectBuffsAndDebuffsForGrimoraGiants(PlayableCard __instance, ref int __result)
 	{
-		bool isGrimoraGiant = __instance.HasTrait(Trait.Giant) && __instance.HasSpecialAbility(GrimoraGiant.FullSpecial.Id);
+		bool isGrimoraGiant = __instance.HasTrait(Trait.Giant);
 		if (__instance.OnBoard && isGrimoraGiant)
 		{
 			int finalAttackNum = 0;
-			List<PlayableCard> opposingSlots = BoardManager.Instance.GetSlots(__instance.OpponentCard).GetCards();
-			foreach (var opposingCard in opposingSlots)
+			List<PlayableCard> opposingCards = BoardManager.Instance.GetSlots(__instance.OpponentCard).GetCards();
+			foreach (var card in opposingCards)
 			{
-				if (opposingCard.HasAbility(Ability.BuffEnemy))
+				if (card.HasAbility(Ability.BuffEnemy))
 				{
 					finalAttackNum++;
 				}
 
-				if (!__instance.HasAbility(Ability.MadeOfStone) && opposingCard.HasAbility(Ability.DebuffEnemy))
+				if (__instance.LacksAbility(Ability.MadeOfStone) && card.HasAbility(Ability.DebuffEnemy))
 				{
 					finalAttackNum--;
 				}

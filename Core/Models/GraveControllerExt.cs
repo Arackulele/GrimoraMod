@@ -53,7 +53,7 @@ public class GraveControllerExt : GravestoneCardAnimationController
 		if (graveController.PlayableCard)
 		{
 			_playableCard = graveController.PlayableCard;
-			_isGiant = _playableCard.HasSpecialAbility(GrimoraGiant.FullSpecial.Id);
+			_isGiant = _playableCard.HasTrait(Trait.Giant);
 		}
 
 		AddCustomArmPrefabs();

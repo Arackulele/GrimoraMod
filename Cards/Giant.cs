@@ -19,7 +19,6 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(2, 7)
 			.SetBoneCost(15)
 			.SetNames(NameGiant, "Giant")
-			.SetTraits(Trait.Giant, Trait.Uncuttable)
 			.SetDescription("TRULY A SIGHT TO BEHOLD.")
 			.Build()
 			;
@@ -39,9 +38,7 @@ public class ModifyLocalPositionsOfTableObjects
 	)
 	{
 		bool isBonelord = card.InfoName().Equals(NameBonelord);
-		if (GrimoraSaveUtil.isGrimora
-		    && card.HasTrait(Trait.Giant)
-		    && card.InfoName() == NameGiant || isBonelord)
+		if (GrimoraSaveUtil.isGrimora && card.HasTrait(Trait.Giant))
 		{
 			// Card -> RotatingParent (child zero) -> TombstoneParent -> Cardbase_StatsLayer
 			Transform rotatingParent = card.transform.GetChild(0);
