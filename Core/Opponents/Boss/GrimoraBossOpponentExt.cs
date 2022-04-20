@@ -183,8 +183,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	{
 		var modInfo = new CardModificationInfo(2, 0)
 		{
-			abilities = new List<Ability> { Ability.Reach, GiantStrike.ability, Ability.MadeOfStone },
-			negateAbilities = new List<Ability> { Ability.QuadrupleBones },
+			negateAbilities = new List<Ability> { Ability.QuadrupleBones }
 		};
 		playableCard.AddTemporaryMod(modInfo);
 	}
@@ -300,6 +299,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		{
 			ViewManager.Instance.SwitchToView(View.Default, false, true);
 			_bonelordSnapAnim.gameObject.SetActive(true);
+			yield return new WaitForSeconds(0.1f);
 			_bonelordSnapAnim.Play("bonelord_snap", 0, 0);
 			yield return new WaitForSeconds(1.2f);
 			foreach (var playableCard in activePlayerCards)
@@ -314,7 +314,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 			yield return TextDisplayer.Instance.ShowThenClear(
 				"DID YOU REALLY THINK THE BONE LORD WOULD LET YOU OFF THAT EASILY?!",
-				4f,
+				3f,
 				letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
 			);
 		}
@@ -346,6 +346,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		UIManager.Instance.Effects.GetEffect<ScreenGlitchEffect>().SetIntensity(1f, 1f);
 		Log.LogDebug($"Glitch sound");
 		GlitchOutAssetEffect.PlayGlitchSound(playableCard.transform.position);
+		TurnManager.Instance.Opponent.ModifySpawnedCard(playableCard);
 		yield return BoardManager.Instance.TransitionAndResolveCreatedCard(
 			playableCard,
 			slotToSpawnIn,
