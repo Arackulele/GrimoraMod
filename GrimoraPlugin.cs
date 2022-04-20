@@ -10,6 +10,7 @@ using HarmonyLib;
 using InscryptionAPI;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -50,8 +51,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AllAbilitiesTextures = AssetUtils.LoadAssetBundle<Texture>("grimoramod_abilities");
 		AllControllers = AssetUtils.LoadAssetBundle<RuntimeAnimatorController>("grimoramod_controller");
 		AllMats = AssetUtils.LoadAssetBundle<Material>("grimoramod_mats");
-
-		StartCoroutine(LoadAssetsAsync());
 	}
 
 	// private IEnumerator HotReloadMenuCardAdd()
@@ -66,9 +65,14 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	// 	}
 	// }
 
-	private void Start()
+	private IEnumerator Start()
 	{
 		LoadAbilitiesAndCards();
+
+		if (AllPrefabs.IsNullOrEmpty())
+		{
+			yield return LoadAssetsAsync();
+		}
 	}
 
 	private void LoadAbilitiesAndCards()
