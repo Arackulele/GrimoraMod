@@ -32,7 +32,6 @@ public class GraveControllerExt : GravestoneCardAnimationController
 	private void Start()
 	{
 		var oldController = GetComponent<GravestoneCardAnimationController>();
-		Log.LogDebug($"[GraveExt.Start] Inside start controller for card [{_playableCard}]");
 		CustomCoroutine.WaitThenExecute(0.1f, () => Destroy(oldController));
 	}
 
