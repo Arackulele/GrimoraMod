@@ -129,6 +129,9 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			case NameGiant:
 				ModifyTwinGiant(card);
 				break;
+			case NameBonelord:
+				HandleResizingGiantCards(card, true);
+				break;
 			case NameBoneLordsHorn:
 				ModifyBonelordsHorn(card);
 				break;
@@ -138,16 +141,41 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		}
 	}
 
+	private void HandleResizingGiantCards(PlayableCard playableCard, bool isBonelord = false)
+	{
+		// Card -> RotatingParent (child zero) -> TombstoneParent -> Cardbase_StatsLayer
+		Log.LogDebug($"[GiantCardResize] Resizing [{playableCard}]");
+		Transform rotatingParent = playableCard.transform.GetChild(0);
+
+		float xValPosition = -0.7f;
+		float xValScale = 2.1f;
+		if (ConfigHelper.HasIncreaseSlotsMod && isBonelord)
+		{
+			xValPosition = -1.4f;
+			xValScale = 3.3f;
+		}
+
+		rotatingParent.localPosition = new Vector3(xValPosition, 1.05f, 0);
+		rotatingParent.localScale = new Vector3(xValScale, 2.1f, 1);
+	}
+
 	private void ModifyTwinGiant(PlayableCard playableCard)
 	{
 		var modInfo = new CardModificationInfo(-1, 1)
 		{
 			abilities = new List<Ability> { Ability.Reach, GiantStrike.ability, Ability.MadeOfStone },
-			negateAbilities = new List<Ability> { Ability.QuadrupleBones, Ability.SplitStrike },
-			specialAbilities = new List<SpecialTriggeredAbility> { GrimoraGiant.FullSpecial.Id },
-			nameReplacement = _hasSpawnedFirstGiant ? "Ephialtes" :  "Otis"
+			negateAbilities = new List<Ability> { Ability.QuadrupleBones, Ability.SplitStrike }
+		};
+		var modNameReplace = new CardModificationInfo
+		{
+			nameReplacement = _hasSpawnedFirstGiant ? "Ephialtes" : "Otis",
+			specialAbilities = new List<SpecialTriggeredAbility> { GrimoraGiant.FullSpecial.Id }
 		};
 		_hasSpawnedFirstGiant = true;
+		CardInfo clone = (CardInfo)playableCard.Info.Clone();
+		clone.Mods.Add(modNameReplace);
+		playableCard.SetInfo(clone);
+		HandleResizingGiantCards(playableCard);
 		playableCard.AddTemporaryMod(modInfo);
 	}
 
@@ -165,7 +193,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	{
 		playableCard.AddTemporaryMod(new CardModificationInfo(Ability.BuffNeighbours));
 	}
-	
+
 	public override IEnumerator StartNewPhaseSequence()
 	{
 		TurnPlan.Clear();
@@ -349,7 +377,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			null,
 			false
 		);
-		
+
 		AddBonelordSnapAnim(playableCard);
 		yield return new WaitForSeconds(1f);
 	}
@@ -366,7 +394,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		_bonelordSnapAnim.gameObject.AddComponent<AnimMethods>();
 		_bonelordSnapAnim.gameObject.SetActive(false);
 	}
-	
+
 	private IEnumerator CreateHornsInFarLeftAndRightLanes(List<CardSlot> oppSlots)
 	{
 		Log.LogInfo("[Grimora] Spawning Bone Lord's Horns");

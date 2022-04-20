@@ -23,7 +23,7 @@ public class GiantStrike : AbilityBehaviour, IGetOpposingSlots
 
 	public override bool RespondsToOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
 	{
-		return ability != GiantStrikeEnraged.ability
+		return !Card.TemporaryMods.Exists(mod => mod.singletonId == ModSingletonId)
 		    && TurnManager.Instance.Opponent.OpponentType == GrimoraBossOpponentExt.FullOpponent.Id
 		    && card != Card
 		    && card.InfoName() == GrimoraPlugin.NameGiant
@@ -34,7 +34,7 @@ public class GiantStrike : AbilityBehaviour, IGetOpposingSlots
 	{
 		ViewManager.Instance.SwitchToView(View.OpponentQueue);
 		yield return TextDisplayer.Instance.ShowUntilInput(
-			$"Oh dear, you've made {Card.Info.displayedName.Red()} quite angry."
+			$"Oh dear, you've made {Card.Info.DisplayedNameEnglish.Red()} quite angry."
 		);
 		Card.AddTemporaryMod(_modInfo);
 	}
