@@ -39,7 +39,6 @@ public class BaseCardPatches
 		
 		if (__instance.GetComponent<GraveControllerExt>().IsNull())
 		{
-			GrimoraPlugin.Log.LogDebug($"[Card.SetInfo] Setting up new controller for card [{info.displayedName}]");
 			var oldController = __instance.GetComponent<GravestoneCardAnimationController>();
 			var newController = __instance.gameObject.AddComponent<GraveControllerExt>();
 			newController.Setup(oldController);
