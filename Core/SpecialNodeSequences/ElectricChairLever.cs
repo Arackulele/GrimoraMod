@@ -56,7 +56,7 @@ public class ElectricChairLever : HighlightedInteractable
 		ActivatedEnergyDrawWyvern.ability,
 		ActivatedGainEnergySoulSucker.ability,
 		AreaOfEffectStrike.ability,
-		BuffCrewMates.ability,
+		BuffSkeletonsSeaShanty.ability,
 		ChaosStrike.ability,
 		CreateArmyOfSkeletons.ability,
 		CreateShipwrecks.ability,

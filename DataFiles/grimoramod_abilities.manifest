@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3523917911
+CRC: 4202747108
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 9f9f933ee7cd5dc17b96a5b8f07a77fd
+    Hash: b12b9b81487b4b7484a0b50d6461e163
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7859cd501ea75098bcf7e53f1b477c26
@@ -30,7 +30,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Abilities/ability_Boneless.png
 - Assets/GrimoraMod_Unity/Abilities/ability_HookLineAndSinker.png
 - Assets/GrimoraMod_Unity/Abilities/ability_AlternatingStrike.png
-- Assets/GrimoraMod_Unity/Abilities/ability_BuffCrewMates.png
+- Assets/GrimoraMod_Unity/Abilities/ability_BuffSkeletonsSeaShanty.png
 - Assets/GrimoraMod_Unity/Abilities/ability_ColdFront.png
 - Assets/GrimoraMod_Unity/Abilities/ability_ActivatedDealDamageGrimora.png
 - Assets/GrimoraMod_Unity/Abilities/ability_ActivatedGainEnergySoulSucker_1.png
