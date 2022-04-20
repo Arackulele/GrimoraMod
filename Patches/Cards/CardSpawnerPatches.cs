@@ -24,10 +24,16 @@ public class CardSpawnerPatches
 			return;
 		}
 
+		if (info.Abilities.Count > 4)
+		{
+			ChangeLogicInCardAbilityIcons.SetupGroupFive(__result.AbilityIcons);
+		}
+
 		if (__result.Info.Mods.Exists(mod => mod.fromCardMerge))
 		{
 			GrimoraPlugin.Log.LogDebug($"[SpawnPlayableCard] Card [{info.displayedName}] has FromCardMerge mod, setting fromCardMerge to false");
-			__result.Info.Mods.FindAll(mods => mods.fromCardMerge)
+			__result.Info.Mods
+			 .FindAll(mods => mods.fromCardMerge)
 			 .ForEach(mod => mod.fromCardMerge = false);
 		}
 	}
