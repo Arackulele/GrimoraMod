@@ -10,7 +10,7 @@ public static class AssetUtils
 {
 	private static readonly Dictionary<string, string> FileChecksums = new()
 	{
-		{ "grimoramod_abilities", "B0C80AFA770389594F6454A90A29FB5C943EDA5E10F51852B1C51183DA9361EB" },
+		{ "grimoramod_abilities", "5F4480016DFEC0508ED38B9AF20058722130C1E24870B357C1DE4BCC609A9292" },
 		{ "grimoramod_controller", "74BC4A80C0FA64CF5EF3F578DCB49625DBA54079785C210E7B2DC79B87C86FC5" },
 		{ "grimoramod_mats", "939AD534C55F4150F586CE706345E19E80ABA39EC1D4298A61192220B3B1790F" },
 		{ "grimoramod_prefabs", "683DB17E991683778343B38474207BED2507F3276E494E69623421C288F51254" },
@@ -27,7 +27,8 @@ public static class AssetUtils
 		var sha265Checksum = BitConverter.ToString(checksum).Replace("-", string.Empty);
 		if (FileChecksums.TryGetValue(Path.GetFileName(fileToRead), out string correctChecksum) && correctChecksum != sha265Checksum)
 		{
-			Log.LogError($"[AssetUtils] File [{Path.GetFileName(fileToRead)}] checksum [{sha265Checksum}] does not match the correct one [{correctChecksum}]");
+			Log.LogError($"[AssetUtils] File [{Path.GetFileName(fileToRead)}] calculated checksum [{sha265Checksum}] does not match the correct one [{correctChecksum}] for this file!" +
+			             $"\nPlease redownload the mod!");
 		}
 
 		return fileToRead;
