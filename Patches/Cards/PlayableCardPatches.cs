@@ -46,13 +46,15 @@ public class PlayableCardPatches
 		CardSlot oppositeSlot = __instance.OpposingSlot();
 		bool oppositeSlotHasPossessive = oppositeSlot.Card && oppositeSlot.Card.HasAbility(Possessive.ability);
 		__result &= !oppositeSlotHasPossessive;
-		Log.LogDebug($"[Possessive.CanAttackDirectly] Result after [{__result}]");
+		Log.LogDebug($"[Possessive.CanAttackDirectly] Result after  [{__result}]");
 	}
 
-	[HarmonyPrefix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetPassiveAttackBuffs))]
-	public static bool CorrectBuffsAndDebuffsForGrimoraGiants(PlayableCard __instance, ref int __result)
+
+	[HarmonyAfter(InscryptionAPI.InscryptionAPIPlugin.ModGUID)]
+	[HarmonyPostfix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetPassiveAttackBuffs))]
+	public static void CorrectBuffsAndDebuffsForGrimoraGiants(PlayableCard __instance, ref int __result)
 	{
-		bool isGrimoraGiant = __instance.HasTrait(Trait.Giant);
+		bool isGrimoraGiant = GrimoraSaveUtil.isGrimora && __instance.HasTrait(Trait.Giant);
 		if (__instance.OnBoard && isGrimoraGiant)
 		{
 			int finalAttackNum = 0;
@@ -70,20 +72,19 @@ public class PlayableCardPatches
 				}
 			}
 
-			List<PlayableCard> giantCards = BoardManager.Instance.GetSlots(__instance.IsPlayerCard()).GetCards(pCard => pCard == __instance);
-			foreach (var giant in giantCards)
-			{
-				List<PlayableCard> adjCards = giant.Slot.GetAdjacentSlots(true).GetCards(pCard => pCard != __instance);
-				if (adjCards.Exists(pCard => pCard.HasAbility(Ability.BuffNeighbours)))
-				{
-					finalAttackNum++;
-				}
-			}
+			finalAttackNum += GetAdjacentLeaderBuffs(__instance);
 
 			__result = finalAttackNum;
-			return false;
 		}
+	}
 
-		return true;
+	private static int GetAdjacentLeaderBuffs(PlayableCard giantCard)
+	{
+		return BoardManager.Instance.opponentSlots
+		 .Where(slot => slot.Card == giantCard)
+		 .Count(slot => slot.GetAdjacentSlots(true)
+			       .GetCards(pCard => pCard != giantCard)
+			       .Exists(pCard => pCard.HasAbility(Ability.BuffNeighbours))
+			);
 	}
 }
