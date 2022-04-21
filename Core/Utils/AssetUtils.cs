@@ -82,6 +82,10 @@ public static class AssetUtils
 		{
 			AllAbilitiesTextures = allAssetsRequest.allAssets.Cast<Texture>().ToList();
 		}
+		else if (type == typeof(Mesh))
+		{
+			AllMesh = allAssetsRequest.allAssets.Cast<Mesh>().ToList();
+		}
 
 		bundle.Unload(false);
 		stopwatch.Stop();
@@ -123,6 +127,10 @@ public static class AssetUtils
 			else if (type == typeof(Texture))
 			{
 				objToReturn = AllAbilitiesTextures.Single(go => NameMatchesAsset(go, prefabName)) as T;
+			}
+			else if (type == typeof(Mesh))
+			{
+				objToReturn = AllMesh.Single(go => NameMatchesAsset(go, prefabName)) as T;
 			}
 		}
 		catch (Exception e)
