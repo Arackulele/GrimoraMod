@@ -46,17 +46,17 @@ public class VisualizeSniperPatches
 			return true;
 		}
 		
-		GrimoraPlugin.Log.LogDebug($"Starting VisualizeConfirmSniperAbility for target slot [{targetSlot.name}]");
+		// GrimoraPlugin.Log.LogDebug($"Starting VisualizeConfirmSniperAbility for target slot [{targetSlot.name}]");
 		if (sniperIconPrefab == null)
 		{
-			GrimoraPlugin.Log.LogDebug("-> sniperIconPrefab is null, creating cannon target");
+			// GrimoraPlugin.Log.LogDebug("-> sniperIconPrefab is null, creating cannon target");
 			sniperIconPrefab = ResourceBank.Get<GameObject>("Prefabs/Cards/SpecificCardModels/CannonTargetIcon");
 		}
-		GrimoraPlugin.Log.LogDebug("Creating sniper icon");
+		// GrimoraPlugin.Log.LogDebug("Creating sniper icon");
 		GameObject gameObject = UnityObject.Instantiate(sniperIconPrefab, targetSlot.transform);
 		gameObject.transform.localPosition = new Vector3(0f, 0.25f, 0f);
 		gameObject.transform.localRotation = Quaternion.identity;
-		GrimoraPlugin.Log.LogDebug("Added to sniperIcons list");
+		// GrimoraPlugin.Log.LogDebug("Added to sniperIcons list");
 		sniperIcons.Add(gameObject);
 		return false;
 	}
@@ -69,18 +69,18 @@ public class VisualizeSniperPatches
 			return true;
 		}
 		
-		GrimoraPlugin.Log.LogDebug("Starting VisualizeClearSniperAbility");
+		// GrimoraPlugin.Log.LogDebug("Starting VisualizeClearSniperAbility");
 		if(skeletonArmSniper)
 		{
-			GrimoraPlugin.Log.LogDebug("-> Skeleton arm is not null, setting inactive");
+			// GrimoraPlugin.Log.LogDebug("-> Skeleton arm is not null, setting inactive");
 			skeletonArmSniper.gameObject.SetActive(false);
 		}
-		GrimoraPlugin.Log.LogDebug("Destroying all sniper icons");
+		// GrimoraPlugin.Log.LogDebug("Destroying all sniper icons");
 		sniperIcons.ForEach(delegate(GameObject x)
 		{
 			UnityObject.Destroy(x, 0.1f);
 		});
-		GrimoraPlugin.Log.LogDebug("Clearing sniper icon list");
+		// GrimoraPlugin.Log.LogDebug("Clearing sniper icon list");
 		sniperIcons.Clear();
 		return false;
 	}
