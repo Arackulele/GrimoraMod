@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Text;
 using DiskCardGame;
 using InscryptionAPI.Card;
 using Pixelplacement;
@@ -29,13 +30,13 @@ public static class CardRelatedExtension
 	
 	public static string GetNameAndSlot(this PlayableCard playableCard)
 	{
-		string printedNameAndSlot = $"[{playableCard.Info.displayedName}]";
+		StringBuilder printedNameAndSlot = new StringBuilder(playableCard.Info.DisplayedNameEnglish);
 		if (playableCard.Slot)
 		{
-			printedNameAndSlot += $" Slot [{playableCard.Slot.Index}]";
+			printedNameAndSlot.Append($" Slot {playableCard.Slot.Index}");
 		}
 
-		return printedNameAndSlot;
+		return printedNameAndSlot.ToString();
 	}
 
 	/// <summary>
