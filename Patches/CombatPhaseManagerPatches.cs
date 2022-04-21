@@ -25,7 +25,7 @@ public class CombatPhaseManagerPatches
 		}
 
 		Animator customArmPrefab = slot.Card.Anim.GetCustomArm();
-		bool cardIsGrimoraGiant = slot.Card.HasTrait(Trait.Giant);
+		bool cardIsGrimoraGiant = slot.Card.IsGrimoraGiant();
 		if (cardIsGrimoraGiant)
 		{
 			PlayableCard giantCard = slot.Card;

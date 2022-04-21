@@ -67,7 +67,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 	private bool SlotContainsTwinGiant(CardSlot cardSlot)
 	{
-		return cardSlot.HasCard(NameGiant) && cardSlot.Card.HasTrait(Trait.Giant);
+		return cardSlot.HasCard(NameGiant) && cardSlot.Card.IsGrimoraGiant();
 	}
 
 	public override IEnumerator OpponentUpkeep()

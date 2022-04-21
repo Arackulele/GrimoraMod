@@ -39,6 +39,11 @@ public static class CardRelatedExtension
 		return printedNameAndSlot.ToString();
 	}
 
+	public static IsGrimoraGiant(this PlayableCard playableCard)
+	{
+		return targetCard.HasSpecialAbility(GrimoraGiant.FullSpecial.Id) || targetCard.TemporaryMods.Exists(mod => mod.specialAbilities.Contains(GrimoraGiant.FullSpecial.Id));
+	}
+
 	/// <summary>
 	/// Create a basic CardBlueprint based from the name of the card.
 	/// </summary>
