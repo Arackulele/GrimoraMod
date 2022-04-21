@@ -83,7 +83,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private void LoadAbilitiesAndCards()
 	{
-		Log.LogDebug($"Loading cards");
+		Stopwatch stopwatch = Stopwatch.StartNew();
+		Log.LogDebug($"[LoadAbilitiesAndCards] Loading cards...");
 
 		// What this does, is that every method that exists under this partial class, Grimora Plugin,
 		//	will be searched for and of the ones that start with 'Add_', will be invoked all at once after sorting by name.
@@ -106,8 +107,16 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		CardBuilder.Builder
 		 .SetAbilities(Ability.BoneDigger, Ability.SteelTrap, Haunter.ability)
 		 .SetBaseAttackAndHealth(0, 1)
-		 .SetNames($"{GUID}_TrapTest", "Trap Test", "Trap".GetCardInfo().portraitTex)
+		 .SetNames($"{GUID}_!TRAP", "!TEST Trap", "Trap".GetCardInfo().portraitTex)
 		 .Build();
+
+		CardBuilder.Builder
+		 .SetAbilities(Ability.DeathShield)
+		 .SetBaseAttackAndHealth(0, 99)
+		 .SetNames($"{GUID}_!BLOCKER", "!TEST Blocker", "Trap".GetCardInfo().portraitTex)
+		 .Build();
+		stopwatch.Stop();
+		Log.LogDebug($"[LoadAbilitiesAndCards] Finished loading all abilities and cards in [{stopwatch.ElapsedMilliseconds}]ms");
 	}
 
 	private void OnDestroy()
