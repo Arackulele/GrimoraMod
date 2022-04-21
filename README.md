@@ -73,8 +73,7 @@
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Blood Guzzler` and `Malnourishment` causing a softlock if the card dies from `Sharp Quills` or other means before the attack sequence finishes.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png)
-  - Skeletons Within: `Once [creature] is struck, draw a card from your Skeleton pile.`.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Skeletons Within: `Once [creature] is struck, draw a card from your Skeleton pile.`. Art courtesy of `Bt Y#0895`.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Alternating Strike` icon will now flip if on the opponent side.
 
