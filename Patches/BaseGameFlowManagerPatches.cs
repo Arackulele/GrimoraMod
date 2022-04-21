@@ -248,7 +248,7 @@ public class BaseGameFlowManagerPatches
 
 		RareCardChoicesSequencer sequencer = rareCardChoicesSelector.GetComponent<RareCardChoicesSequencer>();
 		sequencer.deckPile.cardbackPrefab = AssetConstants.GrimoraCardBack;
-		sequencer.choiceGenerator = rareCardChoicesSelector.AddComponent<GrimoraRareChoiceGenerator>();
+		sequencer.rareChoiceGenerator = rareCardChoicesSelector.AddComponent<GrimoraRareChoiceGenerator>();
 		sequencer.selectableCardPrefab = AssetConstants.GrimoraSelectableCard;
 
 		SpecialNodeHandler.Instance.rareCardChoiceSequencer = sequencer;
