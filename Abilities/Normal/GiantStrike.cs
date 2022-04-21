@@ -3,6 +3,7 @@ using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Helpers.Extensions;
 using InscryptionAPI.Triggers;
+using UnityEngine;
 
 namespace GrimoraMod;
 
@@ -14,7 +15,7 @@ public class GiantStrike : AbilityBehaviour, IGetOpposingSlots
 
 	public override Ability Ability => ability;
 
-	private readonly CardModificationInfo _modInfo = new(1, 0)
+	private readonly CardModificationInfo _modEnragedGiant = new(1, 0)
 	{
 		abilities = new List<Ability> { GiantStrikeEnraged.ability },
 		negateAbilities = new List<Ability> { GiantStrike.ability },
@@ -36,7 +37,8 @@ public class GiantStrike : AbilityBehaviour, IGetOpposingSlots
 		yield return TextDisplayer.Instance.ShowUntilInput(
 			$"Oh dear, you've made {Card.Info.DisplayedNameEnglish.Red()} quite angry."
 		);
-		Card.AddTemporaryMod(_modInfo);
+		Card.AddTemporaryMod(_modEnragedGiant);
+		yield return new WaitForSeconds(1);
 	}
 
 	public bool RemoveDefaultAttackSlot() => true;
