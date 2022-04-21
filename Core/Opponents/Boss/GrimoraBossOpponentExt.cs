@@ -391,6 +391,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 				playableCard.transform
 			)
 		 .GetComponent<Animator>();
+		_bonelordSnapAnim.runtimeAnimatorController = AssetConstants.SkeletonArmController;
 		_bonelordSnapAnim.name = "SkeletonArm_BoneLordSnap";
 		_bonelordSnapAnim.gameObject.AddComponent<AnimMethods>();
 		_bonelordSnapAnim.gameObject.SetActive(false);
