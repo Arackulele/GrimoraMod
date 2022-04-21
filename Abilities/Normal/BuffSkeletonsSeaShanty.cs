@@ -11,7 +11,7 @@ public class BuffSkeletonsSeaShanty : AbilityBehaviour, IPassiveAttackBuff
 
 	private bool IsSkeleton(PlayableCard playableCard) => playableCard.OnBoard && playableCard.InfoName().Equals(GrimoraPlugin.NameSkeleton);
 
-	public int GetPassiveAttackBuff(PlayableCard target) => IsSkeleton(target) ? 1 : 0;
+	public int GetPassiveAttackBuff(PlayableCard target) => Card.OnBoard && IsSkeleton(target) ? 1 : 0;
 }
 
 public partial class GrimoraPlugin
