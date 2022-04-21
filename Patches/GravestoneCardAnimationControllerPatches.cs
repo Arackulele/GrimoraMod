@@ -11,6 +11,18 @@ public class GravestoneCardAnimationControllerPatches
 	{
 		return __instance;
 	}
+	
+	[HarmonyPrefix, HarmonyPatch(nameof(GravestoneCardAnimationController.PlayDeathAnimation))]
+	public static bool PlayGlitchOutIfSelectableCard(GravestoneCardAnimationController __instance)
+	{
+		if (__instance.PlayableCard)
+		{
+			return true;
+		}
+
+		__instance.PlayGlitchOutAnimation();
+		return false;
+	}
 }
 
 [HarmonyPatch(typeof(CardAnimationController3D))]

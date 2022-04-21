@@ -37,7 +37,7 @@ public class BaseCardPatches
 			return;
 		}
 		
-		if (__instance.GetComponent<GraveControllerExt>().IsNull())
+		if (__instance.GetComponentInParent<SelectableCard>().IsNull() && __instance.GetComponent<GraveControllerExt>().IsNull())
 		{
 			var oldController = __instance.GetComponent<GravestoneCardAnimationController>();
 			var newController = __instance.gameObject.AddComponent<GraveControllerExt>();
