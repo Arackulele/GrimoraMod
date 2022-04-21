@@ -39,7 +39,7 @@ public static class CardRelatedExtension
 		return printedNameAndSlot.ToString();
 	}
 
-	public static IsGrimoraGiant(this PlayableCard playableCard)
+	public static bool IsGrimoraGiant(this PlayableCard playableCard)
 	{
 		return targetCard.HasSpecialAbility(GrimoraGiant.FullSpecial.Id) || targetCard.TemporaryMods.Exists(mod => mod.specialAbilities.Contains(GrimoraGiant.FullSpecial.Id));
 	}
