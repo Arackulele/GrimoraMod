@@ -90,16 +90,11 @@ public class CombatPhaseManagerPatches
 				yield return new WaitForSeconds(0.1f);
 			}
 
-			if (giantCard.NotDead())
+			if (giantCard.NotDead() && giantCard.Anim.DoingAttackAnimation)
 			{
-				if (giantCard.Anim.DoingAttackAnimation)
-				{
-					Log.LogWarning($"[SlotAttackSequence.Giant] Giant is still doing attack anim, waiting until finished");
-					yield return new WaitUntil(() => !giantCard.Anim.DoingAttackAnimation);
-					yield return new WaitForSeconds(0.25f);
-				}
-
-				customArmPrefab.gameObject.SetActive(false);
+				Log.LogWarning($"[SlotAttackSequence.Giant] Giant is still doing attack anim, waiting until finished");
+				yield return new WaitUntil(() => !giantCard.Anim.DoingAttackAnimation);
+				yield return new WaitForSeconds(0.25f);
 			}
 		}
 		else
@@ -127,13 +122,13 @@ public class CombatPhaseManagerPatches
 					(__instance as CombatPhaseManager3D).damageWeights.Clear();
 				}
 			}
-
-			if (slot.Card.NotDead())
-			{
-				// Log.LogWarning($"[SlotAttackSequence.Regular] Card is still doing attack anim, waiting until finished");
-				// yield return new WaitUntil(() => !slot.Card.Anim.DoingAttackAnimation);
-				customArmPrefab.gameObject.SetActive(false);
-			}
+		}
+		
+		if (slot.Card.NotDead() && customArmPrefab)
+		{
+			// Log.LogWarning($"[SlotAttackSequence.Regular] Card is still doing attack anim, waiting until finished");
+			// yield return new WaitUntil(() => !slot.Card.Anim.DoingAttackAnimation);
+			customArmPrefab.gameObject.SetActive(false);
 		}
 	}
 }
