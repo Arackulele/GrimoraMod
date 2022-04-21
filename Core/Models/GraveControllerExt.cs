@@ -52,7 +52,7 @@ public class GraveControllerExt : GravestoneCardAnimationController
 		if (graveController.PlayableCard)
 		{
 			_playableCard = graveController.PlayableCard;
-			_isGiant = _playableCard..IsGrimoraGiant();
+			_isGiant = _playableCard.IsGrimoraGiant();
 		}
 
 		AddCustomArmPrefabs();
