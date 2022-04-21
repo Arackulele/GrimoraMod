@@ -264,7 +264,7 @@ public class GrimoraChessboard
 		);
 	}
 
-	public List<T> PlacePieces<T>(string specialEncounterId = "") where T : ChessboardPiece
+	public List<T> PlacePieces<T>(string specialEncounterId = "", SpecialNodeData specialNodeData = null) where T : ChessboardPiece
 	{
 		if (!_nodesByPieceType.TryGetValue(typeof(T), out Tuple<Func<GameObject>, Func<List<ChessNode>>> tuple))
 		{
@@ -273,7 +273,7 @@ public class GrimoraChessboard
 
 		List<ChessNode> nodes = tuple.Item2.Invoke();
 
-		return nodes.Select(node => PlacePiece<T>(node.GridX, node.GridY, specialEncounterId)).ToList();
+		return nodes.Select(node => PlacePiece<T>(node.GridX, node.GridY, specialEncounterId, specialNodeData)).ToList();
 	}
 
 	#endregion

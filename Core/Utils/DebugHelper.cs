@@ -208,6 +208,7 @@ public class DebugHelper : ManagedBehaviour
 						break;
 					case "Reset Removed Pieces":
 						ConfigHelper.Instance.ResetRemovedPieces();
+						ChessboardMapExt.Instance.ActiveChessboard.SetupBoard(true);
 						break;
 					case "Kill Opponent Cards":
 						foreach (var opponentCard in BoardManager.Instance.GetOpponentCards())
@@ -585,30 +586,16 @@ public class DebugHelper : ManagedBehaviour
 
 			if (selectedButton >= 0)
 			{
-				SpecialNodeData specialNode = new CardChoicesNodeData();
-				switch (_btnChests[selectedButton])
-				{
-					case "Card Remove":
-						specialNode = new CardRemoveNodeData();
-						break;
-					case "Rare Card Choice":
-						specialNode = new ChooseRareCardNodeData();
-						break;
-				}
+				SpecialNodeData specialNode = selectedButton == 0 ? new CardChoicesNodeData() : new ChooseRareCardNodeData();
 
 				ChessboardChestPiece[] chests = FindObjectsOfType<ChessboardChestPiece>();
 
 				if (chests.IsNullOrEmpty())
 				{
-					for (int i = 0; i < 8; i++)
-					{
-						var copy = ConfigHelper.Instance.RemovedPieces;
-						copy.RemoveAll(piece => piece.Contains("Chest"));
-						ConfigHelper.Instance.RemovedPieces = copy;
-						ChessboardMapExt.Instance
-						 .ActiveChessboard
-						 .PlacePiece<ChessboardChestPiece>(i, 0, specialNodeData:specialNode);
-					}
+					var copy = ConfigHelper.Instance.RemovedPieces;
+					copy.RemoveAll(piece => piece.Contains("Chest"));
+					ConfigHelper.Instance.RemovedPieces = copy;
+					ChessboardMapExt.Instance.ActiveChessboard.PlacePieces<ChessboardChestPiece>(specialNodeData: specialNode);
 				}
 				else
 				{
@@ -616,6 +603,7 @@ public class DebugHelper : ManagedBehaviour
 					{
 						chest.NodeData = specialNode;
 					}
+					Log.LogDebug($"[DebugHelper] Set [{chests.Length}] to rare chests.");
 				}
 			}
 		}
