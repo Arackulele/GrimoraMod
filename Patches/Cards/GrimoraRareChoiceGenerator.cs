@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace GrimoraMod;
 
-public class GrimoraRareChoiceGenerator : CardChoiceGenerator
+public class GrimoraRareChoiceGenerator : Part1RareChoiceGenerator
 {
 	public override List<CardChoice> GenerateChoices(CardChoicesNodeData data, int randomSeed)
 	{
@@ -57,21 +57,22 @@ public class RareCardChoicesSequencerPatch
 			                        : __instance.choiceGenerator.GenerateChoices(new CardChoicesNodeData(), SaveManager.SaveFile.GetCurrentRandomSeed());
 		for (int i = 0; i < __instance.selectableCards.Count; i++)
 		{
-			__instance.selectableCards[i].gameObject.SetActive(true);
-			__instance.selectableCards[i].ChoiceInfo = list[i];
-			__instance.selectableCards[i].Initialize(
+			var selectableCard = __instance.selectableCards[i];
+			selectableCard.gameObject.SetActive(true);
+			selectableCard.ChoiceInfo = list[i];
+			selectableCard.Initialize(
 				list[i].CardInfo,
 				__instance.OnRewardChosen,
 				__instance.OnCardFlipped,
 				true,
 				__instance.OnCardInspected
 			);
-			__instance.selectableCards[i].SetEnabled(false);
-			__instance.selectableCards[i].SetFaceDown(true, true);
-			SpecialCardBehaviour[] components = __instance.selectableCards[i].GetComponents<SpecialCardBehaviour>();
-			for (int j = 0; j < components.Length; j++)
+			selectableCard.SetEnabled(false);
+			selectableCard.SetFaceDown(true, true);
+			SpecialCardBehaviour[] components = selectableCard.GetComponents<SpecialCardBehaviour>();
+			foreach (var specialBehaviour in components)
 			{
-				components[j].OnShownForCardChoiceNode();
+				specialBehaviour.OnShownForCardChoiceNode();
 			}
 		}
 
