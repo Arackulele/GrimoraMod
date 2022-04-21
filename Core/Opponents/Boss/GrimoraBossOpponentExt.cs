@@ -317,6 +317,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 				3f,
 				letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
 			);
+			_bonelordSnapAnim.gameObject.SetActive(false);
 		}
 	}
 
