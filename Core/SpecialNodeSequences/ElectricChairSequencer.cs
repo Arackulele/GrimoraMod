@@ -197,7 +197,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 						selectionSlot.transform.position
 					);
 					destroyedCard = selectionSlot.Card.Info;
-					((GraveControllerExt)selectionSlot.Card.Anim).PlayGlitchOutAnimation();
+					((GravestoneCardAnimationController)selectionSlot.Card.Anim).PlayGlitchOutAnimation();
 					GrimoraSaveData.Data.deck.RemoveCard(selectionSlot.Card.Info);
 					yield return new WaitForSeconds(1f);
 				}

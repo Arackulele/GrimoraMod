@@ -25,6 +25,22 @@ public class GravestoneCardAnimationControllerPatches
 	}
 }
 
+[HarmonyPatch(typeof(CardAnimationController))]
+public class CardAnimationControllerPatches
+{
+	[HarmonyPrefix, HarmonyPatch(nameof(CardAnimationController.PlayTransformAnimation))]
+	public static bool PlayCardFlipAnim(CardAnimationController __instance)
+	{
+		if (GrimoraSaveUtil.isNotGrimora)
+		{
+			return true;
+		}
+
+		__instance.Anim.Play("card_flip", 0, 0);
+		return false;
+	}
+}
+
 [HarmonyPatch(typeof(CardAnimationController3D))]
 public class CardAnimationController3DPatches
 {
