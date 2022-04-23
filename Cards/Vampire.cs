@@ -9,8 +9,8 @@ public partial class GrimoraPlugin
 		CardBuilder.Builder
 			.SetAsNormalCard()
 			.SetAbilities(BloodGuzzler.ability)
-			.SetBaseAttackAndHealth(3, 1)
-			.SetBoneCost(6)
+			.SetBaseAttackAndHealth(2, 1)
+			.SetBoneCost(5)
 			.SetDescription("Cursed with eternal life, but only if their thirst can be satisfied.")
 			.SetNames(NameVampire, "Vampire")
 			.Build();
