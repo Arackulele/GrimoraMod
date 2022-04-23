@@ -39,9 +39,4 @@ public static class RandomUtils
 
 		return cardChoices;
 	}
-
-	public static int GenerateRandomSeed()
-	{
-		return SaveManager.SaveFile.GetCurrentRandomSeed() + UnityRandom.Range(1, 666);
-	}
 }

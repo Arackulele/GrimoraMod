@@ -131,62 +131,6 @@ public class BaseGameFlowManagerPatches
 		statIcons.healthIconRenderer.transform.localScale = new Vector3(0.33f, 0.33f, 1);
 	}
 
-	public static void AddBoonLordBoonConsumable()
-	{
-		Log.LogDebug($"Adding Boon Lord Consumable");
-		GameObject ramSkull = UnityObject.Instantiate(
-			ResourceBank.Get<GameObject>("Art/Assets3D/NodeSequences/GoatSkull/RamSkull_NoHorn"),
-			new Vector3(4.59f, 4.8f, 0),
-			Quaternion.Euler(270, 235, 0)
-		);
-		Log.LogDebug($"Setting consumable name");
-		ramSkull.name = "BoneLordBoon_Consumable";
-		Log.LogDebug($"Setting consumable scale");
-		ramSkull.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
-
-		Log.LogDebug($"Setting runtime controller");
-		ramSkull.AddComponent<Animator>().runtimeAnimatorController =
-			ResourceBank.Get<RuntimeAnimatorController>("Animation/Items/ItemAnim");
-
-		Log.LogDebug($"Adding BoneLordSkull class");
-		ramSkull.AddComponent<BoneLordSkull>();
-
-		Log.LogDebug($"Creating scriptable object");
-		ConsumableItemData itemData = ScriptableObject.CreateInstance<ConsumableItemData>();
-		itemData.notRandomlyGiven = true;
-		itemData.powerLevel = 1;
-		itemData.rulebookCategory = AbilityMetaCategory.Part1Modular;
-		itemData.rulebookName = "Bonelord Boon of Bones";
-		itemData.rulebookDescription = "How gracious of the Bonelord to give you 8 starting bones.";
-		// itemData.rulebookSprite = Sprite.Create(Rect.zero, Vector2.zero, float.Epsilon);
-		itemData.regionSpecific = false;
-
-		if (!ItemsUtil.allData.Exists(x => ((ConsumableItemData)x).rulebookName == itemData.rulebookName))
-		{
-			Log.LogDebug($"Adding consumable in ItemsUtil.allData");
-			ItemsUtil.allData.Add(itemData);
-		}
-
-		// Log.LogDebug($"Updating items");
-		// GrimoraItemsManagerExt.Instance.UpdateItems();
-	}
-
-	private static void AddCustomEnergy()
-	{
-		// Log.LogDebug($"Starting load of custom energy object");
-		// var prefab = AllPrefabAssets.LoadAssetWithSubAssets("Hexalantern")[0];
-		//
-		// Log.LogDebug($"Creating custom energy object [{prefab}]");
-		// GameObject energyObj = (GameObject)UnityObject.Instantiate(
-		// 	prefab,
-		// 	new Vector3(-2.69f, 5.82f, -0.48f),
-		// 	Quaternion.Euler(0, 0, 0f),
-		// 	Object.FindObjectOfType<BoardManager3D>().transform
-		// );
-
-		// FixShaders(energyObj);
-	}
-
 	private static void AddEnergyDrone()
 	{
 		ResourceDrone resourceEnergy = ResourceDrone.Instance;

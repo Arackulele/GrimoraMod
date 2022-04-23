@@ -345,7 +345,7 @@ public class GraveControllerExt : GravestoneCardAnimationController
 			Log.LogDebug($"[AddCustomArmPrefabs] Adding skeleton arm giant prefab to card [{Card.Info.displayedName}]");
 			Animator customArmGiants = Instantiate(AssetConstants.CustomSkeletonArmGiants, transform).GetComponent<Animator>();
 			customArmGiants.runtimeAnimatorController = AssetConstants.SkeletonArmController;
-			customArmGiants.name = "SkeletonArms_Giants";
+			customArmGiants.name = SkeletonArmsGiants;
 			customArmGiants.gameObject.AddComponent<AnimMethods>();
 			customArmGiants.gameObject.SetActive(false);
 			_customArmGiants = customArmGiants;

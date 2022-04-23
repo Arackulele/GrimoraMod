@@ -421,31 +421,4 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 		SpecialNodeHandler.Instance.cardRemoveSequencer = cardRemoveSequencer;
 	}
-
-	private static void AddDecalRenders()
-	{
-		// TODO: HOW DO WE GET THOSE DECALS TO SHOW UP
-		Log.LogDebug($"Adding decal renders");
-		CardDisplayer3D graveDisplayer = FindObjectOfType<CardDisplayer3D>();
-
-		BoonIconInteractable cardAbilityIcons = Instantiate(
-			ResourceBank.Get<BoonIconInteractable>("Prefabs/Cards/CardSurfaceInteraction/BoonIcon"),
-			graveDisplayer.GetComponentInChildren<CardAbilityIcons>().transform
-		);
-		graveDisplayer.GetComponentInChildren<CardAbilityIcons>().boonIcon = cardAbilityIcons;
-
-		CardDisplayer3D cardElements = ResourceBank.Get<CardDisplayer3D>("Prefabs/Cards/CardElements");
-		CardDisplayer3D cardDisplayer3D = Instantiate(cardElements, graveDisplayer.transform);
-
-		var cardDecals = cardDisplayer3D.transform.Find("CardDecals");
-		cardDecals.SetParent(graveDisplayer.transform);
-		Destroy(cardDisplayer3D.gameObject);
-
-		graveDisplayer.decalRenderers.Clear();
-		for (int i = 0; i < cardDecals.transform.childCount; i++)
-		{
-			graveDisplayer.decalRenderers.Add(cardDecals.transform.GetChild(i).GetComponent<MeshRenderer>());
-			graveDisplayer.decalRenderers[i].enabled = true;
-		}
-	}
 }

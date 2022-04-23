@@ -57,10 +57,10 @@ public class GrimoraItemsManagerExt : ItemsManager
 	}
 }
 
-[HarmonyPatch(typeof(ItemSlot), nameof(ItemSlot.CreateItem))]
+[HarmonyPatch(typeof(ItemSlot))]
 public class AddNewHammerExt
 {
-	[HarmonyPrefix]
+	[HarmonyPrefix, HarmonyPatch(nameof(ItemSlot.CreateItem))]
 	public static bool InitHammerExtAfter(ItemSlot __instance, ItemData data, bool skipDropAnimation = false)
 	{
 		if (GrimoraSaveUtil.isNotGrimora)
@@ -92,11 +92,11 @@ public class AddNewHammerExt
 	}
 }
 
-[HarmonyPatch(typeof(ConsumableItemSlot), nameof(ConsumableItemSlot.ConsumeItem))]
+[HarmonyPatch(typeof(ConsumableItemSlot))]
 public class DeactivateHammerAfterThreeUses
 {
-	[HarmonyPostfix]
-	public static IEnumerator Postfix(IEnumerator enumerator, ConsumableItemSlot __instance)
+	[HarmonyPostfix, HarmonyPatch(nameof(ConsumableItemSlot.ConsumeItem))]
+	public static IEnumerator CheckHammerForThreeUses(IEnumerator enumerator, ConsumableItemSlot __instance)
 	{
 		yield return enumerator;
 		if (GrimoraSaveUtil.isNotGrimora)
@@ -106,19 +106,19 @@ public class DeactivateHammerAfterThreeUses
 
 		if (__instance.Consumable is HammerItemExt { useCounter: 3 })
 		{
-			Log.LogDebug($"Destroying hammer as all 3 uses have been used");
+			Log.LogWarning($"Destroying hammer as all 3 uses have been used");
 			__instance.coll.enabled = false;
 			__instance.gameObject.SetActive(false);
 		}
 	}
 }
 
-[HarmonyPatch(typeof(FirstPersonAnimationController), nameof(FirstPersonAnimationController.SpawnFirstPersonAnimation))]
+[HarmonyPatch(typeof(FirstPersonAnimationController))]
 public class FirstPersonHammerPatch
 {
 	public static bool HasPlayedIceDialogue = false;
 
-	[HarmonyPrefix]
+	[HarmonyPrefix, HarmonyPatch(nameof(FirstPersonAnimationController.SpawnFirstPersonAnimation))]
 	public static bool InitHammerExtAfter(
 		FirstPersonAnimationController __instance,
 		ref GameObject __result,

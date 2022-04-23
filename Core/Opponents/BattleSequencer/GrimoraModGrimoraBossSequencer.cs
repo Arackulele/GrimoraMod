@@ -16,10 +16,6 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		typeof(GrimoraModGrimoraBossSequencer)
 	);
 
-	private readonly RandomEx _rng = new();
-
-	private bool _hasPlayedArmyDialogue = false;
-
 	private bool _playedDialogueDeathTouch;
 
 	private bool _playedDialoguePossessive;

@@ -14,7 +14,7 @@ public class ChessboardGoatEyePiece : ChessboardPieceExt
 	}
 }
 
-[HarmonyPatch(typeof(ChessboardMapNode), nameof(ChessboardMapNode.OnArriveAtNode))]
+[HarmonyPatch(typeof(ChessboardMapNode))]
 public class GoatEyePatch
 {
 
@@ -24,7 +24,7 @@ public class GoatEyePatch
 		typeof(ChessboardGoatEyePiece)
 	};
 
-	[HarmonyPostfix]
+	[HarmonyPostfix, HarmonyPatch(nameof(ChessboardMapNode.OnArriveAtNode))]
 	public static IEnumerator EyeFollowsPlayerLikeMario(IEnumerator enumerator)
 	{
 		yield return enumerator;
