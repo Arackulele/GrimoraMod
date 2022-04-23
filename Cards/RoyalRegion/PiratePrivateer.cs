@@ -12,7 +12,7 @@ public partial class GrimoraPlugin
 		 .SetAsNormalCard()
 		 .SetAbilities(Anchored.ability, Ability.Sniper)
 		 .SetBaseAttackAndHealth(1, 1)
-		 .SetBoneCost(4)
+		 .SetBoneCost(3)
 		 .SetDescription("A keen eye socket allows him to attack anywhere, from anywhere; marvelous indeed!")
 		 .SetNames(NamePiratePrivateer, "Privateer")
 		 .Build();
