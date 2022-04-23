@@ -41,6 +41,18 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		boardSwayedLeftLast = !boardSwayedLeftLast;
 	}
 
+	private List<PlayableCard> GetValidCardsForLitFuse()
+	{
+		var cardsHavingFewerThan5Abilities = BoardManager.Instance
+		 .GetPlayerCards(pCard =>
+			                 !pCard.FaceDown
+			              && pCard.InfoName() != NamePirateSwashbuckler
+			              && pCard.AllAbilities().Count < 5
+			);
+
+		return cardsHavingFewerThan5Abilities;
+	}
+
 	private IEnumerator ApplyLitFuseToPlayerCard(PlayableCard playerCard)
 	{
 		ViewManager.Instance.SwitchToView(View.Board);
@@ -53,16 +65,15 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 
 	public override IEnumerator OpponentCombatEnd()
 	{
-		var activePlayerCards =
-			BoardManager.Instance.GetPlayerCards(pCard => !pCard.FaceDown && pCard.InfoName() != NamePirateSwashbuckler);
-		if (activePlayerCards.IsNullOrEmpty())
+		var validCards = GetValidCardsForLitFuse();
+		if (validCards.IsNullOrEmpty())
 		{
 			yield break;
 		}
 
 		if (_rng.NextBoolean() && _rng.NextBoolean())
 		{
-			yield return ApplyLitFuseToPlayerCard(activePlayerCards.GetRandomItem());
+			yield return ApplyLitFuseToPlayerCard(validCards.GetRandomItem());
 		}
 	}
 
@@ -72,6 +83,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		{
 			yield return StartBoardSway();
 		}
+
 		yield return base.PlayerUpkeep();
 	}
 
@@ -157,10 +169,10 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 	{
 		Log.LogInfo($"[TableSway.DoStrafe] Starting MoveToSlot method for {playableCard.GetNameAndSlot()} Destination [{destination?.name}] Destination Valid? [{destinationValid}]");
 
-		if (playableCard.HasAnyAbilities(Ability.Strafe, Ability.StrafePush))
+		if (playableCard.HasAnyAbilities(Ability.Strafe, Ability.StrafePush, Ability.StrafeSwap, Ability.SkeletonStrafe))
 		{
 			playableCard.RenderInfo.SetAbilityFlipped(
-				playableCard.Info.abilities.Find(ab => ab is Ability.Strafe or Ability.StrafePush),
+				playableCard.Info.abilities.Find(ab => ab is Ability.Strafe or Ability.StrafePush or Ability.StrafeSwap or Ability.SkeletonStrafe),
 				movingLeft
 			);
 			playableCard.RenderInfo.flippedPortrait = movingLeft && playableCard.Info.flipPortraitForStrafe;
@@ -169,7 +181,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 
 		if (destination)
 		{
-			bool destinationSlotCardHasAnchoredOrFlying = 
+			bool destinationSlotCardHasAnchoredOrFlying =
 				destination.Card && (destination.Card.HasAnyAbilities(Anchored.ability, Ability.Flying));
 			if (destinationSlotCardHasAnchoredOrFlying)
 			{
