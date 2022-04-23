@@ -30,7 +30,6 @@ public static class BlueprintUtils
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_DrownedSoul = NameDrownedSoul.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_EmberSpirit = NameEmberSpirit.CreateCardBlueprint();
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Family = NameFamily.CreateCardBlueprint();
 
@@ -92,13 +91,7 @@ public static class BlueprintUtils
 
 	//V2.7.4
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_CompoundFracture =
-		NameCompoundFracture.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Centurion = NameCenturion.CreateCardBlueprint();
-
-	public static readonly EncounterBlueprintData.CardBlueprint
-		bp_FesteringWretch = NameFesteringWretch.CreateCardBlueprint();
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Manananggal = NameManananggal.CreateCardBlueprint();
 
@@ -111,20 +104,18 @@ public static class BlueprintUtils
 	public static readonly EncounterBlueprintData.CardBlueprint bp_FirstMateSnag =
 		NamePirateFirstMateSnag.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Privateer = NamePiratePrivateer.CreateCardBlueprint();
 
 	public static readonly EncounterBlueprintData.CardBlueprint
 		bp_Swashbuckler = NamePirateSwashbuckler.CreateCardBlueprint();
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Shipwreck = NameShipwreck.CreateCardBlueprint();
 	
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Polly = NamePiratePolly.CreateCardBlueprint();
 		
 	#endregion
 
 	#region Kaycee
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_IceCube = NameIceCube.CreateCardBlueprint();
+
 	
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Glacier = NameGlacier.CreateCardBlueprint();
 
@@ -325,7 +316,7 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new(),
-			new() { bp_CompoundFracture },
+			new() { bp_Glacier },
 			new(),
 			new() { bp_Draugr, bp_Zombie },
 			new(),
@@ -399,7 +390,7 @@ public static class BlueprintUtils
 		blueprint.name = "Royal_2";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_EmberSpirit },
+			new() { bp_Manananggal },
 			new(),
 			new() { bp_Zombie, bp_Zombie },
 			new(),
@@ -440,15 +431,15 @@ public static class BlueprintUtils
 		{
 			new() { bp_Silbon },
 			new(),
-			new() { bp_Centurion },
+			new() { bp_Project },
 			new() { bp_Zombie },
 			new(),
 			new() { bp_Zombie, bp_Zombie },
 			new() { bp_DrownedSoul },
 			new(),
 			new(),
-			new() { bp_Centurion },
-			new() { bp_Centurion }
+			new() { bp_Revenant },
+			new() { bp_Revenant }
 		};
 
 		return blueprint;

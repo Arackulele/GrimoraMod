@@ -4,12 +4,12 @@
 			"id": "Kaycee_Region_3",
 			"turns": [
 				[
-					"Animator",
+					"Bonehound",
 					"Bonehound"
 				],
 				[
-					"Wight",
-					"Wight"
+					"Bonehound",
+					"Bonehound"
 				]
 			]
 		},
@@ -17,13 +17,13 @@
 			"id": "Kaycee_Region_4",
 			"turns": [
 				[
-					"SlingersSoul",
-					"IceCube"
+					"Bonehound",
+					"Bonehound"
 				],
 				[],
 				[
-					"Writher",
-					"PlagueDoctor"
+					"Bonehound",
+					"Bonehound"
 				]
 			]
 		},
@@ -31,13 +31,13 @@
 			"id": "Sawyer_Fight",
 			"turns": [
 				[
-					"SlingersSoul",
-					"IceCube"
+					"Bonehound",
+					"Bonehound"
 				],
 				[],
 				[
-					"Writher",
-					"PlagueDoctor"
+					"Bonehound",
+					"Bonehound"
 				]
 			]
 		}
