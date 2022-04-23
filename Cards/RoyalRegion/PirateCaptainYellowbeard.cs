@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 		 .SetAbilities(BuffSkeletonsSeaShanty.ability, Anchored.ability)
 		 .SetBaseAttackAndHealth(2, 2)
 		 .SetBoneCost(7)
-		 .SetDescription("His songs raise the morale of only Skeletons, as no one else seems to like it")
+		 .SetDescription("His songs raise the morale of only Skeletons, as no one else seems to like it.")
 		 .SetNames(NamePirateCaptainYellowbeard, "Yellowbeard")
 		 .Build();
 	}
