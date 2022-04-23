@@ -93,6 +93,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			Log.LogWarning($"Prefabs are still being loaded, waiting until they have finished.");
 			yield return new WaitUntil(() => !AllPrefabs.IsNullOrEmpty());
 		}
+		
+		LoadExpansionCards();
 	}
 	
 	private void LoadAbilities()
@@ -203,8 +205,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		#endregion
 		
-		LoadExpansionCards();
-
 		AllGrimoraModCards.Sort((info, cardInfo) => string.Compare(info.name, cardInfo.name, StringComparison.Ordinal));
 		AllPlayableGrimoraModCards = AllGrimoraModCards.Where(info => info.metaCategories.Any()).ToList();
 
