@@ -19,9 +19,13 @@ public class ChaosStrike : AbilityBehaviour, IGetOpposingSlots
 	public List<CardSlot> GetOpposingSlots(List<CardSlot> originalSlots, List<CardSlot> otherAddedSlots)
 	{
 		CardSlot opposingSlot = Card.OpposingSlot();
-		List<CardSlot> slotsToTarget = new List<CardSlot>(opposingSlot.GetAdjacentSlots()) { opposingSlot };
+		List<CardSlot> opposingSlotAndAdj = new List<CardSlot>(opposingSlot.GetAdjacentSlots(true)) { opposingSlot };
+		List<CardSlot> slotsToTarget = new List<CardSlot>();
 
-		slotsToTarget = slotsToTarget.Randomize().ToList();
+		for (int i = 0; i < 3; i++)
+		{
+			slotsToTarget.Add(opposingSlotAndAdj.GetRandomItem());
+		}
 
 		GrimoraPlugin.Log.LogInfo($"[{GetType().Name}] Opposing slots is now [{slotsToTarget.Join(slot => slot.Index.ToString())}]");
 		return slotsToTarget;
