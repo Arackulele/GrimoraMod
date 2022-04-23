@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Diagnostics;
 using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Card;
@@ -11,6 +12,8 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(CombatPhaseManager))]
 public class CombatPhaseManagerPatches
 {
+	private static readonly Stopwatch Stopwatch = new Stopwatch();
+	
 	[HarmonyPostfix, HarmonyPatch(nameof(CombatPhaseManager.SlotAttackSequence))]
 	public static IEnumerator HandleSpecificAttacksForCustomAnims(
 		IEnumerator enumerator,
@@ -24,6 +27,11 @@ public class CombatPhaseManagerPatches
 			yield break;
 		}
 
+		if (Stopwatch.IsRunning)
+		{
+			Stopwatch.Stop();
+		}
+		Stopwatch.Start();
 		Animator customArmPrefab = slot.Card.Anim.GetCustomArm();
 		bool cardIsGrimoraGiant = slot.Card.IsGrimoraGiant();
 		if (cardIsGrimoraGiant)
@@ -129,7 +137,8 @@ public class CombatPhaseManagerPatches
 				yield return new WaitUntil(() => !slot.Card.Anim.DoingAttackAnimation);
 			}
 
-			Log.LogInfo($"[SlotAttackSequence] [{slot.Card.GetNameAndSlot()}] no longer attacking");
+			Stopwatch.Stop();
+			Log.LogInfo($"[SlotAttackSequence] [{slot.Card.GetNameAndSlot()}] no longer attacking. Time taken: [{Stopwatch.ElapsedMilliseconds}]ms");
 			if (cardIsGrimoraGiant)
 			{
 				yield return new WaitForSeconds(0.25f);
