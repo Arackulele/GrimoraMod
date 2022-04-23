@@ -9,7 +9,7 @@ public partial class GrimoraPlugin
 	private void Add_Card_Sluagh()
 	{
 		// TODO:  Effect: when played, move any card to any available spot.
-		// Does not work on boss cards like the Bone Lord.
+		// Does not work on boss cards like the Bonelord.
 		// Cannot move one of Grimora's cards to your side of the board or vice versa.
 		CardBuilder.Builder
 			.SetAsNormalCard()

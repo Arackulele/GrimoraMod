@@ -61,7 +61,10 @@ public partial class GrimoraPlugin
 	public void Add_Ability_GrimoraRandomAbility()
 	{
 		const string rulebookDescription = "When [creature] is drawn, this sigil is replaced with another sigil at random.";
-		Texture icon = AbilitiesUtil.LoadAbilityIcon(Ability.RandomAbility.ToString());
-		ApiUtils.CreateAbility<GrimoraRandomAbility>(rulebookDescription, "Random Ability", rulebookIcon: icon);
+		AbilityBuilder<GrimoraRandomAbility>.Builder
+		 .SetIcon(AbilitiesUtil.LoadAbilityIcon(Ability.RandomAbility.ToString()))
+		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName("Random Ability")
+		 .Build();
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Text;
 using DiskCardGame;
 using InscryptionAPI.Card;
 using Pixelplacement;
@@ -10,72 +11,37 @@ namespace GrimoraMod;
 
 public static class CardRelatedExtension
 {
-	private static readonly int Hover    = Animator.StringToHash("hover");
-	private static readonly int Hovering = Animator.StringToHash("hovering");
 	
-	public static readonly Dictionary<PlayableCard, Animator> CustomArmPrefabsCache = new();
-
-	private const string SkeletonArmsGiants = "SkeletonArms_Giants";
-	private const string SkeletonArmsInvertedStrike = "Skeleton2ArmsAttacks";
-	private const string SkeletonArmsSentry = "Grimora_Sentry";
-
-	public static void SetCustomArmsPrefabActive(this PlayableCard playableCard, bool active = true)
+	public static Animator GetCustomArm(this CardAnimationController controller)
 	{
-		Animator customSkeletonArmPrefab = playableCard.GetCorrectCustomArmsPrefab();
-		if (customSkeletonArmPrefab)
-		{
-			GrimoraPlugin.Log.LogDebug($"Setting custom arm [{customSkeletonArmPrefab.name}] active? [{active}]");
-			customSkeletonArmPrefab.gameObject.SetActive(active);
-		}
+		return GrimoraSaveUtil.isGrimora ? ((GraveControllerExt)controller).GetCustomArm() : null;
+	}
+
+	public static void PlaySpecificAttackAnimation(
+		this CardAnimationController controller,
+		string animToPlay,
+		bool attackPlayer,
+		CardSlot targetSlot,
+		Action impactCallback
+	)
+	{
+		((GraveControllerExt)controller).PlaySpecificAttackAnimation(animToPlay, attackPlayer, targetSlot, impactCallback);
 	}
 	
-	public static Animator GetCorrectCustomArmsPrefab(this PlayableCard playableCard, CardSlot targetSlot = null)
-	{
-		if (!CustomArmPrefabsCache.TryGetValue(playableCard, out Animator customSkeletonArmPrefab))
-		{
-			if (playableCard.transform.Find(SkeletonArmsInvertedStrike))
-			{
-				customSkeletonArmPrefab = playableCard.transform.Find(SkeletonArmsInvertedStrike).GetComponent<Animator>();
-			}
-			if (playableCard.transform.Find(SkeletonArmsGiants))
-			{
-				customSkeletonArmPrefab = playableCard.transform.Find(SkeletonArmsGiants).GetComponent<Animator>();
-			} 
-			if ((targetSlot.IsNull() ^ playableCard.HasAbility(Ability.Sniper)) && playableCard.transform.Find(SkeletonArmsSentry))
-			{
-				customSkeletonArmPrefab = playableCard.transform.Find(SkeletonArmsSentry).GetChild(0).GetComponent<Animator>();
-			}
-			
-			GrimoraPlugin.Log.LogDebug($"[CustomArms] Adding custom prefab for card {playableCard.GetNameAndSlot()}");
-			CustomArmPrefabsCache.Add(playableCard, customSkeletonArmPrefab);
-		}
-
-		return customSkeletonArmPrefab;
-	}
-	
-
 	public static string GetNameAndSlot(this PlayableCard playableCard)
 	{
-		string printedNameAndSlot = $"[{playableCard.Info.displayedName}]";
+		StringBuilder printedNameAndSlot = new StringBuilder(playableCard.Info.DisplayedNameEnglish);
 		if (playableCard.Slot)
 		{
-			printedNameAndSlot += $" Slot [{playableCard.Slot.Index}]";
+			printedNameAndSlot.Append($" Slot {playableCard.Slot.Index}");
 		}
 
-		return printedNameAndSlot;
+		return printedNameAndSlot.ToString();
 	}
 
-	/// <summary>
-	/// Create a basic CardBlueprint based off the CardInfo object.
-	/// </summary>
-	/// <param name="cardInfo">CardInfo to access</param>
-	/// <returns>The same card info so a chain can continue</returns>
-	public static EncounterBlueprintData.CardBlueprint CreateBlueprint(this CardInfo cardInfo)
+	public static bool IsGrimoraGiant(this PlayableCard playableCard)
 	{
-		return new EncounterBlueprintData.CardBlueprint
-		{
-			card = cardInfo
-		};
+		return playableCard.HasSpecialAbility(GrimoraGiant.FullSpecial.Id) || playableCard.TemporaryMods.Exists(mod => mod.specialAbilities.Contains(GrimoraGiant.FullSpecial.Id));
 	}
 
 	/// <summary>
@@ -85,27 +51,12 @@ public static class CardRelatedExtension
 	/// <returns>The CardBlueprint containing the card.</returns>
 	public static EncounterBlueprintData.CardBlueprint CreateCardBlueprint(this string cardName)
 	{
-		return CreateBlueprint(cardName.GetCardInfo());
+		return cardName.GetCardInfo().CreateBlueprint();
 	}
 
 	public static CardInfo GetCardInfo(this string self)
 	{
 		return CardManager.AllCardsCopy.Single(info => info.name == self);
-	}
-
-	public static bool CardIsNotNullAndHasAbility(this CardSlot cardSlot, Ability ability)
-	{
-		return cardSlot.Card && cardSlot.Card.HasAbility(ability);
-	}
-
-	public static bool CardIsNotNullAndHasSpecialAbility(this CardSlot cardSlot, SpecialTriggeredAbility ability)
-	{
-		return cardSlot.Card && cardSlot.Card.Info.SpecialAbilities.Contains(ability);
-	}
-
-	public static bool CardInSlotIs(this CardSlot cardSlot, string cardName)
-	{
-		return cardSlot.Card && cardSlot.Card.InfoName().Equals(cardName);
 	}
 
 	public static string InfoName(this Card card)
@@ -122,32 +73,18 @@ public static class CardRelatedExtension
 	{
 		return !self.IsNullOrEmpty();
 	}
-
-	public static void UpdateHoveringForCard(this GravestoneCardAnimationController controller, bool hovering = false)
+	
+	public static List<Ability> AllAbilities(this PlayableCard playableCard)
 	{
-		bool isHovering = hovering || controller.Anim.GetBool(Hovering);
-		if (isHovering)
-		{
-			controller.Anim.ResetTrigger(Hover);
-			controller.Anim.SetTrigger(Hover);
-		}
-
-		controller.Anim.SetBool(Hovering, isHovering);
-	}
-
-	public static bool HasSpecialAbility(this PlayableCard playableCard, SpecialTriggeredAbility ability)
-	{
-		return playableCard.Info.SpecialAbilities.Contains(ability);
+		return AbilitiesUtil
+		 .GetAbilitiesFromMods(playableCard.TemporaryMods)
+		 .Concat(playableCard.Info.Abilities)
+		 .ToList();
 	}
 
 	public static bool HasAnyAbilities(this PlayableCard playableCard, params Ability[] abilities)
 	{
 		return playableCard.Info.Abilities.Any(abilities.Contains);
-	}
-
-	public static bool HasBeenElectricChaired(this PlayableCard playableCard)
-	{
-		return playableCard.Info.Mods.Exists(mod => mod.singletonId == ElectricChairSequencer.ModSingletonId);
 	}
 
 	public static bool HasBeenElectricChaired(this CardInfo cardInfo)
@@ -156,9 +93,9 @@ public static class CardRelatedExtension
 	}
 
 	public static void RemoveAbilityFromThisCard(
-		this PlayableCard    playableCard,
+		this PlayableCard playableCard,
 		CardModificationInfo modInfo,
-		Action               callback = null
+		Action callback = null
 	)
 	{
 		CardInfo cardInfoClone = playableCard.Info.Clone() as CardInfo;
@@ -169,21 +106,22 @@ public static class CardRelatedExtension
 
 	public static IEnumerator DieCustom(
 		this PlayableCard playableCard,
-		bool              wasSacrifice,
-		PlayableCard      killer              = null,
-		bool              playSound           = true,
-		float             royalTableSwayValue = 0f
+		bool wasSacrifice,
+		PlayableCard killer = null,
+		bool playSound = true,
+		float royalTableSwayValue = 0f
 	)
 	{
-		if (!playableCard.Dead)
+		if (playableCard.NotDead())
 		{
+			Animator customArmPrefab = playableCard.Anim.GetCustomArm();
 			playableCard.Dead = true;
 			CardSlot slotBeforeDeath = playableCard.Slot;
 			if (playableCard.Info != null && playableCard.Info.name.ToLower().Contains("squirrel"))
 			{
 				AscensionStatsData.TryIncrementStat(AscensionStat.Type.SquirrelsKilled);
 			}
-			
+
 			if (playableCard.TriggerHandler.RespondsToTrigger(Trigger.PreDeathAnimation, wasSacrifice))
 			{
 				yield return playableCard.TriggerHandler.OnTrigger(Trigger.PreDeathAnimation, wasSacrifice);
@@ -215,14 +153,20 @@ public static class CardRelatedExtension
 				}
 			}
 
-			if (!playableCard.HasAbility(Ability.QuadrupleBones) && !playableCard.HasAbility(Boneless.ability) && slotBeforeDeath.IsPlayerSlot)
+			if (playableCard.LacksAbility(Ability.QuadrupleBones) && playableCard.LacksAbility(Boneless.ability) && slotBeforeDeath.IsPlayerSlot)
 			{
 				yield return ResourcesManager.Instance.AddBones(1, slotBeforeDeath);
 			}
 
+
 			if (playableCard.TriggerHandler.RespondsToTrigger(Trigger.Die, wasSacrifice, killer))
 			{
 				yield return playableCard.TriggerHandler.OnTrigger(Trigger.Die, wasSacrifice, killer);
+			}
+
+			if (customArmPrefab)
+			{
+				UnityObject.Destroy(customArmPrefab.gameObject);
 			}
 
 			yield return GlobalTriggerHandler.Instance.TriggerAll(

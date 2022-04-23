@@ -1,34 +1,49 @@
-﻿using DiskCardGame;
+﻿using System.Collections;
+using DiskCardGame;
 using HarmonyLib;
-using InscryptionAPI.Card;
+using InscryptionAPI.Helpers.Extensions;
+using InscryptionAPI.Triggers;
 using UnityEngine;
 
 namespace GrimoraMod;
 
-public class GiantStrike : ExtendedAbilityBehaviour
+public class GiantStrike : AbilityBehaviour, IGetOpposingSlots
 {
+	public const string ModSingletonId = "GrimoraMod_EnragedGiant";
+	
 	public static Ability ability;
 
 	public override Ability Ability => ability;
 
-	public override bool RemoveDefaultAttackSlot() => true;
-
-	public override bool RespondsToGetOpposingSlots() => true;
-
-	private void Awake()
+	private readonly CardModificationInfo _modEnragedGiant = new(1, 0)
 	{
-		if (Card.Anim is GravestoneCardAnimationController && Card.transform.Find("SkeletonArms_Giants").IsNull())
-		{
-			GrimoraPlugin.Log.LogDebug($"Adding skeleton arm giant prefab to card [{Card.InfoName()}]");
-			Animator skeletonArm2Attacks = UnityObject.Instantiate(
-					AssetUtils.GetPrefab<GameObject>("SkeletonArms_Giants"),
-					Card.transform
-				).GetComponent<Animator>();
-			skeletonArm2Attacks.name = "SkeletonArms_Giants";
-			skeletonArm2Attacks.gameObject.AddComponent<AnimMethods>();
-			skeletonArm2Attacks.gameObject.SetActive(false);
-		}
+		abilities = new List<Ability> { GiantStrikeEnraged.ability },
+		negateAbilities = new List<Ability> { GiantStrike.ability },
+		singletonId = ModSingletonId
+	};
+
+	public override bool RespondsToOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
+	{
+		return !Card.TemporaryMods.Exists(mod => mod.singletonId == ModSingletonId)
+		    && TurnManager.Instance.Opponent.OpponentType == GrimoraBossOpponentExt.FullOpponent.Id
+		    && card != Card
+		    && card.InfoName() == GrimoraPlugin.NameGiant
+		    && deathSlot.IsOpponentSlot();
 	}
+
+	public override IEnumerator OnOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
+	{
+		ViewManager.Instance.SwitchToView(View.OpponentQueue);
+		yield return TextDisplayer.Instance.ShowUntilInput(
+			$"Oh dear, you've made {Card.Info.DisplayedNameEnglish.Red()} quite angry."
+		);
+		Card.AddTemporaryMod(_modEnragedGiant);
+		yield return new WaitForSeconds(1);
+	}
+
+	public bool RemoveDefaultAttackSlot() => true;
+
+	public bool RespondsToGetOpposingSlots() => true;
 
 	public List<CardSlot> GetTwinGiantOpposingSlots()
 	{
@@ -37,24 +52,23 @@ public class GiantStrike : ExtendedAbilityBehaviour
 		 .ToList();
 	}
 
-	public override List<CardSlot> GetOpposingSlots(List<CardSlot> originalSlots, List<CardSlot> otherAddedSlots)
+	public List<CardSlot> GetOpposingSlots(List<CardSlot> originalSlots, List<CardSlot> otherAddedSlots)
 	{
 		// assume giant is in slot indexes 0, 1
 		// original slots has opposing slot of index 1
 		List<CardSlot> slotsToTarget = new List<CardSlot>(GetTwinGiantOpposingSlots());
-		if (slotsToTarget.Exists(slot => slot.Card))
+		if (ability != GiantStrikeEnraged.ability && slotsToTarget.Exists(slot => slot.Card))
 		{
-			List<CardSlot> slotsWithCards = slotsToTarget
-			 .Where(slot => slot.Card)
-			 .ToList();
-			if (slotsWithCards.Count == 1)
+			List<PlayableCard> cards = slotsToTarget.GetCards();
+			if (cards.Count == 1)
 			{
+				PlayableCard onlyCard = cards[0];
 				slotsToTarget.Clear();
-				slotsToTarget.Add(slotsWithCards[0]);
+				slotsToTarget.Add(onlyCard.Slot);
 				// single card has health greater than current attack, then attack twice 
-				if (slotsWithCards[0].Card.Health > Card.Attack)
+				if (onlyCard.Health > Card.Attack)
 				{
-					slotsToTarget.Add(slotsWithCards[0]);
+					slotsToTarget.Add(onlyCard.Slot);
 				}
 			}
 		}
@@ -72,6 +86,9 @@ public partial class GrimoraPlugin
 			"[creature] will strike each opposing space. "
 		+ "If only one creature is in the opposing spaces, this card will strike that creature twice. ";
 
-		ApiUtils.CreateAbility<GiantStrike>(rulebookDescription, flipYIfOpponent: true);
+		AbilityBuilder<GiantStrike>.Builder
+		 .FlipIconIfOnOpponentSide()
+		 .SetRulebookDescription(rulebookDescription)
+		 .Build();
 	}
 }

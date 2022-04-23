@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -8,23 +9,6 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(Sentry))]
 public class SentryPatches
 {
-	[HarmonyPostfix, HarmonyPatch(nameof(Sentry.Awake))]
-	public static void AddNewSkeletonArm(Sentry __instance)
-	{
-		if (__instance.Card.Anim is GravestoneCardAnimationController)
-		{
-			GrimoraPlugin.Log.LogDebug($"Adding skeleton arm shoot object to card [{__instance.Card.InfoName()}]");
-			GameObject grimoraSentry = UnityObject.Instantiate(
-					AssetUtils.GetPrefab<GameObject>("Grimora_Sentry"),
-					__instance.transform
-				);
-			grimoraSentry.name = "Grimora_Sentry";
-			Transform animObj = grimoraSentry.transform.GetChild(0);
-			animObj.gameObject.AddComponent<AnimMethods>();
-			animObj.gameObject.SetActive(false);
-		}
-	}
-
 	[HarmonyPostfix, HarmonyPatch(nameof(Sentry.FireAtOpposingSlot))]
 	public static IEnumerator PlayShootingAnim(IEnumerator enumerator, Sentry __instance, PlayableCard otherCard)
 	{
@@ -34,12 +18,12 @@ public class SentryPatches
 		}
 
 		__instance.lastShotCard = otherCard;
-		__instance.lastShotTurn = Singleton<TurnManager>.Instance.TurnNumber;
+		__instance.lastShotTurn = TurnManager.Instance.TurnNumber;
 		ViewManager.Instance.SwitchToView(View.Board, false, true);
 		yield return new WaitForSeconds(0.25f);
 		for (int i = 0; i < __instance.NumShots; i++)
 		{
-			if (otherCard != null && !otherCard.Dead)
+			if (otherCard.NotDead())
 			{
 				yield return __instance.PreSuccessfulTriggerSequence();
 				__instance.Card.Anim.LightNegationEffect();
@@ -59,16 +43,14 @@ public class SentryPatches
 						}
 					);
 				}
-				else if (__instance.Card.Anim is GravestoneCardAnimationController graveController)
+				else if (__instance.Card.Anim is GraveControllerExt graveController)
 				{
 					GrimoraPlugin.Log.LogDebug($"Playing shoot animation!");
-					graveController.PlayAttackAnimation(
+					graveController.PlaySpecificAttackAnimation(
+						"attack_sentry",
 						__instance.Card.IsFlyingAttackingReach(),
-						null,
-						delegate
-						{
-							impactFrameReached = true;
-						}
+						otherCard.Slot,
+						delegate { impactFrameReached = true; }
 					);
 				}
 

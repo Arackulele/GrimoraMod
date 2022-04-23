@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -11,7 +12,7 @@ public class DrawNewHandPatch
 	[HarmonyPrefix, HarmonyPatch(nameof(DrawNewHand.RespondsToResolveOnBoard))]
 	public static bool OnlyDrawNewCardsForPlayer(DrawNewHand __instance, ref bool __result)
 	{
-		__result = !__instance.Card.OpponentCard;
+		__result = __instance.Card.IsPlayerCard();
 		return false;
 	}
 

@@ -12,24 +12,15 @@ public class CardBuilder
 
 	private readonly CardInfo _cardInfo = ScriptableObject.CreateInstance<CardInfo>();
 
+	private string _cardNameNoGuid;
+
+	private string _cardEmissionNoGuid;
+
 	public CardInfo Build()
 	{
 		_cardInfo.temple = CardTemple.Undead;
 
-		if (_cardInfo.name.EndsWith("_tail"))
-		{
-			string cardNameNoGuid = _cardInfo.name.Replace($"{GUID}_", "").Replace("_tail", "");
-			Log.LogDebug($"Setting tail and tailLostPortrait for [{cardNameNoGuid}]");
-			Sprite tailLostSprite = AllSprites.Single(_ => _.name.Equals($"{cardNameNoGuid}_tailless"));
-			tailLostSprite.RegisterEmissionForSprite(AllSprites.Single(_ => _.name.Equals($"{cardNameNoGuid}_emission")));
-			CardInfo owner = AllGrimoraModCards.Single(info => info.name.EndsWith(cardNameNoGuid));
-			owner.tailParams = new TailParams
-			{
-				tail = _cardInfo,
-				tailLostPortrait = tailLostSprite
-			};
-		}
-
+		AllGrimoraModCardsNoGuid.Add(_cardNameNoGuid);
 		AllGrimoraModCards.Add(_cardInfo);
 		CardManager.Add(GUID, _cardInfo);
 		return _cardInfo;
@@ -57,22 +48,20 @@ public class CardBuilder
 		return this;
 	}
 
-	private CardBuilder SetPortrait(string cardName, Sprite ogCardArt = null)
+	private CardBuilder SetPortrait(Sprite ogCardArt = null)
 	{
 		if (ogCardArt.IsNull())
 		{
-			cardName = cardName.Replace($"{GUID}_", "");
-			_cardInfo.portraitTex = AssetUtils.GetPrefab<Sprite>(cardName);
+			_cardInfo.portraitTex = AssetUtils.GetPrefab<Sprite>(_cardNameNoGuid);
 
-			Sprite emissionSprite = AllSprites.Find(_ => _.name.Equals($"{cardName}_emission"));
+			Sprite emissionSprite = AllSprites.Find(spr => spr.name.Equals(_cardEmissionNoGuid));
 			if (emissionSprite)
 			{
-				AllSprites.Single(_ => _.name.Equals(cardName)).RegisterEmissionForSprite(emissionSprite);
+				_cardInfo.SetEmissivePortrait(emissionSprite);
 			}
 		}
 		else
 		{
-			Log.LogDebug($"Setting original card art [{ogCardArt.name}]");
 			_cardInfo.portraitTex = ogCardArt;
 		}
 
@@ -100,10 +89,12 @@ public class CardBuilder
 
 	internal CardBuilder SetNames(string name, string displayedName, Sprite ogSprite = null)
 	{
+		_cardNameNoGuid = name.Replace($"{GUID}_", string.Empty);
+		_cardEmissionNoGuid = _cardNameNoGuid + "_emission";
 		_cardInfo.name = name;
 		_cardInfo.displayedName = displayedName;
 
-		return SetPortrait(name, ogSprite);
+		return SetPortrait(ogSprite);
 	}
 
 	internal CardBuilder SetAsNormalCard()
@@ -164,16 +155,17 @@ public class CardBuilder
 		return this;
 	}
 
-	internal CardBuilder SetTraits(params Trait[] traits)
+	internal CardBuilder SetTail(string tailName)
 	{
-		_cardInfo.traits = traits?.ToList();
+		Sprite tailLostSprite = AllSprites.Single(spr => spr.name == $"{_cardNameNoGuid}_tailless");
+		tailLostSprite.RegisterEmissionForSprite(AllSprites.Single(spr => spr.name.Equals(_cardEmissionNoGuid)));
+		_cardInfo.SetTail(tailName, tailLostSprite);
 		return this;
 	}
-
-	internal CardBuilder SetDecals(params Texture[] decals)
+	
+	internal CardBuilder SetTraits(params Trait[] traits)
 	{
-		_cardInfo.decals ??= new List<Texture>();
-		_cardInfo.decals = decals.ToList();
+		_cardInfo.SetTraits(traits);
 		return this;
 	}
 }

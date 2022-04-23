@@ -13,48 +13,4 @@ public static class BoardManagerExtensions
 		opponentSlotsCopy.RemoveAll(FindOccupiedQueueSlots);
 		return opponentSlotsCopy;
 	}
-
-	public static List<PlayableCard> GetPlayerCards(
-		this BoardManager manager, Predicate<PlayableCard> filterOnPredicate = null
-	)
-	{
-		return manager
-			.PlayerSlotsCopy
-			.Where(slot => slot.Card && (filterOnPredicate is null || filterOnPredicate.Invoke(slot.Card)))
-			.Select(slot => slot.Card)
-			.ToList();
-	}
-	
-	public static List<CardSlot> GetPlayerOpenSlots(
-		this BoardManager manager,
-		Predicate<CardSlot> filterOnPredicate = null
-	)
-	{
-		return manager
-			.PlayerSlotsCopy
-			.Where(slot => slot.Card.IsNull() && (filterOnPredicate is null || filterOnPredicate.Invoke(slot)))
-			.ToList();
-	}
-
-	public static List<PlayableCard> GetOpponentCards(
-		this BoardManager manager, Predicate<PlayableCard> filterOnPredicate = null
-	)
-	{
-		return manager
-			.OpponentSlotsCopy
-			.Where(slot => slot.Card && (filterOnPredicate is null || filterOnPredicate.Invoke(slot.Card)))
-			.Select(slot => slot.Card)
-			.ToList();
-	}
-
-	public static List<CardSlot> GetOpponentOpenSlots(
-		this BoardManager manager,
-		Predicate<CardSlot> filterOnPredicate = null
-	)
-	{
-		return manager
-			.OpponentSlotsCopy
-			.Where(slot => slot.Card.IsNull() && (filterOnPredicate is null || filterOnPredicate.Invoke(slot)))
-			.ToList();
-	}
 }

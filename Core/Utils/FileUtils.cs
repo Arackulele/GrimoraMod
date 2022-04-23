@@ -16,12 +16,7 @@ public static class FileUtils
 	{
 		return ConfigHelper.Instance.IsHotReloadEnabled
 			? Path.Combine(Paths.BepInExRootPath, "plugins", "Arackulele-GrimoraMod")
-			: Assembly.GetExecutingAssembly().Location.Replace("GrimoraMod.dll", "");
-	}
-
-	public static byte[] ReadFileAsBytes(string file, bool isPng = false)
-	{
-		return File.ReadAllBytes(FindFileInPluginDir(file, isPng));
+			: Assembly.GetExecutingAssembly().Location.Replace("GrimoraMod.dll", string.Empty);
 	}
 
 	public static string FindFileInPluginDir(string file, bool isPng = false)

@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Card;
+using InscryptionAPI.Helpers.Extensions;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -10,17 +12,17 @@ public class HookLineAndSinker : AbilityBehaviour
 
 	public override Ability Ability => ability;
 
-	public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer)
-	{
-		return Card.Slot.opposingSlot.Card
-		    && !Card.Slot.opposingSlot.Card.Info.SpecialAbilities.Contains(GrimoraGiant.FullSpecial.Id);
-	}
+	public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer) => Card.HasOpposingCard();
 
 	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
 	{
-		CardSlot opposingSlot = Card.Slot.opposingSlot;
-		PlayableCard targetCard = opposingSlot.Card;
-
+		PlayableCard targetCard = Card.OpposingCard();
+		
+		if (targetCard.IsGrimoraGiant())
+		{
+			yield break;
+		}
+		
 		AudioController.Instance.PlaySound3D(
 			"angler_use_hook",
 			MixerGroup.TableObjectsSFX,
@@ -30,10 +32,11 @@ public class HookLineAndSinker : AbilityBehaviour
 		);
 		yield return new WaitForSeconds(0.51f);
 
-		if (targetCard && !targetCard.Dead)
+		if (targetCard.NotDead())
 		{
-			targetCard.SetIsOpponentCard(!Card.Slot.IsPlayerSlot);
-			yield return BoardManager.Instance.AssignCardToSlot(targetCard, Card.Slot, 0.33f);
+			GrimoraPlugin.Log.LogInfo($"[HookLineAndSinker] Hooked card {targetCard.GetNameAndSlot()}, moving to slot [{Card.Slot.Index}]");
+			targetCard.SetIsOpponentCard(Card.Slot.IsOpponentSlot());
+			yield return Card.Slot.AssignCardToSlot(targetCard, 0.33f);
 			if (targetCard.FaceDown)
 			{
 				targetCard.SetFaceDown(false);
@@ -52,6 +55,8 @@ public partial class GrimoraPlugin
 		const string rulebookDescription =
 			"When [creature] perishes, the creature in the opposing slot is dragged onto the owner's side of the board.";
 
-		ApiUtils.CreateAbility<HookLineAndSinker>(rulebookDescription);
+		AbilityBuilder<HookLineAndSinker>.Builder
+		 .SetRulebookDescription(rulebookDescription)
+		 .Build();
 	}
 }

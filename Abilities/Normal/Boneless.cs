@@ -15,6 +15,8 @@ public partial class GrimoraPlugin
 	{
 		const string rulebookDescription = "[creature] yields no bones upon death.";
 
-		ApiUtils.CreateAbility<Boneless>(rulebookDescription);
+		AbilityBuilder<Boneless>.Builder
+		 .SetRulebookDescription(rulebookDescription)
+		 .Build();
 	}
 }

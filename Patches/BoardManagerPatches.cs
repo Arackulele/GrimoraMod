@@ -19,7 +19,7 @@ public class BoardManagerPatches
 public class BoardManager3DPatches
 {
 	[HarmonyPostfix, HarmonyPatch(nameof(BoardManager3D.MoveQueuedCardToSlot))]
-	public static void CheckForNonCardTriggersOnTheBoardStill(
+	public static void SetParentOfQueuedCardToQueuedSlot(
 		BoardManager3D __instance,
 		PlayableCard card,
 		CardSlot slot,

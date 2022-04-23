@@ -1,6 +1,8 @@
 using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using InscryptionAPI.Encounters;
+using InscryptionAPI.Helpers.Extensions;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -65,7 +67,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 	private bool SlotContainsTwinGiant(CardSlot cardSlot)
 	{
-		return cardSlot.CardIsNotNullAndHasSpecialAbility(GrimoraGiant.FullSpecial.Id) && cardSlot.CardInSlotIs(NameGiant);
+		return cardSlot.HasCard(NameGiant) && cardSlot.Card.IsGrimoraGiant();
 	}
 
 	public override IEnumerator OpponentUpkeep()
@@ -84,11 +86,11 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		}
 		else if (!_playedDialoguePossessive
 		      && BoardManager.Instance.PlayerSlotsCopy.Exists(slot => slot.Card && slot.Card.HasAbility(Possessive.ability))
-		      && BoardManager.Instance.OpponentSlotsCopy.Exists(slot => slot.CardInSlotIs(NameBonelord))
+		      && BoardManager.Instance.OpponentSlotsCopy.Exists(slot => slot.HasCard(NameBonelord))
 		)
 		{
 			yield return new WaitForSeconds(0.5f);
-			yield return TextDisplayer.Instance.ShowUntilInput("THE BONE LORD CANNOT BE POSSESSED!");
+			yield return TextDisplayer.Instance.ShowUntilInput("THE BONELORD CANNOT BE POSSESSED!");
 			_playedDialoguePossessive = true;
 		}
 	}
@@ -112,9 +114,8 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		PlayableCard killer
 	)
 	{
-		bool isPhaseOne = !card.OpponentCard && TurnManager.Instance.Opponent.NumLives == 3;
-		bool giantDied = card.Info.HasTrait(Trait.Giant) && card.InfoName() == NameGiant;
-		return isPhaseOne || giantDied;
+		bool isPhaseOne = card.IsPlayerCard() && TurnManager.Instance.Opponent.NumLives == 3;
+		return isPhaseOne;
 	}
 
 	private bool _willReanimateCardThatDied = false;
@@ -126,13 +127,8 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		PlayableCard killer
 	)
 	{
-
 		List<CardSlot> opponentQueuedSlots = BoardManager.Instance.GetQueueSlots();
-		if (card.InfoName() == NameGiant)
-		{
-			yield return EnrageLastTwinGiant(card);
-		}
-		else if (opponentQueuedSlots.IsNotEmpty() && _willReanimateCardThatDied)
+		if (opponentQueuedSlots.IsNotEmpty() && _willReanimateCardThatDied)
 		{
 			ViewManager.Instance.SwitchToView(View.BossCloseup);
 			yield return TextDisplayer.Instance.PlayDialogueEvent(
@@ -140,38 +136,11 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 				TextDisplayer.MessageAdvanceMode.Input
 			);
 
-			CardSlot slot = opponentQueuedSlots[UnityRandom.Range(0, opponentQueuedSlots.Count)];
+			CardSlot slot = opponentQueuedSlots.GetRandomItem();
 			yield return TurnManager.Instance.Opponent.QueueCard(card.Info, slot);
 			_willReanimateCardThatDied = false;
 			yield return new WaitForSeconds(0.5f);
 		}
 		else { _willReanimateCardThatDied = true; }
-	}
-
-	private IEnumerator EnrageLastTwinGiant(PlayableCard playableCard)
-	{
-		CardSlot remainingGiantSlot = BoardManager.Instance.OpponentSlotsCopy
-		 .Find(slot => slot.Card && playableCard.Slot != slot && slot.Card.InfoName() == NameGiant);
-		
-		if (remainingGiantSlot)
-		{
-			ViewManager.Instance.SwitchToView(View.OpponentQueue);
-			PlayableCard lastGiant = remainingGiantSlot.Card;
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				$"Oh dear, you've made {lastGiant.Info.displayedName.Red()} quite angry."
-			);
-			CardModificationInfo modInfo = new CardModificationInfo
-			{
-				abilities = new List<Ability> { GiantStrikeEnraged.ability },
-				attackAdjustment = 1,
-				negateAbilities = new List<Ability> { GiantStrike.ability }
-			};
-			lastGiant.Anim.PlayTransformAnimation();
-			lastGiant.AddTemporaryMod(modInfo);
-			yield return new WaitForSeconds(0.1f);
-			lastGiant.StatsLayer.SetEmissionColor(GameColors.Instance.red);
-
-			yield return new WaitForSeconds(0.5f);
-		}
 	}
 }

@@ -264,7 +264,7 @@ public class GrimoraChessboard
 		);
 	}
 
-	public List<T> PlacePieces<T>(string specialEncounterId = "") where T : ChessboardPiece
+	public List<T> PlacePieces<T>(string specialEncounterId = "", SpecialNodeData specialNodeData = null) where T : ChessboardPiece
 	{
 		if (!_nodesByPieceType.TryGetValue(typeof(T), out Tuple<Func<GameObject>, Func<List<ChessNode>>> tuple))
 		{
@@ -273,7 +273,7 @@ public class GrimoraChessboard
 
 		List<ChessNode> nodes = tuple.Item2.Invoke();
 
-		return nodes.Select(node => PlacePiece<T>(node.GridX, node.GridY, specialEncounterId)).ToList();
+		return nodes.Select(node => PlacePiece<T>(node.GridX, node.GridY, specialEncounterId, specialNodeData)).ToList();
 	}
 
 	#endregion
@@ -326,7 +326,7 @@ public class GrimoraChessboard
 
 	private static string CreateNameOfPiece<T>(string specialEncounterId, string coordName) where T : ChessboardPiece
 	{
-		string nameTemp = typeof(T).Name.Replace("Chessboard", "") + "_" + coordName;
+		string nameTemp = typeof(T).Name.Replace("Chessboard", string.Empty) + "_" + coordName;
 		if (BossHelper.OpponentTupleBySpecialId.ContainsKey(specialEncounterId))
 		{
 			nameTemp = nameTemp.Replace("Enemy", "Boss");

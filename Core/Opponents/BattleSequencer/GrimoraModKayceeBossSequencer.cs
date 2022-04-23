@@ -1,6 +1,8 @@
 using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using InscryptionAPI.Encounters;
+using InscryptionAPI.Helpers.Extensions;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -34,12 +36,12 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
 		var playerCardsWithAttacks
-			= BoardManager.Instance.GetPlayerCards(pCard => pCard.Attack > 0 && !pCard.FaceDown && !pCard.HasAbility(Ability.IceCube));
+			= BoardManager.Instance.GetPlayerCards(pCard => pCard.Attack > 0 && !pCard.FaceDown && pCard.LacksAbility(Ability.IceCube));
 
 		_freezeCounter += playerCardsWithAttacks.Count;
 		Log.LogWarning($"[Kaycee] Freeze counter [{_freezeCounter}]");
 
-		if (playerCardsWithAttacks.IsNotEmpty())
+		if (playerCardsWithAttacks.Any())
 		{
 			if (_freezeCounter >= 5)
 			{
@@ -142,7 +144,7 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 			healthAdjustment = 1 - playableCard.Health,
 			negateAbilities = new List<Ability> { Ability.DebuffEnemy, Ability.Submerge, HookLineAndSinker.ability, Possessive.ability }
 		};
-		if (!playableCard.HasAbility(Ability.IceCube))
+		if (playableCard.LacksAbility(Ability.IceCube))
 		{
 			modInfo.abilities = new List<Ability> { Ability.IceCube };
 			playableCard.Info.iceCubeParams = new IceCubeParams { creatureWithin = playableCard.Info };

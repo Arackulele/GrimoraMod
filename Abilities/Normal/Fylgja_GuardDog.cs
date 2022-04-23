@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
+using InscryptionAPI.Helpers.Extensions;
 
 namespace GrimoraMod;
 
@@ -21,7 +22,7 @@ public class Fylgja_GuardDog : GuardDog
 	{
 		CardInfo cardByName = GrimoraPlugin.NameWardingPresence.GetCardInfo();
 		ModifySpawnedCard(cardByName);
-		yield return BoardManager.Instance.CreateCardInSlot(cardByName, slot, 0.15f);
+		yield return slot.CreateCardInSlot(cardByName, 0.15f);
 	}
 
 	private void ModifySpawnedCard(CardInfo card)
@@ -54,7 +55,10 @@ public partial class GrimoraPlugin
 		const string rulebookDescription =
 			"When an opposing creature is placed opposite to an empty space, [creature] will move to that empty space.";
 
-		var ogIcon = AbilityManager.BaseGameAbilities.Single(fb => fb.Id == Ability.GuardDog).Texture;
-		ApiUtils.CreateAbility<Fylgja_GuardDog>(rulebookDescription, "Guarding Presence", rulebookIcon: ogIcon);
+		AbilityBuilder<Fylgja_GuardDog>.Builder
+		 .SetIcon(AbilitiesUtil.LoadAbilityIcon(Ability.GuardDog.ToString()))
+		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName("Guarding Presence")
+		 .Build();
 	}
 }

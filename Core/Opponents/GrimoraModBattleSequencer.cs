@@ -163,7 +163,6 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		if (playerWon)
 		{
 			// Log.LogDebug($"[GrimoraModBattleSequencer Adding enemy to config [{ActiveEnemyPiece.name}]");
-			CardRelatedExtension.CustomArmPrefabsCache.Clear();
 			ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
 			_cardsThatHaveDiedThisMatch.Clear();
 			GrimoraItemsManagerExt.Instance.hammerSlot.gameObject.SetActive(true);

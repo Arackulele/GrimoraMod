@@ -10,12 +10,12 @@ public static class AssetUtils
 {
 	private static readonly Dictionary<string, string> FileChecksums = new()
 	{
-		{ "grimoramod_abilities", "A9FCA994A5E65157281BDB4F35E6E5CCD26D72F890E2E4B07A287810B57D4148" },
+		{ "grimoramod_abilities", "5F4480016DFEC0508ED38B9AF20058722130C1E24870B357C1DE4BCC609A9292" },
 		{ "grimoramod_controller", "74BC4A80C0FA64CF5EF3F578DCB49625DBA54079785C210E7B2DC79B87C86FC5" },
 		{ "grimoramod_mats", "939AD534C55F4150F586CE706345E19E80ABA39EC1D4298A61192220B3B1790F" },
 		{ "grimoramod_prefabs", "683DB17E991683778343B38474207BED2507F3276E494E69623421C288F51254" },
 		{ "grimoramod_sounds", "A2FC231C491780A59F925C4F3FB83B2E789DE4323516C74FE148ADCC4549E1D2" },
-		{ "grimoramod_sprites", "CB845554E1ADB811452B3BE999E3B93E9F9D46B9A441EA709EC330C97D3FFC67" },
+		{ "grimoramod_sprites", "7EB38FE040C5A92D0395A85786D48647501B0B7CE264F9CBBBAB7721113C6000" },
 	};
 
 	private static string ValidateFile(string assetBundleFile)
@@ -27,7 +27,8 @@ public static class AssetUtils
 		var sha265Checksum = BitConverter.ToString(checksum).Replace("-", string.Empty);
 		if (FileChecksums.TryGetValue(Path.GetFileName(fileToRead), out string correctChecksum) && correctChecksum != sha265Checksum)
 		{
-			Log.LogError($"[AssetUtils] File [{Path.GetFileName(fileToRead)}] checksum [{sha265Checksum}] does not match the correct one [{correctChecksum}]");
+			Log.LogError($"[AssetUtils] File [{Path.GetFileName(fileToRead)}] calculated checksum [{sha265Checksum}] does not match the correct one [{correctChecksum}] for this file!" +
+			             $"\nPlease redownload the mod!");
 		}
 
 		return fileToRead;
@@ -82,6 +83,10 @@ public static class AssetUtils
 		{
 			AllAbilitiesTextures = allAssetsRequest.allAssets.Cast<Texture>().ToList();
 		}
+		else if (type == typeof(Mesh))
+		{
+			AllMesh = allAssetsRequest.allAssets.Cast<Mesh>().ToList();
+		}
 
 		bundle.Unload(false);
 		stopwatch.Stop();
@@ -123,6 +128,10 @@ public static class AssetUtils
 			else if (type == typeof(Texture))
 			{
 				objToReturn = AllAbilitiesTextures.Single(go => NameMatchesAsset(go, prefabName)) as T;
+			}
+			else if (type == typeof(Mesh))
+			{
+				objToReturn = AllMesh.Single(go => NameMatchesAsset(go, prefabName)) as T;
 			}
 		}
 		catch (Exception e)

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
+using InscryptionAPI.Helpers.Extensions;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -69,11 +70,7 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 		yield return TextDisplayer.Instance.ShowThenClear($"PREPARE TO BE BOARDED!", 1.25f);
 		yield return new WaitForSeconds(0.2f);
-
-		yield return BoardManager.Instance.CreateCardInSlot(
-			_swashBuckler,
-			playerOpenSlot
-		);
+		yield return playerOpenSlot.CreateCardInSlot(_swashBuckler);
 
 		ViewManager.Instance.SetViewUnlocked();
 	}

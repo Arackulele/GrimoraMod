@@ -18,6 +18,9 @@ public partial class GrimoraPlugin
 		const string rulebookDescription =
 			"[creature] will strike its adjacent slots, and each opposing space to the left, right, and center of it.";
 
-		ApiUtils.CreateAbility<AreaOfEffectStrike>(rulebookDescription, flipYIfOpponent: true);
+		AbilityBuilder<AreaOfEffectStrike>.Builder
+		 .FlipIconIfOnOpponentSide()
+		 .SetRulebookDescription(rulebookDescription)
+		 .Build();
 	}
 }

@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAsRareCard()
-			.SetAbilities(BoneThief.ability, Ability.WhackAMole)
+			.SetAbilities(BoneThief.ability, Ability.GuardDog)
 			.SetSpecialAbilities(FuneralFacade.FullSpecial.Id)
 			.SetBaseAttackAndHealth(1, 2)
 			.SetBoneCost(6)

@@ -1,6 +1,7 @@
 using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using Pixelplacement;
 using UnityEngine;
 
@@ -30,7 +31,7 @@ public class HammerItemExt : HammerItem
 			delegate { firstPersonItem.gameObject.SetActive(false); }
 		);
 
-		if (targetSlot.Card && !targetSlot.Card.Dead && useCounter < 3)
+		if (targetSlot.Card.NotDead() && useCounter < 3)
 		{
 			if (TurnManager.Instance.Opponent is KayceeBossOpponent && targetSlot.Card.HasAbility(Ability.IceCube))
 			{

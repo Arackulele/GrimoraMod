@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using Pixelplacement;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -9,6 +10,8 @@ namespace GrimoraMod;
 
 public class BoneyardBurialSequencer : CardStatBoostSequencer
 {
+	public const string ModSingletonId = "GrimoraMod_BoneyardBuried";
+	
 	[SerializeField] private GameObject revenantCard;
 
 	private CardInfo _revenantCardReward;
@@ -258,18 +261,18 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		yield return TextDisplayer.Instance.ShowUntilInput(text);
 	}
 
-	private new static void ApplyModToCard(CardInfo card)
+	private static void ApplyModToCard(CardInfo card)
 	{
-		CardModificationInfo cardModificationInfo = new CardModificationInfo()
+		CardModificationInfo cardModificationInfo = new CardModificationInfo
 		{
-			abilities = new List<Ability>() { Ability.Brittle },
+			abilities = new List<Ability> { Ability.Brittle },
 			bonesCostAdjustment = -Mathf.CeilToInt(card.BonesCost / 2f),
-			singletonId = "GrimoraMod_BoneyardBuried"
+			singletonId = ModSingletonId
 		};
 		GrimoraSaveUtil.ModifyCard(card, cardModificationInfo);
 	}
 
-	private new void OnSlotSelected(MainInputInteractable slot)
+	private void OnSlotSelected(MainInputInteractable slot)
 	{
 		selectionSlot.SetEnabled(false);
 		selectionSlot.ShowState(HighlightedInteractable.State.NonInteractable);
@@ -289,16 +292,15 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		}
 	}
 
-	private new static List<CardInfo> GetValidCards()
+	private static List<CardInfo> GetValidCards()
 	{
 		List<CardInfo> list = GrimoraSaveUtil.DeckListCopy;
 		list.RemoveAll(
 			card => card.BonesCost <= 1
-			        || card.Abilities.Count == 4
-			        || card.Abilities.Contains(Ability.Brittle)
-			        || card.SpecialAbilities.Contains(SpecialTriggeredAbility.RandomCard)
-			        || card.traits.Contains(Trait.Pelt)
-			        || card.traits.Contains(Trait.Terrain)
+			        || card.Abilities.Count == 5
+			        || card.HasAbility(Ability.Brittle)
+			        || card.HasSpecialAbility(SpecialTriggeredAbility.RandomCard)
+			        || card.traits.Exists(trait => trait == Trait.Pelt || trait == Trait.Terrain)
 		);
 
 		return list;

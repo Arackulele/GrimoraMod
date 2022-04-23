@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace GrimoraMod;
 
-public class GrimoraRareChoiceGenerator : CardChoiceGenerator
+public class GrimoraRareChoiceGenerator : Part1RareChoiceGenerator
 {
 	public override List<CardChoice> GenerateChoices(CardChoicesNodeData data, int randomSeed)
 	{
@@ -15,10 +15,10 @@ public class GrimoraRareChoiceGenerator : CardChoiceGenerator
 	}
 }
 
-[HarmonyPatch(typeof(RareCardChoicesSequencer), nameof(RareCardChoicesSequencer.ChooseRareCard))]
+[HarmonyPatch(typeof(RareCardChoicesSequencer))]
 public class RareCardChoicesSequencerPatch
 {
-	[HarmonyPostfix]
+	[HarmonyPostfix, HarmonyPatch(nameof(RareCardChoicesSequencer.ChooseRareCard))]
 	public static IEnumerator ChangeDeckListRunState(IEnumerator enumerator, RareCardChoicesSequencer __instance)
 	{
 		if (GrimoraSaveUtil.isNotGrimora)
@@ -40,42 +40,69 @@ public class RareCardChoicesSequencerPatch
 		__instance.box.gameObject.SetActive(true);
 		AudioController.Instance.PlaySound3D("woodbox_slide", MixerGroup.TableObjectsSFX, vector);
 		Tween.Position(__instance.box, vector, 0.3f, 0f, Tween.EaseOut);
-		yield return new WaitForSeconds(0.3f);
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(0.8f);
 
-		yield return TextDisplayer.Instance.PlayDialogueEvent("RareCardsIntro", TextDisplayer.MessageAdvanceMode.Input);
+		if (!SaveFile.IsAscension || !DialogueEventsData.EventIsPlayed("ChallengeNoBossRares"))
+		{
+			yield return TextDisplayer.Instance.PlayDialogueEvent(
+				"RareCardsIntro",
+				TextDisplayer.MessageAdvanceMode.Input
+			);
+		}
+		
 		__instance.selectableCards = __instance.SpawnCards(3, __instance.box.transform, new Vector3(-1.55f, 0.2f, 0f));
 
-		List<CardChoice> list = __instance.choiceGenerator.GenerateChoices(SaveManager.SaveFile.GetCurrentRandomSeed());
+		List<CardChoice> list = !AscensionSaveData.Data.ChallengeIsActive(AscensionChallenge.NoBossRares)
+			                        ? __instance.rareChoiceGenerator.GenerateChoices(SaveManager.SaveFile.GetCurrentRandomSeed())
+			                        : __instance.choiceGenerator.GenerateChoices(new CardChoicesNodeData(), SaveManager.SaveFile.GetCurrentRandomSeed());
 		for (int i = 0; i < __instance.selectableCards.Count; i++)
 		{
-			__instance.selectableCards[i].gameObject.SetActive(true);
-			__instance.selectableCards[i].ChoiceInfo = list[i];
-			__instance.selectableCards[i].Initialize(
+			var selectableCard = __instance.selectableCards[i];
+			selectableCard.gameObject.SetActive(true);
+			selectableCard.ChoiceInfo = list[i];
+			selectableCard.Initialize(
 				list[i].CardInfo,
 				__instance.OnRewardChosen,
 				__instance.OnCardFlipped,
 				true,
 				__instance.OnCardInspected
 			);
-			__instance.selectableCards[i].SetEnabled(false);
-			__instance.selectableCards[i].SetFaceDown(true, true);
+			selectableCard.SetEnabled(false);
+			selectableCard.SetFaceDown(true, true);
+			SpecialCardBehaviour[] components = selectableCard.GetComponents<SpecialCardBehaviour>();
+			foreach (var specialBehaviour in components)
+			{
+				specialBehaviour.OnShownForCardChoiceNode();
+			}
 		}
 
 		__instance.box.GetComponentInChildren<Animator>().Play("open", 0, 0f);
 		AudioController.Instance.PlaySound3D("woodbox_open", MixerGroup.TableObjectsSFX, __instance.box.transform.position);
 		yield return new WaitForSeconds(2f);
 
-		ViewManager.Instance.SwitchToView(View.OpponentQueueCentered);
+		ViewManager.Instance.SwitchToView(__instance.choicesView);
+		ChallengeActivationUI.TryShowActivation(AscensionChallenge.NoBossRares);
+		if (AscensionSaveData.Data.ChallengeIsActive(AscensionChallenge.NoBossRares)
+		 && !DialogueEventsData.EventIsPlayed("ChallengeNoBossRares"))
+		{
+			yield return new WaitForSeconds(0.5f);
+			yield return TextDisplayer.Instance.PlayDialogueEvent(
+				"ChallengeNoBossRares",
+				TextDisplayer.MessageAdvanceMode.Input
+			);
+		}
+		
 		InteractionCursor.Instance.InteractionDisabled = false;
 		__instance.SetCollidersEnabled(true);
 		__instance.gamepadGrid.enabled = true;
+		__instance.EnableViewDeck(__instance.viewControlMode, __instance.basePosition);
 		__instance.chosenReward = null;
 		yield return new WaitUntil(() => __instance.chosenReward);
+		__instance.DisableViewDeck();
 		__instance.chosenReward.transform.parent = null;
 		RuleBookController.Instance.SetShown(false);
 		__instance.gamepadGrid.enabled = false;
-		__instance.deckPile.MoveCardToPile(__instance.chosenReward, true, 0.25f, 1f);
+		__instance.deckPile.MoveCardToPile(__instance.chosenReward, true, 0.25f, 1.15f);
 		__instance.AddChosenCardToDeck();
 		__instance.CleanupMushrooms();
 		yield return new WaitForSeconds(0.5f);

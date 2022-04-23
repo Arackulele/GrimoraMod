@@ -86,7 +86,7 @@ public class ChessboardMapExt : GameMap
 		{
 			_customBlueprints = new Dictionary<EncounterJson, EncounterBlueprintData>();
 			string[] encounters = Directory.GetFiles(
-					Assembly.GetExecutingAssembly().Location.Replace("GrimoraMod.dll", ""), "GrimoraMod_Encounter*", SearchOption.AllDirectories)
+					Assembly.GetExecutingAssembly().Location.Replace("GrimoraMod.dll", string.Empty), "GrimoraMod_Encounter*", SearchOption.AllDirectories)
 			 .Select(File.ReadAllText)
 			 .ToArray();
 
@@ -127,7 +127,7 @@ public class ChessboardMapExt : GameMap
 	 .Deck
 	 .cards
 	 .OrderBy(info => info.name)
-	 .Select(_ => _.name.Replace($"{GUID}_", ""))
+	 .Select(info => info.name.Replace($"{GUID}_", string.Empty))
 	 .ToArray();
 
 	private void Awake()

@@ -16,7 +16,7 @@ public partial class GrimoraPlugin
 			.SetDescription("THE HORN OF THE BONELORD, YOU DO NOT WANT TO FIND OUT WHAT'S INSIDE.")
 			.SetEnergyCost(2)
 			.SetIceCube(NameBonePrince)
-			.SetNames(NameBoneLordsHorn, "Bone Lord's Horn")
+			.SetNames(NameBoneLordsHorn, "Bonelord's Horn")
 			.Build();
 	}
 }

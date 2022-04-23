@@ -35,8 +35,10 @@ public partial class GrimoraPlugin
 		const string rulebookDescription = "When [creature] perishes, it haunts the space it died in. "
 		                                 + "The first creature played on this space gain its old sigils.";
 
-		Texture icon = AbilitiesUtil.LoadAbilityIcon(Ability.Haunter.ToString());
-		ApiUtils.CreateAbility<Haunter>(rulebookDescription, rulebookIcon: icon);
+		AbilityBuilder<Haunter>.Builder
+		 .SetIcon(AbilitiesUtil.LoadAbilityIcon(Ability.Haunter.ToString()))
+		 .SetRulebookDescription(rulebookDescription)
+		 .Build();
 	}
 }
 
@@ -84,9 +86,7 @@ public class HauntedSlot : NonCardTriggerReceiver
 
 		hauntedSlot._modInfo = new CardModificationInfo
 		{
-			abilities = new List<Ability>(hauntedSlot.abilities),
-			fromCardMerge = false,
-			fromTotem = false
+			abilities = new List<Ability>(hauntedSlot.abilities)
 		};
 
 		return hauntedSlot;
@@ -99,12 +99,33 @@ public class HauntedSlot : NonCardTriggerReceiver
 
 	public override IEnumerator OnOtherCardAssignedToSlot(PlayableCard otherCard)
 	{
-		otherCard.AddTemporaryMod(_modInfo);
-		otherCard.Anim.PlayTransformAnimation();
-		otherCard.UpdateStatsText();
+		List<Ability> cardAllAbilities = otherCard.AllAbilities();
+		if (cardAllAbilities.Count == 5)
+		{
+			yield return TextDisplayer.Instance.ShowUntilInput($"Oh... it will be rather difficult to haunt {otherCard.Info.DisplayedNameEnglish.LimeGreen()} with their abilities at max capacity.");
+		}
+		else
+		{
+			// All Abilities == 1, haunter slot abilities == 4
+			// expected outcome: all 4 haunter abilities get added
+		
+			// All Abilities == 3, haunter slot abilities == 4, total == 7
+			// expected outcome: first 2 haunter abilities get added, last one gets ditched
+		
+			// All Abilities == 4, haunter slot abilities == 2, total == 6
+			// expected outcome: first haunter ability get added, last one gets ditched
+			if (cardAllAbilities.Count + _modInfo.abilities.Count > 5)
+			{
+				List<Ability> abilitiesToAdd = _modInfo.abilities.GetRange(0, 5 - cardAllAbilities.Count);
+				_modInfo.abilities = abilitiesToAdd;
+			}
+			otherCard.AddTemporaryMod(_modInfo);
+			otherCard.Anim.PlayTransformAnimation();
+			otherCard.UpdateStatsText();
+			yield return new WaitForSeconds(0.1f);
+		}
 
 		GrimoraPlugin.Log.LogDebug($"Destroying HauntedSlot [{this}]");
-		CustomCoroutine.WaitThenExecute(0.1f, delegate() { Destroy(gameObject); });
-		yield break;
+		CustomCoroutine.WaitThenExecute(0.1f, delegate { Destroy(gameObject); });
 	}
 }

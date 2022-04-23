@@ -32,6 +32,8 @@ public partial class GrimoraPlugin
 	{
 		const string rulebookDescription = "When [creature] is played, it provides an energy soul to its owner.";
 
-		ApiUtils.CreateAbility<SpiritBearer>(rulebookDescription);
+		AbilityBuilder<SpiritBearer>.Builder
+		 .SetRulebookDescription(rulebookDescription)
+		 .Build();
 	}
 }

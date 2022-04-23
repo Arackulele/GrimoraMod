@@ -140,7 +140,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			selectionSlot.Card.SetInteractionEnabled(true);
 			yield return new WaitForSeconds(0.75f);
 
-			if (numBuffsGiven == 2 || selectionSlot.Card.Info.Abilities.Count == 4)
+			if (numBuffsGiven == 2 || selectionSlot.Card.Info.Abilities.Count == 5)
 			{
 				break;
 			}
@@ -197,7 +197,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 						selectionSlot.transform.position
 					);
 					destroyedCard = selectionSlot.Card.Info;
-					selectionSlot.Card.Anim.PlayDeathAnimation();
+					((GravestoneCardAnimationController)selectionSlot.Card.Anim).PlayGlitchOutAnimation();
 					GrimoraSaveData.Data.deck.RemoveCard(selectionSlot.Card.Info);
 					yield return new WaitForSeconds(1f);
 				}
@@ -337,7 +337,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	{
 		List<CardInfo> deckCopy = GrimoraSaveUtil.DeckListCopy;
 		deckCopy.RemoveAll(
-			card => card.Abilities.Count == 4
+			card => card.Abilities.Count == 5
 			        || card.HasAbility(SkinCrawler.ability)
 			        || card.SpecialAbilities.Contains(SpecialTriggeredAbility.RandomCard)
 			        || card.traits.Contains(Trait.Pelt)

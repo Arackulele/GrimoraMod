@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using UnityEngine;
 
 namespace GrimoraMod;
 
 public class BloodGuzzler : AbilityBehaviour
 {
+	public const string ModSingletonId = "GrimoraMod_BloodGuzzler";
+	
 	public static Ability ability;
 	
 	public override Ability Ability => ability;
@@ -17,15 +20,12 @@ public class BloodGuzzler : AbilityBehaviour
 		_modInfo = new CardModificationInfo
 		{
 			nonCopyable = true,
-			singletonId = "grimoramod_BloodGuzzler"
+			singletonId = ModSingletonId
 		};
 		Card.AddTemporaryMod(_modInfo);
 	}
 
-	public override bool RespondsToDealDamage(int amount, PlayableCard target)
-	{
-		return amount > 0;
-	}
+	public override bool RespondsToDealDamage(int amount, PlayableCard target) => Card.NotDead() && amount > 0;
 
 	public override IEnumerator OnDealDamage(int amount, PlayableCard target)
 	{
@@ -43,10 +43,9 @@ public partial class GrimoraPlugin
 	public void Add_Ability_BloodGuzzler()
 	{
 		AbilityInfo abilityInfo = AbilitiesUtil.GetInfo(Ability.BloodGuzzler);
-		Texture icon = AbilitiesUtil.LoadAbilityIcon(Ability.BloodGuzzler.ToString());
 		AbilityBuilder<BloodGuzzler>.Builder
+		 .SetIcon(AbilitiesUtil.LoadAbilityIcon(Ability.BloodGuzzler.ToString()))
 		 .SetRulebookDescription(abilityInfo.rulebookDescription)
-		 .SetIcon(icon)
 		 .Build();
 	}
 }

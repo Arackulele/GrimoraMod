@@ -7,6 +7,13 @@ public class GiantStrikeEnraged : GiantStrike
 	public new static Ability ability;
 
 	public override Ability Ability => ability;
+
+	private void Awake()
+	{
+		Card.Anim.PlayTransformAnimation();
+
+		Card.StatsLayer.SetEmissionColor(GameColors.Instance.red);
+	}
 }
 
 public partial class GrimoraPlugin
@@ -15,6 +22,10 @@ public partial class GrimoraPlugin
 	{
 		const string rulebookDescription = "[creature] will strike each opposing space.";
 
-		ApiUtils.CreateAbility<GiantStrikeEnraged>(rulebookDescription, "Enraged Giant", flipYIfOpponent: true);
+		AbilityBuilder<GiantStrikeEnraged>.Builder
+		 .FlipIconIfOnOpponentSide()
+		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName("Enraged Giant")
+		 .Build();
 	}
 }

@@ -1,5 +1,4 @@
-﻿using DiskCardGame;
-using Sirenix.Utilities;
+﻿using Sirenix.Utilities;
 
 namespace GrimoraMod;
 
@@ -10,11 +9,7 @@ public static class StringExtensions
 	{
 		return !self.IsNullOrWhitespace();
 	}
-	public static string GetDelimitedString<T>(this IEnumerable<T> self, string delimiter = ",") where T : UnityEngine.Object
-	{
-		return string.Join(delimiter, self.Select(_ => _.name));
-	}
-	
+
 	public static string GetDelimitedString<T>(this List<T> self, string delimiter = ",")
 	{
 		return string.Join(delimiter, self);

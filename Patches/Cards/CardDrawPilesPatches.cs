@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Helpers.Extensions;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -11,7 +12,7 @@ public class CardDrawPilesPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(CardDrawPiles.ExhaustedSequence))]
 	public static IEnumerator GrimoraExhaustedSequence(IEnumerator enumerator, CardDrawPiles __instance)
 	{
-		CardSlot bonelordSlot = BoardManager.Instance.OpponentSlotsCopy.Find(slot => slot.Card && slot.Card.InfoName() == GrimoraPlugin.NameBonelord);
+		CardSlot bonelordSlot = BoardManager.Instance.OpponentSlotsCopy.Find(slot => slot.HasCard(GrimoraPlugin.NameBonelord));
 		if (GrimoraSaveUtil.isNotGrimora || bonelordSlot.IsNull())
 		{
 			yield return enumerator;
@@ -37,10 +38,10 @@ public class CardDrawPilesPatches
 				{
 					modInfo.abilities.Add(Ability.Flying);
 				}
-				
-				yield return BoardManager.Instance.CreateCardInSlot(starvation, opponentOpenSlots.GetRandomItem(), 0.1f, false);
+
+				yield return opponentOpenSlots.GetRandomItem().CreateCardInSlot(starvation, 0.1f, false);
 			}
-			
+
 			ViewManager.Instance.SwitchToView(View.Board, false, true);
 			yield return new WaitForSeconds(0.25f);
 			bonelordSlot.Card.Anim.StrongNegationEffect();

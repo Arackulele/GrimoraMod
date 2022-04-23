@@ -3,10 +3,10 @@ using HarmonyLib;
 
 namespace GrimoraMod;
 
-[HarmonyPatch(typeof(SpecialNodeHandler), nameof(SpecialNodeHandler.StartSpecialNodeSequence))]
+[HarmonyPatch(typeof(SpecialNodeHandler))]
 public class SpecialNodeHandlerPatches
 {
-	[HarmonyPrefix]
+	[HarmonyPrefix, HarmonyPatch(nameof(SpecialNodeHandler.StartSpecialNodeSequence))]
 	public static bool CastToGrimoraCardRemoveSequencer(SpecialNodeHandler __instance, ref SpecialNodeData nodeData)
 	{
 		if (GrimoraSaveUtil.isNotGrimora)

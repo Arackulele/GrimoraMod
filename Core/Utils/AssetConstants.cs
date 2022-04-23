@@ -27,13 +27,19 @@ public static class AssetConstants
 	#endregion
 
 
-	#region Controllers
+	#region Controllers/CustomAnims
 
 	public static RuntimeAnimatorController GraveStoneController
 		=> AssetUtils.GetPrefab<RuntimeAnimatorController>("GravestoneCardAnim - Copy");
 
 	public static RuntimeAnimatorController SkeletonArmController
 		=> AssetUtils.GetPrefab<RuntimeAnimatorController>("SkeletonAttackAnim");
+
+	public static GameObject CustomSkeletonArmBase => AssetUtils.GetPrefab<GameObject>("Skeleton2ArmsAttacks");
+	
+	public static GameObject CustomSkeletonArmGiants => AssetUtils.GetPrefab<GameObject>("SkeletonArms_Giants");
+	
+	public static GameObject CustomSkeletonArmSentry => AssetUtils.GetPrefab<GameObject>("Grimora_Sentry");
 
 	#endregion
 

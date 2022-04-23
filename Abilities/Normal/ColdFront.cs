@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -16,10 +17,10 @@ public class ColdFront : AbilityBehaviour
 
 	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
 	{
-		PlayableCard opposingSlotCard = Card.Slot.opposingSlot.Card;
+		PlayableCard opposingSlotCard = Card.OpposingCard();
 		if (opposingSlotCard)
 		{
-			if (opposingSlotCard.Info.SpecialAbilities.Contains(GrimoraGiant.FullSpecial.Id))
+			if (opposingSlotCard.HasTrait(Trait.Giant))
 			{
 				if (!_playedDialogueGrimoraGiantFrozen)
 				{
@@ -46,6 +47,8 @@ public partial class GrimoraPlugin
 	{
 		const string rulebookDescription = "When [creature] perishes, the card opposing it is Frozen Away if not already frozen.";
 
-		ApiUtils.CreateAbility<ColdFront>(rulebookDescription);
+		AbilityBuilder<ColdFront>.Builder
+		 .SetRulebookDescription(rulebookDescription)
+		 .Build();
 	}
 }

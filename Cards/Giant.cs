@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using DiskCardGame;
-using HarmonyLib;
-using UnityEngine;
-using static GrimoraMod.GrimoraPlugin;
+﻿using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -13,52 +9,14 @@ public partial class GrimoraPlugin
 	private void Add_Card_Giant()
 	{
 		CardBuilder.Builder
-			.SetAsNormalCard()
-			.SetAbilities(Ability.QuadrupleBones, Ability.SplitStrike)
-			.SetBaseAttackAndHealth(2, 7)
-			.SetBoneCost(15)
-			.SetNames(NameGiant, "Giant")
-			.SetTraits(Trait.Giant, Trait.Uncuttable)
-			.SetDescription("TRULY A SIGHT TO BEHOLD.")
-			.Build()
+		 .SetAsNormalCard()
+		 .SetAbilities(Ability.QuadrupleBones, Ability.SplitStrike)
+		 .SetBaseAttackAndHealth(2, 7)
+		 .SetBoneCost(15)
+		 .SetDescription("TRULY A SIGHT TO BEHOLD.")
+		 .SetNames(NameGiant, "Giant")
+		 .SetTraits(Trait.Giant)
+		 .Build()
 			;
-	}
-}
-
-[HarmonyPatch]
-public class ModifyLocalPositionsOfTableObjects
-{
-	[HarmonyPostfix,
-	 HarmonyPatch(typeof(BoardManager3D), nameof(BoardManager3D.TransitionAndResolveCreatedCard))
-	]
-	public static IEnumerator ChangeScaleOfMoonCardToFitAcrossAllSlots(
-		IEnumerator enumerator,
-		PlayableCard card,
-		CardSlot slot,
-		float transitionLength,
-		bool resolveTriggers = true
-	)
-	{
-		if (GrimoraSaveUtil.isGrimora
-		    && card.Info.HasTrait(Trait.Giant)
-		    && card.Info.SpecialAbilities.Contains(GrimoraGiant.FullSpecial.Id))
-		{
-			bool isBonelord = card.InfoName().Equals(NameBonelord);
-			// Card -> RotatingParent (child zero) -> TombstoneParent -> Cardbase_StatsLayer
-			Transform rotatingParent = card.transform.GetChild(0);
-
-			float xValPosition = -0.7f;
-			float xValScale = 2.1f;
-			if (ConfigHelper.HasIncreaseSlotsMod && isBonelord)
-			{
-				xValPosition = -1.4f;
-				xValScale = 3.3f;
-			}
-
-			rotatingParent.localPosition = new Vector3(xValPosition, 1.05f, 0);
-			rotatingParent.localScale = new Vector3(xValScale, 2.1f, 1);
-		}
-
-		yield return enumerator;
 	}
 }

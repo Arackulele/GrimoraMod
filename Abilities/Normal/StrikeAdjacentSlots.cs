@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
+using InscryptionAPI.Helpers.Extensions;
+using InscryptionAPI.Triggers;
 
 namespace GrimoraMod;
 
-public abstract class StrikeAdjacentSlots : ExtendedAbilityBehaviour
+public abstract class StrikeAdjacentSlots : AbilityBehaviour, IGetOpposingSlots
 {
 	protected abstract Ability StrikeAdjacentAbility { get; }
 
@@ -22,7 +24,7 @@ public abstract class StrikeAdjacentSlots : ExtendedAbilityBehaviour
 			}
 
 			// check if slot being attacked is the opponent slot if the attacking slot is the opponent
-			return !slot.IsPlayerSlot;
+			return slot.IsOpponentSlot();
 		}
 
 		return false;
@@ -34,10 +36,7 @@ public abstract class StrikeAdjacentSlots : ExtendedAbilityBehaviour
 		yield break;
 	}
 
-	public override bool RespondsToUpkeep(bool playerUpkeep)
-	{
-		return damageDoneToPlayer > 0;
-	}
+	public override bool RespondsToUpkeep(bool playerUpkeep) => damageDoneToPlayer > 0;
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
@@ -45,14 +44,15 @@ public abstract class StrikeAdjacentSlots : ExtendedAbilityBehaviour
 		yield break;
 	}
 
-	public override bool RemoveDefaultAttackSlot() => true;
+	public bool RemoveDefaultAttackSlot() => true;
 
-	public override bool RespondsToGetOpposingSlots() => true;
+	public bool RespondsToGetOpposingSlots() => true;
 
-	public override List<CardSlot> GetOpposingSlots(List<CardSlot> originalSlots, List<CardSlot> otherAddedSlots)
+	public List<CardSlot> GetOpposingSlots(List<CardSlot> originalSlots, List<CardSlot> otherAddedSlots)
 	{
-		var toLeftSlot = BoardManager.Instance.GetAdjacent(Card.Slot, true);
-		var toRightSlot = BoardManager.Instance.GetAdjacent(Card.Slot, false);
+		var toLeftSlot = Card.Slot.GetAdjacent(true);
+		var toRightSlot = Card.Slot.GetAdjacent(false);
+		var opposingSlot = Card.OpposingSlot();
 
 		bool hasInvertedStrike = Card.HasAbility(InvertedStrike.ability);
 		bool hasAlternatingStrike = Card.HasAbility(AlternatingStrike.ability);
@@ -61,13 +61,13 @@ public abstract class StrikeAdjacentSlots : ExtendedAbilityBehaviour
 
 		if (StrikeAdjacentAbility != Raider.ability)
 		{
-			slotsToTarget.AddRange(BoardManager.Instance.GetAdjacentSlots(Card.Slot.opposingSlot));
-			slotsToTarget.Add(Card.Slot.opposingSlot);
+			slotsToTarget.AddRange(opposingSlot.GetAdjacentSlots());
+			slotsToTarget.Add(opposingSlot);
 		}
 
 		if (toLeftSlot && (StrikeAdjacentAbility != Raider.ability
 		                || toLeftSlot.Card.IsNull()
-		                || !toLeftSlot.Card.HasAbility(Raider.ability)))
+		                || toLeftSlot.Card.LacksAbility(Raider.ability)))
 		{
 			slotsToTarget.Insert(0, toLeftSlot);
 		}
@@ -75,7 +75,7 @@ public abstract class StrikeAdjacentSlots : ExtendedAbilityBehaviour
 		// insert at end
 		if (toRightSlot && (StrikeAdjacentAbility != Raider.ability
 		                 || toRightSlot.Card.IsNull()
-		                 || !toRightSlot.Card.HasAbility(Raider.ability)))
+		                 || toRightSlot.Card.LacksAbility(Raider.ability)))
 		{
 			slotsToTarget.Insert(slotsToTarget.Count, toRightSlot);
 		}

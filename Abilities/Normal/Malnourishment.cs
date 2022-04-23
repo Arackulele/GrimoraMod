@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Card;
 
 namespace GrimoraMod;
 
@@ -22,7 +23,7 @@ public class Malnourishment : AbilityBehaviour
 		Card.AddTemporaryMod(_modInfo);
 	}
 
-	public override bool RespondsToDealDamageDirectly(int amount) => amount > 0;
+	public override bool RespondsToDealDamageDirectly(int amount) => Card.NotDead() && amount > 0;
 
 	public override IEnumerator OnDealDamageDirectly(int amount)
 	{

@@ -1,6 +1,7 @@
 using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Encounters;
+using InscryptionAPI.Helpers.Extensions;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
 using static GrimoraMod.GrimoraPlugin;
@@ -118,17 +119,17 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 		yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
 
-		yield return BoardManager.Instance.CreateCardInSlot(
-			NamePirateFirstMateSnag.GetCardInfo(),
-			BoardManager.Instance.GetOpponentOpenSlots().GetRandomItem()
-		);
+		yield return BoardManager.Instance
+		 .GetOpponentOpenSlots()
+		 .GetRandomItem()
+		 .CreateCardInSlot(NamePirateFirstMateSnag.GetCardInfo());
 
 		yield return new WaitForSeconds(0.25f);
 
-		yield return BoardManager.Instance.CreateCardInSlot(
-			NameGhostShipRoyal.GetCardInfo(),
-			BoardManager.Instance.GetOpponentOpenSlots().GetRandomItem()
-		);
+		yield return BoardManager.Instance
+		 .GetOpponentOpenSlots()
+		 .GetRandomItem()
+		 .CreateCardInSlot(NameGhostShipRoyal.GetCardInfo());
 
 		ViewManager.Instance.SetViewUnlocked();
 

@@ -1,7 +1,6 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace GrimoraMod;
 
@@ -16,58 +15,23 @@ public class GravestoneRenderStatsLayerPatches
 	private static readonly GameObject EnergyCellsRight = AssetUtils.GetPrefab<GameObject>("EnergyCells_Right");
 
 	[HarmonyPostfix, HarmonyPatch(nameof(GravestoneRenderStatsLayer.RenderCard))]
-	public static void PrefixChangeEmissionColorBasedOnModSingletonId(
-		ref GravestoneRenderStatsLayer __instance,
-		ref CardRenderInfo info
-	)
+	public static void PrefixChangeEmissionColorBasedOnModSingletonId(GravestoneRenderStatsLayer __instance, ref CardRenderInfo info)
 	{
-		PlayableCard playableCard = __instance.PlayableCard;
-		SelectableCard selectableCard = __instance.GetComponentInParent<SelectableCard>();
-		if (playableCard && playableCard.HasBeenElectricChaired() || selectableCard && selectableCard.Info.HasBeenElectricChaired())
+		if (info.baseInfo.HasBeenElectricChaired())
 		{
 			__instance.SetEmissionColor(GameColors.Instance.blue);
 		}
 
-		HandleImbuedAbility(__instance, playableCard, selectableCard);
-	}
-
-	private static void HandleElectricChair(
-		GravestoneRenderStatsLayer statsLayer,
-		PlayableCard playableCard,
-		SelectableCard selectableCard
-	)
-	{
-		if (playableCard && playableCard.HasBeenElectricChaired() 
-		 || selectableCard && selectableCard.Info.HasBeenElectricChaired())
+		if (info.baseInfo.HasAbility(Imbued.ability) && info.attack == 0)
 		{
-			statsLayer.SetEmissionColor(GameColors.Instance.blue);
-		}
-	}
-
-	private static void HandleImbuedAbility(
-		GravestoneRenderStatsLayer statsLayer, 
-		PlayableCard playableCard, 
-		SelectableCard selectableCard
-		)
-	{
-		if (playableCard && playableCard.HasAbility(Imbued.ability)
-		 || selectableCard && selectableCard.Info.HasAbility(Imbued.ability))
-		{
-			if (playableCard && playableCard.Attack == 0)
-			{
-				statsLayer.SetEmissionColor(GrimoraColors.AlphaZeroBlack);
-			}
-			else if (selectableCard && selectableCard.Info.Attack == 0)
-			{
-				statsLayer.SetEmissionColor(GrimoraColors.AlphaZeroBlack);
-			}
+			__instance.SetEmissionColor(GrimoraColors.AlphaZeroBlack);
 		}
 	}
 
 	[HarmonyPrefix, HarmonyPatch(nameof(GravestoneRenderStatsLayer.RenderCard))]
-	public static void PrefixAddStatIcons(ref GravestoneRenderStatsLayer __instance, CardRenderInfo info)
+	public static void PrefixAddStatIcons(GravestoneRenderStatsLayer __instance, CardRenderInfo info)
 	{
-		if (__instance.transform.parent.Find("CardStatIcons_Invisible").IsNull())
+		if (__instance && __instance.transform.parent.Find("CardStatIcons_Invisible").IsNull())
 		{
 			CardStatIcons statIcons = UnityObject.Instantiate(
 				CardStatIcons,
@@ -91,29 +55,26 @@ public class GravestoneRenderStatsLayerPatches
 	public static void AddEnergyCellsToCards(GravestoneRenderStatsLayer __instance, CardRenderInfo info)
 	{
 		// RenderStatsLayer in the prefab has zero children
-		if (__instance.transform.childCount == 0)
+		if (info is { energyCost: > 0 } && __instance && __instance.transform.childCount == 0)
 		{
 			int energyCost = info.energyCost;
-			if (energyCost > 0)
+			MeshRenderer energyCellsLeft = UnityObject.Instantiate(
+					EnergyCellsLeft,
+					__instance.gameObject.transform
+				)
+			 .GetComponent<MeshRenderer>();
+
+			MeshRenderer energyCellsRight = null;
+			if (energyCost > 3)
 			{
-				MeshRenderer energyCellsLeft = UnityObject.Instantiate(
-						EnergyCellsLeft,
+				energyCellsRight = UnityObject.Instantiate(
+						EnergyCellsRight,
 						__instance.gameObject.transform
 					)
 				 .GetComponent<MeshRenderer>();
-
-				MeshRenderer energyCellsRight = null;
-				if (energyCost > 3)
-				{
-					energyCellsRight = UnityObject.Instantiate(
-							EnergyCellsRight,
-							__instance.gameObject.transform
-						)
-					 .GetComponent<MeshRenderer>();
-				}
-
-				UpdateEnergyCost(energyCost, energyCellsLeft, energyCellsRight);
 			}
+
+			UpdateEnergyCost(energyCost, energyCellsLeft, energyCellsRight);
 		}
 	}
 

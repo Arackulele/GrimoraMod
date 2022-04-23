@@ -1,5 +1,6 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 
 namespace GrimoraMod;
 
@@ -15,6 +16,6 @@ public class OpponentBonesPatches
 		ref bool __result
 	)
 	{
-		__result = __result && !card.HasAbility(Boneless.ability);
+		__result = __result && card.LacksAbility(Boneless.ability);
 	}
 }

@@ -20,8 +20,6 @@ public class CardAppearanceBehaviourPatch
 
 		var renderer = __instance.Card.GetComponentInChildren<GravestoneRenderStatsLayer>();
 		renderer.Material.SetAlbedoTexture(GravestoneGold.mainTexture);
-		Log.LogDebug($"[RareCardBackground] Set new gravestone layer for rare card [{__instance.Card.InfoName()}]");
-
 		return false;
 	}
 }

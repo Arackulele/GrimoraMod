@@ -1,6 +1,7 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Card;
+using InscryptionAPI.Helpers.Extensions;
 using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -113,7 +114,7 @@ public class DebugHelper : ManagedBehaviour
 
 				_encounterNames = _encounters.Select(ebd => ebd.name).ToArray();
 
-				_allGrimoraCardNames = AllGrimoraModCards.Select(card => card.name.Replace($"{GUID}_", "")).ToArray();
+				_allGrimoraCardNames = AllGrimoraModCardsNoGuid.ToArray();
 
 				AllGrimoraCustomCards.AddRange(
 					CardManager.AllCardsCopy.FindAll(
@@ -126,7 +127,7 @@ public class DebugHelper : ManagedBehaviour
 				}
 				foreach (var customCard in AllGrimoraCustomCards)
 				{
-					_allGrimoraCustomCardNames.AddToArray(customCard.name.Replace($"{GUID}_", ""));
+					_allGrimoraCustomCardNames.AddToArray(customCard.name.Replace($"{GUID}_", string.Empty));
 				}
 			});
 	}
@@ -207,6 +208,7 @@ public class DebugHelper : ManagedBehaviour
 						break;
 					case "Reset Removed Pieces":
 						ConfigHelper.Instance.ResetRemovedPieces();
+						ChessboardMapExt.Instance.ActiveChessboard.SetupBoard(true);
 						break;
 					case "Kill Opponent Cards":
 						foreach (var opponentCard in BoardManager.Instance.GetOpponentCards())
@@ -452,10 +454,9 @@ public class DebugHelper : ManagedBehaviour
 			if (selectedButton >= 0)
 			{
 				StartCoroutine(
-					BoardManager.Instance.CreateCardInSlot(
-						AllGrimoraModCards[selectedButton],
-						BoardManager.Instance.OpponentSlotsCopy[0]
-					)
+					BoardManager.Instance
+					 .OpponentSlotsCopy[0]
+					 .CreateCardInSlot(AllGrimoraModCards[selectedButton])
 				);
 			}
 		}
@@ -481,10 +482,9 @@ public class DebugHelper : ManagedBehaviour
 			if (selectedButton >= 0)
 			{
 				StartCoroutine(
-					BoardManager.Instance.CreateCardInSlot(
-						AllGrimoraModCards[selectedButton],
-						BoardManager.Instance.OpponentSlotsCopy[1]
-					)
+					BoardManager.Instance
+					 .OpponentSlotsCopy[1]
+					 .CreateCardInSlot(AllGrimoraModCards[selectedButton])
 				);
 			}
 		}
@@ -510,10 +510,9 @@ public class DebugHelper : ManagedBehaviour
 			if (selectedButton >= 0)
 			{
 				StartCoroutine(
-					BoardManager.Instance.CreateCardInSlot(
-						AllGrimoraModCards[selectedButton],
-						BoardManager.Instance.OpponentSlotsCopy[2]
-					)
+					BoardManager.Instance
+					 .OpponentSlotsCopy[2]
+					 .CreateCardInSlot(AllGrimoraModCards[selectedButton])
 				);
 			}
 		}
@@ -539,10 +538,9 @@ public class DebugHelper : ManagedBehaviour
 			if (selectedButton >= 0)
 			{
 				StartCoroutine(
-					BoardManager.Instance.CreateCardInSlot(
-						AllGrimoraModCards[selectedButton],
-						BoardManager.Instance.OpponentSlotsCopy[3]
-					)
+					BoardManager.Instance
+					 .OpponentSlotsCopy[3]
+					 .CreateCardInSlot(AllGrimoraModCards[selectedButton])
 				);
 			}
 		}
@@ -569,12 +567,7 @@ public class DebugHelper : ManagedBehaviour
 			{
 				foreach (var cardSlot in BoardManager.Instance.OpponentSlotsCopy)
 				{
-					StartCoroutine(
-						BoardManager.Instance.CreateCardInSlot(
-							AllGrimoraModCards[selectedButton],
-							cardSlot
-						)
-					);
+					StartCoroutine(cardSlot.CreateCardInSlot(AllGrimoraModCards[selectedButton]));
 				}
 			}
 		}
@@ -593,30 +586,16 @@ public class DebugHelper : ManagedBehaviour
 
 			if (selectedButton >= 0)
 			{
-				SpecialNodeData specialNode = new CardChoicesNodeData();
-				switch (_btnChests[selectedButton])
-				{
-					case "Card Remove":
-						specialNode = new CardRemoveNodeData();
-						break;
-					case "Rare Card Choice":
-						specialNode = new ChooseRareCardNodeData();
-						break;
-				}
+				SpecialNodeData specialNode = selectedButton == 0 ? new CardChoicesNodeData() : new ChooseRareCardNodeData();
 
 				ChessboardChestPiece[] chests = FindObjectsOfType<ChessboardChestPiece>();
 
 				if (chests.IsNullOrEmpty())
 				{
-					for (int i = 0; i < 8; i++)
-					{
-						var copy = ConfigHelper.Instance.RemovedPieces;
-						copy.RemoveAll(piece => piece.Contains("Chest"));
-						ConfigHelper.Instance.RemovedPieces = copy;
-						ChessboardMapExt.Instance
-						 .ActiveChessboard
-						 .PlacePiece<ChessboardChestPiece>(i, 0, specialNodeData:specialNode);
-					}
+					var copy = ConfigHelper.Instance.RemovedPieces;
+					copy.RemoveAll(piece => piece.Contains("Chest"));
+					ConfigHelper.Instance.RemovedPieces = copy;
+					ChessboardMapExt.Instance.ActiveChessboard.PlacePieces<ChessboardChestPiece>(specialNodeData: specialNode);
 				}
 				else
 				{
@@ -624,6 +603,7 @@ public class DebugHelper : ManagedBehaviour
 					{
 						chest.NodeData = specialNode;
 					}
+					Log.LogDebug($"[DebugHelper] Set [{chests.Length}] to rare chests.");
 				}
 			}
 		}
@@ -645,7 +625,7 @@ public class DebugHelper : ManagedBehaviour
 				EncounterBlueprintData encounter = _encounters[selectedButton];
 				// the asset names have P1 or P2 at the end,
 				//	so we'll remove it so that we can correctly get a boss if a boss was selected
-				string scrubbedName = encounter.name.Replace("P1", "").Replace("P2", "");
+				string scrubbedName = encounter.name.Replace("P1", string.Empty).Replace("P2", string.Empty);
 
 				CardBattleNodeData node = new CardBattleNodeData
 				{

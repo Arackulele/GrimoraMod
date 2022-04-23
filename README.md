@@ -17,6 +17,14 @@
 - If you would to help report issues, please raise a thread here with as much detail as you can provide: <https://github.com/Arackulele/GrimoraMod/issues>
 - Bug reports can also be submitted on the Discord Server: <https://discord.gg/Xf8CBuS8a8>
 
+## Icon Definitions
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Bugfix. Self-explanatory.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Feature. Newly added implementations or other enhancements.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Refactor. Anything that changes/modifies existing logic. Not necessarily a bugfix.
+
 ## Known Issues
 
 ### Haunter sigils can be seen through cards in hand
@@ -33,6 +41,49 @@
 - Possibly fixed in 2.6.4 update.
 
 ## Update Notes
+
+### 2.8.7
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue when assets don't load fast enough on slow hard drives, causing exceptions when entering the game.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Added check to only replace the bomb object from `Explode On Death` when it's Grimora's finale.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Cards can now have 5 abilities!
+  - The ability icons have now also been resized and repositioned slightly to better fit on the cards.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Multiple refactors to handle new API 2.2 updates.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Added KMod code logic for regular and rare card choices.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Cursor interaction disabled at beginning of Electric Chair intro so you can't break the intro sequence...
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Added custom animation controller for playing specific animations and better overall control for card animations instead of using patches.
+
+#### Bosses
+
+##### Grimora
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed Twin Giants and Bonelord playing attack animation after dying.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed softlock with Twin Giants and Bonelord if their attack animations don't finish playing before another card attacks.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Now using `ModifyQueuedCard` and `ModifySpawnedCard` methods instead of patches when spawning cards.
+
+#### Ability Changes
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Blood Guzzler` and `Malnourishment` causing a softlock if the card dies from `Sharp Quills` or other means before the attack sequence finishes.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Skeletons Within: `Once [creature] is struck, draw a card from your Skeleton pile.`. Art courtesy of `Bt Y#0895`.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Alternating Strike` icon will now flip if on the opponent side.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Moved logic for enraging a Twin Giant to be inside the `Giant Strike` ability instead of Grimora's battle sequence.
+
+#### Card Changes
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Skin Crawler` cards not being destroyed correctly during Royal's fight after swaying.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) `Hellhand` is actually usable now!
 
 ### 2.8.6
 

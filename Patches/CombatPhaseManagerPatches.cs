@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
+using InscryptionAPI.Helpers.Extensions;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -21,64 +23,71 @@ public class CombatPhaseManagerPatches
 			yield return enumerator;
 			yield break;
 		}
-		
-		bool cardIsGrimoraGiant = slot.Card.HasSpecialAbility(GrimoraGiant.FullSpecial.Id);
+
+		Animator customArmPrefab = slot.Card.Anim.GetCustomArm();
+		bool cardIsGrimoraGiant = slot.Card.IsGrimoraGiant();
 		if (cardIsGrimoraGiant)
 		{
 			PlayableCard giantCard = slot.Card;
 			List<CardSlot> opposingSlots = giantCard.GetOpposingSlots();
-			ViewManager.Instance.SwitchToView(BoardManager.Instance.CombatView);
-			ViewManager.Instance.Controller.LockState = ViewLockState.Locked;
+			ViewManager.Instance.SwitchToView(BoardManager.Instance.CombatView, lockAfter: true);
 
 			foreach (var opposingSlot in opposingSlots)
 			{
 				ViewManager.Instance.SwitchToView(BoardManager.Instance.CombatView);
+				yield return GlobalTriggerHandler.Instance.TriggerCardsOnBoard(
+					Trigger.SlotTargetedForAttack,
+					false,
+					opposingSlot,
+					giantCard
+				);
+
+				yield return new WaitForSeconds(0.025f);
+
+				if (giantCard.IsNull() || giantCard.Dead)
+				{
+					Log.LogWarning($"[SlotAttackSequence.Giant] Giant has died/is dying, breaking out of loop.");
+					yield break;
+				}
+
+				if (giantCard.Anim.DoingAttackAnimation)
+				{
+					yield return new WaitUntil(() => !giantCard.Anim.DoingAttackAnimation);
+					yield return new WaitForSeconds(0.25f);
+				}
+
 				if (opposingSlot.Card)
 				{
-					yield return GlobalTriggerHandler.Instance.TriggerCardsOnBoard(
-						Trigger.SlotTargetedForAttack,
-						false,
-						opposingSlot,
-						giantCard
-					);
-					
-					yield return new WaitForSeconds(0.025f);
-					
-					if (giantCard.Anim.DoingAttackAnimation)
-					{
-						yield return new WaitUntil(() => !giantCard.Anim.DoingAttackAnimation);
-						yield return new WaitForSeconds(0.25f);
-					}
-					
+					Log.LogWarning($"[SlotAttackSequence.Giant] Giant is now targeting card {opposingSlot.Card.GetNameAndSlot()}, playing with impact keyframes, is doing attack anim? [{giantCard.Anim.DoingAttackAnimation}]");
 					bool impactFrameReached = false;
 					giantCard.Anim.PlayAttackAnimation(giantCard.IsFlyingAttackingReach(), opposingSlot, delegate { impactFrameReached = true; });
 
 					yield return new WaitForSeconds(0.07f);
-					giantCard.Anim.SetAnimationPaused(true);
+					customArmPrefab.speed = 0f;
+					PlayableCard giantCopy = slot.Card;
 					yield return GlobalTriggerHandler.Instance.TriggerCardsOnBoard(
 						Trigger.CardGettingAttacked,
 						false,
 						opposingSlot.Card
 					);
-					giantCard.Anim.SetAnimationPaused(false);
-					yield return new WaitForSeconds(0.05f);
+					if (giantCopy && giantCopy.Slot)
+					{
+						customArmPrefab.speed = 1f;
+						yield return new WaitForSeconds(0.05f);
 
-					Log.LogInfo($"[{giantCard.Info.displayedName}] Waiting until keyframe has been reached");
-					yield return new WaitUntil(() => impactFrameReached);
-					Log.LogInfo($"[{giantCard.Info.displayedName}] Keyframe reached");
-					yield return opposingSlot.Card.TakeDamage(giantCard.Attack, giantCard);
+						yield return new WaitUntil(() => impactFrameReached);
+						yield return opposingSlot.Card.TakeDamage(giantCard.Attack, giantCard);
+					}
+
+					Log.LogInfo($"[SlotAttackSequence.Giant] --> Finished custom SlotAttackSlot, is doing attack anim? [{giantCard.Anim.DoingAttackAnimation}]");
 				}
 				else
 				{
-					yield return __instance.SlotAttackSlot(slot, opposingSlot, opposingSlots.Count > 1 ? 0.1f : 0f);
+					__instance.DamageDealtThisPhase += giantCard.Attack;
+					yield return __instance.VisualizeCardAttackingDirectly(slot, opposingSlot, giantCard.Attack);
 				}
 
 				yield return new WaitForSeconds(0.1f);
-			}
-
-			if(giantCard && !giantCard.Dead)
-			{
-				giantCard.SetCustomArmsPrefabActive(false);
 			}
 		}
 		else
@@ -102,13 +111,27 @@ public class CombatPhaseManagerPatches
 
 					Log.LogDebug($"[SlotAttackSequence.StrikeAdj] Subtracting [{dmgDoneToPlayer}] from DamageDealtThisPhase");
 					__instance.DamageDealtThisPhase -= dmgDoneToPlayer;
-					yield return (__instance as CombatPhaseManager3D).VisualizeDamageMovingToScales(!slot.IsPlayerSlot);
+					yield return (__instance as CombatPhaseManager3D).VisualizeDamageMovingToScales(slot.IsOpponentSlot());
 					(__instance as CombatPhaseManager3D).damageWeights.Clear();
 				}
 			}
-			if(slot.Card && !slot.Card.Dead)
+		}
+		
+		if (slot.Card.NotDead())
+		{
+			if(slot.Card.Anim.DoingAttackAnimation)
 			{
-				slot.Card.SetCustomArmsPrefabActive(false);
+				Log.LogWarning($"[SlotAttackSequence] [{slot.Card.GetNameAndSlot()}] is still doing attack anim, waiting until finished");
+				yield return new WaitUntil(() => !slot.Card.Anim.DoingAttackAnimation);
+			}
+			Log.LogWarning($"[SlotAttackSequence] [{slot.Card.GetNameAndSlot()}] no longer attacking");
+			if (cardIsGrimoraGiant)
+			{
+				yield return new WaitForSeconds(0.25f);
+			}
+			if(customArmPrefab)
+			{
+				customArmPrefab.gameObject.SetActive(false);
 			}
 		}
 	}

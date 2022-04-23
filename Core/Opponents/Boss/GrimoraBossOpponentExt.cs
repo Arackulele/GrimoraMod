@@ -2,6 +2,7 @@ using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Encounters;
+using InscryptionAPI.Helpers.Extensions;
 using Pixelplacement;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -23,7 +24,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 	public override int StartingLives => 3;
 
-	private Animator bonelordSnapAnim = null;
+	private Animator _bonelordSnapAnim = null;
 
 	private static void SetSceneEffectsShownGrimora(Color cardLightColor)
 	{
@@ -111,6 +112,87 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		AudioController.Instance.SetLoopVolume(0.8f, 10f, 1);
 	}
 
+	private bool _hasSpawnedFirstGiant;
+
+	public override void ModifyQueuedCard(PlayableCard card)
+	{
+		if (card.Info.name == NameBoneLordsHorn)
+		{
+			ModifyBonelordsHorn(card);
+		}
+	}
+
+	public override void ModifySpawnedCard(PlayableCard card)
+	{
+		switch (card.Info.name)
+		{
+			case NameGiant:
+				ModifyTwinGiant(card);
+				break;
+			case NameBonelord:
+				HandleResizingGiantCards(card, true);
+				break;
+			case NameBoneLordsHorn:
+				ModifyBonelordsHorn(card);
+				break;
+			case NameBonePrince:
+				ModifyBonePrince(card);
+				break;
+		}
+	}
+
+	private void HandleResizingGiantCards(PlayableCard playableCard, bool isBonelord = false)
+	{
+		// Card -> RotatingParent (child zero) -> TombstoneParent -> Cardbase_StatsLayer
+		Log.LogDebug($"[GiantCardResize] Resizing [{playableCard}]");
+		Transform rotatingParent = playableCard.transform.GetChild(0);
+
+		float xValPosition = -0.7f;
+		float xValScale = 2.1f;
+		if (ConfigHelper.HasIncreaseSlotsMod && isBonelord)
+		{
+			xValPosition = -1.4f;
+			xValScale = 3.3f;
+		}
+
+		rotatingParent.localPosition = new Vector3(xValPosition, 1.05f, 0);
+		rotatingParent.localScale = new Vector3(xValScale, 2.1f, 1);
+	}
+
+	private void ModifyTwinGiant(PlayableCard playableCard)
+	{
+		var modInfo = new CardModificationInfo(-1, 1)
+		{
+			abilities = new List<Ability> { Ability.Reach, GiantStrike.ability, Ability.MadeOfStone },
+			negateAbilities = new List<Ability> { Ability.QuadrupleBones, Ability.SplitStrike }
+		};
+		var modNameReplace = new CardModificationInfo
+		{
+			nameReplacement = _hasSpawnedFirstGiant ? "Ephialtes" : "Otis",
+			specialAbilities = new List<SpecialTriggeredAbility> { GrimoraGiant.FullSpecial.Id }
+		};
+		_hasSpawnedFirstGiant = true;
+		CardInfo clone = (CardInfo)playableCard.Info.Clone();
+		clone.Mods.Add(modNameReplace);
+		playableCard.SetInfo(clone);
+		HandleResizingGiantCards(playableCard);
+		playableCard.AddTemporaryMod(modInfo);
+	}
+
+	private void ModifyBonelordsHorn(PlayableCard playableCard)
+	{
+		var modInfo = new CardModificationInfo(2, 0)
+		{
+			negateAbilities = new List<Ability> { Ability.QuadrupleBones }
+		};
+		playableCard.AddTemporaryMod(modInfo);
+	}
+
+	private void ModifyBonePrince(PlayableCard playableCard)
+	{
+		playableCard.AddTemporaryMod(new CardModificationInfo(Ability.BuffNeighbours));
+	}
+
 	public override IEnumerator StartNewPhaseSequence()
 	{
 		TurnPlan.Clear();
@@ -161,9 +243,10 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		if (ConfigHelper.HasIncreaseSlotsMod)
 		{
-			yield return BoardManager.Instance.CreateCardInSlot(NameObol.GetCardInfo(), oppSlots[2], 0.2f);
+			CardInfo obol = NameObol.GetCardInfo();
+			yield return oppSlots[2].CreateCardInSlot(obol, 0.2f);
 			CardSlot thirdLaneQueueSlot = BoardManager.Instance.GetQueueSlots()[2];
-			yield return TurnManager.Instance.Opponent.QueueCard(NameObol.GetCardInfo(), thirdLaneQueueSlot);
+			yield return TurnManager.Instance.Opponent.QueueCard(obol, thirdLaneQueueSlot);
 		}
 
 		yield return new WaitForSeconds(0.5f);
@@ -172,18 +255,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	private IEnumerator CreateAndPlaceModifiedGiant(string giantName, CardSlot slotToSpawnIn)
 	{
 		Log.LogInfo("[Grimora] Creating modified Giant");
-		PlayableCard playableGiant = CardSpawner.SpawnPlayableCard(NameGiant.GetCardInfo());
-		playableGiant.SetIsOpponentCard();
-
-		CardInfo infoGiant = NameGiant.GetCardInfo().Clone() as CardInfo;
-		infoGiant.displayedName = giantName;
-		infoGiant.abilities = new List<Ability> { Ability.Reach, GiantStrike.ability, Ability.MadeOfStone };
-		infoGiant.specialAbilities.Add(GrimoraGiant.FullSpecial.Id);
-		infoGiant.baseAttack = 1;
-		infoGiant.baseHealth = 8;
-
-		playableGiant.SetInfo(infoGiant);
-		yield return BoardManager.Instance.TransitionAndResolveCreatedCard(playableGiant, slotToSpawnIn, 0.3f);
+		yield return slotToSpawnIn.CreateCardInSlot(NameGiant.GetCardInfo(), 0.3f);
 		yield return TextDisplayer.Instance.ShowUntilInput($"[size:5]{giantName}![size:]");
 	}
 
@@ -205,7 +277,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		GameObject bonelordEffect = Instantiate(AssetUtils.GetPrefab<GameObject>("BonelordTableEffects"));
 		CameraEffects.Instance.Shake(0.15f, 5f);
 		yield return TextDisplayer.Instance.ShowThenClear(
-			$"LET THE [size:5]{"BONE LORD".BrightRed()}[size:] COMMETH!",
+			$"LET THE [size:5]{"BONELORD".BrightRed()}[size:] COMMETH!",
 			4.6f,
 			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
 		);
@@ -226,8 +298,9 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		if (activePlayerCards.Any())
 		{
 			ViewManager.Instance.SwitchToView(View.Default, false, true);
-			bonelordSnapAnim.gameObject.SetActive(true);
-			bonelordSnapAnim.Play("bonelord_snap", 0, 0);
+			_bonelordSnapAnim.gameObject.SetActive(true);
+			yield return new WaitForSeconds(0.1f);
+			_bonelordSnapAnim.Play("bonelord_snap", 0, 0);
 			yield return new WaitForSeconds(1.2f);
 			foreach (var playableCard in activePlayerCards)
 			{
@@ -240,10 +313,11 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			}
 
 			yield return TextDisplayer.Instance.ShowThenClear(
-				"DID YOU REALLY THINK THE BONE LORD WOULD LET YOU OFF THAT EASILY?!",
-				4f,
+				"DID YOU REALLY THINK THE BONELORD WOULD LET YOU OFF THAT EASILY?!",
+				3f,
 				letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
 			);
+			_bonelordSnapAnim.gameObject.SetActive(false);
 		}
 	}
 
@@ -273,6 +347,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		UIManager.Instance.Effects.GetEffect<ScreenGlitchEffect>().SetIntensity(1f, 1f);
 		Log.LogDebug($"Glitch sound");
 		GlitchOutAssetEffect.PlayGlitchSound(playableCard.transform.position);
+		TurnManager.Instance.Opponent.ModifySpawnedCard(playableCard);
 		yield return BoardManager.Instance.TransitionAndResolveCreatedCard(
 			playableCard,
 			slotToSpawnIn,
@@ -304,7 +379,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			null,
 			false
 		);
-		
+
 		AddBonelordSnapAnim(playableCard);
 		yield return new WaitForSeconds(1f);
 	}
@@ -312,19 +387,20 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	private void AddBonelordSnapAnim(PlayableCard playableCard)
 	{
 		Log.LogDebug($"Spawning new sentry prefab for card [{playableCard.Info.displayedName}]");
-		bonelordSnapAnim = Instantiate(
+		_bonelordSnapAnim = Instantiate(
 				AssetUtils.GetPrefab<GameObject>("SkeletonArm_BoneLordSnap"),
 				playableCard.transform
 			)
 		 .GetComponent<Animator>();
-		bonelordSnapAnim.name = "SkeletonArm_BoneLordSnap";
-		bonelordSnapAnim.gameObject.AddComponent<AnimMethods>();
-		bonelordSnapAnim.gameObject.SetActive(false);
+		_bonelordSnapAnim.runtimeAnimatorController = AssetConstants.SkeletonArmController;
+		_bonelordSnapAnim.name = "SkeletonArm_BoneLordSnap";
+		_bonelordSnapAnim.gameObject.AddComponent<AnimMethods>();
+		_bonelordSnapAnim.gameObject.SetActive(false);
 	}
-	
+
 	private IEnumerator CreateHornsInFarLeftAndRightLanes(List<CardSlot> oppSlots)
 	{
-		Log.LogInfo("[Grimora] Spawning Bone Lord's Horns");
+		Log.LogInfo("[Grimora] Spawning Bonelord's Horns");
 		yield return TextDisplayer.Instance.ShowUntilInput(
 			"RISE MY ARMY! RIIIIIIIIIISE!",
 			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
@@ -337,28 +413,13 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		); // slot 1, slot 4 remain
 		var leftAndRightQueueSlots = GetFarLeftAndFarRightQueueSlots();
 
-		CardInfo bonelordsHorn = CreateModifiedBonelordsHorn();
+		CardInfo bonelordsHorn = NameBoneLordsHorn.GetCardInfo();
 		for (int i = 0; i < 2; i++)
 		{
 			yield return TurnManager.Instance.Opponent.QueueCard(bonelordsHorn, leftAndRightQueueSlots[i]);
-			yield return BoardManager.Instance.CreateCardInSlot(bonelordsHorn, oppSlots[i], 0.2f);
+			yield return oppSlots[i].CreateCardInSlot(bonelordsHorn, 0.2f);
 			yield return new WaitForSeconds(0.25f);
 		}
-	}
-
-	private CardInfo CreateModifiedBonelordsHorn()
-	{
-		Log.LogInfo("[Grimora] Creating modified Bone Lords Horn");
-		PlayableCard playableHorn = CardSpawner.SpawnPlayableCard(NameBoneLordsHorn.GetCardInfo());
-		playableHorn.SetIsOpponentCard();
-
-		CardInfo infoHorn = NameBoneLordsHorn.GetCardInfo().Clone() as CardInfo;
-		infoHorn.Mods.Add(new CardModificationInfo { attackAdjustment = 2 });
-		infoHorn.abilities.Remove(Ability.QuadrupleBones);
-		infoHorn.iceCubeParams.creatureWithin.abilities.Add(Ability.BuffNeighbours);
-
-		playableHorn.SetInfo(infoHorn);
-		return infoHorn;
 	}
 
 	private List<CardSlot> GetFarLeftAndFarRightQueueSlots()

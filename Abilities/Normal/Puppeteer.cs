@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Card;
+using InscryptionAPI.Helpers.Extensions;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -33,7 +35,7 @@ public class Puppeteer : AbilityBehaviour
 	public override bool RespondsToOtherCardResolve(PlayableCard otherCard)
 	{
 		return otherCard
-		    && (otherCard.OpponentCard && Card.OpponentCard || !otherCard.OpponentCard && !Card.OpponentCard)
+		    && (otherCard.OpponentCard && Card.OpponentCard || otherCard.IsPlayerCard() && Card.IsPlayerCard())
 		    && otherCard.HasAbility(Ability.Brittle);
 	}
 
@@ -44,10 +46,9 @@ public class Puppeteer : AbilityBehaviour
 
 	private IEnumerator RemoveBrittleFromCards()
 	{
-		List<PlayableCard> cardsWithBrittle = BoardManager.Instance.GetSlots(!Card.OpponentCard)
-		 .Where(slot => slot.Card && slot.Card.HasAbility(Ability.Brittle))
-		 .Select(slot => slot.Card)
-		 .ToList();
+		List<PlayableCard> cardsWithBrittle = BoardManager.Instance
+		 .GetSlots(Card.IsPlayerCard())
+		 .GetCards(pCard => pCard.HasAbility(Ability.Brittle));
 
 		foreach (var card in cardsWithBrittle)
 		{
@@ -59,10 +60,9 @@ public class Puppeteer : AbilityBehaviour
 
 	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
 	{
-		List<PlayableCard> cardsThatHadBrittle = BoardManager.Instance.GetSlots(!Card.OpponentCard)
-		 .Where(slot => slot.Card && CardHasBeenPuppeteered(slot.Card))
-		 .Select(slot => slot.Card)
-		 .ToList();
+		List<PlayableCard> cardsThatHadBrittle = BoardManager.Instance
+		 .GetSlots(Card.IsPlayerCard())
+		 .GetCards(CardHasBeenPuppeteered);
 
 		foreach (var card in cardsThatHadBrittle)
 		{
@@ -93,6 +93,8 @@ public partial class GrimoraPlugin
 		const string rulebookDescription =
 			"Cards on the owner's side of the field are unaffected by Brittle.";
 
-		ApiUtils.CreateAbility<Puppeteer>(rulebookDescription);
+		AbilityBuilder<Puppeteer>.Builder
+		 .SetRulebookDescription(rulebookDescription)
+		 .Build();
 	}
 }
