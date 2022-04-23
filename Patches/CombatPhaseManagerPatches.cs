@@ -58,9 +58,13 @@ public class CombatPhaseManagerPatches
 
 				if (opposingSlot.Card)
 				{
-					Log.LogWarning($"[SlotAttackSequence.Giant] Giant is now targeting card {opposingSlot.Card.GetNameAndSlot()}, playing with impact keyframes, is doing attack anim? [{giantCard.Anim.DoingAttackAnimation}]");
+					Log.LogInfo($"[SlotAttackSequence.Giant] Giant is now targeting card {opposingSlot.Card.GetNameAndSlot()}, playing with impact keyframes, is doing attack anim? [{giantCard.Anim.DoingAttackAnimation}]");
 					bool impactFrameReached = false;
-					giantCard.Anim.PlayAttackAnimation(giantCard.IsFlyingAttackingReach(), opposingSlot, delegate { impactFrameReached = true; });
+					giantCard.Anim.PlayAttackAnimation(
+						giantCard.IsFlyingAttackingReach(),
+						opposingSlot,
+						delegate { impactFrameReached = true; }
+					);
 
 					yield return new WaitForSeconds(0.07f);
 					customArmPrefab.speed = 0f;
@@ -101,7 +105,7 @@ public class CombatPhaseManagerPatches
 				int dmgDoneToPlayer = slot.Card.GetComponent<StrikeAdjacentSlots>().damageDoneToPlayer;
 				if (dmgDoneToPlayer > 0)
 				{
-					Log.LogDebug($"[SlotAttackSequence.StrikeAdj] Dealing [{dmgDoneToPlayer}] to player");
+					Log.LogInfo($"[SlotAttackSequence.StrikeAdj] Dealing [{dmgDoneToPlayer}] to player");
 					yield return LifeManager.Instance.ShowDamageSequence(
 						dmgDoneToPlayer,
 						dmgDoneToPlayer,
@@ -116,19 +120,21 @@ public class CombatPhaseManagerPatches
 				}
 			}
 		}
-		
-		if (slot.Card.NotDead())
+
+		if(slot.Card.NotDead())
 		{
 			if(slot.Card.Anim.DoingAttackAnimation)
 			{
-				Log.LogWarning($"[SlotAttackSequence] [{slot.Card.GetNameAndSlot()}] is still doing attack anim, waiting until finished");
+				Log.LogInfo($"[SlotAttackSequence] [{slot.Card.GetNameAndSlot()}] is still doing attack anim, waiting until finished");
 				yield return new WaitUntil(() => !slot.Card.Anim.DoingAttackAnimation);
 			}
-			Log.LogWarning($"[SlotAttackSequence] [{slot.Card.GetNameAndSlot()}] no longer attacking");
+
+			Log.LogInfo($"[SlotAttackSequence] [{slot.Card.GetNameAndSlot()}] no longer attacking");
 			if (cardIsGrimoraGiant)
 			{
 				yield return new WaitForSeconds(0.25f);
 			}
+
 			if(customArmPrefab)
 			{
 				customArmPrefab.gameObject.SetActive(false);
