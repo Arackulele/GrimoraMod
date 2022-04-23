@@ -73,6 +73,14 @@ public static class CardRelatedExtension
 	{
 		return !self.IsNullOrEmpty();
 	}
+	
+	public static List<Ability> AllAbilities(this PlayableCard playableCard)
+	{
+		return AbilitiesUtil
+		 .GetAbilitiesFromMods(playableCard.TemporaryMods)
+		 .Concat(playableCard.Info.Abilities)
+		 .ToList();
+	}
 
 	public static bool HasAnyAbilities(this PlayableCard playableCard, params Ability[] abilities)
 	{
