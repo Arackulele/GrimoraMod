@@ -156,8 +156,8 @@ public class BaseGameFlowManagerPatches
 		itemData.notRandomlyGiven = true;
 		itemData.powerLevel = 1;
 		itemData.rulebookCategory = AbilityMetaCategory.Part1Modular;
-		itemData.rulebookName = "Bone Lord Boon of Bones";
-		itemData.rulebookDescription = "How gracious of the Bone Lord to give you 8 starting bones.";
+		itemData.rulebookName = "Bonelord Boon of Bones";
+		itemData.rulebookDescription = "How gracious of the Bonelord to give you 8 starting bones.";
 		// itemData.rulebookSprite = Sprite.Create(Rect.zero, Vector2.zero, float.Epsilon);
 		itemData.regionSpecific = false;
 

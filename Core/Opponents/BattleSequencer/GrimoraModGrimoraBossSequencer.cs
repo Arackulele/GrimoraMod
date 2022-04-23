@@ -90,7 +90,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		)
 		{
 			yield return new WaitForSeconds(0.5f);
-			yield return TextDisplayer.Instance.ShowUntilInput("THE BONE LORD CANNOT BE POSSESSED!");
+			yield return TextDisplayer.Instance.ShowUntilInput("THE BONELORD CANNOT BE POSSESSED!");
 			_playedDialoguePossessive = true;
 		}
 	}

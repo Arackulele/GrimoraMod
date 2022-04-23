@@ -277,7 +277,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		GameObject bonelordEffect = Instantiate(AssetUtils.GetPrefab<GameObject>("BonelordTableEffects"));
 		CameraEffects.Instance.Shake(0.15f, 5f);
 		yield return TextDisplayer.Instance.ShowThenClear(
-			$"LET THE [size:5]{"BONE LORD".BrightRed()}[size:] COMMETH!",
+			$"LET THE [size:5]{"BONELORD".BrightRed()}[size:] COMMETH!",
 			4.6f,
 			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
 		);
@@ -313,7 +313,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			}
 
 			yield return TextDisplayer.Instance.ShowThenClear(
-				"DID YOU REALLY THINK THE BONE LORD WOULD LET YOU OFF THAT EASILY?!",
+				"DID YOU REALLY THINK THE BONELORD WOULD LET YOU OFF THAT EASILY?!",
 				3f,
 				letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
 			);
@@ -400,7 +400,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 	private IEnumerator CreateHornsInFarLeftAndRightLanes(List<CardSlot> oppSlots)
 	{
-		Log.LogInfo("[Grimora] Spawning Bone Lord's Horns");
+		Log.LogInfo("[Grimora] Spawning Bonelord's Horns");
 		yield return TextDisplayer.Instance.ShowUntilInput(
 			"RISE MY ARMY! RIIIIIIIIIISE!",
 			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
