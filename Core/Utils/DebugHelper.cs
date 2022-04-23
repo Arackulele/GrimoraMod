@@ -64,7 +64,8 @@ public class DebugHelper : ManagedBehaviour
 	{
 		"Win Round", "Lose Round",
 		"Add Energy", "Add Bones",
-		"Kill Opponent Cards"
+		"Kill Opponent Cards",
+		"Draw Main Deck", "Draw Side Deck"
 	};
 
 	private readonly string[] _btnDebugToolsOutOfBattle =
@@ -186,36 +187,58 @@ public class DebugHelper : ManagedBehaviour
 				switch (selectedBtn)
 				{
 					case "Win Round":
-						StartCoroutine(
-							LifeManager.Instance.ShowDamageSequence(10, 1, false)
-						);
+					{
+						StartCoroutine(LifeManager.Instance.ShowDamageSequence(10, 1, false));
 						break;
+					}
 					case "Lose Round":
-						StartCoroutine(
-							LifeManager.Instance.ShowDamageSequence(10, 1, true)
-						);
+					{
+						StartCoroutine(LifeManager.Instance.ShowDamageSequence(10, 1, true));
 						break;
+					}
 					case "Add Bones":
+					{
 						StartCoroutine(ResourcesManager.Instance.AddBones(25));
 						break;
+					}
 					case "Add Energy":
+					{
 						StartCoroutine(ResourcesManager.Instance.AddMaxEnergy(1));
 						StartCoroutine(ResourcesManager.Instance.AddEnergy(1));
 						break;
+					}
 					case "Clear Deck":
+					{
 						GrimoraSaveUtil.ClearDeck();
 						SaveManager.SaveToFile();
 						break;
+					}
 					case "Reset Removed Pieces":
+					{
 						ConfigHelper.Instance.ResetRemovedPieces();
 						ChessboardMapExt.Instance.ActiveChessboard.SetupBoard(true);
 						break;
+					}
 					case "Kill Opponent Cards":
+					{
 						foreach (var opponentCard in BoardManager.Instance.GetOpponentCards())
 						{
 							StartCoroutine(opponentCard.Die(false));
 						}
 						break;
+					}
+					case "Draw Main Deck":
+					{
+						CardDrawPiles3D.Instance.Pile.Draw();
+						StartCoroutine(CardDrawPiles3D.Instance.DrawCardFromDeck());
+						break;
+					}
+					case "Draw Side Deck":
+					{
+						CardDrawPiles3D.Instance.SidePile.Draw();
+						StartCoroutine(CardDrawPiles3D.Instance.DrawFromSidePile());
+						break;
+					}
 				}
 			}
 		}
