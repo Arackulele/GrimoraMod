@@ -89,13 +89,6 @@ public class CombatPhaseManagerPatches
 
 				yield return new WaitForSeconds(0.1f);
 			}
-
-			if (giantCard.NotDead() && giantCard.Anim.DoingAttackAnimation)
-			{
-				Log.LogWarning($"[SlotAttackSequence.Giant] Giant is still doing attack anim, waiting until finished");
-				yield return new WaitUntil(() => !giantCard.Anim.DoingAttackAnimation);
-				yield return new WaitForSeconds(0.25f);
-			}
 		}
 		else
 		{
@@ -124,11 +117,22 @@ public class CombatPhaseManagerPatches
 			}
 		}
 		
-		if (slot.Card.NotDead() && customArmPrefab)
+		if (slot.Card.NotDead())
 		{
-			// Log.LogWarning($"[SlotAttackSequence.Regular] Card is still doing attack anim, waiting until finished");
-			// yield return new WaitUntil(() => !slot.Card.Anim.DoingAttackAnimation);
-			customArmPrefab.gameObject.SetActive(false);
+			if(slot.Card.Anim.DoingAttackAnimation)
+			{
+				Log.LogWarning($"[SlotAttackSequence] [{slot.Card.GetNameAndSlot()}] is still doing attack anim, waiting until finished");
+				yield return new WaitUntil(() => !slot.Card.Anim.DoingAttackAnimation);
+			}
+			Log.LogWarning($"[SlotAttackSequence] [{slot.Card.GetNameAndSlot()}] no longer attacking");
+			if (cardIsGrimoraGiant)
+			{
+				yield return new WaitForSeconds(0.25f);
+			}
+			if(customArmPrefab)
+			{
+				customArmPrefab.gameObject.SetActive(false);
+			}
 		}
 	}
 }
