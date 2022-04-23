@@ -27,7 +27,7 @@ public class GiantStrike : AbilityBehaviour, IGetOpposingSlots
 		return !Card.TemporaryMods.Exists(mod => mod.singletonId == ModSingletonId)
 		    && TurnManager.Instance.Opponent.OpponentType == GrimoraBossOpponentExt.FullOpponent.Id
 		    && card != Card
-		    && card.InfoName() == GrimoraPlugin.NameGiant
+		    && card.InfoName() is GrimoraPlugin.NameGiantOtis or GrimoraPlugin.NameGiantEphialtes
 		    && deathSlot.IsOpponentSlot();
 	}
 

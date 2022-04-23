@@ -126,8 +126,9 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	{
 		switch (card.Info.name)
 		{
-			case NameGiant:
-				ModifyTwinGiant(card);
+			case NameGiantEphialtes:
+			case NameGiantOtis:
+				HandleResizingGiantCards(card);
 				break;
 			case NameBonelord:
 				HandleResizingGiantCards(card, true);
@@ -157,26 +158,6 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		rotatingParent.localPosition = new Vector3(xValPosition, 1.05f, 0);
 		rotatingParent.localScale = new Vector3(xValScale, 2.1f, 1);
-	}
-
-	private void ModifyTwinGiant(PlayableCard playableCard)
-	{
-		var modInfo = new CardModificationInfo(-1, 1)
-		{
-			abilities = new List<Ability> { Ability.Reach, GiantStrike.ability, Ability.MadeOfStone },
-			negateAbilities = new List<Ability> { Ability.QuadrupleBones, Ability.SplitStrike }
-		};
-		var modNameReplace = new CardModificationInfo
-		{
-			nameReplacement = _hasSpawnedFirstGiant ? "Ephialtes" : "Otis",
-			specialAbilities = new List<SpecialTriggeredAbility> { GrimoraGiant.FullSpecial.Id }
-		};
-		_hasSpawnedFirstGiant = true;
-		CardInfo clone = (CardInfo)playableCard.Info.Clone();
-		clone.Mods.Add(modNameReplace);
-		playableCard.SetInfo(clone);
-		HandleResizingGiantCards(playableCard);
-		playableCard.AddTemporaryMod(modInfo);
 	}
 
 	private void ModifyBonelordsHorn(PlayableCard playableCard)
@@ -234,10 +215,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		SetSceneEffectsShownGrimora(GameColors.Instance.lightPurple);
 
-		// mimics the moon phase
-		Log.LogInfo("[Grimora] Creating first giant in slot");
-		yield return CreateAndPlaceModifiedGiant("Otis", oppSlots[1]);
-		yield return CreateAndPlaceModifiedGiant("Ephialtes", oppSlots[secondGiantIndex]);
+		yield return CreateTwinGiants(oppSlots[1], oppSlots[secondGiantIndex]);
 
 		Log.LogInfo("[Grimora] Finished creating giants");
 
@@ -252,11 +230,16 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		yield return new WaitForSeconds(0.5f);
 	}
 
-	private IEnumerator CreateAndPlaceModifiedGiant(string giantName, CardSlot slotToSpawnIn)
+	private IEnumerator CreateTwinGiants(CardSlot otisSlot, CardSlot ephiSlot)
 	{
-		Log.LogInfo("[Grimora] Creating modified Giant");
-		yield return slotToSpawnIn.CreateCardInSlot(NameGiant.GetCardInfo(), 0.3f);
-		yield return TextDisplayer.Instance.ShowUntilInput($"[size:5]{giantName}![size:]");
+		// mimics the moon phase
+		Log.LogInfo("[Grimora] Creating Otis");
+		yield return otisSlot.CreateCardInSlot(NameGiantOtis.GetCardInfo(), 0.3f);
+		yield return TextDisplayer.Instance.ShowUntilInput($"[size:5]Otis![size:]");
+		
+		Log.LogInfo("[Grimora] Creating Ephi");
+		yield return ephiSlot.CreateCardInSlot(NameGiantEphialtes.GetCardInfo(), 0.3f);
+		yield return TextDisplayer.Instance.ShowUntilInput($"[size:5]Ephialtes![size:]");
 	}
 
 	public IEnumerator StartBoneLordPhase()

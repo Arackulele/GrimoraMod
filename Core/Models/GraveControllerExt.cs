@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Text;
 using DiskCardGame;
-using InscryptionAPI.Card;
 using Pixelplacement;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -27,7 +26,7 @@ public class GraveControllerExt : GravestoneCardAnimationController
 
 	private Animator _customArmGiants;
 
-	private bool _isGiant;
+	private bool IsGiant { get; set; }
 
 	private void Start()
 	{
@@ -52,7 +51,7 @@ public class GraveControllerExt : GravestoneCardAnimationController
 		if (graveController.PlayableCard)
 		{
 			_playableCard = graveController.PlayableCard;
-			_isGiant = _playableCard.IsGrimoraGiant();
+			IsGiant = _playableCard.IsGrimoraGiant();
 		}
 
 		AddCustomArmPrefabs();
@@ -65,7 +64,7 @@ public class GraveControllerExt : GravestoneCardAnimationController
 			return _customArmSentry;
 		}
 
-		return _isGiant ? _customArmGiants : _customArmBase;
+		return IsGiant ? _customArmGiants : _customArmBase;
 	}
 
 	public void PlaySpecificAttackAnimation(
@@ -98,7 +97,7 @@ public class GraveControllerExt : GravestoneCardAnimationController
 		var animToPlay = GetAnimToPlay(typeToAttack, targetSlot);
 		bool doPlayCustomAttack = animToPlay == "sniper_shoot" || animToPlay == "attack_middle_finger";
 
-		if (doPlayCustomAttack || _isGiant)
+		if (doPlayCustomAttack || IsGiant)
 		{
 			Log.LogDebug($"Playing custom attack [{animToPlay}] for card {_playableCard.GetNameAndSlot()}");
 			customArmPrefab.gameObject.SetActive(true);
@@ -133,7 +132,7 @@ public class GraveControllerExt : GravestoneCardAnimationController
 
 	private int GetNumToDetermineRotation(CardSlot targetSlot)
 	{
-		if (_isGiant)
+		if (IsGiant)
 		{
 			// 0 < 1 for example
 			return targetSlot.Index < _playableCard.Slot.Index ? -1 : 1;
@@ -183,7 +182,7 @@ public class GraveControllerExt : GravestoneCardAnimationController
 
 		StringBuilder animToPlay = new StringBuilder(typeToAttack + directionToAttack);
 
-		if (_isGiant)
+		if (IsGiant)
 		{
 			animToPlay.Append("_giant");
 		}
@@ -341,7 +340,7 @@ public class GraveControllerExt : GravestoneCardAnimationController
 			_customArmSentry = animObj;
 		}
 
-		if (_isGiant && _customArmGiants.IsNull())
+		if (IsGiant && _customArmGiants.IsNull())
 		{
 			Log.LogDebug($"[AddCustomArmPrefabs] Adding skeleton arm giant prefab to card [{Card.Info.displayedName}]");
 			Animator customArmGiants = Instantiate(AssetConstants.CustomSkeletonArmGiants, transform).GetComponent<Animator>();
