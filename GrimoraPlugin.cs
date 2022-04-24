@@ -205,7 +205,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		#endregion
 		
-		AllGrimoraModCards.Sort((info, cardInfo) => string.Compare(info.name, cardInfo.name, StringComparison.Ordinal));
+		AllGrimoraModCards.Sort((info1, info2) => string.Compare(info1.name, info2.name, StringComparison.Ordinal));
 		AllPlayableGrimoraModCards = AllGrimoraModCards.Where(info => info.metaCategories.Any()).ToList();
 
 		// change just the artwork of Starvation
