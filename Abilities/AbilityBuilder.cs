@@ -44,12 +44,7 @@ public class AbilityBuilder<T> where T: AbilityBehaviour
 			               : AssetUtils.GetPrefab<Texture>("ability_" + _type.Name);
 		
 		// instantiate
-		var newAbility = AbilityManager.Add(
-			GrimoraPlugin.GUID,
-			_abilityInfo,
-			_type,
-			icon
-		);
+		var newAbility = AbilityManager.Add(GrimoraPlugin.GUID, _abilityInfo, _type, icon);
 
 		// Get static field
 		FieldInfo field = _type.GetField(
