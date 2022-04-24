@@ -9,24 +9,24 @@ namespace GrimoraMod;
 
 public class GraveControllerExt : GravestoneCardAnimationController
 {
-	private static readonly int Hover = Animator.StringToHash("hover");
-	private static readonly int Hovering = Animator.StringToHash("hovering");
-
 	private const string SkeletonArmsGiants = "SkeletonArms_Giants";
 	private const string SkeletonArmsBase = "Skeleton2ArmsAttacks";
 	private const string SkeletonArmsSentry = "Grimora_Sentry";
+
+	private static readonly int Hover = Animator.StringToHash("hover");
+	private static readonly int Hovering = Animator.StringToHash("hovering");
 
 	private Animator _graveAnim;
 
 	private PlayableCard _playableCard;
 
-	private Animator _customArmBase;
+	public Animator CustomArmBase { get; set; }
 
-	private Animator _customArmSentry;
+	public Animator CustomArmSentry { get; set; }
 
-	private Animator _customArmGiants;
+	public Animator CustomArmGiants { get; set; }
 
-	private bool IsGiant { get; set; }
+	public bool IsGiant { get; set; }
 
 	private void Start()
 	{
@@ -34,37 +34,38 @@ public class GraveControllerExt : GravestoneCardAnimationController
 		CustomCoroutine.WaitThenExecute(0.1f, () => Destroy(oldController));
 	}
 
-	public void Setup(GravestoneCardAnimationController graveController)
+	public static void SetupNewController(GravestoneCardAnimationController graveController)
 	{
-		cardRenderer = graveController.cardRenderer;
-		intendedRendererYPos = cardRenderer.transform.localPosition.y;
-		armAnim = graveController.armAnim;
-		damageMarks = graveController.damageMarks;
-		damageParticles = graveController.damageParticles;
-		deathParticles = graveController.deathParticles;
-		fadeMaterial = graveController.fadeMaterial;
-		sacrificeMarker = graveController.sacrificeMarker;
-		sacrificeHoveringMarker = graveController.sacrificeHoveringMarker;
-		statsLater = graveController.statsLater;
-		_graveAnim = graveController.Anim;
+		GraveControllerExt ext = graveController.gameObject.AddComponent<GraveControllerExt>();
+		ext.cardRenderer = graveController.cardRenderer;
+		ext.intendedRendererYPos = ext.cardRenderer.transform.localPosition.y;
+		ext.armAnim = graveController.armAnim;
+		ext.damageMarks = graveController.damageMarks;
+		ext.damageParticles = graveController.damageParticles;
+		ext.deathParticles = graveController.deathParticles;
+		ext.fadeMaterial = graveController.fadeMaterial;
+		ext.sacrificeMarker = graveController.sacrificeMarker;
+		ext.sacrificeHoveringMarker = graveController.sacrificeHoveringMarker;
+		ext.statsLater = graveController.statsLater;
+		ext._graveAnim = graveController.Anim;
 
 		if (graveController.PlayableCard)
 		{
-			_playableCard = graveController.PlayableCard;
-			IsGiant = _playableCard.IsGrimoraGiant();
+			ext._playableCard = graveController.PlayableCard;
+			ext.IsGiant = ext._playableCard.IsGrimoraGiant();
+			Log.LogDebug($"[GraveControllerExt] Setting up card [{ext._playableCard}]");
+			ext.AddCustomArmPrefabs(ext._playableCard);
 		}
-
-		AddCustomArmPrefabs();
 	}
 
 	public Animator GetCustomArm(string animToPlay = "")
 	{
 		if (animToPlay.IsNotEmpty() && animToPlay == "attack_sentry")
 		{
-			return _customArmSentry;
+			return CustomArmSentry;
 		}
 
-		return IsGiant ? _customArmGiants : _customArmBase;
+		return IsGiant ? CustomArmGiants : CustomArmBase;
 	}
 
 	public void PlaySpecificAttackAnimation(
@@ -316,39 +317,57 @@ public class GraveControllerExt : GravestoneCardAnimationController
 		Ability.Sentry, Ability.Sniper, ActivatedDealDamageGrimora.ability
 	};
 
-	private void AddCustomArmPrefabs()
+	public void AddCustomArmPrefabs(PlayableCard playableCard)
 	{
-		if (_customArmBase.IsNull())
+		if (CustomArmBase.IsNull())
 		{
+			Log.LogDebug($"[AddCustomArmPrefabs] Adding custom base skeleton arms for card [{playableCard.Info.displayedName}]");
 			Animator customArmBase = Instantiate(AssetConstants.CustomSkeletonArmBase, transform).GetComponent<Animator>();
 			customArmBase.runtimeAnimatorController = AssetConstants.SkeletonArmController;
 			customArmBase.name = SkeletonArmsBase;
 			customArmBase.gameObject.AddComponent<AnimMethods>();
 			customArmBase.gameObject.SetActive(false);
-			_customArmBase = customArmBase.GetComponent<Animator>();
+			CustomArmBase = customArmBase.GetComponent<Animator>();
 		}
 
-		if (AbilitiesForSentryCustomArm.Exists(Card.Info.HasAbility) && _customArmSentry.IsNull())
+		if (AbilitiesForSentryCustomArm.Exists(playableCard.HasAbility) && CustomArmSentry.IsNull())
 		{
-			Log.LogDebug($"[AddCustomArmPrefabs] Spawning new sentry prefab for card [{Card.Info.displayedName}]");
+			Log.LogDebug($"[AddCustomArmPrefabs] Spawning new sentry prefab for card [{playableCard.Info.displayedName}]");
 			GameObject skeletonArmSentry = Instantiate(AssetConstants.CustomSkeletonArmSentry, transform);
 			skeletonArmSentry.name = SkeletonArmsSentry;
 			Animator animObj = skeletonArmSentry.transform.GetChild(0).gameObject.GetComponent<Animator>();
 			animObj.runtimeAnimatorController = AssetConstants.SkeletonArmController;
 			animObj.gameObject.AddComponent<AnimMethods>();
 			animObj.gameObject.SetActive(false);
-			_customArmSentry = animObj;
+			CustomArmSentry = animObj;
 		}
 
-		if (IsGiant && _customArmGiants.IsNull())
+		if (IsGiant && CustomArmGiants.IsNull())
 		{
-			Log.LogDebug($"[AddCustomArmPrefabs] Adding skeleton arm giant prefab to card [{Card.Info.displayedName}]");
+			Log.LogDebug($"[AddCustomArmPrefabs] Adding skeleton arm giant prefab to card [{playableCard.Info.displayedName}]");
 			Animator customArmGiants = Instantiate(AssetConstants.CustomSkeletonArmGiants, transform).GetComponent<Animator>();
 			customArmGiants.runtimeAnimatorController = AssetConstants.SkeletonArmController;
 			customArmGiants.name = SkeletonArmsGiants;
 			customArmGiants.gameObject.AddComponent<AnimMethods>();
 			customArmGiants.gameObject.SetActive(false);
-			_customArmGiants = customArmGiants;
+			CustomArmGiants = customArmGiants;
+		}
+		
+		if(_playableCard)
+		{
+			HandleRotatingCustomArmsForOpponents(_playableCard);
+		}
+	}
+
+	public void HandleRotatingCustomArmsForOpponents(PlayableCard playableCard)
+	{
+		if (playableCard.OpponentCard)
+		{
+			if (CustomArmSentry)
+			{
+				Log.LogDebug($"[AddCustomArmPrefabs] Rotating sentry arm 180 degrees as this is an opponent card");
+				CustomArmSentry.transform.parent.localRotation = Quaternion.Euler(0, 0, 180);
+			}
 		}
 	}
 }
