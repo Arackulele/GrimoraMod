@@ -94,7 +94,6 @@ public class ElectricChairLever : HighlightedInteractable
 		Fylgja_GuardDog.ability,
 		InvertedStrike.ability,
 		MarchingDead.ability,
-		Malnourishment.ability,
 		Possessive.ability,
 		Puppeteer.ability
 	};
