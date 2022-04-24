@@ -8,12 +8,11 @@ namespace GrimoraMod;
 
 public class GrimoraModBattleSequencer : SpecialBattleSequencer
 {
-	public static readonly string ID = SpecialSequenceManager.Add(
-			GUID,
-			nameof(GrimoraModBattleSequencer),
-			typeof(GrimoraModBattleSequencer)
-		)
-		.Id;
+	public static readonly SpecialSequenceManager.FullSpecialSequencer FullSequencer = SpecialSequenceManager.Add(
+		GUID,
+		nameof(GrimoraModBattleSequencer),
+		typeof(GrimoraModBattleSequencer)
+	);
 
 	public static ChessboardEnemyPiece ActiveEnemyPiece;
 
@@ -25,13 +24,10 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		{
 			opponentType = Opponent.Type.Default,
 			opponentTurnPlan = nodeData.blueprint
-				.turns.Select(bpList1 => bpList1.Select(bpList2 => bpList2.card).ToList())
-				.ToList()
+			 .turns.Select(bpList1 => bpList1.Select(bpList2 => bpList2.card).ToList())
+			 .ToList()
 		};
-		if (this is GrimoraModBossBattleSequencer boss)
-		{
-			data.opponentType = boss.BossType;
-		}
+		data.opponentType = this is GrimoraModBossBattleSequencer boss ? boss.BossType : GrimoraModFinaleOpponent.FullOpponent.Id;
 
 		return data;
 	}
@@ -167,7 +163,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			_cardsThatHaveDiedThisMatch.Clear();
 			GrimoraItemsManagerExt.Instance.hammerSlot.gameObject.SetActive(true);
 		}
-		
+
 		foreach (var slot in BoardManager.Instance.AllSlotsCopy)
 		{
 			var nonCardReceivers = slot.GetComponentsInChildren<NonCardTriggerReceiver>();
@@ -180,6 +176,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 					crawlerSlot.skinCrawlerCard.ExitBoard(0.3f, Vector3.zero);
 					yield return new WaitForSeconds(0.2f);
 				}
+
 				UnityObject.Destroy(nonCardTriggerReceiver.gameObject);
 			}
 		}

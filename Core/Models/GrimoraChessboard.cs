@@ -160,7 +160,7 @@ public class GrimoraChessboard
 			PlacePieces<ChessboardCardRemovePiece>();
 			PlacePieces<ChessboardChestPiece>();
 			PlacePieces<ChessboardElectricChairPiece>();
-			PlacePieces<ChessboardEnemyPiece>(GrimoraModBattleSequencer.ID);
+			PlacePieces<ChessboardEnemyPiece>(GrimoraModBattleSequencer.FullSequencer.Id);
 			PlacePieces<ChessboardGoatEyePiece>();
 		}
 	}
