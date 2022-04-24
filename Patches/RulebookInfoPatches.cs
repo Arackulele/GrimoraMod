@@ -11,9 +11,8 @@ public class RulebookInfoPatches
 {
 	private static readonly List<Ability> AbilitiesToRemoveFromRulebook = new()
 	{
-		Ability.ActivatedDealDamage,
-		Ability.ActivatedDrawSkeleton,
-		Ability.ActivatedHeal,
+		Ability.ActivatedDealDamage, // rethemed as Soul Shot
+		Ability.ActivatedDrawSkeleton, // rethemed as Disinter
 		Ability.ActivatedRandomPowerBone,
 		Ability.ActivatedSacrificeDrawCards,
 		Ability.Apparition,
