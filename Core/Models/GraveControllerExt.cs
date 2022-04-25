@@ -75,7 +75,7 @@ public class GraveControllerExt : GravestoneCardAnimationController
 		Action impactCallback
 	)
 	{
-		Log.LogDebug($"[PlaySpecificAttackAnimation] Playing [{animToPlay}]");
+		Log.LogDebug($"[PlaySpecificAttackAnimation] Playing [{animToPlay}] for card [{_playableCard.GetNameAndSlot()}]");
 		DoingAttackAnimation = true;
 		string typeToAttack = attackPlayer ? "attack_player" : "attack_creature";
 		string soundId = "gravestone_card_" + typeToAttack;
@@ -100,7 +100,7 @@ public class GraveControllerExt : GravestoneCardAnimationController
 
 		if (doPlayCustomAttack || IsGiant)
 		{
-			Log.LogDebug($"Playing custom attack [{animToPlay}] for card {_playableCard.GetNameAndSlot()}");
+			Log.LogDebug($"[PlayAttackAnimation] Playing custom attack [{animToPlay}] for card {_playableCard.GetNameAndSlot()}");
 			customArmPrefab.gameObject.SetActive(true);
 			customArmPrefab.Play(animToPlay, 0, 0f);
 			// if (animToPlay == "sniper_shoot")
@@ -122,7 +122,7 @@ public class GraveControllerExt : GravestoneCardAnimationController
 		}
 		else
 		{
-			Log.LogDebug($"Playing regular attack [{animToPlay}] for card {_playableCard.GetNameAndSlot()}");
+			Log.LogDebug($"[PlayAttackAnimation] Playing regular attack [{animToPlay}] for card {_playableCard.GetNameAndSlot()}");
 			armAnim.gameObject.SetActive(true);
 			armAnim.Play(animToPlay, 0, 0f);
 		}
@@ -154,7 +154,7 @@ public class GraveControllerExt : GravestoneCardAnimationController
 
 	private string GetAnimToPlay(string typeToAttack, CardSlot targetSlot)
 	{
-		Log.LogDebug($"Checking Playable card {_playableCard.GetNameAndSlot()} TargetSlot {targetSlot} Attack == 0 ? [{_playableCard.Attack == 0}] Has sniper? [{_playableCard.HasAbility(Ability.Sniper)}]");
+		Log.LogDebug($"[GetAnimToPlay] Checking Playable card {_playableCard.GetNameAndSlot()} TargetSlot {targetSlot} Attack == 0 ? [{_playableCard.Attack == 0}]");
 
 		if (_playableCard.Attack == 0)
 		{

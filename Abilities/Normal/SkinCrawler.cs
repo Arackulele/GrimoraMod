@@ -246,8 +246,9 @@ public class SkinCrawlerSlot : NonCardTriggerReceiver
 	)
 	{
 		Log.LogDebug($"[CrawlerSlot.RespondsToOtherCardDie] "
-		           + $"Crawler {skinCrawlerCard.GetNameAndSlot()} Dying Card [{card.GetNameAndSlot()}] deathSlot [{deathSlot.name}] "
-		           + $"_slotHidingUnderCard [{hidingOnSlot}] is deathSlot? [{hidingOnSlot == deathSlot}]"
+		           + $"Crawler [{skinCrawlerCard.GetNameAndSlot()}] Dying Card [{card.GetNameAndSlot()}] deathSlot [{deathSlot.name}] "
+		           + $"hidingOnSlot [{hidingOnSlot}] is deathSlot? [{hidingOnSlot == deathSlot}]"
+		           + $"hiding under card [{hidingUnderCard}] is dying card? [{hidingUnderCard == card}]"
 		);
 		return hidingOnSlot == deathSlot && card == hidingUnderCard && card.LacksAbility(Ability.IceCube);
 	}
