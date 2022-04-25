@@ -161,7 +161,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 	private void ModifyTwinGiant(PlayableCard playableCard)
 	{
-		var modInfo = new CardModificationInfo(-1, 1)
+		var modInfo = new CardModificationInfo(-2, 0)
 		{
 			abilities = new List<Ability> { Ability.Reach, GiantStrike.ability, Ability.MadeOfStone },
 			negateAbilities = new List<Ability> { Ability.QuadrupleBones, Ability.SplitStrike }
