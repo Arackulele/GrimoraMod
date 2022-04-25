@@ -33,7 +33,7 @@
 
 ### A card with Area of Effect Strike, Tri Strike, and Sniper sigils only allows 3 attacks
 
-- Believe it or not, this is how the vanilla game code for the `Sniper` ability is handled. It doesn't base it off how many attacks you're doing, it hard codes to either 2 for `Split Strike` or 3 for `Tri Strike`.
+- Believe it or not, this is how the vanilla game code for the `Sniper` sigil is handled. It doesn't base it off how many attacks you're doing, it hard codes to either 2 for `Split Strike` or 3 for `Tri Strike`.
 
 ### Current save file is already at the finale with Grimora
 
@@ -42,6 +42,38 @@
 
 ## Update Notes
 
+### 2.8.8
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) The last Skeleton in your side deck pile now has 2 attack instead of 1.
+
+#### Ability Changes
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) `Marrow Sucker` now correctly shows up in Rulebook.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) `Malnourishment` will now correctly cause the card having the sigil to die if the health reaches zero.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) `Sea Shanty` will now only buff Skeletons on the owner's side of the board, and not all Skeletons.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Malnourishment` no longer appears in the chair.
+
+#### Card Changes
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Spectrabbits` sigils not showing when drawn from `Fecundity`.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Annoying` sigil added to `Gravebard`.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Fecundity` will no longer appear on drawn `Spectrabbits`.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Multiple card descriptions updated per `Mr. Etc.#3925`.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Vampire` attack nerfed to 2 from 3. Bone cost reduced to 5 from 6.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Giant` attack buffed from 2 to 3.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Ripper` bone cost buffed to 6 from 9.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Jikininki` attack buffed from 0 to 1. Energy cost nerfed from 4 to 6.
+
 ### 2.8.7
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue when assets don't load fast enough on slow hard drives, causing exceptions when entering the game.
@@ -49,7 +81,7 @@
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Added check to only replace the bomb object from `Explode On Death` when it's Grimora's finale.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Cards can now have 5 abilities!
-  - The ability icons have now also been resized and repositioned slightly to better fit on the cards.
+  - The sigil icons have now also been resized and repositioned slightly to better fit on the cards.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Multiple refactors to handle new API 2.2 updates.
 
@@ -77,7 +109,7 @@
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Alternating Strike` icon will now flip if on the opponent side.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Moved logic for enraging a Twin Giant to be inside the `Giant Strike` ability instead of Grimora's battle sequence.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Moved logic for enraging a Twin Giant to be inside the `Giant Strike` sigil instead of Grimora's battle sequence.
 
 #### Card Changes
 
@@ -227,7 +259,7 @@
 
 #### Ability Changes
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with `Puppeteer` ability also removing `Puppeteer` ability if the card has `Brittle`.
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with `Puppeteer` sigil also removing `Puppeteer` sigil if the card has `Brittle`.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Bone Thief` now gives 2 bones instead of 1.
 
@@ -242,7 +274,7 @@
 
 ### 2.8.3, 30+ NEW CARDS
 
-- NOTE: - Adding extra logging to see what's happening for Explode on Death ability. There are still issues with being Hooked and then exploding.
+- NOTE: - Adding extra logging to see what's happening for Explode on Death sigil. There are still issues with being Hooked and then exploding.
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Hopefully fixed deck resetting each run. For some reason, CardInfo in the CardCollection class seems to be always null at startup?
 
@@ -324,7 +356,7 @@
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed Bonelord being replaced with a gang of wild `Starvations`.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Bonelord's Reign is no longer an ability, but an effect when spawning.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Bonelord's Reign` is no longer a sigil, but an effect when spawning.
 
 #### Card Changes
 
@@ -336,7 +368,7 @@
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) - A bunch of card descriptions, most courtesy of `Spooky Pig`, with `Bloody Sack` description courtesy of `Blind, the Bound Demon`.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Added patch for spikes ability, as it is possible to take damage from spikes even though the attacking card's attack is zero.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Added patch for `Sharp Quills` sigil, as it is possible to take damage from spikes even though the attacking card's attack is zero.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Starvation` art update by `Bt Y#0895`.
 
@@ -345,7 +377,7 @@
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Amoeba` replaced by `Apparition`. Normal 1/2, 4 Energy with Amorpheous (sigils from the electric chair).
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Corpse Maggots` replaced by `Wight`. Normal 2/1, 5 Bones with `Corpse Eater`.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Project` now just has `Chaos Strike` ability.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Project` now just has `Chaos Strike` sigil.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Danse Macabre` cost reduced to 6 from 8.
 
@@ -357,12 +389,12 @@
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Alternating Strike` targeting adjacent slots and not adjacent opposing slots.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) `Skin Crawler` ability reworked again to hopefully be a lot more stable, added back to the pool!
+- ![Feature](https://i.imgur.com/uL9uYNV.png) `Skin Crawler` reworked again to hopefully be a lot more stable, added back to the pool!
 
-  - Cards with `Skin Crawler` ability are no longer possible to choose for the Electric Chair.
+  - Cards with `Skin Crawler` are no longer possible to choose for the Electric Chair.
   - This is because the card is not considered on the field, and therefore does not trigger any sigil effects.
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Replaced `Latch` ability icons with Grimora themed ones, courtesy of `Bt Y#0895`.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Replaced `Latch` icons with Grimora themed ones, courtesy of `Bt Y#0895`.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png)
 
@@ -469,7 +501,7 @@
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Corrected issue with Submerge being removed from all cards instead of the card that was frozen during Kaycee's fight. (Thanks Magnificus!)
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Cards with `Hook Line and Sinker`, `Possessive`, or `Waterborne` will now lose that ability when frozen, and regain it back once unfrozen. Causes the lane to die entirely and not be useable...
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Cards with `Hook Line and Sinker`, `Possessive`, or `Waterborne` will now lose that sigil when frozen, and regain it back once unfrozen. Causes the lane to die entirely and not be useable...
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Chess figurine icicle now looks more ice-like. Ice is hard to look like ice.
 
