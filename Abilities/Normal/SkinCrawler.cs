@@ -80,7 +80,12 @@ public class SkinCrawler : AbilityBehaviour
 			_slotHidingUnderCard = SkinCrawlerSlot.SetupSlot(Card, cardToPick);
 
 			yield return new WaitForSeconds(0.25f);
-			ViewManager.Instance.SwitchToView(View.Default);
+			if (ViewManager.Instance.CurrentView != View.Board)
+			{
+				yield return new WaitForSeconds(0.2f);
+				ViewManager.Instance.SwitchToView(View.Default);
+				yield return new WaitForSeconds(0.2f);
+			}
 			ViewManager.Instance.SetViewUnlocked();
 		}
 	}
