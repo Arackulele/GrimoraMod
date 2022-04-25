@@ -160,6 +160,26 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		rotatingParent.localScale = new Vector3(xValScale, 2.1f, 1);
 	}
 
+	private void ModifyTwinGiant(PlayableCard playableCard)
+	{
+		var modInfo = new CardModificationInfo(-1, 1)
+		{
+			abilities = new List<Ability> { Ability.Reach, GiantStrike.ability, Ability.MadeOfStone },
+			negateAbilities = new List<Ability> { Ability.QuadrupleBones, Ability.SplitStrike }
+		};
+		var modNameReplace = new CardModificationInfo
+		{
+			nameReplacement = _hasSpawnedFirstGiant ? "Ephialtes" : "Otis",
+			specialAbilities = new List<SpecialTriggeredAbility> { GrimoraGiant.FullSpecial.Id }
+		};
+		_hasSpawnedFirstGiant = true;
+		CardInfo clone = (CardInfo)playableCard.Info.Clone();
+		clone.Mods.Add(modNameReplace);
+		playableCard.SetInfo(clone);
+		HandleResizingGiantCards(playableCard);
+		playableCard.AddTemporaryMod(modInfo);
+	}
+
 	private void ModifyBonelordsHorn(PlayableCard playableCard)
 	{
 		var modInfo = new CardModificationInfo(2, 0)

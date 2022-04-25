@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -12,7 +12,7 @@ public partial class GrimoraPlugin
 			.SetAsRareCard()
 			.SetAbilities(Ability.Brittle)
 			.SetBaseAttackAndHealth(6, 6)
-			.SetBoneCost(9)
+			.SetBoneCost(6)
 			.SetNames(NameRipper, "Ripper")
 			.SetDescription("WHEN ALL HOPE IS LOST, YOU CAN ALWAYS COUNT ON THIS DEMON STRAIGHT FROM HELL!")
 			.Build();

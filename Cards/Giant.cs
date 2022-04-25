@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 		CardBuilder.Builder
 		 .SetAsNormalCard()
 		 .SetAbilities(Ability.QuadrupleBones, Ability.SplitStrike)
-		 .SetBaseAttackAndHealth(2, 7)
+		 .SetBaseAttackAndHealth(3, 8)
 		 .SetBoneCost(15)
 		 .SetDescription("TRULY A SIGHT TO BEHOLD.")
 		 .SetNames(NameGiant, "Giant")
