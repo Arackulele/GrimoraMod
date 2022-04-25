@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.DebuffEnemy)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(3)
-			.SetDescription("THE FESTERING WRETCH, IT IS SAID ITS ODOR IS SO STRONG EVEN THE UNDEAD CAN FEEL IT.")
+			.SetDescription("It's said their odor is so strong and repugnant, even the undead can feel it!")
 			.SetNames(NameFesteringWretch, "Festering Wretch")
 			.Build();
 	}

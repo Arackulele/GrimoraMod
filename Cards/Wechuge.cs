@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.DoubleStrike)
 			.SetBaseAttackAndHealth(1, 2)
 			.SetBoneCost(5)
-			.SetDescription("The vicious wechuge, corrupted by the spirit of an animal.")
+			.SetDescription("Corrupted by the spirit of an animal. It will make furious swipes with each hand.")
 			.SetNames(NameWechuge, "Wechuge")
 			.Build();
 	}

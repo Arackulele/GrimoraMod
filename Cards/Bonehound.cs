@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(bonehound.Abilities.ToArray())
 			.SetBaseAttackAndHealth(bonehound.Attack, bonehound.Health)
 			.SetBoneCost(bonehound.BonesCost)
-			.SetDescription("THE DAUNTLESS BONEHOUND. IT LEAPS TO OPPOSE NEW CREATURES WHEN THEY ARE PLAYED.")
+			.SetDescription("THE FLESHLESS BONEHOUND. IT LEAPS TO OPPOSE NEW CREATURES WHEN THEY ARE PLAYED... OR AT LEAST THAT IS HOW HE WOULD SAY IT.")
 			.SetNames(NameBonehound, "Bonehound", bonehound.portraitTex)
 			.Build();
 	}
