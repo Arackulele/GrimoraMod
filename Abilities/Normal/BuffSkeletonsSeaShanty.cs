@@ -19,7 +19,7 @@ public partial class GrimoraPlugin
 	public void Add_Ability_BuffCrewMates()
 	{
 		const string rulebookDescription =
-			"[creature] empowers each Skeleton on the owner's side of the board, providing a +1 buff their power.";
+			"[creature] empowers each Skeleton on the owner's side of the board, providing a +1 buff to their power.";
 
 		AbilityBuilder<BuffSkeletonsSeaShanty>.Builder
 		 .SetRulebookDescription(rulebookDescription)
