@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using UnityEngine;
 
 namespace GrimoraMod;
 
@@ -21,5 +22,11 @@ public class PlayerHandPatches
 		}
 
 		yield return enumerator;
+	}
+	
+	[HarmonyPostfix, HarmonyPatch(nameof(PlayerHand.AddCardToHand))]
+	public static void RerenderCard(ref PlayableCard card, Vector3 spawnOffset, float onDrawnTriggerDelay)
+	{
+		card.RenderCard();
 	}
 }
