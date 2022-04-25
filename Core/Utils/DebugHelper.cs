@@ -141,10 +141,6 @@ public class DebugHelper : ManagedBehaviour
 
 	private void Start()
 	{
-		_combatBell = ((BoardManager3D)BoardManager.Instance).Bell.gameObject;
-		_handModel = ((PlayerHand3D)PlayerHand.Instance).anim.transform.Find("HandModel_Male").gameObject;
-		_hammer = GrimoraItemsManagerExt.Instance.hammerSlot.gameObject;
-		
 		_toggleGroupsParent = new GameObject("ToggleGroups").AddComponent<ToggleGroup>();
 		_toggleGroupsParent.transform.SetParent(UIManager.Instance.gameObject.transform);
 
@@ -219,6 +215,10 @@ public class DebugHelper : ManagedBehaviour
 
 		if (IsInBattle)
 		{
+			_combatBell ??= ((BoardManager3D)BoardManager.Instance).Bell.gameObject;
+			_handModel ??= ((PlayerHand3D)PlayerHand.Instance).anim.transform.Find("HandModel_Male").gameObject;
+			_hammer ??= GrimoraItemsManagerExt.Instance.hammerSlot.gameObject;
+			
 			SetupInBattleHelpers();
 		}
 		else
