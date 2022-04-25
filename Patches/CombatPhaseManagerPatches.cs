@@ -82,7 +82,7 @@ public class CombatPhaseManagerPatches
 						false,
 						opposingSlot.Card
 					);
-					if (giantCopy && giantCopy.Slot)
+					if (giantCopy && giantCopy.Slot && opposingSlot.Card.NotDead())
 					{
 						customArmPrefab.speed = 1f;
 						yield return new WaitForSeconds(0.05f);
