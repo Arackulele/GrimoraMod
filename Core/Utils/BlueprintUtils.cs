@@ -8,7 +8,7 @@ namespace GrimoraMod;
 
 public static class BlueprintUtils
 {
-	#region CardBlueprints
+	#region BlueprintCardtranslation
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Bonehound = NameBonehound.CreateCardBlueprint();
 
@@ -30,6 +30,7 @@ public static class BlueprintUtils
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_DrownedSoul = NameDrownedSoul.CreateCardBlueprint();
 
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Banshee = NameBanshee.CreateCardBlueprint();
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Family = NameFamily.CreateCardBlueprint();
 
@@ -41,8 +42,7 @@ public static class BlueprintUtils
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Gravedigger = NameGravedigger.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint
-		bp_HeadlessHorseman = NameHeadlessHorseman.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_HeadlessHorseman = NameHeadlessHorseman.CreateCardBlueprint();
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Hydra = NameHydra.CreateCardBlueprint();
 
@@ -58,19 +58,17 @@ public static class BlueprintUtils
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Sarcophagus = NameSarcophagus.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Skelemancer = NameVengefulSpirit.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_VengefulSpirit = NameVengefulSpirit.CreateCardBlueprint();
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Skeleton = NameSkeleton.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_SkeletonMage = NameSkelemagus.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Skelemagus = NameSkelemagus.CreateCardBlueprint();
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Sporedigger = NameSporedigger.CreateCardBlueprint();
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_TombRobber = NameTombRobber.CreateCardBlueprint();
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Zombie = NameZombie.CreateCardBlueprint();
-
-	//V2.5 Cards
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_BooHag = NameBooHag.CreateCardBlueprint();
 
@@ -84,39 +82,65 @@ public static class BlueprintUtils
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Ripper = NameRipper.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_ScreamingSkull =
-		NameScreamingSkull.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_ScreamingSkull = NameScreamingSkull.CreateCardBlueprint();
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Silbon = NameSilbon.CreateCardBlueprint();
 
-	//V2.7.4
-
-
-
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Manananggal = NameManananggal.CreateCardBlueprint();
 
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Animator = NameAnimator.CreateCardBlueprint();
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Catacomb = NameCatacomb.CreateCardBlueprint(); //maybe can be used for a hell hound like fight
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Centurion = NameCenturion.CreateCardBlueprint();
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Dalgyal = NameDalgyal.CreateCardBlueprint();
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_DeadTree = NameDeadTree.CreateCardBlueprint();
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_DeathKnell = NameDeathKnell.CreateCardBlueprint();
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_ForgottenMan = NameForgottenMan.CreateCardBlueprint();
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_MassGrave = NameMassGrave.CreateCardBlueprint();
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_GraveBard = NameGravebard.CreateCardBlueprint();
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Hellhand = NameHellhand.CreateCardBlueprint();
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_RotTail = NameRotTail.CreateCardBlueprint();
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_StarvedMan = NameStarvedMan.CreateCardBlueprint();
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_TamperedCoffin = NameTamperedCoffin.CreateCardBlueprint();
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Vampire = NameVampire.CreateCardBlueprint();
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Wechuge = NameWechuge.CreateCardBlueprint();
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Writher = NameWrither.CreateCardBlueprint();
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Floatsam = NameShipwreckDams.CreateCardBlueprint();
+
+	//Cards not in blueprints cause they dont work for the enemy: Apparition, Calavera Catrina, Deadeye, Doll, Jikininki, Sluagh
 
 	#region PiratesRoyal
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_CaptainYellowbeard =
-		NamePirateCaptainYellowbeard.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_CaptainYellowbeard = NamePirateCaptainYellowbeard.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_FirstMateSnag =
-		NamePirateFirstMateSnag.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_FirstMateSnag = NamePirateFirstMateSnag.CreateCardBlueprint();
 
-
-	public static readonly EncounterBlueprintData.CardBlueprint
-		bp_Swashbuckler = NamePirateSwashbuckler.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Swashbuckler = NamePirateSwashbuckler.CreateCardBlueprint();
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Shipwreck = NameShipwreck.CreateCardBlueprint();
-	
-		
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Exploding_Pirate = NamePirateExploding.CreateCardBlueprint();
+
+
 	#endregion
 
 	#region Kaycee
 
-
-	
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Glacier = NameGlacier.CreateCardBlueprint();
 
   #endregion
@@ -125,7 +149,7 @@ public static class BlueprintUtils
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Kennel = NameKennel.CreateCardBlueprint();
 
-  #endregion
+	#endregion
 
 	#endregion
 
@@ -140,7 +164,11 @@ public static class BlueprintUtils
 				BuildKayceeRegionBlueprintTwo(),
 				BuildKayceeRegionBlueprintThree(),
 				BuildKayceeRegionBlueprintFour(),
-				BuildKayceeRegionBlueprintFive()
+				BuildKayceeRegionBlueprintFive(),
+				BuildKayceeRegionBlueprintSix(),
+				BuildKayceeRegionBlueprintSeven(),
+				BuildKayceeRegionBlueprintEight(),
+				BuildKayceeRegionBlueprintNine()
 			}
 		},
 		{
@@ -151,7 +179,11 @@ public static class BlueprintUtils
 				BuildSawyerRegionBlueprintTwo(),
 				BuildSawyerRegionBlueprintThree(),
 				BuildSawyerRegionBlueprintFour(),
-				BuildSawyerRegionBlueprintFive()
+				BuildSawyerRegionBlueprintFive(),
+				BuildSawyerRegionBlueprintSix(),
+				BuildSawyerRegionBlueprintSeven(),
+				BuildSawyerRegionBlueprintEight(),
+				BuildSawyerRegionBlueprintNine(),
 			}
 		},
 		{
@@ -162,7 +194,11 @@ public static class BlueprintUtils
 				BuildRoyalBossRegionBlueprintTwo(),
 				BuildRoyalBossRegionBlueprintThree(),
 				BuildRoyalBossRegionBlueprintFour(),
-				BuildRoyalBossRegionBlueprintFive()
+				BuildRoyalBossRegionBlueprintFive(),
+				BuildRoyalBossRegionBlueprintSix(),
+				BuildRoyalBossRegionBlueprintSeven(),
+				BuildRoyalBossRegionBlueprintEight(),
+				BuildRoyalBossRegionBlueprintNine(),
 			}
 		},
 		{
@@ -222,8 +258,8 @@ public static class BlueprintUtils
 			new(),
 			new() { bp_Skeleton },
 			new(),
+			new() { bp_Draugr },
 			new() { bp_Revenant },
-			new() { bp_Skeleton },
 			new() { bp_Skeleton, bp_Draugr },
 			new(),
 			new() { bp_Skeleton },
@@ -240,16 +276,16 @@ public static class BlueprintUtils
 	private static EncounterBlueprintData BuildKayceeRegionBlueprintOne()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.name = "Kaycee_1";
+		blueprint.name = "Kaycee_Draugr_Summoner";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Skeleton },
+			new() { bp_Summoner },
 			new() { bp_Draugr },
 			new() { bp_Skeleton, bp_Skeleton, bp_Draugr },
-			new() { bp_Draugr, bp_Family },
-			new(),
+			new() { bp_Draugr },
+			new() { bp_Summoner },
 			new() { bp_Skeleton },
-			new() { bp_Family }
+			new() { bp_Draugr, bp_Skeleton }
 		};
 
 		return blueprint;
@@ -258,15 +294,16 @@ public static class BlueprintUtils
 	private static EncounterBlueprintData BuildKayceeRegionBlueprintTwo()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.name = "Kaycee_2";
+		blueprint.name = "Kaycee_Draugr_Gravebard";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new(),
+			new() { bp_GraveBard },
+			new() { bp_Draugr },
+			new() { bp_Skeleton, bp_Skeleton, bp_Draugr },
+			new() { bp_Draugr },
+			new() { bp_GraveBard },
 			new() { bp_Skeleton },
-			new() { bp_Zombie, bp_Bonehound },
-			new(),
-			new() { bp_Skeleton },
-			new() { bp_Zombie }
+			new() { bp_Draugr, bp_Skeleton }
 		};
 
 		return blueprint;
@@ -275,30 +312,49 @@ public static class BlueprintUtils
 	private static EncounterBlueprintData BuildKayceeRegionBlueprintThree()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.name = "Kaycee_3";
+		blueprint.name = "Kaycee_Project_Sentry";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Draugr },
+			new() { bp_Dalgyal },
+			new() { bp_Skeleton, bp_Skeleton },
+			new(),
+			new() { bp_Dalgyal },
 			new() { bp_Project },
 			new(),
-			new() { bp_Draugr },
 			new() { bp_Skeleton },
+			new() { bp_Skeleton }
+		};
+
+		return blueprint;
+	}
+	private static EncounterBlueprintData BuildKayceeRegionBlueprintFour()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Kaycee_Vampire_Sentry";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Dalgyal },
+			new() { bp_Skeleton, bp_Skeleton },
 			new(),
-			new() { bp_Project }
+			new() { bp_Skeleton },
+			new() { bp_Vampire },
+			new(),
+			new() {  bp_Vampire },
+			new() { bp_Skeleton }
 		};
 
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildKayceeRegionBlueprintFour()
+	private static EncounterBlueprintData BuildKayceeRegionBlueprintFive()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.name = "Kaycee_4";
+		blueprint.name = "Kaycee_Basic_Undead";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_Skeleton },
 			new(),
-			new() { bp_Zombie, bp_Zombie },
+			new() { bp_Hellhand, bp_Zombie },
 			new() { bp_Zombie },
 			new() { bp_Skeleton },
 			new(),
@@ -309,26 +365,83 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildKayceeRegionBlueprintFive()
+	private static EncounterBlueprintData BuildKayceeRegionBlueprintSix()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.name = "Kaycee_5";
+		blueprint.name = "Kaycee_Glacier_Bait";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
+			new() { bp_Skeleton },
+			new() { bp_Revenant },
 			new(),
 			new() { bp_Glacier },
 			new(),
-			new() { bp_Draugr, bp_Zombie },
+			new() { bp_Zombie },
+			new(),
+			new() { bp_Skeleton, bp_Draugr },
+			new() { bp_Glacier }
+		};
+
+		return blueprint;
+	}
+	private static EncounterBlueprintData BuildKayceeRegionBlueprintSeven()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Kaycee_Glacier_Bait_Zombies";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Zombie },
+			new() { bp_Zombie, bp_Zombie },
+			new(),
+			new() { bp_Glacier },
 			new(),
 			new() { bp_Zombie },
 			new(),
-			new() { bp_Zombie, bp_Zombie },
-			new() { bp_Draugr }
+			new() { bp_Skeleton, bp_Draugr },
+			new() { bp_Glacier }
 		};
 
 		return blueprint;
 	}
 
+	private static EncounterBlueprintData BuildKayceeRegionBlueprintEight()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Kaycee_Frozen_Ocean";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Floatsam },
+			new() { bp_Draugr, bp_Floatsam },
+			new(),
+			new() { bp_Floatsam },
+			new() { bp_Draugr },
+			new() { bp_DrownedSoul },
+			new(),
+			new() { bp_Skeleton, bp_Draugr },
+			new() { bp_Glacier }
+		};
+
+		return blueprint;
+	}
+
+	private static EncounterBlueprintData BuildKayceeRegionBlueprintNine()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Kaycee_Flying_Undead";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Skeleton },
+			new(),
+			new() { bp_Banshee, bp_Banshee },
+			new() { bp_Banshee },
+			new() { bp_Skeleton },
+			new(),
+			new() { bp_FrankAndStein },
+			new(),
+			new() { bp_Banshee }
+		};
+		return blueprint;
+	}
 	#endregion
 
 
@@ -366,19 +479,19 @@ public static class BlueprintUtils
 	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintOne()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.name = "Royal_1";
+		blueprint.name = "Royal_Ships";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_GhostShip, bp_BonePrince },
+			new() { bp_GhostShip, bp_Summoner },
 			new(),
-			new() { bp_BonePrince },
+			new() { bp_ForgottenMan },
 			new(),
-			new() { bp_BonePrince, bp_BonePrince },
+			new() { bp_Summoner },
 			new(),
 			new(),
 			new() { bp_GhostShip },
 			new(),
-			new() { bp_BonePrince }
+			new() { bp_ForgottenMan }
 		};
 
 		return blueprint;
@@ -387,12 +500,12 @@ public static class BlueprintUtils
 	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintTwo()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.name = "Royal_2";
+		blueprint.name = "Royal_Hellpirates";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Manananggal },
-			new(),
-			new() { bp_Zombie, bp_Zombie },
+			new() {  bp_Floatsam },
+			new() {  bp_Manananggal },
+			new() {  bp_Shipwreck },
 			new(),
 			new() { bp_Zombie },
 			new() { bp_Zombie, bp_Zombie },
@@ -406,40 +519,40 @@ public static class BlueprintUtils
 	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintThree()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.name = "Royal_3";
+		blueprint.name = "Royal_Hellpirates_SilbonVar";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Dybbuk },
+			new() {  bp_Floatsam },
+			new() {  bp_Silbon },
+			new() {  bp_Shipwreck },
 			new(),
-			new() { bp_Revenant },
+			new() { bp_Zombie },
+			new() { bp_Zombie, bp_Zombie },
 			new(),
-			new() { bp_Skelemancer },
-			new() { bp_Skelemancer },
-			new() { bp_Dybbuk, bp_Dybbuk },
-			new(),
-			new() { bp_Skelemancer }
+			new() { bp_GhostShip }
 		};
 
 		return blueprint;
+
 	}
 
 	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintFour()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.name = "Royal_4";
+		blueprint.name = "Royal_Mates";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Silbon },
+			new() { bp_FirstMateSnag },
+			new() { bp_Shipwreck },
+			new() { bp_FirstMateSnag },
+			new() { bp_Swashbuckler },
 			new(),
-			new() { bp_Project },
-			new() { bp_Zombie },
+			new() { bp_Shipwreck, bp_Swashbuckler },
+			new() { bp_FirstMateSnag },
 			new(),
-			new() { bp_Zombie, bp_Zombie },
-			new() { bp_DrownedSoul },
+			new() { bp_Swashbuckler },
 			new(),
-			new(),
-			new() { bp_Revenant },
-			new() { bp_Revenant }
+			new() { bp_Shipwreck }
 		};
 
 		return blueprint;
@@ -448,17 +561,94 @@ public static class BlueprintUtils
 	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintFive()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.name = "Royal_5";
+		blueprint.name = "Royal_Bellist";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_ScreamingSkull },
-			new() { bp_Obol, bp_Obol },
+			new() { bp_Skeleton, bp_Skeleton, bp_Skeleton },
+			new() { bp_DeathKnell },
 			new(),
-			new() { bp_ScreamingSkull },
+			new() { bp_Summoner },
 			new(),
-			new() { bp_ScreamingSkull },
-			new() { bp_Obol, bp_Obol },
-			new() { bp_ScreamingSkull }
+			new() { bp_Skeleton },
+			new() { bp_DeathKnell },
+			new() { bp_Skeleton , bp_Skeleton ,bp_Skeleton }
+		};
+
+		return blueprint;
+	}
+	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintSix()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Royal_Exploding_Barrels";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_FrankAndStein },
+			new() { bp_Exploding_Pirate, bp_Exploding_Pirate, bp_Exploding_Pirate },
+			new() { bp_Swashbuckler },
+			new(),
+			new() { bp_FrankAndStein },
+			new() { bp_Exploding_Pirate, bp_Exploding_Pirate, bp_Exploding_Pirate },
+			new(),
+			new() { bp_Swashbuckler }
+		};
+
+		return blueprint;
+	}
+	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintSeven()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Royal_Captain";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_CaptainYellowbeard },
+			new() { bp_Skeleton },
+			new() { bp_Skeleton, bp_Skeleton },
+			new() { bp_Skeleton, bp_Skeleton, bp_Skeleton },
+			new() ,
+			new() { bp_CaptainYellowbeard },
+			new(),
+			new() { bp_Skeleton },
+			new() { bp_Skeleton, bp_Skeleton },
+			new() { bp_Skeleton },
+			new() { bp_Skeleton }
+		};
+
+		return blueprint;
+	}
+	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintEight()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Royal_Drowned_Army";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_DrownedSoul },
+			new() ,
+			new() { bp_ForgottenMan },
+			new() ,
+			new() { bp_StarvedMan },
+			new() { bp_DrownedSoul },
+			new(),
+			new() { bp_Skeleton },
+			new() ,
+			new() { bp_Skeleton },
+			new() { bp_Skeleton }
+		};
+
+		return blueprint;
+	}
+
+	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintNine()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Royal_Deathbringers";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_GhostShip, bp_Revenant },
+			new() ,
+			new() { bp_StarvedMan },
+			new() ,
+			new() { bp_Revenant },
+
 		};
 
 		return blueprint;
@@ -477,18 +667,18 @@ public static class BlueprintUtils
 		{
 			new() { bp_Silbon },
 			new() { bp_Obol },
-			new() { bp_FrankAndStein },
-			new() { bp_Zombie },
-			new() { bp_Family },
+			new() { bp_StarvedMan },
+			new() ,
+			new() { bp_GraveBard },
 			new(),
-			new() { bp_Bonehound },
+			new() { bp_DanseMacabre },
 			new(),
-			new() { bp_Skeleton, bp_PlagueDoctor },
+			new() { bp_DeathKnell },
 			new(),
 			new() { bp_Revenant },
 			new(),
 			new() { bp_Sarcophagus },
-			new() { bp_SkeletonMage }
+			new() { bp_Skelemagus }
 		};
 		return blueprint;
 	}
@@ -496,21 +686,19 @@ public static class BlueprintUtils
 	private static EncounterBlueprintData BuildGrimoraBossRegionBlueprintOne()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.name = "Grimora_1";
+		blueprint.name = "Grimora_Ancient_Army";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Project },
-			new() { bp_Project },
-			new() { bp_Zombie, bp_Zombie },
-			new() { bp_Revenant },
-			new() { bp_Skeleton },
-			new() { bp_Skeleton, bp_Skeleton, bp_Skeleton, bp_Skeleton },
-			new() { bp_Zombie },
-			new() { bp_Zombie, bp_Zombie },
-			new() { bp_Zombie },
-			new() { bp_Skeleton, bp_Skeleton, bp_Skeleton, bp_Skeleton },
-			new() { bp_Skeleton, bp_Skeleton, bp_Skeleton, bp_Skeleton },
-			new() { bp_Revenant },
+			new() { bp_Obol,bp_Obol },
+			new() { bp_BooHag, bp_BooHag },
+			new() { bp_Hellhand },
+			new(),
+			new() { bp_Obol,bp_Obol },
+			new() { bp_BooHag, bp_BooHag },
+			new() ,
+			new() { bp_Hellhand },
+			new() { bp_Hellhand },
+			new() { bp_BooHag }
 		};
 
 		return blueprint;
@@ -519,18 +707,18 @@ public static class BlueprintUtils
 	private static EncounterBlueprintData BuildGrimoraBossRegionBlueprintTwo()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.name = "Grimora_2";
+		blueprint.name = "Grimora_Bowling";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Mummy, bp_TombRobber },
-			new(),
 			new() { bp_Mummy },
-			new() { bp_Mummy, bp_TombRobber },
-			new() { bp_TombRobber },
+			new() { bp_Exploding_Pirate },
+			new() { bp_Vampire },
 			new() { bp_Mummy },
-			new() { bp_TombRobber },
+			new() { bp_Exploding_Pirate },
+			new() { bp_Vampire },
+			new() { bp_Vampire },
 			new() { bp_Mummy },
-			new() { bp_DeadPets },
+			new() { bp_Exploding_Pirate },
 		};
 
 		return blueprint;
@@ -539,20 +727,24 @@ public static class BlueprintUtils
 	private static EncounterBlueprintData BuildGrimoraBossRegionBlueprintThree()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.name = "Grimora_3";
+		blueprint.name = "Grimora_Macabre";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			// bp_Zombie.difficultyReplace = false;
-			new() { bp_ScreamingSkull },
+			new() { bp_DanseMacabre },
 			new() { bp_ScreamingSkull },
 			new(),
 			new() { bp_Zombie, bp_Zombie, bp_Zombie },
-			new(),
-			new() { bp_ScreamingSkull },
 			new() { bp_Zombie },
+			new() { bp_Zombie, bp_Zombie },
+			new() { bp_Zombie, bp_Zombie, bp_Zombie },
 			new(),
+			new() { bp_DanseMacabre },
 			new() { bp_ScreamingSkull },
-			new() { bp_Zombie, bp_Hydra }
+			new(),
+			new() { bp_Zombie, bp_Zombie, bp_Zombie },
+			new() { bp_Zombie },
+			new() { bp_Zombie, bp_Zombie },
+			new() { bp_Zombie, bp_Zombie, bp_Zombie }
 		};
 
 		return blueprint;
@@ -561,17 +753,17 @@ public static class BlueprintUtils
 	private static EncounterBlueprintData BuildGrimoraBossRegionBlueprintFour()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.name = "Grimora_4";
+		blueprint.name = "Grimora_Impenetrable_Wall";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Revenant, bp_Skeleton },
+			new() { bp_Dybbuk },
+			new() { bp_Ripper },
+			new() { bp_Dybbuk },
 			new() { bp_Revenant },
-			new() { bp_Revenant },
+			new() { bp_Dybbuk },
+			new() { bp_Silbon },
 			new(),
-			new() { bp_Revenant, bp_Skeleton },
-			new() { bp_Skeleton, bp_Skeleton },
-			new(),
-			new() { bp_Revenant, bp_Revenant, bp_Revenant, bp_Revenant },
+			new() { bp_Silbon }
 		};
 
 		return blueprint;
@@ -588,18 +780,18 @@ public static class BlueprintUtils
 		blueprint.name = "Sawyer_Boss";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Zombie, bp_Zombie },
+			new() { bp_Bonehound, bp_Zombie },
 			new(),
-			new() { bp_PlagueDoctor },
+			new() { bp_Zombie },
 			new(),
-			new() { bp_PlagueDoctor },
+			new() { bp_Centurion },
 			new(),
-			new() { bp_Skeleton, bp_PlagueDoctor },
+			new() { bp_Skeleton },
 			new(),
-			new() { bp_PlagueDoctor },
+			new() { bp_Centurion },
 			new(),
+			new() { bp_Centurion },
 			new() { bp_DeadPets, bp_DeadPets },
-			new() { bp_PlagueDoctor, bp_PlagueDoctor }
 		};
 
 		return blueprint;
@@ -608,18 +800,18 @@ public static class BlueprintUtils
 	private static EncounterBlueprintData BuildSawyerRegionBlueprintOne()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.name = "Sawyer_1";
+		blueprint.name = "Sawyer_Target";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Poltergeist },
-			new() { bp_Sarcophagus },
+			new() { bp_MassGrave },
+			new() { bp_Bonehound },
 			new(),
 			new(),
-			new() { bp_Poltergeist },
+			new() { bp_MassGrave },
 			new(),
-			new() { bp_Sarcophagus },
-			new(),
-			new() { bp_Poltergeist }
+			new() { bp_VengefulSpirit },
+			new() { bp_VengefulSpirit },
+			new() { bp_VengefulSpirit }
 		};
 
 		return blueprint;
@@ -628,17 +820,18 @@ public static class BlueprintUtils
 	private static EncounterBlueprintData BuildSawyerRegionBlueprintTwo()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.name = "Sawyer_2";
+		blueprint.name = "Sawyer_Target_Sarcophagus";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Bonehound },
-			new() { bp_Revenant },
+			new() { bp_Zombie },
+			new() { bp_Sarcophagus },
+			new() { bp_Zombie },
 			new(),
-			new() { bp_PlagueDoctor },
+			new() { bp_VengefulSpirit },
 			new(),
-			new(),
-			new() { bp_PlagueDoctor },
-			new() { bp_Bonehound }
+			new() { bp_VengefulSpirit },
+			new() { bp_Sarcophagus },
+			new() { bp_VengefulSpirit }
 		};
 
 		return blueprint;
@@ -647,24 +840,26 @@ public static class BlueprintUtils
 	private static EncounterBlueprintData BuildSawyerRegionBlueprintThree()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.name = "Sawyer_3";
+		blueprint.name = "Sawyer_DefenseLine";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new(),
-			new() { bp_Skelemancer },
-			new(),
-			new() { bp_Bonehound },
-			new() { bp_Skelemancer },
-			new(),
-			new(),
-			new() { bp_SkeletonMage, bp_Draugr },
-			new() { bp_Draugr },
-			new() { bp_Skelemancer },
+			new() { bp_Centurion },
+			new() { bp_Obol },
+			new() { bp_Obol },
+			new() { bp_Centurion },
 			new(),
 			new(),
-			new() { bp_Bonehound, bp_Skelemancer },
+			new() { bp_Centurion },
+			new() ,
+			new() { bp_Obol },
+			new() ,
 			new(),
-			new() { bp_SkeletonMage }
+			new(),
+			new() { bp_Centurion },
+			new() ,
+			new() { bp_Obol },
+			new() { bp_Centurion }
 		};
 
 		return blueprint;
@@ -673,23 +868,23 @@ public static class BlueprintUtils
 	private static EncounterBlueprintData BuildSawyerRegionBlueprintFour()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.name = "Sawyer_4";
+		blueprint.name = "Sawyer_Hell";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Skelemancer, bp_Skelemancer },
-			new() { bp_Obol },
+			new() { bp_Hellhand },
+			new() { bp_ScreamingSkull },
 			new(),
-			new() { bp_SkeletonMage },
-			new() { bp_Skelemancer },
-			new(),
-			new(),
-			new() { bp_SkeletonMage, bp_Draugr },
-			new() { bp_Obol },
-			new() { bp_Skelemancer },
+			new() { bp_Hellhand },
+			new() { bp_ScreamingSkull },
 			new(),
 			new(),
-			new() { bp_Bonehound, bp_Skelemancer, bp_Skelemancer },
-			new() { bp_SkeletonMage }
+			new() { bp_Hellhand, bp_Hellhand },
+			new() { bp_ScreamingSkull },
+			new() ,
+			new() ,
+			new() ,
+			new() { bp_ScreamingSkull, bp_Hellhand },
+			new() { bp_ScreamingSkull }
 		};
 
 		return blueprint;
@@ -698,13 +893,108 @@ public static class BlueprintUtils
 	private static EncounterBlueprintData BuildSawyerRegionBlueprintFive()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.name = "Sawyer_5";
+		blueprint.name = "Sawyer_Ripper_Rush";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_Zombie },
 			new(),
 			new() { bp_Ripper },
-			new() { bp_Ripper }
+			new() { bp_Ripper },
+			new() { bp_Zombie },
+			new(),
+			new(),
+			new(),
+			new(),
+			new(),
+			new() { bp_Ripper, bp_Ripper, bp_Ripper, bp_Ripper },
+			new() { bp_Ripper, bp_Ripper, bp_Ripper, bp_Ripper },
+		};
+
+		return blueprint;
+	}
+
+	private static EncounterBlueprintData BuildSawyerRegionBlueprintSix()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Sawyer_Spirit_Lines";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Poltergeist },
+			new(),
+			new() { bp_VengefulSpirit },
+			new() { bp_VengefulSpirit, bp_VengefulSpirit },
+			new() { bp_Poltergeist },
+			new() { bp_VengefulSpirit, bp_VengefulSpirit },
+			new() { bp_VengefulSpirit },
+			new(),
+			new() { bp_VengefulSpirit },
+			new(),
+			new() { bp_VengefulSpirit, bp_VengefulSpirit },
+
+		};
+
+		return blueprint;
+	}
+
+	private static EncounterBlueprintData BuildSawyerRegionBlueprintSeven()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Sawyer_Spirit_Lines_Deadly";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_VengefulSpirit },
+			new(),
+			new() { bp_VengefulSpirit },
+			new() { bp_Skelemagus, bp_VengefulSpirit },
+			new() { bp_VengefulSpirit },
+			new() { bp_VengefulSpirit, bp_VengefulSpirit },
+			new() { bp_Skelemagus },
+			new(),
+			new() { bp_VengefulSpirit },
+			new(),
+			new() { bp_VengefulSpirit, bp_Skelemagus },
+
+		};
+
+		return blueprint;
+	}
+	private static EncounterBlueprintData BuildSawyerRegionBlueprintEight()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Sawyer_Hounds";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Bonehound },
+			new(),
+			new() { bp_Skeleton },
+			new() { bp_Skeleton },
+			new() { bp_Revenant },
+			new() { bp_Bonehound },
+			new() { bp_Skeleton, bp_Skeleton },
+			new(),
+			new() { bp_Revenant },
+
+		};
+
+		return blueprint;
+	}
+
+	private static EncounterBlueprintData BuildSawyerRegionBlueprintNine()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Sawyer_Wechuges";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Wechuge },
+			new(),
+			new() { bp_Skeleton },
+			new() { bp_Skeleton },
+			new() { bp_Wechuge },
+			new() { bp_Wechuge },
+			new() { bp_Skeleton, bp_Skeleton },
+			new(),
+			new() { bp_Wechuge },
+
 		};
 
 		return blueprint;
