@@ -76,7 +76,7 @@ public class SkinCrawler : AbilityBehaviour
 			Log.LogDebug($"[Crawler.AssignSkinCrawlerCardToHost] Nulling slots out");
 			BoardManager.Instance.GetSlots(Card.IsPlayerCard())[Card.Slot.Index].Card = null;
 			Card.slot = null;
-			Log.LogDebug($"[Crawler.AssignSkinCrawlerCardToHost] Setting up slot.");
+			Log.LogInfo($"[Crawler.AssignSkinCrawlerCardToHost] Setting up slot.");
 			_slotHidingUnderCard = SkinCrawlerSlot.SetupSlot(Card, cardToPick);
 
 			yield return new WaitForSeconds(0.25f);
@@ -160,7 +160,7 @@ public class SkinCrawler : AbilityBehaviour
 
 	private bool CardIsAdjacent(PlayableCard playableCard)
 	{
-		return Card.Slot.GetAdjacentSlots().Exists(slot => slot && slot.Card == playableCard);
+		return Card.Slot.GetAdjacentSlots(true).Exists(slot => slot.Card == playableCard);
 	}
 
 	public override bool RespondsToOtherCardAssignedToSlot(PlayableCard otherCard)
@@ -221,7 +221,7 @@ public class SkinCrawlerSlot : NonCardTriggerReceiver
 		crawlerSlot.skinCrawlerCard = skinCrawler;
 		crawlerSlot.hidingOnSlot = hidingUnderCard.Slot;
 		crawlerSlot.hidingUnderCard = hidingUnderCard;
-		Log.LogDebug($"[Crawler.AssignSkinCrawlerCardToHost] Finished setting up slot.");
+		Log.LogInfo($"[Crawler.AssignSkinCrawlerCardToHost] Finished setting up slot.");
 		return crawlerSlot;
 	}
 
@@ -232,7 +232,7 @@ public class SkinCrawlerSlot : NonCardTriggerReceiver
 
 	public override IEnumerator OnOtherCardAssignedToSlot(PlayableCard otherCard)
 	{
-		Log.LogDebug($"[CrawlerSlot.OnOtherCardAssignedToSlot] Card {skinCrawlerCard.GetNameAndSlot()} will now hide under {otherCard.GetNameAndSlot()}");
+		Log.LogInfo($"[CrawlerSlot.OnOtherCardAssignedToSlot] Card {skinCrawlerCard.GetNameAndSlot()} will now hide under {otherCard.GetNameAndSlot()}");
 		hidingUnderCard = otherCard;
 		transform.SetParent(otherCard.Slot.transform);
 		yield return skinCrawlerCard.GetComponent<SkinCrawler>().ApplyModAndDoAnimationSequence(hidingUnderCard, hidingOnSlot);
@@ -245,10 +245,10 @@ public class SkinCrawlerSlot : NonCardTriggerReceiver
 		PlayableCard killer
 	)
 	{
-		Log.LogDebug($"[CrawlerSlot.RespondsToOtherCardDie] "
-		           + $"Crawler [{skinCrawlerCard.GetNameAndSlot()}] Dying Card [{card.GetNameAndSlot()}] deathSlot [{deathSlot.name}] "
-		           + $"hidingOnSlot [{hidingOnSlot}] is deathSlot? [{hidingOnSlot == deathSlot}]"
-		           + $"hiding under card [{hidingUnderCard}] is dying card? [{hidingUnderCard == card}]"
+		Log.LogInfo($"[CrawlerSlot.RespondsToOtherCardDie] "
+		          + $"Crawler [{skinCrawlerCard.GetNameAndSlot()}] Dying Card [{card.GetNameAndSlot()}] deathSlot [{deathSlot.name}] "
+		          + $"hidingOnSlot [{hidingOnSlot}] is deathSlot? [{hidingOnSlot == deathSlot}]"
+		          + $"hiding under card [{hidingUnderCard}] is dying card? [{hidingUnderCard == card}]"
 		);
 		return hidingOnSlot == deathSlot && card == hidingUnderCard && card.LacksAbility(Ability.IceCube);
 	}
