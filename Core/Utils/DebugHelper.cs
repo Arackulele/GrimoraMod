@@ -222,7 +222,7 @@ public class DebugHelper : ManagedBehaviour
 				int selectedButton = GUI.SelectionGrid(
 					RectCardListArea,
 					-1,
-					_toggleDebugBaseModCardsDeck.isOn ? _allGrimoraCardNames : _allGrimoraCustomCardNames,
+					_toggleDebugBaseModCardsHand.isOn ? _allGrimoraCardNames : _allGrimoraCustomCardNames,
 					3
 				);
 
