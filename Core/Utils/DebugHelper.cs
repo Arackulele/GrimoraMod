@@ -101,6 +101,12 @@ public class DebugHelper : ManagedBehaviour
 
 	private ToggleGroup _toggleGroupsSpawningCards;
 
+	private GameObject _handModel;
+
+	private GameObject _combatBell;
+
+	private GameObject _hammer;
+
 	private Toggle CreateOpponentSlotToggle(string toggleName)
 	{
 		Toggle toggle = CreateToggle(toggleName, _toggleGroupsSpawningCards);
@@ -135,6 +141,10 @@ public class DebugHelper : ManagedBehaviour
 
 	private void Start()
 	{
+		_combatBell = ((BoardManager3D)BoardManager.Instance).Bell.gameObject;
+		_handModel = ((PlayerHand3D)PlayerHand.Instance).anim.transform.Find("HandModel_Male").gameObject;
+		_hammer = GrimoraItemsManagerExt.Instance.hammerSlot.gameObject;
+		
 		_toggleGroupsParent = new GameObject("ToggleGroups").AddComponent<ToggleGroup>();
 		_toggleGroupsParent.transform.SetParent(UIManager.Instance.gameObject.transform);
 
@@ -210,27 +220,6 @@ public class DebugHelper : ManagedBehaviour
 		if (IsInBattle)
 		{
 			SetupInBattleHelpers();
-
-			((BoardManager3D)BoardManager.Instance).Bell.gameObject.SetActive(!_toggleCombatBell);
-
-			GrimoraItemsManagerExt.Instance.hammerSlot.gameObject.SetActive(!_toggleHammer);
-
-			((PlayerHand3D)PlayerHand.Instance).anim.transform.Find("HandModel_Male").gameObject.SetActive(!_togglePlayerHandModel);
-
-			if (_toggleDebugBaseModCardsHand.isOn || _toggleDebugCustomCardsHand.isOn)
-			{
-				int selectedButton = GUI.SelectionGrid(
-					RectCardListArea,
-					-1,
-					_toggleDebugBaseModCardsHand.isOn ? _allGrimoraCardNames : _allGrimoraCustomCardNames,
-					3
-				);
-
-				if (selectedButton >= 0)
-				{
-					StartCoroutine((_toggleDebugBaseModCardsHand.isOn ? AllGrimoraModCards : AllGrimoraCustomCards)[selectedButton].SpawnInHand());
-				}
-			}
 		}
 		else
 		{
@@ -371,6 +360,12 @@ public class DebugHelper : ManagedBehaviour
 
 	private void SetupInBattleHelpers()
 	{
+		_combatBell.SetActive(!_toggleCombatBell);
+
+		_hammer.SetActive(!_toggleHammer);
+
+		_handModel.SetActive(!_togglePlayerHandModel);
+
 		_toggleCombatBell = GUI.Toggle(
 			new Rect(Screen.width - 600, 30, DefaultToggleWidth, DefaultToggleHeight),
 			_toggleCombatBell,
@@ -430,6 +425,21 @@ public class DebugHelper : ManagedBehaviour
 			_toggleSpawnCardInAllOpponentSlots.isOn,
 			"Spawn All Opponent Slots"
 		);
+		
+		if (_toggleDebugBaseModCardsHand.isOn || _toggleDebugCustomCardsHand.isOn)
+		{
+			int selectedButton = GUI.SelectionGrid(
+				RectCardListArea,
+				-1,
+				_toggleDebugBaseModCardsHand.isOn ? _allGrimoraCardNames : _allGrimoraCustomCardNames,
+				3
+			);
+
+			if (selectedButton >= 0)
+			{
+				StartCoroutine((_toggleDebugBaseModCardsHand.isOn ? AllGrimoraModCards : AllGrimoraCustomCards)[selectedButton].SpawnInHand());
+			}
+		}
 	}
 
 	private void SetupGrimoraFight()
