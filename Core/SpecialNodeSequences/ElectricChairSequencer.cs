@@ -300,13 +300,24 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		Ability.AllStrike, Ability.DoubleStrike, Ability.GainAttackOnKill, Ability.Sniper, Ability.SplitStrike, Ability.TriStrike
 	};
 
+	private static readonly List<Ability> AbilitiesThatShouldNotExistOnSkinCrawler = new()
+	{
+		Ability.SkeletonStrafe, Ability.SquirrelStrafe, Ability.Strafe, Ability.StrafePush, Ability.StrafeSwap
+	};
+
 	private bool HasAbilityComboThatWillBreakTheGame(CardInfo card, Ability randomSigil)
 	{
-		return CheckCardHavingAbilityAndViceVersa(card, Ability.StrafePush, randomSigil, SkinCrawler.ability)
-		       || randomSigil == Haunter.ability && card.Abilities.Count == 0
-		       || randomSigil == Ability.SwapStats && (card.Attack < 1 || card.Health < 3)
-		       || RandomSigilShouldNotExistOnZeroAttackCard(card, randomSigil)
+		return randomSigil == Haunter.ability && card.Abilities.Count == 0
+		    || randomSigil == Ability.SwapStats && (card.Attack < 1 || card.Health < 3)
+		    || RandomSigilShouldNotExistOnZeroAttackCard(card, randomSigil)
+		    || RandomSigilShouldNotExistWithSkinCrawlerOrStrafe(card, randomSigil)
 			;
+	}
+
+	private bool RandomSigilShouldNotExistWithSkinCrawlerOrStrafe(CardInfo card, Ability randomSigil)
+	{
+		return card.HasAbility(SkinCrawler.ability) && AbilitiesThatShouldNotExistOnSkinCrawler.Contains(randomSigil)
+		       || randomSigil == SkinCrawler.ability && AbilitiesThatShouldNotExistOnSkinCrawler.Exists(card.HasAbility);
 	}
 
 	private bool RandomSigilShouldNotExistOnZeroAttackCard(CardInfo card, Ability randomSigil)
