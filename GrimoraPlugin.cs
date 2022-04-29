@@ -41,6 +41,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	public static List<CardInfo> AllGrimoraModCards = new();
 	public static List<string> AllGrimoraModCardsNoGuid = new();
 	public static List<CardInfo> AllPlayableGrimoraModCards = new();
+	
+	public static bool Initialized { get; set; } 
 
 	private void Awake()
 	{
@@ -53,6 +55,16 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		LoadAssetsSync();
 
 		StartCoroutine(LoadAssetsAsync());
+		
+		LoadAbilitiesAndCards();
+		
+		LoadExpansionCards();
+		
+		StarterDecks.RegisterStarterDecks();
+		
+		ChallengeManagement.UpdateGrimoraChallenges();
+
+		Initialized = true;
 	}
 
 	private void LoadAssetsSync()
@@ -76,7 +88,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	// {
 	// 	if (ConfigHelper.Instance.isHotReloadEnabled && SceneManager.GetActiveScene().name.Equals("Start"))
 	// 	{
-	// 		if (MenuController.Instance.cardRow.Find("MenuCard_Grimora").IsNull())
+	// 		if (MenuController.Instance.cardRow.Find("MenuCard_Grimora").SafeIsUnityNull())
 	// 		{
 	// 			Log.LogDebug($"Hot reload menu button creation");
 	// 			MenuController.Instance.cards.Add(MenuControllerPatches.CreateButton(MenuController.Instance));
@@ -86,15 +98,12 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private IEnumerator Start()
 	{
-		LoadAbilitiesAndCards();
 
 		if (AllPrefabs.IsNullOrEmpty())
 		{
 			Log.LogWarning($"Prefabs are still being loaded, waiting until they have finished.");
 			yield return new WaitUntil(() => !AllPrefabs.IsNullOrEmpty());
 		}
-		
-		LoadExpansionCards();
 	}
 	
 	private void LoadAbilities()
@@ -194,6 +203,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Card_HeadlessHorseman();                // Cevin2006™ (◕‿◕)#7971
 		Add_Card_Hydra();                           // Cevin2006™ (◕‿◕)#7971
 		Add_Card_Necromancer();                     // Bt Y#0895
+		Add_Card_Ourobones();												// Anne Bean?
 		Add_Card_PirateCaptainYellowbeard();        // Bt Y#0895
 		Add_Card_Ripper();                          // Bt Y#0895
 		Add_Card_ScreamingSkull();                  // Bt Y#0895
