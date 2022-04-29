@@ -2,6 +2,7 @@
 using System.Text;
 using DiskCardGame;
 using Pixelplacement;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -227,7 +228,7 @@ public class GraveControllerExt : GravestoneCardAnimationController
 
 	public override void PlayDeathAnimation(bool playSound = true)
 	{
-		if (UnityRandom.value < 0.33f || PlayableCard.IsNull())
+		if (UnityRandom.value < 0.33f || PlayableCard.SafeIsUnityNull())
 		{
 			PlayGlitchOutAnimation();
 			return;
@@ -319,7 +320,7 @@ public class GraveControllerExt : GravestoneCardAnimationController
 
 	public void AddCustomArmPrefabs(PlayableCard playableCard)
 	{
-		if (CustomArmBase.IsNull())
+		if (CustomArmBase.SafeIsUnityNull())
 		{
 			Log.LogDebug($"[AddCustomArmPrefabs] Adding custom base skeleton arms for card [{playableCard.Info.displayedName}]");
 			Animator customArmBase = Instantiate(AssetConstants.CustomSkeletonArmBase, transform).GetComponent<Animator>();
@@ -330,7 +331,7 @@ public class GraveControllerExt : GravestoneCardAnimationController
 			CustomArmBase = customArmBase.GetComponent<Animator>();
 		}
 
-		if (AbilitiesForSentryCustomArm.Exists(playableCard.HasAbility) && CustomArmSentry.IsNull())
+		if (AbilitiesForSentryCustomArm.Exists(playableCard.HasAbility) && CustomArmSentry.SafeIsUnityNull())
 		{
 			Log.LogDebug($"[AddCustomArmPrefabs] Spawning new sentry prefab for card [{playableCard.Info.displayedName}]");
 			GameObject skeletonArmSentry = Instantiate(AssetConstants.CustomSkeletonArmSentry, transform);
@@ -342,7 +343,7 @@ public class GraveControllerExt : GravestoneCardAnimationController
 			CustomArmSentry = animObj;
 		}
 
-		if (IsGiant && CustomArmGiants.IsNull())
+		if (IsGiant && CustomArmGiants.SafeIsUnityNull())
 		{
 			Log.LogDebug($"[AddCustomArmPrefabs] Adding skeleton arm giant prefab to card [{playableCard.Info.displayedName}]");
 			Animator customArmGiants = Instantiate(AssetConstants.CustomSkeletonArmGiants, transform).GetComponent<Animator>();

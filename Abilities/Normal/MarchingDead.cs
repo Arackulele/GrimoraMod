@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Helpers.Extensions;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -24,7 +25,7 @@ public class MarchingDead : AbilityBehaviour
 	{
 		CardSlot leftAdjSlot = Card.Slot.GetAdjacent(true);
 		CardSlot rightAdjSlot = Card.Slot.GetAdjacent(false);
-		if (leftAdjCard && leftAdjSlot && leftAdjSlot.Card.IsNull())
+		if (leftAdjCard && leftAdjSlot && leftAdjSlot.Card.SafeIsUnityNull())
 		{
 			ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 			yield return PlayerHand.Instance.PlayCardOnSlot(leftAdjCard, leftAdjSlot);
@@ -32,7 +33,7 @@ public class MarchingDead : AbilityBehaviour
 			leftAdjCard = null;
 		}
 
-		if (rightAdjCard && rightAdjSlot && rightAdjSlot.Card.IsNull())
+		if (rightAdjCard && rightAdjSlot && rightAdjSlot.Card.SafeIsUnityNull())
 		{
 			ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
 			yield return PlayerHand.Instance.PlayCardOnSlot(rightAdjCard, rightAdjSlot);

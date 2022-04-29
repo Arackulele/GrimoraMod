@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using Sirenix.Utilities;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -13,8 +14,8 @@ public class Erratic : Strafe
 
 	public override IEnumerator DoStrafe(CardSlot toLeft, CardSlot toRight)
 	{
-		bool toLeftIsValid = toLeft && toLeft.Card.IsNull();
-		bool toRightIsValid = toRight && toRight.Card.IsNull();
+		bool toLeftIsValid = toLeft && toLeft.Card.SafeIsUnityNull();
+		bool toRightIsValid = toRight && toRight.Card.SafeIsUnityNull();
 		if (!toLeftIsValid)
 		{
 			movingLeft = false;

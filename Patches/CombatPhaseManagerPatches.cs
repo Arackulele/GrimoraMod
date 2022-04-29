@@ -4,6 +4,7 @@ using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers.Extensions;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -52,7 +53,7 @@ public class CombatPhaseManagerPatches
 
 				yield return new WaitForSeconds(0.025f);
 
-				if (giantCard.IsNull() || giantCard.Dead)
+				if (giantCard.SafeIsUnityNull() || giantCard.Dead)
 				{
 					Log.LogWarning($"[SlotAttackSequence.Giant] Giant has died/is dying, breaking out of loop.");
 					yield break;

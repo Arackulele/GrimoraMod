@@ -4,6 +4,7 @@ using InscryptionAPI.Card;
 using InscryptionAPI.Helpers.Extensions;
 using Pixelplacement;
 using Pixelplacement.TweenSystem;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -27,8 +28,8 @@ public class SkinCrawler : AbilityBehaviour
 			var crawlerSlot = cardSlot.GetComponentInChildren<SkinCrawlerSlot>();
 			if (crawlerSlot)
 			{
-				Log.LogDebug($"[Crawler.SlotDoesNotHave] --> has crawler slot. Is HidingOnSlot null? [{crawlerSlot.hidingOnSlot.IsNull()}] ");
-				return crawlerSlot.hidingOnSlot.IsNull();
+				Log.LogDebug($"[Crawler.SlotDoesNotHave] --> has crawler slot. Is HidingOnSlot null? [{crawlerSlot.hidingOnSlot.SafeIsUnityNull()}] ");
+				return crawlerSlot.hidingOnSlot.SafeIsUnityNull();
 			}
 
 			Log.LogDebug($"[Crawler.SlotDoesNotHave] -> Has no skin crawler ");

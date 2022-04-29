@@ -16,9 +16,9 @@ public static class UnityObjectExtensions
 		Transparent
 	}
 
-	public static bool IsNull(this UnityEngine.Object obj)
+	public static bool IsNotNull(this object obj)
 	{
-		return !obj;
+		return obj != null;
 	}
 
 	public static void SetAlbedoTexture(this Material self, Texture texture)

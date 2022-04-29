@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
-using GrimoraMod.Consumables;
 using HarmonyLib;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -70,7 +70,6 @@ public class BaseGameFlowManagerPatches
 
 		GrimoraAnimationController.Instance.transform.SetParent(UnityObject.FindObjectOfType<InputManagerSpawner>().transform);
 
-		Log.LogDebug($"Assigning controller to game table");
 		GameObject.Find("GameTable")
 			.AddComponent<Animator>()
 			.runtimeAnimatorController = AssetUtils.GetPrefab<RuntimeAnimatorController>("GrimoraGameTable");
@@ -100,7 +99,7 @@ public class BaseGameFlowManagerPatches
 
 	private static void AddCardSelectorObjectForTutor()
 	{
-		if (BoardManager.Instance && BoardManager.Instance.cardSelector.IsNull())
+		if (BoardManager.Instance && BoardManager.Instance.cardSelector.SafeIsUnityNull())
 		{
 			SelectableCardArray boardCardSelection
 				= new GameObject("BoardCardSelection").AddComponent<SelectableCardArray>();
@@ -135,7 +134,7 @@ public class BaseGameFlowManagerPatches
 	{
 		ResourceDrone resourceEnergy = ResourceDrone.Instance;
 
-		if (BoardManager3D.Instance && resourceEnergy.IsNull())
+		if (BoardManager3D.Instance && resourceEnergy.SafeIsUnityNull())
 		{
 			resourceEnergy = UnityObject.Instantiate(
 				ResourceBank.Get<ResourceDrone>("Prefabs/CardBattle/ResourceModules"),
@@ -179,7 +178,7 @@ public class BaseGameFlowManagerPatches
 
 	private static void AddRareCardSequencerToScene()
 	{
-		if (SpecialNodeHandler.Instance.IsNull())
+		if (SpecialNodeHandler.Instance.SafeIsUnityNull())
 		{
 			return;
 		}
@@ -215,10 +214,10 @@ public class BaseGameFlowManagerPatches
 			yield break;
 		}
 
-		if (ChessboardMapExt.Instance.IsNull())
+		if (ChessboardMapExt.Instance.SafeIsUnityNull())
 		{
 			// This is required because Unity takes a second to update
-			while (ChessboardMapExt.Instance.IsNull())
+			while (ChessboardMapExt.Instance.SafeIsUnityNull())
 			{
 				yield return new WaitForSeconds(0.25f);
 			}

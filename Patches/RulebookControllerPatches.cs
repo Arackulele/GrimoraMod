@@ -37,7 +37,7 @@ public class PageContentLoaderPatch
 
 		if (__instance.currentPagePrefab != pageInfo.pagePrefab)
 		{
-			if (__instance.currentPageObj != null)
+			if (__instance.currentPageObj)
 			{
 				UnityObject.Destroy(__instance.currentPageObj);
 			}

@@ -1,6 +1,7 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Card;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -37,7 +38,7 @@ public class BaseCardPatches
 			return;
 		}
 		
-		if (__instance.GetComponentInParent<SelectableCard>().IsNull() && __instance.GetComponent<GraveControllerExt>().IsNull())
+		if (__instance.GetComponentInParent<SelectableCard>().SafeIsUnityNull() && __instance.GetComponent<GraveControllerExt>().SafeIsUnityNull())
 		{
 			var oldController = __instance.GetComponent<GravestoneCardAnimationController>();
 			GraveControllerExt.SetupNewController(oldController);

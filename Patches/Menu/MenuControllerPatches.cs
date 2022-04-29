@@ -52,7 +52,7 @@ public class MenuControllerPatches
 	{
 		if (SceneManager.GetActiveScene().name.Equals("Start"))
 		{
-			if (__instance.cardRow.Find("MenuCard_Grimora").IsNull())
+			if (__instance.cardRow.Find("MenuCard_Grimora").SafeIsUnityNull())
 			{
 				Log.LogDebug($"Non-hot reload menu button creation");
 				__instance.cards.Add(CreateMenuButton(__instance));
@@ -60,7 +60,7 @@ public class MenuControllerPatches
 		}
 		else if (GrimoraSaveUtil.isGrimora)
 		{
-			if (__instance.cardRow.Find("MenuCard_ResetRun").IsNull())
+			if (__instance.cardRow.Find("MenuCard_ResetRun").SafeIsUnityNull())
 			{
 				CreateButtonResetRun(__instance);
 			}

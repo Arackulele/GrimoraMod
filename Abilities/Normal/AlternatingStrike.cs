@@ -3,6 +3,7 @@ using DiskCardGame;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers.Extensions;
 using InscryptionAPI.Triggers;
+using Sirenix.Utilities;
 
 namespace GrimoraMod;
 
@@ -20,7 +21,7 @@ public class AlternatingStrike : AbilityBehaviour, IGetOpposingSlots
 		// if in far left slot, adj slot left will be null
 		CardSlot slotToAttack = Card.OpposingSlot().GetAdjacent(isAttackingLeft);
 
-		if (slotToAttack.IsNull())
+		if (slotToAttack.SafeIsUnityNull())
 		{
 			isAttackingLeft = !isAttackingLeft;
 			// if in far left slot and attacked right last, need to keep attack to the right slot

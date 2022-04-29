@@ -2,6 +2,7 @@
 using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Helpers.Extensions;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace GrimoraMod;

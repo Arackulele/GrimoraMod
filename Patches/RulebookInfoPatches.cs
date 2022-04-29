@@ -79,7 +79,6 @@ public class RulebookInfoPatches
 
 		PageRangeInfo pageRangeAbilities = __instance.pageRanges.Find(i => i.type == PageRangeType.Abilities);
 
-		Log.LogDebug($"Start adding NewSpecialAbilities");
 		allAbilities.AddRange(
 			AbilityManager.AllAbilityInfos
 				// this is needed because Sinkhole and another ability will throw IndexOutOfBounds exceptions
@@ -96,11 +95,9 @@ public class RulebookInfoPatches
 			 .Select(x => (int)x.ability)
 			 .ToList()
 		);
-		Log.LogDebug($"AllAbilities count [{allAbilities.Count}]");
 		int min = allAbilities.AsQueryable().Min();
 		int max = allAbilities.AsQueryable().Max() + 1;
 
-		Log.LogDebug($"Adding abilities to pageInfos");
 		__result.AddRange(
 			__instance.ConstructPages(
 				pageRangeAbilities,
@@ -111,8 +108,6 @@ public class RulebookInfoPatches
 				Localization.Translate("APPENDIX XII, SUBSECTION I - ABILITIES {0}")
 			)
 		);
-		Log.LogDebug($"[ConstructPageData] Result after adding custom abilities [{__result.Count}]");
-
 		allAbilities.Clear();
 
 		allAbilities.AddRange(
@@ -121,12 +116,10 @@ public class RulebookInfoPatches
 			 .Select(info => (int)info.iconType)
 			 .ToList()
 		);
-		Log.LogDebug($"SpecialAbilities count [{allAbilities.Join()}]");
 		min = allAbilities.AsQueryable().Min();
 		max = allAbilities.AsQueryable().Max() + 1;
 
 		pageRangeAbilities = __instance.pageRanges.Find(i => i.type == PageRangeType.StatIcons);
-		Log.LogDebug($"Adding special abilities to pageInfos");
 		__result.AddRange(
 			__instance.ConstructPages(
 				pageRangeAbilities,

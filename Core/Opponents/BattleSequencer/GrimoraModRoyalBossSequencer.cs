@@ -122,7 +122,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 	private bool SlotHasSpace(CardSlot slot, bool toLeft)
 	{
 		CardSlot adjacent = slot.GetAdjacent(toLeft);
-		if (adjacent.IsNull())
+		if (adjacent.SafeIsUnityNull())
 		{
 			Log.LogInfo($"[TableSway.SlotHasSpace] Adjacent slot [{slot.name}] does not have an adjacent slot to the {(toLeft ? "left" : "right")}");
 			// if beyond far left slot or far right slot, slot does not have space
@@ -130,7 +130,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			return false;
 		}
 
-		if (adjacent.Card.IsNull())
+		if (adjacent.Card.SafeIsUnityNull())
 		{
 			// if the slot is valid but no card, slot does have space
 			Log.LogInfo($"[TableSway.SlotHasSpace] Adjacent slot [{slot.name}] but does not have a card to the {(toLeft ? "left" : "right")}");

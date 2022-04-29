@@ -390,7 +390,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 	{
 		// TODO: This will work, but it doesn't show the boon art correctly.
 
-		if (SpecialNodeHandler.Instance.IsNull() || SpecialNodeHandler.Instance.cardRemoveSequencer)
+		if (SpecialNodeHandler.Instance.SafeIsUnityNull() || SpecialNodeHandler.Instance.cardRemoveSequencer)
 		{
 			return;
 		}

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -30,7 +31,7 @@ public class GrimoraItemsManagerExt : ItemsManager
 
 		GrimoraItemsManagerExt ext = GrimoraItemsManager.Instance.GetComponent<GrimoraItemsManagerExt>();
 
-		if (ext.IsNull())
+		if (ext.SafeIsUnityNull())
 		{
 			ext = GrimoraItemsManager.Instance.gameObject.AddComponent<GrimoraItemsManagerExt>();
 			ext.consumableSlots = currentItemsManager.consumableSlots;

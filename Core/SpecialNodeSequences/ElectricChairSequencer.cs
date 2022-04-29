@@ -111,7 +111,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		float chanceToDie = GetInitialChanceToDie();
 		Log.LogDebug($"[ElectricChair] Initial chance to die is [{chanceToDie}] for second zap");
 		int numBuffsGiven = 0;
-		while (!finishedBuffing && destroyedCard.IsNull())
+		while (!finishedBuffing && destroyedCard.SafeIsUnityNull())
 		{
 			Vector3 rulebookLocalPos = TableRuleBook.Instance.gameObject.transform.position;
 			Tween.Position(
@@ -444,7 +444,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	public static void CreateSequencerInScene()
 	{
-		if (SpecialNodeHandler.Instance.IsNull())
+		if (SpecialNodeHandler.Instance.SafeIsUnityNull())
 		{
 			return;
 		}

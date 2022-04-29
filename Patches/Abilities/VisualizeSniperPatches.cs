@@ -1,6 +1,7 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
 using Pixelplacement;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -47,7 +48,7 @@ public class VisualizeSniperPatches
 		}
 		
 		// GrimoraPlugin.Log.LogDebug($"Starting VisualizeConfirmSniperAbility for target slot [{targetSlot.name}]");
-		if (sniperIconPrefab == null)
+		if (sniperIconPrefab.SafeIsUnityNull())
 		{
 			// GrimoraPlugin.Log.LogDebug("-> sniperIconPrefab is null, creating cannon target");
 			sniperIconPrefab = ResourceBank.Get<GameObject>("Prefabs/Cards/SpecificCardModels/CannonTargetIcon");

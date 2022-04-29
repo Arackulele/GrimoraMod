@@ -3,6 +3,7 @@ using DiskCardGame;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers.Extensions;
 using InscryptionAPI.Triggers;
+using Sirenix.Utilities;
 
 namespace GrimoraMod;
 
@@ -15,7 +16,7 @@ public abstract class StrikeAdjacentSlots : AbilityBehaviour, IGetOpposingSlots
 	public override bool RespondsToSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
 	{
 		// check if the attacking card is this card
-		if (attacker && attacker.Slot == Card.Slot && slot.Card.IsNull())
+		if (attacker && attacker.Slot == Card.Slot && slot.Card.SafeIsUnityNull())
 		{
 			if (attacker.Slot.IsPlayerSlot)
 			{
@@ -66,7 +67,7 @@ public abstract class StrikeAdjacentSlots : AbilityBehaviour, IGetOpposingSlots
 		}
 
 		if (toLeftSlot && (StrikeAdjacentAbility != Raider.ability
-		                || toLeftSlot.Card.IsNull()
+		                || toLeftSlot.Card.SafeIsUnityNull()
 		                || toLeftSlot.Card.LacksAbility(Raider.ability)))
 		{
 			slotsToTarget.Insert(0, toLeftSlot);
@@ -74,7 +75,7 @@ public abstract class StrikeAdjacentSlots : AbilityBehaviour, IGetOpposingSlots
 
 		// insert at end
 		if (toRightSlot && (StrikeAdjacentAbility != Raider.ability
-		                 || toRightSlot.Card.IsNull()
+		                 || toRightSlot.Card.SafeIsUnityNull()
 		                 || toRightSlot.Card.LacksAbility(Raider.ability)))
 		{
 			slotsToTarget.Insert(slotsToTarget.Count, toRightSlot);

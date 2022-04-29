@@ -1,6 +1,7 @@
 ﻿using DiskCardGame;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -50,7 +51,7 @@ public class CardBuilder
 
 	private CardBuilder SetPortrait(Sprite ogCardArt = null)
 	{
-		if (ogCardArt.IsNull())
+		if (ogCardArt.SafeIsUnityNull())
 		{
 			_cardInfo.portraitTex = AssetUtils.GetPrefab<Sprite>(_cardNameNoGuid);
 

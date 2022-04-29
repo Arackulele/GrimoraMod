@@ -136,7 +136,7 @@ public class ChessboardMapExt : GameMap
 		instance.ViewChanged = (Action<View, View>)Delegate
 			.Combine(instance.ViewChanged, new Action<View, View>(OnViewChanged));
 
-		if (ConfigHelper.Instance.IsDevModeEnabled && debugHelper.IsNull())
+		if (ConfigHelper.Instance.IsDevModeEnabled && debugHelper.SafeIsUnityNull())
 		{
 			debugHelper = gameObject.AddComponent<DebugHelper>();
 		}
@@ -435,7 +435,7 @@ public class ChessboardMapExt : GameMap
 	{
 		ChessboardMapExt ext = ChessboardMap.Instance.gameObject.GetComponent<ChessboardMapExt>();
 
-		if (ext.IsNull())
+		if (ext.SafeIsUnityNull())
 		{
 			ChessboardMap boardComp = ChessboardMap.Instance.gameObject.GetComponent<ChessboardMap>();
 			boardComp.pieces.Clear();

@@ -308,7 +308,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 	public static void CreateSequencerInScene()
 	{
-		if (SpecialNodeHandler.Instance.IsNull())
+		if (SpecialNodeHandler.Instance.SafeIsUnityNull())
 		{
 			return;
 		}
@@ -323,7 +323,6 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 		// destroying things
 
-		Log.LogDebug($"[Boneyard] destroying fireanim");
 		Destroy(oldSequencer.selectionSlot.transform.Find("FireAnim").gameObject);
 		for (int i = 0; i < cardStatObj.transform.childCount; i++)
 		{
