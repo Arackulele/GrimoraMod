@@ -14,23 +14,30 @@ public class MenuControllerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(MenuController.OnCardReachedSlot))]
 	public static bool OnCardReachedSlotPatch(MenuController __instance, MenuCard card, bool skipTween = false)
 	{
-		if (GrimoraSaveUtil.IsGrimora)
+		if (SaveManager.SaveFile.IsGrimora)
 		{
-			if (card.MenuAction == MenuAction.ReturnToStartMenu)
+			if (!SaveFile.IsAscension)
 			{
-				Log.LogWarning($"[MenuController.OnCardReachedSlot] Saving before exiting");
-				SaveManager.SaveToFile();
-			}
-			else if (!SaveFile.IsAscension && card.MenuAction == MenuAction.EndRun)
-			{
-				__instance.DoingCardTransition = false;
-				card.transform.parent = __instance.menuSlot.transform;
-				card.SetBorderColor(__instance.slottedBorderColor);
-				AudioController.Instance.PlaySound2D("crunch_short#1", MixerGroup.None, 0.6f);
+				switch (card.MenuAction)
+				{
+					case MenuAction.ReturnToStartMenu:
+					{
+						Log.LogWarning($"[MenuController.OnCardReachedSlot] Saving before exiting");
+						SaveManager.SaveToFile();
+						break;
+					}
+					case MenuAction.EndRun:
+					{
+						__instance.DoingCardTransition = false;
+						card.transform.parent = __instance.menuSlot.transform;
+						card.SetBorderColor(__instance.slottedBorderColor);
+						AudioController.Instance.PlaySound2D("crunch_short#1", MixerGroup.None, 0.6f);
 
-				__instance.Shake(0.015f, 0.3f);
-				__instance.StartCoroutine(__instance.TransitionToGame2(true));
-				return false;
+						__instance.Shake(0.015f, 0.3f);
+						__instance.StartCoroutine(__instance.TransitionToGame2(true));
+						return false;
+					}
+				}
 			}
 		}
 		else if (card.titleText == "Start Grimora Mod")
