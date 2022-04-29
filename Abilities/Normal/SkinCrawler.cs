@@ -22,7 +22,7 @@ public class SkinCrawler : AbilityBehaviour
 
 	public static bool SlotDoesNotHaveSkinCrawler(CardSlot cardSlot)
 	{
-		if (cardSlot && cardSlot.Card)
+		if (cardSlot && cardSlot.Card && cardSlot.Card.LacksAbility(ability))
 		{
 			Log.LogDebug($"[Crawler.SlotDoesNotHave] {cardSlot.Card.GetNameAndSlot()}");
 			var crawlerSlot = cardSlot.GetComponentInChildren<SkinCrawlerSlot>();
@@ -161,6 +161,7 @@ public class SkinCrawler : AbilityBehaviour
 		yield return new WaitUntil(
 			() => !Tween.activeTweens.Exists(t => t.targetInstanceID == cardToPick.transform.GetInstanceID())
 		);
+		yield return new WaitForSeconds(0.1f);
 	}
 
 
@@ -192,7 +193,7 @@ public class SkinCrawler : AbilityBehaviour
 	}
 
 
-	public override bool RespondsToResolveOnBoard() => true;
+	public override bool RespondsToResolveOnBoard() => Card.Slot.GetAdjacentSlots(true).Exists(slot => slot.Card && slot.Card.LacksAbility(ability));
 
 	public override IEnumerator OnResolveOnBoard()
 	{
