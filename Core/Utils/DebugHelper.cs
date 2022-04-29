@@ -568,11 +568,8 @@ public class DebugHelper : ManagedBehaviour
 				}
 
 				Log.LogDebug($"Transitioning to encounter [{encounter.name}]");
-				bool canTransitionToFight = GrimoraGameFlowManager.Instance.CurrentGameState == GameState.Map
-				                         && !GrimoraGameFlowManager.Instance.Transitioning
-				                         && GameMap.Instance;
 				CustomCoroutine.WaitOnConditionThenExecute(
-					() => canTransitionToFight,
+					() => GameMap.Instance && GrimoraGameFlowManager.Instance.CurrentGameState == GameState.Map && !GrimoraGameFlowManager.Instance.Transitioning,
 					delegate
 					{
 						Log.LogDebug($"-> No longer in transitioning state, transitioning to new encounter");
