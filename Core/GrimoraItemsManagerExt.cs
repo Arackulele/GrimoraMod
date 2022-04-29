@@ -15,6 +15,11 @@ public class GrimoraItemsManagerExt : ItemsManager
 
 	public override List<string> SaveDataItemsList => Part3SaveData.Data.items;
 
+	public void SetHammerActive(bool active = true)
+	{
+		hammerSlot.gameObject.SetActive(active);
+	}
+
 	public override void OnBattleStart()
 	{
 		hammerSlot.InitializeHammer();

@@ -159,9 +159,12 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		if (playerWon)
 		{
 			// Log.LogDebug($"[GrimoraModBattleSequencer Adding enemy to config [{ActiveEnemyPiece.name}]");
-			ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
+			if(!ActiveEnemyPiece.SafeIsUnityNull())
+			{
+				ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
+			}
 			_cardsThatHaveDiedThisMatch.Clear();
-			GrimoraItemsManagerExt.Instance.hammerSlot.gameObject.SetActive(true);
+			GrimoraItemsManagerExt.Instance.SetHammerActive();
 		}
 
 		foreach (var slot in BoardManager.Instance.AllSlotsCopy)

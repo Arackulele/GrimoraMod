@@ -546,7 +546,8 @@ public class DebugHelper : ManagedBehaviour
 
 				CardBattleNodeData node = new CardBattleNodeData
 				{
-					blueprint = encounter
+					blueprint = encounter,
+					specialBattleId = GrimoraModBattleSequencer.FullSequencer.Id
 				};
 
 				if (Enum.TryParse(scrubbedName, true, out Opponent.Type bossType))
@@ -559,12 +560,12 @@ public class DebugHelper : ManagedBehaviour
 				Opponent opponent = TurnManager.Instance.Opponent;
 				if (opponent && !TurnManager.Instance.GameIsOver())
 				{
-					Log.LogDebug($"Setting NumLives to 1");
+					// Log.LogDebug($"Setting NumLives to 1");
 					opponent.NumLives = 1;
-					Log.LogDebug($"Game is not over, making opponent surrender");
-					opponent.SurrenderImmediate();
+					// Log.LogDebug($"Game is not over, making opponent surrender");
+					// opponent.SurrenderImmediate();
 					Log.LogDebug($"Playing LifeLostSequence for [{opponent.GetType()}]");
-					StartCoroutine(opponent.LifeLostSequence());
+					StartCoroutine(LifeManager.Instance.ShowDamageSequence(50, 1, false));
 				}
 
 				Log.LogDebug($"Transitioning to encounter [{encounter.name}]");
