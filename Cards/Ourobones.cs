@@ -1,6 +1,4 @@
-﻿using DiskCardGame;
-
-namespace GrimoraMod;
+﻿namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
@@ -13,7 +11,7 @@ public partial class GrimoraPlugin
 		 .SetSpecialAbilities(OurobonesBattle.FullSpecial.Id)
 		 .SetBaseAttackAndHealth(1, 1)
 		 .SetBoneCost(2)
-		 .SetDescription("THE KEY TO EVERYTHING, SOMEHOW.")
+		 .SetDescription("Oh dear, poor thing. Eternal death has weakened it's strength.")
 		 .SetNames(NameOurobones, "Ourobones")
 		 .Build();
 	}
