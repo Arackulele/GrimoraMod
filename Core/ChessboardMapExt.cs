@@ -135,8 +135,7 @@ public class ChessboardMapExt : GameMap
 	private void Awake()
 	{
 		ViewManager instance = ViewManager.Instance;
-		instance.ViewChanged = (Action<View, View>)Delegate
-			.Combine(instance.ViewChanged, new Action<View, View>(OnViewChanged));
+		instance.ViewChanged += OnViewChanged;
 
 		if (ConfigHelper.Instance.IsDevModeEnabled && debugHelper.SafeIsUnityNull())
 		{

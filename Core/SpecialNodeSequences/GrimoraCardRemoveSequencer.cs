@@ -48,24 +48,17 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		sacrificeSlot.ClearDelegates();
 
 		SelectCardFromDeckSlot selectCardFromDeckSlot = sacrificeSlot;
-		selectCardFromDeckSlot.CursorSelectStarted =
-			(Action<MainInputInteractable>)Delegate.Combine(
-				selectCardFromDeckSlot.CursorSelectStarted,
-				new Action<MainInputInteractable>(OnSlotSelected)
-			);
+		selectCardFromDeckSlot.CursorSelectStarted += OnSlotSelected;
 
 		sacrificeSlot.backOutInputPressed = null;
 		SelectCardFromDeckSlot selectCardFromDeckSlot2 = sacrificeSlot;
-		selectCardFromDeckSlot2.backOutInputPressed = (Action)Delegate.Combine(
-			selectCardFromDeckSlot2.backOutInputPressed,
-			(Action)delegate
+		selectCardFromDeckSlot2.backOutInputPressed += delegate
+		{
+			if (sacrificeSlot.Enabled)
 			{
-				if (sacrificeSlot.Enabled)
-				{
-					OnSlotSelected(sacrificeSlot);
-				}
+				OnSlotSelected(sacrificeSlot);
 			}
-		);
+		};
 		gamepadGrid.enabled = true;
 		yield return confirmStone.WaitUntilConfirmation();
 	}
@@ -132,10 +125,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			Log.LogDebug($"boon card is now active");
 			boonCard.SetEnabled(true);
 
-			boonCard.CursorSelectEnded = (Action<MainInputInteractable>)Delegate.Combine(
-				boonCard.CursorSelectEnded,
-				new Action<MainInputInteractable>(OnBoonSelected)
-			);
+			boonCard.CursorSelectEnded += OnBoonSelected; 
 
 			Log.LogDebug($"boon card taken is false");
 			boonTaken = false;

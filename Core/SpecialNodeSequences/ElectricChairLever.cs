@@ -141,10 +141,7 @@ public class ElectricChairLever : HighlightedInteractable
 
 		HighlightCursorType = pressCursorType;
 
-		CursorSelectStarted = (Action<MainInputInteractable>)Delegate.Combine(
-			CursorSelectStarted,
-			(Action<MainInputInteractable>)ChangeRisk
-		);
+		CursorSelectStarted += ChangeRisk;
 	}
 
 	public void ResetRisk()

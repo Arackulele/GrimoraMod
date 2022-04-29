@@ -168,10 +168,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			retrieveCardInteractable.gameObject.SetActive(true);
 			retrieveCardInteractable.CursorSelectEnded = null;
 			GenericMainInputInteractable genericMainInputInteractable = retrieveCardInteractable;
-			genericMainInputInteractable.CursorSelectEnded = (Action<MainInputInteractable>)Delegate.Combine(
-				genericMainInputInteractable.CursorSelectEnded,
-				(Action<MainInputInteractable>)delegate { cancelledByClickingCard = true; }
-			);
+			genericMainInputInteractable.CursorSelectEnded += delegate { cancelledByClickingCard = true; }; 
 			confirmStone.Unpress();
 			StartCoroutine(confirmStone.WaitUntilConfirmation());
 			yield return new WaitUntil(
@@ -385,11 +382,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		selectionSlot.ClearDelegates();
 
 		SelectCardFromDeckSlot selectCardFromDeckSlot = selectionSlot;
-		selectCardFromDeckSlot.CursorSelectStarted =
-			(Action<MainInputInteractable>)Delegate.Combine(
-				selectCardFromDeckSlot.CursorSelectStarted,
-				new Action<MainInputInteractable>(OnSlotSelected)
-			);
+		selectCardFromDeckSlot.CursorSelectStarted += OnSlotSelected;
 		if (UnityRandom.value < 0.25f && VideoCameraRig.Instance)
 		{
 			VideoCameraRig.Instance.PlayCameraAnim("refocus_quick");

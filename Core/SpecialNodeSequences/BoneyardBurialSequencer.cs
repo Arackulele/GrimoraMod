@@ -85,11 +85,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 			selectionSlot.ClearDelegates();
 
 			SelectCardFromDeckSlot selectCardFromDeckSlot = selectionSlot;
-			selectCardFromDeckSlot.CursorSelectStarted =
-				(Action<MainInputInteractable>)Delegate.Combine(
-					selectCardFromDeckSlot.CursorSelectStarted,
-					new Action<MainInputInteractable>(OnSlotSelected)
-				);
+			selectCardFromDeckSlot.CursorSelectStarted += OnSlotSelected;
 			if (UnityRandom.value < 0.25f && VideoCameraRig.Instance)
 			{
 				VideoCameraRig.Instance.PlayCameraAnim("refocus_quick");
@@ -211,10 +207,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		Log.LogDebug($"Playing lowering sequence");
 		Vector3 targetPos = new Vector3(0, 5, 0);
 		Tween.Position(revenantCard.transform, revenantCard.transform.position - targetPos, 2f, 0f);
-		revenantSelectableCard.CursorSelectEnded = (Action<MainInputInteractable>)Delegate.Combine(
-			revenantSelectableCard.CursorSelectEnded,
-			(Action<MainInputInteractable>)delegate { cardGrabbed = true; }
-		);
+		revenantSelectableCard.CursorSelectEnded += delegate { cardGrabbed = true; };
 		yield return new WaitUntil(() => cardGrabbed);
 
 		RuleBookController.Instance.SetShown(false);
