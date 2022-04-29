@@ -22,7 +22,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 		stoneCircleAnim.gameObject.SetActive(true);
 		yield return new WaitForSeconds(0.5f);
-		if (!ConfigHelper.HasLearnedMechanicCardRemoval)
+		if (!EventManagement.HasLearnedMechanicCardRemoval)
 		{
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"HE WILL PROVIDE A HELPFUL OR HARMFUL CURSE UPON YOUR ARMY IF YOU LEAVE HIM AN OFFERING."
@@ -37,11 +37,11 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			GameColors.Instance.orange,
 			0.1f
 		);
-		if (!ConfigHelper.HasLearnedMechanicCardRemoval)
+		if (!EventManagement.HasLearnedMechanicCardRemoval)
 		{
 			yield return TextDisplayer.Instance.ShowUntilInput("I HOPE FOR YOUR SAKE HE IS FEELING GENEROUS.");
 
-			ConfigHelper.HasLearnedMechanicCardRemoval = true;
+			EventManagement.HasLearnedMechanicCardRemoval = true;
 		}
 
 		sacrificeSlot.RevealAndEnable();

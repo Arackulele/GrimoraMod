@@ -43,7 +43,7 @@ public class GrimoraGameFlowManagerPatches
 
 		ViewManager.Instance.SwitchToView(View.Default, true);
 
-		if (StoryEventsData.EventCompleted(StoryEvent.GrimoraReachedTable))
+		if (StoryEventsData.EventCompleted(EventManagement.HasReachedTable))
 		{
 			Log.LogDebug($"[SceneSpecificInitialization] GrimoraReachedTable is true.");
 			AudioController.Instance.SetLoopAndPlay("finalegrimora_ambience");
@@ -78,10 +78,10 @@ public class GrimoraGameFlowManagerPatches
 
 			__instance.StartCoroutine(((GrimoraGameFlowManager)GameFlowManager.Instance).RevealGrimoraSequence());
 
-			StoryEventsData.SetEventCompleted(StoryEvent.GrimoraReachedTable, true);
+			StoryEventsData.SetEventCompleted(EventManagement.HasReachedTable, true);
 		}
 
-		ConfigHelper.HasLoadedIntoModBefore = true;
+		EventManagement.HasLoadedIntoModBefore = true;
 
 		return false;
 	}

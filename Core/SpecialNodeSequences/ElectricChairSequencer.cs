@@ -49,13 +49,13 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		}
 		else
 		{
-			if (!ConfigHelper.HasLearnedMechanicElectricChair)
+			if (!EventManagement.HasLearnedMechanicElectricChair)
 			{
 				yield return TextDisplayer.Instance.ShowUntilInput("OH! I LOVE THIS ONE!");
 				yield return TextDisplayer.Instance.ShowUntilInput($"YOU STRAP ONE OF YOUR CARDS TO THE CHAIR, {"EMPOWERING".Blue()} IT!");
 				yield return TextDisplayer.Instance.ShowUntilInput("OF COURSE, IT DOESN'T HURT.\nYOU CAN'T DIE TWICE AFTER ALL.");
 
-				ConfigHelper.HasLearnedMechanicElectricChair = true;
+				EventManagement.HasLearnedMechanicElectricChair = true;
 			}
 
 			yield return UntilFinishedBuffingOrCardIsDestroyed();

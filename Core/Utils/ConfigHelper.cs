@@ -16,36 +16,6 @@ public class ConfigHelper
 		StoryEvent.TutorialRun2Completed, StoryEvent.TutorialRun3Completed
 	};
 
-	public static bool HasLoadedIntoModBefore
-	{
-		get => ModdedSaveManager.SaveData.GetValueAsBoolean(GUID, "HasLoadedIntoModBefore");
-		set => ModdedSaveManager.SaveData.SetValue(GUID, "HasLoadedIntoModBefore", value);
-	}
-
-	public static bool HasLearnedMechanicBoneyard
-	{
-		get => ModdedSaveManager.SaveData.GetValueAsBoolean(GUID, "Boneyard");
-		set => ModdedSaveManager.SaveData.SetValue(GUID, "Boneyard", value);
-	}
-	
-	public static bool HasLearnedMechanicCardRemoval
-	{
-		get => ModdedSaveManager.SaveData.GetValueAsBoolean(GUID, "CardRemoval");
-		set => ModdedSaveManager.SaveData.SetValue(GUID, "CardRemoval", value);
-	}
-	
-	public static bool HasLearnedMechanicElectricChair
-	{
-		get => ModdedSaveManager.SaveData.GetValueAsBoolean(GUID, "ElectricChair");
-		set => ModdedSaveManager.SaveData.SetValue(GUID, "ElectricChair", value);
-	}
-	
-	public static bool HasLearnedMechanicHammerSmashes
-	{
-		get => ModdedSaveManager.SaveData.GetValueAsBoolean(GUID, "HammerSmashes");
-		set => ModdedSaveManager.SaveData.SetValue(GUID, "HammerSmashes", value);
-	}
-
 	private static ConfigHelper m_Instance;
 	public static ConfigHelper Instance => m_Instance ??= new ConfigHelper();
 
@@ -56,11 +26,11 @@ public class ConfigHelper
 
 	public const string DefaultRemovedPieces =
 		"BossFigurine,"
-		+ "ChessboardChestPiece,"
-		+ "EnemyPiece_Skelemagus,EnemyPiece_Gravedigger,"
-		+ "Tombstone_North1,"
-		+ "Tombstone_Wall1,Tombstone_Wall2,Tombstone_Wall3,Tombstone_Wall4,Tombstone_Wall5,"
-		+ "Tombstone_South1,Tombstone_South2,Tombstone_South3,";
+	+ "ChessboardChestPiece,"
+	+ "EnemyPiece_Skelemagus,EnemyPiece_Gravedigger,"
+	+ "Tombstone_North1,"
+	+ "Tombstone_Wall1,Tombstone_Wall2,Tombstone_Wall3,Tombstone_Wall4,Tombstone_Wall5,"
+	+ "Tombstone_South1,Tombstone_South2,Tombstone_South3,";
 
 	private ConfigEntry<bool> _configEndlessMode;
 
@@ -101,13 +71,13 @@ public class ConfigHelper
 	private ConfigEntry<bool> _configHotReloadEnabled;
 
 	public bool IsHotReloadEnabled => _configHotReloadEnabled.Value;
-	
+
 	private ConfigEntry<int> _configEncounterBlueprintType;
 
 	public BlueprintTypeForEncounter EncounterBlueprintType => (BlueprintTypeForEncounter)Enum.GetValues(typeof(BlueprintTypeForEncounter)).GetValue(_configEncounterBlueprintType.Value);
 
 	private ConfigEntry<string> _configCurrentRemovedPieces;
-	
+
 	private ConfigEntry<int> _configInputConfig;
 
 	public int InputType => _configInputConfig.Value;
@@ -121,7 +91,7 @@ public class ConfigHelper
 	private ConfigEntry<int> _configElectricChairBurnRateType;
 
 	public int ElectricChairBurnRateType => _configElectricChairBurnRateType.Value;
-	
+
 	public int BonesToAdd => BossesDefeated;
 
 	internal void BindConfig()
@@ -179,9 +149,9 @@ public class ConfigHelper
 			0,
 			new ConfigDescription(
 				"0 = Default. Use the mod's internal blueprint system."
-				+ "\n1 = Randomized. Encounters are completely randomized using the mod's internal card pool."
-				+ "\n2 = Custom. Encounters are from made and used from the JSON files."
-				+ "\n3 = Mixed. Encounters are from both default list and custom list."
+			+ "\n1 = Randomized. Encounters are completely randomized using the mod's internal card pool."
+			+ "\n2 = Custom. Encounters are from made and used from the JSON files."
+			+ "\n3 = Mixed. Encounters are from both default list and custom list."
 			)
 		);
 
@@ -190,7 +160,7 @@ public class ConfigHelper
 			"Input Movement Type",
 			0,
 			"0 = W for viewing deck, S for getting up from the table."
-			+ "\n1 = Up arrow for viewing deck, down arrow for getting up from the table."
+		+ "\n1 = Up arrow for viewing deck, down arrow for getting up from the table."
 		);
 
 		_configElectricChairBurnRateType = GrimoraConfigFile.Bind(
@@ -198,9 +168,9 @@ public class ConfigHelper
 			"Electric Chair Burn Rate",
 			0,
 			"0 = Default. Flat 50% burn rate for each lever option on second shock."
-			+ "\n1 = Base 30% chance to burn plus 0%, 10%, or 20% for low, medium, high, respectively. Meaning, if the first shock is high then the second is high, the chance for the card to be destroyed is 70%."
-			+ "\n2 = Low: 12.5%, Medium: 17.5%, High 30%. Meaning, if the first shock is high, then the second one is also high, the chance for the card to be destroyed is 60%."
-			+ "\n3 = Low: 12.5%, Medium: 20%, High 27.5%. Meaning, if the first shock is high, then the second one is also high, the chance for the card to be destroyed is 55%."
+		+ "\n1 = Base 30% chance to burn plus 0%, 10%, or 20% for low, medium, high, respectively. Meaning, if the first shock is high then the second is high, the chance for the card to be destroyed is 70%."
+		+ "\n2 = Low: 12.5%, Medium: 17.5%, High 30%. Meaning, if the first shock is high, then the second one is also high, the chance for the card to be destroyed is 60%."
+		+ "\n3 = Low: 12.5%, Medium: 20%, High 27.5%. Meaning, if the first shock is high, then the second one is also high, the chance for the card to be destroyed is 55%."
 		);
 
 		var list = _configCurrentRemovedPieces.Value.Split(',').ToList();
@@ -247,7 +217,7 @@ public class ConfigHelper
 
 		ResetConfig();
 		ResetDeck();
-		StoryEventsData.EraseEvent(StoryEvent.GrimoraReachedTable);
+		ModdedSaveManager.SaveData.SetValue(GUID, "StoryEvent_HasReachedTable", false);
 		SaveManager.SaveToFile();
 	}
 
@@ -274,7 +244,7 @@ public class ConfigHelper
 
 	private void ResetConfigDataIfGrimoraHasNotReachedTable()
 	{
-		if (!HasLoadedIntoModBefore)
+		if (!EventManagement.HasLoadedIntoModBefore)
 		{
 			Log.LogWarning($"Grimora has not reached the table yet, resetting values to false again.");
 			ResetConfig();
@@ -295,9 +265,9 @@ public class ConfigHelper
 			{
 				Log.LogError(
 					"Failed to unlock all necessary mechanics with [ProgressionData.UnlockAll]. "
-					+ "There's something wrong with your save file or your computer reading data/files. "
-					+ "This should not throw an exception and I have no idea how to fix this for you."
-					+ "If the combat bell doesn't show up, restart your game."
+				+ "There's something wrong with your save file or your computer reading data/files. "
+				+ "This should not throw an exception and I have no idea how to fix this for you."
+				+ "If the combat bell doesn't show up, restart your game."
 				);
 			}
 

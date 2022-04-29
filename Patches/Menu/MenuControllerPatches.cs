@@ -21,7 +21,7 @@ public class MenuControllerPatches
 				Log.LogWarning($"[MenuController.OnCardReachedSlot] Saving before exiting");
 				SaveManager.SaveToFile();
 			}
-			else if (card.menuAction == MenuAction.EndRun)
+			else if (!SaveFile.IsAscension && card.MenuAction == MenuAction.EndRun)
 			{
 				__instance.DoingCardTransition = false;
 				card.transform.parent = __instance.menuSlot.transform;
@@ -66,6 +66,27 @@ public class MenuControllerPatches
 				CreateButtonResetRun(__instance);
 			}
 		}
+	}
+	
+	[HarmonyPrefix, HarmonyPatch(nameof(MenuController.LoadGameFromMenu))]
+	[HarmonyBefore(AscensionRelatedPatches.P03ModGuid)]
+	public static bool LoadGameFromMenu(bool newGameGBC)
+	{
+		Log.LogDebug($"[MenuController.LoadGameFromMenu] " +
+		             $"NewGameGBC [{newGameGBC}] " +
+		             $"SaveFile.IsAscension [{SaveFile.IsAscension}] " +
+		             $"Is Grimora run? [{SaveDataRelatedPatches.IsGrimoraRun}] " +
+		             $"CurrentRun [{AscensionSaveData.Data.currentRun}]");
+		if (!newGameGBC && SaveFile.IsAscension && SaveDataRelatedPatches.IsGrimoraRun)
+		{
+			Log.LogDebug($"[MenuController.LoadGameFromMenu] --> Save file is ascension and IsGrimoraRun");
+			SaveManager.LoadFromFile();
+			LoadingScreenManager.LoadScene("finale_grimora");
+			SaveManager.savingDisabled = false;
+			return false;
+		}
+
+		return true;
 	}
 
 	public static MenuCard CreateButtonResetRun(MenuController controller)

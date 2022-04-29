@@ -60,7 +60,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		}
 		else
 		{
-			if (!ConfigHelper.HasLearnedMechanicBoneyard)
+			if (!EventManagement.HasLearnedMechanicBoneyard)
 			{
 				yield return TextDisplayer.Instance.ShowUntilInput(
 					"A LONE GRAVE SITS SOLEMNLY IN FRONT OF YOU.",
@@ -127,7 +127,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 				finishedBuffing = true;
 			}
 
-			if (ConfigHelper.HasLearnedMechanicBoneyard)
+			if (EventManagement.HasLearnedMechanicBoneyard)
 			{
 				yield return TextDisplayer.Instance.ShowUntilInput("MARVELOUS! THEY CAME CRAWLING BACK AFTER YOU BURIED THEM.");
 				yield return TextDisplayer.Instance.ShowUntilInput("THEY STILL CARE ABOUT YOU IT SEEMS!");
@@ -142,7 +142,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 				);
 				yield return TextDisplayer.Instance.ShowUntilInput("THOUGH THE WEIGHT OF CONSEQUENCE ALSO SEEMS LIFTED...");
 
-				ConfigHelper.HasLearnedMechanicBoneyard = true;
+				EventManagement.HasLearnedMechanicBoneyard = true;
 			}
 		}
 		
