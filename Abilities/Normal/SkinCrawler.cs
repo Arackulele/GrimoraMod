@@ -178,7 +178,8 @@ public class SkinCrawler : AbilityBehaviour
 		+ $"otherCard.Slot != Card.Slot [{otherCard.Slot != Card.Slot}]"
 		);
 
-		return _slotHidingUnderCard.IsNull()
+		return _slotHidingUnderCard.SafeIsUnityNull()
+		    && otherCard.LacksAbility(ability)
 		    && otherCard.Slot != Card.Slot
 		    && CardIsAdjacent(otherCard);
 	}
