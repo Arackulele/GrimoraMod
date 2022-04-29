@@ -1,4 +1,6 @@
-﻿namespace GrimoraMod;
+﻿using DiskCardGame;
+
+namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
@@ -8,6 +10,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 		 .SetAsRareCard()
+		 .SetAbilities(Ability.Brittle)
 		 .SetSpecialAbilities(OurobonesBattle.FullSpecial.Id)
 		 .SetBaseAttackAndHealth(1, 1)
 		 .SetBoneCost(2)
