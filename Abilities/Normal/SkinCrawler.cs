@@ -171,10 +171,11 @@ public class SkinCrawler : AbilityBehaviour
 
 	public override bool RespondsToOtherCardAssignedToSlot(PlayableCard otherCard)
 	{
-		Log.LogDebug(
+		Log.LogInfo(
 			$"[Crawler.RespondsToOtherCardAssignedToSlot]"
-		+ $" This {Card.GetNameAndSlot()} OtherCard {otherCard.GetNameAndSlot()} "
+		+ $" This [{Card.GetNameAndSlot()}] OtherCard {otherCard.GetNameAndSlot()} "
 		+ $"_slotHidingUnderCard [{_slotHidingUnderCard}] "
+		+ $"other card does not have skin crawler [{otherCard.LacksAbility(ability)}] "
 		+ $"otherCard.Slot != Card.Slot [{otherCard.Slot != Card.Slot}]"
 		);
 
@@ -254,6 +255,7 @@ public class SkinCrawlerSlot : NonCardTriggerReceiver
 	{
 		Log.LogInfo($"[CrawlerSlot.RespondsToOtherCardDie] "
 		          + $"Crawler [{skinCrawlerCard.GetNameAndSlot()}] Dying Card [{card.GetNameAndSlot()}] deathSlot [{deathSlot.name}] "
+		          + $"Dying card does not have ice cube? [{card.LacksAbility(Ability.IceCube)}] "
 		          + $"hidingOnSlot [{hidingOnSlot}] is deathSlot? [{hidingOnSlot == deathSlot}]"
 		          + $"hiding under card [{hidingUnderCard}] is dying card? [{hidingUnderCard == card}]"
 		);

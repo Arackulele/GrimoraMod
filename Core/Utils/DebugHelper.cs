@@ -1,4 +1,5 @@
-﻿using DiskCardGame;
+﻿using System.Collections;
+using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers.Extensions;
@@ -218,7 +219,7 @@ public class DebugHelper : ManagedBehaviour
 			_combatBell ??= ((BoardManager3D)BoardManager.Instance).Bell.gameObject;
 			_handModel ??= ((PlayerHand3D)PlayerHand.Instance).anim.transform.Find("HandModel_Male").gameObject;
 			_hammer ??= GrimoraItemsManagerExt.Instance.hammerSlot.gameObject;
-			
+
 			SetupInBattleHelpers();
 		}
 		else
@@ -425,7 +426,7 @@ public class DebugHelper : ManagedBehaviour
 			_toggleSpawnCardInAllOpponentSlots.isOn,
 			"Spawn All Opponent Slots"
 		);
-		
+
 		if (_toggleDebugBaseModCardsHand.isOn || _toggleDebugCustomCardsHand.isOn)
 		{
 			int selectedButton = GUI.SelectionGrid(
@@ -473,21 +474,19 @@ public class DebugHelper : ManagedBehaviour
 
 			if (selectedButton >= 0)
 			{
+				CardInfo cardToSpawn = AllGrimoraModCards[selectedButton];
 				var activeToggle = _toggleGroupsSpawningCards.ActiveToggles().First();
-				if (int.TryParse(activeToggle.name.Substring(activeToggle.name.Length - 1), out int num))
-				{
-					StartCoroutine(BoardManager.Instance.OpponentSlotsCopy[num].CreateCardInSlot(AllGrimoraModCards[selectedButton]));
-				}
-				else
-				{
-					BoardManager.Instance.OpponentSlotsCopy.ForEach(slot => StartCoroutine(slot.CreateCardInSlot(AllGrimoraModCards[selectedButton])));
-				}
+				StartCoroutine(int.TryParse(activeToggle.name.Substring(activeToggle.name.Length - 1), out int num)
+					               ? BoardManager.Instance.OpponentSlotsCopy[num].CreateCardInSlot(cardToSpawn)
+					               : SpawnCardAtSlots(BoardManager.Instance.OpponentSlotsCopy, cardToSpawn)
+				);
 			}
 		}
 	}
 
-	private void DoWhenButtonPressed(Action action)
+	private IEnumerator SpawnCardAtSlots(List<CardSlot> slots, CardInfo cardToSpawn)
 	{
+		return slots.Select(cardSlot => cardSlot.CreateCardInSlot(cardToSpawn)).GetEnumerator();
 	}
 
 	private void HandleChestPieces()
