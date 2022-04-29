@@ -71,7 +71,7 @@ public class SaveDataRelatedPatches
 		{
 			if (__result == null)
 			{
-				Log.LogWarning($"[RunState.Run.Getter] RunState was null, creating new one");
+				Log.LogError($"[RunState.Run.Getter] RunState was null! This should not be null at almost any point.");
 			}
 			__result ??= new RunState();
 		}
@@ -105,7 +105,7 @@ public class SaveDataRelatedPatches
 			// If not, we will end up creating one
 
 			string compressedString = FileUtils.ToCompressedJSON(SaveManager.SaveFile.grimoraData);
-			Log.LogInfo($"[GrimoraMod.SaveManager] Saving {SaveKey}, compressed string [{compressedString}]");
+			Log.LogInfo($"[GrimoraMod.SaveManager] Saving {SaveKey}");
 			ModdedSaveManager.SaveData.SetValue(GUID, SaveKey, compressedString);
 
 			// Then, right before we actually save the data, we swap back in the original part3 data
@@ -141,10 +141,8 @@ public class SaveDataRelatedPatches
 		[HarmonyAfter(InscryptionAPI.InscryptionAPIPlugin.ModGUID)]
 		public static void LoadGrimoraAscensionSaveData()
 		{
-			string saveKey = SaveKey;
 			string grimoraData = ModdedSaveManager.SaveData.GetValue(GUID, SaveKey);
 			GrimoraSaveData data = FileUtils.FromCompressedJSON<GrimoraSaveData>(grimoraData);
-			Log.LogDebug($"[SaveManager.LoadFromFile] Save key is [{saveKey}] GrimoraData [{grimoraData}] Data [{data}]");
 
 			if (data == null)
 			{
@@ -175,8 +173,6 @@ public class SaveDataRelatedPatches
 				data.Initialize();
 				SaveManager.SaveFile.grimoraData = data;
 			}
-
-			Log.LogInfo($"[AscensionSaveData.NewRun] CurrentRun [{__instance.currentRun}] player lives [{__instance.currentRun?.playerLives}]");
 		}
 
 		[HarmonyPrefix, HarmonyPatch(nameof(AscensionSaveData.EndRun))]
@@ -188,14 +184,6 @@ public class SaveDataRelatedPatches
 				SaveManager.SaveFile.grimoraData = null;
 				ModdedSaveManager.SaveData.SetValue(GUID, AscensionSaveKey, default(string));
 			}
-			
-			Log.LogInfo($"[AscensionSaveData.EndRun.Prefix] CurrentRun [{__instance.currentRun}]");
-		}
-		
-		[HarmonyPostfix, HarmonyPatch(nameof(AscensionSaveData.EndRun))]
-		public static void CheckCurrentRun(ref AscensionSaveData __instance)
-		{
-			Log.LogInfo($"[AscensionSaveData.EndRun.Postfix] CurrentRun [{__instance.currentRun}]");
 		}
 	}
 
