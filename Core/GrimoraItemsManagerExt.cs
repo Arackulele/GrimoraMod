@@ -55,6 +55,9 @@ public class GrimoraItemsManagerExt : ItemsManager
 		{
 			Destroy(FindObjectOfType<Part3ItemsManager>().gameObject);
 		}
+
+		// TODO: disable all consumable item slots so the items dont cause a shit load of exceptions
+		ext.consumableSlots.ForEach(slot => slot.gameObject.SetActive(false));
 	}
 }
 
