@@ -15,8 +15,8 @@ public class RulebookInfoPatches
 		Ability.ActivatedDrawSkeleton, // rethemed as Disinter
 		Ability.ActivatedRandomPowerBone,
 		Ability.ActivatedSacrificeDrawCards,
-		Ability.Apparition,
-		Ability.BloodGuzzler,
+		Ability.Apparition, // doesn't work
+		Ability.BloodGuzzler, // implemented as custom ability
 		Ability.BuffGems,
 		Ability.CellBuffSelf,
 		Ability.CellDrawRandomCardOnDeath,
@@ -46,19 +46,19 @@ public class RulebookInfoPatches
 		Ability.GainGemTriple,
 		Ability.GemDependant,
 		Ability.GemsDraw,
-		Ability.Haunter,
+		Ability.Haunter, // implemented as custom ability
 		Ability.HydraEgg,
 		Ability.Morsel,
-		Ability.PermaDeath,
-		Ability.RandomAbility,
-		Ability.Sacrificial,
+		Ability.PermaDeath, // not fun
+		Ability.RandomAbility, // implemented as GrimoraRandomAbility
+		Ability.Sacrificial, // lol blood
 		Ability.ShieldGems,
-		Ability.Sinkhole,
-		Ability.SquirrelOrbit,
-		Ability.SquirrelStrafe,
+		Ability.Sinkhole, // doesn't work
+		Ability.SquirrelOrbit, // NO SQUIRRELS
+		Ability.SquirrelStrafe, // NO SQUIRRELS
 		Ability.Transformer,
-		Ability.TripleBlood,
-		Ability.VirtualReality
+		Ability.TripleBlood, // lol blood
+		Ability.VirtualReality // // doesn't work
 	};
 
 	[HarmonyAfter(InscryptionAPI.InscryptionAPIPlugin.ModGUID)]
