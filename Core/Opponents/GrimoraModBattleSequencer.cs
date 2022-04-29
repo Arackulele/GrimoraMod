@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Encounters;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -129,7 +130,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 	{
 		Log.LogDebug(
 			$"[GModBattleSequencer] Adding [{card.InfoName()}] to cardsThatHaveDiedThisGame. "
-			+ $"Current count [{_cardsThatHaveDiedThisMatch.Count + 1}]"
+		+ $"Current count [{_cardsThatHaveDiedThisMatch.Count + 1}]"
 		);
 		_cardsThatHaveDiedThisMatch.Add(card.Info);
 		yield break;
@@ -140,10 +141,10 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		Log.LogDebug($"[GetFixedOpeningHand] Getting randomized list for starting hand");
 		var cardsToAdd = new List<CardInfo>();
 		var gravedigger = GrimoraSaveUtil.DeckList.Find(info => info.name.Equals(NameGravedigger));
-		var bonepile = GrimoraSaveUtil.DeckList.Find(info => info.name.Equals(NameBonepile));
-		if (bonepile)
+		var bonePile = GrimoraSaveUtil.DeckList.Find(info => info.name.Equals(NameBonepile));
+		if (bonePile)
 		{
-			cardsToAdd.Add(bonepile);
+			cardsToAdd.Add(bonePile);
 		}
 		else if (gravedigger)
 		{
