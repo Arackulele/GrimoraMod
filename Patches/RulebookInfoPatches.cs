@@ -86,9 +86,23 @@ public class RulebookInfoPatches
 			 .ForEach(
 					x =>
 					{
-						if (x.ability == Ability.DoubleDeath)
+						switch (x.ability)
 						{
-							x.rulebookName = "Double Death";
+							case Ability.DoubleDeath:
+							{
+								x.rulebookName = "Double Death";
+								break;
+							}
+							case Ability.ActivatedRandomPowerEnergy:
+							{
+								x.rulebookDescription = "Pay 1 Energy to add power to [creature] randomly between 1 and 6.";
+								break;
+							}
+							case Ability.ActivatedHeal:
+							{
+								x.rulebookDescription = "Pay 2 Bones to heal [creature] to max health.";
+								break;
+							}
 						}
 					}
 				)
