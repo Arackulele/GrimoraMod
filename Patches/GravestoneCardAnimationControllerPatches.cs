@@ -31,7 +31,7 @@ public class CardAnimationControllerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(CardAnimationController.PlayTransformAnimation))]
 	public static bool PlayCardFlipAnim(CardAnimationController __instance)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			return true;
 		}

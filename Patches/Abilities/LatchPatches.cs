@@ -2,6 +2,7 @@
 using DiskCardGame;
 using HarmonyLib;
 using Pixelplacement;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -12,7 +13,7 @@ public class LatchPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(Latch.OnPreDeathAnimation))]
 	public static IEnumerator PostfixChangeLogicForGrimora(IEnumerator enumerator, Latch __instance, bool wasSacrifice)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			yield return enumerator;
 			yield break;

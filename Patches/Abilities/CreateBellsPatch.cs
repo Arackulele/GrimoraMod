@@ -9,7 +9,7 @@ public class CreateBellsPatch
 	[HarmonyPrefix, HarmonyPatch(nameof(CreateBells.SpawnedCardId), MethodType.Getter)]
 	public static bool ChangeBellsToCustomBells(ref string __result)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			return true;
 		}

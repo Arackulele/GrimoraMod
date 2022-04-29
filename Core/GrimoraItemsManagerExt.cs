@@ -64,7 +64,7 @@ public class AddNewHammerExt
 	[HarmonyPrefix, HarmonyPatch(nameof(ItemSlot.CreateItem))]
 	public static bool InitHammerExtAfter(ItemSlot __instance, ItemData data, bool skipDropAnimation = false)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			return true;
 		}
@@ -100,7 +100,7 @@ public class DeactivateHammerAfterThreeUses
 	public static IEnumerator CheckHammerForThreeUses(IEnumerator enumerator, ConsumableItemSlot __instance)
 	{
 		yield return enumerator;
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			yield break;
 		}
@@ -127,7 +127,7 @@ public class FirstPersonHammerPatch
 		Action<int> keyframesCallback = null
 	)
 	{
-		if (GrimoraSaveUtil.isNotGrimora || !prefabName.Contains("FirstPersonHammer"))
+		if (GrimoraSaveUtil.IsNotGrimora || !prefabName.Contains("FirstPersonHammer"))
 		{
 			return true;
 		}

@@ -21,7 +21,7 @@ public class RareCardChoicesSequencerPatch
 	[HarmonyPostfix, HarmonyPatch(nameof(RareCardChoicesSequencer.ChooseRareCard))]
 	public static IEnumerator ChangeDeckListRunState(IEnumerator enumerator, RareCardChoicesSequencer __instance)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			yield return enumerator;
 			yield break;

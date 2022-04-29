@@ -17,7 +17,7 @@ public class AbilitiesUtilPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(AbilitiesUtil.LoadAbilityIcon))]
 	public static bool ChangeStupidNegativeYScalingLogWarning(ref Texture __result, string abilityName, bool fillerAbility = false, bool scratched = false)
 	{
-		if (GrimoraSaveUtil.isNotGrimora || !UpdatedLatchIcons.ContainsKey(abilityName))
+		if (GrimoraSaveUtil.IsNotGrimora || !UpdatedLatchIcons.ContainsKey(abilityName))
 		{
 			return true;
 		}

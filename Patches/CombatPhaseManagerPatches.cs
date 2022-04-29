@@ -22,7 +22,7 @@ public class CombatPhaseManagerPatches
 		CardSlot slot
 	)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			yield return enumerator;
 			yield break;
@@ -65,7 +65,23 @@ public class CombatPhaseManagerPatches
 					yield return new WaitForSeconds(0.25f);
 				}
 
-				if (opposingSlot.Card)
+				if (opposingSlot.Card && giantCard.AttackIsBlocked(opposingSlot))
+				{
+					yield return __instance.ShowCardBlocked(giantCard);
+				}
+				else if (giantCard.CanAttackDirectly(opposingSlot))
+				{
+					__instance.DamageDealtThisPhase += giantCard.Attack;
+					yield return __instance.VisualizeCardAttackingDirectly(slot, opposingSlot, giantCard.Attack);
+					if (giantCard.TriggerHandler.RespondsToTrigger(Trigger.DealDamageDirectly, giantCard.Attack))
+					{
+						yield return giantCard.TriggerHandler.OnTrigger(
+							Trigger.DealDamageDirectly,
+							giantCard.Attack
+						);
+					}
+				}
+				else
 				{
 					Log.LogInfo($"[SlotAttackSequence.Giant] Giant is now targeting card {opposingSlot.Card.GetNameAndSlot()}, playing with impact keyframes, is doing attack anim? [{giantCard.Anim.DoingAttackAnimation}]");
 					bool impactFrameReached = false;
@@ -93,11 +109,7 @@ public class CombatPhaseManagerPatches
 					}
 
 					Log.LogInfo($"[SlotAttackSequence.Giant] --> Finished custom SlotAttackSlot, is doing attack anim? [{giantCard.Anim.DoingAttackAnimation}]");
-				}
-				else
-				{
-					__instance.DamageDealtThisPhase += giantCard.Attack;
-					yield return __instance.VisualizeCardAttackingDirectly(slot, opposingSlot, giantCard.Attack);
+
 				}
 
 				yield return new WaitForSeconds(0.1f);

@@ -9,7 +9,7 @@ public class CardSpawnerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(CardSpawner.SpawnPlayableCardWithCopiedMods))]
 	public static void CheckForLooseLimb(CardInfo info, PlayableCard copyFrom, ref Ability excludedAbility, ref PlayableCard __result)
 	{
-		if (GrimoraSaveUtil.isGrimora && excludedAbility == Ability.TailOnHit)
+		if (GrimoraSaveUtil.IsGrimora && excludedAbility == Ability.TailOnHit)
 		{
 			GrimoraPlugin.Log.LogDebug($"[SpawnPlayableCardWithCopiedMods] Changing TailOnHit ability to Loose Limb");
 			excludedAbility = LooseLimb.ability;
@@ -19,7 +19,7 @@ public class CardSpawnerPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(CardSpawner.SpawnPlayableCard))]
 	public static void AddCustomAttackPrefabs(CardInfo info, ref PlayableCard __result)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			return;
 		}

@@ -13,7 +13,7 @@ public class ViewControllerPatches
 		bool immediate = false
 	)
 	{
-		if (GrimoraSaveUtil.isNotGrimora || mode != ViewController.ControlMode.Map)
+		if (GrimoraSaveUtil.IsNotGrimora || mode != ViewController.ControlMode.Map)
 		{
 			return true;
 		}

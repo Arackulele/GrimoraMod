@@ -11,7 +11,7 @@ public class GlitchOutAssetEffectPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(GlitchOutAssetEffect.ShowDeletionInUI))]
 	public static bool DoNotShowWindowIfDisabled(Transform parent)
 	{
-		return GrimoraSaveUtil.isNotGrimora || GrimoraGameFlowManager.Instance.CurrentGameState != GameState.CardBattle;
+		return GrimoraSaveUtil.IsNotGrimora || GrimoraGameFlowManager.Instance.CurrentGameState != GameState.CardBattle;
 	}
 	
 }

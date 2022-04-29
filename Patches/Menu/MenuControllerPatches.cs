@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static GrimoraMod.GrimoraPlugin;
@@ -13,7 +14,7 @@ public class MenuControllerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(MenuController.OnCardReachedSlot))]
 	public static bool OnCardReachedSlotPatch(MenuController __instance, MenuCard card, bool skipTween = false)
 	{
-		if (GrimoraSaveUtil.isGrimora)
+		if (GrimoraSaveUtil.IsGrimora)
 		{
 			if (card.MenuAction == MenuAction.ReturnToStartMenu)
 			{
@@ -58,7 +59,7 @@ public class MenuControllerPatches
 				__instance.cards.Add(CreateMenuButton(__instance));
 			}
 		}
-		else if (GrimoraSaveUtil.isGrimora)
+		else if (GrimoraSaveUtil.IsGrimora)
 		{
 			if (__instance.cardRow.Find("MenuCard_ResetRun").SafeIsUnityNull())
 			{

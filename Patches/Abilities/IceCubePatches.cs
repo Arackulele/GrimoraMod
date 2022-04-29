@@ -18,7 +18,7 @@ public class IceCubePatches
 		PlayableCard killer
 	)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			yield return enumerator;
 			yield break;

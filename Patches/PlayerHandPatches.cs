@@ -16,7 +16,7 @@ public class PlayerHandPatches
 		CardSlot slot
 	)
 	{
-		if (GrimoraSaveUtil.isGrimora && __instance.CardsInHand.Contains(card) && card.HasAbility(MarchingDead.ability))
+		if (GrimoraSaveUtil.IsGrimora && __instance.CardsInHand.Contains(card) && card.HasAbility(MarchingDead.ability))
 		{
 			card.GetComponent<MarchingDead>().SetAdjCardsToPlay(__instance.CardsInHand);
 		}

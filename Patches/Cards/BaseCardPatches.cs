@@ -12,7 +12,7 @@ public class BaseCardPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(Card.SetCardbackSubmerged))]
 	public static bool SetCardbackSubmergedFixWhenDeadPatch(Card __instance)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			return true;
 		}
@@ -33,7 +33,7 @@ public class BaseCardPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(Card.SetInfo))]
 	public static void AddNewController(Card __instance, CardInfo info)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			return;
 		}

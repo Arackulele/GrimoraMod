@@ -69,7 +69,7 @@ public class RulebookInfoPatches
 		ref List<RuleBookPageInfo> __result
 	)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			return;
 		}

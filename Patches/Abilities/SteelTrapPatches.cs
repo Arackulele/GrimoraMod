@@ -10,7 +10,7 @@ public class SteelTrapPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(SteelTrap.CardToDraw), MethodType.Getter)]
 	public static bool ChangeCardToDrawToVellum(ref CardInfo __result)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			return true;
 		}
