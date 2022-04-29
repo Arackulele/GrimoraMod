@@ -19,7 +19,6 @@ public class StartScreenPatches
 		}
 
 		grimoraTheme.bgSpriteWide = AssetUtils.GetPrefab<Sprite>("Background");
-		grimoraTheme.triggeringEvent = StoryEvent.PlayerDeletedArchivistFile;
 
 		__instance.SetTheme(grimoraTheme);
 	}
