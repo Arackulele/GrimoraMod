@@ -37,9 +37,9 @@ public class ChessboardMapExt : GameMap
 	public bool ChangingRegion { get; set; }
 
 	public bool BossDefeated { get; protected internal set; }
-	
+
 	public GrimoraChessboard ActiveChessboard { get; set; }
-	
+
 	private List<GrimoraChessboard> _chessboards;
 
 	private List<GrimoraChessboard> Chessboards
@@ -53,9 +53,9 @@ public class ChessboardMapExt : GameMap
 
 	public Dictionary<EncounterJson, EncounterBlueprintData> CustomBlueprintsRegions { get; set; } = new();
 	public Dictionary<EncounterJson, EncounterBlueprintData> CustomBlueprintsBosses { get; set; } = new();
-	
+
 	private Dictionary<EncounterJson, EncounterBlueprintData> _customBlueprints;
-	
+
 	public Dictionary<EncounterJson, EncounterBlueprintData> CustomBlueprints
 	{
 		get
@@ -80,8 +80,8 @@ public class ChessboardMapExt : GameMap
 			_chessboards = ParseJson(
 				SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString)
 			);
-		} 
-		
+		}
+
 		if (_customBlueprints == null)
 		{
 			_customBlueprints = new Dictionary<EncounterJson, EncounterBlueprintData>();
@@ -106,9 +106,11 @@ public class ChessboardMapExt : GameMap
 					{
 						CustomBlueprintsBosses.Add(encounterFromJson, blueprint);
 					}
+
 					_customBlueprints.Add(encounterFromJson, blueprint);
 				}
 			}
+
 			Log.LogDebug($"Final custom blueprint names: [{_customBlueprints.Join(kv => kv.Value.name)}]");
 			if(debugHelper)
 			{
@@ -161,11 +163,11 @@ public class ChessboardMapExt : GameMap
 			{
 				GUI.SelectionGrid(
 					new Rect(
-						(ConfigHelper.Instance.IsDevModeEnabled ? 400 : 25), 
-						Screen.height * 0.75f, 
-						150, 
+						(ConfigHelper.Instance.IsDevModeEnabled ? 400 : 25),
+						Screen.height * 0.75f,
+						150,
 						CardDrawPiles3D.Instance.Deck.cards.Count * 25f
-						),
+					),
 					-1,
 					CardsLeftInDeck,
 					2
@@ -313,8 +315,8 @@ public class ChessboardMapExt : GameMap
 
 		// pieces will contain the pieces just placed
 		var activePieces = pieces
-			.Where(p => !removedList.Contains(p.name))
-			.ToList();
+		 .Where(p => !removedList.Contains(p.name))
+		 .ToList();
 
 		pieces.RemoveAll(
 			delegate(ChessboardPiece piece)
@@ -392,11 +394,11 @@ public class ChessboardMapExt : GameMap
 	public void RenameMapNodesWithGridCoords()
 	{
 		if (string.Equals(
-			    navGrid.zones[0, 0].name,
-			    "ChessBoardMapNode",
-			    StringComparison.OrdinalIgnoreCase
-		    )
-		   )
+				navGrid.zones[0, 0].name,
+				"ChessBoardMapNode",
+				StringComparison.OrdinalIgnoreCase
+			)
+		)
 		{
 			var zones = ChessboardNavGrid.instance.zones;
 			for (var i = 0; i < zones.GetLength(0); i++)
