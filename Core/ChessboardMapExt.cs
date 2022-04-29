@@ -143,6 +143,24 @@ public class ChessboardMapExt : GameMap
 		}
 	}
 
+	private void Start()
+	{
+		EnableCandlesIfTheyAreDisabled();
+
+		if (FinaleDeletionWindowManager.instance && FinaleDeletionWindowManager.instance.mainWindow.isActiveAndEnabled)
+		{
+			FinaleDeletionWindowManager.instance.mainWindow.gameObject.SetActive(false);
+		}
+
+		ChangeStartDeckIfNotAlreadyChanged();
+
+		if (ConfigHelper.Instance.IsDevModeEnabled)
+		{
+			// for checking which nodes are active/inactive
+			RenameMapNodesWithGridCoords();
+		}
+	}
+
 	private void OnGUI()
 	{
 		if (GrimoraGameFlowManager.Instance.CurrentGameState == GameState.CardBattle)
@@ -225,13 +243,18 @@ public class ChessboardMapExt : GameMap
 		ConfigHelper.Instance.ResetRemovedPieces();
 	}
 
+	private void EnableCandlesIfTheyAreDisabled()
+	{
+		Transform tableCandles = CryptManager.Instance.gameObject.transform.Find("Furniture/TableCandles");
+		for (int i = 0; i < tableCandles.childCount; i++)
+		{
+			tableCandles.GetChild(i).gameObject.SetActive(true);
+		}
+	}
+
 	public override IEnumerator UnrollingSequence(float unrollSpeed)
 	{
 		InteractionCursor.Instance.InteractionDisabled = true;
-		if (FinaleDeletionWindowManager.instance && FinaleDeletionWindowManager.instance.mainWindow.isActiveAndEnabled)
-		{
-			FinaleDeletionWindowManager.instance.mainWindow.gameObject.SetActive(false);
-		}
 
 		TableRuleBook.Instance.SetOnBoard(false);
 
@@ -243,9 +266,6 @@ public class ChessboardMapExt : GameMap
 		mapAnim.Play("enter", 0, 0f);
 
 		dynamicElementsParent.gameObject.SetActive(true);
-
-		// for checking which nodes are active/inactive
-		if (ConfigHelper.Instance.IsDevModeEnabled) RenameMapNodesWithGridCoords();
 
 		// if the boss piece exists in the removed pieces,
 		// this means the game didn't complete clearing the board for changing the region
@@ -270,10 +290,9 @@ public class ChessboardMapExt : GameMap
 			);
 		}
 
-		ChangeStartDeckIfNotAlreadyChanged();
-
 		SaveManager.SaveToFile();
 		InteractionCursor.Instance.InteractionDisabled = false;
+		Log.LogDebug($"Finished unrolling chessboard");
 	}
 
 	private void UpdateActiveChessboard()
