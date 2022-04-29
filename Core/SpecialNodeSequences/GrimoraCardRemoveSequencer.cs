@@ -283,13 +283,13 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 	private List<CardInfo> GetCardsWithoutMod(string singletonId, Predicate<CardInfo> cardInfoPredicate = null)
 	{
 		return GrimoraSaveUtil.DeckList
-			.Where(
-				info => (cardInfoPredicate is null || cardInfoPredicate.Invoke(info))
-				        && info.Mods != null
-				        && !info.Mods.Exists(mod => mod.singletonId == singletonId)
+		 .Where(
+				info => (cardInfoPredicate == null || cardInfoPredicate.Invoke(info))
+				     && info.Mods.IsNotNull()
+				     && !info.Mods.Exists(mod => mod.singletonId == singletonId)
 			)
-			.Randomize()
-			.ToList();
+		 .Randomize()
+		 .ToList();
 	}
 
 	private CardModificationInfo GetModInfoFromSingletonId(string singletonId)
@@ -299,9 +299,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		string whetherIncreaseOrDecrease = splitSingleton[3];
 		var modificationInfo = new CardModificationInfo();
 
-		int howMuchToAdjust = whetherIncreaseOrDecrease.Equals("increase")
-			? 1
-			: -1;
+		int howMuchToAdjust = whetherIncreaseOrDecrease.Equals("increase") ? 1 : -1;
 
 		if (whatToApplyTo.Equals("health"))
 		{

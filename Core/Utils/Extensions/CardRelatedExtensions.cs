@@ -118,7 +118,7 @@ public static class CardRelatedExtension
 			Animator customArmPrefab = playableCard.Anim.GetCustomArm();
 			playableCard.Dead = true;
 			CardSlot slotBeforeDeath = playableCard.Slot;
-			if (playableCard.Info != null && playableCard.Info.name.ToLower().Contains("squirrel"))
+			if (playableCard.Info && playableCard.Info.name.ToLower().Contains("squirrel"))
 			{
 				AscensionStatsData.TryIncrementStat(AscensionStat.Type.SquirrelsKilled);
 			}
