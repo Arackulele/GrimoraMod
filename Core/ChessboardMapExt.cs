@@ -483,30 +483,25 @@ public class ChessboardMapExt : GameMap
 
 	private static void ChangeStartDeckIfNotAlreadyChanged()
 	{
-		if (GrimoraSaveUtil.DeckInfo.cardIds.IsNullOrEmpty())
+		Log.LogDebug($"[ChangeStartDeckIfNotAlreadyChanged] Checking if deck needs reset");
+		try
 		{
-			Log.LogWarning($"Re-initializing player deck as there are no cardIds! This means the deck was never loaded correctly.");
-			GrimoraSaveData.Data.Initialize();
-		}
-		else
-		{
-			try
-			{
-				List<CardInfo> grimoraDeck = GrimoraSaveUtil.DeckList;
+			List<CardInfo> grimoraDeck = GrimoraSaveUtil.DeckList;
 
-				int graveDiggerCount = grimoraDeck.Count(info => info.name == "Gravedigger");
-				int frankNSteinCount = grimoraDeck.Count(info => info.name == "FrankNStein");
-				if (grimoraDeck.Count == 5 && graveDiggerCount == 3 && frankNSteinCount == 2)
-				{
-					Log.LogWarning($"[ChangeStartDeckIfNotAlreadyChanged] Starter deck needs reset");
-					GrimoraSaveData.Data.Initialize();
-				}
-			}
-			catch (Exception e)
+			int graveDiggerCount = grimoraDeck.Count(info => info.name == "Gravedigger");
+			int frankNSteinCount = grimoraDeck.Count(info => info.name == "FrankNStein");
+			if (grimoraDeck.Count == 5 && graveDiggerCount == 3 && frankNSteinCount == 2)
 			{
-				Log.LogWarning($"[ChangingDeck] Had trouble retrieving deck list! Resetting deck. Current card Ids: [{GrimoraSaveUtil.DeckInfo.cardIds.Join()}]");
+				Log.LogWarning($"[ChangeStartDeckIfNotAlreadyChanged] --> Starter deck needs reset");
 				GrimoraSaveData.Data.Initialize();
 			}
 		}
+		catch (Exception e)
+		{
+			Log.LogWarning($"[ChangingDeck] Had trouble retrieving deck list! Resetting deck. Current card Ids: [{GrimoraSaveUtil.DeckInfo.cardIds.Join()}]");
+			GrimoraSaveData.Data.Initialize();
+		}
+
+		Log.LogDebug($"[ChangeStartDeckIfNotAlreadyChanged] -> Finished");
 	}
 }
