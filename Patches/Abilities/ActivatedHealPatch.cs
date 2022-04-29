@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -11,12 +12,28 @@ public class ActivatedHealPatch
 	[HarmonyPostfix, HarmonyPatch(nameof(ActivatedHeal.Activate))]
 	public static IEnumerator FixLogicForHealing(IEnumerator enumerator, ActivatedHeal __instance)
 	{
-		int maxHealth = __instance.Card.MaxHealth;
-		int currentHealth = __instance.Card.Health;
-		if (__instance.Card && maxHealth > currentHealth)
+		if (CardCanActivateHeal(__instance.Card))
 		{
-			__instance.Card.HealDamage(maxHealth - currentHealth);
+			__instance.Card.HealDamage(__instance.Card.MaxHealth - __instance.Card.Health);
 			yield return new WaitForSeconds(0.25f);
+		}
+	}
+
+	public static bool CardCanActivateHeal(PlayableCard playableCard)
+	{
+		return !playableCard.SafeIsUnityNull() && playableCard.MaxHealth > playableCard.Health;
+	}
+}
+
+[HarmonyPatch(typeof(ActivatedAbilityBehaviour))]
+public class FixingActivatedHeal
+{
+	[HarmonyPostfix, HarmonyPatch(nameof(ActivatedAbilityBehaviour.CanActivate))]
+	public static void DontSpendBonesForActivatedHeal(ActivatedAbilityBehaviour __instance, ref bool __result)
+	{
+		if (__instance.Ability == Ability.ActivatedHeal)
+		{
+			__result = ActivatedHealPatch.CardCanActivateHeal(__instance.Card);
 		}
 	}
 }
