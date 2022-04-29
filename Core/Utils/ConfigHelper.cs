@@ -292,7 +292,8 @@ public class ConfigHelper
 			KayceeBossOpponent     => 1,
 			SawyerBossOpponent     => 2,
 			RoyalBossOpponentExt   => 3,
-			GrimoraBossOpponentExt => 4
+			GrimoraBossOpponentExt => 4,
+			_                      => 0
 		};
 
 		var bossPiece = ChessboardMapExt.Instance.BossPiece;
