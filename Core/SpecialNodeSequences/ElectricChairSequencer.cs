@@ -293,7 +293,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private static readonly List<Ability> AbilitiesThatShouldNotExistOnZeroAttackCards = new()
 	{
-		AlternatingStrike.ability, AreaOfEffectStrike.ability, BoneThief.ability, ChaosStrike.ability, InvertedStrike.ability,
+		AlternatingStrike.ability, AreaOfEffectStrike.ability, BloodGuzzler.ability, BoneThief.ability, ChaosStrike.ability, InvertedStrike.ability,
 		Ability.AllStrike, Ability.DoubleStrike, Ability.GainAttackOnKill, Ability.Sniper, Ability.SplitStrike, Ability.TriStrike
 	};
 
