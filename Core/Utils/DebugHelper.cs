@@ -486,7 +486,11 @@ public class DebugHelper : ManagedBehaviour
 
 	private IEnumerator SpawnCardAtSlots(List<CardSlot> slots, CardInfo cardToSpawn)
 	{
-		return slots.Select(cardSlot => cardSlot.CreateCardInSlot(cardToSpawn)).GetEnumerator();
+		foreach (var slot in slots)
+		{
+			yield return slot.CreateCardInSlot(cardToSpawn);
+			yield return new WaitForSeconds(0.1f);
+		}
 	}
 
 	private void HandleChestPieces()
