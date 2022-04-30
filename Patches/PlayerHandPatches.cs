@@ -27,6 +27,9 @@ public class PlayerHandPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(PlayerHand.AddCardToHand))]
 	public static void RerenderCard(ref PlayableCard card, Vector3 spawnOffset, float onDrawnTriggerDelay)
 	{
-		card.RenderCard();
+		if(card.InfoName() == GrimoraPlugin.NameSpectrabbit)
+		{
+			card.RenderCard();
+		}
 	}
 }
