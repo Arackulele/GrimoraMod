@@ -48,6 +48,14 @@
 
 #### Ability Changes
 
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Latch related abilities can no longer choose cards with 5 abilities as targets.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) `Chaos Strike` description updated: `[creature] will strike the opposing slots to the left, right, and center of it randomly, up to 3 times.`
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) `Skin Crawler` can no longer go under other cards with `Skin Crawler`.
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) `Marrow Sucker` can now only be activated if the card is not at max health.
+
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) `Marrow Sucker` now correctly shows up in Rulebook.
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) `Malnourishment` will now correctly cause the card having the sigil to die if the health reaches zero.
@@ -56,21 +64,28 @@
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Malnourishment` no longer appears in the chair.
 
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Blood Guzzler` is no longer possible to get on zero attack cards in the Electric Chair.
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Updated rulebook descriptions of `Power Dice` and `Marrow Sucker` so that it better indicates what it actually does.
+
 #### Card Changes
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Spectrabbits` sigils not showing when drawn from `Fecundity`.
 
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Added `Ourobones` card. 1/1 2 Bone cost with `Brittle`.
+
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Annoying` sigil added to `Gravebard`.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Fecundity` will no longer appear on drawn `Spectrabbits`.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Spectrabbits` sigils will no longer stack.
+  - This is to fix the issue with getting `Fecundity` and `Sentry` on the rabbits to the point where you end up one-shotting everything.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) Multiple card descriptions updated per `Mr. Etc.#3925`.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Vampire` attack nerfed to 2 from 3. Bone cost reduced to 5 from 6.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Vampire` attack nerfed from 3 to 2. Bone cost buffed from 6 to 5.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Giant` attack buffed from 2 to 3.
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Ripper` bone cost buffed to 6 from 9.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Ripper` bone cost buffed from 9 to 6.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Jikininki` attack buffed from 0 to 1. Energy cost nerfed from 4 to 6.
 
