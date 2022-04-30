@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(Ability.BuffEnemy, Ability.BuffNeighbours)
+			.SetAbilities(Ability.BuffNeighbours)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(4)
 			.SetDescription("THE SINGING IS SO BAD IT RAISES THE DEAD...")
