@@ -14,8 +14,8 @@ public class DrawRabbitsPatches
 			return true;
 		}
 
-		CardInfo cardByName = GrimoraPlugin.NameSpectrabbit.GetCardInfo();
-		cardByName.Mods.AddRange(__instance.GetNonDefaultModsFromSelf(__instance.Ability, Ability.DrawCopy));
+		CardInfo cardByName = (CardInfo)GrimoraPlugin.NameSpectrabbit.GetCardInfo().Clone();
+		cardByName.Mods.AddRange(__instance.GetNonDefaultModsFromSelf(__instance.Ability));
 		__result = cardByName;
 		return false;
 	}
