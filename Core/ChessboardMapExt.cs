@@ -159,6 +159,12 @@ public class ChessboardMapExt : GameMap
 			// for checking which nodes are active/inactive
 			RenameMapNodesWithGridCoords();
 		}
+
+		if (!CryptManager.Instance.HandLight.gameObject.activeInHierarchy)
+		{
+			CryptManager.Instance.HandLight.gameObject.SetActive(true);
+		}
+		CryptManager.Instance.ResetHandLightRange(0.25f);
 	}
 
 	private void OnGUI()
