@@ -16,6 +16,11 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 		typeof(GrimoraModKayceeBossSequencer)
 	);
 
+	public static readonly List<Ability> AbilitiesThatShouldBeRemovedWhenFrozen = new()
+	{
+		Ability.DebuffEnemy, Ability.Submerge, HookLineAndSinker.ability, Possessive.ability,
+	};
+
 	private bool _playedDialogueSubmerge = false;
 
 	private bool _playedDialogueHookLineAndSinker = false;
@@ -33,10 +38,14 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 
 	private int _freezeCounter = 2;
 
+	public static List<PlayableCard> GetValidCardsForFreezing()
+	{
+		return BoardManager.Instance.GetPlayerCards(pCard => pCard.Attack > 0 && !pCard.FaceDown && pCard.LacksAbility(Ability.IceCube));
+	}
+
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
-		var playerCardsWithAttacks
-			= BoardManager.Instance.GetPlayerCards(pCard => pCard.Attack > 0 && !pCard.FaceDown && pCard.LacksAbility(Ability.IceCube));
+		var playerCardsWithAttacks = GetValidCardsForFreezing();
 
 		_freezeCounter += playerCardsWithAttacks.Count;
 		Log.LogWarning($"[Kaycee] Freeze counter [{_freezeCounter}]");
@@ -62,6 +71,8 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 					_freezeCounter = 0;
 				}
 			}
+
+			yield return base.OnUpkeep(playerUpkeep);
 		}
 
 		var draugrCards = BoardManager.Instance.GetOpponentCards(pCard => pCard.InfoName().Equals(NameDraugr));
@@ -138,10 +149,8 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 	public static CardModificationInfo CreateModForFreeze(PlayableCard playableCard)
 	{
 		int attack = playableCard.Attack == 0 ? 0 : -playableCard.Attack;
-		var modInfo = new CardModificationInfo
+		var modInfo = new CardModificationInfo(attack, 1 - playableCard.Health)
 		{
-			attackAdjustment = attack,
-			healthAdjustment = 1 - playableCard.Health,
 			negateAbilities = new List<Ability> { Ability.DebuffEnemy, Ability.Submerge, HookLineAndSinker.ability, Possessive.ability }
 		};
 		if (playableCard.LacksAbility(Ability.IceCube))

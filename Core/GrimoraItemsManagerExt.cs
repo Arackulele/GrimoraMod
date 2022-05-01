@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Helpers.Extensions;
 using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -60,9 +61,13 @@ public class GrimoraItemsManagerExt : ItemsManager
 		{
 			Destroy(FindObjectOfType<Part3ItemsManager>().gameObject);
 		}
-
-		// TODO: disable all consumable item slots so the items dont cause a shit load of exceptions
-		ext.consumableSlots.ForEach(slot => slot.gameObject.SetActive(false));
+		
+		if (ext.consumableSlots.Any(slot => slot.isActiveAndEnabled))
+		{
+			// TODO: disable all consumable item slots so the items dont cause a shit load of exceptions
+			Log.LogDebug($"[ChangeDefaultHammerModel] Disabling other consumable item slots");
+			ext.consumableSlots.ForEach(slot => slot.gameObject.SetActive(false));
+		}
 	}
 }
 
@@ -70,19 +75,20 @@ public class GrimoraItemsManagerExt : ItemsManager
 public class AddNewHammerExt
 {
 	[HarmonyPrefix, HarmonyPatch(nameof(ItemSlot.CreateItem))]
-	public static bool InitHammerExtAfter(ItemSlot __instance, ItemData data, bool skipDropAnimation = false)
+	public static bool ChangeDefaultHammerModel(ItemSlot __instance, ItemData data, bool skipDropAnimation = false)
 	{
+		Log.LogDebug($"[ItemSlot.CreateItem] ItemSlot [{__instance}] ItemData [{data}]");
 		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			return true;
 		}
 
-		if (__instance.Item)
+		if (__instance && __instance.Item)
 		{
 			UnityObject.Destroy(__instance.Item.gameObject);
 		}
 
-		if (data.prefabId.Equals("HammerItem"))
+		if (data && data.prefabId.Equals("HammerItem"))
 		{
 			Log.LogDebug($"Adding new HammerItemExt");
 			HammerItemExt grimoraHammer = UnityObject.Instantiate(
@@ -128,7 +134,7 @@ public class FirstPersonHammerPatch
 	public static bool HasPlayedIceDialogue = false;
 
 	[HarmonyPrefix, HarmonyPatch(nameof(FirstPersonAnimationController.SpawnFirstPersonAnimation))]
-	public static bool InitHammerExtAfter(
+	public static bool SpawnFirstPersonHammerGrimora(
 		FirstPersonAnimationController __instance,
 		ref GameObject __result,
 		string prefabName,
@@ -142,7 +148,7 @@ public class FirstPersonHammerPatch
 
 		if (!HasPlayedIceDialogue
 		    && TurnManager.Instance.Opponent is KayceeBossOpponent
-		    && BoardManager.Instance.PlayerSlotsCopy.Exists(slot => slot.Card && slot.Card.HasAbility(Ability.IceCube))
+		    && BoardManager.Instance.GetPlayerCards().Exists(pCard => pCard.HasAbility(Ability.IceCube))
 		   )
 		{
 			__instance.StartCoroutine(

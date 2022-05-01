@@ -21,8 +21,11 @@ public class TurnManagerPatches
 			yield return ResourcesManager.Instance.AddBones(25);
 		}
 
-		int bonesToAdd = ConfigHelper.Instance.BonesToAdd;
-		Log.LogDebug($"[SetupPhase] Adding [{bonesToAdd}] bones");
-		yield return ResourcesManager.Instance.AddBones(bonesToAdd);
+		if (!SaveFile.IsAscension && !AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.NoBones))
+		{
+			int bonesToAdd = ConfigHelper.Instance.BonesToAdd;
+			Log.LogDebug($"[SetupPhase] Adding [{bonesToAdd}] bones");
+			yield return ResourcesManager.Instance.AddBones(bonesToAdd);
+		}
 	}
 }

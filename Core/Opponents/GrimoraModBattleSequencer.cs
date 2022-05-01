@@ -111,6 +111,55 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		}
 	}
 
+	public override IEnumerator OnUpkeep(bool playerUpkeep)
+	{
+		if (SaveFile.IsAscension)
+		{
+			if (TurnManager.Instance.TurnNumber % 3 == 0 && AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.SawyersShowdown))
+			{
+				yield return HandleSawyersShowdownChallenge();
+			}
+
+			if (TurnManager.Instance.TurnNumber == 4 && AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.KayceesKerfuffle))
+			{
+				yield return HandleKayceeKerfuffleChallenge();
+			}
+		}
+	}
+
+	private IEnumerator HandleSawyersShowdownChallenge()
+	{
+		ViewManager.Instance.SwitchToView(View.BoneTokens);
+		yield return TextDisplayer.Instance.ShowUntilInput("Sawyer thanks you for your contribution!");
+		yield return new WaitForSeconds(0.5f);
+		yield return ResourcesManager.Instance.SpendBones(1);
+		yield return new WaitForSeconds(0.5f);
+	}
+
+	private IEnumerator HandleKayceeKerfuffleChallenge()
+	{
+		var playerCardsWithAttacks = GrimoraModKayceeBossSequencer.GetValidCardsForFreezing();
+		if (playerCardsWithAttacks.Any())
+		{
+			foreach (var card in playerCardsWithAttacks)
+			{
+				var modInfo = GrimoraModKayceeBossSequencer.CreateModForFreeze(card);
+				if (GrimoraModKayceeBossSequencer.AbilitiesThatShouldBeRemovedWhenFrozen.Exists(card.HasAbility))
+				{
+					card.RemoveAbilityFromThisCard(modInfo);
+				}
+				else
+				{
+					card.AddTemporaryMod(modInfo);
+				}
+
+				card.Anim.PlayTransformAnimation();
+				yield return new WaitForSeconds(0.1f);
+				card.OnStatsChanged();
+			}
+		}
+	}
+
 	public override bool RespondsToOtherCardDie(
 		PlayableCard card,
 		CardSlot deathSlot,
@@ -160,10 +209,11 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		if (playerWon)
 		{
 			// Log.LogDebug($"[GrimoraModBattleSequencer Adding enemy to config [{ActiveEnemyPiece.name}]");
-			if(!ActiveEnemyPiece.SafeIsUnityNull())
+			if (!ActiveEnemyPiece.SafeIsUnityNull())
 			{
 				ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
 			}
+
 			_cardsThatHaveDiedThisMatch.Clear();
 			GrimoraItemsManagerExt.Instance.SetHammerActive();
 		}
@@ -181,7 +231,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 					yield return new WaitForSeconds(0.2f);
 				}
 
-				UnityObject.Destroy(nonCardTriggerReceiver.gameObject);
+				Destroy(nonCardTriggerReceiver.gameObject);
 			}
 		}
 	}

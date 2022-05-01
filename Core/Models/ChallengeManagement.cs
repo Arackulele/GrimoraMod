@@ -3,7 +3,6 @@ using HarmonyLib;
 using InscryptionAPI;
 using InscryptionAPI.Ascension;
 using InscryptionAPI.Guid;
-using InscryptionAPI.Helpers;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -31,30 +30,30 @@ public class ChallengeManagement
 		PatchedChallengesReference = new Dictionary<AscensionChallenge, AscensionChallengeInfo>
 		{
 			{
-				AscensionChallenge.SubmergeSquirrels, 
+				AscensionChallenge.NoHook, 
 				new()
 				{
 					challengeType = NoBones,
 					title = "No Bones",
 					description = "You no longer gain the extra bones after defeating bosses",
 					iconSprite = AssetUtils.GetPrefab<Sprite>("NoBones"),
-					pointValue = 10
+					pointValue = 5
 				}
 			},
 			{
-				AscensionChallenge.BossTotems, 
+				AscensionChallenge.LessConsumables, 
 				new()
 				{
 					challengeType = KayceesKerfuffle,
 					title = "Kaycee's Kerfuffle",
-					description = "On the fourth turn of every battle, all your cards will are Frozen Away. This does not happen multiple times per battle.",
+					description = "The fourth turn of every battle, all your cards will are Frozen Away.",
 					iconSprite = AssetUtils.GetPrefab<Sprite>("KayceesKerfuffle"),
-					pointValue = 10
+					pointValue = 15
 				}
 			},
 			
 			{
-				AscensionChallenge.AllTotems, 
+				AscensionChallenge.ExpensivePelts, 
 				new()
 				{
 					challengeType = SawyersShowdown,
@@ -73,7 +72,7 @@ public class ChallengeManagement
 					title = "Royal's Revenge",
 					description = "Every third card you play gains the Lit Fuse sigil.",
 					iconSprite = AssetUtils.GetPrefab<Sprite>("RoyalsRevenge"),
-					pointValue = 10
+					pointValue = 20
 				}
 			},
 		};
