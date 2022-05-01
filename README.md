@@ -2,7 +2,11 @@
 
 - A giant Mod made by xXxStoner420BongMasterxXx and Arackulele, that builds upon the finale with Grimora's chessboard.
 
-- **MOST IMPORTANT**: **!!!You will probably encounter some Bugs!!!**
+- **Note from BongMaster 2022-04-30**
+  - Due to the toxicity/negativity of the GrimoraMod server in regards to really any discussion that might be taking place, I'm going to be taking a hiatus from working on the mod.
+  - I personally have been private messaged from 6 different members in the server about ideas being not only shutdown, but aggressively attacked from other members in the server as well. I wanted to work on this mod as it was a great idea and to extend the Scrybe of the Dead even further, not deal with people who are unable to have a decent idea discussion or have no idea how to give constructive criticism.
+
+- **MOST IMPORTANT**: **!!!YOU WILL ENCOUNTER BUGS!!!**
 - **BEWARE**:
 
   - THIS WILL UNLOCK CERTAIN STORY EVENTS IN ORDER FOR THE MOD TO WORK, WHICH ALSO MEANS UNLOCKING CERTAIN ACHIEVEMENTS!
@@ -38,11 +42,21 @@
 ### Current save file is already at the finale with Grimora
 
 - Make a backup of your save, then delete your current save. Having your current save already at the finale seems to break the mod.
-- Possibly fixed in 2.6.4 update.
 
 ## Update Notes
 
 ### 2.8.8
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Potentially fixed issue with current save file already being at the Grimora finale.
+  - Thanks to the work already done by `divisionbyzorro#2868` with the [P03 Mod](https://inscryption.thunderstore.io/package/Infiniscryption/P03_In_Kaycees_Mod/), I was able to borrow and tweak accordingly a lot of the code related to save file handling.
+  - Still expect bugs because it is not perfect.
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Initial beta for Ascension Mode! EXPECT A LOT OF BUGS!
+  - Challenge skull art courtesy of `Bt Y#0895`.
+  - No Bones: You no longer gain the extra bones after defeating bosses.
+  - Kaycee's Kerfuffle: The fourth turn of every battle, all your cards will are Frozen Away.
+  - Sawyer's Showdown: Lose 1 bone every 3 turns.
+  - Royal's Revenge: Every third card you play gains the `Lit Fuse` sigil.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) The last Skeleton in your side deck pile now has 2 attack instead of 1.
 

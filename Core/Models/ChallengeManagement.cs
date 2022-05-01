@@ -35,7 +35,7 @@ public class ChallengeManagement
 				{
 					challengeType = NoBones,
 					title = "No Bones",
-					description = "You no longer gain the extra bones after defeating bosses",
+					description = "You no longer gain the extra bones after defeating bosses.",
 					iconSprite = AssetUtils.GetPrefab<Sprite>("NoBones"),
 					pointValue = 5
 				}
