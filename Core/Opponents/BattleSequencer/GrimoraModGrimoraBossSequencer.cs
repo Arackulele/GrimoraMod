@@ -10,7 +10,7 @@ namespace GrimoraMod;
 
 public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 {
-	public static readonly SpecialSequenceManager.FullSpecialSequencer FullSequencer = SpecialSequenceManager.Add(
+	public new static readonly SpecialSequenceManager.FullSpecialSequencer FullSequencer = SpecialSequenceManager.Add(
 		GUID,
 		nameof(GrimoraModGrimoraBossSequencer),
 		typeof(GrimoraModGrimoraBossSequencer)
