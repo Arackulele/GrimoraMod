@@ -47,6 +47,8 @@
 
 ### 2.8.81
 
+- **If you happen to encounter any further bugs, you may have to delete your `ModdedSaveFile.gwsave` file in your Inscryption directory. This is in the same directory as your main save file, SaveFile.gwsave**
+
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with choosing a card causing a softlock. Apparently you can't use `.Any()` on the override choices.
 
 ### 2.8.8
