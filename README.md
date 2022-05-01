@@ -45,6 +45,10 @@
 
 ## Update Notes
 
+### 2.8.81
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with choosing a card causing a softlock. Apparently you can't use `.Any()` on the override choices.
+
 ### 2.8.8
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Potentially fixed issue with current save file already being at the Grimora finale.
@@ -87,8 +91,6 @@
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Spectrabbits` sigils not showing when drawn from `Fecundity`.
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) Added `Ourobones` card. 1/1 2 Bone cost with `Brittle`.
-
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Annoying` sigil added to `Gravebard`.
 
 - ![Refactor](https://i.imgur.com/5bTRm1B.png) `Spectrabbits` sigils will no longer stack.
   - This is to fix the issue with getting `Fecundity` and `Sentry` on the rabbits to the point where you end up one-shotting everything.

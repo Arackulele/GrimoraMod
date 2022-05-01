@@ -55,18 +55,10 @@ public class CardSingleChoicesSequencerPatches
 		int randomSeed = SaveManager.SaveFile.GetCurrentRandomSeed();
 		while (__state.chosenReward.SafeIsUnityNull())
 		{
-			List<CardChoice> choices;
-			if (choicesData.overrideChoices.Any())
-			{
-				choices = choicesData.overrideChoices;
-			}
-			else
-			{
-				choices = __state.choiceGenerator.GenerateChoices(choicesData, randomSeed);
-				randomSeed *= 2;
-			}
+			List<CardChoice> choices = __state.choiceGenerator.GenerateChoices(choicesData, randomSeed);
+			randomSeed *= 2;
 
-			float x = (float)((choices.Count - 1) * 0.5 * -1.5);
+				float x = (float)((choices.Count - 1) * 0.5 * -1.5);
 			__state.selectableCards = __state.SpawnCards(
 				choices.Count,
 				__state.transform,
