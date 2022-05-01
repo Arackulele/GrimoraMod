@@ -71,8 +71,6 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 					_freezeCounter = 0;
 				}
 			}
-
-			yield return base.OnUpkeep(playerUpkeep);
 		}
 
 		var draugrCards = BoardManager.Instance.GetOpponentCards(pCard => pCard.InfoName().Equals(NameDraugr));

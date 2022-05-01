@@ -111,29 +111,43 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		}
 	}
 
-	public override IEnumerator OnUpkeep(bool playerUpkeep)
+	public override IEnumerator PlayerUpkeep()
 	{
 		if (SaveFile.IsAscension)
 		{
+			Log.LogInfo($"[BattleSequencer.OnUpkeep] Is Ascension and Is player upkeep");
 			if (TurnManager.Instance.TurnNumber % 3 == 0 && AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.SawyersShowdown))
 			{
 				yield return HandleSawyersShowdownChallenge();
 			}
 
-			if (TurnManager.Instance.TurnNumber == 4 && AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.KayceesKerfuffle))
+			if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.KayceesKerfuffle))
 			{
-				yield return HandleKayceeKerfuffleChallenge();
+				switch (TurnManager.Instance.TurnNumber)
+				{
+					case 3:
+					{
+						yield return TextDisplayer.Instance.ShowUntilInput("I hope you're able to warm up next turn.");
+						break;
+					}
+					case 4:
+						yield return HandleKayceeKerfuffleChallenge();
+						break;
+				}
 			}
 		}
 	}
 
 	private IEnumerator HandleSawyersShowdownChallenge()
 	{
-		ViewManager.Instance.SwitchToView(View.BoneTokens);
-		yield return TextDisplayer.Instance.ShowUntilInput("Sawyer thanks you for your contribution!");
-		yield return new WaitForSeconds(0.5f);
-		yield return ResourcesManager.Instance.SpendBones(1);
-		yield return new WaitForSeconds(0.5f);
+		if (ResourcesManager.Instance.PlayerBones > 0)
+		{
+			ViewManager.Instance.SwitchToView(View.BoneTokens);
+			yield return new WaitForSeconds(0.25f);
+			yield return TextDisplayer.Instance.ShowUntilInput("Sawyer thanks you for your contribution!");
+			yield return ResourcesManager.Instance.SpendBones(1);
+			yield return new WaitForSeconds(1f);
+		}
 	}
 
 	private IEnumerator HandleKayceeKerfuffleChallenge()
@@ -141,6 +155,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		var playerCardsWithAttacks = GrimoraModKayceeBossSequencer.GetValidCardsForFreezing();
 		if (playerCardsWithAttacks.Any())
 		{
+			yield return TextDisplayer.Instance.ShowUntilInput("Kaycee says it's time to freeze!");
 			foreach (var card in playerCardsWithAttacks)
 			{
 				var modInfo = GrimoraModKayceeBossSequencer.CreateModForFreeze(card);

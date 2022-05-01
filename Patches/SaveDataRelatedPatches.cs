@@ -205,24 +205,12 @@ public class SaveDataRelatedPatches
 			Log.LogInfo($"[GrimoraSaveData.Initialize] Has been initialized. Is Ascension? [{SaveFile.IsAscension}] CurrentRun [{AscensionSaveData.Data.currentRun}]");
 			if (SaveFile.IsAscension && AscensionSaveData.Data.currentRun.IsNotNull())
 			{
-				CreateAscensionDeck(__instance);
+				// CreateAscensionDeck(__instance);
+				CreateDefaultDeck(__instance);
 			}
 			else
 			{
-				Log.LogInfo($"[GrimoraSaveData.Initialize] Creating GrimoraMod vanilla deck");
-				List<CardInfo> defaultCardInfos = new()
-				{
-					NameBonepile.GetCardInfo(),
-					NameGravedigger.GetCardInfo(),
-					NameGravedigger.GetCardInfo(),
-					NameFranknstein.GetCardInfo(),
-					NameZombie.GetCardInfo()
-				};
-
-				foreach (var cardInfo in defaultCardInfos)
-				{
-					__instance.deck.AddCard(cardInfo);
-				}
+				CreateDefaultDeck(__instance);
 			}
 		}
 		else
@@ -231,6 +219,24 @@ public class SaveDataRelatedPatches
 		}
 
 		return false;
+	}
+
+	private static void CreateDefaultDeck(GrimoraSaveData saveData)
+	{
+		Log.LogInfo($"[GrimoraSaveData.Initialize] Creating GrimoraMod vanilla deck");
+		List<CardInfo> defaultCardInfos = new()
+		{
+			NameBonepile.GetCardInfo(),
+			NameGravedigger.GetCardInfo(),
+			NameGravedigger.GetCardInfo(),
+			NameFranknstein.GetCardInfo(),
+			NameZombie.GetCardInfo()
+		};
+
+		foreach (var cardInfo in defaultCardInfos)
+		{
+			saveData.deck.AddCard(cardInfo);
+		}
 	}
 
 	private static void CreateVanillaDeck(GrimoraSaveData saveData)
