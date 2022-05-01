@@ -15,10 +15,17 @@ public class ConfigHelper
 		StoryEvent.BasicTutorialCompleted, StoryEvent.TutorialRunCompleted, StoryEvent.BonesTutorialCompleted,
 		StoryEvent.TutorialRun2Completed, StoryEvent.TutorialRun3Completed
 	};
+	
+	public const string P03ModGuid = "zorro.inscryption.infiniscryption.p03kayceerun";
+
+	public const string PackManagerGuid = "zorro.inscryption.infiniscryption.packmanager";
 
 	private static ConfigHelper m_Instance;
 	public static ConfigHelper Instance => m_Instance ??= new ConfigHelper();
 
+	public static bool HasIncreaseSlotsMod => Harmony.HasAnyPatches("julianperge.inscryption.act1.increaseCardSlots");
+	public static bool HasP03Mod => Harmony.HasAnyPatches(P03ModGuid);
+	
 	private readonly ConfigFile GrimoraConfigFile = new(
 		Path.Combine(Paths.ConfigPath, "grimora_mod_config.cfg"),
 		true
@@ -42,6 +49,7 @@ public class ConfigHelper
 
 	private ConfigEntry<int> _configCurrentChessboardIndex;
 
+
 	public int CurrentChessboardIndex
 	{
 		get => _configCurrentChessboardIndex.Value;
@@ -49,6 +57,7 @@ public class ConfigHelper
 	}
 
 	private ConfigEntry<int> _configBossesDefeated;
+
 
 	public int BossesDefeated
 	{
@@ -82,6 +91,7 @@ public class ConfigHelper
 
 	public int InputType => _configInputConfig.Value;
 
+
 	public List<string> RemovedPieces
 	{
 		get => _configCurrentRemovedPieces.Value.Split(',').Distinct().ToList();
@@ -93,6 +103,7 @@ public class ConfigHelper
 	public int ElectricChairBurnRateType => _configElectricChairBurnRateType.Value;
 
 	public int BonesToAdd => BossesDefeated;
+
 
 	internal void BindConfig()
 	{
@@ -183,8 +194,6 @@ public class ConfigHelper
 
 		UnlockAllNecessaryEventsToPlay();
 	}
-
-	public static bool HasIncreaseSlotsMod => Harmony.HasAnyPatches("julianperge.inscryption.act1.increaseCardSlots");
 
 	public void HandleHotReloadBefore()
 	{

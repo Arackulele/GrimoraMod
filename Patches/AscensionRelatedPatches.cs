@@ -1,5 +1,4 @@
-﻿using BepInEx.Bootstrap;
-using DiskCardGame;
+﻿using DiskCardGame;
 using GBC;
 using HarmonyLib;
 using UnityEngine;
@@ -11,7 +10,7 @@ namespace GrimoraMod;
 public class AscensionRelatedPatches
 {
 	[HarmonyPrefix, HarmonyPatch(nameof(AscensionMenuScreens.TransitionToGame))]
-	[HarmonyBefore("zorro.inscryption.infiniscryption.packmanager", P03ModGuid)]
+	[HarmonyBefore(ConfigHelper.PackManagerGuid, ConfigHelper.P03ModGuid)]
 	public static bool InitializeGrimoraSaveData(ref AscensionMenuScreens __instance, bool newRun = true)
 	{
 		Log.LogDebug($"[AscensionMenuScreens.TransitionToGame] " +
@@ -20,7 +19,7 @@ public class AscensionRelatedPatches
 		             $"screen state [{ScreenManagement.ScreenState}] " +
 		             $"currentStarterDeck [{AscensionSaveData.Data.currentStarterDeck}]" +
 		             $"currentRun [{AscensionSaveData.Data.currentRun}]"
-		            );
+		);
 		if (newRun)
 		{
 			if (ScreenManagement.ScreenState == CardTemple.Undead)
@@ -46,7 +45,7 @@ public class AscensionRelatedPatches
 				Log.LogInfo($"[AscensionMenuScreens.TransitionToGame] --> Changing current starter deck to default");
 				AscensionSaveData.Data.currentStarterDeck = StarterDecks.DefaultStarterDeck;
 			}
-			
+
 			Log.LogInfo($"[AscensionMenuScreens.TransitionToGame] Creating new ascension run from starter deck [{StarterDecks.DefaultStarterDeck}]");
 			StarterDeckInfo deckInfo = StarterDecksUtil.GetInfo(StarterDecks.DefaultStarterDeck);
 			if (deckInfo)
@@ -96,21 +95,18 @@ public class AscensionRelatedPatches
 		ClearGrimoraData();
 	}
 
-	public const string P03ModGuid = "zorro.inscryption.infiniscryption.p03kayceerun";
-
 	[HarmonyPostfix, HarmonyPatch(nameof(AscensionMenuScreens.Start))]
-	[HarmonyAfter(P03ModGuid)]
+	[HarmonyAfter(ConfigHelper.P03ModGuid)]
 	public static void AddGrimoraStartOption(AscensionMenuScreens __instance)
 	{
 		AdjustAscensionMenuItemsSpacing itemsSpacing = UnityObject.FindObjectOfType<AdjustAscensionMenuItemsSpacing>();
 		AscensionMenuInteractable menuText = itemsSpacing.menuItems[0].GetComponent<AscensionMenuInteractable>();
-		
+
 		AscensionMenuScreenTransition transitionController = AscensionMenuScreens.Instance.startScreen.GetComponent<AscensionMenuScreenTransition>();
 		List<GameObject> onEnableRevealedObjects = transitionController.onEnableRevealedObjects;
 		List<MainInputInteractable> screenInteractables = transitionController.screenInteractables;
-		
-		bool hasP03Mod = Chainloader.PluginInfos.ContainsKey(P03ModGuid);
-		if (hasP03Mod)
+
+		if (ConfigHelper.HasP03Mod)
 		{
 			GameObject p03Button = onEnableRevealedObjects.Single(obj => obj.name == "Menu_New_P03");
 			Log.LogDebug($"[AscensionMenuScreens.Start] Has P03 mod installed");
@@ -127,7 +123,7 @@ public class AscensionRelatedPatches
 
 		// Clone the new button
 		AscensionMenuInteractable grimoraButtonController = CreateAscensionButton(menuText);
-		
+
 		// Add to transition
 		onEnableRevealedObjects.Insert(onEnableRevealedObjects.IndexOf(menuText.gameObject) + 1, grimoraButtonController.gameObject);
 		screenInteractables.Insert(screenInteractables.IndexOf(menuText) + 1, grimoraButtonController);
