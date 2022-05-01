@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(GrimoraRandomAbility.ability)
 			.SetBaseAttackAndHealth(1, 2)
 			.SetEnergyCost(4)
-			.SetDescription("The amorphous Apparition. Its sigils are ever changing.")
+			.SetDescription("Without a coherent form, who knows what sigil it will have next?")
 			.SetNames(NameApparition, "Apparition")
 			.Build();
 	}

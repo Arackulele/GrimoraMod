@@ -10,7 +10,7 @@ public class RulebookControllerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(RuleBookController.Start))]
 	public static void ChangeRuleBookInfo(ref RuleBookController __instance)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			return;
 		}
@@ -30,14 +30,14 @@ public class PageContentLoaderPatch
 	[HarmonyPrefix, HarmonyPatch(nameof(PageContentLoader.LoadPage))]
 	public static bool Prefix(ref PageContentLoader __instance, RuleBookPageInfo pageInfo)
 	{
-		if (GrimoraSaveUtil.isNotGrimora || pageInfo.abilityPage)
+		if (GrimoraSaveUtil.IsNotGrimora || pageInfo.abilityPage)
 		{
 			return true;
 		}
 
 		if (__instance.currentPagePrefab != pageInfo.pagePrefab)
 		{
-			if (__instance.currentPageObj != null)
+			if (__instance.currentPageObj)
 			{
 				UnityObject.Destroy(__instance.currentPageObj);
 			}

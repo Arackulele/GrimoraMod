@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using DiskCardGame;
-using UnityEngine;
 
 namespace GrimoraMod;
 
@@ -22,13 +21,10 @@ public class GrimoraRandomAbility : AbilityBehaviour
 	{
 		Card.Status.hiddenAbilities.Add(Ability);
 		CardModificationInfo cardModificationInfo = new CardModificationInfo(ChooseAbility());
-		CardModificationInfo cardModificationInfo2 = Card.TemporaryMods.Find(x => x.HasAbility(Ability));
-		if (cardModificationInfo2 == null)
-		{
-			cardModificationInfo2 = Card.Info.Mods.Find(x => x.HasAbility(Ability));
-		}
+		CardModificationInfo cardModificationInfo2 = Card.TemporaryMods.Find(x => x.HasAbility(Ability)) 
+		                                          ?? Card.Info.Mods.Find(x => x.HasAbility(Ability));
 
-		if (cardModificationInfo2 != null)
+		if (cardModificationInfo2.IsNotNull())
 		{
 			cardModificationInfo.fromTotem = cardModificationInfo2.fromTotem;
 			cardModificationInfo.fromCardMerge = cardModificationInfo2.fromCardMerge;

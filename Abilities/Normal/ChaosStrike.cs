@@ -36,7 +36,7 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_ChaosStrike()
 	{
-		const string rulebookDescription = "[creature] will strike each opposing space to the left, right, and center of it, randomly.";
+		const string rulebookDescription = "[creature] will strike the opposing slots to the left, right, and center of it randomly, up to 3 times.";
 
 		AbilityBuilder<ChaosStrike>.Builder
 		 .FlipIconIfOnOpponentSide()

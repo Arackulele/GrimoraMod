@@ -10,7 +10,7 @@ public class Part1BossOpponentPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(Part1BossOpponent.ReducePlayerLivesSequence))]
 	public static void SetPlayerLivesToOne(Part1BossOpponent __instance)
 	{
-		if (GrimoraSaveUtil.isGrimora)
+		if (GrimoraSaveUtil.IsGrimora)
 		{
 			RunState.Run.playerLives = 1;
 		}
@@ -20,6 +20,6 @@ public class Part1BossOpponentPatches
 	public static bool Prefix()
 	{
 		// the reason for this patch is so that the game doesn't try to replenish lives since the candle doesn't exist
-		return GrimoraSaveUtil.isNotGrimora;
+		return GrimoraSaveUtil.IsNotGrimora;
 	}
 }

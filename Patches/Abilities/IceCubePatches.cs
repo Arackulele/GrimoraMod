@@ -18,7 +18,7 @@ public class IceCubePatches
 		PlayableCard killer
 	)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			yield return enumerator;
 			yield break;
@@ -27,7 +27,7 @@ public class IceCubePatches
 		yield return __instance.PreSuccessfulTriggerSequence();
 		yield return new WaitForSeconds(0.3f);
 		CardInfo creatureToSpawn = "Skeleton".GetCardInfo();
-		if (__instance.Card.Info.iceCubeParams != null && __instance.Card.Info.iceCubeParams.creatureWithin)
+		if (__instance.Card.Info.iceCubeParams.IsNotNull() && __instance.Card.Info.iceCubeParams.creatureWithin)
 		{
 			creatureToSpawn = __instance.Card.Info.iceCubeParams.creatureWithin;
 		}

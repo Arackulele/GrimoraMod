@@ -49,13 +49,13 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		}
 		else
 		{
-			if (!ConfigHelper.HasLearnedMechanicElectricChair)
+			if (!EventManagement.HasLearnedMechanicElectricChair)
 			{
 				yield return TextDisplayer.Instance.ShowUntilInput("OH! I LOVE THIS ONE!");
 				yield return TextDisplayer.Instance.ShowUntilInput($"YOU STRAP ONE OF YOUR CARDS TO THE CHAIR, {"EMPOWERING".Blue()} IT!");
 				yield return TextDisplayer.Instance.ShowUntilInput("OF COURSE, IT DOESN'T HURT.\nYOU CAN'T DIE TWICE AFTER ALL.");
 
-				ConfigHelper.HasLearnedMechanicElectricChair = true;
+				EventManagement.HasLearnedMechanicElectricChair = true;
 			}
 
 			yield return UntilFinishedBuffingOrCardIsDestroyed();
@@ -111,7 +111,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		float chanceToDie = GetInitialChanceToDie();
 		Log.LogDebug($"[ElectricChair] Initial chance to die is [{chanceToDie}] for second zap");
 		int numBuffsGiven = 0;
-		while (!finishedBuffing && destroyedCard.IsNull())
+		while (!finishedBuffing && destroyedCard.SafeIsUnityNull())
 		{
 			Vector3 rulebookLocalPos = TableRuleBook.Instance.gameObject.transform.position;
 			Tween.Position(
@@ -168,10 +168,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			retrieveCardInteractable.gameObject.SetActive(true);
 			retrieveCardInteractable.CursorSelectEnded = null;
 			GenericMainInputInteractable genericMainInputInteractable = retrieveCardInteractable;
-			genericMainInputInteractable.CursorSelectEnded = (Action<MainInputInteractable>)Delegate.Combine(
-				genericMainInputInteractable.CursorSelectEnded,
-				(Action<MainInputInteractable>)delegate { cancelledByClickingCard = true; }
-			);
+			genericMainInputInteractable.CursorSelectEnded += delegate { cancelledByClickingCard = true; }; 
 			confirmStone.Unpress();
 			StartCoroutine(confirmStone.WaitUntilConfirmation());
 			yield return new WaitUntil(
@@ -296,17 +293,28 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private static readonly List<Ability> AbilitiesThatShouldNotExistOnZeroAttackCards = new()
 	{
-		AlternatingStrike.ability, AreaOfEffectStrike.ability, BoneThief.ability, ChaosStrike.ability, InvertedStrike.ability,
+		AlternatingStrike.ability, AreaOfEffectStrike.ability, BloodGuzzler.ability, BoneThief.ability, ChaosStrike.ability, InvertedStrike.ability,
 		Ability.AllStrike, Ability.DoubleStrike, Ability.GainAttackOnKill, Ability.Sniper, Ability.SplitStrike, Ability.TriStrike
+	};
+
+	private static readonly List<Ability> AbilitiesThatShouldNotExistOnSkinCrawler = new()
+	{
+		Ability.SkeletonStrafe, Ability.SquirrelStrafe, Ability.Strafe, Ability.StrafePush, Ability.StrafeSwap
 	};
 
 	private bool HasAbilityComboThatWillBreakTheGame(CardInfo card, Ability randomSigil)
 	{
-		return CheckCardHavingAbilityAndViceVersa(card, Ability.StrafePush, randomSigil, SkinCrawler.ability)
-		       || randomSigil == Haunter.ability && card.Abilities.Count == 0
-		       || randomSigil == Ability.SwapStats && (card.Attack < 1 || card.Health < 3)
-		       || RandomSigilShouldNotExistOnZeroAttackCard(card, randomSigil)
+		return randomSigil == Haunter.ability && card.Abilities.Count == 0
+		    || randomSigil == Ability.SwapStats && (card.Attack < 1 || card.Health < 3)
+		    || RandomSigilShouldNotExistOnZeroAttackCard(card, randomSigil)
+		    || RandomSigilShouldNotExistWithSkinCrawlerOrStrafe(card, randomSigil)
 			;
+	}
+
+	private bool RandomSigilShouldNotExistWithSkinCrawlerOrStrafe(CardInfo card, Ability randomSigil)
+	{
+		return card.HasAbility(SkinCrawler.ability) && AbilitiesThatShouldNotExistOnSkinCrawler.Contains(randomSigil)
+		       || randomSigil == SkinCrawler.ability && AbilitiesThatShouldNotExistOnSkinCrawler.Exists(card.HasAbility);
 	}
 
 	private bool RandomSigilShouldNotExistOnZeroAttackCard(CardInfo card, Ability randomSigil)
@@ -374,11 +382,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		selectionSlot.ClearDelegates();
 
 		SelectCardFromDeckSlot selectCardFromDeckSlot = selectionSlot;
-		selectCardFromDeckSlot.CursorSelectStarted =
-			(Action<MainInputInteractable>)Delegate.Combine(
-				selectCardFromDeckSlot.CursorSelectStarted,
-				new Action<MainInputInteractable>(OnSlotSelected)
-			);
+		selectCardFromDeckSlot.CursorSelectStarted += OnSlotSelected;
 		if (UnityRandom.value < 0.25f && VideoCameraRig.Instance)
 		{
 			VideoCameraRig.Instance.PlayCameraAnim("refocus_quick");
@@ -433,7 +437,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	public static void CreateSequencerInScene()
 	{
-		if (SpecialNodeHandler.Instance.IsNull())
+		if (SpecialNodeHandler.Instance.SafeIsUnityNull())
 		{
 			return;
 		}

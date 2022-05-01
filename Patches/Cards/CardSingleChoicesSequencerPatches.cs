@@ -2,6 +2,7 @@
 using DiskCardGame;
 using HarmonyLib;
 using Pixelplacement;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -22,7 +23,7 @@ public class CardSingleChoicesSequencerPatches
 		CardSingleChoicesSequencer __state
 	)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			yield return enumerator;
 			yield break;
@@ -52,20 +53,12 @@ public class CardSingleChoicesSequencerPatches
 
 		__state.chosenReward = null;
 		int randomSeed = SaveManager.SaveFile.GetCurrentRandomSeed();
-		while (__state.chosenReward.IsNull())
+		while (__state.chosenReward.SafeIsUnityNull())
 		{
-			List<CardChoice> choices;
-			if (choicesData.overrideChoices != null)
-			{
-				choices = choicesData.overrideChoices;
-			}
-			else
-			{
-				choices = __state.choiceGenerator.GenerateChoices(choicesData, randomSeed);
-				randomSeed *= 2;
-			}
+			List<CardChoice> choices = __state.choiceGenerator.GenerateChoices(choicesData, randomSeed);
+			randomSeed *= 2;
 
-			float x = (float)((choices.Count - 1) * 0.5 * -1.5);
+				float x = (float)((choices.Count - 1) * 0.5 * -1.5);
 			__state.selectableCards = __state.SpawnCards(
 				choices.Count,
 				__state.transform,

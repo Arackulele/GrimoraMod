@@ -60,7 +60,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		}
 		else
 		{
-			if (!ConfigHelper.HasLearnedMechanicBoneyard)
+			if (!EventManagement.HasLearnedMechanicBoneyard)
 			{
 				yield return TextDisplayer.Instance.ShowUntilInput(
 					"A LONE GRAVE SITS SOLEMNLY IN FRONT OF YOU.",
@@ -85,11 +85,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 			selectionSlot.ClearDelegates();
 
 			SelectCardFromDeckSlot selectCardFromDeckSlot = selectionSlot;
-			selectCardFromDeckSlot.CursorSelectStarted =
-				(Action<MainInputInteractable>)Delegate.Combine(
-					selectCardFromDeckSlot.CursorSelectStarted,
-					new Action<MainInputInteractable>(OnSlotSelected)
-				);
+			selectCardFromDeckSlot.CursorSelectStarted += OnSlotSelected;
 			if (UnityRandom.value < 0.25f && VideoCameraRig.Instance)
 			{
 				VideoCameraRig.Instance.PlayCameraAnim("refocus_quick");
@@ -131,7 +127,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 				finishedBuffing = true;
 			}
 
-			if (ConfigHelper.HasLearnedMechanicBoneyard)
+			if (EventManagement.HasLearnedMechanicBoneyard)
 			{
 				yield return TextDisplayer.Instance.ShowUntilInput("MARVELOUS! THEY CAME CRAWLING BACK AFTER YOU BURIED THEM.");
 				yield return TextDisplayer.Instance.ShowUntilInput("THEY STILL CARE ABOUT YOU IT SEEMS!");
@@ -146,7 +142,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 				);
 				yield return TextDisplayer.Instance.ShowUntilInput("THOUGH THE WEIGHT OF CONSEQUENCE ALSO SEEMS LIFTED...");
 
-				ConfigHelper.HasLearnedMechanicBoneyard = true;
+				EventManagement.HasLearnedMechanicBoneyard = true;
 			}
 		}
 		
@@ -211,10 +207,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		Log.LogDebug($"Playing lowering sequence");
 		Vector3 targetPos = new Vector3(0, 5, 0);
 		Tween.Position(revenantCard.transform, revenantCard.transform.position - targetPos, 2f, 0f);
-		revenantSelectableCard.CursorSelectEnded = (Action<MainInputInteractable>)Delegate.Combine(
-			revenantSelectableCard.CursorSelectEnded,
-			(Action<MainInputInteractable>)delegate { cardGrabbed = true; }
-		);
+		revenantSelectableCard.CursorSelectEnded += delegate { cardGrabbed = true; };
 		yield return new WaitUntil(() => cardGrabbed);
 
 		RuleBookController.Instance.SetShown(false);
@@ -308,7 +301,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 	public static void CreateSequencerInScene()
 	{
-		if (SpecialNodeHandler.Instance.IsNull())
+		if (SpecialNodeHandler.Instance.SafeIsUnityNull())
 		{
 			return;
 		}
@@ -323,7 +316,6 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 		// destroying things
 
-		Log.LogDebug($"[Boneyard] destroying fireanim");
 		Destroy(oldSequencer.selectionSlot.transform.Find("FireAnim").gameObject);
 		for (int i = 0; i < cardStatObj.transform.childCount; i++)
 		{

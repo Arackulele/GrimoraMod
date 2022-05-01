@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 35573805
+CRC: 37894954
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 869c9f6939e14282c5186876b277216e
+    Hash: 2c853c718481d32e6e6da3da4b84ceb3
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -40,6 +40,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Unknown_CoffinLad_emission.png
 - Assets/GrimoraMod_Unity/Cards/Manananggal.png
 - Assets/GrimoraMod_Unity/Cards/CompoundFracture.png
+- Assets/GrimoraMod_Unity/Cards/Ourobones_emission.png
 - Assets/GrimoraMod_Unity/Cards/GhostShip_emission_Nevernamed.png
 - Assets/GrimoraMod_Unity/Cards/Moroi_emission.png
 - Assets/GrimoraMod_Unity/Cards/Skelemaniac_emission.png
@@ -68,6 +69,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/DanseMacabre_emission.png
 - Assets/GrimoraMod_Unity/Cards/OldCards/Amoeba_emission.png
 - Assets/GrimoraMod_Unity/Cards/Jikininki_emission.png
+- Assets/GrimoraMod_Unity/AscensionChallengeSprites/NoBones.png
 - Assets/GrimoraMod_Unity/Cards/Poltergeist_emission.png
 - Assets/GrimoraMod_Unity/Cards/RisingHunger.png
 - Assets/GrimoraMod_Unity/Cards/Dalgyal.png
@@ -94,6 +96,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/OldMaid.png
 - Assets/GrimoraMod_Unity/Cards/DeadHand.png
 - Assets/GrimoraMod_Unity/Cards/BonelordsHorn_emission.png
+- Assets/GrimoraMod_Unity/AscensionChallengeSprites/KayceesKerfuffle.png
 - Assets/GrimoraMod_Unity/Cards/HauntedMirror_emission.png
 - Assets/GrimoraMod_Unity/Cards/Glacier.png
 - Assets/GrimoraMod_Unity/Cards/Rot_tail.png
@@ -126,6 +129,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Skelemagus_emission.png
 - Assets/GrimoraMod_Unity/Cards/Bigbones.png
 - Assets/GrimoraMod_Unity/Cards/Dalgyal_emission.png
+- Assets/GrimoraMod_Unity/Cards/Ourobones.png
 - Assets/GrimoraMod_Unity/Cards/Frostbiter_emission.png
 - Assets/GrimoraMod_Unity/Cards/PlagueDoctor_emission.png
 - Assets/GrimoraMod_Unity/Cards/Wight_emission.png
@@ -152,6 +156,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/Fylgja_emission.png
 - Assets/GrimoraMod_Unity/Cards/SlingersSoul_emission.png
 - Assets/GrimoraMod_Unity/Cards/BloodySack.png
+- Assets/GrimoraMod_Unity/AscensionChallengeSprites/SawyersShowdown.png
 - Assets/GrimoraMod_Unity/Cards/PirateFirstMateSnag_emission.png
 - Assets/GrimoraMod_Unity/Cards/SeaChest.png
 - Assets/GrimoraMod_Unity/Cards/VengefulSpirit.png
@@ -167,6 +172,7 @@ Assets:
 - Assets/GrimoraMod_Unity/Cards/PirateCaptainYellowbeard.png
 - Assets/GrimoraMod_Unity/Cards/Doppelganger.png
 - Assets/GrimoraMod_Unity/Menu/Background.png
+- Assets/GrimoraMod_Unity/AscensionChallengeSprites/RoyalsRevenge.png
 - Assets/GrimoraMod_Unity/Cards/FesteringWretch_emission.png
 - Assets/GrimoraMod_Unity/Cards/MassGrave_emission.png
 - Assets/GrimoraMod_Unity/Cards/LaLlorona.png

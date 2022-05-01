@@ -14,7 +14,7 @@ public static class CardRelatedExtension
 	
 	public static Animator GetCustomArm(this CardAnimationController controller)
 	{
-		return GrimoraSaveUtil.isGrimora ? ((GraveControllerExt)controller).GetCustomArm() : null;
+		return GrimoraSaveUtil.IsGrimora ? ((GraveControllerExt)controller).GetCustomArm() : null;
 	}
 
 	public static void PlaySpecificAttackAnimation(
@@ -41,7 +41,8 @@ public static class CardRelatedExtension
 
 	public static bool IsGrimoraGiant(this PlayableCard playableCard)
 	{
-		return playableCard.HasSpecialAbility(GrimoraGiant.FullSpecial.Id) || playableCard.TemporaryMods.Exists(mod => mod.specialAbilities.Contains(GrimoraGiant.FullSpecial.Id));
+		return playableCard.HasSpecialAbility(GrimoraGiant.FullSpecial.Id)
+		    || playableCard.TemporaryMods.Exists(mod => mod.specialAbilities.Contains(GrimoraGiant.FullSpecial.Id));
 	}
 
 	/// <summary>
@@ -117,7 +118,7 @@ public static class CardRelatedExtension
 			Animator customArmPrefab = playableCard.Anim.GetCustomArm();
 			playableCard.Dead = true;
 			CardSlot slotBeforeDeath = playableCard.Slot;
-			if (playableCard.Info != null && playableCard.Info.name.ToLower().Contains("squirrel"))
+			if (playableCard.Info && playableCard.Info.name.ToLower().Contains("squirrel"))
 			{
 				AscensionStatsData.TryIncrementStat(AscensionStat.Type.SquirrelsKilled);
 			}

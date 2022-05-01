@@ -35,6 +35,11 @@ public class Malnourishment : AbilityBehaviour
 		Card.Anim.StrongNegationEffect();
 
 		yield return LearnAbility(0.25f);
+
+		if (Card.Health <= 0)
+		{
+			yield return Card.Die(false);
+		}
 	}
 }
 

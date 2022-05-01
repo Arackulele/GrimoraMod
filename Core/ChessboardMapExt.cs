@@ -37,9 +37,9 @@ public class ChessboardMapExt : GameMap
 	public bool ChangingRegion { get; set; }
 
 	public bool BossDefeated { get; protected internal set; }
-	
+
 	public GrimoraChessboard ActiveChessboard { get; set; }
-	
+
 	private List<GrimoraChessboard> _chessboards;
 
 	private List<GrimoraChessboard> Chessboards
@@ -53,9 +53,9 @@ public class ChessboardMapExt : GameMap
 
 	public Dictionary<EncounterJson, EncounterBlueprintData> CustomBlueprintsRegions { get; set; } = new();
 	public Dictionary<EncounterJson, EncounterBlueprintData> CustomBlueprintsBosses { get; set; } = new();
-	
+
 	private Dictionary<EncounterJson, EncounterBlueprintData> _customBlueprints;
-	
+
 	public Dictionary<EncounterJson, EncounterBlueprintData> CustomBlueprints
 	{
 		get
@@ -80,8 +80,8 @@ public class ChessboardMapExt : GameMap
 			_chessboards = ParseJson(
 				SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString)
 			);
-		} 
-		
+		}
+
 		if (_customBlueprints == null)
 		{
 			_customBlueprints = new Dictionary<EncounterJson, EncounterBlueprintData>();
@@ -106,9 +106,11 @@ public class ChessboardMapExt : GameMap
 					{
 						CustomBlueprintsBosses.Add(encounterFromJson, blueprint);
 					}
+
 					_customBlueprints.Add(encounterFromJson, blueprint);
 				}
 			}
+
 			Log.LogDebug($"Final custom blueprint names: [{_customBlueprints.Join(kv => kv.Value.name)}]");
 			if(debugHelper)
 			{
@@ -133,13 +135,36 @@ public class ChessboardMapExt : GameMap
 	private void Awake()
 	{
 		ViewManager instance = ViewManager.Instance;
-		instance.ViewChanged = (Action<View, View>)Delegate
-			.Combine(instance.ViewChanged, new Action<View, View>(OnViewChanged));
+		instance.ViewChanged += OnViewChanged;
 
-		if (ConfigHelper.Instance.IsDevModeEnabled && debugHelper.IsNull())
+		if (ConfigHelper.Instance.IsDevModeEnabled && debugHelper.SafeIsUnityNull())
 		{
 			debugHelper = gameObject.AddComponent<DebugHelper>();
 		}
+	}
+
+	private void Start()
+	{
+		EnableCandlesIfTheyAreDisabled();
+
+		if (FinaleDeletionWindowManager.instance && FinaleDeletionWindowManager.instance.mainWindow.isActiveAndEnabled)
+		{
+			FinaleDeletionWindowManager.instance.mainWindow.gameObject.SetActive(false);
+		}
+
+		ChangeStartDeckIfNotAlreadyChanged();
+
+		if (ConfigHelper.Instance.IsDevModeEnabled)
+		{
+			// for checking which nodes are active/inactive
+			RenameMapNodesWithGridCoords();
+		}
+
+		if (!CryptManager.Instance.HandLight.gameObject.activeInHierarchy)
+		{
+			CryptManager.Instance.HandLight.gameObject.SetActive(true);
+		}
+		CryptManager.Instance.ResetHandLightRange(0.25f);
 	}
 
 	private void OnGUI()
@@ -161,11 +186,11 @@ public class ChessboardMapExt : GameMap
 			{
 				GUI.SelectionGrid(
 					new Rect(
-						(ConfigHelper.Instance.IsDevModeEnabled ? 400 : 25), 
-						Screen.height * 0.75f, 
-						150, 
+						(ConfigHelper.Instance.IsDevModeEnabled ? 400 : 25),
+						Screen.height * 0.75f,
+						150,
 						CardDrawPiles3D.Instance.Deck.cards.Count * 25f
-						),
+					),
 					-1,
 					CardsLeftInDeck,
 					2
@@ -224,13 +249,18 @@ public class ChessboardMapExt : GameMap
 		ConfigHelper.Instance.ResetRemovedPieces();
 	}
 
+	private void EnableCandlesIfTheyAreDisabled()
+	{
+		Transform tableCandles = CryptManager.Instance.gameObject.transform.Find("Furniture/TableCandles");
+		for (int i = 0; i < tableCandles.childCount; i++)
+		{
+			tableCandles.GetChild(i).gameObject.SetActive(true);
+		}
+	}
+
 	public override IEnumerator UnrollingSequence(float unrollSpeed)
 	{
 		InteractionCursor.Instance.InteractionDisabled = true;
-		if (FinaleDeletionWindowManager.instance && FinaleDeletionWindowManager.instance.mainWindow.isActiveAndEnabled)
-		{
-			FinaleDeletionWindowManager.instance.mainWindow.gameObject.SetActive(false);
-		}
 
 		TableRuleBook.Instance.SetOnBoard(false);
 
@@ -242,9 +272,6 @@ public class ChessboardMapExt : GameMap
 		mapAnim.Play("enter", 0, 0f);
 
 		dynamicElementsParent.gameObject.SetActive(true);
-
-		// for checking which nodes are active/inactive
-		if (ConfigHelper.Instance.IsDevModeEnabled) RenameMapNodesWithGridCoords();
 
 		// if the boss piece exists in the removed pieces,
 		// this means the game didn't complete clearing the board for changing the region
@@ -269,10 +296,9 @@ public class ChessboardMapExt : GameMap
 			);
 		}
 
-		ChangeStartDeckIfNotAlreadyChanged();
-
 		SaveManager.SaveToFile();
 		InteractionCursor.Instance.InteractionDisabled = false;
+		Log.LogDebug($"Finished unrolling chessboard");
 	}
 
 	private void UpdateActiveChessboard()
@@ -313,8 +339,8 @@ public class ChessboardMapExt : GameMap
 
 		// pieces will contain the pieces just placed
 		var activePieces = pieces
-			.Where(p => !removedList.Contains(p.name))
-			.ToList();
+		 .Where(p => !removedList.Contains(p.name))
+		 .ToList();
 
 		pieces.RemoveAll(
 			delegate(ChessboardPiece piece)
@@ -392,11 +418,11 @@ public class ChessboardMapExt : GameMap
 	public void RenameMapNodesWithGridCoords()
 	{
 		if (string.Equals(
-			    navGrid.zones[0, 0].name,
-			    "ChessBoardMapNode",
-			    StringComparison.OrdinalIgnoreCase
-		    )
-		   )
+				navGrid.zones[0, 0].name,
+				"ChessBoardMapNode",
+				StringComparison.OrdinalIgnoreCase
+			)
+		)
 		{
 			var zones = ChessboardNavGrid.instance.zones;
 			for (var i = 0; i < zones.GetLength(0); i++)
@@ -435,7 +461,7 @@ public class ChessboardMapExt : GameMap
 	{
 		ChessboardMapExt ext = ChessboardMap.Instance.gameObject.GetComponent<ChessboardMapExt>();
 
-		if (ext.IsNull())
+		if (ext.SafeIsUnityNull())
 		{
 			ChessboardMap boardComp = ChessboardMap.Instance.gameObject.GetComponent<ChessboardMap>();
 			boardComp.pieces.Clear();
@@ -463,30 +489,25 @@ public class ChessboardMapExt : GameMap
 
 	private static void ChangeStartDeckIfNotAlreadyChanged()
 	{
-		if (GrimoraSaveUtil.DeckInfo.cardIds.IsNullOrEmpty())
+		Log.LogDebug($"[ChangeStartDeckIfNotAlreadyChanged] Checking if deck needs reset");
+		try
 		{
-			Log.LogWarning($"Re-initializing player deck as there are no cardIds! This means the deck was never loaded correctly.");
-			GrimoraSaveData.Data.Initialize();
-		}
-		else
-		{
-			try
-			{
-				List<CardInfo> grimoraDeck = GrimoraSaveUtil.DeckList;
+			List<CardInfo> grimoraDeck = GrimoraSaveUtil.DeckList;
 
-				int graveDiggerCount = grimoraDeck.Count(info => info.name == "Gravedigger");
-				int frankNSteinCount = grimoraDeck.Count(info => info.name == "FrankNStein");
-				if (grimoraDeck.Count == 5 && graveDiggerCount == 3 && frankNSteinCount == 2)
-				{
-					Log.LogWarning($"[ChangeStartDeckIfNotAlreadyChanged] Starter deck needs reset");
-					GrimoraSaveData.Data.Initialize();
-				}
-			}
-			catch (Exception e)
+			int graveDiggerCount = grimoraDeck.Count(info => info.name == "Gravedigger");
+			int frankNSteinCount = grimoraDeck.Count(info => info.name == "FrankNStein");
+			if (grimoraDeck.Count == 5 && graveDiggerCount == 3 && frankNSteinCount == 2)
 			{
-				Log.LogWarning($"[ChangingDeck] Had trouble retrieving deck list! Resetting deck. Current card Ids: [{GrimoraSaveUtil.DeckInfo.cardIds.Join()}]");
+				Log.LogWarning($"[ChangeStartDeckIfNotAlreadyChanged] --> Starter deck needs reset");
 				GrimoraSaveData.Data.Initialize();
 			}
 		}
+		catch (Exception e)
+		{
+			Log.LogWarning($"[ChangingDeck] Had trouble retrieving deck list! Resetting deck. Current card Ids: [{GrimoraSaveUtil.DeckInfo.cardIds.Join()}]");
+			GrimoraSaveData.Data.Initialize();
+		}
+
+		Log.LogDebug($"[ChangeStartDeckIfNotAlreadyChanged] -> Finished");
 	}
 }

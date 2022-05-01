@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Helpers.Extensions;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -13,6 +15,11 @@ public class GrimoraItemsManagerExt : ItemsManager
 	public new static GrimoraItemsManagerExt Instance => ItemsManager.Instance as GrimoraItemsManagerExt;
 
 	public override List<string> SaveDataItemsList => Part3SaveData.Data.items;
+
+	public void SetHammerActive(bool active = true)
+	{
+		hammerSlot.gameObject.SetActive(active);
+	}
 
 	public override void OnBattleStart()
 	{
@@ -30,7 +37,7 @@ public class GrimoraItemsManagerExt : ItemsManager
 
 		GrimoraItemsManagerExt ext = GrimoraItemsManager.Instance.GetComponent<GrimoraItemsManagerExt>();
 
-		if (ext.IsNull())
+		if (ext.SafeIsUnityNull())
 		{
 			ext = GrimoraItemsManager.Instance.gameObject.AddComponent<GrimoraItemsManagerExt>();
 			ext.consumableSlots = currentItemsManager.consumableSlots;
@@ -54,26 +61,34 @@ public class GrimoraItemsManagerExt : ItemsManager
 		{
 			Destroy(FindObjectOfType<Part3ItemsManager>().gameObject);
 		}
+		
+		if (ext.consumableSlots.Any(slot => slot.isActiveAndEnabled))
+		{
+			// TODO: disable all consumable item slots so the items dont cause a shit load of exceptions
+			Log.LogDebug($"[ChangeDefaultHammerModel] Disabling other consumable item slots");
+			ext.consumableSlots.ForEach(slot => slot.gameObject.SetActive(false));
+		}
 	}
 }
 
-[HarmonyPatch(typeof(ItemSlot), nameof(ItemSlot.CreateItem))]
+[HarmonyPatch(typeof(ItemSlot))]
 public class AddNewHammerExt
 {
-	[HarmonyPrefix]
-	public static bool InitHammerExtAfter(ItemSlot __instance, ItemData data, bool skipDropAnimation = false)
+	[HarmonyPrefix, HarmonyPatch(nameof(ItemSlot.CreateItem))]
+	public static bool ChangeDefaultHammerModel(ItemSlot __instance, ItemData data, bool skipDropAnimation = false)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		Log.LogDebug($"[ItemSlot.CreateItem] ItemSlot [{__instance}] ItemData [{data}]");
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			return true;
 		}
 
-		if (__instance.Item)
+		if (__instance && __instance.Item)
 		{
 			UnityObject.Destroy(__instance.Item.gameObject);
 		}
 
-		if (data.prefabId.Equals("HammerItem"))
+		if (data && data.prefabId.Equals("HammerItem"))
 		{
 			Log.LogDebug($"Adding new HammerItemExt");
 			HammerItemExt grimoraHammer = UnityObject.Instantiate(
@@ -92,48 +107,48 @@ public class AddNewHammerExt
 	}
 }
 
-[HarmonyPatch(typeof(ConsumableItemSlot), nameof(ConsumableItemSlot.ConsumeItem))]
+[HarmonyPatch(typeof(ConsumableItemSlot))]
 public class DeactivateHammerAfterThreeUses
 {
-	[HarmonyPostfix]
-	public static IEnumerator Postfix(IEnumerator enumerator, ConsumableItemSlot __instance)
+	[HarmonyPostfix, HarmonyPatch(nameof(ConsumableItemSlot.ConsumeItem))]
+	public static IEnumerator CheckHammerForThreeUses(IEnumerator enumerator, ConsumableItemSlot __instance)
 	{
 		yield return enumerator;
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			yield break;
 		}
 
 		if (__instance.Consumable is HammerItemExt { useCounter: 3 })
 		{
-			Log.LogDebug($"Destroying hammer as all 3 uses have been used");
+			Log.LogWarning($"Destroying hammer as all 3 uses have been used");
 			__instance.coll.enabled = false;
 			__instance.gameObject.SetActive(false);
 		}
 	}
 }
 
-[HarmonyPatch(typeof(FirstPersonAnimationController), nameof(FirstPersonAnimationController.SpawnFirstPersonAnimation))]
+[HarmonyPatch(typeof(FirstPersonAnimationController))]
 public class FirstPersonHammerPatch
 {
 	public static bool HasPlayedIceDialogue = false;
 
-	[HarmonyPrefix]
-	public static bool InitHammerExtAfter(
+	[HarmonyPrefix, HarmonyPatch(nameof(FirstPersonAnimationController.SpawnFirstPersonAnimation))]
+	public static bool SpawnFirstPersonHammerGrimora(
 		FirstPersonAnimationController __instance,
 		ref GameObject __result,
 		string prefabName,
 		Action<int> keyframesCallback = null
 	)
 	{
-		if (GrimoraSaveUtil.isNotGrimora || !prefabName.Contains("FirstPersonHammer"))
+		if (GrimoraSaveUtil.IsNotGrimora || !prefabName.Contains("FirstPersonHammer"))
 		{
 			return true;
 		}
 
 		if (!HasPlayedIceDialogue
 		    && TurnManager.Instance.Opponent is KayceeBossOpponent
-		    && BoardManager.Instance.PlayerSlotsCopy.Exists(slot => slot.Card && slot.Card.HasAbility(Ability.IceCube))
+		    && BoardManager.Instance.GetPlayerCards().Exists(pCard => pCard.HasAbility(Ability.IceCube))
 		   )
 		{
 			__instance.StartCoroutine(

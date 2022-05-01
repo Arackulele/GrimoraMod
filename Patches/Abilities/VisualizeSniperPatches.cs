@@ -1,6 +1,7 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
 using Pixelplacement;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -15,7 +16,7 @@ public class VisualizeSniperPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(CombatPhaseManager.VisualizeStartSniperAbility))]
 	public static bool VisualizeStartSniperAbilityGrimora(CardSlot sniperSlot)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			return true;
 		}
@@ -29,7 +30,7 @@ public class VisualizeSniperPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(CombatPhaseManager.VisualizeAimSniperAbility))]
 	public static bool VisualizeAimForGrimoraGrimora(CardSlot sniperSlot, CardSlot targetSlot)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			return true;
 		}
@@ -41,13 +42,13 @@ public class VisualizeSniperPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(CombatPhaseManager.VisualizeConfirmSniperAbility))]
 	public static bool VisualizeConfirmSniperAbilityGrimora(CombatPhaseManager __instance, CardSlot targetSlot)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			return true;
 		}
 		
 		// GrimoraPlugin.Log.LogDebug($"Starting VisualizeConfirmSniperAbility for target slot [{targetSlot.name}]");
-		if (sniperIconPrefab == null)
+		if (sniperIconPrefab.SafeIsUnityNull())
 		{
 			// GrimoraPlugin.Log.LogDebug("-> sniperIconPrefab is null, creating cannon target");
 			sniperIconPrefab = ResourceBank.Get<GameObject>("Prefabs/Cards/SpecificCardModels/CannonTargetIcon");
@@ -64,7 +65,7 @@ public class VisualizeSniperPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(CombatPhaseManager.VisualizeClearSniperAbility))]
 	public static bool VisualizeClearSniperAbilityGrimora()
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			return true;
 		}

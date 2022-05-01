@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Encounters;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -8,12 +9,11 @@ namespace GrimoraMod;
 
 public class GrimoraModBattleSequencer : SpecialBattleSequencer
 {
-	public static readonly string ID = SpecialSequenceManager.Add(
-			GUID,
-			nameof(GrimoraModBattleSequencer),
-			typeof(GrimoraModBattleSequencer)
-		)
-		.Id;
+	public static readonly SpecialSequenceManager.FullSpecialSequencer FullSequencer = SpecialSequenceManager.Add(
+		GUID,
+		nameof(GrimoraModBattleSequencer),
+		typeof(GrimoraModBattleSequencer)
+	);
 
 	public static ChessboardEnemyPiece ActiveEnemyPiece;
 
@@ -25,13 +25,10 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		{
 			opponentType = Opponent.Type.Default,
 			opponentTurnPlan = nodeData.blueprint
-				.turns.Select(bpList1 => bpList1.Select(bpList2 => bpList2.card).ToList())
-				.ToList()
+			 .turns.Select(bpList1 => bpList1.Select(bpList2 => bpList2.card).ToList())
+			 .ToList()
 		};
-		if (this is GrimoraModBossBattleSequencer boss)
-		{
-			data.opponentType = boss.BossType;
-		}
+		data.opponentType = this is GrimoraModBossBattleSequencer boss ? boss.BossType : GrimoraModFinaleOpponent.FullOpponent.Id;
 
 		return data;
 	}
@@ -114,6 +111,70 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		}
 	}
 
+	public override IEnumerator PlayerUpkeep()
+	{
+		if (SaveFile.IsAscension)
+		{
+			Log.LogInfo($"[BattleSequencer.OnUpkeep] Is Ascension and Is player upkeep");
+			if (TurnManager.Instance.TurnNumber % 3 == 0 && AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.SawyersShowdown))
+			{
+				yield return HandleSawyersShowdownChallenge();
+			}
+
+			if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.KayceesKerfuffle))
+			{
+				switch (TurnManager.Instance.TurnNumber)
+				{
+					case 3:
+					{
+						yield return TextDisplayer.Instance.ShowUntilInput("I hope you're able to warm up next turn.");
+						break;
+					}
+					case 4:
+						yield return HandleKayceeKerfuffleChallenge();
+						break;
+				}
+			}
+		}
+	}
+
+	private IEnumerator HandleSawyersShowdownChallenge()
+	{
+		if (ResourcesManager.Instance.PlayerBones > 0)
+		{
+			ViewManager.Instance.SwitchToView(View.BoneTokens);
+			yield return new WaitForSeconds(0.25f);
+			yield return TextDisplayer.Instance.ShowUntilInput("Sawyer thanks you for your contribution!");
+			yield return ResourcesManager.Instance.SpendBones(1);
+			yield return new WaitForSeconds(1f);
+		}
+	}
+
+	private IEnumerator HandleKayceeKerfuffleChallenge()
+	{
+		var playerCardsWithAttacks = GrimoraModKayceeBossSequencer.GetValidCardsForFreezing();
+		if (playerCardsWithAttacks.Any())
+		{
+			yield return TextDisplayer.Instance.ShowUntilInput("Kaycee says it's time to freeze!");
+			foreach (var card in playerCardsWithAttacks)
+			{
+				var modInfo = GrimoraModKayceeBossSequencer.CreateModForFreeze(card);
+				if (GrimoraModKayceeBossSequencer.AbilitiesThatShouldBeRemovedWhenFrozen.Exists(card.HasAbility))
+				{
+					card.RemoveAbilityFromThisCard(modInfo);
+				}
+				else
+				{
+					card.AddTemporaryMod(modInfo);
+				}
+
+				card.Anim.PlayTransformAnimation();
+				yield return new WaitForSeconds(0.1f);
+				card.OnStatsChanged();
+			}
+		}
+	}
+
 	public override bool RespondsToOtherCardDie(
 		PlayableCard card,
 		CardSlot deathSlot,
@@ -133,7 +194,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 	{
 		Log.LogDebug(
 			$"[GModBattleSequencer] Adding [{card.InfoName()}] to cardsThatHaveDiedThisGame. "
-			+ $"Current count [{_cardsThatHaveDiedThisMatch.Count + 1}]"
+		+ $"Current count [{_cardsThatHaveDiedThisMatch.Count + 1}]"
 		);
 		_cardsThatHaveDiedThisMatch.Add(card.Info);
 		yield break;
@@ -144,10 +205,10 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		Log.LogDebug($"[GetFixedOpeningHand] Getting randomized list for starting hand");
 		var cardsToAdd = new List<CardInfo>();
 		var gravedigger = GrimoraSaveUtil.DeckList.Find(info => info.name.Equals(NameGravedigger));
-		var bonepile = GrimoraSaveUtil.DeckList.Find(info => info.name.Equals(NameBonepile));
-		if (bonepile)
+		var bonePile = GrimoraSaveUtil.DeckList.Find(info => info.name.Equals(NameBonepile));
+		if (bonePile)
 		{
-			cardsToAdd.Add(bonepile);
+			cardsToAdd.Add(bonePile);
 		}
 		else if (gravedigger)
 		{
@@ -163,11 +224,15 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		if (playerWon)
 		{
 			// Log.LogDebug($"[GrimoraModBattleSequencer Adding enemy to config [{ActiveEnemyPiece.name}]");
-			ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
+			if (!ActiveEnemyPiece.SafeIsUnityNull())
+			{
+				ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
+			}
+
 			_cardsThatHaveDiedThisMatch.Clear();
-			GrimoraItemsManagerExt.Instance.hammerSlot.gameObject.SetActive(true);
+			GrimoraItemsManagerExt.Instance.SetHammerActive();
 		}
-		
+
 		foreach (var slot in BoardManager.Instance.AllSlotsCopy)
 		{
 			var nonCardReceivers = slot.GetComponentsInChildren<NonCardTriggerReceiver>();
@@ -180,7 +245,8 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 					crawlerSlot.skinCrawlerCard.ExitBoard(0.3f, Vector3.zero);
 					yield return new WaitForSeconds(0.2f);
 				}
-				UnityObject.Destroy(nonCardTriggerReceiver.gameObject);
+
+				Destroy(nonCardTriggerReceiver.gameObject);
 			}
 		}
 	}

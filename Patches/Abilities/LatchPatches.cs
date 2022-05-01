@@ -2,6 +2,7 @@
 using DiskCardGame;
 using HarmonyLib;
 using Pixelplacement;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -9,19 +10,30 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(Latch))]
 public class LatchPatches
 {
+	private static List<CardSlot> GetValidTargets(Latch latch)
+	{
+		List<CardSlot> validTargets = BoardManager.Instance.AllSlotsCopy;
+		validTargets.RemoveAll(
+			x => x.Card.SafeIsUnityNull() 
+			  || x.Card.Dead 
+			  || latch.CardHasLatchMod(x.Card) 
+			  || x.Card == latch.Card 
+			  || x.Card.AllAbilities().Count == 5
+		);
+
+		return validTargets;
+	}
+
 	[HarmonyPostfix, HarmonyPatch(nameof(Latch.OnPreDeathAnimation))]
 	public static IEnumerator PostfixChangeLogicForGrimora(IEnumerator enumerator, Latch __instance, bool wasSacrifice)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			yield return enumerator;
 			yield break;
 		}
 
-		List<CardSlot> validTargets = BoardManager.Instance.AllSlotsCopy;
-		validTargets.RemoveAll(
-			x => x.Card.IsNull() || x.Card.Dead || __instance.CardHasLatchMod(x.Card) || x.Card == __instance.Card
-		);
+		List<CardSlot> validTargets = GetValidTargets(__instance);
 		if (validTargets.Count <= 0)
 		{
 			yield break;

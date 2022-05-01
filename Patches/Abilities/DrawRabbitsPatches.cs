@@ -6,16 +6,15 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(DrawRabbits))]
 public class DrawRabbitsPatches
 {
-
 	[HarmonyPrefix, HarmonyPatch(nameof(DrawRabbits.CardToDraw), MethodType.Getter)]
 	public static bool ChangeDefaultRabbitToSpectrabbit(DrawRabbits __instance, ref CardInfo __result)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			return true;
 		}
 
-		CardInfo cardByName = GrimoraPlugin.NameSpectrabbit.GetCardInfo();
+		CardInfo cardByName = (CardInfo)GrimoraPlugin.NameSpectrabbit.GetCardInfo().Clone();
 		cardByName.Mods.AddRange(__instance.GetNonDefaultModsFromSelf(__instance.Ability));
 		__result = cardByName;
 		return false;

@@ -10,15 +10,11 @@ namespace GrimoraMod;
 
 public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 {
-	public static readonly SpecialSequenceManager.FullSpecialSequencer FullSequencer = SpecialSequenceManager.Add(
+	public new static readonly SpecialSequenceManager.FullSpecialSequencer FullSequencer = SpecialSequenceManager.Add(
 		GUID,
 		nameof(GrimoraModGrimoraBossSequencer),
 		typeof(GrimoraModGrimoraBossSequencer)
 	);
-
-	private readonly RandomEx _rng = new();
-
-	private bool _hasPlayedArmyDialogue = false;
 
 	private bool _playedDialogueDeathTouch;
 
@@ -67,7 +63,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 	private bool SlotContainsTwinGiant(CardSlot cardSlot)
 	{
-		return cardSlot.HasCard(NameGiant) && cardSlot.Card.IsGrimoraGiant();
+		return (cardSlot.HasCard(NameGiantEphialtes) || cardSlot.HasCard(NameGiantOtis)) && cardSlot.Card.IsGrimoraGiant();
 	}
 
 	public override IEnumerator OpponentUpkeep()

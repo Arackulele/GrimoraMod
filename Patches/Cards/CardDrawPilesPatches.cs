@@ -2,6 +2,7 @@
 using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Helpers.Extensions;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -13,7 +14,7 @@ public class CardDrawPilesPatches
 	public static IEnumerator GrimoraExhaustedSequence(IEnumerator enumerator, CardDrawPiles __instance)
 	{
 		CardSlot bonelordSlot = BoardManager.Instance.OpponentSlotsCopy.Find(slot => slot.HasCard(GrimoraPlugin.NameBonelord));
-		if (GrimoraSaveUtil.isNotGrimora || bonelordSlot.IsNull())
+		if (GrimoraSaveUtil.IsNotGrimora || bonelordSlot.SafeIsUnityNull())
 		{
 			yield return enumerator;
 			yield break;

@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetSpecialAbilities(FuneralFacade.FullSpecial.Id)
 			.SetBaseAttackAndHealth(1, 2)
 			.SetBoneCost(6)
-			.SetDescription("THE REPUGNANT BAL-BAL. IT STEALS CORPSES TO DINE UPON, GIVING IT FOUL BREATH.")
+			.SetDescription("It's foul breath doesn't concern me, it's the Tampered Coffins it leaves behind!")
 			.SetNames(NameBalBal, "Bal-Bal")
 			.Build();
 	}

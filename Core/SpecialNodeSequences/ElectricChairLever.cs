@@ -94,7 +94,6 @@ public class ElectricChairLever : HighlightedInteractable
 		Fylgja_GuardDog.ability,
 		InvertedStrike.ability,
 		MarchingDead.ability,
-		Malnourishment.ability,
 		Possessive.ability,
 		Puppeteer.ability
 	};
@@ -142,10 +141,7 @@ public class ElectricChairLever : HighlightedInteractable
 
 		HighlightCursorType = pressCursorType;
 
-		CursorSelectStarted = (Action<MainInputInteractable>)Delegate.Combine(
-			CursorSelectStarted,
-			(Action<MainInputInteractable>)ChangeRisk
-		);
+		CursorSelectStarted += ChangeRisk;
 	}
 
 	public void ResetRisk()

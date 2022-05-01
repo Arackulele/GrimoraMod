@@ -2,6 +2,7 @@
 using DiskCardGame;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers.Extensions;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -26,9 +27,9 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 		var playerOpenSlots = BoardManager.Instance.GetPlayerOpenSlots();
 		if (playerOpenSlots.Any())
 		{
-			slotToSpawnIn = playerOpenSlots.FirstOrDefault(slot => slot.opposingSlot.Card.IsNull() || slot.opposingSlot.Card.Attack == 0);
+			slotToSpawnIn = playerOpenSlots.FirstOrDefault(slot => slot.opposingSlot.Card.SafeIsUnityNull() || slot.opposingSlot.Card.Attack == 0);
 			Log.LogInfo($"[Swashbuckler] Slot to spawn in [{slotToSpawnIn}]");
-			if (slotToSpawnIn.IsNull())
+			if (slotToSpawnIn.SafeIsUnityNull())
 			{
 				slotToSpawnIn = playerOpenSlots.GetRandomItem();
 				Log.LogInfo($"[Swashbuckler] -> First choice is null, now spawning in [{slotToSpawnIn}]");

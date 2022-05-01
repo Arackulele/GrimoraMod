@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(2, 1)
 			.SetBoneCost(6)
 			.SetNames(NameFlameskull, "Flameskull")
-			.SetDescription("THE BLAZING FLAMESKULL, ITS HEAT ENHANCES CREATURES ADJACENT TO IT.")
+			.SetDescription("Always flying, always angry, and always making nearby friends angry.")
 			.Build();
 	}
 }

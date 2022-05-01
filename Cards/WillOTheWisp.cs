@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(SpiritBearer.ability)
 			.SetBaseAttackAndHealth(0, 1)
 			.SetBoneCost(1)
-			.SetDescription("THE WHISPERING WILL 'O' THE WISP. ITS PRESENCE WILL GRANT YOU AN ADDITIONAL SOUL.")
+			.SetDescription("Joyous spirits who provide additional soul to those they choose as companions.")
 			.SetNames(NameWillOTheWisp, "Will 'O' The Wisp")
 			.Build();
 	}

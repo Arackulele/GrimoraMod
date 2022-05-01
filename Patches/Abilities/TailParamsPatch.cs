@@ -9,7 +9,7 @@ public class TailParamsPatch
 	[HarmonyPrefix, HarmonyPatch(nameof(TailParams.GetDefaultTail))]
 	public static bool ChangeDefaultTailForGrimora(CardInfo info, ref CardInfo __result)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			return true;
 		}

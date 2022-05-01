@@ -22,7 +22,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 		stoneCircleAnim.gameObject.SetActive(true);
 		yield return new WaitForSeconds(0.5f);
-		if (!ConfigHelper.HasLearnedMechanicCardRemoval)
+		if (!EventManagement.HasLearnedMechanicCardRemoval)
 		{
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"HE WILL PROVIDE A HELPFUL OR HARMFUL CURSE UPON YOUR ARMY IF YOU LEAVE HIM AN OFFERING."
@@ -37,35 +37,28 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			GameColors.Instance.orange,
 			0.1f
 		);
-		if (!ConfigHelper.HasLearnedMechanicCardRemoval)
+		if (!EventManagement.HasLearnedMechanicCardRemoval)
 		{
 			yield return TextDisplayer.Instance.ShowUntilInput("I HOPE FOR YOUR SAKE HE IS FEELING GENEROUS.");
 
-			ConfigHelper.HasLearnedMechanicCardRemoval = true;
+			EventManagement.HasLearnedMechanicCardRemoval = true;
 		}
 
 		sacrificeSlot.RevealAndEnable();
 		sacrificeSlot.ClearDelegates();
 
 		SelectCardFromDeckSlot selectCardFromDeckSlot = sacrificeSlot;
-		selectCardFromDeckSlot.CursorSelectStarted =
-			(Action<MainInputInteractable>)Delegate.Combine(
-				selectCardFromDeckSlot.CursorSelectStarted,
-				new Action<MainInputInteractable>(OnSlotSelected)
-			);
+		selectCardFromDeckSlot.CursorSelectStarted += OnSlotSelected;
 
 		sacrificeSlot.backOutInputPressed = null;
 		SelectCardFromDeckSlot selectCardFromDeckSlot2 = sacrificeSlot;
-		selectCardFromDeckSlot2.backOutInputPressed = (Action)Delegate.Combine(
-			selectCardFromDeckSlot2.backOutInputPressed,
-			(Action)delegate
+		selectCardFromDeckSlot2.backOutInputPressed += delegate
+		{
+			if (sacrificeSlot.Enabled)
 			{
-				if (sacrificeSlot.Enabled)
-				{
-					OnSlotSelected(sacrificeSlot);
-				}
+				OnSlotSelected(sacrificeSlot);
 			}
-		);
+		};
 		gamepadGrid.enabled = true;
 		yield return confirmStone.WaitUntilConfirmation();
 	}
@@ -132,10 +125,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			Log.LogDebug($"boon card is now active");
 			boonCard.SetEnabled(true);
 
-			boonCard.CursorSelectEnded = (Action<MainInputInteractable>)Delegate.Combine(
-				boonCard.CursorSelectEnded,
-				new Action<MainInputInteractable>(OnBoonSelected)
-			);
+			boonCard.CursorSelectEnded += OnBoonSelected; 
 
 			Log.LogDebug($"boon card taken is false");
 			boonTaken = false;
@@ -293,13 +283,13 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 	private List<CardInfo> GetCardsWithoutMod(string singletonId, Predicate<CardInfo> cardInfoPredicate = null)
 	{
 		return GrimoraSaveUtil.DeckList
-			.Where(
-				info => (cardInfoPredicate is null || cardInfoPredicate.Invoke(info))
-				        && info.Mods != null
-				        && !info.Mods.Exists(mod => mod.singletonId == singletonId)
+		 .Where(
+				info => (cardInfoPredicate == null || cardInfoPredicate.Invoke(info))
+				     && info.Mods.IsNotNull()
+				     && !info.Mods.Exists(mod => mod.singletonId == singletonId)
 			)
-			.Randomize()
-			.ToList();
+		 .Randomize()
+		 .ToList();
 	}
 
 	private CardModificationInfo GetModInfoFromSingletonId(string singletonId)
@@ -309,9 +299,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		string whetherIncreaseOrDecrease = splitSingleton[3];
 		var modificationInfo = new CardModificationInfo();
 
-		int howMuchToAdjust = whetherIncreaseOrDecrease.Equals("increase")
-			? 1
-			: -1;
+		int howMuchToAdjust = whetherIncreaseOrDecrease.Equals("increase") ? 1 : -1;
 
 		if (whatToApplyTo.Equals("health"))
 		{
@@ -390,7 +378,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 	{
 		// TODO: This will work, but it doesn't show the boon art correctly.
 
-		if (SpecialNodeHandler.Instance.IsNull() || SpecialNodeHandler.Instance.cardRemoveSequencer)
+		if (SpecialNodeHandler.Instance.SafeIsUnityNull() || SpecialNodeHandler.Instance.cardRemoveSequencer)
 		{
 			return;
 		}
@@ -420,32 +408,5 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		Destroy(oldRemoveSequencer);
 
 		SpecialNodeHandler.Instance.cardRemoveSequencer = cardRemoveSequencer;
-	}
-
-	private static void AddDecalRenders()
-	{
-		// TODO: HOW DO WE GET THOSE DECALS TO SHOW UP
-		Log.LogDebug($"Adding decal renders");
-		CardDisplayer3D graveDisplayer = FindObjectOfType<CardDisplayer3D>();
-
-		BoonIconInteractable cardAbilityIcons = Instantiate(
-			ResourceBank.Get<BoonIconInteractable>("Prefabs/Cards/CardSurfaceInteraction/BoonIcon"),
-			graveDisplayer.GetComponentInChildren<CardAbilityIcons>().transform
-		);
-		graveDisplayer.GetComponentInChildren<CardAbilityIcons>().boonIcon = cardAbilityIcons;
-
-		CardDisplayer3D cardElements = ResourceBank.Get<CardDisplayer3D>("Prefabs/Cards/CardElements");
-		CardDisplayer3D cardDisplayer3D = Instantiate(cardElements, graveDisplayer.transform);
-
-		var cardDecals = cardDisplayer3D.transform.Find("CardDecals");
-		cardDecals.SetParent(graveDisplayer.transform);
-		Destroy(cardDisplayer3D.gameObject);
-
-		graveDisplayer.decalRenderers.Clear();
-		for (int i = 0; i < cardDecals.transform.childCount; i++)
-		{
-			graveDisplayer.decalRenderers.Add(cardDecals.transform.GetChild(i).GetComponent<MeshRenderer>());
-			graveDisplayer.decalRenderers[i].enabled = true;
-		}
 	}
 }

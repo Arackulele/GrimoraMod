@@ -17,12 +17,7 @@ public class BoneThief : AbilityBehaviour
 		PlayableCard killer
 	)
 	{
-		if (Card.OnBoard)
-		{
-			return killer == Card && card.OpponentCard;
-		}
-
-		return false;
+		return Card.OnBoard && killer == Card && card.OpponentCard;
 	}
 
 	public override IEnumerator OnOtherCardDie(

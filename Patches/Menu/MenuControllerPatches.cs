@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static GrimoraMod.GrimoraPlugin;
@@ -13,23 +14,30 @@ public class MenuControllerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(MenuController.OnCardReachedSlot))]
 	public static bool OnCardReachedSlotPatch(MenuController __instance, MenuCard card, bool skipTween = false)
 	{
-		if (GrimoraSaveUtil.isGrimora)
+		if (SaveManager.SaveFile.IsGrimora)
 		{
-			if (card.MenuAction == MenuAction.ReturnToStartMenu)
+			if (!SaveFile.IsAscension)
 			{
-				Log.LogWarning($"[MenuController.OnCardReachedSlot] Saving before exiting");
-				SaveManager.SaveToFile();
-			}
-			else if (card.menuAction == MenuAction.EndRun)
-			{
-				__instance.DoingCardTransition = false;
-				card.transform.parent = __instance.menuSlot.transform;
-				card.SetBorderColor(__instance.slottedBorderColor);
-				AudioController.Instance.PlaySound2D("crunch_short#1", MixerGroup.None, 0.6f);
+				switch (card.MenuAction)
+				{
+					case MenuAction.ReturnToStartMenu:
+					{
+						Log.LogWarning($"[MenuController.OnCardReachedSlot] Saving before exiting");
+						SaveManager.SaveToFile();
+						break;
+					}
+					case MenuAction.EndRun:
+					{
+						__instance.DoingCardTransition = false;
+						card.transform.parent = __instance.menuSlot.transform;
+						card.SetBorderColor(__instance.slottedBorderColor);
+						AudioController.Instance.PlaySound2D("crunch_short#1", MixerGroup.None, 0.6f);
 
-				__instance.Shake(0.015f, 0.3f);
-				__instance.StartCoroutine(__instance.TransitionToGame2(true));
-				return false;
+						__instance.Shake(0.015f, 0.3f);
+						__instance.StartCoroutine(__instance.TransitionToGame2(true));
+						return false;
+					}
+				}
 			}
 		}
 		else if (card.titleText == "Start Grimora Mod")
@@ -52,19 +60,40 @@ public class MenuControllerPatches
 	{
 		if (SceneManager.GetActiveScene().name.Equals("Start"))
 		{
-			if (__instance.cardRow.Find("MenuCard_Grimora").IsNull())
+			if (__instance.cardRow.Find("MenuCard_Grimora").SafeIsUnityNull())
 			{
 				Log.LogDebug($"Non-hot reload menu button creation");
 				__instance.cards.Add(CreateMenuButton(__instance));
 			}
 		}
-		else if (GrimoraSaveUtil.isGrimora)
+		else if (GrimoraSaveUtil.IsGrimora)
 		{
-			if (__instance.cardRow.Find("MenuCard_ResetRun").IsNull())
+			if (__instance.cardRow.Find("MenuCard_ResetRun").SafeIsUnityNull())
 			{
 				CreateButtonResetRun(__instance);
 			}
 		}
+	}
+	
+	[HarmonyPrefix, HarmonyPatch(nameof(MenuController.LoadGameFromMenu))]
+	[HarmonyBefore(ConfigHelper.P03ModGuid)]
+	public static bool LoadGameFromMenu(bool newGameGBC)
+	{
+		Log.LogDebug($"[MenuController.LoadGameFromMenu] " +
+		             $"NewGameGBC [{newGameGBC}] " +
+		             $"SaveFile.IsAscension [{SaveFile.IsAscension}] " +
+		             $"Is Grimora run? [{SaveDataRelatedPatches.IsGrimoraRun}] " +
+		             $"CurrentRun [{AscensionSaveData.Data.currentRun}]");
+		if (!newGameGBC && SaveFile.IsAscension && SaveDataRelatedPatches.IsGrimoraRun)
+		{
+			Log.LogDebug($"[MenuController.LoadGameFromMenu] --> Save file is ascension and IsGrimoraRun");
+			SaveManager.LoadFromFile();
+			LoadingScreenManager.LoadScene("finale_grimora");
+			SaveManager.savingDisabled = false;
+			return false;
+		}
+
+		return true;
 	}
 
 	public static MenuCard CreateButtonResetRun(MenuController controller)

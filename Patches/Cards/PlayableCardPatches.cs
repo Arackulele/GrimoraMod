@@ -54,7 +54,7 @@ public class PlayableCardPatches
 	[HarmonyPostfix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetPassiveAttackBuffs))]
 	public static void CorrectBuffsAndDebuffsForGrimoraGiants(PlayableCard __instance, ref int __result)
 	{
-		bool isGrimoraGiant = GrimoraSaveUtil.isGrimora && __instance.IsGrimoraGiant();
+		bool isGrimoraGiant = GrimoraSaveUtil.IsGrimora && __instance.IsGrimoraGiant();
 		if (__instance.OnBoard && isGrimoraGiant)
 		{
 			int finalAttackNum = 0;

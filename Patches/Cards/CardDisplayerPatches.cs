@@ -12,7 +12,7 @@ public class CardDisplayerPatches
 	                                            CardRenderInfo renderInfo,
 	                                            PlayableCard playableCard)
 	{
-		if (GrimoraSaveUtil.isNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimora)
 		{
 			return true;
 		}

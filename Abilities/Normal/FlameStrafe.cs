@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Helpers.Extensions;
+using Sirenix.Utilities;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -13,7 +14,7 @@ public class FlameStrafe : Strafe
 
 	public override IEnumerator PostSuccessfulMoveSequence(CardSlot oldSlot)
 	{
-		if (oldSlot.Card.IsNull())
+		if (oldSlot.Card.SafeIsUnityNull())
 		{
 			yield return oldSlot.CreateCardInSlot(NameFlames.GetCardInfo());
 		}
