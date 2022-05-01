@@ -76,7 +76,7 @@ public class MenuControllerPatches
 	}
 	
 	[HarmonyPrefix, HarmonyPatch(nameof(MenuController.LoadGameFromMenu))]
-	[HarmonyBefore(AscensionRelatedPatches.P03ModGuid)]
+	[HarmonyBefore(ConfigHelper.P03ModGuid)]
 	public static bool LoadGameFromMenu(bool newGameGBC)
 	{
 		Log.LogDebug($"[MenuController.LoadGameFromMenu] " +
