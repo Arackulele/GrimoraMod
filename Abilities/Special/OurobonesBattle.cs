@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
 
@@ -22,7 +22,6 @@ public class OurobonesBattle : SpecialCardBehaviour
 		{
 			_ouroMod.attackAdjustment++;
 			_ouroMod.healthAdjustment++;
-			_ouroMod.bonesCostAdjustment += 2;
 		}
 		else
 		{
@@ -32,14 +31,16 @@ public class OurobonesBattle : SpecialCardBehaviour
 			};
 		}
 		
-		int additiveCost = (PlayableCard.HasAbility(Ability.Brittle) ? 1 : 2) * _ouroMod.attackAdjustment;
+		int additiveCost = (PlayableCard.HasAbility(Ability.Brittle) ? 1 : 2);
 		CardInfo ouroInfo = AdjustBoneCost(additiveCost);
-		yield return CardSpawner.Instance.SpawnCardToHand(ouroInfo, new List<CardModificationInfo> { _ouroMod });
+		ouroInfo.Mods.Add(_ouroMod);
+		yield return CardSpawner.Instance.SpawnCardToHand(ouroInfo);
 	}
 	
 	private CardInfo AdjustBoneCost(int costAdjustment)
 	{
-		CardInfo ouroInfo = Card.Info.Clone() as CardInfo;
+		CardInfo ouroInfo = CardLoader.Clone(Card.Info);
+		ouroInfo.Mods = new(Card.Info.Mods);
 		ouroInfo.Mods.Add(new CardModificationInfo { bonesCostAdjustment = costAdjustment});
 		return ouroInfo;
 	}

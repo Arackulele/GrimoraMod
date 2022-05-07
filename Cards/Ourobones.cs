@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 		 .SetSpecialAbilities(OurobonesBattle.FullSpecial.Id)
 		 .SetBaseAttackAndHealth(1, 1)
 		 .SetBoneCost(2)
-		 .SetDescription("Oh dear, poor thing. Eternal death has weakened it's strength.")
+		 .SetDescription("An endless cycle of life and death has taken a toll on these discarded remains.")
 		 .SetNames(NameOurobones, "Ourobones")
 		 .Build();
 	}
