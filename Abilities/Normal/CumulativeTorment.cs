@@ -49,16 +49,8 @@ public class OpenToAbilityPage_patch
 	[HarmonyPrefix]
 	public static bool OpenToAbilityPage(ref string abilityName, ref PlayableCard card, ref bool immediate)
 	{
-		Debug.Log("test1");
-		Debug.Log("ability: " + abilityName);
-		Debug.Log("card: " + (card?.Info?.name ?? "NULL"));
 		if (abilityName == Ability.Brittle.ToString() && card?.Info?.name == GrimoraPlugin.NameOurobones)
 		{
-			Debug.Log("test2");
-			Debug.Log(card);
-			Debug.Log(card.Info);
-			Debug.Log(card.Info.name);
-
 			abilityName = CumulativeTorment.ability.ToString();
 		}
 		return true;
