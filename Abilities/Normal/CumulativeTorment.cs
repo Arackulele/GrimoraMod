@@ -33,7 +33,7 @@ public partial class GrimoraPlugin
 	public void Add_Ability_CumulativeTorment()
 	{
 		const string rulebookDescription =
-			"A card bearing this sigil perishes after attacking, then a copy with +1 power and health that costs 1 more bone enters your hand. Resets after every battle.";
+			"[creature] perishes after attacking, then a copy with +1 power and health that costs 1 more bone enters your hand. Resets after every battle.";
 
 		AbilityBuilder<CumulativeTorment>.Builder
 		 .SetIcon(TextureHelper.GetImageAsTexture("ability_CumulativeTorment.png"))
