@@ -97,9 +97,13 @@ public class ChallengeManagement
 			RoyalsRevenge,
 		};
 
+
+
+
+
 		ChallengeManager.ModifyChallenges += delegate(List<AscensionChallengeInfo> challenges)
 		{
-			if (SaveDataRelatedPatches.IsGrimoraRun)
+			if (ScreenManagement.ScreenState == CardTemple.Undead)
 			{
 				for (int i = 0; i < challenges.Count; i++)
 				{
@@ -108,30 +112,34 @@ public class ChallengeManagement
 						challenges[i] = PatchedChallengesReference[challenges[i].challengeType];
 					}
 				}
+
+				return challenges;
 			}
+			challenges =  ChallengeManager.BaseGameChallenges.ToList();
 			return challenges;
 		};
 	}
+	
 	
 	[HarmonyPostfix, HarmonyPatch(typeof(AscensionUnlockSchedule), nameof(AscensionUnlockSchedule.ChallengeIsUnlockedForLevel))]
 	[HarmonyAfter(InscryptionAPIPlugin.ModGUID)]
 	public static void ValidGrimoraChallenges(ref bool __result, AscensionChallenge challenge, int level)
 	{
-		if (ScreenManagement.ScreenState == CardTemple.Undead)
+		if (ScreenManagement.ScreenState == CardTemple.Undead && SaveDataRelatedPatches.IsGrimoraRun) 
 		{
 			if (!ValidChallenges.Contains(challenge))
 			{
 				__result = false;
 				return;
 			}
+		}
 
-			if (PatchedChallengesReference.Any(kvp => kvp.Value.challengeType == challenge))
+		if (PatchedChallengesReference.Any(kvp => kvp.Value.challengeType == challenge))
+		{
+			var kvp = PatchedChallengesReference.First(kvp => kvp.Value.challengeType == challenge);
+			if (kvp.Value.challengeType != kvp.Key)
 			{
-				var kvp = PatchedChallengesReference.First(kvp => kvp.Value.challengeType == challenge);
-				if (kvp.Value.challengeType != kvp.Key)
-				{
-					__result = AscensionUnlockSchedule.ChallengeIsUnlockedForLevel(kvp.Key, level);
-				}
+				__result = AscensionUnlockSchedule.ChallengeIsUnlockedForLevel(kvp.Key, level);
 			}
 		}
 	}
