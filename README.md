@@ -1,10 +1,7 @@
 # Grimora Mod
 
-- A giant Mod made by xXxStoner420BongMasterxXx and Arackulele, that builds upon the finale with Grimora's chessboard.
+- A giant Mod made by just a lot of people (look in the credits section of the readme for more info), that builds upon the finale with Grimora's chessboard.
 
-- **Note from BongMaster 2022-04-30**
-  - Due to the toxicity/negativity of the GrimoraMod server in regards to really any discussion that might be taking place, I'm going to be taking a hiatus from working on the mod.
-  - I personally have been private messaged from 6 different members in the server about ideas being not only shutdown, but aggressively attacked from other members in the server as well. I wanted to work on this mod as it was a great idea and to extend the Scrybe of the Dead even further, not deal with people who are unable to have a decent idea discussion or have no idea how to give constructive criticism.
 
 - **MOST IMPORTANT**: **!!!YOU WILL ENCOUNTER BUGS!!!**
 - **BEWARE**:
@@ -45,7 +42,11 @@
 
 ## Update Notes
 
-### 2.8.81
+### 2.8.10
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with the mod being incompatible with the newest version of the Api.
+
+### 2.8.9
 
 - **If you happen to encounter any further bugs, you may have to delete your `ModdedSaveFile.gwsave` file in your Inscryption directory. This is in the same directory as your main save file, SaveFile.gwsave**
 
@@ -164,9 +165,17 @@
 
 ### Code
 
-- JulianMods (xXxStoner420BongMasterxXx) for being the Main Developer
+- JulianMods (xXxStoner420BongMasterxXx) for a ton of the Code
+
+**Note from BongMaster 2022-04-30**
+  - Due to the toxicity/negativity of the GrimoraMod server in regards to really any discussion that might be taking place, I'm going to be taking a hiatus from working on the mod.
+  - I personally have been private messaged from 6 different members in the server about ideas being not only shutdown, but aggressively attacked from other members in the server as well. I wanted to work on this mod as it was a great idea and to extend the Scrybe of the Dead even further, not deal with people who are unable to have a decent idea discussion or have no idea how to give constructive criticism.
 
 - Arackulele for additional programming
+
+- Kopie for some Bug fixes
+
+- Orochi Umbra for some code for the Ourobones Card
 
 ### Artists
 
@@ -180,7 +189,7 @@
 
 - Lich Underling (Lich underling#7678) for additional Card Art
 
-- Blind, the Bound Demon (Blind, the Bound Demon#6475) for Gameplay footage
+- Anne Ghoul for some additional Card Art
 
 ### 3D Models
 
@@ -189,6 +198,8 @@
 - Catboy Stinkbug (Catboy Stinkbug#4099) for the Board Skull 3D Models
 
 - Draconis17#3692 for the new energy cells game object.
+
+- JestAnotherAnimator for the new attack animations.
 
 ### Dialogue
 
