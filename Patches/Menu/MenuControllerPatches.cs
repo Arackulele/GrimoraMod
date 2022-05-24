@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Ascension;
 using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,6 +15,7 @@ public class MenuControllerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(MenuController.OnCardReachedSlot))]
 	public static bool OnCardReachedSlotPatch(MenuController __instance, MenuCard card, bool skipTween = false)
 	{
+		ChallengeManager.SyncChallengeList();
 		if (SaveManager.SaveFile.IsGrimora)
 		{
 			if (!SaveFile.IsAscension)
@@ -28,13 +30,14 @@ public class MenuControllerPatches
 					}
 					case MenuAction.EndRun:
 					{
+						
 						__instance.DoingCardTransition = false;
 						card.transform.parent = __instance.menuSlot.transform;
 						card.SetBorderColor(__instance.slottedBorderColor);
 						AudioController.Instance.PlaySound2D("crunch_short#1", MixerGroup.None, 0.6f);
-
 						__instance.Shake(0.015f, 0.3f);
-						__instance.StartCoroutine(__instance.TransitionToGame2(true));
+						CustomCoroutine.Instance.StartCoroutine(__instance.TransitionToGame2(true));
+
 						return false;
 					}
 				}
@@ -48,7 +51,7 @@ public class MenuControllerPatches
 			AudioController.Instance.PlaySound2D("crunch_short#1", MixerGroup.None, 0.6f);
 
 			__instance.Shake(0.015f, 0.3f);
-			__instance.StartCoroutine(__instance.TransitionToGame2());
+			CustomCoroutine.Instance.StartCoroutine(__instance.TransitionToGame2());
 			return false;
 		}
 
@@ -102,7 +105,6 @@ public class MenuControllerPatches
 
 		var libraryCard = controller.cards.Single(card => card.menuAction == MenuAction.Library);
 		UnityObject.Destroy(libraryCard.transform.Find("GlitchedVersion").gameObject);
-
 		libraryCard.name = "MenuCard_ResetRun";
 		libraryCard.GetComponent<SpriteRenderer>().sprite = AssetUtils.GetPrefab<Sprite>("MenuCard_ResetRun");
 		libraryCard.GetComponent<SpriteRenderer>().enabled = true;

@@ -67,6 +67,18 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Initialized = true;
 	}
 
+
+
+#if DEBUG
+	private void Update()
+	{
+		if (Input.GetKey(KeyCode.Alpha1))
+		{
+			Log.LogInfo($"{SaveDataRelatedPatches.IsGrimoraRun} = {ScreenManagement.ScreenState==CardTemple.Undead} + {SceneLoader.ActiveSceneName.ToLowerInvariant().Contains("grimora")}");
+		}
+	}
+#endif
+
 	private void LoadAssetsSync()
 	{
 		AllAbilitiesTextures = AssetUtils.LoadAssetBundle<Texture>("grimoramod_abilities");

@@ -1,10 +1,91 @@
 ﻿using DiskCardGame;
 using GBC;
 using HarmonyLib;
+using InscryptionAPI.Ascension;
+using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
+
+
+[HarmonyPatch(typeof(AscensionStartScreen), nameof(AscensionStartScreen.Start))]
+public static class RunStartWhenEnabled
+{
+	[HarmonyPrefix]
+	public static void Prefix(ref AscensionStartScreen __instance)
+	{
+	AdjustAscensionMenuItemsSpacing itemsSpacing = UnityObject.FindObjectOfType<AdjustAscensionMenuItemsSpacing>();
+		AscensionMenuInteractable menuText = itemsSpacing.menuItems[0].GetComponent<AscensionMenuInteractable>();
+
+		AscensionMenuScreenTransition transitionController = AscensionMenuScreens.Instance.startScreen.GetComponent<AscensionMenuScreenTransition>();
+		List<GameObject> onEnableRevealedObjects = transitionController.onEnableRevealedObjects;
+		List<MainInputInteractable> screenInteractables = transitionController.screenInteractables;
+
+		if (ConfigHelper.HasP03Mod)
+		{
+			GameObject p03Button = onEnableRevealedObjects.Single(obj => obj.name == "Menu_New_P03");
+			Log.LogDebug($"[AscensionMenuScreens.Start] Has P03 mod installed");
+			if (!itemsSpacing.menuItems.Exists(obj => obj.name == "Menu_New_P03"))
+			{
+				itemsSpacing.menuItems.Insert(1, p03Button.transform);
+			}
+		}
+		else
+		{
+			Log.LogDebug($"[AscensionMenuScreens.Start] Setting new text for continue button...");
+			menuText.GetComponentInChildren<PixelText>().SetText("- NEW LESHY RUN -");
+		}
+
+		// Clone the new button
+		AscensionMenuInteractable grimoraButtonController = AscensionRelatedPatches.CreateAscensionButton(menuText);
+
+		// Add to transition
+		
+		onEnableRevealedObjects.Insert(onEnableRevealedObjects.IndexOf(menuText.gameObject) + 1, grimoraButtonController.gameObject);
+		screenInteractables.Insert(screenInteractables.IndexOf(menuText) + 1, grimoraButtonController);
+		foreach (var button in screenInteractables.FindAll(b=>b.gameObject.GetComponentInChildren<PixelText>().Text.StartsWith("- NEW")&&b.gameObject.GetComponentInChildren<PixelText>().Text.EndsWith("RUN -")))
+		{
+			button.CursorSelectStarted+= delegate(MainInputInteractable interactable)
+			{
+				var scrybe = button.GetComponentInChildren<PixelText>().Text.Replace("- NEW ", "").Replace(" RUN -","");
+				switch (scrybe)
+				{
+					case "GRIMORA":
+					{
+						ScreenManagement.ScreenState = CardTemple.Undead;
+						SaveDataRelatedPatches.IsGrimoraRun = true;
+						break;
+					}
+					case "P03":
+					{
+						ScreenManagement.ScreenState = CardTemple.Tech;
+						SaveDataRelatedPatches.IsGrimoraRun = false;
+						break;
+					}
+					case "LESHY":
+					{
+						ScreenManagement.ScreenState = CardTemple.Nature;
+						SaveDataRelatedPatches.IsGrimoraRun = false;
+						break;
+					}
+			}
+					ChallengeManager.SyncChallengeList();
+				};
+		}
+		itemsSpacing.menuItems.Insert(1, grimoraButtonController.transform);
+
+		for (int i = 1; i < itemsSpacing.menuItems.Count; i++)
+		{
+			Transform item = itemsSpacing.menuItems[i];
+			item.localPosition = new Vector2(item.localPosition.x, i * -0.11f);
+		}
+
+		// itemsSpacing.SpaceOutItems();
+	}
+	
+}
+
 
 [HarmonyPatch(typeof(AscensionMenuScreens))]
 public class AscensionRelatedPatches
@@ -94,58 +175,22 @@ public class AscensionRelatedPatches
 	{
 		ClearGrimoraData();
 	}
+	
+	
+	
+	
 
-	[HarmonyPostfix, HarmonyPatch(nameof(AscensionMenuScreens.Start))]
-	[HarmonyAfter(ConfigHelper.P03ModGuid)]
-	public static void AddGrimoraStartOption(AscensionMenuScreens __instance)
-	{
-		AdjustAscensionMenuItemsSpacing itemsSpacing = UnityObject.FindObjectOfType<AdjustAscensionMenuItemsSpacing>();
-		AscensionMenuInteractable menuText = itemsSpacing.menuItems[0].GetComponent<AscensionMenuInteractable>();
 
-		AscensionMenuScreenTransition transitionController = AscensionMenuScreens.Instance.startScreen.GetComponent<AscensionMenuScreenTransition>();
-		List<GameObject> onEnableRevealedObjects = transitionController.onEnableRevealedObjects;
-		List<MainInputInteractable> screenInteractables = transitionController.screenInteractables;
-
-		if (ConfigHelper.HasP03Mod)
-		{
-			GameObject p03Button = onEnableRevealedObjects.Single(obj => obj.name == "Menu_New_P03");
-			Log.LogDebug($"[AscensionMenuScreens.Start] Has P03 mod installed");
-			if (!itemsSpacing.menuItems.Exists(obj => obj.name == "Menu_New_P03"))
-			{
-				itemsSpacing.menuItems.Insert(1, p03Button.transform);
-			}
-		}
-		else
-		{
-			Log.LogDebug($"[AscensionMenuScreens.Start] Setting new text for continue button...");
-			menuText.GetComponentInChildren<PixelText>().SetText("- NEW LESHY RUN -");
-		}
-
-		// Clone the new button
-		AscensionMenuInteractable grimoraButtonController = CreateAscensionButton(menuText);
-
-		// Add to transition
-		onEnableRevealedObjects.Insert(onEnableRevealedObjects.IndexOf(menuText.gameObject) + 1, grimoraButtonController.gameObject);
-		screenInteractables.Insert(screenInteractables.IndexOf(menuText) + 1, grimoraButtonController);
-		itemsSpacing.menuItems.Insert(1, grimoraButtonController.transform);
-
-		for (int i = 1; i < itemsSpacing.menuItems.Count; i++)
-		{
-			Transform item = itemsSpacing.menuItems[i];
-			item.localPosition = new Vector2(item.localPosition.x, i * -0.11f);
-		}
-
-		// itemsSpacing.SpaceOutItems();
-	}
-
-	private static AscensionMenuInteractable CreateAscensionButton(AscensionMenuInteractable newRunButton)
+	internal static AscensionMenuInteractable CreateAscensionButton(AscensionMenuInteractable newRunButton)
 	{
 		Log.LogDebug($"[AscensionMenuScreens.Start] Creating new Grimora ascension run button");
 		AscensionMenuInteractable newGrimoraButton = UnityObject.Instantiate(newRunButton, newRunButton.transform.parent);
 		newGrimoraButton.name = "Menu_New_Grimora";
 		newGrimoraButton.CursorSelectStarted = delegate
 		{
+			SaveDataRelatedPatches.IsGrimoraRun = true;
 			ScreenManagement.ScreenState = CardTemple.Undead;
+			ChallengeManager.SyncChallengeList();
 			Log.LogDebug($"[AscensionMenuScreens.Start] Set screen state to undead, invoking CursorSelectStart");
 			newRunButton.CursorSelectStart();
 		};
