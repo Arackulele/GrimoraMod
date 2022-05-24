@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using GrimoraMod.Extensions;
 using HarmonyLib;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers.Extensions;

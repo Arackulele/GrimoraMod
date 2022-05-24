@@ -1,5 +1,6 @@
 using System.Collections;
 using DiskCardGame;
+using GrimoraMod.Extensions;
 using InscryptionAPI.Helpers.Extensions;
 
 namespace GrimoraMod;

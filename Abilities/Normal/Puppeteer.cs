@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using GrimoraMod.Extensions;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers.Extensions;
 using UnityEngine;
@@ -47,8 +48,7 @@ public class Puppeteer : AbilityBehaviour
 	private IEnumerator RemoveBrittleFromCards()
 	{
 		List<PlayableCard> cardsWithBrittle = BoardManager.Instance
-		 .GetSlots(Card.IsPlayerCard())
-		 .GetCards(pCard => pCard.HasAbility(Ability.Brittle));
+		 .GetSlots(Card.IsPlayerCard()).GetCards(pCard => pCard.HasAbility(Ability.Brittle));
 
 		foreach (var card in cardsWithBrittle)
 		{
