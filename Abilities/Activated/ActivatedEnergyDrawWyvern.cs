@@ -17,7 +17,9 @@ public class ActivatedEnergyDrawWyvern : ActivatedAbilityBehaviour
 
 	public override IEnumerator Activate()
 	{
-		yield return CardSpawner.Instance.SpawnCardToHand(NameWyvern.GetCardInfo());
+		CardInfo cloneInfo = CardLoader.Clone(Card.Info);
+		cloneInfo.Mods = new(Card.Info.Mods);
+		yield return CardSpawner.Instance.SpawnCardToHand(cloneInfo);
 	}
 }
 
@@ -25,7 +27,7 @@ public partial class GrimoraPlugin
 {
 	public static void Add_Ability_ActivatedEnergyDrawWyvern()
 	{
-		const string rulebookDescription = "Pay 2 Energy for [creature] to summon a Wyvern in your hand.";
+		const string rulebookDescription = "Pay 2 Energy for [creature] to summon a copy in your hand.";
 
 		AbilityBuilder<ActivatedEnergyDrawWyvern>.Builder
 		 .SetRulebookDescription(rulebookDescription)
