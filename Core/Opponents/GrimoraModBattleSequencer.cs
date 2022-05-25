@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Encounters;
 using Sirenix.Utilities;
@@ -92,6 +92,8 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 			Log.LogDebug($"[GameEnd] Switching to default view");
 			ViewManager.Instance.SwitchToView(View.Default, false, true);
+
+			HammerItemExt.useCounter = 0;
 
 			Log.LogDebug($"[GameEnd] Time to rest");
 			yield return TextDisplayer.Instance.ShowThenClear(
