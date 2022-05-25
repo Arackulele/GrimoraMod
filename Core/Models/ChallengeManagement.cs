@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI;
 using InscryptionAPI.Ascension;
@@ -21,6 +21,16 @@ internal static class Temp
 			Color parsed;
 			ColorUtility.TryParseHtmlString("#19FFBD", out parsed);
 			__instance.iconRenderer.color =parsed;
+			__instance.blinkEffect.blinkOffColor = parsed;
+
+		}
+
+		else if (info.challengeType ==  ChallengeManagement.SoullessI || info.challengeType == ChallengeManagement.SoullessII || info.challengeType == ChallengeManagement.RoyalsRevenge || info.challengeType == ChallengeManagement.KayceesKerfuffle || info.challengeType == ChallengeManagement.NoBones || info.challengeType == ChallengeManagement.SawyersShowdown || info.challengeType == ChallengeManagement.JammedChair || info.challengeType == ChallengeManagement.FrailHammer)
+		{
+
+			Color parsed;
+			ColorUtility.TryParseHtmlString("#FFD877", out parsed);
+			__instance.iconRenderer.color = parsed;
 			__instance.blinkEffect.blinkOffColor = parsed;
 
 		}
@@ -183,12 +193,12 @@ public class ChallengeManagement
 
 		ValidChallenges = new List<AscensionChallenge>
 		{
-			AscensionChallenge.BaseDifficulty, //seems to be not overrideable normally tldr: try to place soulless instead of this
+			//AscensionChallenge.BaseDifficulty, //seems to be not overrideable normally tldr: try to place soulless instead of this
 			InfinitLives,
 			JammedChair,
 			SoullessII,
-			AscensionChallenge.WeakStarterDeck,
-			AscensionChallenge.SubmergeSquirrels,
+			//AscensionChallenge.WeakStarterDeck,
+			//AscensionChallenge.SubmergeSquirrels,
 			NoBones,
 			SoullessI,
 			KayceesKerfuffle,
