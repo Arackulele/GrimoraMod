@@ -8,6 +8,9 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(PlayerHand))]
 public class PlayerHandPatches
 {
+
+	public static int cardsPlayedThisCombatForFuse =0;
+	private static int lastRegisteredTurn;
 	[HarmonyPostfix, HarmonyPatch(nameof(PlayerHand.PlayCardOnSlot))]
 	public static IEnumerator HandleMarchingDeadLogic(
 		IEnumerator enumerator,
@@ -16,6 +19,7 @@ public class PlayerHandPatches
 		CardSlot slot
 	)
 	{
+		GrimoraPlugin.Log.LogInfo($"Pre change lit turn {cardsPlayedThisCombatForFuse}");
 		if (GrimoraSaveUtil.IsGrimora && __instance.CardsInHand.Contains(card) && card.HasAbility(MarchingDead.ability))
 		{
 			card.GetComponent<MarchingDead>().SetAdjCardsToPlay(__instance.CardsInHand);
@@ -23,22 +27,34 @@ public class PlayerHandPatches
 
 		yield return enumerator;
 
+		
+		
 		if (SaveFile.IsAscension && AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.RoyalsRevenge))
 		{
-			if (BoardManager.Instance.PlayerCardsPlayedThisRound.Count == 2)
+			if (lastRegisteredTurn > TurnManager.Instance.TurnNumber)
+			{
+				cardsPlayedThisCombatForFuse = 0;
+				lastRegisteredTurn = 0;
+			}
+			lastRegisteredTurn = TurnManager.Instance.TurnNumber;
+			cardsPlayedThisCombatForFuse++;
+			if (cardsPlayedThisCombatForFuse == 2)
 			{
 				yield return TextDisplayer.Instance.ShowUntilInput("Careful, the life of your next card will be on a timer.");
 			}
-			else if (BoardManager.Instance.PlayerCardsPlayedThisRound.Count % 3 == 0)
+			if (cardsPlayedThisCombatForFuse==3)
 			{
-				yield return TextDisplayer.Instance.ShowUntilInput("I look forward to the explosive results!");
+				yield return TextDisplayer.Instance.ShowUntilInput("I look forward to the [c:brnO]explosive[c:] results!");
 				ViewManager.Instance.SwitchToView(View.Board);
 				yield return new WaitForSeconds(0.2f);
 				card.AddTemporaryMod(new CardModificationInfo(LitFuse.ability));
 				card.Anim.StrongNegationEffect();
 				yield return new WaitForSeconds(0.2f);
+				cardsPlayedThisCombatForFuse = 0;
 			}
 		}
+		GrimoraPlugin.Log.LogInfo($"after change lit turn {cardsPlayedThisCombatForFuse}");
+
 	}
 
 	[HarmonyPostfix, HarmonyPatch(nameof(PlayerHand.AddCardToHand))]

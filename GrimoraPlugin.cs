@@ -72,9 +72,9 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 #if DEBUG
 	private void Update()
 	{
-		if (Input.GetKey(KeyCode.Alpha1))
+		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
-			Log.LogInfo($"{SaveDataRelatedPatches.IsGrimoraRun} = {ScreenManagement.ScreenState==CardTemple.Undead} + {SceneLoader.ActiveSceneName.ToLowerInvariant().Contains("grimora")}");
+			CustomCoroutine.Instance.StartCoroutine(LifeManager.Instance.ShowDamageSequence(1, 1, false));
 		}
 	}
 #endif
@@ -86,6 +86,15 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AllMats = AssetUtils.LoadAssetBundle<Material>("grimoramod_mats");
 		AllSounds = AssetUtils.LoadAssetBundle<AudioClip>("grimoramod_sounds");
 		AllSprites = AssetUtils.LoadAssetBundle<Sprite>("grimoramod_sprites");
+		var kopie = AssetUtils.LoadAssetBundle<Sprite>("grimora_kopiebunde");
+		#if DEBUG
+		foreach (var s in kopie)
+		{
+			Log.LogInfo($"Sprite added by Kopie {s}");
+		}
+		#endif
+
+		AllSprites.AddRange(kopie);
 		AllMesh = AssetUtils.LoadAssetBundle<Mesh>("grimoramod_mesh");
 	}
 
@@ -232,8 +241,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		// change just the artwork of Starvation
 		CardInfo card = CardManager.BaseGameCards.CardByName("Starvation");
-		card.portraitTex = AllSprites.Single(sp => sp.name.Equals("Starvation"));
-		card.portraitTex.RegisterEmissionForSprite(AllSprites.Single(sp => sp.name.Equals("Starvation_emission")));
+		card.portraitTex = AllSprites.Find(sp => sp.name.Equals("Starvation"));
+		card.portraitTex.RegisterEmissionForSprite(AllSprites.Find(sp => sp.name.Equals("Starvation_emission")));
 
 		AddDebugCards();
 

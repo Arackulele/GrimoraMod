@@ -240,6 +240,7 @@ public class BaseGameFlowManagerPatches
 		}
 		else
 		{
+			
 			Log.LogDebug($"[TransitionTo] Running original code as pieces dont exist and/or boss has not been defeated");
 			yield return enumerator;
 		}

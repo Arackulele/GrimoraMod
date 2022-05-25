@@ -9,6 +9,39 @@ using static GrimoraMod.GrimoraPlugin;
 namespace GrimoraMod;
 
 
+
+
+
+
+[HarmonyPatch(typeof(CardInfo), nameof(CardInfo.EnergyCost), MethodType.Getter)]
+public static class SoullessPatch
+{
+	
+	[HarmonyPostfix]
+	public static void EnergyChange(ref int __result, ref CardInfo __instance)
+	{
+		if (__instance.name != "Skeleton") return;
+		int num=0;
+		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.SoullessI)) num++;
+		if(AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.SoullessI))num++;
+		if (num > 0)
+		{
+			__result += num;
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
 [HarmonyPatch(typeof(AscensionStartScreen), nameof(AscensionStartScreen.Start))]
 public static class RunStartWhenEnabled
 {

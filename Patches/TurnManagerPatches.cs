@@ -21,11 +21,15 @@ public class TurnManagerPatches
 			yield return ResourcesManager.Instance.AddBones(25);
 		}
 
-		if (!SaveFile.IsAscension && !AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.NoBones))
+		if (!SaveFile.IsAscension ||( SaveFile.IsAscension && !AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.NoBones)))
 		{
 			int bonesToAdd = ConfigHelper.Instance.BonesToAdd;
 			Log.LogDebug($"[SetupPhase] Adding [{bonesToAdd}] bones");
 			yield return ResourcesManager.Instance.AddBones(bonesToAdd);
+		}
+		else
+		{
+			Log.LogInfo($"{SaveFile.IsAscension } +  {AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.NoBones)}");
 		}
 	}
 }

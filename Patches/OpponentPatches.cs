@@ -20,6 +20,7 @@ public class Part1BossOpponentPatches
 	public static bool Prefix()
 	{
 		// the reason for this patch is so that the game doesn't try to replenish lives since the candle doesn't exist
+		HammerItemExt.useCounter = 0;
 		return GrimoraSaveUtil.IsNotGrimora;
 	}
 }
