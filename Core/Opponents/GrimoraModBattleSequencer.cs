@@ -35,7 +35,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 	public override IEnumerator PreCleanUp()
 	{
-		if (!TurnManager.Instance.PlayerIsWinner())
+		if (!TurnManager.Instance.PlayerIsWinner() && ! AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.InfinitLives))
 		{
 			Opponent opponent = TurnManager.Instance.Opponent;
 

@@ -119,7 +119,7 @@ public class DeactivateHammerAfterThreeUses
 			yield break;
 		}
 
-		if (__instance.Consumable is HammerItemExt { useCounter: 3 })
+		if (__instance.Consumable is HammerItemExt && HammerItemExt.useCounter==3)
 		{
 			Log.LogWarning($"Destroying hammer as all 3 uses have been used");
 			__instance.coll.enabled = false;

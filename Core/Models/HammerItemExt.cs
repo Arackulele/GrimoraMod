@@ -1,6 +1,7 @@
 using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Ascension;
 using InscryptionAPI.Card;
 using Pixelplacement;
 using UnityEngine;
@@ -14,7 +15,14 @@ public class HammerItemExt : HammerItem
 
 	private Material HammerHandleMat => transform.Find("Handle").GetComponent<MeshRenderer>().material;
 
-	public int useCounter = 0;
+	public static int useCounter = 0;
+
+	private void Start()
+	{
+		if (!AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.FrailHammer))		useCounter = 0;
+		if(useCounter>=3)this.gameObject.SetActive(false);
+	}
+
 
 	public override IEnumerator OnValidTargetSelected(CardSlot targetSlot, GameObject firstPersonItem)
 	{

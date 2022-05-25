@@ -120,6 +120,7 @@ public class ElectricChairLever : HighlightedInteractable
 
 	private void Start()
 	{
+
 		animHandle = gameObject.transform.Find("Anim").gameObject;
 		Transform cells = gameObject.transform.Find("Cells");
 		// CetChild(i) EnergyCell -> Case -> Cell
@@ -142,6 +143,13 @@ public class ElectricChairLever : HighlightedInteractable
 		HighlightCursorType = pressCursorType;
 
 		CursorSelectStarted += ChangeRisk;
+		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.JammedChair))
+		{
+			currentSigilRisk = SigilRisk.Major;
+			SetCellColor(_cellMinorRisk.Item1, DarkCellColor);	
+			SetCellColor(_cellSaferRisk.Item1, DarkCellColor);
+			SetCellColor(_cellMajorRisk.Item1, _cellMajorRisk.Item2);
+		}
 	}
 
 	public void ResetRisk()
@@ -165,7 +173,11 @@ public class ElectricChairLever : HighlightedInteractable
 
 	private void ChangeRisk(MainInputInteractable i)
 	{
-		switch (currentSigilRisk)
+		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.JammedChair))
+		{
+			return;
+		}
+	switch (currentSigilRisk)
 		{
 			case SigilRisk.Safe:
 				// -45 zed rotation to 0
