@@ -29,7 +29,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private static Harmony _harmony;
 
-	public static List<GameObject> AllPrefabs;
+	public static List<GameObject> AllPrefabs=new List<GameObject>();
 	public static List<Material> AllMats;
 	public static List<RuntimeAnimatorController> AllControllers;
 	public static List<Sprite> AllSprites;
@@ -79,23 +79,33 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	}
 #endif
 
+	
+	
 	private void LoadAssetsSync()
 	{
 		AllAbilitiesTextures = AssetUtils.LoadAssetBundle<Texture>("grimoramod_abilities");
 		AllControllers = AssetUtils.LoadAssetBundle<RuntimeAnimatorController>("grimoramod_controller");
 		AllMats = AssetUtils.LoadAssetBundle<Material>("grimoramod_mats");
+		AllMesh = AssetUtils.LoadAssetBundle<Mesh>("grimoramod_mesh");
+
 		AllSounds = AssetUtils.LoadAssetBundle<AudioClip>("grimoramod_sounds");
 		AllSprites = AssetUtils.LoadAssetBundle<Sprite>("grimoramod_sprites");
-		var kopie = AssetUtils.LoadAssetBundle<Sprite>("grimora_kopiebunde");
+		var kopieSprites = AssetUtils.LoadAssetBundle<Sprite>("grimora_kopiebunde");
+		var kopiePrefabs = AssetUtils.LoadAssetBundle<GameObject>("grimora_kopiebunde");
 		#if DEBUG
-		foreach (var s in kopie)
+		foreach (var s in kopieSprites)
 		{
 			Log.LogInfo($"Sprite added by Kopie {s}");
 		}
+		foreach (var g in kopiePrefabs)
+		{
+			Log.LogInfo($"Prefab added by Kopie {g}");
+		}
 		#endif
 
-		AllSprites.AddRange(kopie);
-		AllMesh = AssetUtils.LoadAssetBundle<Mesh>("grimoramod_mesh");
+		AllSprites.AddRange(kopieSprites);
+		AllPrefabs.AddRange(kopiePrefabs);
+
 	}
 
 	private IEnumerator LoadAssetsAsync()

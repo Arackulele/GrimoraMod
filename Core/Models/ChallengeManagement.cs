@@ -15,7 +15,7 @@ internal static class Temp
 	[HarmonyPostfix]
 	private static void ColorsPlease(ref AscensionIconInteractable __instance, AscensionChallengeInfo info)
 	{
-		if (info.challengeType == ChallengeManagement.InfinitLives)
+		if (ChallengeManagement.AntiChallenges.Contains(info.challengeType))
 		{
 			
 			Color parsed;
@@ -25,7 +25,7 @@ internal static class Temp
 
 		}
 
-		else if (info.challengeType ==  ChallengeManagement.SoullessI || info.challengeType == ChallengeManagement.SoullessII || info.challengeType == ChallengeManagement.RoyalsRevenge || info.challengeType == ChallengeManagement.KayceesKerfuffle || info.challengeType == ChallengeManagement.NoBones || info.challengeType == ChallengeManagement.SawyersShowdown || info.challengeType == ChallengeManagement.JammedChair || info.challengeType == ChallengeManagement.FrailHammer)
+		else if (ChallengeManagement.ValidChallenges.Contains(info.challengeType))
 		{
 
 			Color parsed;
@@ -47,18 +47,19 @@ public class ChallengeManagement
 	public static AscensionChallenge KayceesKerfuffle { get; private set; }
 	public static AscensionChallenge SawyersShowdown { get; private set; }
 	public static AscensionChallenge RoyalsRevenge { get; private set; }
-	public static AscensionChallenge SoullessI { get; private set; }
-	public static AscensionChallenge SoullessII { get; private set; }
+	public static AscensionChallenge Soulless { get; private set; }
 	public static AscensionChallenge FrailHammer { get; private set; }
 	public static AscensionChallenge JammedChair { get; private set; }
+	public static AscensionChallenge WiltedClover { get; private set; }
 
 
 	public static AscensionChallenge InfinitLives { get; private set; }
 
 	
-	public static Dictionary<AscensionChallenge, AscensionChallengeInfo> PatchedChallengesReference;
+	public static List<AscensionChallengeInfo> PatchedChallengesReference;
 	
 	public static List<AscensionChallenge> ValidChallenges;
+	public static List<AscensionChallenge> AntiChallenges;
 	
 	public static void UpdateGrimoraChallenges()
 	{
@@ -66,20 +67,20 @@ public class ChallengeManagement
 		KayceesKerfuffle = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "KayceesKerfuffle");
 		SawyersShowdown = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "SawyersShowdown");
 		RoyalsRevenge = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "RoyalsRevenge");
-		SoullessI=GuidManager.GetEnumValue<AscensionChallenge>(GUID, "SoullessI");
-		SoullessII=GuidManager.GetEnumValue<AscensionChallenge>(GUID, "SoullessII");
+		Soulless=GuidManager.GetEnumValue<AscensionChallenge>(GUID, "Soulless");
 		FrailHammer=GuidManager.GetEnumValue<AscensionChallenge>(GUID, "FrailHammer");
 		JammedChair=GuidManager.GetEnumValue<AscensionChallenge>(GUID, "JammedChair");
-		
+		WiltedClover=GuidManager.GetEnumValue<AscensionChallenge>(GUID, "WiltedClover");
+
 		
 		InfinitLives=GuidManager.GetEnumValue<AscensionChallenge>(GUID, "InfinitLives");
+		AntiChallenges = new List<AscensionChallenge>() {InfinitLives};
 
 
-		PatchedChallengesReference = new Dictionary<AscensionChallenge, AscensionChallengeInfo>
+
+		PatchedChallengesReference = new List<AscensionChallengeInfo>()
 		{
-			{
-				AscensionChallenge.NoHook, 
-				new()
+			new ()
 				{
 					challengeType = NoBones,
 					title = "No Bones",
@@ -88,9 +89,8 @@ public class ChallengeManagement
 					activatedSprite = AssetUtils.GetPrefab<Sprite>("NoBones_Active"),
 					pointValue = 5,
 				}
-			},
-			{
-				AscensionChallenge.LessConsumables, 
+			,
+			
 				new()
 				{
 					challengeType = KayceesKerfuffle,
@@ -99,10 +99,9 @@ public class ChallengeManagement
 					iconSprite = AssetUtils.GetPrefab<Sprite>("KayceesKerfuffle"),
 					pointValue = 15
 				}
-			},
+			,
 			
-			{
-				AscensionChallenge.ExpensivePelts, 
+
 				new()
 				{
 					challengeType = SawyersShowdown,
@@ -111,10 +110,8 @@ public class ChallengeManagement
 					iconSprite = AssetUtils.GetPrefab<Sprite>("SawyersShowdown"),
 					pointValue = 10
 				}
-			},
-			
-			{
-				AscensionChallenge.NoClover, 
+				,
+
 				new()
 				{
 					challengeType = RoyalsRevenge,
@@ -124,34 +121,30 @@ public class ChallengeManagement
 					activatedSprite = AssetUtils.GetPrefab<Sprite>("Royal_Active"),
 					pointValue = 20
 				}
-			},
+				,
+
+				new()
+				{
+					challengeType = Soulless,
+					title = "Soulless",
+					description = "Skeletons cost +1 Energy.",
+					iconSprite = AssetUtils.GetPrefab<Sprite>("Soulless"),
+					activatedSprite =  AssetUtils.GetPrefab<Sprite>("Soulless_Active"),
+					pointValue = 5
+				},
 			
-			{
-				AscensionChallenge.BossTotems, 
+
 				new()
 				{
-					challengeType = SoullessI,
-					title = "Soulless I",
+					challengeType = Soulless,
+					title = "Soulless",
 					description = "Skeletons cost +1 Energy.",
 					iconSprite = AssetUtils.GetPrefab<Sprite>("Soulless"),
 					activatedSprite =  AssetUtils.GetPrefab<Sprite>("Soulless_Active"),
 					pointValue = 5
 				}
-			},
-			{
-				AscensionChallenge.StartingDamage, 
-				new()
-				{
-					challengeType = SoullessII,
-					title = "Soulless II",
-					description = "Skeletons cost +1 Energy.",
-					iconSprite = AssetUtils.GetPrefab<Sprite>("Soulless"),
-					activatedSprite =  AssetUtils.GetPrefab<Sprite>("Soulless_Active"),
-					pointValue = 5
-				}
-			},
-			{
-				AscensionChallenge.AllTotems, 
+			,
+			
 				new()
 				{
 					challengeType = FrailHammer,
@@ -161,9 +154,8 @@ public class ChallengeManagement
 					activatedSprite =  AssetUtils.GetPrefab<Sprite>("FrailHammer_Active"),
 					pointValue = 15
 				}
-			},
-			{
-				AscensionChallenge.NoBossRares, 
+			,
+
 				new()
 				{
 					challengeType = JammedChair,
@@ -173,13 +165,22 @@ public class ChallengeManagement
 					activatedSprite =  AssetUtils.GetPrefab<Sprite>("JammedChair_Active"),
 					pointValue = 10
 				}
-			},
-			
-			
-			
+			,
+			new()
 			{
-				AscensionChallenge.LessLives, 
-				new()
+				challengeType = WiltedClover,
+				title = "Wilted Clover",
+				description = "You choose only from 2 cards in card selection, instead of 3.",
+				iconSprite = AssetUtils.GetPrefab<Sprite>("WiltedClover"),
+				pointValue = 20
+			}
+			,
+			
+			
+			
+			
+			//Anti-Challenges below for good sorting
+			new()
 				{
 					challengeType = InfinitLives,
 					title = "Infinite Lives",
@@ -188,19 +189,20 @@ public class ChallengeManagement
 					activatedSprite =  AssetUtils.GetPrefab<Sprite>("InfLives_Active"),
 					pointValue = 0
 				}
-			},
+			,
+
 		};
 
 		ValidChallenges = new List<AscensionChallenge>
 		{
-			//AscensionChallenge.BaseDifficulty, //seems to be not overrideable normally tldr: try to place soulless instead of this
+			Soulless, 
 			InfinitLives,
 			JammedChair,
-			SoullessII,
+			WiltedClover,
 			//AscensionChallenge.WeakStarterDeck,
 			//AscensionChallenge.SubmergeSquirrels,
 			NoBones,
-			SoullessI,
+			//AscensionChallenge.BossTotems,
 			KayceesKerfuffle,
 			FrailHammer,
 			SawyersShowdown,
@@ -215,13 +217,12 @@ public class ChallengeManagement
 		{
 			if (ScreenManagement.ScreenState == CardTemple.Undead)
 			{
-				for (int i = 0; i < challenges.Count; i++)
+				for (int i = 0; i < PatchedChallengesReference.Count; i++)
 				{
-					if (PatchedChallengesReference.ContainsKey(challenges[i].challengeType))
-					{
-						challenges[i] = PatchedChallengesReference[challenges[i].challengeType];
-					}
+					challenges[i] = PatchedChallengesReference[i];
+					
 				}
+				challenges.RemoveRange(PatchedChallengesReference.Count, challenges.Count-PatchedChallengesReference.Count);
 
 				return challenges;
 			}
@@ -237,23 +238,9 @@ public class ChallengeManagement
 	{
 		if (ScreenManagement.ScreenState == CardTemple.Undead || SaveDataRelatedPatches.IsGrimoraRun) 
 		{
-			if (!ValidChallenges.Contains(challenge))
-			{
-				__result = false;
-				return;
-			}
-			else
-			{
-				__result = true;
-			}
+			__result = ValidChallenges.Contains(challenge);
+			return;
 		}
-		else if (PatchedChallengesReference.Any(kvp => kvp.Value.challengeType == challenge))
-		{
-			var kvp = PatchedChallengesReference.First(kvp => kvp.Value.challengeType == challenge);
-			if (kvp.Value.challengeType != kvp.Key)
-			{
-				__result = AscensionUnlockSchedule.ChallengeIsUnlockedForLevel(kvp.Key, level);
-			}
-		}
+
 	}
 }

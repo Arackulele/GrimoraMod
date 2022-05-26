@@ -22,8 +22,7 @@ public static class SoullessPatch
 	{
 		if (__instance.name != "Skeleton") return;
 		int num=0;
-		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.SoullessI)) num++;
-		if(AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.SoullessI))num++;
+		num = AscensionSaveData.Data.GetNumChallengesOfTypeActive(ChallengeManagement.Soulless);
 		if (num > 0)
 		{
 			__result += num;
