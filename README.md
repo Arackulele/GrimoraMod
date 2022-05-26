@@ -42,7 +42,29 @@
 
 ## Update Notes
 
-### 2.8.10
+### 2.10.0
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png)  4 New Challenges ( Soulless x2 , Fraile Hammer, Jammed Chair and Wilted Clover )
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) 1 New Anti- Challenge ( Infinite Lives )
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Challenges and anti Challenge Skulls are now properly colored ( challenge skulls are now cream-yellow and anti-challenge Skulls are electric-blue )
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) The KC mod related code has been basically completely rewritten, resulting in a much more stable experience ( major thanks to Kopie for this )
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Changed the name of the Royals Revenge challenge to Royal Rumble
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Reworked the Sawyers Showdowm Challenge
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed an issue where the player wouldnt gain Bones even when the No Bones Challenge is disabled
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed an issue where Quitting a Kc mod grimora run wouldnt delete the assosiated Save Data
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed an issue where quitting the game in a Kc mod Grimora run and returning to it would reset the Players Deck
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed Various issues with Challenges not applying behaviors properly
+
+### 2.8.10 aka 2.9.0
 
 - ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with the mod being incompatible with the newest version of the Api.
 
@@ -165,28 +187,28 @@
 
 ### Code
 
-- JulianMods (xXxStoner420BongMasterxXx) for a ton of the Code
-
-**Note from BongMaster 2022-04-30**
-  - Due to the toxicity/negativity of the GrimoraMod server in regards to really any discussion that might be taking place, I'm going to be taking a hiatus from working on the mod.
-  - I personally have been private messaged from 6 different members in the server about ideas being not only shutdown, but aggressively attacked from other members in the server as well. I wanted to work on this mod as it was a great idea and to extend the Scrybe of the Dead even further, not deal with people who are unable to have a decent idea discussion or have no idea how to give constructive criticism.
-
 - Arackulele for additional programming
 
 - Kopie for some Bug fixes
 
 - Orochi Umbra for some code for the Ourobones Card
 
+- JulianMods (xXxStoner420BongMasterxXx) for a ton of the Code
+
+**Note from BongMaster 2022-04-30**
+  - Due to the toxicity/negativity of the GrimoraMod server in regards to really any discussion that might be taking place, I'm going to be taking a hiatus from working on the mod.
+  - I personally have been private messaged from 6 different members in the server about ideas being not only shutdown, but aggressively attacked from other members in the server as well. I wanted to work on this mod as it was a great idea and to extend the Scrybe of the Dead even further, not deal with people who are unable to have a decent idea discussion or have no idea how to give constructive criticism.
+
+
 ### Artists
 
 - LavaErrorDoggo (LavaErrorDoggo#1564) for making the Original Act 2 Cards but in full Size Artwork
 
-- Bt Y#0895 for currently working on artwork for the mod
+- Bt Y#0895 for a ton of 2D Assets for the Mods
 
 - Cevin_2006 (Cevin2006™ (◕‿◕)#7971) for additional Card art
 
-- Arackulele for additional Card art
-
+ and some Challenge Skull Art
 - Lich Underling (Lich underling#7678) for additional Card Art
 
 - Anne Ghoul for some additional Card Art
@@ -195,7 +217,7 @@
 
 - Pink (Pink#6999) for making the Boss Skull Models , currently working on a full crypt 3D Model, etc
 
-- Catboy Stinkbug (Catboy Stinkbug#4099) for the Board Skull 3D Models
+- Catboy Stinkbug (Catboy Stinkbug#4099) for the Board Skull 3D Models and Wilted Clover Model
 
 - Draconis17#3692 for the new energy cells game object.
 
