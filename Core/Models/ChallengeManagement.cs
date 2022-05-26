@@ -115,7 +115,7 @@ public class ChallengeManagement
 				new()
 				{
 					challengeType = RoyalsRevenge,
-					title = "Royal's Revenge",
+					title = "Royal Rumble",
 					description = "Every third card you play gains the Lit Fuse sigil.",
 					iconSprite = AssetUtils.GetPrefab<Sprite>("RoyalsRevenge"),
 					activatedSprite = AssetUtils.GetPrefab<Sprite>("Royal_Active"),
@@ -149,7 +149,7 @@ public class ChallengeManagement
 				{
 					challengeType = FrailHammer,
 					title = "Frail Hammer",
-					description = "The Hammer charges are only refreshed after each boss instead of each fight.",
+					description = "The Hammer gets repaired only after every Boss.",
 					iconSprite = AssetUtils.GetPrefab<Sprite>("FrailHammer"),
 					activatedSprite =  AssetUtils.GetPrefab<Sprite>("FrailHammer_Active"),
 					pointValue = 15
@@ -170,7 +170,7 @@ public class ChallengeManagement
 			{
 				challengeType = WiltedClover,
 				title = "Wilted Clover",
-				description = "You choose only from 2 cards in card selection, instead of 3.",
+				description = "There is only 2 Cards present at every Card chest.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("WiltedClover"),
 				pointValue = 25
 			}
