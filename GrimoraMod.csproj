@@ -33,6 +33,10 @@
 		</Reference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Remove="DataFiles\grimora_kopiebunde" />
+	</ItemGroup>
+
 	<Target Name="CopyDLLsToScriptsFolder" AfterTargets="Build" Condition="$(Configuration) == 'HotReload' ">
 		
 		<Copy Condition="Exists('C:\inscryption-mods\')" SourceFiles="$(TargetDir)$(ProjectName).dll" DestinationFolder="C:\inscryption-mods\Inscryption\profiles\Default\BepInEx\scripts\" />

@@ -154,10 +154,7 @@ public class ElectricChairLever : HighlightedInteractable
 
 	public void ResetRisk()
 	{
-		do
-		{
-			ChangeRisk(null);
-		} while (currentSigilRisk != SigilRisk.Safe);
+		currentSigilRisk = SigilRisk.Safe;
 	}
 
 	public Ability GetAbilityFromLeverRisk()
@@ -175,6 +172,7 @@ public class ElectricChairLever : HighlightedInteractable
 	{
 		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.JammedChair))
 		{
+			AudioController.Instance.PlaySound3D("stone_object_short#1", MixerGroup.ExplorationSFX, this.gameObject.transform.position, 5f, 0f, new AudioParams.Pitch(0.5f + UnityEngine.Random.value * 0.05f), null, null, null, false);
 			return;
 		}
 	switch (currentSigilRisk)

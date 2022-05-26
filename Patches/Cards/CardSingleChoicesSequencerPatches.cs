@@ -16,6 +16,8 @@ public class CardSingleChoicesSequencerPatches
 		__state = __instance;
 	}
 
+	private static GameObject wiltedClover;
+
 	[HarmonyPostfix, HarmonyPatch(nameof(CardSingleChoicesSequencer.CardSelectionSequence))]
 	public static IEnumerator Postfix(
 		IEnumerator enumerator,
@@ -57,6 +59,13 @@ public class CardSingleChoicesSequencerPatches
 		{
 			List<CardChoice> choices = __state.choiceGenerator.GenerateChoices(choicesData, randomSeed);
 			randomSeed *= 2;
+			if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.WiltedClover))
+			{
+				wiltedClover = GameObject.Instantiate(GrimoraPlugin.AllPrefabs.Find(g=>g.name.Contains("Clover")&&g.name.Contains("Prefab")));
+				wiltedClover.transform.position = new Vector3(-1.5f, 5.01f, -2);
+				while (choices.Count > 2) choices.Remove(choices[choices.Count - 1]);
+			}
+				
 
 				float x = (float)((choices.Count - 1) * 0.5 * -1.5);
 			__state.selectableCards = __state.SpawnCards(
@@ -140,7 +149,7 @@ public class CardSingleChoicesSequencerPatches
 			__state.DisableViewDeck();
 			__state.CleanUpCards();
 		}
-
+		GameObject.DestroyImmediate(wiltedClover);
 		yield return __state.AddCardToDeckAndCleanUp(__state.chosenReward);
 	}
 }
