@@ -87,7 +87,7 @@ public class ChallengeManagement
 					description = "You no longer gain the extra bones, from defeating bosses.",
 					iconSprite = AssetUtils.GetPrefab<Sprite>("NoBonesNew"),
 					activatedSprite = AssetUtils.GetPrefab<Sprite>("NoBones_Active"),
-					pointValue = 5,
+					pointValue = 15,
 				}
 			,
 			
@@ -106,9 +106,9 @@ public class ChallengeManagement
 				{
 					challengeType = SawyersShowdown,
 					title = "Sawyer's Showdown",
-					description = "Lose 1 bone every 3rd turn.",
+					description = "Lose 1 bone every 3rd turn, if you have less than 3, gain 1 Bone",
 					iconSprite = AssetUtils.GetPrefab<Sprite>("SawyersShowdown"),
-					pointValue = 10
+					pointValue = 5
 				}
 				,
 
@@ -119,7 +119,7 @@ public class ChallengeManagement
 					description = "Every third card you play gains the Lit Fuse sigil.",
 					iconSprite = AssetUtils.GetPrefab<Sprite>("RoyalsRevenge"),
 					activatedSprite = AssetUtils.GetPrefab<Sprite>("Royal_Active"),
-					pointValue = 20
+					pointValue = 10
 				}
 				,
 
@@ -172,7 +172,7 @@ public class ChallengeManagement
 				title = "Wilted Clover",
 				description = "You choose only from 2 cards in card selection, instead of 3.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("WiltedClover"),
-				pointValue = 20
+				pointValue = 25
 			}
 			,
 			
