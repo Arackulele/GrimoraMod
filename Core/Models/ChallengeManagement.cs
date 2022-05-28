@@ -115,6 +115,48 @@ public class ChallengeManagement
 				pointValue = 15
 			},
 
+			new ()
+				{
+					challengeType = NoBones,
+					title = "No Bones",
+					description = "You no longer gain the extra bones, from defeating bosses.",
+					iconSprite = AssetUtils.GetPrefab<Sprite>("NoBonesNew"),
+					activatedSprite = AssetUtils.GetPrefab<Sprite>("NoBones_Active"),
+					pointValue = 15,
+				}
+			,
+			
+				new()
+				{
+					challengeType = KayceesKerfuffle,
+					title = "Kaycee's Kerfuffle",
+					description = "The fourth turn of every battle, all your cards will be Frozen Away.",
+					iconSprite = AssetUtils.GetPrefab<Sprite>("KayceesKerfuffle"),
+					pointValue = 15
+				}
+			,
+			
+
+				new()
+				{
+					challengeType = SawyersShowdown,
+					title = "Sawyer's Showdown",
+					description = "Lose 1 bone every 3rd turn, if you have less than 3, gain 1 Bone",
+					iconSprite = AssetUtils.GetPrefab<Sprite>("SawyersShowdown"),
+					pointValue = 5
+				}
+				,
+
+				new()
+				{
+					challengeType = RoyalsRevenge,
+					title = "Royal Rumble",
+					description = "Every third card you play gains the Lit Fuse sigil.",
+					iconSprite = AssetUtils.GetPrefab<Sprite>("RoyalsRevenge"),
+					activatedSprite = AssetUtils.GetPrefab<Sprite>("Royal_Active"),
+					pointValue = 10
+				}
+				,
 
 			new()
 			{
@@ -134,6 +176,27 @@ public class ChallengeManagement
 				activatedSprite = AssetUtils.GetPrefab<Sprite>("Royal_Active"),
 				pointValue = 20
 			},
+				new()
+				{
+					challengeType = Soulless,
+					title = "Soulless",
+					description = "Skeletons cost +1 Energy.",
+					iconSprite = AssetUtils.GetPrefab<Sprite>("Soulless"),
+					activatedSprite =  AssetUtils.GetPrefab<Sprite>("Soulless_Active"),
+					pointValue = 5
+				}
+			,
+			
+				new()
+				{
+					challengeType = FrailHammer,
+					title = "Frail Hammer",
+					description = "The Hammer gets repaired only after every Boss.",
+					iconSprite = AssetUtils.GetPrefab<Sprite>("FrailHammer"),
+					activatedSprite =  AssetUtils.GetPrefab<Sprite>("FrailHammer_Active"),
+					pointValue = 15
+				}
+			,
 
 			new()
 			{
@@ -179,13 +242,11 @@ public class ChallengeManagement
 			{
 				challengeType = WiltedClover,
 				title = "Wilted Clover",
-				description = "You choose only from 2 cards in card selection, instead of 3.",
+				description = "There is only 2 Cards present at every Card chest.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("WiltedClover"),
 				pointValue = 20
 			},
-
-
-
+			
 
 			//Anti-Challenges below for good sorting
 			new()
