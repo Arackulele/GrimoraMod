@@ -186,7 +186,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			{
 				chanceToDie += AddChanceToDieForSecondZap();
 				Log.LogDebug($"[ElectricChair] Chance to die is now [{chanceToDie}]");
-				if (UnityRandom.value < chanceToDie)
+				if (UnityRandom.value < chanceToDie && ! AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.SafeChair))
 				{
 					AudioController.Instance.PlaySound3D(
 						"teslacoil_overload",

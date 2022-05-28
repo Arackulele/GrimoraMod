@@ -70,6 +70,7 @@ public class ChallengeManagement
 
 
 	public static AscensionChallenge InfinitLives { get; private set; }
+	public static AscensionChallenge SafeChair { get; private set; }
 
 
 	public static List<AscensionChallengeInfo> PatchedChallengesReference;
@@ -90,7 +91,8 @@ public class ChallengeManagement
 
 
 		InfinitLives = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "InfinitLives");
-		AntiChallenges = new List<AscensionChallenge>() {InfinitLives};
+		SafeChair = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "SafeChair");
+		AntiChallenges = new List<AscensionChallenge>() {InfinitLives,SafeChair};
 
 
 
@@ -190,6 +192,14 @@ public class ChallengeManagement
 				activatedSprite = AssetUtils.GetPrefab<Sprite>("InfLives_Active"),
 				pointValue = 0
 			},
+			new()
+			{
+				challengeType = SafeChair,
+				title = "Safe Chair",
+				description = "Your cards are immune to electricity of the chair.",
+				iconSprite = AssetUtils.GetPrefab<Sprite>("SafeChair"),
+				pointValue = 0
+			},
 		};
 
 		ValidChallenges = new List<AscensionChallenge>
@@ -198,7 +208,7 @@ public class ChallengeManagement
 			InfinitLives,
 			JammedChair,
 			WiltedClover,
-			//AscensionChallenge.WeakStarterDeck,
+			SafeChair,
 			//AscensionChallenge.SubmergeSquirrels,
 			NoBones,
 			//AscensionChallenge.BossTotems,
