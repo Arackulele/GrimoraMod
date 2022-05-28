@@ -40,6 +40,22 @@ internal static class Temp
 
 
 
+internal static class ChallengeToFullChallenge_Compatibility
+{
+	internal static ChallengeManager.FullChallenge Convert(this AscensionChallengeInfo info) => new ChallengeManager.FullChallenge(){Challenge =info, AppearsInChallengeScreen = true, UnlockLevel = 0};
+
+	internal static List<ChallengeManager.FullChallenge> Convert(this List<AscensionChallengeInfo> infos)
+	{
+		var list = new List<ChallengeManager.FullChallenge>();
+		foreach (var info in infos)
+		{
+			list.Add(info.Convert());
+		}
+		return list;
+	}
+}
+
+
 [HarmonyPatch]
 public class ChallengeManagement
 {
@@ -213,22 +229,47 @@ public class ChallengeManagement
 
 
 
-		ChallengeManager.ModifyChallenges += delegate(List<AscensionChallengeInfo> challenges)
-		{
-			if (ScreenManagement.ScreenState == CardTemple.Undead)
-			{
-				for (int i = 0; i < PatchedChallengesReference.Count; i++)
-				{
-					challenges[i] = PatchedChallengesReference[i];
-					
-				}
-				challenges.RemoveRange(PatchedChallengesReference.Count, challenges.Count-PatchedChallengesReference.Count);
 
+		try
+		{
+			var ModifyEvent = typeof(ChallengeManager).GetEvent("ModifyChallenges");
+			ModifyEvent.AddEventHandler(ModifyEvent.AddMethod, delegate(List<AscensionChallengeInfo> challenges)
+			{
+				if (ScreenManagement.ScreenState == CardTemple.Undead)
+				{
+					challenges.Clear();
+					challenges.AddRange(PatchedChallengesReference);
+					return challenges;
+				}
+
+				challenges = (List<AscensionChallengeInfo>) (object) ChallengeManager.BaseGameChallenges.ToList();
 				return challenges;
-			}
-			challenges =  ChallengeManager.BaseGameChallenges.ToList();
-			return challenges;
-		};
+			});
+		}
+		catch
+		{
+			GrimoraPlugin.Log.LogInfo("API 2.4.0 is being used.");
+		}
+		try
+		{
+			ChallengeManager.ModifyChallenges += delegate(List<ChallengeManager.FullChallenge> challenges)
+			{
+				if (ScreenManagement.ScreenState == CardTemple.Undead)
+				{
+					challenges.Clear();
+					challenges.AddRange(PatchedChallengesReference.Convert());
+					return challenges;
+				}
+				challenges =  ChallengeManager.BaseGameChallenges.ToList();
+				return challenges;
+			};
+		}
+		catch 
+		{
+			GrimoraPlugin.Log.LogWarning("You are using outdated version of api, api 2.3.0 while the mod was developed for api 2.4.0, backwards compatibility layer is turned on!");
+		}
+
+
 	}
 	
 	
