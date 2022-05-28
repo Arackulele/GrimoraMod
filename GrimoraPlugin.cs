@@ -79,8 +79,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	}
 #endif
 
-	
-	
+
+	internal static List<GameObject> kopieGameObjects = new List<GameObject>();
 	private void LoadAssetsSync()
 	{
 		AllAbilitiesTextures = AssetUtils.LoadAssetBundle<Texture>("grimoramod_abilities");
@@ -104,7 +104,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		#endif
 
 		AllSprites.AddRange(kopieSprites);
-		AllPrefabs.AddRange(kopiePrefabs);
+		kopieGameObjects.AddRange(kopiePrefabs);
 
 	}
 
