@@ -44,6 +44,12 @@
 
 ### 2.10.0
 
+- ![Feature](https://i.imgur.com/uL9uYNV.png)  New Anti- Challenge ( Safe Chair )
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Issues with api 2.4
+
+### 2.10.0
+
 - ![Feature](https://i.imgur.com/uL9uYNV.png)  4 New Challenges ( Soulless x2 , Fraile Hammer, Jammed Chair and Wilted Clover )
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png) 1 New Anti- Challenge ( Infinite Lives )
