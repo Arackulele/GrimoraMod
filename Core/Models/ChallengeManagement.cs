@@ -71,117 +71,110 @@ public class ChallengeManagement
 
 	public static AscensionChallenge InfinitLives { get; private set; }
 
-	
+
 	public static List<AscensionChallengeInfo> PatchedChallengesReference;
-	
+
 	public static List<AscensionChallenge> ValidChallenges;
 	public static List<AscensionChallenge> AntiChallenges;
-	
+
 	public static void UpdateGrimoraChallenges()
 	{
 		NoBones = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "NoBones");
 		KayceesKerfuffle = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "KayceesKerfuffle");
 		SawyersShowdown = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "SawyersShowdown");
 		RoyalsRevenge = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "RoyalsRevenge");
-		Soulless=GuidManager.GetEnumValue<AscensionChallenge>(GUID, "Soulless");
-		FrailHammer=GuidManager.GetEnumValue<AscensionChallenge>(GUID, "FrailHammer");
-		JammedChair=GuidManager.GetEnumValue<AscensionChallenge>(GUID, "JammedChair");
-		WiltedClover=GuidManager.GetEnumValue<AscensionChallenge>(GUID, "WiltedClover");
+		Soulless = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "Soulless");
+		FrailHammer = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "FrailHammer");
+		JammedChair = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "JammedChair");
+		WiltedClover = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "WiltedClover");
 
-		
-		InfinitLives=GuidManager.GetEnumValue<AscensionChallenge>(GUID, "InfinitLives");
+
+		InfinitLives = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "InfinitLives");
 		AntiChallenges = new List<AscensionChallenge>() {InfinitLives};
 
 
 
 		PatchedChallengesReference = new List<AscensionChallengeInfo>()
 		{
-			new ()
-				{
-					challengeType = NoBones,
-					title = "No Bones",
-					description = "You no longer gain the extra bones, from defeating bosses.",
-					iconSprite = AssetUtils.GetPrefab<Sprite>("NoBonesNew"),
-					activatedSprite = AssetUtils.GetPrefab<Sprite>("NoBones_Active"),
-					pointValue = 5,
-				}
-			,
-			
-				new()
-				{
-					challengeType = KayceesKerfuffle,
-					title = "Kaycee's Kerfuffle",
-					description = "The fourth turn of every battle, all your cards will be Frozen Away.",
-					iconSprite = AssetUtils.GetPrefab<Sprite>("KayceesKerfuffle"),
-					pointValue = 15
-				}
-			,
-			
+			new()
+			{
+				challengeType = NoBones,
+				title = "No Bones",
+				description = "You no longer gain the extra bones, from defeating bosses.",
+				iconSprite = AssetUtils.GetPrefab<Sprite>("NoBonesNew"),
+				activatedSprite = AssetUtils.GetPrefab<Sprite>("NoBones_Active"),
+				pointValue = 5,
+			},
 
-				new()
-				{
-					challengeType = SawyersShowdown,
-					title = "Sawyer's Showdown",
-					description = "Lose 1 bone every 3rd turn.",
-					iconSprite = AssetUtils.GetPrefab<Sprite>("SawyersShowdown"),
-					pointValue = 10
-				}
-				,
+			new()
+			{
+				challengeType = KayceesKerfuffle,
+				title = "Kaycee's Kerfuffle",
+				description = "The fourth turn of every battle, all your cards will be Frozen Away.",
+				iconSprite = AssetUtils.GetPrefab<Sprite>("KayceesKerfuffle"),
+				pointValue = 15
+			},
 
-				new()
-				{
-					challengeType = RoyalsRevenge,
-					title = "Royal's Revenge",
-					description = "Every third card you play gains the Lit Fuse sigil.",
-					iconSprite = AssetUtils.GetPrefab<Sprite>("RoyalsRevenge"),
-					activatedSprite = AssetUtils.GetPrefab<Sprite>("Royal_Active"),
-					pointValue = 20
-				}
-				,
 
-				new()
-				{
-					challengeType = Soulless,
-					title = "Soulless",
-					description = "Skeletons cost +1 Energy.",
-					iconSprite = AssetUtils.GetPrefab<Sprite>("Soulless"),
-					activatedSprite =  AssetUtils.GetPrefab<Sprite>("Soulless_Active"),
-					pointValue = 5
-				},
-			
+			new()
+			{
+				challengeType = SawyersShowdown,
+				title = "Sawyer's Showdown",
+				description = "Lose 1 bone every 3rd turn.",
+				iconSprite = AssetUtils.GetPrefab<Sprite>("SawyersShowdown"),
+				pointValue = 10
+			},
 
-				new()
-				{
-					challengeType = Soulless,
-					title = "Soulless",
-					description = "Skeletons cost +1 Energy.",
-					iconSprite = AssetUtils.GetPrefab<Sprite>("Soulless"),
-					activatedSprite =  AssetUtils.GetPrefab<Sprite>("Soulless_Active"),
-					pointValue = 5
-				}
-			,
-			
-				new()
-				{
-					challengeType = FrailHammer,
-					title = "Frail Hammer",
-					description = "The Hammer charges are only refreshed after each boss instead of each fight.",
-					iconSprite = AssetUtils.GetPrefab<Sprite>("FrailHammer"),
-					activatedSprite =  AssetUtils.GetPrefab<Sprite>("FrailHammer_Active"),
-					pointValue = 15
-				}
-			,
+			new()
+			{
+				challengeType = RoyalsRevenge,
+				title = "Royal's Revenge",
+				description = "Every third card you play gains the Lit Fuse sigil.",
+				iconSprite = AssetUtils.GetPrefab<Sprite>("RoyalsRevenge"),
+				activatedSprite = AssetUtils.GetPrefab<Sprite>("Royal_Active"),
+				pointValue = 20
+			},
 
-				new()
-				{
-					challengeType = JammedChair,
-					title = "Jammed Chair",
-					description = "The electric chair is always set to level 3.",
-					iconSprite = AssetUtils.GetPrefab<Sprite>("JammedChair"),
-					activatedSprite =  AssetUtils.GetPrefab<Sprite>("JammedChair_Active"),
-					pointValue = 10
-				}
-			,
+			new()
+			{
+				challengeType = Soulless,
+				title = "Soulless",
+				description = "Skeletons cost +1 Energy.",
+				iconSprite = AssetUtils.GetPrefab<Sprite>("Soulless"),
+				activatedSprite = AssetUtils.GetPrefab<Sprite>("Soulless_Active"),
+				pointValue = 5
+			},
+
+
+			new()
+			{
+				challengeType = Soulless,
+				title = "Soulless",
+				description = "Skeletons cost +1 Energy.",
+				iconSprite = AssetUtils.GetPrefab<Sprite>("Soulless"),
+				activatedSprite = AssetUtils.GetPrefab<Sprite>("Soulless_Active"),
+				pointValue = 5
+			},
+
+			new()
+			{
+				challengeType = FrailHammer,
+				title = "Frail Hammer",
+				description = "The Hammer charges are only refreshed after each boss instead of each fight.",
+				iconSprite = AssetUtils.GetPrefab<Sprite>("FrailHammer"),
+				activatedSprite = AssetUtils.GetPrefab<Sprite>("FrailHammer_Active"),
+				pointValue = 15
+			},
+
+			new()
+			{
+				challengeType = JammedChair,
+				title = "Jammed Chair",
+				description = "The electric chair is always set to level 3.",
+				iconSprite = AssetUtils.GetPrefab<Sprite>("JammedChair"),
+				activatedSprite = AssetUtils.GetPrefab<Sprite>("JammedChair_Active"),
+				pointValue = 10
+			},
 			new()
 			{
 				challengeType = WiltedClover,
@@ -189,29 +182,27 @@ public class ChallengeManagement
 				description = "You choose only from 2 cards in card selection, instead of 3.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("WiltedClover"),
 				pointValue = 20
-			}
-			,
-			
-			
-			
-			
+			},
+
+
+
+
 			//Anti-Challenges below for good sorting
 			new()
-				{
-					challengeType = InfinitLives,
-					title = "Infinite Lives",
-					description = "You can't die. Really.",
-					iconSprite = AssetUtils.GetPrefab<Sprite>("InfLives"),
-					activatedSprite =  AssetUtils.GetPrefab<Sprite>("InfLives_Active"),
-					pointValue = 0
-				}
-			,
+			{
+				challengeType = InfinitLives,
+				title = "Infinite Lives",
+				description = "You can't die. Really.",
+				iconSprite = AssetUtils.GetPrefab<Sprite>("InfLives"),
+				activatedSprite = AssetUtils.GetPrefab<Sprite>("InfLives_Active"),
+				pointValue = 0
+			},
 
 		};
 
 		ValidChallenges = new List<AscensionChallenge>
 		{
-			Soulless, 
+			Soulless,
 			InfinitLives,
 			JammedChair,
 			WiltedClover,
@@ -230,47 +221,22 @@ public class ChallengeManagement
 
 
 
-		try
+
+		ChallengeManager.ModifyChallenges += delegate(List<ChallengeManager.FullChallenge> challenges)
 		{
-			var ModifyEvent = typeof(ChallengeManager).GetEvent("ModifyChallenges");
-			ModifyEvent.AddEventHandler(ModifyEvent.AddMethod, delegate(List<AscensionChallengeInfo> challenges)
+			if (ScreenManagement.ScreenState == CardTemple.Undead)
 			{
-				if (ScreenManagement.ScreenState == CardTemple.Undead)
-				{
-					challenges.Clear();
-					challenges.AddRange(PatchedChallengesReference);
-					return challenges;
-				}
-
-				challenges = (List<AscensionChallengeInfo>) (object) ChallengeManager.BaseGameChallenges.ToList();
+				challenges.Clear();
+				challenges.AddRange(PatchedChallengesReference.Convert());
 				return challenges;
-			});
-		}
-		catch
-		{
-			GrimoraPlugin.Log.LogInfo("API 2.4.0 is being used.");
-		}
-		try
-		{
-			ChallengeManager.ModifyChallenges += delegate(List<ChallengeManager.FullChallenge> challenges)
-			{
-				if (ScreenManagement.ScreenState == CardTemple.Undead)
-				{
-					challenges.Clear();
-					challenges.AddRange(PatchedChallengesReference.Convert());
-					return challenges;
-				}
-				challenges =  ChallengeManager.BaseGameChallenges.ToList();
-				return challenges;
-			};
-		}
-		catch 
-		{
-			GrimoraPlugin.Log.LogWarning("You are using outdated version of api, api 2.3.0 while the mod was developed for api 2.4.0, backwards compatibility layer is turned on!");
-		}
+			}
+
+			challenges = ChallengeManager.BaseGameChallenges.ToList();
+			return challenges;
+		};
+}
 
 
-	}
 	
 	
 	[HarmonyPostfix, HarmonyPatch(typeof(AscensionUnlockSchedule), nameof(AscensionUnlockSchedule.ChallengeIsUnlockedForLevel))]
