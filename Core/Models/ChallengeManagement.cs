@@ -40,6 +40,22 @@ internal static class Temp
 
 
 
+internal static class ChallengeToFullChallenge_Compatibility
+{
+	internal static ChallengeManager.FullChallenge Convert(this AscensionChallengeInfo info) => new ChallengeManager.FullChallenge(){Challenge =info, AppearsInChallengeScreen = true, UnlockLevel = 0};
+
+	internal static List<ChallengeManager.FullChallenge> Convert(this List<AscensionChallengeInfo> infos)
+	{
+		var list = new List<ChallengeManager.FullChallenge>();
+		foreach (var info in infos)
+		{
+			list.Add(info.Convert());
+		}
+		return list;
+	}
+}
+
+
 [HarmonyPatch]
 public class ChallengeManagement
 {
@@ -54,43 +70,43 @@ public class ChallengeManagement
 
 
 	public static AscensionChallenge InfinitLives { get; private set; }
+	public static AscensionChallenge SafeChair { get; private set; }
 
-	
+
 	public static List<AscensionChallengeInfo> PatchedChallengesReference;
-	
+
 	public static List<AscensionChallenge> ValidChallenges;
 	public static List<AscensionChallenge> AntiChallenges;
-	
+
 	public static void UpdateGrimoraChallenges()
 	{
 		NoBones = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "NoBones");
 		KayceesKerfuffle = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "KayceesKerfuffle");
 		SawyersShowdown = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "SawyersShowdown");
 		RoyalsRevenge = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "RoyalsRevenge");
-		Soulless=GuidManager.GetEnumValue<AscensionChallenge>(GUID, "Soulless");
-		FrailHammer=GuidManager.GetEnumValue<AscensionChallenge>(GUID, "FrailHammer");
-		JammedChair=GuidManager.GetEnumValue<AscensionChallenge>(GUID, "JammedChair");
-		WiltedClover=GuidManager.GetEnumValue<AscensionChallenge>(GUID, "WiltedClover");
+		Soulless = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "Soulless");
+		FrailHammer = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "FrailHammer");
+		JammedChair = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "JammedChair");
+		WiltedClover = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "WiltedClover");
 
-		
-		InfinitLives=GuidManager.GetEnumValue<AscensionChallenge>(GUID, "InfinitLives");
-		AntiChallenges = new List<AscensionChallenge>() {InfinitLives};
+
+		InfinitLives = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "InfinitLives");
+		SafeChair = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "SafeChair");
+		AntiChallenges = new List<AscensionChallenge>() {InfinitLives,SafeChair};
 
 
 
 		PatchedChallengesReference = new List<AscensionChallengeInfo>()
 		{
-			new ()
-				{
-					challengeType = NoBones,
-					title = "No Bones",
-					description = "You no longer gain the extra bones, from defeating bosses.",
-					iconSprite = AssetUtils.GetPrefab<Sprite>("NoBonesNew"),
-					activatedSprite = AssetUtils.GetPrefab<Sprite>("NoBones_Active"),
-					pointValue = 15,
-				}
-			,
-			
+			new()
+			{
+				challengeType = NoBones,
+				title = "No Bones",
+				description = "You no longer gain the extra bones, from defeating bosses.",
+				iconSprite = AssetUtils.GetPrefab<Sprite>("NoBonesNew"),
+				activatedSprite = AssetUtils.GetPrefab<Sprite>("NoBones_Active"),
+				pointValue = 5,
+			},
 				new()
 				{
 					challengeType = KayceesKerfuffle,
@@ -100,9 +116,7 @@ public class ChallengeManagement
 					pointValue = 15
 				}
 			,
-			
-
-				new()
+			new()
 				{
 					challengeType = SawyersShowdown,
 					title = "Sawyer's Showdown",
@@ -111,7 +125,6 @@ public class ChallengeManagement
 					pointValue = 5
 				}
 				,
-
 				new()
 				{
 					challengeType = RoyalsRevenge,
@@ -125,28 +138,6 @@ public class ChallengeManagement
 
 				new()
 				{
-					challengeType = Soulless,
-					title = "Soulless",
-					description = "Skeletons cost +1 Energy.",
-					iconSprite = AssetUtils.GetPrefab<Sprite>("Soulless"),
-					activatedSprite =  AssetUtils.GetPrefab<Sprite>("Soulless_Active"),
-					pointValue = 5
-				},
-			
-
-				new()
-				{
-					challengeType = Soulless,
-					title = "Soulless",
-					description = "Skeletons cost +1 Energy.",
-					iconSprite = AssetUtils.GetPrefab<Sprite>("Soulless"),
-					activatedSprite =  AssetUtils.GetPrefab<Sprite>("Soulless_Active"),
-					pointValue = 5
-				}
-			,
-			
-				new()
-				{
 					challengeType = FrailHammer,
 					title = "Frail Hammer",
 					description = "The Hammer gets repaired only after every Boss.",
@@ -155,51 +146,69 @@ public class ChallengeManagement
 					pointValue = 15
 				}
 			,
-
-				new()
-				{
-					challengeType = JammedChair,
-					title = "Jammed Chair",
-					description = "The electric chair is always set to level 3.",
-					iconSprite = AssetUtils.GetPrefab<Sprite>("JammedChair"),
-					activatedSprite =  AssetUtils.GetPrefab<Sprite>("JammedChair_Active"),
-					pointValue = 10
-				}
-			,
+			new()
+			{
+				challengeType = Soulless,
+				title = "Soulless",
+				description = "Skeletons cost +1 Energy.",
+				iconSprite = AssetUtils.GetPrefab<Sprite>("Soulless"),
+				activatedSprite = AssetUtils.GetPrefab<Sprite>("Soulless_Active"),
+				pointValue = 5
+			},
+			new()
+			{
+				challengeType = Soulless,
+				title = "Soulless",
+				description = "Skeletons cost +1 Energy.",
+				iconSprite = AssetUtils.GetPrefab<Sprite>("Soulless"),
+				activatedSprite = AssetUtils.GetPrefab<Sprite>("Soulless_Active"),
+				pointValue = 5
+			},
+			new()
+			{
+				challengeType = JammedChair,
+				title = "Jammed Chair",
+				description = "The electric chair is always set to level 3.",
+				iconSprite = AssetUtils.GetPrefab<Sprite>("JammedChair"),
+				activatedSprite = AssetUtils.GetPrefab<Sprite>("JammedChair_Active"),
+				pointValue = 10
+			},
 			new()
 			{
 				challengeType = WiltedClover,
 				title = "Wilted Clover",
 				description = "There is only 2 Cards present at every Card chest.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("WiltedClover"),
-				pointValue = 25
-			}
-			,
-			
-			
-			
+				pointValue = 20
+			},
 			
 			//Anti-Challenges below for good sorting
 			new()
-				{
-					challengeType = InfinitLives,
-					title = "Infinite Lives",
-					description = "You can't die. Really.",
-					iconSprite = AssetUtils.GetPrefab<Sprite>("InfLives"),
-					activatedSprite =  AssetUtils.GetPrefab<Sprite>("InfLives_Active"),
-					pointValue = 0
-				}
-			,
-
+			{
+				challengeType = InfinitLives,
+				title = "Infinite Lives",
+				description = "You can't die. Really.",
+				iconSprite = AssetUtils.GetPrefab<Sprite>("InfLives"),
+				activatedSprite = AssetUtils.GetPrefab<Sprite>("InfLives_Active"),
+				pointValue = 0
+			},
+			new()
+			{
+				challengeType = SafeChair,
+				title = "Safe Chair",
+				description = "Your cards are immune to electricity of the chair.",
+				iconSprite = AssetUtils.GetPrefab<Sprite>("SafeChair"),
+				pointValue = 0
+			},
 		};
 
 		ValidChallenges = new List<AscensionChallenge>
 		{
-			Soulless, 
+			Soulless,
 			InfinitLives,
 			JammedChair,
 			WiltedClover,
-			//AscensionChallenge.WeakStarterDeck,
+			SafeChair,
 			//AscensionChallenge.SubmergeSquirrels,
 			NoBones,
 			//AscensionChallenge.BossTotems,
@@ -213,23 +222,23 @@ public class ChallengeManagement
 
 
 
-		ChallengeManager.ModifyChallenges += delegate(List<AscensionChallengeInfo> challenges)
+
+
+		ChallengeManager.ModifyChallenges += delegate(List<ChallengeManager.FullChallenge> challenges)
 		{
 			if (ScreenManagement.ScreenState == CardTemple.Undead)
 			{
-				for (int i = 0; i < PatchedChallengesReference.Count; i++)
-				{
-					challenges[i] = PatchedChallengesReference[i];
-					
-				}
-				challenges.RemoveRange(PatchedChallengesReference.Count, challenges.Count-PatchedChallengesReference.Count);
-
+				challenges.Clear();
+				challenges.AddRange(PatchedChallengesReference.Convert());
 				return challenges;
 			}
-			challenges =  ChallengeManager.BaseGameChallenges.ToList();
+
+			challenges = ChallengeManager.BaseGameChallenges.ToList();
 			return challenges;
 		};
-	}
+}
+
+
 	
 	
 	[HarmonyPostfix, HarmonyPatch(typeof(AscensionUnlockSchedule), nameof(AscensionUnlockSchedule.ChallengeIsUnlockedForLevel))]

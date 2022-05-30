@@ -1,9 +1,9 @@
 {
 	"name": "GrimoraMod",
-	"version_number": "2.10.0",
+	"version_number": "2.10.1",
 	"website_url": "https://github.com/Arackulele/GrimoraMod",
-	"description": "Api 2.3.0 Compatibility! Probably the biggest and most ambitious mod. Gives Grimora a full act!",
+	"description": "Compatibility update... again! Probably the biggest and most ambitious mod. Gives Grimora a full act!",
 	"dependencies": [
-		"API_dev-API-2.3.0"
+		"API_dev-API-2.4.0"
 	]
 }
