@@ -203,10 +203,10 @@ public class SaveDataRelatedPatches
 		if (Initialized)
 		{
 			Log.LogInfo($"[GrimoraSaveData.Initialize] Has been initialized. Is Ascension? [{SaveFile.IsAscension}] CurrentRun [{AscensionSaveData.Data.currentRun}]");
-			if (SaveFile.IsAscension && AscensionSaveData.Data.currentRun.IsNotNull())
+			if (SaveFile.IsAscension )
 			{
 				// CreateAscensionDeck(__instance);
-				CreateDefaultDeck(__instance);
+				CreateDefaultDeck(__instance, AscensionSaveData.Data.currentStarterDeck);
 			}
 			else
 			{
@@ -221,9 +221,12 @@ public class SaveDataRelatedPatches
 		return false;
 	}
 
-	private static void CreateDefaultDeck(GrimoraSaveData saveData)
+	private static void CreateDefaultDeck(GrimoraSaveData saveData, string starterDeck=null)
 	{
 		Log.LogInfo($"[GrimoraSaveData.Initialize] Creating GrimoraMod vanilla deck");
+		Log.LogMessage(starterDeck);
+		Log.LogMessage(StarterDecksUtil.GetInfo(starterDeck));
+
 		List<CardInfo> defaultCardInfos = new()
 		{
 			NameBonepile.GetCardInfo(),
@@ -233,8 +236,14 @@ public class SaveDataRelatedPatches
 			NameZombie.GetCardInfo()
 		};
 
+		if (starterDeck != null)
+		{
+			defaultCardInfos = StarterDecksUtil.GetInfo(starterDeck).cards;
+		}
+
 		foreach (var cardInfo in defaultCardInfos)
 		{
+			Log.LogMessage(cardInfo+"  was in default card infos");
 			saveData.deck.AddCard(cardInfo);
 		}
 	}

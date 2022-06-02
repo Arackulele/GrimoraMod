@@ -15,6 +15,6 @@ public partial class GrimoraPlugin
 			.SetBoneCost(7)
 			.SetDescription("A SKILLED HUNTER. WHAT DID IT HUNT? THAT IS UNKNOWN...")
 			.SetNames(NameSilbon, "Silbon")
-			.Build();
+			.Build().pixelPortrait=GrimoraPlugin.AllSprites.Find(o=>o.name=="pixel_silbon");;
 	}
 }

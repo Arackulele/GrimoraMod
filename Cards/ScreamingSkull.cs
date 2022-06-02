@@ -13,6 +13,6 @@ public partial class GrimoraPlugin
 			.SetBoneCost(2)
 			.SetDescription("ONLY PAIN, NOTHING ELSE IS FELT BY THIS SKELETAL HEAD. WHAT A PITY.")
 			.SetNames(NameScreamingSkull, "Screaming Skull")
-			.Build();
+			.Build().pixelPortrait=GrimoraPlugin.AllSprites.Find(o=>o.name=="pixel_skull");;
 	}
 }
