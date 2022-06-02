@@ -10,8 +10,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 		 .SetAsRareCard()
-		 .SetAbilities(Ability.Brittle)
-		 .SetSpecialAbilities(OurobonesBattle.FullSpecial.Id)
+		 .SetAbilities(CumulativeTorment.ability)
 		 .SetBaseAttackAndHealth(1, 1)
 		 .SetBoneCost(2)
 		 .SetDescription("An endless cycle of life and death has taken a toll on these discarded remains.")
