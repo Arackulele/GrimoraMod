@@ -12,6 +12,6 @@ public partial class GrimoraPlugin
 			.SetEnergyCost(3)
 			.SetDescription("COMING FOR VENGEANCE, AND A BIT OF FUN, TOO!")
 			.SetNames(NameVengefulSpirit, "Vengeful Spirit")
-			.Build();
+			.Build().pixelPortrait=GrimoraPlugin.AllSprites.Find(o=>o.name=="pixel_spirit");;
 	}
 }

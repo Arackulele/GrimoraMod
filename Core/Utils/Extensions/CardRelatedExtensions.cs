@@ -57,6 +57,7 @@ public static class CardRelatedExtension
 
 	public static CardInfo GetCardInfo(this string self)
 	{
+
 		return CardManager.AllCardsCopy.Single(info => info.name == self);
 	}
 

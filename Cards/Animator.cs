@@ -13,6 +13,6 @@ public partial class GrimoraPlugin
 			.SetEnergyCost(5)
 			.SetDescription("The puppet becomes the puppeteer, yet still forever cursed by their dangling restraints.")
 			.SetNames(NameAnimator, "Animator")
-			.Build();
+			.Build().pixelPortrait=GrimoraPlugin.AllSprites.Find(o=>o.name=="pixel_animator");
 	}
 }

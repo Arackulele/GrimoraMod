@@ -17,6 +17,6 @@ public partial class GrimoraPlugin
 			.SetDescription("FOR WHOM THE BELL TOLLS?")
 			.SetNames(NameDeathKnell, "Death Knell")
 			.SetSpecialStatIcon(SpecialStatIcon.Bell)
-			.Build();
+			.Build().pixelPortrait=GrimoraPlugin.AllSprites.Find(o=>o.name=="pixel_knell");;
 	}
 }

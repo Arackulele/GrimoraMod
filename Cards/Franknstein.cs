@@ -9,12 +9,14 @@ public partial class GrimoraPlugin
 	private void Add_Card_Franknstein()
 	{
 		Sprite ogSprite = "FrankNStein".GetCardInfo().portraitTex;
+		Sprite pixelSprite = "FrankNStein".GetCardInfo().pixelPortrait;
+
 		CardBuilder.Builder
-			.SetAsNormalCard()
-			.SetBaseAttackAndHealth(2, 2)
-			.SetBoneCost(5)
-			.SetDescription("BEST FRIENDS, BROTHERS, AND FIGHTERS.")
-			.SetNames(NameFranknstein, "Frank & Stein", ogSprite)
-			.Build();
+		 .SetAsNormalCard()
+		 .SetBaseAttackAndHealth(2, 2)
+		 .SetBoneCost(5)
+		 .SetDescription("BEST FRIENDS, BROTHERS, AND FIGHTERS.")
+		 .SetNames(NameFranknstein, "Frank & Stein", ogSprite)
+		 .Build().pixelPortrait = pixelSprite;
 	}
 }

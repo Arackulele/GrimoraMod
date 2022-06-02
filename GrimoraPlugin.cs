@@ -64,6 +64,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		
 		ChallengeManagement.UpdateGrimoraChallenges();
 
+		
+		
 		Initialized = true;
 	}
 
