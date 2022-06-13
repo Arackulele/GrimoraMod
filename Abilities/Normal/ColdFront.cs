@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
 using UnityEngine;
@@ -30,13 +30,14 @@ public class ColdFront : AbilityBehaviour
 				}
 				yield return opposingSlotCard.TakeDamage(4, Card);
 			}
-			else
+			else if (opposingSlotCard.LacksAbility(Ability.IceCube))
 			{
 				var frozenAway = GrimoraModKayceeBossSequencer.CreateModForFreeze(opposingSlotCard);
 				opposingSlotCard.RemoveAbilityFromThisCard(frozenAway);
 				opposingSlotCard.Anim.PlayTransformAnimation();
 				yield return new WaitForSeconds(0.25f);
 			}
+			yield break;
 		}
 	}
 }
