@@ -31,6 +31,7 @@ public class HookLineAndSinker : AbilityBehaviour
 			}
 			yield return CardSpawner.Instance.SpawnCardToHand(NameBoneLordsHorn.GetCardInfo());
 			yield return targetCard.TakeDamage(2, Card);
+			yield break;
 		}
 		
 		AudioController.Instance.PlaySound3D(
