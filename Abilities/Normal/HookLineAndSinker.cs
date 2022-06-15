@@ -1,8 +1,9 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers.Extensions;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -12,6 +13,8 @@ public class HookLineAndSinker : AbilityBehaviour
 
 	public override Ability Ability => ability;
 
+	private static bool _playedDialogueGrimoraGiantHooked;
+	
 	public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer) => Card.HasOpposingCard();
 
 	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
@@ -20,7 +23,14 @@ public class HookLineAndSinker : AbilityBehaviour
 		
 		if (targetCard.IsGrimoraGiant())
 		{
-			yield break;
+			if (!_playedDialogueGrimoraGiantHooked)
+			{
+				yield return new WaitForSeconds(0.25f);
+				yield return TextDisplayer.Instance.ShowUntilInput($"OH DEAR! LOOKS LIKE YOU HAVE HOOKED SOMETHING OUT OF {targetCard.Info.DisplayedNameLocalized}!");
+				_playedDialogueGrimoraGiantHooked = true;
+			}
+			yield return CardSpawner.Instance.SpawnCardToHand(NameBoneLordsHorn.GetCardInfo());
+			yield return targetCard.TakeDamage(2, Card);
 		}
 		
 		AudioController.Instance.PlaySound3D(

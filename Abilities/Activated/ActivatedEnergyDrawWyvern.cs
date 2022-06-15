@@ -1,6 +1,5 @@
 using System.Collections;
 using DiskCardGame;
-using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
