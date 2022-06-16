@@ -35,9 +35,7 @@ public class LoadSigil_patch
 	{
 		if (info.name == GrimoraPlugin.NameOurobones && ability.ability == Ability.Brittle)
 		{
-			Texture2D Texture;
-			Texture = GrimoraPlugin.AllSprites.Find(o => o.name == "ability_tornment").texture;
-			__result = Texture;
+			 __result = GrimoraPlugin.AllSprites.Find(o => o.name == "ability_tornment").texture;
 		}
 		return;
 	}
