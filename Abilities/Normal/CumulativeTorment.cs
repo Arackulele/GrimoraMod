@@ -33,7 +33,7 @@ public class LoadSigil_patch
 	[HarmonyPostfix]
 	public static void Postfix(ref Texture __result, ref CardInfo info, ref AbilityInfo ability, ref AbilityIconInteractable __instance)
 	{
-		if (info.name == GrimoraPlugin.NameOurobones && ability.ability == Ability.Brittle)
+		if (info.name.Contains(GrimoraPlugin.NameOurobones) == true && ability.ability == Ability.Brittle)
 		{
 			 __result = GrimoraPlugin.AllSprites.Find(o => o.name == "ability_tornment").texture;
 		}
@@ -47,7 +47,7 @@ public class OpenToAbilityPage_patch
 	[HarmonyPrefix]
 	public static bool OpenToAbilityPage(ref string abilityName, ref PlayableCard card, ref bool immediate)
 	{
-		if (abilityName == Ability.Brittle.ToString() && card?.Info?.name == GrimoraPlugin.NameOurobones)
+		if (abilityName == Ability.Brittle.ToString() && card?.Info?.name.Contains(GrimoraPlugin.NameOurobones) == true)
 		{
 			abilityName = CumulativeTorment.ability.ToString();
 		}

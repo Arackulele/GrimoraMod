@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using DiskCardGame;
 using InscryptionAPI.Card;
 using Sirenix.Utilities;
@@ -43,7 +43,7 @@ public class AbilityBuilder<T> where T: AbilityBehaviour
 		if (_type == typeof(CumulativeTorment))
 
 		{
-			Texture icon =GrimoraPlugin.AllSprites.Find(o=>o.name=="ability_tornment").texture;
+			Texture icon = GrimoraPlugin.AllSprites.Find(o=>o.name=="ability_tornment").texture;
 		
 			// instantiate
 			var newAbility = AbilityManager.Add(GrimoraPlugin.GUID, _abilityInfo, _type, icon);
