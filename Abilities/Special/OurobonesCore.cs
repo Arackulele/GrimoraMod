@@ -13,7 +13,7 @@ public class OurobonesCore : SpecialCardBehaviour
 	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
 	{
 		var info = Card.Info;
-		var changedInfo = Instantiate(info);
+		var changedInfo = info.Clone() as CardInfo;
 		int additiveCost = (PlayableCard.HasAbility(Ability.Brittle) ? 1 : 2);
 		changedInfo.bonesCost += additiveCost;
 		changedInfo.baseAttack++;

@@ -32,14 +32,23 @@ public class HookLineAndSinker : AbilityBehaviour
 
 		if (targetCard.IsGrimoraGiant())
 		{
+			yield return targetCard.TakeDamage(2, Card);
+			
 			if (!_playedDialogueGrimoraGiantHooked)
 			{
 				yield return new WaitForSeconds(0.25f);
 				yield return TextDisplayer.Instance.ShowUntilInput($"OH DEAR! LOOKS LIKE YOU HAVE HOOKED SOMETHING OUT OF {targetCard.Info.DisplayedNameLocalized}!");
 				_playedDialogueGrimoraGiantHooked = true;
 			}
+
+			if (ViewManager.Instance.CurrentView != View.Default)
+			{
+				yield return new WaitForSeconds(0.2f);
+				ViewManager.Instance.SwitchToView(View.Default);
+				yield return new WaitForSeconds(0.2f);
+			}
 			yield return CardSpawner.Instance.SpawnCardToHand(NameBoneLordsHorn.GetCardInfo());
-			yield return targetCard.TakeDamage(2, Card);
+
 			yield break;
 		}
 
