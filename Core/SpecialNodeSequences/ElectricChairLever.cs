@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using Pixelplacement;
 using Pixelplacement.TweenSystem;
 using UnityEngine;
@@ -25,7 +25,7 @@ public class ElectricChairLever : HighlightedInteractable
 		Ability.Sharp,
 		BoneThief.ability,
 		DrawSkeletonOnHit.ability,
-		// ColdFront.ability,
+		ColdFront.ability,
 		LatchSubmerge.ability,
 		LooseLimb.ability,
 		SpiritBearer.ability

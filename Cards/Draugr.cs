@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -15,6 +15,7 @@ public partial class GrimoraPlugin
 		CardBuilder.Builder
 			.SetAsNormalCard()
 			.SetAbilities(Ability.IceCube)
+			.SetEvolve(NameGlacier, 1)
 			.SetBaseAttackAndHealth(0, 1)
 			.SetBoneCost(1)
 			.SetDescription("HIDING IN A SUIT OF ARMOR, OR ICE, WHAT DOES IT MATTER. THIS SKELETON WON'T LAST FOREVER.")

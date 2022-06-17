@@ -1,8 +1,9 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers.Extensions;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -12,17 +13,14 @@ public class HookLineAndSinker : AbilityBehaviour
 
 	public override Ability Ability => ability;
 
+	private static bool _playedDialogueGrimoraGiantHooked;
+	
 	public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer) => Card.HasOpposingCard();
 
 	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
 	{
 		PlayableCard targetCard = Card.OpposingCard();
-		
-		if (targetCard.IsGrimoraGiant())
-		{
-			yield break;
-		}
-		
+
 		AudioController.Instance.PlaySound3D(
 			"angler_use_hook",
 			MixerGroup.TableObjectsSFX,
@@ -31,6 +29,28 @@ public class HookLineAndSinker : AbilityBehaviour
 			0.1f
 		);
 		yield return new WaitForSeconds(0.51f);
+
+		if (targetCard.IsGrimoraGiant())
+		{
+			yield return targetCard.TakeDamage(2, Card);
+			
+			if (!_playedDialogueGrimoraGiantHooked)
+			{
+				yield return new WaitForSeconds(0.25f);
+				yield return TextDisplayer.Instance.ShowUntilInput($"OH DEAR! LOOKS LIKE YOU HAVE HOOKED SOMETHING OUT OF {targetCard.Info.DisplayedNameLocalized}!");
+				_playedDialogueGrimoraGiantHooked = true;
+			}
+
+			if (ViewManager.Instance.CurrentView != View.Default)
+			{
+				yield return new WaitForSeconds(0.2f);
+				ViewManager.Instance.SwitchToView(View.Default);
+				yield return new WaitForSeconds(0.2f);
+			}
+			yield return CardSpawner.Instance.SpawnCardToHand(NameBoneLordsHorn.GetCardInfo());
+
+			yield break;
+		}
 
 		if (targetCard.NotDead())
 		{
