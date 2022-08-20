@@ -16,9 +16,9 @@ public class ActivatedEnergyDrawWyvern : ActivatedAbilityBehaviour
 
 	public override IEnumerator Activate()
 	{
-		var info = Card.Info;
-		info.Mods = new(info.Mods);
-		yield return CardSpawner.Instance.SpawnCardToHand(info);
+		CardInfo cloneInfo = Card.Info.Clone() as CardInfo;
+		cloneInfo.Mods = new(Card.Info.Mods);
+		yield return CardSpawner.Instance.SpawnCardToHand(cloneInfo);
 	}
 }
 

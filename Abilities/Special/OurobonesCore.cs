@@ -12,13 +12,12 @@ public class OurobonesCore : SpecialCardBehaviour
 
 	public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
 	{
-		var info = Card.Info;
-		var changedInfo = info.Clone() as CardInfo;
+		CardInfo changedInfo = Card.Info.Clone() as CardInfo;
 		int additiveCost = (PlayableCard.HasAbility(Ability.Brittle) ? 1 : 2);
 		changedInfo.bonesCost += additiveCost;
 		changedInfo.baseAttack++;
 		changedInfo.baseHealth++;
-		changedInfo.Mods = new(info.Mods);
+		changedInfo.Mods = new(Card.Info.Mods);
 		yield return CardSpawner.Instance.SpawnCardToHand(changedInfo);
 	}
 }

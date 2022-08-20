@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
 using UnityEngine;
@@ -18,11 +18,14 @@ public class LitFuse : ExplodeOnDeath
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
-		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
-		yield return new WaitForSeconds(0.25f);
-		yield return Card.TakeDamage(1, null);
-		yield return new WaitForSeconds(0.25f);
-		ViewManager.Instance.SetViewUnlocked();
+		if (Card.NotDead())
+		{
+			ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
+			yield return new WaitForSeconds(0.25f);
+			yield return Card.TakeDamage(1, null);
+			yield return new WaitForSeconds(0.25f);
+			ViewManager.Instance.SetViewUnlocked();
+		}
 	}
 }
 
