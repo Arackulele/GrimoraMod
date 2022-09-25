@@ -8,11 +8,10 @@ public class CumulativeTorment : AbilityBehaviour
 {
 
 	public static Ability ability;
-
+  
 	public override Ability Ability { get => ability; }
 
 }
-
 public partial class GrimoraPlugin
 {
 	public void Add_Ability_CumulativeTorment()
