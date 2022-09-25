@@ -39,21 +39,44 @@ public class AbilityBuilder<T> where T: AbilityBehaviour
 
 	private AbilityManager.FullAbility SetupAbility()
 	{
-		Texture icon = _rulebookIcon
-			               ? _rulebookIcon
-			               : AssetUtils.GetPrefab<Texture>("ability_" + _type.Name);
+
+		if (_type == typeof(CumulativeTorment))
+
+		{
+			Texture icon =GrimoraPlugin.AllSprites.Find(o=>o.name=="ability_tornment").texture;
 		
-		// instantiate
-		var newAbility = AbilityManager.Add(GrimoraPlugin.GUID, _abilityInfo, _type, icon);
+			// instantiate
+			var newAbility = AbilityManager.Add(GrimoraPlugin.GUID, _abilityInfo, _type, icon);
 
-		// Get static field
-		FieldInfo field = _type.GetField(
-			"ability",
-			BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance
-		);
-		field.SetValue(null, newAbility.Id);
+			// Get static field
+			FieldInfo field = _type.GetField(
+				"ability",
+				BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance
+			);
+			field.SetValue(null, newAbility.Id);
 
-		return newAbility;
+			return newAbility;
+		}
+
+		{
+			
+			Texture icon = _rulebookIcon
+				               ? _rulebookIcon
+				               : AssetUtils.GetPrefab<Texture>("ability_" + _type.Name);
+		
+			// instantiate
+			var newAbility = AbilityManager.Add(GrimoraPlugin.GUID, _abilityInfo, _type, icon);
+
+			// Get static field
+			FieldInfo field = _type.GetField(
+				"ability",
+				BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance
+			);
+			field.SetValue(null, newAbility.Id);
+
+			return newAbility;
+		}
+
 	}
 
 	public AbilityBuilder<T> SetRulebookName(string rulebookName)
