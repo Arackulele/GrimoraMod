@@ -42,7 +42,8 @@ public class ChessboardMapExt : GameMap
 
 	private List<GrimoraChessboard> _chessboards;
 
-	private List<GrimoraChessboard> Chessboards
+
+	private List<GrimoraChessboard> Chessboards 
 	{
 		get
 		{
@@ -51,6 +52,55 @@ public class ChessboardMapExt : GameMap
 		}
 	}
 
+	
+	
+	
+	
+	private List<GrimoraChessboard> _kayceechessboards;
+
+
+	private List<GrimoraChessboard> KayceeChessboards 
+	{
+		get
+		{
+			LoadData();
+			return _kayceechessboards;
+		}
+	}
+	private List<GrimoraChessboard> _sawyerchessboards;
+
+
+	private List<GrimoraChessboard> SawyerChessboards 
+	{
+		get
+		{
+			LoadData();
+			return _sawyerchessboards;
+		}
+	}
+	private List<GrimoraChessboard> _royalchessboards;
+
+
+	private List<GrimoraChessboard> RoyalChessboards 
+	{
+		get
+		{
+			LoadData();
+			return _royalchessboards;
+		}
+	}
+	private List<GrimoraChessboard> _grimorachessboards;
+
+
+	private List<GrimoraChessboard> GrimoraChessboards 
+	{
+		get
+		{
+			LoadData();
+			return _grimorachessboards;
+		}
+	}
+	
 	public Dictionary<EncounterJson, EncounterBlueprintData> CustomBlueprintsRegions { get; set; } = new();
 	public Dictionary<EncounterJson, EncounterBlueprintData> CustomBlueprintsBosses { get; set; } = new();
 
@@ -67,19 +117,39 @@ public class ChessboardMapExt : GameMap
 
 	public void LoadData()
 	{
+		if (_kayceechessboards == null)
+		{
+			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("maps_kaycee.json"));
+			_kayceechessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString));
+			Debug.Log("kaycee maps parsed");
+		}
+		if (_sawyerchessboards == null)
+		{
+			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("maps_sawyer.json"));
+			_sawyerchessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString));
+			Debug.Log("sawyer maps parsed");
+		}
+		if (_royalchessboards == null)
+		{
+			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("maps_royal.json"));
+			_royalchessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString));
+			Debug.Log("royal maps parsed");
+		}
+		if (_grimorachessboards == null)
+		{
+			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("maps_grimora.json"));
+			_grimorachessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString));
+			Debug.Log("grimora maps parsed");
+		}
+		
+		
 		if (_chessboards == null)
 		{
-			string jsonString = File.ReadAllText(
-				FileUtils.FindFileInPluginDir(
-					ConfigHelper.Instance.IsDevModeEnabled
-						? "GrimoraChessboardDevMode.json"
-						: "GrimoraChessboardsStatic.json"
-				)
-			);
-
-			_chessboards = ParseJson(
-				SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString)
-			);
+			_chessboards = new List<GrimoraChessboard>();
+			_chessboards.AddRange(KayceeChessboards);
+			_chessboards.AddRange(SawyerChessboards);
+			_chessboards.AddRange(RoyalChessboards );
+			_chessboards.AddRange(GrimoraChessboards);
 		}
 
 		if (_customBlueprints == null)
@@ -301,17 +371,42 @@ public class ChessboardMapExt : GameMap
 		Log.LogDebug($"Finished unrolling chessboard");
 	}
 
+
+
+
 	private void UpdateActiveChessboard()
 	{
 		int currentChessboardIndex = ConfigHelper.Instance.CurrentChessboardIndex;
 		Log.LogDebug($"[HandleChessboardSetup] Before setting chess board idx [{currentChessboardIndex}]");
-
+		if(ConfigHelper.Instance.BossesDefeated==0) currentChessboardIndex = Chessboards.IndexOf(KayceeChessboards.GetRandomItem());
 		if (ChangingRegion)
 		{
-			if (++currentChessboardIndex >= 4)
+			if (currentChessboardIndex > Chessboards.Count) currentChessboardIndex = 0;
+
+			switch (ConfigHelper.Instance.BossesDefeated)
 			{
-				currentChessboardIndex = 0;
+				case 0: //kaycee
+				{
+					currentChessboardIndex = Chessboards.IndexOf(KayceeChessboards.GetRandomItem());
+					break;
+				}
+				case 1: //sawyer
+				{
+					currentChessboardIndex = Chessboards.IndexOf(SawyerChessboards.GetRandomItem());
+					break;
+				}
+				case 2: //royal
+				{
+					currentChessboardIndex = Chessboards.IndexOf(RoyalChessboards.GetRandomItem());
+					break;
+				}
+				case 3: //grimora
+				{
+					currentChessboardIndex = Chessboards.IndexOf(GrimoraChessboards.GetRandomItem());
+					break;
+				}
 			}
+
 
 			ConfigHelper.Instance.CurrentChessboardIndex = currentChessboardIndex;
 			Log.LogDebug($"[HandleChessboardSetup] -> Setting new chessboard idx [{currentChessboardIndex}]");
