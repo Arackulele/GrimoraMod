@@ -1,5 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
+using UnityEngine;
 
 namespace GrimoraMod;
 
@@ -17,7 +18,17 @@ public class GrimoraRandomAbility : AbilityBehaviour
 		yield return LearnAbility(0.5f);
 	}
 
-	private void AddMod()
+	public override bool RespondsToResolveOnBoard() => true;
+
+	public override IEnumerator OnResolveOnBoard()
+	{
+		Card.Anim.PlayTransformAnimation();
+		AddMod();
+		yield return new WaitForSeconds(0.5f);
+		yield return LearnAbility(0.5f);
+	}
+
+		private void AddMod()
 	{
 		Card.Status.hiddenAbilities.Add(Ability);
 		CardModificationInfo cardModificationInfo = new CardModificationInfo(ChooseAbility());

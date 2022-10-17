@@ -1,5 +1,6 @@
-﻿using System.Collections;
 using DiskCardGame;
+using HarmonyLib;
+using UnityEngine;
 
 namespace GrimoraMod;
 
@@ -7,31 +8,10 @@ public class CumulativeTorment : AbilityBehaviour
 {
 
 	public static Ability ability;
-	
-	
-	public override Ability Ability { get=>ability; }
+  
+	public override Ability Ability { get => ability; }
 
-	public override bool RespondsToAttackEnded()
-	{
-		return !this.Card.Dead;
-	}
-
-	public override IEnumerator OnAttackEnded()
-	{
-		yield return base.OnAttackEnded();
-		var info = this.Card.Info;
-		yield return this.Card.Die(false, this.Card);
-		var changedInfo = Instantiate(this.Card.Info);
-		changedInfo.name = info.name + " tormented";
-		changedInfo.bonesCost++;
-		changedInfo.baseAttack++;
-		changedInfo.baseHealth++;
-		yield return CardSpawner.Instance.SpawnCardToHand(changedInfo);
-		if(info.name.Contains("tormented")) Destroy(info);
-	}
 }
-
-
 public partial class GrimoraPlugin
 {
 	public void Add_Ability_CumulativeTorment()
@@ -43,5 +23,33 @@ public partial class GrimoraPlugin
 		 .SetRulebookDescription(rulebookDescription)
 		 .SetRulebookName("Cumulative Torment")
 		 .Build();
+	}
+}
+
+[HarmonyPatch(typeof(AbilityIconInteractable), "LoadIcon")]
+public class LoadSigil_patch
+{
+	[HarmonyPostfix]
+	public static void Postfix(ref Texture __result, ref CardInfo info, ref AbilityInfo ability, ref AbilityIconInteractable __instance)
+	{
+		if (info.name == GrimoraPlugin.NameOurobones && ability.ability == Ability.Brittle)
+		{
+			 __result = GrimoraPlugin.AllSprites.Find(o => o.name == "ability_tornment").texture;
+		}
+		return;
+	}
+}
+
+[HarmonyPatch(typeof(RuleBookController), "OpenToAbilityPage")]
+public class OpenToAbilityPage_patch
+{
+	[HarmonyPrefix]
+	public static bool OpenToAbilityPage(ref string abilityName, ref PlayableCard card, ref bool immediate)
+	{
+		if (abilityName == Ability.Brittle.ToString() && card?.Info?.name == GrimoraPlugin.NameOurobones)
+		{
+			abilityName = CumulativeTorment.ability.ToString();
+		}
+		return true;
 	}
 }

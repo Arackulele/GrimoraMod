@@ -1,6 +1,5 @@
 using System.Collections;
 using DiskCardGame;
-using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -17,7 +16,7 @@ public class ActivatedEnergyDrawWyvern : ActivatedAbilityBehaviour
 
 	public override IEnumerator Activate()
 	{
-		CardInfo cloneInfo = CardLoader.Clone(Card.Info);
+		CardInfo cloneInfo = Card.Info.Clone() as CardInfo;
 		cloneInfo.Mods = new(Card.Info.Mods);
 		yield return CardSpawner.Instance.SpawnCardToHand(cloneInfo);
 	}

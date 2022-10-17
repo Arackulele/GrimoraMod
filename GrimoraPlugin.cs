@@ -278,7 +278,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			Add_Card_Flameskull();       // Bt Y#0895
 			Add_Card_Haltia();           // Bt Y#0895
 			Add_Card_HauntedMirror();    // Bt Y#0895
-			// Add_Card_IceCube();          // Bt Y#0895
+			Add_Card_IceCube();          // Bt Y#0895
 			Add_Card_LaLlorona();       // Bt Y#0895
 			Add_Card_Moroi();           // Bt Y#0895
 			Add_Card_Nixie();           // Bt Y#0895
