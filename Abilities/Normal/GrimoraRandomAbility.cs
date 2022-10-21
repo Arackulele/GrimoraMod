@@ -18,7 +18,7 @@ public class GrimoraRandomAbility : AbilityBehaviour
 		yield return LearnAbility(0.5f);
 	}
 
-	public override bool RespondsToResolveOnBoard() => true;
+	public override bool RespondsToResolveOnBoard() => !Card.Status.hiddenAbilities.Contains(Ability);
 
 	public override IEnumerator OnResolveOnBoard()
 	{
