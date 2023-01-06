@@ -191,9 +191,7 @@ public class ConfigHelper
 
 		GrimoraConfigFile.SaveOnConfigSet = true;
 
-		ResetConfigDataIfGrimoraHasNotReachedTable();
-
-		UnlockAllNecessaryEventsToPlay();
+		//UnlockAllNecessaryEventsToPlay();
 	}
 
 	public void HandleHotReloadBefore()
@@ -228,15 +226,6 @@ public class ConfigHelper
 		GrimoraSaveManager.ResetStandardRun();
 		ModdedSaveManager.SaveData.SetValue(GUID, "StoryEvent_HasReachedTable", false);
 		SaveManager.SaveToFile();
-	}
-
-	private void ResetConfigDataIfGrimoraHasNotReachedTable()
-	{
-		if (!EventManagement.HasLoadedIntoModBefore)
-		{
-			Log.LogWarning($"Grimora has not reached the table yet, resetting values to false again.");
-			//ResetConfig();
-		}
 	}
 
 	private static void UnlockAllNecessaryEventsToPlay()
