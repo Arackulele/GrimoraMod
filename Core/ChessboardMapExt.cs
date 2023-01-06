@@ -120,25 +120,25 @@ public class ChessboardMapExt : GameMap
 		if (_kayceechessboards == null)
 		{
 			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("maps_kaycee.json"));
-			_kayceechessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString));
+			_kayceechessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<char>>>>(jsonString));
 			Debug.Log("kaycee maps parsed");
 		}
 		if (_sawyerchessboards == null)
 		{
 			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("maps_sawyer.json"));
-			_sawyerchessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString));
+			_sawyerchessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<char>>>>(jsonString));
 			Debug.Log("sawyer maps parsed");
 		}
 		if (_royalchessboards == null)
 		{
 			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("maps_royal.json"));
-			_royalchessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString));
+			_royalchessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<char>>>>(jsonString));
 			Debug.Log("royal maps parsed");
 		}
 		if (_grimorachessboards == null)
 		{
 			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("maps_grimora.json"));
-			_grimorachessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString));
+			_grimorachessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<char>>>>(jsonString));
 			Debug.Log("grimora maps parsed");
 		}
 		
@@ -189,7 +189,7 @@ public class ChessboardMapExt : GameMap
 		}
 	}
 
-	private static List<GrimoraChessboard> ParseJson(IEnumerable<List<List<int>>> chessboardsFromJson)
+	private static List<GrimoraChessboard> ParseJson(IEnumerable<List<List<char>>> chessboardsFromJson)
 	{
 		return chessboardsFromJson.Select((board, idx) => new GrimoraChessboard(board, idx)).ToList();
 	}

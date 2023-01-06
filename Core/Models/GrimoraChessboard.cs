@@ -82,7 +82,7 @@ public class GrimoraChessboard
 
 	public readonly List<ChessRow> Rows;
 
-	public GrimoraChessboard(IEnumerable<List<int>> board, int indexInList)
+	public GrimoraChessboard(IEnumerable<List<char>> board, int indexInList)
 	{
 		Rows = board.Select((boardList, idx) => new ChessRow(boardList, idx)).ToList();
 		BossNode = GetBossNode();
@@ -94,52 +94,52 @@ public class GrimoraChessboard
 
 	public List<ChessNode> GetOpenPathNodes()
 	{
-		return Rows.SelectMany(row => row.GetNodesOfType(0)).ToList();
+		return Rows.SelectMany(row => row.GetNodesOfType(ChessNode.PathNode)).ToList();
 	}
 
 	private List<ChessNode> GetBlockerNodes()
 	{
-		return Rows.SelectMany(row => row.GetNodesOfType(1)).ToList();
+		return Rows.SelectMany(row => row.GetNodesOfType(ChessNode.BlockerNode)).ToList();
 	}
 
 	private List<ChessNode> GetChestNodes()
 	{
-		return Rows.SelectMany(row => row.GetNodesOfType(2)).ToList();
+		return Rows.SelectMany(row => row.GetNodesOfType(ChessNode.ChestNode)).ToList();
 	}
 
 	private List<ChessNode> GetEnemyNodes()
 	{
-		return Rows.SelectMany(row => row.GetNodesOfType(3)).ToList();
+		return Rows.SelectMany(row => row.GetNodesOfType(ChessNode.EnemyNode)).ToList();
 	}
 
 	private ChessNode GetBossNode()
 	{
-		return Rows.SelectMany(row => row.GetNodesOfType(4)).Single();
+		return Rows.SelectMany(row => row.GetNodesOfType(ChessNode.BossNode)).Single();
 	}
 
 	private List<ChessNode> GetCardRemovalNodes()
 	{
-		return Rows.SelectMany(row => row.GetNodesOfType(5)).ToList();
+		return Rows.SelectMany(row => row.GetNodesOfType(ChessNode.CardRemovalNode)).ToList();
 	}
 
 	private List<ChessNode> GetBoneyardNodes()
 	{
-		return Rows.SelectMany(row => row.GetNodesOfType(6)).ToList();
+		return Rows.SelectMany(row => row.GetNodesOfType(ChessNode.BoneyardNode)).ToList();
 	}
 
 	private List<ChessNode> GetElectricChairNodes()
 	{
-		return Rows.SelectMany(row => row.GetNodesOfType(7)).ToList();
+		return Rows.SelectMany(row => row.GetNodesOfType(ChessNode.ElectricChairNode)).ToList();
 	}
 
 	private List<ChessNode> GetGoatEyeNodes()
 	{
-		return Rows.SelectMany(row => row.GetNodesOfType(8)).ToList();
+		return Rows.SelectMany(row => row.GetNodesOfType(ChessNode.GoatEyeNode)).ToList();
 	}
 
 	public ChessNode GetPlayerNode()
 	{
-		return Rows.SelectMany(row => row.GetNodesOfType(9)).Single();
+		return Rows.SelectMany(row => row.GetNodesOfType(ChessNode.PlayerNode)).Single();
 	}
 
 	public static string GetBossSpecialIdForRegion()
