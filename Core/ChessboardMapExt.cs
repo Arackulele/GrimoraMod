@@ -121,25 +121,25 @@ public class ChessboardMapExt : GameMap
 		{
 			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("maps_kaycee.json"));
 			_kayceechessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString));
-			Debug.Log("kaycee maps parsed");
+			GrimoraPlugin.Log.LogInfo("kaycee maps parsed");
 		}
 		if (_sawyerchessboards == null)
 		{
 			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("maps_sawyer.json"));
 			_sawyerchessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString));
-			Debug.Log("sawyer maps parsed");
+			GrimoraPlugin.Log.LogInfo("sawyer maps parsed");
 		}
 		if (_royalchessboards == null)
 		{
 			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("maps_royal.json"));
 			_royalchessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString));
-			Debug.Log("royal maps parsed");
+			GrimoraPlugin.Log.LogInfo("royal maps parsed");
 		}
 		if (_grimorachessboards == null)
 		{
 			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("maps_grimora.json"));
 			_grimorachessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString));
-			Debug.Log("grimora maps parsed");
+			GrimoraPlugin.Log.LogInfo("grimora maps parsed");
 		}
 		
 		

@@ -21,9 +21,8 @@ public class GrimoraSaveManager
 	
 	public static void ResetStandardRun()
 	{
-		GrimoraPlugin.Log.LogDebug($"[ResetRun] Resetting run");
+		GrimoraPlugin.Log.LogDebug($"[GrimoraSaveManager] ResetStandardRun");
 		CurrentSaveFile.NewStandardRun();
-		SaveManager.SaveToFile();
 	}
 	
 	#region Patches
