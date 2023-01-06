@@ -74,6 +74,7 @@ public class GrimoraChessboard
 	}
 
 	private string _activeBossId;
+	public readonly string fileName;
 	public readonly int indexInList;
 	public readonly ChessNode BossNode;
 
@@ -82,10 +83,11 @@ public class GrimoraChessboard
 
 	public readonly List<ChessRow> Rows;
 
-	public GrimoraChessboard(IEnumerable<List<char>> board, int indexInList)
+	public GrimoraChessboard(IEnumerable<List<char>> board, int indexInList, string fileName)
 	{
 		Rows = board.Select((boardList, idx) => new ChessRow(boardList, idx)).ToList();
 		BossNode = GetBossNode();
+		this.fileName = fileName;
 		this.indexInList = indexInList;
 		_nodesByPieceType = BuildDictionary();
 	}
