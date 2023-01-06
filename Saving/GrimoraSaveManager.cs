@@ -101,5 +101,28 @@ public class GrimoraSaveManager
 
 		return true;
 	}
+
+	[HarmonyPatch(typeof(GrimoraSaveData), "Data", MethodType.Getter)]
+	[HarmonyPrefix]
+	public static bool GrimoraSaveData_Data(ref GrimoraSaveData __result)
+	{
+		if (GrimoraSaveUtil.IsGrimora)
+		{
+			GrimoraRunState currentRun = null;
+			if (SaveFile.IsAscension)
+			{
+				currentRun = (GrimoraRunState)CurrentSaveFile.AscensionSaveData.currentRun;
+			}
+			else
+			{
+				currentRun = CurrentSaveFile.CurrentRun;
+			}
+			
+			__result = currentRun.boardData;
+			return false;
+		}
+
+		return true;
+	}
 	#endregion
 }
