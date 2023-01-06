@@ -52,6 +52,8 @@ public class BaseGameFlowManagerPatches
 
 		GrimoraCardRemoveSequencer.CreateSequencerInScene();
 
+		GrimoraGainConsumableSequencer.CreateSequencerInScene();
+
 		GrimoraItemsManagerExt.AddHammer();
 
 		AddDeckReviewSequencerToScene();

@@ -30,6 +30,13 @@ public class GrimoraChessboard
 				)
 			},
 			{
+				typeof(ChessboardGainConsumablePiece),
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(
+					() => AssetConstants.GainConsumableFigurine,
+					GetGainConsumableNodes
+				)
+			},
+			{
 				typeof(ChessboardChestPiece),
 				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.ChestPiece.gameObject, GetChestNodes)
 			},
@@ -144,6 +151,11 @@ public class GrimoraChessboard
 		return Rows.SelectMany(row => row.GetNodesOfType(ChessNode.PlayerNode)).Single();
 	}
 
+	private List<ChessNode> GetGainConsumableNodes()
+	{
+		return Rows.SelectMany(row => row.GetNodesOfType(ChessNode.ConsumableNode)).ToList();
+	}
+
 	public static string GetBossSpecialIdForRegion()
 	{
 		Log.LogDebug($"Getting special id for region");
@@ -164,6 +176,7 @@ public class GrimoraChessboard
 			PlacePieces<ChessboardElectricChairPiece>();
 			PlacePieces<ChessboardEnemyPiece>(GrimoraModBattleSequencer.FullSequencer.Id);
 			PlacePieces<ChessboardGoatEyePiece>();
+			PlacePieces<ChessboardGainConsumablePiece>();
 		}
 	}
 

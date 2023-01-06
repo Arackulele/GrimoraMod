@@ -70,6 +70,9 @@ public static class AssetConstants
 	public static GameObject CardRemovalFigurine
 		=> AssetUtils.GetPrefab<GameObject>("ChessboardPiece_CardRemove");
 
+	public static GameObject GainConsumableFigurine
+		=> Resources.Load<GameObject>("art/assets3d/items/bottle/GlassBottle");
+	
 	public static GameObject GoatEyeFigurine => AssetUtils.GetPrefab<GameObject>("ChessboardPiece_GoatEye");
 
 	#endregion
