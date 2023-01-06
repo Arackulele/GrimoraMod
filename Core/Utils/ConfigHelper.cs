@@ -1,6 +1,7 @@
 using BepInEx;
 using BepInEx.Configuration;
 using DiskCardGame;
+using GrimoraMod.Saving;
 using HarmonyLib;
 using InscryptionAPI.Card;
 using InscryptionAPI.Saves;
@@ -224,31 +225,9 @@ public class ConfigHelper
 	{
 		Log.LogDebug($"[ResetRun] Resetting run");
 
-		ResetConfig();
-		ResetDeck();
+		GrimoraSaveManager.ResetStandardRun();
 		ModdedSaveManager.SaveData.SetValue(GUID, "StoryEvent_HasReachedTable", false);
 		SaveManager.SaveToFile();
-	}
-
-	public static void ResetDeck()
-	{
-		Log.LogWarning($"Resetting Grimora Deck Data");
-		GrimoraSaveData.Data.Initialize();
-	}
-
-	internal void ResetConfig()
-	{
-		Log.LogWarning($"Resetting Grimora Mod config");
-		_configBossesDefeated.Value = 0;
-		_configCurrentChessboardIndex.Value = 0;
-		ResetRemovedPieces();
-		if (ChessboardMapExt.Instance)
-		{
-			Log.LogWarning($"Resetting active chessboard");
-			ChessboardMapExt.Instance.ActiveChessboard = null;
-			Log.LogWarning($"Resetting pieces");
-			ChessboardMapExt.Instance.pieces.Clear();
-		}
 	}
 
 	private void ResetConfigDataIfGrimoraHasNotReachedTable()
@@ -256,7 +235,7 @@ public class ConfigHelper
 		if (!EventManagement.HasLoadedIntoModBefore)
 		{
 			Log.LogWarning($"Grimora has not reached the table yet, resetting values to false again.");
-			ResetConfig();
+			//ResetConfig();
 		}
 	}
 

@@ -47,7 +47,7 @@ public static class RunStartWhenEnabled
 	[HarmonyPrefix]
 	public static void Prefix(ref AscensionStartScreen __instance)
 	{
-	AdjustAscensionMenuItemsSpacing itemsSpacing = UnityObject.FindObjectOfType<AdjustAscensionMenuItemsSpacing>();
+		AdjustAscensionMenuItemsSpacing itemsSpacing = UnityObject.FindObjectOfType<AdjustAscensionMenuItemsSpacing>();
 		AscensionMenuInteractable menuText = itemsSpacing.menuItems[0].GetComponent<AscensionMenuInteractable>();
 
 		AscensionMenuScreenTransition transitionController = AscensionMenuScreens.Instance.startScreen.GetComponent<AscensionMenuScreenTransition>();
@@ -73,14 +73,14 @@ public static class RunStartWhenEnabled
 		AscensionMenuInteractable grimoraButtonController = AscensionRelatedPatches.CreateAscensionButton(menuText);
 
 		// Add to transition
-		
+
 		onEnableRevealedObjects.Insert(onEnableRevealedObjects.IndexOf(menuText.gameObject) + 1, grimoraButtonController.gameObject);
 		screenInteractables.Insert(screenInteractables.IndexOf(menuText) + 1, grimoraButtonController);
-		foreach (var button in screenInteractables.FindAll(b=>b.gameObject.GetComponentInChildren<PixelText>().Text.StartsWith("- NEW")&&b.gameObject.GetComponentInChildren<PixelText>().Text.EndsWith("RUN -")))
+		foreach (var button in GetInteractableButtons(screenInteractables))
 		{
-			button.CursorSelectStarted+= delegate(MainInputInteractable interactable)
+			button.CursorSelectStarted += delegate(MainInputInteractable interactable)
 			{
-				var scrybe = button.GetComponentInChildren<PixelText>().Text.Replace("- NEW ", "").Replace(" RUN -","");
+				var scrybe = button.GetComponentInChildren<PixelText>().Text.Replace("- NEW ", "").Replace(" RUN -", "");
 				switch (scrybe)
 				{
 					case "GRIMORA":
@@ -101,10 +101,12 @@ public static class RunStartWhenEnabled
 						SaveDataRelatedPatches.IsGrimoraRun = false;
 						break;
 					}
-			}
-					ChallengeManager.SyncChallengeList();
-				};
+				}
+
+				ChallengeManager.SyncChallengeList();
+			};
 		}
+
 		itemsSpacing.menuItems.Insert(1, grimoraButtonController.transform);
 
 		for (int i = 1; i < itemsSpacing.menuItems.Count; i++)
@@ -115,7 +117,12 @@ public static class RunStartWhenEnabled
 
 		// itemsSpacing.SpaceOutItems();
 	}
-	
+
+	private static List<MainInputInteractable> GetInteractableButtons(List<MainInputInteractable> screenInteractables)
+	{
+		return screenInteractables.FindAll(b => b.gameObject.GetComponentInChildren<PixelText>().Text.StartsWith("- NEW") &&
+		                                        b.gameObject.GetComponentInChildren<PixelText>().Text.EndsWith("RUN -"));
+	}
 }
 
 
@@ -133,15 +140,14 @@ public class AscensionRelatedPatches
 		             $"currentStarterDeck [{AscensionSaveData.Data.currentStarterDeck}]" +
 		             $"currentRun [{AscensionSaveData.Data.currentRun}]"
 		);
+		
 		if (newRun)
 		{
 			if (ScreenManagement.ScreenState == CardTemple.Undead)
 			{
 				// Ensure the old grimora save data gets saved if it needs to be
 				Log.LogInfo($"[AscensionMenuScreens.TransitionToGame] Ensuring regular save");
-				SaveDataRelatedPatches.EnsureRegularSave();
 				SaveDataRelatedPatches.IsGrimoraRun = true;
-				SaveManager.SaveToFile();
 			}
 			else
 			{
