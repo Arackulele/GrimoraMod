@@ -10,51 +10,6 @@ public class GrimoraChessboard
 {
 	private readonly Dictionary<Type, Tuple<Func<GameObject>, Func<List<ChessNode>>>> _nodesByPieceType;
 
-	private Dictionary<Type, Tuple<Func<GameObject>, Func<List<ChessNode>>>> BuildDictionary()
-	{
-		return new Dictionary<Type, Tuple<Func<GameObject>, Func<List<ChessNode>>>>
-		{
-			{
-				typeof(ChessboardBlockerPieceExt),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(GetActiveRegionBlockerPiece, GetBlockerNodes)
-			},
-			{
-				typeof(ChessboardBoneyardPiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.BoneyardFigurine, GetBoneyardNodes)
-			},
-			{
-				typeof(ChessboardCardRemovePiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(
-					() => AssetConstants.CardRemovalFigurine,
-					GetCardRemovalNodes
-				)
-			},
-			{
-				typeof(ChessboardGainConsumablePiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(
-					() => AssetConstants.GainConsumableFigurine,
-					GetGainConsumableNodes
-				)
-			},
-			{
-				typeof(ChessboardChestPiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.ChestPiece.gameObject, GetChestNodes)
-			},
-			{
-				typeof(ChessboardElectricChairPiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.ElectricChairFigurine, GetElectricChairNodes)
-			},
-			{
-				typeof(ChessboardEnemyPiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.EnemyPiece.gameObject, GetEnemyNodes)
-			},
-			{
-				typeof(ChessboardGoatEyePiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.GoatEyeFigurine, GetGoatEyeNodes)
-			}
-		};
-	}
-
 	private readonly Dictionary<int, Func<GameObject>> _bossByIndex = new()
 	{
 		{ 0, () => AssetUtils.GetPrefab<GameObject>("Blocker_Kaycee") },
@@ -63,30 +18,10 @@ public class GrimoraChessboard
 		{ 3, () => AssetUtils.GetPrefab<GameObject>("Blocker_Grimora") },
 	};
 
-
-	public GameObject GetActiveRegionBlockerPiece()
-	{
-		int bossesDead = ConfigHelper.Instance.BossesDefeated;
-		GameObject blockerPrefab = _bossByIndex.GetValueSafe(bossesDead).Invoke();
-		blockerPrefab.GetComponentInChildren<MeshRenderer>().material = bossesDead switch
-		{
-			// the reason for doing this is because the materials are massive if in our own asset bundle, 5MB+ total
-			// so lets just use the already existing material in the game
-			2 => AssetConstants.WoodenBoxMaterial,
-			3 => AssetConstants.AncientStonesMaterial,
-			_ => blockerPrefab.GetComponentInChildren<MeshRenderer>().material
-		};
-
-		return blockerPrefab;
-	}
-
 	private string _activeBossId;
 	public readonly string fileName;
 	public readonly int indexInList;
 	public readonly ChessNode BossNode;
-
-	protected internal ChessboardEnemyPiece BossPiece =>
-		GetPieceAtSpace(BossNode.GridX, BossNode.GridY) as ChessboardEnemyPiece;
 
 	public readonly List<ChessRow> Rows;
 
@@ -97,6 +32,11 @@ public class GrimoraChessboard
 		this.fileName = fileName;
 		this.indexInList = indexInList;
 		_nodesByPieceType = BuildDictionary();
+	}
+
+	public override string ToString()
+	{
+		return $"Chessboard_{fileName}_{indexInList}";
 	}
 
 	#region Getters
@@ -162,6 +102,7 @@ public class GrimoraChessboard
 		return BossHelper.OpponentTupleBySpecialId.ElementAt(ConfigHelper.Instance.BossesDefeated).Key;
 	}
 
+	protected internal ChessboardEnemyPiece BossPiece => GetPieceAtSpace(BossNode.GridX, BossNode.GridY) as ChessboardEnemyPiece;
 	#endregion
 
 	public void SetupBoard(bool placePieces)
@@ -229,6 +170,68 @@ public class GrimoraChessboard
 		// set the updated position to spawn the player in
 		GrimoraSaveData.Data.gridX = GetPlayerNode().GridX;
 		GrimoraSaveData.Data.gridY = GetPlayerNode().GridY;
+	}
+	
+	
+	private Dictionary<Type, Tuple<Func<GameObject>, Func<List<ChessNode>>>> BuildDictionary()
+	{
+		return new Dictionary<Type, Tuple<Func<GameObject>, Func<List<ChessNode>>>>
+		{
+			{
+				typeof(ChessboardBlockerPieceExt),
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(GetActiveRegionBlockerPiece, GetBlockerNodes)
+			},
+			{
+				typeof(ChessboardBoneyardPiece),
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.BoneyardFigurine, GetBoneyardNodes)
+			},
+			{
+				typeof(ChessboardCardRemovePiece),
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(
+					() => AssetConstants.CardRemovalFigurine,
+					GetCardRemovalNodes
+				)
+			},
+			{
+				typeof(ChessboardGainConsumablePiece),
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(
+					() => AssetConstants.GainConsumableFigurine,
+					GetGainConsumableNodes
+				)
+			},
+			{
+				typeof(ChessboardChestPiece),
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.ChestPiece.gameObject, GetChestNodes)
+			},
+			{
+				typeof(ChessboardElectricChairPiece),
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.ElectricChairFigurine, GetElectricChairNodes)
+			},
+			{
+				typeof(ChessboardEnemyPiece),
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.EnemyPiece.gameObject, GetEnemyNodes)
+			},
+			{
+				typeof(ChessboardGoatEyePiece),
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.GoatEyeFigurine, GetGoatEyeNodes)
+			}
+		};
+	}
+	
+	public GameObject GetActiveRegionBlockerPiece()
+	{
+		int bossesDead = ConfigHelper.Instance.BossesDefeated;
+		GameObject blockerPrefab = _bossByIndex.GetValueSafe(bossesDead).Invoke();
+		blockerPrefab.GetComponentInChildren<MeshRenderer>().material = bossesDead switch
+		{
+			// the reason for doing this is because the materials are massive if in our own asset bundle, 5MB+ total
+			// so lets just use the already existing material in the game
+			2 => AssetConstants.WoodenBoxMaterial,
+			3 => AssetConstants.AncientStonesMaterial,
+			_ => blockerPrefab.GetComponentInChildren<MeshRenderer>().material
+		};
+
+		return blockerPrefab;
 	}
 
 	#region HelperMethods

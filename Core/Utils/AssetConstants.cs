@@ -67,11 +67,9 @@ public static class AssetConstants
 	public static readonly ChessboardEnemyPiece EnemyPiece =
 		ResourceBank.Get<ChessboardEnemyPiece>($"{PathChessboardMap}/ChessboardEnemyPiece");
 
-	public static GameObject CardRemovalFigurine
-		=> AssetUtils.GetPrefab<GameObject>("ChessboardPiece_CardRemove");
+	public static GameObject CardRemovalFigurine => AssetUtils.GetPrefab<GameObject>("ChessboardPiece_CardRemove");
 
-	public static GameObject GainConsumableFigurine
-		=> Resources.Load<GameObject>("art/assets3d/items/bottle/GlassBottle");
+	public static GameObject GainConsumableFigurine => AssetUtils.GetPrefab<GameObject>("ChessboardPiece_ElectricChair");
 	
 	public static GameObject GoatEyeFigurine => AssetUtils.GetPrefab<GameObject>("ChessboardPiece_GoatEye");
 
