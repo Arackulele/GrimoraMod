@@ -7,6 +7,9 @@ public class GrimoraRunState : RunState
 	public static GrimoraRunState CurrentRun => GrimoraSaveManager.CurrentSaveFile.CurrentRun;
 	
 	public GrimoraSaveData boardData;
+
+	public List<List<int>> CurrentChessboard;
+	public List<string> PiecesRemovedFromBoard = new List<string>();
 	
 	public new void Initialize()
 	{
@@ -20,14 +23,8 @@ public class GrimoraRunState : RunState
 		this.skullTeeth = 0;
 		
 		this.playerDeck = new DeckInfo();
-		this.playerDeck.AddCard(CardLoader.GetCardByName("Gravedigger"));
-		this.playerDeck.AddCard(CardLoader.GetCardByName("Gravedigger"));
-		this.playerDeck.AddCard(CardLoader.GetCardByName("Gravedigger"));
-		this.playerDeck.AddCard(CardLoader.GetCardByName("FrankNStein"));
-		this.playerDeck.AddCard(CardLoader.GetCardByName("FrankNStein"));
 
 		this.consumables = new List<string>();
-		this.consumables.Add("FishHook");
 		
 		this.boardData = new GrimoraSaveData();
 		this.boardData.gridX = 0;
@@ -40,5 +37,28 @@ public class GrimoraRunState : RunState
 		this.totems = new List<TotemDefinition>();
 		this.totemTops = new List<Tribe>();
 		this.totemBottoms = new List<Ability>();
+	}
+
+	public void NewStandardGame()
+	{
+		this.playerLives = 1;
+		this.skullTeeth = 0;
+		
+		this.playerDeck.Cards.Clear();
+		this.playerDeck.AddCard(GrimoraPlugin.NameGravedigger.GetCardInfo());
+		this.playerDeck.AddCard(GrimoraPlugin.NameGravedigger.GetCardInfo());
+		this.playerDeck.AddCard(GrimoraPlugin.NameBonepile.GetCardInfo());
+		this.playerDeck.AddCard(GrimoraPlugin.NameZombie.GetCardInfo());
+		this.playerDeck.AddCard(GrimoraPlugin.NameFranknstein.GetCardInfo());
+
+		this.consumables.Clear();
+		this.consumables.Add("FishHook");
+		
+		this.boardData.gridX = 0;
+		this.boardData.gridY = 0;
+		this.boardData.removedPieces.Clear();
+		
+		PiecesRemovedFromBoard.Clear();
+		CurrentChessboard = null;
 	}
 }

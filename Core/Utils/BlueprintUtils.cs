@@ -1,4 +1,5 @@
 using DiskCardGame;
+using GrimoraMod.Saving;
 using HarmonyLib;
 using InscryptionAPI.Card;
 using UnityEngine;
@@ -215,7 +216,7 @@ public static class BlueprintUtils
 
 	public static EncounterBlueprintData GetRandomBlueprintForRegion()
 	{
-		return RegionWithBlueprints.ElementAt(ConfigHelper.Instance.BossesDefeated).Value.GetRandomItem();
+		return RegionWithBlueprints.ElementAt(GrimoraRunState.CurrentRun.regionTier).Value.GetRandomItem();
 	}
 
 	public static EncounterBlueprintData BuildRandomBlueprint()

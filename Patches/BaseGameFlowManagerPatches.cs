@@ -226,7 +226,7 @@ public class BaseGameFlowManagerPatches
 			ChessboardMapExt.Instance.SetAnimActiveIfInactive();
 		}
 
-		bool isBossDefeated = ChessboardMapExt.Instance.BossDefeated;
+		bool isBossDefeated = false; // TODO: ChessboardMapExt.Instance.BossDefeated;
 		bool piecesExist = ChessboardMapExt.Instance.pieces.IsNotEmpty();
 
 		Log.LogDebug($"[TransitionTo] IsBossDefeated [{isBossDefeated}] Pieces exist [{piecesExist}]");

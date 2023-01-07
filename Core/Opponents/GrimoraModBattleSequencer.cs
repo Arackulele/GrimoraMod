@@ -1,5 +1,6 @@
 using System.Collections;
 using DiskCardGame;
+using GrimoraMod.Saving;
 using InscryptionAPI.Encounters;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -228,7 +229,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			// Log.LogDebug($"[GrimoraModBattleSequencer Adding enemy to config [{ActiveEnemyPiece.name}]");
 			if (!ActiveEnemyPiece.SafeIsUnityNull())
 			{
-				ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
+				GrimoraRunState.CurrentRun.PiecesRemovedFromBoard.Add(ActiveEnemyPiece.name);
 			}
 
 			_cardsThatHaveDiedThisMatch.Clear();

@@ -21,7 +21,6 @@ public class GrimoraSaveManager
 	
 	public static void ResetStandardRun()
 	{
-		GrimoraPlugin.Log.LogDebug($"[GrimoraSaveManager] ResetStandardRun");
 		CurrentSaveFile.NewStandardRun();
 	}
 	
@@ -37,22 +36,20 @@ public class GrimoraSaveManager
 
 
 	[HarmonyPatch(typeof(SaveManager), "LoadFromFile", new Type[] { })]
-	public class SaveManager_LoadFromFile
+	[HarmonyPrefix]
+	public static bool SaveManager_LoadFromFile()
 	{
-		public static bool Prefix()
+		if (File.Exists(SaveFilePath))
 		{
-			if (File.Exists(SaveFilePath))
-			{
-				string json = File.ReadAllText(SaveFilePath);
-				CurrentSaveFile = SaveManager.FromJSON<GrimoraSaveFile>(json);
-			}
-			else
-			{
-				CreateNewSaveFile();
-			}
-
-			return true;
+			string json = File.ReadAllText(SaveFilePath);
+			CurrentSaveFile = SaveManager.FromJSON<GrimoraSaveFile>(json);
 		}
+		else
+		{
+			CreateNewSaveFile();
+		}
+
+		return true;
 	}
 
 	[HarmonyPatch(typeof(RunState), "Run", MethodType.Getter)]
@@ -69,6 +66,7 @@ public class GrimoraSaveManager
 			{
 				__result = CurrentSaveFile.CurrentRun;
 			}
+			
 			return false;
 		}
 
@@ -106,7 +104,7 @@ public class GrimoraSaveManager
 	public static bool GrimoraSaveData_Data(ref GrimoraSaveData __result)
 	{
 		if (GrimoraSaveUtil.IsGrimora)
-		{
+		{				
 			GrimoraRunState currentRun = null;
 			if (SaveFile.IsAscension)
 			{

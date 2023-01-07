@@ -10,21 +10,23 @@ public class GrimoraSaveFile
 
 	public void Initialize()
 	{
-		NewStandardRun();
-
-		NewAscensionRun();
-	}
-
-	private void NewAscensionRun()
-	{
+		CurrentRun = new GrimoraRunState();
+		CurrentRun.Initialize();
+		
 		AscensionSaveData = new GrimoraAscensionSaveData();
 		AscensionSaveData.Initialize();
 	}
 
+	public void NewAscensionRun()
+	{
+		GrimoraRunState currentRun = (GrimoraRunState)AscensionSaveData.currentRun;
+		currentRun.NewStandardGame();
+	}
+
 	public void NewStandardRun()
 	{
-		CurrentRun = new GrimoraRunState();
-		CurrentRun.Initialize();
-
+		CurrentRun.NewStandardGame();
 	}
+	
+	
 }
