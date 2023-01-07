@@ -14,6 +14,7 @@ public class GrimoraRunState : RunState
 	public new void Initialize()
 	{
 		this.playerLives = 1;
+		this.regionTier = 0;
 		this.regionOrder = new int[]
 		{
 			0,

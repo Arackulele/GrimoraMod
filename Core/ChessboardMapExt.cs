@@ -314,6 +314,8 @@ public class ChessboardMapExt : GameMap
 			}
 		);
 
+		ActiveChessboard = null;
+		GrimoraRunState.CurrentRun.CurrentChessboard = null;
 		GrimoraRunState.CurrentRun.PiecesRemovedFromBoard.Clear();
 	}
 
@@ -416,7 +418,7 @@ public class ChessboardMapExt : GameMap
 			}
 		}
 		
-		Log.LogDebug($"[HandleChessboardSetup] Chessboard [{ActiveChessboard}] Chessboards [{Chessboards.Count}]");
+		Log.LogDebug($"[UpdateActiveChessboard] Chessboard [{ActiveChessboard}]");
 	}
 
 	private void SaveActiveChessboardToSave()

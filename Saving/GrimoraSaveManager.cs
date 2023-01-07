@@ -21,6 +21,7 @@ public class GrimoraSaveManager
 	
 	public static void ResetStandardRun()
 	{
+		CurrentSaveFile.Initialize();
 		CurrentSaveFile.NewStandardRun();
 	}
 	

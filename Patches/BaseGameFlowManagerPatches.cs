@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using GrimoraMod.Saving;
 using HarmonyLib;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -226,10 +227,18 @@ public class BaseGameFlowManagerPatches
 			ChessboardMapExt.Instance.SetAnimActiveIfInactive();
 		}
 
-		bool isBossDefeated = false; // TODO: ChessboardMapExt.Instance.BossDefeated;
+		bool isBossDefeated = GrimoraRunState.CurrentRun.PiecesRemovedFromBoard.Exists(piece => piece.Contains("BossPiece"));
 		bool piecesExist = ChessboardMapExt.Instance.pieces.IsNotEmpty();
 
-		Log.LogDebug($"[TransitionTo] IsBossDefeated [{isBossDefeated}] Pieces exist [{piecesExist}]");
+		Log.LogInfo($"[TransitionTo] IsBossDefeated [{isBossDefeated}] Pieces exist [{piecesExist}]");
+		Log.LogInfo($"[TransitionTo] IsBossDefeated [{triggeringNodeData}]");
+		if (triggeringNodeData != null)
+		{
+			Log.LogInfo($"[TransitionTo] IsBossDefeated [{triggeringNodeData.id}]");
+			Log.LogInfo($"[TransitionTo] IsBossDefeated [{triggeringNodeData.prefabPath}]");
+			Log.LogInfo($"[TransitionTo] IsBossDefeated [{triggeringNodeData.GetType()}]");
+			Log.LogInfo($"[TransitionTo] IsBossDefeated [{triggeringNodeData.position}]");
+		}
 
 		// FOR ENUMS IN POSTFIX CALLS, 'IS', 'IS NOT' is the same as '==' and '!=' respectively, despite what the IDE says
 		if (piecesExist && isBossDefeated)
