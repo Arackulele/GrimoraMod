@@ -207,8 +207,8 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 	{
 		Log.LogDebug($"[GetFixedOpeningHand] Getting randomized list for starting hand");
 		var cardsToAdd = new List<CardInfo>();
-		var gravedigger = GrimoraSaveUtil.DeckList.Find(info => info.name.Equals(NameGravedigger));
-		var bonePile = GrimoraSaveUtil.DeckList.Find(info => info.name.Equals(NameBonepile));
+		var gravedigger = RunState.Run.playerDeck.Cards.Find(info => info.name.Equals(NameGravedigger));
+		var bonePile = RunState.Run.playerDeck.Cards.Find(info => info.name.Equals(NameBonepile));
 		if (bonePile)
 		{
 			cardsToAdd.Add(bonePile);

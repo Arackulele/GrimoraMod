@@ -63,7 +63,7 @@ public class GrimoraSaveManager
 	[HarmonyPrefix]
 	public static bool RunState_Run(ref RunState __result)
 	{
-		if (GrimoraSaveUtil.IsGrimora)
+		if (GrimoraSaveUtil.IsGrimoraModRun)
 		{
 			if (SaveFile.IsAscension)
 			{
@@ -84,7 +84,7 @@ public class GrimoraSaveManager
 	[HarmonyPrefix]
 	public static bool SaveFile_CurrentDeck(ref DeckInfo __result)
 	{
-		if (GrimoraSaveUtil.IsGrimora)
+		if (GrimoraSaveUtil.IsGrimoraModRun)
 		{
 			if (SaveFile.IsAscension)
 			{
@@ -104,12 +104,10 @@ public class GrimoraSaveManager
 	[HarmonyPrefix]
 	public static bool AscensionSaveData_Data(ref AscensionSaveData __result)
 	{
-		//GrimoraPlugin.Log.LogInfo(Environment.StackTrace);
-		//GrimoraPlugin.Log.LogInfo("Done");
-		if (GrimoraSaveUtil.IsGrimora)
+		if (GrimoraSaveUtil.IsGrimoraModRun)
 		{
 			__result = CurrentSaveFile.AscensionSaveData;
-			return false; // *****************************
+			return false;
 		}
 
 		return true;
@@ -119,7 +117,7 @@ public class GrimoraSaveManager
 	[HarmonyPrefix]
 	public static bool GrimoraSaveData_Data(ref GrimoraSaveData __result)
 	{
-		if (GrimoraSaveUtil.IsGrimora)
+		if (GrimoraSaveUtil.IsGrimoraModRun)
 		{				
 			GrimoraRunState currentRun = null;
 			if (SaveFile.IsAscension)

@@ -9,7 +9,7 @@ public class MapNodeManagerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(MapNodeManager.SetActiveNode))]
 	public static bool PrefixChangeActiveNodeLogic(ref MapNodeManager __instance, ref MapNode newActiveNode)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			return true;
 		}

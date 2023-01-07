@@ -69,7 +69,7 @@ public class MenuControllerPatches
 				__instance.cards.Add(CreateMenuButton(__instance));
 			}
 		}
-		else if (GrimoraSaveUtil.IsGrimora)
+		else if (GrimoraSaveUtil.IsGrimoraModRun)
 		{
 			if (__instance.cardRow.Find("MenuCard_ResetRun").SafeIsUnityNull())
 			{
@@ -85,9 +85,9 @@ public class MenuControllerPatches
 		Log.LogDebug($"[MenuController.LoadGameFromMenu] " +
 		             $"NewGameGBC [{newGameGBC}] " +
 		             $"SaveFile.IsAscension [{SaveFile.IsAscension}] " +
-		             $"Is Grimora run? [{SaveDataRelatedPatches.IsGrimoraRun}] " +
+		             $"Is Grimora run? [{SaveDataRelatedPatches.IsGrimoraModRun}] " +
 		             $"CurrentRun [{AscensionSaveData.Data.currentRun}]");
-		if (!newGameGBC && SaveFile.IsAscension && SaveDataRelatedPatches.IsGrimoraRun)
+		if (!newGameGBC && SaveFile.IsAscension && SaveDataRelatedPatches.IsGrimoraModRun)
 		{
 			Log.LogDebug($"[MenuController.LoadGameFromMenu] --> Save file is ascension and IsGrimoraRun");
 			SaveManager.LoadFromFile();

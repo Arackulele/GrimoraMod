@@ -27,9 +27,9 @@ public class SaveDataRelatedPatches
 		}
 	}
 
-	public static bool IsNotGrimoraRun => !IsGrimoraRun;
+	public static bool IsNotGrimoraModRun => !IsGrimoraModRun;
 
-	public static bool IsGrimoraRun
+	public static bool IsGrimoraModRun
 	{
 		get => ModdedSaveManager.SaveData.GetValueAsBoolean(GUID, IsGrimoraRunKey);
 		set => ModdedSaveManager.SaveData.SetValue(GUID, IsGrimoraRunKey, value);

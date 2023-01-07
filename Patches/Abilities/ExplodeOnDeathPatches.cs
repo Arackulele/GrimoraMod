@@ -11,7 +11,7 @@ public class ExplodeOnDeathPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(ExplodeOnDeath.Awake))]
 	public static bool ChangeToGrimoraBombFist(ExplodeOnDeath __instance)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			return true;
 		}

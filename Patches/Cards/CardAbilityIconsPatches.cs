@@ -17,7 +17,7 @@ public class ChangeLogicInCardAbilityIcons
 		List<Ability> hiddenAbilities
 	)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora || TurnManager.Instance.GameEnding)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun || TurnManager.Instance.GameEnding)
 		{
 			return;
 		}

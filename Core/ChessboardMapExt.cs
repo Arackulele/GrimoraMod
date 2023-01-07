@@ -585,7 +585,7 @@ public class ChessboardMapExt : GameMap
 		Log.LogDebug($"[ChangeStartDeckIfNotAlreadyChanged] Checking if deck needs reset");
 		try
 		{
-			List<CardInfo> grimoraDeck = GrimoraSaveUtil.DeckList;
+			List<CardInfo> grimoraDeck = RunState.Run.playerDeck.Cards;
 
 			int graveDiggerCount = grimoraDeck.Count(info => info.name == "Gravedigger");
 			int frankNSteinCount = grimoraDeck.Count(info => info.name == "FrankNStein");
@@ -597,7 +597,7 @@ public class ChessboardMapExt : GameMap
 		}
 		catch (Exception e)
 		{
-			Log.LogWarning($"[ChangingDeck] Had trouble retrieving deck list! Resetting deck. Current card Ids: [{GrimoraSaveUtil.DeckInfo.cardIds.Join()}]");
+			Log.LogWarning($"[ChangingDeck] Had trouble retrieving deck list! Resetting deck. Current card Ids: [{RunState.Run.playerDeck.cardIds.Join()}]");
 			GrimoraSaveData.Data.Initialize();
 		}
 

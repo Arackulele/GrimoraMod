@@ -14,7 +14,7 @@ public class BaseGameFlowManagerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(GameFlowManager.Start))]
 	public static void PrefixStart(GameFlowManager __instance)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			return;
 		}
@@ -208,7 +208,7 @@ public class BaseGameFlowManagerPatches
 		bool unlockViewAfterTransition = true
 	)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora || gameState != GameState.Map)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun || gameState != GameState.Map)
 		{
 			// run the original code
 			yield return enumerator;

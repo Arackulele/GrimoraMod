@@ -14,7 +14,7 @@ public class CardDrawPilesPatches
 	public static IEnumerator GrimoraExhaustedSequence(IEnumerator enumerator, CardDrawPiles __instance)
 	{
 		CardSlot bonelordSlot = BoardManager.Instance.OpponentSlotsCopy.Find(slot => slot.HasCard(GrimoraPlugin.NameBonelord));
-		if (GrimoraSaveUtil.IsNotGrimora || bonelordSlot.SafeIsUnityNull())
+		if (GrimoraSaveUtil.IsNotGrimoraModRun || bonelordSlot.SafeIsUnityNull())
 		{
 			yield return enumerator;
 			yield break;

@@ -254,7 +254,7 @@ public class DebugHelper : ManagedBehaviour
 
 				if (selectedButton >= 0)
 				{
-					GrimoraSaveUtil.AddCard((_toggleDebugBaseModCardsDeck.isOn ? AllGrimoraModCards : AllGrimoraCustomCards)[selectedButton]);
+					RunState.Run.playerDeck.AddCard((_toggleDebugBaseModCardsDeck.isOn ? AllGrimoraModCards : AllGrimoraCustomCards)[selectedButton]);
 				}
 			}
 
@@ -309,7 +309,8 @@ public class DebugHelper : ManagedBehaviour
 					}
 					case "Clear Deck":
 					{
-						GrimoraSaveUtil.ClearDeck();
+						RunState.Run.playerDeck.Cards.Clear();
+						RunState.Run.playerDeck.cardIds.Clear();
 						SaveManager.SaveToFile();
 						break;
 					}
