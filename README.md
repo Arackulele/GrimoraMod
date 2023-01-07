@@ -42,7 +42,7 @@
 
 ## Update Notes
 
-### 2.10.0
+### 2.10.1
 
 - ![Feature](https://i.imgur.com/uL9uYNV.png)  New Anti- Challenge ( Safe Chair )
 
@@ -221,7 +221,7 @@
 
 ### 3D Models
 
-- Pink (Pink#6999) for making the Boss Skull Models , currently working on a full crypt 3D Model, etc
+- Pinks8n (Pink#5387) for making the Boss Skull Models , currently working on a full crypt 3D Model, etc
 
 - Catboy Stinkbug (Catboy Stinkbug#4099) for the Board Skull 3D Models and Wilted Clover Model
 
