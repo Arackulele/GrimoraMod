@@ -5,26 +5,25 @@ namespace GrimoraMod.Saving;
 
 public class GrimoraSaveFile
 {
-	public GrimoraRunState CurrentRun;
-	public GrimoraAscensionSaveData AscensionSaveData;
+	public GrimoraRunState CurrentRun = new GrimoraRunState();
+	public GrimoraAscensionSaveData AscensionSaveData = new GrimoraAscensionSaveData();
 
 	public void Initialize()
 	{
-		CurrentRun = new GrimoraRunState();
 		CurrentRun.Initialize();
-		
-		AscensionSaveData = new GrimoraAscensionSaveData();
 		AscensionSaveData.Initialize();
 	}
 
 	public void NewAscensionRun()
 	{
 		GrimoraRunState currentRun = (GrimoraRunState)AscensionSaveData.currentRun;
+		currentRun.Initialize();
 		currentRun.NewStandardGame();
 	}
 
 	public void NewStandardRun()
 	{
+		CurrentRun.Initialize();
 		CurrentRun.NewStandardGame();
 	}
 	

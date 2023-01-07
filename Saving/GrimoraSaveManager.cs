@@ -21,7 +21,6 @@ public class GrimoraSaveManager
 	
 	public static void ResetStandardRun()
 	{
-		CurrentSaveFile.Initialize();
 		CurrentSaveFile.NewStandardRun();
 	}
 	
@@ -47,6 +46,7 @@ public class GrimoraSaveManager
 		}
 		else
 		{
+			GrimoraPlugin.Log.LogInfo("Creating new save file");
 			CreateNewSaveFile();
 		}
 

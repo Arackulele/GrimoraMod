@@ -133,7 +133,7 @@ public class AscensionRelatedPatches
 	[HarmonyBefore(ConfigHelper.PackManagerGuid, ConfigHelper.P03ModGuid)]
 	public static bool InitializeGrimoraSaveData(ref AscensionMenuScreens __instance, bool newRun = true)
 	{
-		Log.LogDebug($"[AscensionMenuScreens.TransitionToGame] " +
+		Log.LogInfo($"[AscensionMenuScreens.TransitionToGame] " +
 		             $"IsGrimoraRun [{SaveDataRelatedPatches.IsGrimoraRun}] " +
 		             $"newRun [{newRun}] " +
 		             $"screen state [{ScreenManagement.ScreenState}] " +

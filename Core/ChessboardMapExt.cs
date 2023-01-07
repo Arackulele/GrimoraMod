@@ -221,8 +221,6 @@ public class ChessboardMapExt : GameMap
 			FinaleDeletionWindowManager.instance.mainWindow.gameObject.SetActive(false);
 		}
 
-		ChangeStartDeckIfNotAlreadyChanged();
-
 		if (ConfigHelper.Instance.IsDevModeEnabled)
 		{
 			// for checking which nodes are active/inactive
@@ -372,7 +370,7 @@ public class ChessboardMapExt : GameMap
 	}
 
 
-	private GrimoraChessboard GenerateChessboard(int region)
+	public GrimoraChessboard GenerateChessboard(int region)
 	{
 		switch (region)
 		{
@@ -405,25 +403,19 @@ public class ChessboardMapExt : GameMap
 		{
 			if (GrimoraRunState.CurrentRun.CurrentChessboard == null)
 			{
-				ActiveChessboard = GenerateChessboard(RunState.Run.regionTier);
-				Log.LogDebug($"[UpdateActiveChessboard] Generated new chessboard");
+				Log.LogDebug($"[UpdateActiveChessboard] Generating new chessboard");
+				ActiveChessboard = GrimoraRunState.CurrentRun.SetupNewStandardRegion();
 				ActiveChessboard.SetSavePositions();
-				SaveActiveChessboardToSave();
 			}
 			else
 			{
+				Log.LogDebug($"[UpdateActiveChessboard] Loading chessboard from save data");
 				List<List<int>> currentRunCurrentChessboard = GrimoraRunState.CurrentRun.CurrentChessboard;
 				ActiveChessboard = new GrimoraChessboard(currentRunCurrentChessboard, -1);
-				Log.LogDebug($"[UpdateActiveChessboard] Loaded chessboard from save data");
 			}
 		}
 		
 		Log.LogDebug($"[UpdateActiveChessboard] Chessboard [{ActiveChessboard}]");
-	}
-
-	private void SaveActiveChessboardToSave()
-	{
-		GrimoraRunState.CurrentRun.CurrentChessboard = ActiveChessboard.Export();
 	}
 
 	private static void SetAllNodesActive()

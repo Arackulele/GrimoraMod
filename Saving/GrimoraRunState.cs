@@ -14,7 +14,7 @@ public class GrimoraRunState : RunState
 	public new void Initialize()
 	{
 		this.playerLives = 1;
-		this.regionTier = 0;
+		this.regionTier = -1;
 		this.regionOrder = new int[]
 		{
 			0,
@@ -44,6 +44,7 @@ public class GrimoraRunState : RunState
 	{
 		this.playerLives = 1;
 		this.skullTeeth = 0;
+		this.regionTier = 0;
 		
 		this.playerDeck.Cards.Clear();
 		this.playerDeck.AddCard(GrimoraPlugin.NameGravedigger.GetCardInfo());
@@ -61,5 +62,21 @@ public class GrimoraRunState : RunState
 		
 		PiecesRemovedFromBoard.Clear();
 		CurrentChessboard = null;
+	}
+
+	public GrimoraChessboard SetupNewStandardRegion()
+	{
+		if (regionTier < 0)
+		{
+			GrimoraPlugin.Log.LogDebug($"[GrimoraChessboard] Setting up a new game");
+			NewStandardGame();
+		}
+		
+		GrimoraChessboard generateChessboard = ChessboardMapExt.Instance.GenerateChessboard(regionTier);
+		CurrentChessboard = generateChessboard.Export();
+
+
+
+		return generateChessboard;
 	}
 }
