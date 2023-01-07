@@ -31,15 +31,7 @@ public class SaveDataRelatedPatches
 
 	public static bool IsGrimoraRun
 	{
-		get
-		{
-			string activeSceneName = SceneLoader.ActiveSceneName.ToLowerInvariant();
-			// Log.LogDebug($"[IsGrimoraRun] Active scene name is [{activeSceneName}] Screen State [{ScreenManagement.ScreenState}]");
-			if (activeSceneName.Contains("grimora") || ScreenManagement.ScreenState == CardTemple.Undead)
-				return true;
-
-			return AscensionSaveData.Data is { currentRun.playerLives: > 0 } && ModdedSaveManager.SaveData.GetValueAsBoolean(GUID, IsGrimoraRunKey);
-		}
+		get => ModdedSaveManager.SaveData.GetValueAsBoolean(GUID, IsGrimoraRunKey);
 		set => ModdedSaveManager.SaveData.SetValue(GUID, IsGrimoraRunKey, value);
 	}
 }

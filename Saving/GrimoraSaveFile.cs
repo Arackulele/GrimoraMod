@@ -16,9 +16,8 @@ public class GrimoraSaveFile
 
 	public void NewAscensionRun()
 	{
-		GrimoraRunState currentRun = (GrimoraRunState)AscensionSaveData.currentRun;
-		currentRun.Initialize();
-		currentRun.NewStandardGame();
+		AscensionSaveData.Initialize();
+		AscensionSaveData.NewRun(new List<CardInfo>());
 	}
 
 	public void NewStandardRun()

@@ -10,9 +10,9 @@ public static class GrimoraSaveUtil
 		DeckInfo.cardIds.Clear();
 	}
 
-	public static bool IsGrimora => SaveManager.SaveFile.IsGrimora || SaveDataRelatedPatches.IsGrimoraRun;
+	public static bool IsGrimora => SaveDataRelatedPatches.IsGrimoraRun;
 
-	public static bool IsNotGrimora => !SaveManager.SaveFile.IsGrimora || SaveDataRelatedPatches.IsNotGrimoraRun;
+	public static bool IsNotGrimora => SaveDataRelatedPatches.IsNotGrimoraRun;
 
 	public static DeckInfo DeckInfo => GrimoraSaveData.Data.deck;
 

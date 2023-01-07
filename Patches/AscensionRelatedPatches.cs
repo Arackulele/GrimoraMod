@@ -1,5 +1,6 @@
 ﻿using DiskCardGame;
 using GBC;
+using GrimoraMod.Saving;
 using HarmonyLib;
 using InscryptionAPI.Ascension;
 using Sirenix.Utilities;
@@ -133,12 +134,13 @@ public class AscensionRelatedPatches
 	[HarmonyBefore(ConfigHelper.PackManagerGuid, ConfigHelper.P03ModGuid)]
 	public static bool InitializeGrimoraSaveData(ref AscensionMenuScreens __instance, bool newRun = true)
 	{
+		GrimoraAscensionSaveData ascensionSaveData = (GrimoraAscensionSaveData)AscensionSaveData.Data;
 		Log.LogInfo($"[AscensionMenuScreens.TransitionToGame] " +
-		             $"IsGrimoraRun [{SaveDataRelatedPatches.IsGrimoraRun}] " +
-		             $"newRun [{newRun}] " +
-		             $"screen state [{ScreenManagement.ScreenState}] " +
-		             $"currentStarterDeck [{AscensionSaveData.Data.currentStarterDeck}]" +
-		             $"currentRun [{AscensionSaveData.Data.currentRun}]"
+		            $"IsGrimoraRun [{SaveDataRelatedPatches.IsGrimoraRun}] " +
+		            $"newRun [{newRun}] " +
+		            $"screen state [{ScreenManagement.ScreenState}] " +
+		            $"currentStarterDeck [{ascensionSaveData.currentStarterDeck}]" +
+		            $"currentRun [{ascensionSaveData.currentRun}]"
 		);
 		
 		if (newRun)
@@ -159,18 +161,18 @@ public class AscensionRelatedPatches
 		{
 			Log.LogInfo($"[AscensionMenuScreens.TransitionToGame] Setting ScreenState to Undead");
 			ScreenManagement.ScreenState = CardTemple.Undead;
-			if (AscensionSaveData.Data.currentStarterDeck.Equals("Vanilla", StringComparison.InvariantCultureIgnoreCase))
+			if (ascensionSaveData.currentStarterDeck.Equals("Vanilla", StringComparison.InvariantCultureIgnoreCase))
 			{
 				Log.LogInfo($"[AscensionMenuScreens.TransitionToGame] --> Changing current starter deck to default");
-				AscensionSaveData.Data.currentStarterDeck = StarterDecks.DefaultStarterDeck;
+				ascensionSaveData.currentStarterDeck = StarterDecks.DefaultStarterDeck;
 			}
 
-			Log.LogInfo($"[AscensionMenuScreens.TransitionToGame] Creating new ascension run from starter deck [{StarterDecks.DefaultStarterDeck}]");
-			StarterDeckInfo deckInfo = StarterDecksUtil.GetInfo(StarterDecks.DefaultStarterDeck);
+			Log.LogInfo($"[AscensionMenuScreens.TransitionToGame] Creating new ascension run from starter deck [{ascensionSaveData.currentStarterDeck}]");
+			StarterDeckInfo deckInfo = StarterDecksUtil.GetInfo(ascensionSaveData.currentStarterDeck);
 			if (deckInfo)
 			{
 				Log.LogInfo($"[AscensionMenuScreens.TransitionToGame] --> DeckInfo not null [{deckInfo.cards.Join(c => c.name)}]");
-				AscensionSaveData.Data.NewRun(deckInfo.cards);
+				ascensionSaveData.NewRun(deckInfo.cards);
 				SaveManager.SaveToFile(false);
 			}
 			else
@@ -191,34 +193,6 @@ public class AscensionRelatedPatches
 		return true;
 	}
 
-	private static void ClearGrimoraData()
-	{
-		if (!AscensionMenuScreens.ReturningFromFailedRun && !AscensionMenuScreens.ReturningFromSuccessfulRun)
-		{
-			ScreenManagement.ScreenState = CardTemple.Undead;
-		}
-	}
-
-	[HarmonyPrefix, HarmonyPatch(nameof(AscensionMenuScreens.SwitchToScreen))]
-	public static void ClearGrimoraSaveOnNewRun(AscensionMenuScreens __instance, AscensionMenuScreens.Screen screen)
-	{
-		if (screen == AscensionMenuScreens.Screen.Start) // At the main screen, you can't be in any style of run. Not yet.
-		{
-			ClearGrimoraData();
-		}
-	}
-
-	[HarmonyPrefix, HarmonyPatch(nameof(AscensionMenuScreens.Start))]
-	public static void ClearScreenStatePrefix(AscensionMenuScreens __instance)
-	{
-		ClearGrimoraData();
-	}
-	
-	
-	
-	
-
-
 	internal static AscensionMenuInteractable CreateAscensionButton(AscensionMenuInteractable newRunButton)
 	{
 		Log.LogDebug($"[AscensionMenuScreens.Start] Creating new Grimora ascension run button");
@@ -229,6 +203,7 @@ public class AscensionRelatedPatches
 			SaveDataRelatedPatches.IsGrimoraRun = true;
 			ScreenManagement.ScreenState = CardTemple.Undead;
 			ChallengeManager.SyncChallengeList();
+			GrimoraSaveManager.CurrentSaveFile.NewAscensionRun();
 			Log.LogDebug($"[AscensionMenuScreens.Start] Set screen state to undead, invoking CursorSelectStart");
 			newRunButton.CursorSelectStart();
 		};

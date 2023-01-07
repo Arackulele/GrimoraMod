@@ -24,6 +24,11 @@ public class GrimoraSaveManager
 		CurrentSaveFile.NewStandardRun();
 	}
 	
+	public static void NewAscensionRun()
+	{
+		CurrentSaveFile.NewAscensionRun();
+	}
+	
 	#region Patches
 	public static string SaveFilePath => SaveManager.SaveFolderPath + "GrimoraSaveFile.gwsave";
 	
@@ -41,6 +46,7 @@ public class GrimoraSaveManager
 	{
 		if (File.Exists(SaveFilePath))
 		{
+			GrimoraPlugin.Log.LogInfo("Loaded from file");
 			string json = File.ReadAllText(SaveFilePath);
 			CurrentSaveFile = SaveManager.FromJSON<GrimoraSaveFile>(json);
 		}
@@ -80,7 +86,14 @@ public class GrimoraSaveManager
 	{
 		if (GrimoraSaveUtil.IsGrimora)
 		{
-			__result = CurrentSaveFile.CurrentRun.playerDeck;
+			if (SaveFile.IsAscension)
+			{
+				__result = CurrentSaveFile.AscensionSaveData.currentRun.playerDeck;
+			}
+			else
+			{
+				__result = CurrentSaveFile.CurrentRun.playerDeck;
+			}
 			return false;
 		}
 
@@ -91,10 +104,12 @@ public class GrimoraSaveManager
 	[HarmonyPrefix]
 	public static bool AscensionSaveData_Data(ref AscensionSaveData __result)
 	{
+		//GrimoraPlugin.Log.LogInfo(Environment.StackTrace);
+		//GrimoraPlugin.Log.LogInfo("Done");
 		if (GrimoraSaveUtil.IsGrimora)
 		{
 			__result = CurrentSaveFile.AscensionSaveData;
-			return false;
+			return false; // *****************************
 		}
 
 		return true;

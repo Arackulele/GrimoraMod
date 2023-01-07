@@ -41,7 +41,11 @@ public class BaseCardPatches
 		if (__instance.GetComponentInParent<SelectableCard>().SafeIsUnityNull() && __instance.GetComponent<GraveControllerExt>().SafeIsUnityNull())
 		{
 			var oldController = __instance.GetComponent<GravestoneCardAnimationController>();
-			GraveControllerExt.SetupNewController(oldController);
+			if (oldController != null)
+			{
+				GrimoraPlugin.Log.LogInfo($"[AddNewController] oldController [{oldController}][{info.name}]");
+				GraveControllerExt.SetupNewController(oldController);
+			}
 		}
 	}
 }

@@ -37,7 +37,10 @@ public class GraveControllerExt : GravestoneCardAnimationController
 
 	public static void SetupNewController(GravestoneCardAnimationController graveController)
 	{
+		Log.LogInfo($"[GraveControllerExt] SetupNewController [{graveController}]");
+		Log.LogInfo($"[GraveControllerExt] SetupNewController [{graveController.gameObject}]");
 		GraveControllerExt ext = graveController.gameObject.AddComponent<GraveControllerExt>();
+		Log.LogInfo($"[GraveControllerExt] ext [{ext}]");
 		ext.cardRenderer = graveController.cardRenderer;
 		ext.intendedRendererYPos = ext.cardRenderer.transform.localPosition.y;
 		ext.armAnim = graveController.armAnim;
@@ -50,6 +53,7 @@ public class GraveControllerExt : GravestoneCardAnimationController
 		ext.statsLater = graveController.statsLater;
 		ext._graveAnim = graveController.Anim;
 
+		Log.LogInfo($"[GraveControllerExt] graveController.PlayableCard [{graveController.PlayableCard}]");
 		if (graveController.PlayableCard)
 		{
 			ext._playableCard = graveController.PlayableCard;

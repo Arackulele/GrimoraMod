@@ -26,51 +26,26 @@ public class GrimoraAscensionSaveData : AscensionSaveData
 	
 	public new void NewRun(List<CardInfo> starterDeck)
 	{
+		GrimoraPlugin.Log.LogInfo("[GrimoraAscensionSaveData] NewRun");
 		this.currentRunSeed = Environment.TickCount;
 		this.currentOuroborosDeaths = 0;
 		
 		GrimoraRunState grimoraRunState = new GrimoraRunState();
 		this.currentRun = grimoraRunState;
 		grimoraRunState.Initialize();
+		
 		this.RollCurrentRunRegionOrder();
 		this.oilPaintingState.TryAdvanceRewardIndex();
 		this.oilPaintingState.puzzleSolution = OilPaintingPuzzle.GenerateSolution(true);
-		this.currentRun.playerDeck = new DeckInfo();
+		
+		this.currentRun.consumables.Clear();
+		this.currentRun.consumables.Add("Pliers");
+		
 		foreach (CardInfo cardInfo in starterDeck)
 		{
 			this.currentRun.playerDeck.AddCard(CardLoader.GetCardByName(cardInfo.name));
+			GrimoraPlugin.Log.LogInfo("[GrimoraAscensionSaveData] card " + cardInfo.name);
 		}
-		if (this.numRunsSinceReachedFirstBoss == 0)
-		{
-			this.currentRun.playerDeck.AddCard(CardLoader.GetCardByName("PeltHare"));
-			this.currentRun.playerDeck.AddCard(CardLoader.GetCardByName("PeltHare"));
-		}
-		else if (this.numRunsSinceReachedFirstBoss == 1)
-		{
-			this.currentRun.playerDeck.AddCard(CardLoader.GetCardByName("Opossum"));
-			this.currentRun.playerDeck.AddCard(CardLoader.GetCardByName("PeltHare"));
-		}
-		else if (this.numRunsSinceReachedFirstBoss > 1)
-		{
-			this.currentRun.playerDeck.AddCard(CardLoader.GetCardByName("Opossum"));
-			this.currentRun.playerDeck.AddCard(CardLoader.GetCardByName("RingWorm"));
-		}
-		this.currentRun.consumables.Add("SquirrelBottle");
-		if (this.GetNumChallengesOfTypeActive(AscensionChallenge.LessConsumables) < 2)
-		{
-			this.currentRun.consumables.Add("Pliers");
-		}
-		if (!this.ChallengeIsActive(AscensionChallenge.NoHook))
-		{
-			if (this.currentRun.consumables.Count == this.currentRun.MaxConsumables)
-			{
-				this.currentRun.consumables.RemoveAt(this.currentRun.consumables.Count - 1);
-			}
-			this.currentRun.consumables.Add("FishHook");
-		}
-		if (this.ChallengeIsActive(AscensionChallenge.LessLives))
-		{
-			this.currentRun.maxPlayerLives = (this.currentRun.playerLives = 1);
-		}
+		GrimoraPlugin.Log.LogInfo("[GrimoraAscensionSaveData] " + this.currentRun.playerDeck.Cards.Count);
 	}
 }
