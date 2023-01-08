@@ -41,6 +41,7 @@ public class GrimoraAscensionSaveData : AscensionSaveData
 		GrimoraRunState grimoraRunState = new GrimoraRunState();
 		this.currentRun = grimoraRunState;
 		grimoraRunState.Initialize();
+		grimoraRunState.playerLives = 1;
 		
 		this.RollCurrentRunRegionOrder();
 		this.oilPaintingState.TryAdvanceRewardIndex();

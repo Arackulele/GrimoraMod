@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using GrimoraMod.Saving;
 using HarmonyLib;
 using InscryptionAPI.Ascension;
 using Sirenix.Utilities;
@@ -36,6 +37,7 @@ public class MenuControllerPatches
 						card.SetBorderColor(__instance.slottedBorderColor);
 						AudioController.Instance.PlaySound2D("crunch_short#1", MixerGroup.None, 0.6f);
 						__instance.Shake(0.015f, 0.3f);
+						SaveDataRelatedPatches.IsGrimoraModRun = true;
 						CustomCoroutine.Instance.StartCoroutine(__instance.TransitionToGame2(true));
 
 						return false;
@@ -51,7 +53,9 @@ public class MenuControllerPatches
 			AudioController.Instance.PlaySound2D("crunch_short#1", MixerGroup.None, 0.6f);
 
 			__instance.Shake(0.015f, 0.3f);
-			CustomCoroutine.Instance.StartCoroutine(__instance.TransitionToGame2());
+			SaveDataRelatedPatches.IsGrimoraModRun = true;
+			bool resetRun = GrimoraSaveManager.CurrentSaveFile.CurrentRun == null || GrimoraSaveManager.CurrentSaveFile.CurrentRun.playerLives <= 0;
+			CustomCoroutine.Instance.StartCoroutine(__instance.TransitionToGame2(resetRun));
 			return false;
 		}
 
