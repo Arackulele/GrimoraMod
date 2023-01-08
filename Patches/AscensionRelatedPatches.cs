@@ -142,25 +142,12 @@ public class AscensionRelatedPatches
 		            $"currentStarterDeck [{ascensionSaveData.currentStarterDeck}]" +
 		            $"currentRun [{ascensionSaveData.currentRun}]"
 		);
-		
-		if (newRun)
-		{
-			if (ScreenManagement.ScreenState == CardTemple.Undead)
-			{
-				// Ensure the old grimora save data gets saved if it needs to be
-				Log.LogInfo($"[AscensionMenuScreens.TransitionToGame] Ensuring regular save");
-				SaveDataRelatedPatches.IsGrimoraModRun = true;
-			}
-			else
-			{
-				SaveDataRelatedPatches.IsGrimoraModRun = false;
-			}
-		}
 
-		if (SaveDataRelatedPatches.IsGrimoraModRun)
+		SaveDataRelatedPatches.IsGrimoraModRun = ScreenManagement.ScreenState == CardTemple.Undead;
+		
+		if (newRun && SaveDataRelatedPatches.IsGrimoraModRun)
 		{
 			Log.LogInfo($"[AscensionMenuScreens.TransitionToGame] Setting ScreenState to Undead");
-			ScreenManagement.ScreenState = CardTemple.Undead;
 			if (ascensionSaveData.currentStarterDeck.Equals("Vanilla", StringComparison.InvariantCultureIgnoreCase))
 			{
 				Log.LogInfo($"[AscensionMenuScreens.TransitionToGame] --> Changing current starter deck to default");

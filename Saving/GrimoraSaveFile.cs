@@ -16,6 +16,7 @@ public class GrimoraSaveFile
 
 	public void NewAscensionRun()
 	{
+		GrimoraPlugin.Log.LogInfo("[GrimoraSaveFile] NewAscensionRun");
 		AscensionSaveData.Initialize();
 		AscensionSaveData.NewRun(new List<CardInfo>());
 	}

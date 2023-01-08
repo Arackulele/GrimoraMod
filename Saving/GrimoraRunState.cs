@@ -16,6 +16,7 @@ public class GrimoraRunState : RunState
 	
 	public new void Initialize()
 	{
+		GrimoraPlugin.Log.LogDebug($"[GrimoraChessboard] Initialize");
 		this.playerLives = 1;
 		this.regionTier = -1;
 		this.regionOrder = new int[]
@@ -45,6 +46,7 @@ public class GrimoraRunState : RunState
 
 	public void NewStandardGame()
 	{
+		GrimoraPlugin.Log.LogDebug($"[GrimoraChessboard] NewStandardGame");
 		this.playerLives = 1;
 		this.skullTeeth = 0;
 		this.regionTier = 0;

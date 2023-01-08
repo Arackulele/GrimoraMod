@@ -44,8 +44,6 @@ public class GrimoraAscensionSaveData : AscensionSaveData
 		foreach (CardInfo cardInfo in starterDeck)
 		{
 			this.currentRun.playerDeck.AddCard(CardLoader.GetCardByName(cardInfo.name));
-			GrimoraPlugin.Log.LogInfo("[GrimoraAscensionSaveData] card " + cardInfo.name);
 		}
-		GrimoraPlugin.Log.LogInfo("[GrimoraAscensionSaveData] " + this.currentRun.playerDeck.Cards.Count);
 	}
 }
