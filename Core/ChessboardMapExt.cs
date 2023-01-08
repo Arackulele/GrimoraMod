@@ -404,8 +404,10 @@ public class ChessboardMapExt : GameMap
 			if (GrimoraRunState.CurrentRun.CurrentChessboard == null)
 			{
 				Log.LogDebug($"[UpdateActiveChessboard] Generating new chessboard");
-				ActiveChessboard = GrimoraRunState.CurrentRun.SetupNewStandardRegion();
-				ActiveChessboard.SetSavePositions();
+				GrimoraChessboard generateChessboard = GenerateChessboard(GrimoraRunState.CurrentRun.regionTier);
+				ActiveChessboard = generateChessboard;
+
+				GrimoraRunState.CurrentRun.SetCurrentChessboard(generateChessboard);
 			}
 			else
 			{

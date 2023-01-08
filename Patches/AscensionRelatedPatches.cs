@@ -164,7 +164,7 @@ public static class CreateAscensionButtonsOnStart
 			SaveDataRelatedPatches.LastRunWasGrimoraModRun = SaveDataRelatedPatches.IsGrimoraModRun;
 			ScreenManagement.ScreenState = CardTemple.Undead;
 			ChallengeManager.SyncChallengeList();
-			GrimoraSaveManager.CurrentSaveFile.NewAscensionRun();
+			GrimoraSaveManager.NewAscensionRun();
 			Log.LogDebug($"[AscensionMenuScreens.Start] Set screen state to undead, invoking CursorSelectStart");
 			newRunButton.CursorSelectStart();
 		};

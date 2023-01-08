@@ -26,6 +26,4 @@ public class GrimoraSaveFile
 		CurrentRun.Initialize();
 		CurrentRun.NewStandardGame();
 	}
-	
-	
 }
