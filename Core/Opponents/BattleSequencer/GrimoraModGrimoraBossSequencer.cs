@@ -51,6 +51,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 			{
 				Log.LogInfo($"Player won against Grimora! Resetting run...");
 				ConfigHelper.Instance.ResetRun();
+				SaveDataRelatedPatches.IsGrimoraModRun = false;
 				FinaleDeletionWindowManager.instance.mainWindow.gameObject.SetActive(true);
 				yield return ((GrimoraGameFlowManager)GameFlowManager.Instance).EndSceneSequence();
 			}
