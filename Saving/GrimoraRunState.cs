@@ -55,8 +55,8 @@ public class GrimoraRunState : RunState
 		this.playerDeck.AddCard(GrimoraPlugin.NameBonepile.GetCardInfo());
 		this.playerDeck.AddCard(GrimoraPlugin.NameGravedigger.GetCardInfo());
 		this.playerDeck.AddCard(GrimoraPlugin.NameGravedigger.GetCardInfo());
+		this.playerDeck.AddCard(GrimoraPlugin.NameFranknstein.GetCardInfo());
 		this.playerDeck.AddCard(GrimoraPlugin.NameZombie.GetCardInfo());
-		this.playerDeck.AddCard(GrimoraPlugin.NameForgottenMan.GetCardInfo());
 
 		this.consumables.Clear();
 		this.consumables.Add("FishHook");
