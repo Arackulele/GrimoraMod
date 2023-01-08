@@ -36,6 +36,23 @@ public static class AscensionStartScreen_OnEnable
 	}
 }
 
+[HarmonyPatch(typeof(AscensionMenuScreens), nameof(AscensionMenuScreens.ConfigurePostGameScreens), new Type[]{})]
+public static class AscensionMenuScreens_ConfigurePostGameScreens_EndRunFix
+{
+	// When we end a run we want to end the correct one.
+	// Set isGromoraModRun to true so this method uses the correct data when calling EndRun().
+	public static bool Prefix()
+	{
+		SaveDataRelatedPatches.IsGrimoraModRun = SaveDataRelatedPatches.LastRunWasGrimoraModRun;
+		return true;
+	}
+	
+	public static void Postfix()
+	{
+		SaveDataRelatedPatches.IsGrimoraModRun = false;
+	}
+}
+
 [HarmonyPatch(typeof(AscensionStartScreen), nameof(AscensionStartScreen.Start))]
 public static class CreateAscensionButtonsOnStart
 {
@@ -111,6 +128,7 @@ public static class CreateAscensionButtonsOnStart
 				}
 
 				ChallengeManager.SyncChallengeList();
+				SaveDataRelatedPatches.LastRunWasGrimoraModRun = SaveDataRelatedPatches.IsGrimoraModRun;
 				Log.LogDebug($"[AscensionMenuScreens.Start] CursorSelectStarted scrybe[{scrybe}] ScreenState[{ScreenManagement.ScreenState}] IsGrimoraModRun[{SaveDataRelatedPatches.IsGrimoraModRun}]");
 			};
 		}
@@ -143,6 +161,7 @@ public static class CreateAscensionButtonsOnStart
 		newGrimoraButton.CursorSelectStarted = delegate
 		{
 			SaveDataRelatedPatches.IsGrimoraModRun = true;
+			SaveDataRelatedPatches.LastRunWasGrimoraModRun = SaveDataRelatedPatches.IsGrimoraModRun;
 			ScreenManagement.ScreenState = CardTemple.Undead;
 			ChallengeManager.SyncChallengeList();
 			GrimoraSaveManager.CurrentSaveFile.NewAscensionRun();
@@ -165,6 +184,7 @@ public static class CreateAscensionButtonsOnStart
 		enabledButton.CursorSelectStarted = delegate
 		{
 			SaveDataRelatedPatches.IsGrimoraModRun = true;
+			SaveDataRelatedPatches.LastRunWasGrimoraModRun = SaveDataRelatedPatches.IsGrimoraModRun;
 			ScreenManagement.ScreenState = CardTemple.Undead;
 			Log.LogDebug($"[AscensionMenuScreens.Start] Set screen state to undead, invoking CursorSelectStart");
 			startScreen.continueRunText.CursorSelectStart();
@@ -199,6 +219,7 @@ public class AscensionRelatedPatches
 		);
 
 		SaveDataRelatedPatches.IsGrimoraModRun = ScreenManagement.ScreenState == CardTemple.Undead;
+		SaveDataRelatedPatches.LastRunWasGrimoraModRun = SaveDataRelatedPatches.IsGrimoraModRun;
 		
 		if (newRun && SaveDataRelatedPatches.IsGrimoraModRun)
 		{
