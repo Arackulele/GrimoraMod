@@ -4,6 +4,14 @@ namespace GrimoraMod.Saving;
 
 public class GrimoraAscensionSaveData : AscensionSaveData
 {
+	public static bool RunExists
+	{
+		get
+		{
+			return GrimoraSaveManager.CurrentSaveFile.AscensionSaveData.currentRun != null && GrimoraSaveManager.CurrentSaveFile.AscensionSaveData.currentRun.playerLives > 0; 
+		}
+	}
+	
 	public new void Initialize()
 	{
 		this.dialogueData = new DialogueEventsData();
