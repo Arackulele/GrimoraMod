@@ -1,5 +1,7 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Saves;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod.Saving;
 
@@ -17,6 +19,23 @@ public class GrimoraSaveManager
 
 		CurrentSaveFile = new GrimoraSaveFile();
 		CurrentSaveFile.Initialize();
+	}
+	
+	public static void ResetRun()
+	{
+		if (SaveFile.IsAscension)
+		{
+			Log.LogDebug($"[ResetRun] Resetting ascension run");
+			CurrentSaveFile.AscensionSaveData.currentRun = null;
+		}
+		else
+		{
+			Log.LogDebug($"[ResetRun] Resetting standard run");
+			ResetStandardRun();
+		}
+
+		ModdedSaveManager.SaveData.SetValue(GUID, "StoryEvent_HasReachedTable", false);
+		SaveManager.SaveToFile();
 	}
 	
 	public static void ResetStandardRun()

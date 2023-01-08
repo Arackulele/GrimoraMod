@@ -1,5 +1,6 @@
 using System.Collections;
 using DiskCardGame;
+using GrimoraMod.Saving;
 using InscryptionAPI.Card;
 using InscryptionAPI.Encounters;
 using InscryptionAPI.Helpers.Extensions;
@@ -50,8 +51,8 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 			else
 			{
 				Log.LogInfo($"Player won against Grimora! Resetting run...");
-				ConfigHelper.Instance.ResetRun();
-				SaveDataRelatedPatches.IsGrimoraModRun = false;
+				GrimoraSaveManager.ResetRun();
+				GrimoraSaveUtil.IsGrimoraModRun = false;
 				FinaleDeletionWindowManager.instance.mainWindow.gameObject.SetActive(true);
 				yield return ((GrimoraGameFlowManager)GameFlowManager.Instance).EndSceneSequence();
 			}

@@ -245,7 +245,7 @@ public class ChallengeManagement
 	[HarmonyAfter(InscryptionAPIPlugin.ModGUID)]
 	public static void ValidGrimoraChallenges(ref bool __result, AscensionChallenge challenge,  int level)
 	{
-		if (ScreenManagement.ScreenState == CardTemple.Undead || SaveDataRelatedPatches.IsGrimoraModRun) 
+		if (ScreenManagement.ScreenState == CardTemple.Undead || GrimoraSaveUtil.IsGrimoraModRun) 
 		{
 			__result = ValidChallenges.Contains(challenge);
 			return;

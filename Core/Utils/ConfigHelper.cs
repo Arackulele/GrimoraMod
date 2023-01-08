@@ -1,10 +1,8 @@
 using BepInEx;
 using BepInEx.Configuration;
 using DiskCardGame;
-using GrimoraMod.Saving;
 using HarmonyLib;
 using InscryptionAPI.Card;
-using InscryptionAPI.Saves;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -160,23 +158,6 @@ public class ConfigHelper
 			AbilityManager.AllAbilities.Clear();
 			Log.LogDebug($"All data Removed [{removed}] AbilitiesUtil");
 		}
-	}
-
-	public void ResetRun()
-	{
-		if (SaveFile.IsAscension)
-		{
-			Log.LogDebug($"[ResetRun] Resetting ascension run");
-			GrimoraSaveManager.CurrentSaveFile.AscensionSaveData.currentRun = null;
-		}
-		else
-		{
-			Log.LogDebug($"[ResetRun] Resetting standard run");
-			GrimoraSaveManager.ResetStandardRun();
-		}
-
-		ModdedSaveManager.SaveData.SetValue(GUID, "StoryEvent_HasReachedTable", false);
-		SaveManager.SaveToFile();
 	}
 
 	private static void UnlockAllNecessaryEventsToPlay()
