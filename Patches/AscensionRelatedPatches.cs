@@ -25,6 +25,16 @@ public static class SoullessPatch
 	}
 }
 
+[HarmonyPatch(typeof(AscensionStartScreen), nameof(AscensionStartScreen.OnEnable))]
+public static class AscensionStartScreen_OnEnable
+{
+	[HarmonyPrefix]
+	public static void Prefix()
+	{
+		Log.LogDebug($"[AscensionMenuScreens.OnEnable]");
+		SaveDataRelatedPatches.IsGrimoraModRun = false; // No runs active right now!
+	}
+}
 
 [HarmonyPatch(typeof(AscensionStartScreen), nameof(AscensionStartScreen.Start))]
 public static class CreateAscensionButtonsOnStart
@@ -32,7 +42,7 @@ public static class CreateAscensionButtonsOnStart
 	[HarmonyPrefix]
 	public static void Prefix(ref AscensionStartScreen __instance)
 	{
-		Log.LogDebug($"[AscensionMenuScreens.Start] RunStartWhenEnabled");
+		Log.LogDebug($"[AscensionMenuScreens.Start] CreateAscensionButtonsOnStart");
 		AscensionStartScreen ascensionStartScreen = UnityObject.FindObjectOfType<AscensionStartScreen>();
 		AdjustAscensionMenuItemsSpacing itemsSpacing = UnityObject.FindObjectOfType<AdjustAscensionMenuItemsSpacing>();
 		AscensionMenuInteractable newGameButtonTemplate = ascensionStartScreen.newRunText;
@@ -44,7 +54,6 @@ public static class CreateAscensionButtonsOnStart
 		List<GameObject> onEnableRevealedObjects = transitionController.onEnableRevealedObjects;
 		List<MainInputInteractable> screenInteractables = transitionController.screenInteractables;
 
-		SaveDataRelatedPatches.IsGrimoraModRun = false; // No runs active right now!
 		if (ConfigHelper.HasP03Mod)
 		{
 			GameObject p03Button = onEnableRevealedObjects.Single(obj => obj.name == "Menu_New_P03");
