@@ -4,8 +4,11 @@ namespace GrimoraMod.Saving;
 
 public class GrimoraRunState : RunState
 {
-	public static GrimoraRunState CurrentRun => GrimoraSaveManager.CurrentSaveFile.CurrentRun;
-	
+	public static GrimoraRunState CurrentRun
+	{
+		get { return SaveFile.IsAscension ? (GrimoraRunState)GrimoraSaveManager.CurrentSaveFile.AscensionSaveData.currentRun : GrimoraSaveManager.CurrentSaveFile.CurrentRun; }
+	}
+
 	public GrimoraSaveData boardData;
 
 	public List<List<int>> CurrentChessboard;
