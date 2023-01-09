@@ -314,6 +314,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	private void LoadItems()
 	{
 		GrimoraCardInABottle.CreateModel();
+		AllGrimoraItems.Add(GrimoraCardInABottle.NewCardBottleItem("Skeleton"));
 		AllGrimoraItems.Add(GrimoraCardInABottle.NewCardBottleItem(NameBonepile));
 		AllGrimoraItems.Add(GrimoraCardInABottle.NewCardBottleItem(NameFranknstein));
 	}
