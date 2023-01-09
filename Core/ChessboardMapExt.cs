@@ -183,7 +183,16 @@ public class ChessboardMapExt : GameMap
 	private static List<GrimoraChessboard> LoadChessboardsFromFile(string fileName)
 	{
 		string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir(fileName));
-		List<List<List<char>>> chessboardsFromJson = SimpleJson.DeserializeObject<List<List<List<char>>>>(jsonString);
+		
+		List<List<List<char>>> chessboardsFromJson = null;
+		try
+		{
+			chessboardsFromJson = SimpleJson.DeserializeObject<List<List<List<char>>>>(jsonString);
+		}
+		catch (Exception)
+		{
+			chessboardsFromJson = ConvertMapToCorrectFormat(jsonString, fileName);
+		}
 
 		List<GrimoraChessboard> chessboards = new List<GrimoraChessboard>();
 		for (int i = 0; i < chessboardsFromJson.Count; i++)
@@ -194,6 +203,35 @@ public class ChessboardMapExt : GameMap
 		
 		Debug.Log(fileName + " maps parsed");
 		return chessboards;
+	}
+
+	private static List<List<List<char>>> ConvertMapToCorrectFormat(string jsonString, string fileName)
+	{
+		Log.LogError($"Failed to load map {fileName}. Map does not use strings!");
+		List<List<List<int>>> chessboardsAsNumbers = null;
+		try
+		{
+			chessboardsAsNumbers = SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString);
+		}
+		catch (Exception exception)
+		{
+			Log.LogError($"Failed to correct map {fileName}. Is there a something wrong with the JSON?");
+			Log.LogError(exception);
+		}
+		
+		List<List<List<char>>> chessboardsFromJson = new List<List<List<char>>>();
+		foreach (List<List<int>> data in chessboardsAsNumbers)
+		{
+			List<List<char>> column = new List<List<char>>();
+			foreach (List<int> row in data)
+			{
+				List<char> convertedRow = row.Select(a=>a.ToString()[0]).ToList();
+				column.Add(convertedRow);
+			}
+			chessboardsFromJson.Add(column);
+		}
+
+		return chessboardsFromJson;
 	}
 
 	public static string[] CardsLeftInDeck => CardDrawPiles3D
