@@ -53,8 +53,8 @@ public class GrimoraGainConsumableSequencer : GainConsumablesSequencer
 	{
 		Singleton<ViewManager>.Instance.SwitchToView(View.Default, false, true);
 		yield return new WaitForEndOfFrame();
-		Singleton<ExplorableAreaManager>.Instance.SetHandLightRange(17f, 0.25f);
-		Singleton<ExplorableAreaManager>.Instance.SetHangingLightRange(7f, 0.25f);
+		//Singleton<ExplorableAreaManager>.Instance.SetHandLightRange(17f, 0.25f);
+		//Singleton<ExplorableAreaManager>.Instance.SetHangingLightRange(7f, 0.25f);
 		backpack.SetActive(true);
 		yield return new WaitForSeconds(0.25f);
 		if (Singleton<GameFlowManager>.Instance != null)
@@ -76,8 +76,8 @@ public class GrimoraGainConsumableSequencer : GainConsumablesSequencer
 			yield return RegularGainConsumables(nodeData);
 			ProgressionData.SetMechanicLearned(MechanicsConcept.ChooseConsumables);
 		}
-		Singleton<ExplorableAreaManager>.Instance.ResetHandLightRange(0.25f);
-		Singleton<ExplorableAreaManager>.Instance.ResetHangingLightRange(0.25f);
+		//Singleton<ExplorableAreaManager>.Instance.ResetHandLightRange(0.25f);
+		//Singleton<ExplorableAreaManager>.Instance.ResetHangingLightRange(0.25f);
 		backpack.GetComponentInChildren<Animator>().SetTrigger("exit");
 		CustomCoroutine.WaitThenExecute(0.25f, delegate
 		{
