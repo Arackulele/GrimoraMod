@@ -13,7 +13,7 @@ public class CardAppearanceBehaviourPatch
 	[HarmonyPrefix, HarmonyPatch(typeof(RareCardBackground), nameof(RareCardBackground.ApplyAppearance))]
 	public static bool CorrectBehaviourForGrimora(ref RareCardBackground __instance)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			return true;
 		}

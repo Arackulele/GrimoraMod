@@ -1,4 +1,5 @@
 ﻿using DiskCardGame;
+using GrimoraMod.Saving;
 using HarmonyLib;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -10,6 +11,48 @@ public class GrimoraChessboard
 {
 	private readonly Dictionary<Type, Tuple<Func<GameObject>, Func<List<ChessNode>>>> _nodesByPieceType;
 
+	private Dictionary<Type, Tuple<Func<GameObject>, Func<List<ChessNode>>>> BuildDictionary()
+	{
+		return new Dictionary<Type, Tuple<Func<GameObject>, Func<List<ChessNode>>>>
+		{
+			{
+				typeof(ChessboardBlockerPieceExt),
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(GetActiveRegionBlockerPiece, GetBlockerNodes)
+			},
+			{
+				typeof(ChessboardBoneyardPiece),
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.BoneyardFigurine, GetBoneyardNodes)
+			},
+			{
+				typeof(ChessboardCardRemovePiece),
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(
+					() => AssetConstants.CardRemovalFigurine,
+					GetCardRemovalNodes
+				)
+			},
+			{
+				typeof(ChessboardChestPiece),
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.ChestPiece.gameObject, GetChestNodes)
+			},
+			{
+				typeof(ChessboardElectricChairPiece),
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.ElectricChairFigurine, GetElectricChairNodes)
+			},
+			{
+				typeof(ChessboardEnemyPiece),
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.EnemyPiece.gameObject, GetEnemyNodes)
+			},
+			{
+				typeof(ChessboardGoatEyePiece),
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.GoatEyeFigurine, GetGoatEyeNodes)
+			},
+			{
+				typeof(ChessboardGainConsumablePiece),
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.ElectricChairFigurine, GetGainConsumableNodes)
+			}
+		};
+	}
+
 	private readonly Dictionary<int, Func<GameObject>> _bossByIndex = new()
 	{
 		{ 0, () => AssetUtils.GetPrefab<GameObject>("Blocker_Kaycee") },
@@ -18,25 +61,41 @@ public class GrimoraChessboard
 		{ 3, () => AssetUtils.GetPrefab<GameObject>("Blocker_Grimora") },
 	};
 
+
+	public GameObject GetActiveRegionBlockerPiece()
+	{
+		int bossesDead = GrimoraRunState.CurrentRun.regionTier;
+		GameObject blockerPrefab = _bossByIndex.GetValueSafe(bossesDead).Invoke();
+		blockerPrefab.GetComponentInChildren<MeshRenderer>().material = bossesDead switch
+		{
+			// the reason for doing this is because the materials are massive if in our own asset bundle, 5MB+ total
+			// so lets just use the already existing material in the game
+			2 => AssetConstants.WoodenBoxMaterial,
+			3 => AssetConstants.AncientStonesMaterial,
+			_ => blockerPrefab.GetComponentInChildren<MeshRenderer>().material
+		};
+
+		return blockerPrefab;
+	}
+
 	private string _activeBossId;
-	public readonly string fileName;
-	public readonly int indexInList;
 	public readonly ChessNode BossNode;
+
+	protected internal ChessboardEnemyPiece BossPiece =>
+		GetPieceAtSpace(BossNode.GridX, BossNode.GridY) as ChessboardEnemyPiece;
 
 	public readonly List<ChessRow> Rows;
 
-	public GrimoraChessboard(IEnumerable<List<char>> board, int indexInList, string fileName)
+	public GrimoraChessboard(IEnumerable<List<char>> board)
 	{
 		Rows = board.Select((boardList, idx) => new ChessRow(boardList, idx)).ToList();
 		BossNode = GetBossNode();
-		this.fileName = fileName;
-		this.indexInList = indexInList;
 		_nodesByPieceType = BuildDictionary();
 	}
-
-	public override string ToString()
+	
+	public List<List<char>> Export()
 	{
-		return $"Chessboard_{fileName}_{indexInList}";
+		return Rows.Select((a) => a.Columns.Select((b) => b.JsonValue).ToList()).ToList();
 	}
 
 	#region Getters
@@ -99,10 +158,9 @@ public class GrimoraChessboard
 	public static string GetBossSpecialIdForRegion()
 	{
 		Log.LogDebug($"Getting special id for region");
-		return BossHelper.OpponentTupleBySpecialId.ElementAt(ConfigHelper.Instance.BossesDefeated).Key;
+		return BossHelper.OpponentTupleBySpecialId.ElementAt(GrimoraRunState.CurrentRun.regionTier).Key;
 	}
 
-	protected internal ChessboardEnemyPiece BossPiece => GetPieceAtSpace(BossNode.GridX, BossNode.GridY) as ChessboardEnemyPiece;
 	#endregion
 
 	public void SetupBoard(bool placePieces)
@@ -131,7 +189,7 @@ public class GrimoraChessboard
 		int x = GrimoraSaveData.Data.gridX;
 		int y = GrimoraSaveData.Data.gridY;
 
-		ChessboardMapNode nodeAtSpace = GetNodeAtSpace(x, y);
+		/*ChessboardMapNode nodeAtSpace = GetNodeAtSpace(x, y);
 
 		bool pieceAtSpaceIsNotPlayer = nodeAtSpace.OccupyingPiece
 		                               && nodeAtSpace.OccupyingPiece.GetType() != typeof(PlayerMarker)
@@ -139,7 +197,7 @@ public class GrimoraChessboard
 
 		// this is the final possible spawning condition that I can think of.
 		bool hasNotInteractedWithAnyPiece =
-			!ConfigHelper.Instance.RemovedPieces.Exists(
+			GrimoraSaveData.Data.removedPieces!ConfigHelper.Instance.RemovedPieces.Exists(
 				piece => piece.Contains("EnemyPiece_x") || piece.Contains("ChestPiece_x")
 			);
 
@@ -156,7 +214,7 @@ public class GrimoraChessboard
 			x = GrimoraSaveData.Data.gridX;
 			y = GrimoraSaveData.Data.gridY;
 			Log.LogDebug($"[UpdatePlayerMarkerPosition] New x{x}y{y} coords");
-		}
+		}*/
 
 		MapNodeManager.Instance.ActiveNode = ChessboardNavGrid.instance.zones[x, y].GetComponent<MapNode>();
 
@@ -168,70 +226,9 @@ public class GrimoraChessboard
 	public void SetSavePositions()
 	{
 		// set the updated position to spawn the player in
-		GrimoraSaveData.Data.gridX = GetPlayerNode().GridX;
-		GrimoraSaveData.Data.gridY = GetPlayerNode().GridY;
-	}
-	
-	
-	private Dictionary<Type, Tuple<Func<GameObject>, Func<List<ChessNode>>>> BuildDictionary()
-	{
-		return new Dictionary<Type, Tuple<Func<GameObject>, Func<List<ChessNode>>>>
-		{
-			{
-				typeof(ChessboardBlockerPieceExt),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(GetActiveRegionBlockerPiece, GetBlockerNodes)
-			},
-			{
-				typeof(ChessboardBoneyardPiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.BoneyardFigurine, GetBoneyardNodes)
-			},
-			{
-				typeof(ChessboardCardRemovePiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(
-					() => AssetConstants.CardRemovalFigurine,
-					GetCardRemovalNodes
-				)
-			},
-			{
-				typeof(ChessboardGainConsumablePiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(
-					() => AssetConstants.GainConsumableFigurine,
-					GetGainConsumableNodes
-				)
-			},
-			{
-				typeof(ChessboardChestPiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.ChestPiece.gameObject, GetChestNodes)
-			},
-			{
-				typeof(ChessboardElectricChairPiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.ElectricChairFigurine, GetElectricChairNodes)
-			},
-			{
-				typeof(ChessboardEnemyPiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.EnemyPiece.gameObject, GetEnemyNodes)
-			},
-			{
-				typeof(ChessboardGoatEyePiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.GoatEyeFigurine, GetGoatEyeNodes)
-			}
-		};
-	}
-	
-	public GameObject GetActiveRegionBlockerPiece()
-	{
-		int bossesDead = ConfigHelper.Instance.BossesDefeated;
-		GameObject blockerPrefab = _bossByIndex.GetValueSafe(bossesDead).Invoke();
-		blockerPrefab.GetComponentInChildren<MeshRenderer>().material = bossesDead switch
-		{
-			// the reason for doing this is because the materials are massive if in our own asset bundle, 5MB+ total
-			// so lets just use the already existing material in the game
-			2 => AssetConstants.WoodenBoxMaterial,
-			3 => AssetConstants.AncientStonesMaterial,
-			_ => blockerPrefab.GetComponentInChildren<MeshRenderer>().material
-		};
-
-		return blockerPrefab;
+		ChessNode playerNode = GetPlayerNode();
+		GrimoraSaveData.Data.gridX = playerNode.GridX;
+		GrimoraSaveData.Data.gridY = playerNode.GridY;
 	}
 
 	#region HelperMethods
@@ -370,7 +367,7 @@ public class GrimoraChessboard
 				{
 					// enemyPiece.blueprint = BossHelper.OpponentTupleBySpecialId[specialEncounterId].Item3;
 					enemyPiece.blueprint = GetBlueprint(true);
-					int bossesDefeated = ConfigHelper.Instance.BossesDefeated;
+					int bossesDefeated = GrimoraRunState.CurrentRun.regionTier;
 					switch (bossesDefeated)
 					{
 						case 3:
@@ -447,7 +444,7 @@ public class GrimoraChessboard
 			{
 				return BlueprintUtils
 				 .RegionWithBlueprints
-				 .ElementAt(ConfigHelper.Instance.BossesDefeated).Value
+				 .ElementAt(GrimoraRunState.CurrentRun.regionTier).Value
 				 .Concat(ChessboardMapExt.Instance.CustomBlueprints.Values)
 				 .ToList()
 				 .GetRandomItem();

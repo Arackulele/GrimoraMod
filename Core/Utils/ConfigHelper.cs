@@ -3,7 +3,6 @@ using BepInEx.Configuration;
 using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Card;
-using InscryptionAPI.Saves;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -47,32 +46,6 @@ public class ConfigHelper
 
 	public bool EnableCardsLeftInDeckView => _configCardsLeftInDeck.Value;
 
-	private ConfigEntry<int> _configCurrentChessboardIndex;
-
-
-	public int CurrentChessboardIndex
-	{
-		get => _configCurrentChessboardIndex.Value;
-		set => _configCurrentChessboardIndex.Value = value;
-	}
-
-	private ConfigEntry<int> _configBossesDefeated;
-
-
-	public int BossesDefeated
-	{
-		get => _configBossesDefeated.Value;
-		set => _configBossesDefeated.Value = value;
-	}
-
-	public bool IsKayceeDead => BossesDefeated == 1;
-
-	public bool IsSawyerDead => BossesDefeated == 2;
-
-	public bool IsRoyalDead => BossesDefeated == 3;
-
-	public bool IsGrimoraDead => BossesDefeated == 4;
-
 	private ConfigEntry<bool> _configDeveloperMode;
 
 	public bool IsDevModeEnabled => _configDeveloperMode.Value;
@@ -85,44 +58,19 @@ public class ConfigHelper
 
 	public BlueprintTypeForEncounter EncounterBlueprintType => (BlueprintTypeForEncounter)Enum.GetValues(typeof(BlueprintTypeForEncounter)).GetValue(_configEncounterBlueprintType.Value);
 
-	private ConfigEntry<string> _configCurrentRemovedPieces;
 
 	private ConfigEntry<int> _configInputConfig;
 
 	public int InputType => _configInputConfig.Value;
 
-
-	public List<string> RemovedPieces
-	{
-		get => _configCurrentRemovedPieces.Value.Split(',').Distinct().ToList();
-		set => _configCurrentRemovedPieces.Value = string.Join(",", value);
-	}
-
 	private ConfigEntry<int> _configElectricChairBurnRateType;
 
 	public int ElectricChairBurnRateType => _configElectricChairBurnRateType.Value;
-
-	public int BonesToAdd => BossesDefeated;
 
 
 	internal void BindConfig()
 	{
 		Log.LogDebug($"Binding config");
-
-		_configCurrentChessboardIndex
-			= GrimoraConfigFile.Bind(Name, "Current chessboard layout index", 0);
-
-		_configBossesDefeated
-			= GrimoraConfigFile.Bind(Name, "Number of bosses defeated", 0);
-
-		_configCurrentRemovedPieces = GrimoraConfigFile.Bind(
-			Name,
-			"Current Removed Pieces",
-			DefaultRemovedPieces,
-			new ConfigDescription(
-				"Contains all the current removed pieces." + "\nDo not alter this list unless you know what you are doing!"
-			)
-		);
 
 		_configCardsLeftInDeck = GrimoraConfigFile.Bind(
 			Name,
@@ -184,15 +132,7 @@ public class ConfigHelper
 		+ "\n3 = Low: 12.5%, Medium: 20%, High 27.5%. Meaning, if the first shock is high, then the second one is also high, the chance for the card to be destroyed is 55%."
 		);
 
-		var list = _configCurrentRemovedPieces.Value.Split(',').ToList();
-
-		_configCurrentRemovedPieces.Value = string.Join(",", list.Distinct()).Trim(',');
-
 		GrimoraConfigFile.SaveOnConfigSet = true;
-
-		ResetConfigDataIfGrimoraHasNotReachedTable();
-
-		UnlockAllNecessaryEventsToPlay();
 	}
 
 	public void HandleHotReloadBefore()
@@ -220,46 +160,6 @@ public class ConfigHelper
 		}
 	}
 
-	public void ResetRun()
-	{
-		Log.LogDebug($"[ResetRun] Resetting run");
-
-		ResetConfig();
-		ResetDeck();
-		ModdedSaveManager.SaveData.SetValue(GUID, "StoryEvent_HasReachedTable", false);
-		SaveManager.SaveToFile();
-	}
-
-	public static void ResetDeck()
-	{
-		Log.LogWarning($"Resetting Grimora Deck Data");
-		GrimoraSaveData.Data.Initialize();
-	}
-
-	internal void ResetConfig()
-	{
-		Log.LogWarning($"Resetting Grimora Mod config");
-		_configBossesDefeated.Value = 0;
-		_configCurrentChessboardIndex.Value = 0;
-		ResetRemovedPieces();
-		if (ChessboardMapExt.Instance)
-		{
-			Log.LogWarning($"Resetting active chessboard");
-			ChessboardMapExt.Instance.ActiveChessboard = null;
-			Log.LogWarning($"Resetting pieces");
-			ChessboardMapExt.Instance.pieces.Clear();
-		}
-	}
-
-	private void ResetConfigDataIfGrimoraHasNotReachedTable()
-	{
-		if (!EventManagement.HasLoadedIntoModBefore)
-		{
-			Log.LogWarning($"Grimora has not reached the table yet, resetting values to false again.");
-			ResetConfig();
-		}
-	}
-
 	private static void UnlockAllNecessaryEventsToPlay()
 	{
 		if (!StoryEventsToBeCompleteBeforeStarting.TrueForAll(StoryEventsData.EventCompleted))
@@ -282,32 +182,5 @@ public class ConfigHelper
 
 			SaveManager.SaveToFile();
 		}
-	}
-
-	public void AddPieceToRemovedPiecesConfig(string pieceName)
-	{
-		_configCurrentRemovedPieces.Value += "," + pieceName + ",";
-	}
-
-	public void ResetRemovedPieces()
-	{
-		_configCurrentRemovedPieces.Value = DefaultRemovedPieces;
-	}
-
-	public void SetBossDefeatedInConfig(BaseBossExt boss)
-	{
-		_configBossesDefeated.Value = boss switch
-		{
-			KayceeBossOpponent     => 1,
-			SawyerBossOpponent     => 2,
-			RoyalBossOpponentExt   => 3,
-			GrimoraBossOpponentExt => 4,
-			_                      => 0
-		};
-
-		var bossPiece = ChessboardMapExt.Instance.BossPiece;
-		ChessboardMapExt.Instance.BossDefeated = true;
-		AddPieceToRemovedPiecesConfig(bossPiece.name);
-		Log.LogDebug($"[SetBossDefeatedInConfig] Boss {bossPiece} defeated.");
 	}
 }

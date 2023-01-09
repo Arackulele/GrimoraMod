@@ -27,7 +27,7 @@ public class LatchPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(Latch.OnPreDeathAnimation))]
 	public static IEnumerator PostfixChangeLogicForGrimora(IEnumerator enumerator, Latch __instance, bool wasSacrifice)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			yield return enumerator;
 			yield break;

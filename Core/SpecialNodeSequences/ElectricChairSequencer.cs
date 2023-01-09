@@ -271,7 +271,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			singletonId = ModSingletonId,
 			nameReplacement = card.displayedName.Replace("Yellowbeard", "Bluebeard")
 		};
-		GrimoraSaveUtil.ModifyCard(card, cardModificationInfo);
+		RunState.Run.playerDeck.ModifyCard(card, cardModificationInfo);
 	}
 
 	private Ability GetRandomAbility(CardInfo card)
@@ -343,7 +343,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private static List<CardInfo> GetValidCards()
 	{
-		List<CardInfo> deckCopy = GrimoraSaveUtil.DeckListCopy;
+		List<CardInfo> deckCopy = new List<CardInfo>(RunState.Run.playerDeck.Cards);
 		deckCopy.RemoveAll(
 			card => card.Abilities.Count == 5
 			        || card.HasAbility(SkinCrawler.ability)
@@ -394,7 +394,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		AudioController.Instance.FadeInLoop(0.5f, 0.75f, 1);
 		yield return new WaitForSeconds(0.25f);
 
-		yield return pile.SpawnCards(GrimoraSaveUtil.DeckList.Count, 0.5f);
+		yield return pile.SpawnCards(RunState.Run.playerDeck.Cards.Count, 0.5f);
 		TableRuleBook.Instance.SetOnBoard(true);
 		InteractionCursor.Instance.SetEnabled(true);
 	}

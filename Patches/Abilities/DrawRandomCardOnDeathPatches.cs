@@ -10,7 +10,7 @@ public class DrawRandomCardOnDeathPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(DrawRandomCardOnDeath.CardToDraw), MethodType.Getter)]
 	public static bool ChangeCardToDraw(ref CardInfo __result)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			return true;
 		}

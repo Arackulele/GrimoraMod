@@ -29,7 +29,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			);
 		}
 
-		yield return deckPile.SpawnCards(GrimoraSaveUtil.DeckList.Count, 0.5f);
+		yield return deckPile.SpawnCards(RunState.Run.playerDeck.Cards.Count, 0.5f);
 		ViewManager.Instance.SwitchToView(View.CardMergeSlots);
 
 		ExplorableAreaManager.Instance.TweenHangingLightColors(
@@ -79,7 +79,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 		CardInfo sacrificedInfo = sacrificeSlot.Card.Info;
 
-		GrimoraSaveUtil.RemoveCard(sacrificedInfo);
+		RunState.Run.playerDeck.RemoveCard(sacrificedInfo);
 
 		((GravestoneCardAnimationController)sacrificeSlot.Card.Anim).PlayGlitchOutAnimation();
 
@@ -275,14 +275,14 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			*/
 		}
 
-		GrimoraSaveUtil.DeckInfo.UpdateModDictionary();
+		RunState.Run.playerDeck.UpdateModDictionary();
 
 		return cardThatWillHaveEffectApplied;
 	}
 
 	private List<CardInfo> GetCardsWithoutMod(string singletonId, Predicate<CardInfo> cardInfoPredicate = null)
 	{
-		return GrimoraSaveUtil.DeckList
+		return RunState.Run.playerDeck.Cards
 		 .Where(
 				info => (cardInfoPredicate == null || cardInfoPredicate.Invoke(info))
 				     && info.Mods.IsNotNull()
@@ -371,7 +371,9 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		sacrificeSlot.SetEnabled(false);
 		sacrificeSlot.ShowState(HighlightedInteractable.State.NonInteractable);
 		confirmStone.Exit();
-		((SelectCardFromDeckSlot)slot).SelectFromCards(GrimoraSaveUtil.DeckListCopy, OnSelectionEnded, false);
+
+		List<CardInfo> cards = new List<CardInfo>(RunState.Run.playerDeck.Cards);
+		((SelectCardFromDeckSlot)slot).SelectFromCards(cards, OnSelectionEnded, false);
 	}
 
 	public static void CreateSequencerInScene()

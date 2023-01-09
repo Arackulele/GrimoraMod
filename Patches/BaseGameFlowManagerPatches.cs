@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using GrimoraMod.Saving;
 using HarmonyLib;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -13,7 +14,7 @@ public class BaseGameFlowManagerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(GameFlowManager.Start))]
 	public static void PrefixStart(GameFlowManager __instance)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			return;
 		}
@@ -209,7 +210,7 @@ public class BaseGameFlowManagerPatches
 		bool unlockViewAfterTransition = true
 	)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora || gameState != GameState.Map)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun || gameState != GameState.Map)
 		{
 			// run the original code
 			yield return enumerator;
@@ -228,10 +229,18 @@ public class BaseGameFlowManagerPatches
 			ChessboardMapExt.Instance.SetAnimActiveIfInactive();
 		}
 
-		bool isBossDefeated = ChessboardMapExt.Instance.BossDefeated;
+		bool isBossDefeated = GrimoraRunState.CurrentRun.PiecesRemovedFromBoard.Exists(piece => piece.Contains("BossPiece"));
 		bool piecesExist = ChessboardMapExt.Instance.pieces.IsNotEmpty();
 
-		Log.LogDebug($"[TransitionTo] IsBossDefeated [{isBossDefeated}] Pieces exist [{piecesExist}]");
+		Log.LogInfo($"[TransitionTo] IsBossDefeated [{isBossDefeated}] Pieces exist [{piecesExist}]");
+		Log.LogInfo($"[TransitionTo] IsBossDefeated [{triggeringNodeData}]");
+		if (triggeringNodeData != null)
+		{
+			Log.LogInfo($"[TransitionTo] IsBossDefeated [{triggeringNodeData.id}]");
+			Log.LogInfo($"[TransitionTo] IsBossDefeated [{triggeringNodeData.prefabPath}]");
+			Log.LogInfo($"[TransitionTo] IsBossDefeated [{triggeringNodeData.GetType()}]");
+			Log.LogInfo($"[TransitionTo] IsBossDefeated [{triggeringNodeData.position}]");
+		}
 
 		// FOR ENUMS IN POSTFIX CALLS, 'IS', 'IS NOT' is the same as '==' and '!=' respectively, despite what the IDE says
 		if (piecesExist && isBossDefeated)

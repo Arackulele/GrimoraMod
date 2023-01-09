@@ -53,9 +53,9 @@ public class EventManagement
 		            $"\nEvent [{storyEvent}] " +
 		            $"\nSaveToFile [{saveToFile}] " +
 		            $"\nIsAscension? [{SaveFile.IsAscension}]" +
-		            $"\nIsGrimoraRun? [{SaveDataRelatedPatches.IsGrimoraRun}]"
+		            $"\nIsGrimoraRun? [{GrimoraSaveUtil.IsGrimoraModRun}]"
 		);
-		if (SaveFile.IsAscension && SaveDataRelatedPatches.IsGrimoraRun && GrimoraAscensionSaveEvents.Contains(storyEvent))
+		if (SaveFile.IsAscension && GrimoraSaveUtil.IsGrimoraModRun && GrimoraAscensionSaveEvents.Contains(storyEvent))
 		{
 			Log.LogInfo($"[StoryEventsData.SetEventCompleted] story event [{storyEvent}] exists in list, setting to true");
 			ModdedSaveManager.SaveData.SetValue(GUID, $"StoryEvent_{storyEvent}", true);
@@ -68,7 +68,7 @@ public class EventManagement
 	[HarmonyPrefix, HarmonyPatch(typeof(StoryEventsData), nameof(StoryEventsData.EventCompleted))]
 	public static bool GrimoraAscensionStoryData(ref bool __result, StoryEvent storyEvent)
 	{
-		if (SaveFile.IsAscension && SaveDataRelatedPatches.IsGrimoraRun)
+		if (SaveFile.IsAscension && GrimoraSaveUtil.IsGrimoraModRun)
 		{
 			if (GrimoraAscensionSaveEvents.Contains(storyEvent))
 			{

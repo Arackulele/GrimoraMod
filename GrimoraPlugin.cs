@@ -48,7 +48,9 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		Log = Logger;
 
+		Log.LogInfo("[GrimoraPlugin] Loading patches...");
 		_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), GUID);
+		Log.LogInfo("[GrimoraPlugin] Done patches...");
 
 		ConfigHelper.Instance.BindConfig();
 
@@ -67,9 +69,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		
 		
 		Initialized = true;
+		Log.LogInfo("[GrimoraPlugin] Initialized");
 	}
-
-
 
 #if DEBUG
 	private void Update()
