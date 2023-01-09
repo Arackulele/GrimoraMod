@@ -8,10 +8,12 @@ using BepInEx;
 using BepInEx.Bootstrap;
 using BepInEx.Logging;
 using DiskCardGame;
+using GrimoraMod.Consumables;
 using HarmonyLib;
 using InscryptionAPI;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers;
+using InscryptionAPI.Items;
 using Sirenix.Utilities;
 using UnityEngine;
 
@@ -41,6 +43,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	public static List<CardInfo> AllGrimoraModCards = new();
 	public static List<string> AllGrimoraModCardsNoGuid = new();
 	public static List<CardInfo> AllPlayableGrimoraModCards = new();
+	public static List<ConsumableItemData> AllGrimoraItems = new();
 	
 	public static bool Initialized { get; set; } 
 
@@ -61,6 +64,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		LoadAbilitiesAndCards();
 		
 		LoadExpansionCards();
+		
+		LoadItems();
 		
 		StarterDecks.RegisterStarterDecks();
 		
@@ -306,6 +311,13 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		}
 	}
 
+	private void LoadItems()
+	{
+		GrimoraCardInABottle.CreateModel();
+		AllGrimoraItems.Add(GrimoraCardInABottle.NewCardBottleItem(NameBonepile));
+		AllGrimoraItems.Add(GrimoraCardInABottle.NewCardBottleItem(NameFranknstein));
+	}
+
 	private void AddDebugCards()
 	{
 		CardInfo trapInfo = "Trap".GetCardInfo();
@@ -333,6 +345,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AllSounds = null;
 		AllGrimoraModCards = new List<CardInfo>();
 		AllGrimoraModCardsNoGuid = new List<string>();
+		AllGrimoraItems = new List<ConsumableItemData>();
 		ConfigHelper.Instance.HandleHotReloadBefore();
 		Resources.UnloadUnusedAssets();
 		GrimoraModBattleSequencer.ActiveEnemyPiece = null;

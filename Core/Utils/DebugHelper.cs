@@ -219,7 +219,7 @@ public class DebugHelper : ManagedBehaviour
 		{
 			_combatBell ??= ((BoardManager3D)BoardManager.Instance).Bell.gameObject;
 			_handModel ??= ((PlayerHand3D)PlayerHand.Instance).anim.transform.Find("HandModel_Male").gameObject;
-			_hammer ??= GrimoraItemsManagerExt.Instance.hammerSlot.gameObject;
+			_hammer ??= GrimoraItemsManagerExt.Instance.HammerSlot.gameObject;
 
 			SetupInBattleHelpers();
 		}

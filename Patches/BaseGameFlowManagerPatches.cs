@@ -32,6 +32,11 @@ public class BaseGameFlowManagerPatches
 			UnityObject.Destroy(rightWrist.transform.GetChild(6).gameObject);
 		}
 
+		if (ResourceBank.instance == null)
+		{
+			__instance.gameObject.AddComponent<ResourceBank>();
+		}
+
 		DisableAttackAndHealthStatShadowsAndScaleUpStatIcons();
 
 		if (UnityObject.FindObjectOfType<CombatBell3D>())
@@ -55,7 +60,7 @@ public class BaseGameFlowManagerPatches
 
 		GrimoraGainConsumableSequencer.CreateSequencerInScene();
 
-		GrimoraItemsManagerExt.AddHammer();
+		GrimoraItemsManagerExt.CreateHammerSlot();
 
 		AddDeckReviewSequencerToScene();
 

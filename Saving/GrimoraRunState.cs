@@ -59,6 +59,8 @@ public class GrimoraRunState : RunState
 
 		this.consumables.Clear();
 		this.consumables.Add("FishHook");
+		this.consumables.Add(GrimoraPlugin.AllGrimoraItems[0].name);
+		this.consumables.Add(GrimoraPlugin.AllGrimoraItems[1].name);
 		
 		this.boardData.gridX = 0;
 		this.boardData.gridY = 0;
