@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using InscryptionAPI.Card;
 using UnityEngine;
 
@@ -24,13 +24,15 @@ public partial class GrimoraPlugin
 {
 	public static void Add_Ability_LammergeierAttack()
 	{
+		const string rulebookDescription = "The power of [creature] is equal to half of the Bones of the owner.";
+
 		StatIconInfo ogInfo = StatIconInfo.GetIconInfo(SpecialStatIcon.Bones);
 
 		StatIconBuilder<LammergeierAttack>.Builder
 		 .SetAppliesToHealth(false)
 		 .SetIconGraphic(ogInfo.iconGraphic)
 		 .SetRulebookName(LammergeierAttack.RulebookName)
-		 .SetRulebookDescription(ogInfo.rulebookDescription)
+		 .SetRulebookDescription(rulebookDescription)
 		 .Build();
 	}
 }

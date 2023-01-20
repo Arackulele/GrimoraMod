@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers.Extensions;
@@ -9,6 +9,8 @@ namespace GrimoraMod;
 
 public class AlternatingStrike : AbilityBehaviour, IGetOpposingSlots
 {
+	public const string RulebookName = "Alternating Strike";
+
 	public static Ability ability;
 	public override Ability Ability => ability;
 
@@ -64,6 +66,7 @@ public partial class GrimoraPlugin
 		AbilityBuilder<AlternatingStrike>.Builder
 		 .FlipIconIfOnOpponentSide()
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(AlternatingStrike.RulebookName)
 		 .Build();
 	}
 }

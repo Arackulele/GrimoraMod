@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
 
@@ -6,6 +6,8 @@ namespace GrimoraMod;
 
 public class Possessive : AbilityBehaviour
 {
+	public const string RulebookName = "Possessive";
+
 	public static Ability ability;
 	public override Ability Ability => ability;
 
@@ -31,6 +33,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<Possessive>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(Possessive.RulebookName)
 		 .Build();
 	}
 }

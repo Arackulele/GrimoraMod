@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using UnityEngine;
 
@@ -6,6 +6,8 @@ namespace GrimoraMod;
 
 public class SpiritBearer : AbilityBehaviour
 {
+	public const string RulebookName = "Spirit Bearer";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -34,6 +36,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<SpiritBearer>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(SpiritBearer.RulebookName)
 		 .Build();
 	}
 }

@@ -1,9 +1,11 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
 public class LatchSubmerge : Latch
 {
+	public const string RulebookName = "Latch Submerge";
+
 	public static Ability ability;
 	public override Ability Ability => ability;
 	public override Ability LatchAbility => Ability.Submerge;
@@ -18,6 +20,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<LatchSubmerge>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(LatchSubmerge.RulebookName)
 		 .Build();
 	}
 }

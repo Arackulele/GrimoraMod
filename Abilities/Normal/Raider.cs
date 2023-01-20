@@ -1,9 +1,11 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
 public class Raider : StrikeAdjacentSlots
 {
+	public const string RulebookName = "Raider";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -19,6 +21,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<Raider>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(Raider.RulebookName)
 		 .Build();
 	}
 }

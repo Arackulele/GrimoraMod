@@ -9,6 +9,8 @@ namespace GrimoraMod;
 
 public class HookLineAndSinker : AbilityBehaviour
 {
+	public const string RulebookName = "Hook Line And Sinker";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -77,6 +79,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<HookLineAndSinker>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(HookLineAndSinker.RulebookName)
 		 .Build();
 	}
 }

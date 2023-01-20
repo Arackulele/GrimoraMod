@@ -6,6 +6,8 @@ namespace GrimoraMod;
 
 public class GrimoraRandomAbility : AbilityBehaviour
 {
+	public const string RulebookName = "Random Ability";
+
 	public static Ability ability;
 	public override Ability Ability => ability;
 
@@ -71,7 +73,7 @@ public partial class GrimoraPlugin
 		AbilityBuilder<GrimoraRandomAbility>.Builder
 		 .SetIcon(AbilitiesUtil.LoadAbilityIcon(Ability.RandomAbility.ToString()))
 		 .SetRulebookDescription(rulebookDescription)
-		 .SetRulebookName("Random Ability")
+		 .SetRulebookName(GrimoraRandomAbility.RulebookName)
 		 .Build();
 	}
 }

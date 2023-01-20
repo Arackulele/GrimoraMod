@@ -1,9 +1,11 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
 public class LooseLimb : TailOnHit
 {
+	public const string RulebookName = "Loose Limb";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -18,6 +20,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<LooseLimb>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(LooseLimb.RulebookName)
 		 .Build();
 	}
 }

@@ -6,6 +6,7 @@ namespace GrimoraMod;
 
 public class CumulativeTorment : AbilityBehaviour
 {
+	public const string RulebookName = "Cumulative Torment";
 
 	public static Ability ability;
   
@@ -21,7 +22,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<CumulativeTorment>.Builder
 		 .SetRulebookDescription(rulebookDescription)
-		 .SetRulebookName("Cumulative Torment")
+		 .SetRulebookName(CumulativeTorment.RulebookName)
 		 .Build();
 	}
 }

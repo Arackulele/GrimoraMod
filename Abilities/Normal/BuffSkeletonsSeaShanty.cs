@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using InscryptionAPI.Card;
 using InscryptionAPI.Triggers;
 
@@ -6,6 +6,8 @@ namespace GrimoraMod;
 
 public class BuffSkeletonsSeaShanty : AbilityBehaviour, IPassiveAttackBuff
 {
+	public const string RulebookName = "Sea Shanty";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -28,7 +30,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<BuffSkeletonsSeaShanty>.Builder
 		 .SetRulebookDescription(rulebookDescription)
-		 .SetRulebookName("Sea Shanty")
+		 .SetRulebookName(BuffSkeletonsSeaShanty.RulebookName)
 		 .Build();
 	}
 }

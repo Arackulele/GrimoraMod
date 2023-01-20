@@ -1,9 +1,11 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
 public class AreaOfEffectStrike : StrikeAdjacentSlots
 {
+	public const string RulebookName = "Area Of Effect Strike";
+
 	public static Ability ability;
 	public override Ability Ability => ability;
 
@@ -21,6 +23,7 @@ public partial class GrimoraPlugin
 		AbilityBuilder<AreaOfEffectStrike>.Builder
 		 .FlipIconIfOnOpponentSide()
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(AreaOfEffectStrike.RulebookName)
 		 .Build();
 	}
 }

@@ -24,11 +24,13 @@ public partial class GrimoraPlugin
 {
 	public static void Add_Ability_GainAttackBones()
 	{
+		const string rulebookDescription = "[creature] gains 1 attack for each bone the player currently has.";
+
 		StatIconBuilder<GainAttackBones>.Builder
 		 .SetAppliesToHealth(false)
 		 .SetIconGraphic(AssetUtils.GetPrefab<Texture>("ability_GainAttackBones"))
 		 .SetRulebookName(GainAttackBones.RulebookName)
-		 .SetRulebookDescription("[creature] gains 1 attack for each bone the player currently has.")
+		 .SetRulebookDescription(rulebookDescription)
 		 .Build();
 	}
 }

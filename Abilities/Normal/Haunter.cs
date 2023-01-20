@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
 using Sirenix.Utilities;
@@ -8,6 +8,8 @@ namespace GrimoraMod;
 
 public class Haunter : AbilityBehaviour
 {
+	public const string RulebookName = "Haunter";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -38,6 +40,7 @@ public partial class GrimoraPlugin
 		AbilityBuilder<Haunter>.Builder
 		 .SetIcon(AbilitiesUtil.LoadAbilityIcon(Ability.Haunter.ToString()))
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(Haunter.RulebookName)
 		 .Build();
 	}
 }

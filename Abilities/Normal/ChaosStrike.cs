@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers.Extensions;
@@ -8,6 +8,8 @@ namespace GrimoraMod;
 
 public class ChaosStrike : AbilityBehaviour, IGetOpposingSlots
 {
+	public const string RulebookName = "Chaos Strike";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -41,6 +43,7 @@ public partial class GrimoraPlugin
 		AbilityBuilder<ChaosStrike>.Builder
 		 .FlipIconIfOnOpponentSide()
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(ChaosStrike.RulebookName)
 		 .Build();
 	}
 }

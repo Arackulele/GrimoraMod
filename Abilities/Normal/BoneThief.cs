@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using UnityEngine;
 
@@ -6,6 +6,8 @@ namespace GrimoraMod;
 
 public class BoneThief : AbilityBehaviour
 {
+	public const string RulebookName = "Bone Thief";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -43,6 +45,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<BoneThief>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(BoneThief.RulebookName)
 		 .Build();
 	}
 }

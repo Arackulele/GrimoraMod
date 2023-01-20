@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using UnityEngine;
 
@@ -6,6 +6,8 @@ namespace GrimoraMod;
 
 public class DrawSkeletonOnHit : AbilityBehaviour
 {
+	public const string RulebookName = "Skeletons Within";
+
 	public static Ability ability;
 	
 	public override Ability Ability => ability;
@@ -41,7 +43,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<DrawSkeletonOnHit>.Builder
 		 .SetRulebookDescription(rulebookDescription)
-		 .SetRulebookName("Skeletons Within")
+		 .SetRulebookName(DrawSkeletonOnHit.RulebookName)
 		 .Build();
 	}
 }

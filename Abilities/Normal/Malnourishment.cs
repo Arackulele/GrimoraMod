@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
 
@@ -7,7 +7,9 @@ namespace GrimoraMod;
 public class Malnourishment : AbilityBehaviour
 {
 	public const string ModSingletonId = "GrimoraMod_Malnourishment";
-	
+
+	public const string RulebookName = "Malnourishment";
+
 	public static Ability ability;
 	
 	public override Ability Ability => ability;
@@ -51,6 +53,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<Malnourishment>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(Malnourishment.RulebookName)
 		 .Build();
 	}
 }

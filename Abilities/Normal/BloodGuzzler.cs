@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
 using UnityEngine;
@@ -7,6 +7,8 @@ namespace GrimoraMod;
 
 public class BloodGuzzler : AbilityBehaviour
 {
+	public const string RulebookName = "Blood Guzzler";
+
 	public const string ModSingletonId = "GrimoraMod_BloodGuzzler";
 	
 	public static Ability ability;
@@ -42,10 +44,13 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_BloodGuzzler()
 	{
-		AbilityInfo abilityInfo = AbilitiesUtil.GetInfo(Ability.BloodGuzzler);
+		const string rulebookDescription =
+			"When [creature] deals damage, it gains 1 health for each damage dealt.";
+
 		AbilityBuilder<BloodGuzzler>.Builder
 		 .SetIcon(AbilitiesUtil.LoadAbilityIcon(Ability.BloodGuzzler.ToString()))
-		 .SetRulebookDescription(abilityInfo.rulebookDescription)
+		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(BloodGuzzler.RulebookName)
 		 .Build();
 	}
 }

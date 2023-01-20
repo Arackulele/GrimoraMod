@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
 using UnityEngine;
@@ -8,6 +8,8 @@ namespace GrimoraMod;
 public class Imbued : AbilityBehaviour
 {
 	public const string ModIdImbued = "grimoramod_Imbued";
+
+	public const string RulebookName = "Imbued";
 
 	public static Ability ability;
 
@@ -62,6 +64,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<Imbued>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(Imbued.RulebookName)
 		 .Build();
 	}
 }

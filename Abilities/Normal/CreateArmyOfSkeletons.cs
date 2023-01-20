@@ -7,6 +7,8 @@ namespace GrimoraMod;
 
 public class CreateArmyOfSkeletons : AbilityBehaviour
 {
+	public const string RulebookName = "Skeleton Horde";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -57,7 +59,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<CreateArmyOfSkeletons>.Builder
 		 .SetRulebookDescription(rulebookDescription)
-		 .SetRulebookName("Skeleton Horde")
+		 .SetRulebookName(CreateArmyOfSkeletons.RulebookName)
 		 .Build();
 	}
 }

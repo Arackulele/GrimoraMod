@@ -7,6 +7,8 @@ namespace GrimoraMod;
 
 public class LitFuse : ExplodeOnDeath
 {
+	public const string RulebookName = "Lit Fuse";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -39,6 +41,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<LitFuse>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(LitFuse.RulebookName)
 		 .Build();
 	}
 }

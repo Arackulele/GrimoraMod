@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using GrimoraMod.Extensions;
 using InscryptionAPI.Card;
@@ -10,6 +10,8 @@ namespace GrimoraMod;
 public class Puppeteer : AbilityBehaviour
 {
 	public const string ModSingletonId = "GrimoraMod_Puppeteer";
+
+	public const string RulebookName = "Puppeteer";
 
 	private bool CardHasBeenPuppeteered(PlayableCard playableCard)
 	{
@@ -95,6 +97,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<Puppeteer>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(Puppeteer.RulebookName)
 		 .Build();
 	}
 }

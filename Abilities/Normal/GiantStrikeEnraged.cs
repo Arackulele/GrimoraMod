@@ -1,9 +1,11 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
 public class GiantStrikeEnraged : GiantStrike
 {
+	public const string RulebookName = "Enraged Giant";
+
 	public new static Ability ability;
 
 	public override Ability Ability => ability;
@@ -25,7 +27,7 @@ public partial class GrimoraPlugin
 		AbilityBuilder<GiantStrikeEnraged>.Builder
 		 .FlipIconIfOnOpponentSide()
 		 .SetRulebookDescription(rulebookDescription)
-		 .SetRulebookName("Enraged Giant")
+		 .SetRulebookName(GiantStrike.RulebookName)
 		 .Build();
 	}
 }

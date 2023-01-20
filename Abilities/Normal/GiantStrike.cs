@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using GrimoraMod.Extensions;
 using HarmonyLib;
@@ -11,7 +11,9 @@ namespace GrimoraMod;
 public class GiantStrike : AbilityBehaviour, IGetOpposingSlots
 {
 	public const string ModSingletonId = "GrimoraMod_EnragedGiant";
-	
+
+	public const string RulebookName = "Giant Strike";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -90,6 +92,7 @@ public partial class GrimoraPlugin
 		AbilityBuilder<GiantStrike>.Builder
 		 .FlipIconIfOnOpponentSide()
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(GiantStrike.RulebookName)
 		 .Build();
 	}
 }

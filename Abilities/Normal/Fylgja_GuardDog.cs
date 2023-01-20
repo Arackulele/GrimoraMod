@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Helpers.Extensions;
 
@@ -6,6 +6,8 @@ namespace GrimoraMod;
 
 public class Fylgja_GuardDog : GuardDog
 {
+	public const string RulebookName = "Guarding Presence";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -57,7 +59,7 @@ public partial class GrimoraPlugin
 		AbilityBuilder<Fylgja_GuardDog>.Builder
 		 .SetIcon(AbilitiesUtil.LoadAbilityIcon(Ability.GuardDog.ToString()))
 		 .SetRulebookDescription(rulebookDescription)
-		 .SetRulebookName("Guarding Presence")
+		 .SetRulebookName(Fylgja_GuardDog.RulebookName)
 		 .Build();
 	}
 }

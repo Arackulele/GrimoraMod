@@ -7,6 +7,8 @@ namespace GrimoraMod;
 
 public class ColdFront : AbilityBehaviour
 {
+	public const string RulebookName = "Cold Front";
+
 	private static bool _playedDialogueGrimoraGiantFrozen;
 	
 	public static Ability ability;
@@ -50,6 +52,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<ColdFront>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(ColdFront.RulebookName)
 		 .Build();
 	}
 }

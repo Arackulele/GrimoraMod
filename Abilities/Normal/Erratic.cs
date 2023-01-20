@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using Sirenix.Utilities;
 using static GrimoraMod.GrimoraPlugin;
@@ -7,6 +7,8 @@ namespace GrimoraMod;
 
 public class Erratic : Strafe
 {
+	public const string RulebookName = "Erratic";
+
 	public static Ability ability;
 	public override Ability Ability => ability;
 
@@ -56,6 +58,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<Erratic>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(Erratic.RulebookName)
 		 .Build();
 	}
 }

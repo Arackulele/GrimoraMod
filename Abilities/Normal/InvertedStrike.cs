@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using InscryptionAPI.Card;
 using InscryptionAPI.Triggers;
 
@@ -6,6 +6,8 @@ namespace GrimoraMod;
 
 public class InvertedStrike : AbilityBehaviour, IGetOpposingSlots
 {
+	public const string RulebookName = "Inverted Strike";
+
 	public static Ability ability;
 	public override Ability Ability => ability;
 
@@ -86,6 +88,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<InvertedStrike>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(InvertedStrike.RulebookName)
 		 .FlipIconIfOnOpponentSide()
 		 .Build();
 	}

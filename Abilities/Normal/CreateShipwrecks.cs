@@ -1,9 +1,11 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
 public class CreateShipwrecks : CreateCardsAdjacent
 {
+	public const string RulebookName = "Shipwreck Finder";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -24,7 +26,7 @@ public partial class GrimoraPlugin
 		AbilityBuilder<CreateShipwrecks>.Builder
 		 .SetIcon(AbilitiesUtil.LoadAbilityIcon(Ability.CreateDams.ToString()))
 		 .SetRulebookDescription(rulebookDescription)
-		 .SetRulebookName("Shipwreck Finder")
+		 .SetRulebookName(CreateShipwrecks.RulebookName)
 		 .Build();
 	}
 }

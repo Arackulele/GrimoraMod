@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Helpers.Extensions;
 using Sirenix.Utilities;
@@ -9,6 +9,8 @@ namespace GrimoraMod;
 
 public class MarchingDead : AbilityBehaviour
 {
+	public const string RulebookName = "Marching Dead";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -71,6 +73,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<MarchingDead>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(MarchingDead.RulebookName)
 		 .Build();
 	}
 }

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Helpers.Extensions;
 using Sirenix.Utilities;
@@ -8,6 +8,8 @@ namespace GrimoraMod;
 
 public class FlameStrafe : Strafe
 {
+	public const string RulebookName = "Flame Strafe";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -30,6 +32,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<FlameStrafe>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(FlameStrafe.RulebookName)
 		 .Build();
 	}
 }

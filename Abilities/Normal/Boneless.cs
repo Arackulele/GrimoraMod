@@ -1,9 +1,11 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
 public class Boneless : AbilityBehaviour
 {
+	public const string RulebookName = "Boneless";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -17,6 +19,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<Boneless>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(Boneless.RulebookName)
 		 .Build();
 	}
 }
