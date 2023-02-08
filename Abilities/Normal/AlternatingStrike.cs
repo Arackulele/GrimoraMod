@@ -60,8 +60,11 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_AlternatingStrike()
 	{
-		const string rulebookDescription =
+		const string rulebookDescriptionEnglish =
 			"[creature] alternates between striking the opposing space to the left and right from it.";
+		const string rulebookDescriptionChinese =
+			"[creature]会交替攻击正对面的左右两侧位置。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<AlternatingStrike>.Builder
 		 .FlipIconIfOnOpponentSide()

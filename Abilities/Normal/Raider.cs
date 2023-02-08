@@ -17,7 +17,9 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_Raider()
 	{
-		const string rulebookDescription = "[creature] will strike its adjacent slots, except other Raiders.";
+		const string rulebookDescriptionEnglish = "[creature] will strike its adjacent slots, except other Raiders.";
+		const string rulebookDescriptionChinese = "[creature]会攻击相邻位置中没有其他的[creature]的位置。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<Raider>.Builder
 		 .SetRulebookDescription(rulebookDescription)

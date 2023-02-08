@@ -49,7 +49,9 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_Malnourishment()
 	{
-		const string rulebookDescription = "Each time [creature] deals damage directly, it loses 1 power and health.";
+		const string rulebookDescriptionEnglish = "Each time [creature] deals damage directly, it loses 1 power and health.";
+		const string rulebookDescriptionChinese = "当[creature]直接造成伤害时，自身损失1点力量和生命。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<Malnourishment>.Builder
 		 .SetRulebookDescription(rulebookDescription)

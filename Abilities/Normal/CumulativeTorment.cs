@@ -17,8 +17,11 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_CumulativeTorment()
 	{
-		const string rulebookDescription =
+		const string rulebookDescriptionEnglish =
 			"[creature] perishes after attacking, then a copy with +1 power and health that costs 1 more bone enters your hand. Resets after every battle.";
+		const string rulebookDescriptionChinese =
+			"攻击之后，[creature]会自毁，同时会向你的手牌中添加一张增加1点力量和生命以及多消耗1根骨头的复制品。每场战斗后重置。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<CumulativeTorment>.Builder
 		 .SetRulebookDescription(rulebookDescription)

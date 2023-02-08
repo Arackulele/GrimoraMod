@@ -27,9 +27,13 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_Possessive()
 	{
-		const string rulebookDescription =
+		const string rulebookDescriptionEnglish =
 			"[creature] cannot be attacked from the opposing slot. "
 		+ "The opposing slot, if possible, instead attacks one of its adjacent friendly cards.";
+		const string rulebookDescriptionChinese =
+			"[creature]对面的造物不会攻击自身，"
+		+ "而是在可能的条件下攻击其相邻的友方造物。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<Possessive>.Builder
 		 .SetRulebookDescription(rulebookDescription)

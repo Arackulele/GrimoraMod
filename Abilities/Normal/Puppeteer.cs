@@ -92,8 +92,11 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_Puppeteer()
 	{
-		const string rulebookDescription =
+		const string rulebookDescriptionEnglish =
 			"Cards on the owner's side of the field are unaffected by Brittle.";
+		const string rulebookDescriptionChinese =
+			"持牌人侧牌桌的造物不会受到脆骨印记的影响。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<Puppeteer>.Builder
 		 .SetRulebookDescription(rulebookDescription)

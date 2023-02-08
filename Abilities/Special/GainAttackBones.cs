@@ -24,7 +24,9 @@ public partial class GrimoraPlugin
 {
 	public static void Add_Ability_GainAttackBones()
 	{
-		const string rulebookDescription = "[creature] gains 1 attack for each bone the player currently has.";
+		const string rulebookDescriptionEnglish = "[creature] gains 1 attack for each bone the player currently has.";
+		const string rulebookDescriptionChinese = "玩家每有一根骨头，带有该印记的卡牌会增加1点力量。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		StatIconBuilder<GainAttackBones>.Builder
 		 .SetAppliesToHealth(false)

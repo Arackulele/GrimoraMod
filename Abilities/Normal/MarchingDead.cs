@@ -68,8 +68,11 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_MarchingDead()
 	{
-		const string rulebookDescription
+		const string rulebookDescriptionEnglish
 			= "When [creature] is played, also play the cards in your hand that were adjacent to this card for free.";
+		const string rulebookDescriptionChinese
+			= "使用[creature]时，同时自动使用你的手牌中与此卡牌相邻的卡牌。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<MarchingDead>.Builder
 		 .SetRulebookDescription(rulebookDescription)

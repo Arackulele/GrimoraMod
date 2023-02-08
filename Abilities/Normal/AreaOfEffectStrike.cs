@@ -17,8 +17,11 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_AreaOfEffectStrike()
 	{
-		const string rulebookDescription =
+		const string rulebookDescriptionEnglish =
 			"[creature] will strike its adjacent slots, and each opposing space to the left, right, and center of it.";
+		const string rulebookDescriptionChinese = 
+			"[creature]会攻击相邻位置，以及正对面的左右两侧和中间位置各一次。 ";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<AreaOfEffectStrike>.Builder
 		 .FlipIconIfOnOpponentSide()

@@ -44,8 +44,11 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_BloodGuzzler()
 	{
-		const string rulebookDescription =
+		const string rulebookDescriptionEnglish =
 			"When [creature] deals damage, it gains 1 health for each damage dealt.";
+		const string rulebookDescriptionChinese =
+			"当[creature]造成伤害时，每造成1点伤害获得1点生命。";
+        string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<BloodGuzzler>.Builder
 		 .SetIcon(AbilitiesUtil.LoadAbilityIcon(Ability.BloodGuzzler.ToString()))

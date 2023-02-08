@@ -32,7 +32,9 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_SpiritBearer()
 	{
-		const string rulebookDescription = "When [creature] is played, it provides an energy soul to its owner.";
+		const string rulebookDescriptionEnglish = "When [creature] is played, it provides an energy soul to its owner.";
+		const string rulebookDescriptionChinese = "使用[creature]时，为持牌人提供一点魂能。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<SpiritBearer>.Builder
 		 .SetRulebookDescription(rulebookDescription)

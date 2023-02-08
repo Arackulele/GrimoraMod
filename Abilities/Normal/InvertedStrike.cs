@@ -82,9 +82,13 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_InvertedStrike()
 	{
-		const string rulebookDescription =
+		const string rulebookDescriptionEnglish =
 			"[creature] will strike the opposing slot as if the board was flipped. "
 		+ "A card in the far left slot will attack the opposing far right slot.";
+		const string rulebookDescriptionChinese =
+			"[creature]会攻击左右对称后的位置，"
+		+ "比如最左边位置的造物会攻击对手最右边的位置。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<InvertedStrike>.Builder
 		 .SetRulebookDescription(rulebookDescription)

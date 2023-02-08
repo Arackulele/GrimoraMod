@@ -24,7 +24,9 @@ public partial class GrimoraPlugin
 {
 	public static void Add_Ability_LammergeierAttack()
 	{
-		const string rulebookDescription = "The power of [creature] is equal to half of the Bones of the owner.";
+		const string rulebookDescriptionEnglish = "The power of [creature] is equal to half of the Bones of the owner.";
+		const string rulebookDescriptionChinese = "[creature]的力量等于持牌人持有兽骨数量的一半。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		StatIconInfo ogInfo = StatIconInfo.GetIconInfo(SpecialStatIcon.Bones);
 

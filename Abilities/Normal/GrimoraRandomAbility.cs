@@ -69,7 +69,10 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_GrimoraRandomAbility()
 	{
-		const string rulebookDescription = "When [creature] is drawn, this sigil is replaced with another sigil at random.";
+		const string rulebookDescriptionEnglish = "When [creature] is drawn, this sigil is replaced with another sigil at random.";
+		const string rulebookDescriptionChinese = "抽到[creature]时，此印记将被随机替换为另一印记。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
+
 		AbilityBuilder<GrimoraRandomAbility>.Builder
 		 .SetIcon(AbilitiesUtil.LoadAbilityIcon(Ability.RandomAbility.ToString()))
 		 .SetRulebookDescription(rulebookDescription)

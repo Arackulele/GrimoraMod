@@ -60,7 +60,9 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_Imbued()
 	{
-		const string rulebookDescription = "When a non-brittle ally card perishes, [creature] gains 1 power.";
+		const string rulebookDescriptionEnglish = "When a non-brittle ally card perishes, [creature] gains 1 power.";
+		const string rulebookDescriptionChinese = "当友方的非脆骨单位阵亡时，[creature]增加1点力量。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<Imbued>.Builder
 		 .SetRulebookDescription(rulebookDescription)

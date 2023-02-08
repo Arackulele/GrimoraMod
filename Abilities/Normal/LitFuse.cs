@@ -35,9 +35,13 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_LitFuse()
 	{
-		const string rulebookDescription =
+		const string rulebookDescriptionEnglish =
 			"[creature] loses 1 health per turn. "
 		+ "When [creature] dies, the creature opposing it, as well as adjacent friendly creatures, are dealt 10 damage.";
+		const string rulebookDescriptionChinese =
+			"[creature]每回合损失1点生命。"
+		+ "当它死亡时，正对面的造物以及相邻的友方造物均受到10点伤害。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<LitFuse>.Builder
 		 .SetRulebookDescription(rulebookDescription)

@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Card;
 using Sirenix.Utilities;
@@ -90,17 +90,23 @@ public class RulebookInfoPatches
 						{
 							case Ability.DoubleDeath:
 							{
-								x.rulebookName = "Double Death";
+								const String	rulebookNameEnglish = "Double Death";
+								const String rulebookNameChinese = "梅开二度";
+								x.rulebookName = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookNameChinese : rulebookNameEnglish; ;
 								break;
 							}
 							case Ability.ActivatedRandomPowerEnergy:
 							{
-								x.rulebookDescription = "Pay 1 Energy to add power to [creature] randomly between 1 and 6.";
+								const String rulebookDescriptionEnglish = "Pay 1 Energy to add power to [creature] randomly between 1 and 6.";
+								const String rulebookDescriptionChinese = "消耗1点能量，使[creature]的力量增加某个1至6之间的随机数值。";
+								x.rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 								break;
 							}
 							case Ability.ActivatedHeal:
 							{
-								x.rulebookDescription = "Pay 2 Bones to heal [creature] to max health.";
+								const String rulebookDescriptionEnglish = "Pay 2 Bones to heal [creature] to max health.";
+								const String rulebookDescriptionChinese = "消耗2根骨头，将[creature]的生命回满。";
+								x.rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 								break;
 							}
 						}

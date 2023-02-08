@@ -85,9 +85,13 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_GiantStrike()
 	{
-		const string rulebookDescription =
+		const string rulebookDescriptionEnglish =
 			"[creature] will strike each opposing space. "
 		+ "If only one creature is in the opposing spaces, this card will strike that creature twice. ";
+		const string rulebookDescriptionChinese =
+			"[creature]会攻击对面每个位置。"
+		+ "如果对面只有一只造物，则会攻击那只造物两次。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<GiantStrike>.Builder
 		 .FlipIconIfOnOpponentSide()

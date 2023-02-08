@@ -22,12 +22,14 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_GiantStrikeEnraged()
 	{
-		const string rulebookDescription = "[creature] will strike each opposing space.";
+		const string rulebookDescriptionEnglish = "[creature] will strike each opposing space.";
+		const string rulebookDescriptionChinese = "[creature]会攻击对面每个位置。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<GiantStrikeEnraged>.Builder
 		 .FlipIconIfOnOpponentSide()
 		 .SetRulebookDescription(rulebookDescription)
-		 .SetRulebookName(GiantStrike.RulebookName)
+		 .SetRulebookName(GiantStrikeEnraged.RulebookName)
 		 .Build();
 	}
 }

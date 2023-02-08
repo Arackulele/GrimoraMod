@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using UnityEngine;
 
@@ -59,8 +59,11 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_SoulSucker()
 	{
-		const string rulebookDescription =
+		const string rulebookDescriptionEnglish =
 			"When an opponent creature perishes, [creature] will store 1 soul energy, up to 4. Activating this sigil will add 1 soul energy to your current energy counter.";
+		const string rulebookDescriptionChinese =
+			"当对手的造物阵亡时，[creature]会储存1点魂能，上限4点。激活该印记会将1点魂能转移到你的能量计数器上。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<ActivatedGainEnergySoulSucker>.Builder
 		 .SetRulebookDescription(rulebookDescription)

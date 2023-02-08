@@ -27,8 +27,11 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_FlameStrafe()
 	{
-		const string rulebookDescription =
+		const string rulebookDescriptionEnglish =
 			"Whenever [creature] moves, it leaves a trail of Embers. The warmth of the Embers shall enlighten nearby cards.";
+		const string rulebookDescriptionChinese =
+			"[creature]移动时，会留下余烬。余烬的温度可以点燃相邻的卡牌。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<FlameStrafe>.Builder
 		 .SetRulebookDescription(rulebookDescription)

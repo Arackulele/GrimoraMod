@@ -53,8 +53,11 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_Fylgja_GuardDog()
 	{
-		const string rulebookDescription =
+		const string rulebookDescriptionEnglish =
 			"When an opposing creature is placed opposite to an empty space, [creature] will move to that empty space.";
+		const string rulebookDescriptionChinese =
+			"如对手的造物对面位置是空的，则[creature]会进入那个位置。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<Fylgja_GuardDog>.Builder
 		 .SetIcon(AbilitiesUtil.LoadAbilityIcon(Ability.GuardDog.ToString()))
