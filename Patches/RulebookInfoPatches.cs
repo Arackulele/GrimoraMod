@@ -92,7 +92,7 @@ public class RulebookInfoPatches
 							{
 								const String	rulebookNameEnglish = "Double Death";
 								const String rulebookNameChinese = "梅开二度";
-								x.rulebookName = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookNameChinese : rulebookNameEnglish; ;
+								x.rulebookName = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookNameChinese : rulebookNameEnglish;
 								break;
 							}
 							case Ability.ActivatedRandomPowerEnergy:

@@ -101,8 +101,8 @@ public class ChallengeManagement
 			new()
 			{
 				challengeType = NoBones,
-				title = "No Bones",
-				description = "You no longer gain the extra bones, from defeating bosses.",
+				title = Localization.CurrentLanguage == Language.ChineseSimplified ? "没有起始骨头" : "No Bones",
+				description = Localization.CurrentLanguage == Language.ChineseSimplified ? "头目不再奖励战斗开始时的额外骨头。" : "You no longer gain the extra bones, from defeating bosses.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("NoBonesNew"),
 				activatedSprite = AssetUtils.GetPrefab<Sprite>("NoBones_Active"),
 				pointValue = 5,
@@ -110,8 +110,8 @@ public class ChallengeManagement
 				new()
 				{
 					challengeType = KayceesKerfuffle,
-					title = "Kaycee's Kerfuffle",
-					description = "The fourth turn of every battle, all your cards will be Frozen Away.",
+					title = Localization.CurrentLanguage == Language.ChineseSimplified ? "凯茜的骚乱" : "Kaycee's Kerfuffle",
+					description = Localization.CurrentLanguage == Language.ChineseSimplified ? "每场战斗的第四个回合，你的卡牌会被冰封禁锢。" : "The fourth turn of every battle, all your cards will be Frozen Away.",
 					iconSprite = AssetUtils.GetPrefab<Sprite>("KayceesKerfuffle"),
 					pointValue = 15
 				}
@@ -119,8 +119,8 @@ public class ChallengeManagement
 			new()
 				{
 					challengeType = SawyersShowdown,
-					title = "Sawyer's Showdown",
-					description = "Lose 1 bone every 3rd turn, if you have less than 3, gain 1 Bone",
+					title = Localization.CurrentLanguage == Language.ChineseSimplified ? "索耶的骚乱" : "Sawyer's Showdown",
+					description = Localization.CurrentLanguage == Language.ChineseSimplified ? "每3回合损失1根骨头，如果你的骨头少于3根，则获得1根骨头。" : "Lose 1 bone every 3rd turn, if you have less than 3, gain 1 Bone",
 					iconSprite = AssetUtils.GetPrefab<Sprite>("SawyersShowdown"),
 					pointValue = 5
 				}
@@ -128,8 +128,8 @@ public class ChallengeManagement
 				new()
 				{
 					challengeType = RoyalsRevenge,
-					title = "Royal Rumble",
-					description = "Every third card you play gains the Lit Fuse sigil.",
+					title = Localization.CurrentLanguage == Language.ChineseSimplified ? "罗亚尔的骚乱" : "Royal Rumble",
+					description = Localization.CurrentLanguage == Language.ChineseSimplified ? "你每使用三张牌，第三张牌会获得Lit Fuse印记（缓慢掉血，并且死后自爆）。" : "Every third card you play gains the Lit Fuse sigil.",
 					iconSprite = AssetUtils.GetPrefab<Sprite>("RoyalsRevenge"),
 					activatedSprite = AssetUtils.GetPrefab<Sprite>("Royal_Active"),
 					pointValue = 10
@@ -139,8 +139,8 @@ public class ChallengeManagement
 				new()
 				{
 					challengeType = FrailHammer,
-					title = "Frail Hammer",
-					description = "The Hammer gets repaired only after every Boss.",
+					title = Localization.CurrentLanguage == Language.ChineseSimplified ? "难以修复的锤子" : "Frail Hammer",
+					description = Localization.CurrentLanguage == Language.ChineseSimplified ? "锤子在打败头目，而不是本场战斗结束后修复。" : "The Hammer gets repaired only after every Boss.",
 					iconSprite = AssetUtils.GetPrefab<Sprite>("FrailHammer"),
 					activatedSprite =  AssetUtils.GetPrefab<Sprite>("FrailHammer_Active"),
 					pointValue = 15
@@ -149,8 +149,8 @@ public class ChallengeManagement
 			new()
 			{
 				challengeType = Soulless,
-				title = "Soulless",
-				description = "Skeletons cost +1 Energy.",
+				title = Localization.CurrentLanguage == Language.ChineseSimplified ? "贪婪的灵魂" : "Soulless",
+				description = Localization.CurrentLanguage == Language.ChineseSimplified ? "骷髅额外需要1点能量成本。" : "Skeletons cost +1 Energy.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("Soulless"),
 				activatedSprite = AssetUtils.GetPrefab<Sprite>("Soulless_Active"),
 				pointValue = 5
@@ -158,8 +158,8 @@ public class ChallengeManagement
 			new()
 			{
 				challengeType = Soulless,
-				title = "Soulless",
-				description = "Skeletons cost +1 Energy.",
+				title = Localization.CurrentLanguage == Language.ChineseSimplified ? "贪婪的灵魂" : "Soulless",
+				description = Localization.CurrentLanguage == Language.ChineseSimplified ? "骷髅额外需要1点能量成本。" : "Skeletons cost +1 Energy.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("Soulless"),
 				activatedSprite = AssetUtils.GetPrefab<Sprite>("Soulless_Active"),
 				pointValue = 5
@@ -167,8 +167,8 @@ public class ChallengeManagement
 			new()
 			{
 				challengeType = JammedChair,
-				title = "Jammed Chair",
-				description = "The electric chair is always set to level 3.",
+				title = Localization.CurrentLanguage == Language.ChineseSimplified ? "卡住的电椅" : "Jammed Chair",
+				description = Localization.CurrentLanguage == Language.ChineseSimplified ? "电椅固定设置为最大电力。" : "The electric chair is always set to level 3.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("JammedChair"),
 				activatedSprite = AssetUtils.GetPrefab<Sprite>("JammedChair_Active"),
 				pointValue = 10
@@ -176,8 +176,8 @@ public class ChallengeManagement
 			new()
 			{
 				challengeType = WiltedClover,
-				title = "Wilted Clover",
-				description = "There is only 2 Cards present at every Card chest.",
+				title = Localization.CurrentLanguage == Language.ChineseSimplified ? "小号宝箱" : "Wilted Clover",
+				description = Localization.CurrentLanguage == Language.ChineseSimplified ? "卡牌宝箱中提供的可被选择的卡牌少了一张。" : "There is only 2 Cards present at every Card chest.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("WiltedClover"),
 				pointValue = 20
 			},
@@ -186,8 +186,8 @@ public class ChallengeManagement
 			new()
 			{
 				challengeType = InfinitLives,
-				title = "Infinite Lives",
-				description = "You can't die. Really.",
+				title = Localization.CurrentLanguage == Language.ChineseSimplified ? "无限生命" : "Infinite Lives",
+				description = Localization.CurrentLanguage == Language.ChineseSimplified ? "你不会死。" : "You can't die. Really.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("InfLives"),
 				activatedSprite = AssetUtils.GetPrefab<Sprite>("InfLives_Active"),
 				pointValue = 0
@@ -195,8 +195,8 @@ public class ChallengeManagement
 			new()
 			{
 				challengeType = SafeChair,
-				title = "Safe Chair",
-				description = "Your cards are immune to electricity of the chair.",
+				title = Localization.CurrentLanguage == Language.ChineseSimplified ? "高科技电椅" : "Safe Chair",
+				description = Localization.CurrentLanguage == Language.ChineseSimplified ? "你的卡牌不会被电椅电坏。" : "Your cards are immune to electricity of the chair.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("SafeChair"),
 				pointValue = 0
 			},
