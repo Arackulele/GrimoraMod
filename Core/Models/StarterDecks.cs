@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Ascension;
 using UnityEngine;
@@ -24,7 +24,7 @@ public class StarterDecks
 	{
 		new List<string>()
 		{
-			GrimoraPlugin.NameZombie, GrimoraPlugin.NameFranknstein, GrimoraPlugin.NameBonepile, GrimoraPlugin.NameGravedigger, GrimoraPlugin.NameGravedigger
+			GrimoraPlugin.NameBonepile, GrimoraPlugin.NameGravedigger, GrimoraPlugin.NameGravedigger, GrimoraPlugin.NameZombie, GrimoraPlugin.NameFranknstein
 		},
 		new List<string>()
 		{
@@ -32,7 +32,7 @@ public class StarterDecks
 		},
 		new List<string>()
 		{
-			GrimoraPlugin.NameBonepile, GrimoraPlugin.NameBonepile, GrimoraPlugin.NameScreamingSkull, GrimoraPlugin.NameSilbon, GrimoraPlugin.NameDeathKnell, 
+			GrimoraPlugin.NameBonepile, GrimoraPlugin.NameBonepile, GrimoraPlugin.NameScreamingSkull, GrimoraPlugin.NameSilbon, GrimoraPlugin.NameDeathKnell
 		},
 		new List<string>()
 		{
