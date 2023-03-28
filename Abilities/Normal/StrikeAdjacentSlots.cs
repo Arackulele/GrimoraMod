@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers.Extensions;
@@ -30,13 +30,13 @@ public abstract class StrikeAdjacentSlots : AbilityBehaviour, IGetOpposingSlots
 
 		return false;
 	}
-
+	/* Duplicate Code in an API Update
 	public override IEnumerator OnSlotTargetedForAttack(CardSlot slot, PlayableCard attacker)
 	{
 		damageDoneToPlayer += Card.Attack;
 		yield break;
 	}
-
+	*/
 	public override bool RespondsToUpkeep(bool playerUpkeep) => damageDoneToPlayer > 0;
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
