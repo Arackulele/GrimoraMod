@@ -25,7 +25,7 @@ public class CardSingleChoicesSequencerPatches
 		CardSingleChoicesSequencer __state
 	)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			yield return enumerator;
 			yield break;

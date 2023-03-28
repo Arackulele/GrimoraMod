@@ -46,11 +46,12 @@ public abstract class BaseBossExt : Part1BossOpponent
 	{
 		if (wasDefeated)
 		{
-			ConfigHelper.Instance.SetBossDefeatedInConfig(this);
+			// TODO:
+			/*ConfigHelper.Instance.SetBossDefeatedInConfig(this);
 			if (ConfigHelper.Instance.BossesDefeated >= 4)
 			{
 				ConfigHelper.Instance.BossesDefeated = 0;
-			}
+			}*/
 
 			AudioController.Instance.PlaySound2D("glitch_error", MixerGroup.TableObjectsSFX);
 

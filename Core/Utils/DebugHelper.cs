@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using GrimoraMod.Saving;
 using HarmonyLib;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers.Extensions;
@@ -253,7 +254,7 @@ public class DebugHelper : ManagedBehaviour
 
 				if (selectedButton >= 0)
 				{
-					GrimoraSaveUtil.AddCard((_toggleDebugBaseModCardsDeck.isOn ? AllGrimoraModCards : AllGrimoraCustomCards)[selectedButton]);
+					RunState.Run.playerDeck.AddCard((_toggleDebugBaseModCardsDeck.isOn ? AllGrimoraModCards : AllGrimoraCustomCards)[selectedButton]);
 				}
 			}
 
@@ -308,13 +309,14 @@ public class DebugHelper : ManagedBehaviour
 					}
 					case "Clear Deck":
 					{
-						GrimoraSaveUtil.ClearDeck();
+						RunState.Run.playerDeck.Cards.Clear();
+						RunState.Run.playerDeck.cardIds.Clear();
 						SaveManager.SaveToFile();
 						break;
 					}
 					case "Reset Removed Pieces":
 					{
-						ConfigHelper.Instance.ResetRemovedPieces();
+						GrimoraRunState.CurrentRun.PiecesRemovedFromBoard.Clear();
 						ChessboardMapExt.Instance.ActiveChessboard.SetupBoard(true);
 						break;
 					}
@@ -445,7 +447,7 @@ public class DebugHelper : ManagedBehaviour
 
 	private void SetupGrimoraFight()
 	{
-		if (ConfigHelper.Instance.BossesDefeated == 3)
+		if (GrimoraRunState.CurrentRun.regionTier == 3)
 		{
 			StartAtTwinGiants = GUI.Toggle(
 				new Rect(Screen.width / 3f, 40, DefaultToggleWidth, DefaultToggleHeight),
@@ -512,10 +514,11 @@ public class DebugHelper : ManagedBehaviour
 
 				if (chests.IsNullOrEmpty())
 				{
-					var copy = ConfigHelper.Instance.RemovedPieces;
+					// TODO:
+					/*var copy = ConfigHelper.Instance.RemovedPieces;
 					copy.RemoveAll(piece => piece.Contains("Chest"));
 					ConfigHelper.Instance.RemovedPieces = copy;
-					ChessboardMapExt.Instance.ActiveChessboard.PlacePieces<ChessboardChestPiece>(specialNodeData: specialNode);
+					ChessboardMapExt.Instance.ActiveChessboard.PlacePieces<ChessboardChestPiece>(specialNodeData: specialNode);*/
 				}
 				else
 				{

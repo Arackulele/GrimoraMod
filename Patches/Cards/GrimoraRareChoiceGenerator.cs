@@ -21,7 +21,7 @@ public class RareCardChoicesSequencerPatch
 	[HarmonyPostfix, HarmonyPatch(nameof(RareCardChoicesSequencer.ChooseRareCard))]
 	public static IEnumerator ChangeDeckListRunState(IEnumerator enumerator, RareCardChoicesSequencer __instance)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			yield return enumerator;
 			yield break;
@@ -33,7 +33,7 @@ public class RareCardChoicesSequencerPatch
 
 		TableRuleBook.Instance.SetOnBoard(true);
 		__instance.deckPile.gameObject.SetActive(true);
-		__instance.StartCoroutine(__instance.deckPile.SpawnCards(GrimoraSaveUtil.DeckList.Count));
+		__instance.StartCoroutine(__instance.deckPile.SpawnCards(RunState.Run.playerDeck.Cards.Count));
 		Vector3 vector = new Vector3(__instance.box.position.x, __instance.box.position.y, 0.5f);
 		Vector3 startPos = new Vector3(vector.x, vector.y, 9f);
 		__instance.box.position = startPos;

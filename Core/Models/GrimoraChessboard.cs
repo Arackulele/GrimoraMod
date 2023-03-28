@@ -1,4 +1,5 @@
 ﻿using DiskCardGame;
+using GrimoraMod.Saving;
 using HarmonyLib;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -59,7 +60,7 @@ public class GrimoraChessboard
 
 	public GameObject GetActiveRegionBlockerPiece()
 	{
-		int bossesDead = ConfigHelper.Instance.BossesDefeated;
+		int bossesDead = GrimoraRunState.CurrentRun.regionTier;
 		GameObject blockerPrefab = _bossByIndex.GetValueSafe(bossesDead).Invoke();
 		blockerPrefab.GetComponentInChildren<MeshRenderer>().material = bossesDead switch
 		{
@@ -82,12 +83,17 @@ public class GrimoraChessboard
 
 	public readonly List<ChessRow> Rows;
 
-	public GrimoraChessboard(IEnumerable<List<int>> board, int indexInList)
+	public GrimoraChessboard(List<List<int>> board, int indexInList)
 	{
 		Rows = board.Select((boardList, idx) => new ChessRow(boardList, idx)).ToList();
 		BossNode = GetBossNode();
 		this.indexInList = indexInList;
 		_nodesByPieceType = BuildDictionary();
+	}
+
+	public List<List<int>> Export()
+	{
+		return Rows.Select((a) => a.Columns.Select((b) => b.JsonValue).ToList()).ToList();
 	}
 
 	#region Getters
@@ -145,7 +151,7 @@ public class GrimoraChessboard
 	public static string GetBossSpecialIdForRegion()
 	{
 		Log.LogDebug($"Getting special id for region");
-		return BossHelper.OpponentTupleBySpecialId.ElementAt(ConfigHelper.Instance.BossesDefeated).Key;
+		return BossHelper.OpponentTupleBySpecialId.ElementAt(GrimoraRunState.CurrentRun.regionTier).Key;
 	}
 
 	#endregion
@@ -175,7 +181,7 @@ public class GrimoraChessboard
 		int x = GrimoraSaveData.Data.gridX;
 		int y = GrimoraSaveData.Data.gridY;
 
-		ChessboardMapNode nodeAtSpace = GetNodeAtSpace(x, y);
+		/*ChessboardMapNode nodeAtSpace = GetNodeAtSpace(x, y);
 
 		bool pieceAtSpaceIsNotPlayer = nodeAtSpace.OccupyingPiece
 		                               && nodeAtSpace.OccupyingPiece.GetType() != typeof(PlayerMarker)
@@ -183,7 +189,7 @@ public class GrimoraChessboard
 
 		// this is the final possible spawning condition that I can think of.
 		bool hasNotInteractedWithAnyPiece =
-			!ConfigHelper.Instance.RemovedPieces.Exists(
+			GrimoraSaveData.Data.removedPieces!ConfigHelper.Instance.RemovedPieces.Exists(
 				piece => piece.Contains("EnemyPiece_x") || piece.Contains("ChestPiece_x")
 			);
 
@@ -200,7 +206,7 @@ public class GrimoraChessboard
 			x = GrimoraSaveData.Data.gridX;
 			y = GrimoraSaveData.Data.gridY;
 			Log.LogDebug($"[UpdatePlayerMarkerPosition] New x{x}y{y} coords");
-		}
+		}*/
 
 		MapNodeManager.Instance.ActiveNode = ChessboardNavGrid.instance.zones[x, y].GetComponent<MapNode>();
 
@@ -212,8 +218,9 @@ public class GrimoraChessboard
 	public void SetSavePositions()
 	{
 		// set the updated position to spawn the player in
-		GrimoraSaveData.Data.gridX = GetPlayerNode().GridX;
-		GrimoraSaveData.Data.gridY = GetPlayerNode().GridY;
+		ChessNode playerNode = GetPlayerNode();
+		GrimoraSaveData.Data.gridX = playerNode.GridX;
+		GrimoraSaveData.Data.gridY = playerNode.GridY;
 	}
 
 	#region HelperMethods
@@ -352,7 +359,7 @@ public class GrimoraChessboard
 				{
 					// enemyPiece.blueprint = BossHelper.OpponentTupleBySpecialId[specialEncounterId].Item3;
 					enemyPiece.blueprint = GetBlueprint(true);
-					int bossesDefeated = ConfigHelper.Instance.BossesDefeated;
+					int bossesDefeated = GrimoraRunState.CurrentRun.regionTier;
 					switch (bossesDefeated)
 					{
 						case 3:
@@ -429,7 +436,7 @@ public class GrimoraChessboard
 			{
 				return BlueprintUtils
 				 .RegionWithBlueprints
-				 .ElementAt(ConfigHelper.Instance.BossesDefeated).Value
+				 .ElementAt(GrimoraRunState.CurrentRun.regionTier).Value
 				 .Concat(ChessboardMapExt.Instance.CustomBlueprints.Values)
 				 .ToList()
 				 .GetRandomItem();

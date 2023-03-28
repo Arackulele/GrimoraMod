@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using DiskCardGame;
+using GrimoraMod.Saving;
 using HarmonyLib;
 using Sirenix.Utilities;
 using Unity.Cloud.UserReporting.Plugin.SimpleJson;
@@ -35,8 +36,6 @@ public class ChessboardMapExt : GameMap
 	public ChessboardEnemyPiece BossPiece => ActiveChessboard.BossPiece;
 
 	public bool ChangingRegion { get; set; }
-
-	public bool BossDefeated { get; protected internal set; }
 
 	public GrimoraChessboard ActiveChessboard { get; set; }
 
@@ -121,25 +120,25 @@ public class ChessboardMapExt : GameMap
 		{
 			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("maps_kaycee.json"));
 			_kayceechessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString));
-			Debug.Log("kaycee maps parsed");
+			GrimoraPlugin.Log.LogInfo("kaycee maps parsed");
 		}
 		if (_sawyerchessboards == null)
 		{
 			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("maps_sawyer.json"));
 			_sawyerchessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString));
-			Debug.Log("sawyer maps parsed");
+			GrimoraPlugin.Log.LogInfo("sawyer maps parsed");
 		}
 		if (_royalchessboards == null)
 		{
 			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("maps_royal.json"));
 			_royalchessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString));
-			Debug.Log("royal maps parsed");
+			GrimoraPlugin.Log.LogInfo("royal maps parsed");
 		}
 		if (_grimorachessboards == null)
 		{
 			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("maps_grimora.json"));
 			_grimorachessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString));
-			Debug.Log("grimora maps parsed");
+			GrimoraPlugin.Log.LogInfo("grimora maps parsed");
 		}
 		
 		
@@ -222,8 +221,6 @@ public class ChessboardMapExt : GameMap
 			FinaleDeletionWindowManager.instance.mainWindow.gameObject.SetActive(false);
 		}
 
-		ChangeStartDeckIfNotAlreadyChanged();
-
 		if (ConfigHelper.Instance.IsDevModeEnabled)
 		{
 			// for checking which nodes are active/inactive
@@ -276,8 +273,6 @@ public class ChessboardMapExt : GameMap
 
 		SaveManager.SaveToFile();
 
-		BossDefeated = false;
-
 		ChangingRegion = true;
 
 		ViewManager.Instance.SetViewLocked();
@@ -293,6 +288,7 @@ public class ChessboardMapExt : GameMap
 		AudioController.Instance.FadeInLoop(1f, 1f);
 
 		ClearBoardForChangingRegion();
+		GrimoraRunState.CurrentRun.regionTier++;
 
 		SetAllNodesActive();
 
@@ -316,7 +312,9 @@ public class ChessboardMapExt : GameMap
 			}
 		);
 
-		ConfigHelper.Instance.ResetRemovedPieces();
+		ActiveChessboard = null;
+		GrimoraRunState.CurrentRun.CurrentChessboard = null;
+		GrimoraRunState.CurrentRun.PiecesRemovedFromBoard.Clear();
 	}
 
 	private void EnableCandlesIfTheyAreDisabled()
@@ -345,7 +343,7 @@ public class ChessboardMapExt : GameMap
 
 		// if the boss piece exists in the removed pieces,
 		// this means the game didn't complete clearing the board for changing the region
-		if (ConfigHelper.Instance.RemovedPieces.Exists(piece => piece.Contains("BossPiece")))
+		if (GrimoraRunState.CurrentRun.PiecesRemovedFromBoard.Exists(piece => piece.Contains("BossPiece")))
 		{
 			ClearBoardForChangingRegion();
 		}
@@ -372,53 +370,55 @@ public class ChessboardMapExt : GameMap
 	}
 
 
+	public GrimoraChessboard GenerateChessboard(int region)
+	{
+		switch (region)
+		{
+			case 0: //kaycee
+			{
+				return KayceeChessboards.GetRandomItem();
+			}
+			case 1: //sawyer
+			{
+				return SawyerChessboards.GetRandomItem();
+			}
+			case 2: //royal
+			{
+				return RoyalChessboards.GetRandomItem();
+			}
+			case 3: //grimora
+			{
+				return GrimoraChessboards.GetRandomItem();
+			}
+			default:
+				//kaycee
+				return KayceeChessboards.GetRandomItem();
+		}
+	}
 
 
 	private void UpdateActiveChessboard()
 	{
-		int currentChessboardIndex = ConfigHelper.Instance.CurrentChessboardIndex;
-		Log.LogDebug($"[HandleChessboardSetup] Before setting chess board idx [{currentChessboardIndex}]");
-		if(ConfigHelper.Instance.BossesDefeated==0) currentChessboardIndex = Chessboards.IndexOf(KayceeChessboards.GetRandomItem());
-		if (ChangingRegion)
+		if (ActiveChessboard == null)
 		{
-			if (currentChessboardIndex > Chessboards.Count) currentChessboardIndex = 0;
-
-			switch (ConfigHelper.Instance.BossesDefeated)
+			if (GrimoraRunState.CurrentRun.CurrentChessboard == null)
 			{
-				case 0: //kaycee
-				{
-					currentChessboardIndex = Chessboards.IndexOf(KayceeChessboards.GetRandomItem());
-					break;
-				}
-				case 1: //sawyer
-				{
-					currentChessboardIndex = Chessboards.IndexOf(SawyerChessboards.GetRandomItem());
-					break;
-				}
-				case 2: //royal
-				{
-					currentChessboardIndex = Chessboards.IndexOf(RoyalChessboards.GetRandomItem());
-					break;
-				}
-				case 3: //grimora
-				{
-					currentChessboardIndex = Chessboards.IndexOf(GrimoraChessboards.GetRandomItem());
-					break;
-				}
+				Log.LogDebug($"[UpdateActiveChessboard] Generating new chessboard");
+				GrimoraChessboard generateChessboard = GenerateChessboard(GrimoraRunState.CurrentRun.regionTier);
+				ActiveChessboard = generateChessboard;
+
+				GrimoraRunState.CurrentRun.SetCurrentChessboard(generateChessboard);
 			}
-
-
-			ConfigHelper.Instance.CurrentChessboardIndex = currentChessboardIndex;
-			Log.LogDebug($"[HandleChessboardSetup] -> Setting new chessboard idx [{currentChessboardIndex}]");
-			ActiveChessboard = Chessboards[currentChessboardIndex];
-
-			ActiveChessboard.SetSavePositions();
+			else
+			{
+				Log.LogDebug($"[UpdateActiveChessboard] Loading chessboard from save data");
+				List<List<int>> currentRunCurrentChessboard = GrimoraRunState.CurrentRun.CurrentChessboard;
+				ActiveChessboard = new GrimoraChessboard(currentRunCurrentChessboard, -1);
+			}
 		}
-
-		ActiveChessboard ??= Chessboards[currentChessboardIndex];
-		Log.LogDebug($"[HandleChessboardSetup] Chessboard [{ActiveChessboard}] Chessboards [{Chessboards.Count}]");
+		
+		Log.LogDebug($"[UpdateActiveChessboard] Chessboard [{ActiveChessboard}]");
 	}
-
 
 	private static void SetAllNodesActive()
 	{
@@ -430,7 +430,7 @@ public class ChessboardMapExt : GameMap
 
 	private IEnumerator HandleActivatingChessPieces()
 	{
-		var removedList = ConfigHelper.Instance.RemovedPieces;
+		var removedList = GrimoraRunState.CurrentRun.PiecesRemovedFromBoard;
 
 		// pieces will contain the pieces just placed
 		var activePieces = pieces
@@ -587,7 +587,7 @@ public class ChessboardMapExt : GameMap
 		Log.LogDebug($"[ChangeStartDeckIfNotAlreadyChanged] Checking if deck needs reset");
 		try
 		{
-			List<CardInfo> grimoraDeck = GrimoraSaveUtil.DeckList;
+			List<CardInfo> grimoraDeck = RunState.Run.playerDeck.Cards;
 
 			int graveDiggerCount = grimoraDeck.Count(info => info.name == "Gravedigger");
 			int frankNSteinCount = grimoraDeck.Count(info => info.name == "FrankNStein");
@@ -599,7 +599,7 @@ public class ChessboardMapExt : GameMap
 		}
 		catch (Exception e)
 		{
-			Log.LogWarning($"[ChangingDeck] Had trouble retrieving deck list! Resetting deck. Current card Ids: [{GrimoraSaveUtil.DeckInfo.cardIds.Join()}]");
+			Log.LogWarning($"[ChangingDeck] Had trouble retrieving deck list! Resetting deck. Current card Ids: [{RunState.Run.playerDeck.cardIds.Join()}]");
 			GrimoraSaveData.Data.Initialize();
 		}
 

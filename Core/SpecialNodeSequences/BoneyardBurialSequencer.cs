@@ -102,7 +102,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 			InteractionCursor.Instance.SetEnabled(false);
 			yield return new WaitForSeconds(0.25f);
 
-			yield return pile.SpawnCards(GrimoraSaveUtil.DeckList.Count, 0.5f);
+			yield return pile.SpawnCards(RunState.Run.playerDeck.Cards.Count, 0.5f);
 			TableRuleBook.Instance.SetOnBoard(true);
 			InteractionCursor.Instance.SetEnabled(true);
 
@@ -262,7 +262,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 			bonesCostAdjustment = -Mathf.CeilToInt(card.BonesCost / 2f),
 			singletonId = ModSingletonId
 		};
-		GrimoraSaveUtil.ModifyCard(card, cardModificationInfo);
+		RunState.Run.playerDeck.ModifyCard(card, cardModificationInfo);
 	}
 
 	private void OnSlotSelected(MainInputInteractable slot)
@@ -287,7 +287,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 	private static List<CardInfo> GetValidCards()
 	{
-		List<CardInfo> list = GrimoraSaveUtil.DeckListCopy;
+		List<CardInfo> list = new List<CardInfo>(RunState.Run.playerDeck.Cards);
 		list.RemoveAll(
 			card => card.BonesCost <= 1
 			        || card.Abilities.Count == 5

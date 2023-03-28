@@ -20,7 +20,7 @@ public class PlayerHandPatches
 	)
 	{
 		GrimoraPlugin.Log.LogInfo($"Pre change lit turn {cardsPlayedThisCombatForFuse}");
-		if (GrimoraSaveUtil.IsGrimora && __instance.CardsInHand.Contains(card) && card.HasAbility(MarchingDead.ability))
+		if (GrimoraSaveUtil.IsGrimoraModRun && __instance.CardsInHand.Contains(card) && card.HasAbility(MarchingDead.ability))
 		{
 			card.GetComponent<MarchingDead>().SetAdjCardsToPlay(__instance.CardsInHand);
 		}

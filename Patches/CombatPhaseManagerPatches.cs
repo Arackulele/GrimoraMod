@@ -22,7 +22,7 @@ public class CombatPhaseManagerPatches
 		CardSlot slot
 	)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			yield return enumerator;
 			yield break;

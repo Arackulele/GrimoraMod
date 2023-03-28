@@ -54,10 +54,6 @@ public class StarterDecks
 
 	public static void RegisterStarterDecks()
 	{
-
-
-
-
 		for (int i = 0; i < 4; i++)
 		{
 #if DEBUG
@@ -67,18 +63,13 @@ public class StarterDecks
 				GrimoraPlugin.GUID,
 				CreateStarterDeckInfo(deckNames[i], decks[i].ToArray())
 			);
-			d.Info.iconSprite = GrimoraPlugin.AllSprites.Find(o => o.name == "deck_"+deckNames[i].ToLowerInvariant());
-			if(i==0)	DefaultStarterDeck =d.Info.name;
 			
+			d.Info.iconSprite = GrimoraPlugin.AllSprites.Find(o => o.name == "deck_"+deckNames[i].ToLowerInvariant());
+			if(i==0)	
+				DefaultStarterDeck =d.Info.name;
 		}
-
 		
-		
-		
-		
-		
-		
-		StarterDeckManager.ModifyDeckList += delegate(List<StarterDeckManager.FullStarterDeck> decks )
+		StarterDeckManager.ModifyDeckList += delegate(List<StarterDeckManager.FullStarterDeck> decks)
 		{
 			CardTemple acceptableTemple = ScreenManagement.ScreenState;
 

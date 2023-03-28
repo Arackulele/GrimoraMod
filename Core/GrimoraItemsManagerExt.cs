@@ -78,7 +78,7 @@ public class AddNewHammerExt
 	public static bool ChangeDefaultHammerModel(ItemSlot __instance, ItemData data, bool skipDropAnimation = false)
 	{
 		Log.LogDebug($"[ItemSlot.CreateItem] ItemSlot [{__instance}] ItemData [{data}]");
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			return true;
 		}
@@ -114,7 +114,7 @@ public class DeactivateHammerAfterThreeUses
 	public static IEnumerator CheckHammerForThreeUses(IEnumerator enumerator, ConsumableItemSlot __instance)
 	{
 		yield return enumerator;
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			yield break;
 		}
@@ -141,7 +141,7 @@ public class FirstPersonHammerPatch
 		Action<int> keyframesCallback = null
 	)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora || !prefabName.Contains("FirstPersonHammer"))
+		if (GrimoraSaveUtil.IsNotGrimoraModRun || !prefabName.Contains("FirstPersonHammer"))
 		{
 			return true;
 		}

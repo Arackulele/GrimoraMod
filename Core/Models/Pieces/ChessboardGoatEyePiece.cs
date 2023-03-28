@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using DiskCardGame;
+using GrimoraMod.Saving;
 using HarmonyLib;
 using Pixelplacement;
 using Sirenix.Utilities;
@@ -36,7 +37,7 @@ public class GoatEyePatch
 			TurnToFacePoint(goatEyePiece.gameObject, playerPos, 0.1f);
 		}
 
-		if (ConfigHelper.Instance.BossesDefeated == 3)
+		if (GrimoraRunState.CurrentRun.regionTier == 3)
 		{
 			foreach (var blocker in UnityObject.FindObjectsOfType<ChessboardBlockerPieceExt>())
 			{
