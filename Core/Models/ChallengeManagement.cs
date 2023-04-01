@@ -135,8 +135,25 @@ public class ChallengeManagement
 					pointValue = 10
 				}
 				,
-
-				new()
+			new()
+			{
+				challengeType = Soulless,
+				title = "Soulless",
+				description = "Skeletons cost +1 Energy.",
+				iconSprite = AssetUtils.GetPrefab<Sprite>("Soulless"),
+				activatedSprite = AssetUtils.GetPrefab<Sprite>("Soulless_Active"),
+				pointValue = 5
+			},
+			new()
+			{
+				challengeType = Soulless,
+				title = "Soulless",
+				description = "Skeletons cost +1 Energy.",
+				iconSprite = AssetUtils.GetPrefab<Sprite>("Soulless"),
+				activatedSprite = AssetUtils.GetPrefab<Sprite>("Soulless_Active"),
+				pointValue = 5
+			},
+							new()
 				{
 					challengeType = FrailHammer,
 					title = "Frail Hammer",
@@ -146,24 +163,6 @@ public class ChallengeManagement
 					pointValue = 15
 				}
 			,
-			new()
-			{
-				challengeType = Soulless,
-				title = "Soulless",
-				description = "Skeletons cost +1 Energy.",
-				iconSprite = AssetUtils.GetPrefab<Sprite>("Soulless"),
-				activatedSprite = AssetUtils.GetPrefab<Sprite>("Soulless_Active"),
-				pointValue = 5
-			},
-			new()
-			{
-				challengeType = Soulless,
-				title = "Soulless",
-				description = "Skeletons cost +1 Energy.",
-				iconSprite = AssetUtils.GetPrefab<Sprite>("Soulless"),
-				activatedSprite = AssetUtils.GetPrefab<Sprite>("Soulless_Active"),
-				pointValue = 5
-			},
 			new()
 			{
 				challengeType = JammedChair,
@@ -190,7 +189,7 @@ public class ChallengeManagement
 				description = "You can't die. Really.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("InfLives"),
 				activatedSprite = AssetUtils.GetPrefab<Sprite>("InfLives_Active"),
-				pointValue = 0
+				pointValue = -999
 			},
 			new()
 			{
@@ -198,7 +197,7 @@ public class ChallengeManagement
 				title = "Safe Chair",
 				description = "Your cards are immune to electricity of the chair.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("SafeChair"),
-				pointValue = 0
+				pointValue = -20
 			},
 		};
 

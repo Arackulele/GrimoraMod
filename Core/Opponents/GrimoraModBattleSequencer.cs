@@ -128,12 +128,12 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			{
 				switch (TurnManager.Instance.TurnNumber)
 				{
-					case 3:
+					case 4:
 					{
 						yield return TextDisplayer.Instance.ShowUntilInput("I hope you're able to warm up next turn.");
 						break;
 					}
-					case 4:
+					case 5:
 						yield return HandleKayceeKerfuffleChallenge();
 						break;
 				}
@@ -143,14 +143,24 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 	private IEnumerator HandleSawyersShowdownChallenge()
 	{
-		if (ResourcesManager.Instance.PlayerBones > 0)
+
+		ViewManager.Instance.SwitchToView(View.BoneTokens);
+		yield return new WaitForSeconds(0.25f);
+
+
+
+		if (ResourcesManager.Instance.PlayerBones > 2)
 		{
-			ViewManager.Instance.SwitchToView(View.BoneTokens);
-			yield return new WaitForSeconds(0.25f);
-			yield return TextDisplayer.Instance.ShowUntilInput("Sawyer thanks you for your contribution!");
 			yield return ResourcesManager.Instance.SpendBones(1);
-			yield return new WaitForSeconds(1f);
+			yield return TextDisplayer.Instance.ShowUntilInput("Sawyer thanks you for your contribution!");
 		}
+		else
+		{
+			yield return ResourcesManager.Instance.AddBones(1);
+			yield return TextDisplayer.Instance.ShowUntilInput("Sawyer felt bad for you.");
+		}
+
+		yield return new WaitForSeconds(1f);
 	}
 
 	private IEnumerator HandleKayceeKerfuffleChallenge()

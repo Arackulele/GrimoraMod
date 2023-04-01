@@ -3,6 +3,7 @@ using DiskCardGame;
 using InscryptionAPI.Encounters;
 using InscryptionAPI.Helpers.Extensions;
 using UnityEngine;
+using UnityEngine.TextCore;
 using static GrimoraMod.BlueprintUtils;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -102,6 +103,10 @@ public class SawyerBossOpponent : BaseBossExt
 		yield return new WaitForSeconds(0.4f);
 
 		ViewManager.Instance.SetViewUnlocked();
+
+		yield return CardSpawner.Instance.SpawnCardToHand("Bonehound".GetCardInfo());
+		yield return CardSpawner.Instance.SpawnCardToHand("Zombie".GetCardInfo());
+		yield return CardSpawner.Instance.SpawnCardToHand("Zombie".GetCardInfo());
 	}
 
 	public EncounterBlueprintData BuildNewPhaseBlueprint()
@@ -109,15 +114,15 @@ public class SawyerBossOpponent : BaseBossExt
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Kennel, bp_Kennel },
+			new() { bp_Kennel },
 			new(),
-			new() { bp_Bonehound },
+			new() { bp_Kennel },
 			new(),
 			new() { bp_Zombie, bp_Skeleton },
 			new(),
 			new() { bp_Skeleton },
 			new(),
-			new() { bp_Bonehound },
+			new() { bp_Skeleton },
 			new(),
 			new(),
 			new() { bp_Bonehound },

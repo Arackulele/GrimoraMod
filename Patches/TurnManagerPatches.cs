@@ -2,6 +2,7 @@ using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
 using static GrimoraMod.GrimoraPlugin;
+using GrimoraMod.Saving;
 
 namespace GrimoraMod;
 
@@ -23,7 +24,7 @@ public class TurnManagerPatches
 
 		if (!SaveFile.IsAscension ||( SaveFile.IsAscension && !AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.NoBones)))
 		{
-			int bonesToAdd = 0;// TODO: ConfigHelper.Instance.BonesToAdd;
+			int bonesToAdd = GrimoraRunState.CurrentRun.regionTier;
 			Log.LogDebug($"[SetupPhase] Adding [{bonesToAdd}] bones");
 			yield return ResourcesManager.Instance.AddBones(bonesToAdd);
 		}
