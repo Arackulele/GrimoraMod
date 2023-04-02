@@ -19,7 +19,11 @@ public class CardAppearanceBehaviourPatch
 		}
 
 		var renderer = __instance.Card.GetComponentInChildren<GravestoneRenderStatsLayer>();
-		renderer.Material.SetAlbedoTexture(GravestoneGold.mainTexture);
+		if (renderer != null)
+		{
+			renderer.Material.SetAlbedoTexture(GravestoneGold.mainTexture);
+		}
+
 		return false;
 	}
 }
