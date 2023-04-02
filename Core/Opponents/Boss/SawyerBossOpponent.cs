@@ -104,9 +104,9 @@ public class SawyerBossOpponent : BaseBossExt
 
 		ViewManager.Instance.SetViewUnlocked();
 
-		yield return CardSpawner.Instance.SpawnCardToHand("Bonehound".GetCardInfo());
-		yield return CardSpawner.Instance.SpawnCardToHand("Zombie".GetCardInfo());
-		yield return CardSpawner.Instance.SpawnCardToHand("Zombie".GetCardInfo());
+		yield return CardSpawner.Instance.SpawnCardToHand(NameBonehound.GetCardInfo());
+		yield return CardSpawner.Instance.SpawnCardToHand(NameZombie.GetCardInfo());
+		yield return CardSpawner.Instance.SpawnCardToHand(NameZombie.GetCardInfo());
 	}
 
 	public EncounterBlueprintData BuildNewPhaseBlueprint()
