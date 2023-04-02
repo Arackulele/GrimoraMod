@@ -74,7 +74,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			GlitchOutAssetEffect.GlitchModel(LifeManager.Instance.Scales3D.transform);
 			yield return new WaitForSeconds(0.5f);
 
-			GlitchOutAssetEffect.GlitchModel(GrimoraItemsManagerExt.Instance.hammerSlot.transform);
+			GlitchOutAssetEffect.GlitchModel(GrimoraItemsManagerExt.Instance.HammerSlot.transform);
 			yield return new WaitForSeconds(0.5f);
 
 			(ResourcesManager.Instance as Part1ResourcesManager).GlitchOutBoneTokens();

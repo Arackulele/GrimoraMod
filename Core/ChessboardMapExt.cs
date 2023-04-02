@@ -118,27 +118,19 @@ public class ChessboardMapExt : GameMap
 	{
 		if (_kayceechessboards == null)
 		{
-			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("maps_kaycee.json"));
-			_kayceechessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString));
-			GrimoraPlugin.Log.LogInfo("kaycee maps parsed");
+			_kayceechessboards = LoadChessboardsFromFile("maps_kaycee.json");
 		}
 		if (_sawyerchessboards == null)
 		{
-			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("maps_sawyer.json"));
-			_sawyerchessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString));
-			GrimoraPlugin.Log.LogInfo("sawyer maps parsed");
+			_sawyerchessboards = LoadChessboardsFromFile("maps_sawyer.json");
 		}
 		if (_royalchessboards == null)
 		{
-			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("maps_royal.json"));
-			_royalchessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString));
-			GrimoraPlugin.Log.LogInfo("royal maps parsed");
+			_royalchessboards = LoadChessboardsFromFile("maps_royal.json");
 		}
 		if (_grimorachessboards == null)
 		{
-			string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir("maps_grimora.json"));
-			_grimorachessboards = ParseJson(SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString));
-			GrimoraPlugin.Log.LogInfo("grimora maps parsed");
+			_grimorachessboards = LoadChessboardsFromFile("maps_grimora.json");
 		}
 		
 		
@@ -188,9 +180,58 @@ public class ChessboardMapExt : GameMap
 		}
 	}
 
-	private static List<GrimoraChessboard> ParseJson(IEnumerable<List<List<int>>> chessboardsFromJson)
+	private static List<GrimoraChessboard> LoadChessboardsFromFile(string fileName)
 	{
-		return chessboardsFromJson.Select((board, idx) => new GrimoraChessboard(board, idx)).ToList();
+		string jsonString = File.ReadAllText(FileUtils.FindFileInPluginDir(fileName));
+		
+		List<List<List<char>>> chessboardsFromJson = null;
+		try
+		{
+			chessboardsFromJson = SimpleJson.DeserializeObject<List<List<List<char>>>>(jsonString);
+		}
+		catch (Exception)
+		{
+			chessboardsFromJson = ConvertMapToCorrectFormat(jsonString, fileName);
+		}
+
+		List<GrimoraChessboard> chessboards = new List<GrimoraChessboard>();
+		for (int i = 0; i < chessboardsFromJson.Count; i++)
+		{
+			GrimoraChessboard chessboard = new GrimoraChessboard(chessboardsFromJson[i]);
+			chessboards.Add(chessboard);
+		}
+		
+		Debug.Log(fileName + " maps parsed");
+		return chessboards;
+	}
+
+	private static List<List<List<char>>> ConvertMapToCorrectFormat(string jsonString, string fileName)
+	{
+		Log.LogError($"Failed to load map {fileName}. Map does not use strings!");
+		List<List<List<int>>> chessboardsAsNumbers = null;
+		try
+		{
+			chessboardsAsNumbers = SimpleJson.DeserializeObject<List<List<List<int>>>>(jsonString);
+		}
+		catch (Exception exception)
+		{
+			Log.LogError($"Failed to correct map {fileName}. Is there a something wrong with the JSON?");
+			Log.LogError(exception);
+		}
+		
+		List<List<List<char>>> chessboardsFromJson = new List<List<List<char>>>();
+		foreach (List<List<int>> data in chessboardsAsNumbers)
+		{
+			List<List<char>> column = new List<List<char>>();
+			foreach (List<int> row in data)
+			{
+				List<char> convertedRow = row.Select(a=>a.ToString()[0]).ToList();
+				column.Add(convertedRow);
+			}
+			chessboardsFromJson.Add(column);
+		}
+
+		return chessboardsFromJson;
 	}
 
 	public static string[] CardsLeftInDeck => CardDrawPiles3D
@@ -412,8 +453,8 @@ public class ChessboardMapExt : GameMap
 			else
 			{
 				Log.LogDebug($"[UpdateActiveChessboard] Loading chessboard from save data");
-				List<List<int>> currentRunCurrentChessboard = GrimoraRunState.CurrentRun.CurrentChessboard;
-				ActiveChessboard = new GrimoraChessboard(currentRunCurrentChessboard, -1);
+				List<List<char>> currentRunCurrentChessboard = GrimoraRunState.CurrentRun.CurrentChessboard;
+				ActiveChessboard = new GrimoraChessboard(currentRunCurrentChessboard);
 			}
 		}
 		
