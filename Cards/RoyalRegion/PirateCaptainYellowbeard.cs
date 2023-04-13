@@ -1,4 +1,6 @@
-﻿namespace GrimoraMod;
+using UnityEngine;
+
+namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
@@ -13,6 +15,6 @@ public partial class GrimoraPlugin
 		 .SetBoneCost(7)
 		 .SetDescription("His songs raise the morale of only Skeletons, as no one else seems to like it.")
 		 .SetNames(NamePirateCaptainYellowbeard, "Yellowbeard")
-		 .Build();
+		 .Build().pixelPortrait = AssetUtils.GetPrefab<Sprite>("yellowbeard_pixel");
 	}
 }

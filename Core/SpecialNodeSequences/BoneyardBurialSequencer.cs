@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
 using Pixelplacement;
@@ -16,20 +16,35 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 	private CardInfo _revenantCardReward;
 
+	private static int effectrandomizer = 1;
+
+	GameObject extralight;
+
+	Light lightComp;
+
 	private void Start()
 	{
 		_revenantCardReward = NameRevenant.GetCardInfo();
+
+		extralight = new GameObject("ExtraLight");
+		lightComp = extralight.AddComponent<Light>();
+		lightComp.color = GameColors.Instance.orange;
+		extralight.transform.position = new Vector3(0, 7.505f, - 0.0772f);
+		lightComp.range = 6;
+		lightComp.intensity = 11f;
+		lightComp.enabled = false;
 	}
 
 	private IEnumerator InitialSetup()
 	{
+		effectrandomizer = UnityEngine.Random.Range(1, 6);
 		stakeRingParent.SetActive(false);
 		campfireLight.gameObject.SetActive(false);
-		campfireLight.intensity = 0f;
-		campfireCardLight.intensity = 0f;
-		selectionSlot.Disable();
-		selectionSlot.gameObject.SetActive(false);
-		yield return new WaitForSeconds(0.3f);
+		campfireLight.intensity = 1f;
+		campfireCardLight.intensity = 1f;
+
+
+
 
 		ExplorableAreaManager.Instance.HangingLight.gameObject.SetActive(false);
 		ExplorableAreaManager.Instance.HandLight.gameObject.SetActive(false);
@@ -42,11 +57,25 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		stakeRingParent.SetActive(true);
 		ExplorableAreaManager.Instance.HandLight.gameObject.SetActive(true);
 		campfireLight.gameObject.SetActive(true);
+
+	}
+
+
+	public IEnumerator enableLight()
+	{
+
+		yield return new WaitForSeconds(1f);
+		lightComp.enabled = true;
+		extralight.transform.position = new Vector3(0, 7.505f, -0.0772f);
+		extralight.transform.position = new Vector3(0, 7.507f, -0.0772f);
 	}
 
 	public IEnumerator BurialSequence()
 	{
 		yield return InitialSetup();
+		yield return InitialSetup();
+
+		yield return StartCoroutine(enableLight());
 
 		if (GetValidCards().IsNullOrEmpty())
 		{
@@ -60,8 +89,11 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		}
 		else
 		{
-			if (!EventManagement.HasLearnedMechanicBoneyard)
+
+
+			if (effectrandomizer == 1)
 			{
+
 				yield return TextDisplayer.Instance.ShowUntilInput(
 					"A LONE GRAVE SITS SOLEMNLY IN FRONT OF YOU.",
 					-0.65f
@@ -78,7 +110,117 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 					"THIS WOULDN'T BE WITHOUT REPERCUSSIONS OF COURSE, AS DEATH IS NEVER PERMANENT.",
 					-0.65f
 				);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+				$"THE CORPSE SEEMS TO BE OF ROTTING FLESH, YOUR CARD WILL BECOME {"BRITTLE".BrightRed()}, BUT {"ITS BONE COST WILL BE HALVED".BrightRed()}.",
+				-0.65f
+				);
+
 			}
+
+			if (effectrandomizer == 2)
+			{
+
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					"A LONE GRAVE SITS SOLEMNLY IN FRONT OF YOU.",
+					-0.65f
+				);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					"IN FRONT OF IT IS A MOUND OF EARTH, LEFT BY SOMEONE WHO'S ALREADY PASSED ON.",
+					-0.65f
+				);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					$"PERHAPS A MEMBER OF YOUR UNDEAD HORDE COULD {"DIG THEM UP?".BrightRed()}",
+					-0.65f
+				);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					"THIS WOULDN'T BE WITHOUT REPERCUSSIONS OF COURSE, AS DEATH IS NEVER PERMANENT.",
+					-0.65f
+				);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+				$"THE CORPSE SEEMS TO BE OF A STARVING MAN, YOUR CARD WILL {"STARVE FOREVER".BrightRed()}, BUT {"ITS BONE COST WILL BE REDUCED BY 2".BrightRed()}.",
+				-0.65f
+				);
+
+			}
+
+			if (effectrandomizer == 3)
+			{
+
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					"A LONE GRAVE SITS SOLEMNLY IN FRONT OF YOU.",
+					-0.65f
+				);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					"IN FRONT OF IT IS A MOUND OF EARTH, LEFT BY SOMEONE WHO'S ALREADY PASSED ON.",
+					-0.65f
+				);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					$"PERHAPS A MEMBER OF YOUR UNDEAD HORDE COULD {"DIG THEM UP?".BrightRed()}",
+					-0.65f
+				);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					"THIS WOULDN'T BE WITHOUT REPERCUSSIONS OF COURSE, AS DEATH IS NEVER PERMANENT.",
+					-0.65f
+				);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+				$"THE CORPSE SEEMS TO BE OF AN INCORPOREAL GHOST, YOUR CARD WILL {"COST 2 SOULS".BrightRed()} , BUT {"ITS BONE COST WILL BE REDUCED BY 1".BrightRed()}.",
+				-0.65f
+				);
+
+			}
+
+			if (effectrandomizer == 4)
+			{
+
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					"A LONE GRAVE SITS SOLEMNLY IN FRONT OF YOU.",
+					-0.65f
+				);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					"IN FRONT OF IT IS A MOUND OF EARTH, LEFT BY SOMEONE WHO'S ALREADY PASSED ON.",
+					-0.65f
+				);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					$"PERHAPS A MEMBER OF YOUR UNDEAD HORDE COULD {"DIG THEM UP?".BrightRed()}",
+					-0.65f
+				);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					"THIS WOULDN'T BE WITHOUT REPERCUSSIONS OF COURSE, AS DEATH IS NEVER PERMANENT.",
+					-0.65f
+				);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+				$"THE CORPSE SEEMS TO BE OF A CHAINED PRISONER, YOUR CARD WILL {"DEAL 1 MORE DAMAGE".BrightRed()} , BUT {"IT WILL DIE AFTER JUST 1 STRIKE".BrightRed()}.",
+				-0.65f
+				);
+
+			}
+
+			if (effectrandomizer == 5)
+			{
+
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					"A LONE GRAVE SITS SOLEMNLY IN FRONT OF YOU.",
+					-0.65f
+				);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					"IN FRONT OF IT IS A MOUND OF EARTH, LEFT BY SOMEONE WHO'S ALREADY PASSED ON.",
+					-0.65f
+				);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					$"PERHAPS A MEMBER OF YOUR UNDEAD HORDE COULD {"DIG THEM UP?".BrightRed()}",
+					-0.65f
+				);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+					"THIS WOULDN'T BE WITHOUT REPERCUSSIONS OF COURSE, AS DEATH IS NEVER PERMANENT.",
+					-0.65f
+				);
+				yield return TextDisplayer.Instance.ShowUntilInput(
+				$"THE CORPSE SEEMS TO BE OF A MISCHIEVIOUS SPIRIT, YOUR CARD WILL {"HAUNT OTHERS".BrightRed()} , BUT {"WILL COST 3 SOULS".BrightRed()}.",
+				-0.65f
+				);
+
+			}
+
 
 			selectionSlot.gameObject.SetActive(true);
 			selectionSlot.RevealAndEnable();
@@ -120,12 +262,15 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 				);
 				ApplyModToCard(selectionSlot.Card.Info);
 				selectionSlot.Card.Anim.PlayTransformAnimation();
+				selectionSlot.Card.StatsLayer.SetEmissionColor(GameColors.Instance.orange);
 				yield return new WaitForSeconds(0.15f);
 				selectionSlot.Card.SetInfo(selectionSlot.Card.Info);
 				selectionSlot.Card.SetInteractionEnabled(false);
 				yield return new WaitForSeconds(0.75f);
 				finishedBuffing = true;
 			}
+
+
 
 			if (EventManagement.HasLearnedMechanicBoneyard)
 			{
@@ -178,6 +323,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		stakeRingParent.SetActive(false);
 		confirmStone.SetStoneInactive();
 		selectionSlot.gameObject.SetActive(false);
+		lightComp.enabled = false;
 
 		CustomCoroutine.WaitThenExecute(
 			0.4f,
@@ -256,12 +402,70 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 	private static void ApplyModToCard(CardInfo card)
 	{
-		CardModificationInfo cardModificationInfo = new CardModificationInfo
+
+		CardModificationInfo cardModificationInfo = new CardModificationInfo();
+
+
+		if ( effectrandomizer == 1)
+		{ 
+
+			cardModificationInfo = new CardModificationInfo
+			{
+				abilities = new List<Ability> { Ability.Brittle },
+				bonesCostAdjustment = -Mathf.CeilToInt(card.BonesCost / 2f),
+				singletonId = ModSingletonId
+			};
+
+		}
+
+		if (effectrandomizer == 2)
 		{
-			abilities = new List<Ability> { Ability.Brittle },
-			bonesCostAdjustment = -Mathf.CeilToInt(card.BonesCost / 2f),
+
+			cardModificationInfo = new CardModificationInfo
+			{
+				abilities = new List<Ability> { Malnourishment.ability },
+				bonesCostAdjustment = -2,
 			singletonId = ModSingletonId
-		};
+			};
+
+		}
+
+		if (effectrandomizer == 3)
+		{
+
+			cardModificationInfo = new CardModificationInfo
+			{
+				bonesCostAdjustment = -1,
+				energyCostAdjustment = 2,
+				singletonId = ModSingletonId
+			};
+
+		}
+
+		if (effectrandomizer == 4)
+		{
+
+			cardModificationInfo = new CardModificationInfo
+			{
+				healthAdjustment = -(card.Health - 1),
+				attackAdjustment = 1,
+				singletonId = ModSingletonId
+			};
+
+		}
+
+		if (effectrandomizer == 5)
+		{
+
+			cardModificationInfo = new CardModificationInfo
+			{
+				abilities = new List<Ability> { Haunter.ability },
+				energyCostAdjustment = 3,
+				singletonId = ModSingletonId
+			};
+
+		}
+
 		RunState.Run.playerDeck.ModifyCard(card, cardModificationInfo);
 	}
 
@@ -355,8 +559,8 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		selectionSlot.specificRenderers.RemoveAt(1);
 		selectionSlot.specificRenderers[0].material = selectionSlotMat;
 		selectionSlot.specificRenderers[0].sharedMaterial = selectionSlotMat;
-		selectionSlot.transform.localPosition = new Vector3(0, 5.13f, 0.51f);
-		selectionSlot.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+		selectionSlot.transform.localPosition = new Vector3(0, 5.4f, 0.4f);
+		selectionSlot.transform.localScale = new Vector3(1f, 1f, 1f);
 		selectionSlot.transform.localRotation = Quaternion.Euler(0, 0, 0);
 		selectionSlot.defaultColor = GrimoraColors.GrimoraText;
 		selectionSlot.baseColor = GrimoraColors.GrimoraText;
@@ -374,6 +578,8 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 		SpecialNodeHandler.Instance.cardStatBoostSequencer = newSequencer;
 
+		
+
 		Destroy(oldSequencer);
 	}
 
@@ -381,13 +587,13 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 	{
 		CompositeFigurine gravediggerFigurine = Instantiate(
 				AssetConstants.BoneyardFigurine,
-				new Vector3(0, 5, 2.5f),
-				Quaternion.Euler(0, 180, 0),
+				new Vector3(2.2f, 5, 3.75f),
+				Quaternion.Euler(0, 208, 0),
 				cardStatObj.transform
 			)
 			.AddComponent<CompositeFigurine>();
 		gravediggerFigurine.name = "Boneyard Gravedigger";
-		gravediggerFigurine.transform.localPosition = new Vector3(0, 5, 2.75f);
+		gravediggerFigurine.transform.localPosition = new Vector3(2.2f, 5, 3.75f);
 		gravediggerFigurine.transform.localScale = new Vector3(4, 4, 4);
 		gravediggerFigurine.gameObject.SetActive(false);
 
@@ -398,14 +604,17 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 	{
 		CompositeFigurine grave = Instantiate(
 				AssetConstants.BoneyardGrave,
-				new Vector3(0, 4f, 0.6f),
-				Quaternion.Euler(0, 90, 0),
+				new Vector3(-0.0145f, 6.4309f, 2.1464f),
+				Quaternion.Euler(270, 270, 0),
 				cardStatObj.transform
 			)
 			.AddComponent<CompositeFigurine>();
 		grave.name = "Boneyard Burial Grave";
-		grave.transform.localScale = new Vector3(0.4f, 0.6f, 0.6f);
+		grave.transform.localScale = new Vector3(40f, 40f, 40);
 		grave.gameObject.SetActive(false);
+
+
+	
 
 		return grave;
 	}

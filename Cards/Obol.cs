@@ -1,5 +1,5 @@
-﻿using DiskCardGame;
-
+using DiskCardGame;
+using UnityEngine;
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
@@ -15,6 +15,6 @@ public partial class GrimoraPlugin
 			.SetBoneCost(3)
 			.SetDescription("THE KEY TO EVERYTHING, SOMEHOW.")
 			.SetNames(NameObol, "Ancient Obol")
-			.Build();
+			.Build().pixelPortrait = GrimoraPlugin.AllSprites.Find(o => o.name == "obol_pixel");
 	}
 }

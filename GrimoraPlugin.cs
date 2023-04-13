@@ -31,7 +31,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private static Harmony _harmony;
 
-	public static List<GameObject> AllPrefabs=new List<GameObject>();
+	public static List<GameObject> AllPrefabs =new List<GameObject>();
 	public static List<Material> AllMats;
 	public static List<RuntimeAnimatorController> AllControllers;
 	public static List<Sprite> AllSprites;
@@ -44,7 +44,9 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	public static List<string> AllGrimoraModCardsNoGuid = new();
 	public static List<CardInfo> AllPlayableGrimoraModCards = new();
 	public static List<ConsumableItemData> AllGrimoraItems = new();
-	
+
+
+
 	public static bool Initialized { get; set; } 
 
 	private void Awake()
@@ -65,15 +67,20 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		
 		LoadExpansionCards();
 		
-		LoadItems();
 		
 		StarterDecks.RegisterStarterDecks();
 		
 		ChallengeManagement.UpdateGrimoraChallenges();
 
-		
-		
+		//using (var s = Assembly.GetExecutingAssembly().GetManifestResourceStream("GrimoraMod.Embed.new_grimora"))
+		//{
+		//	new_grimora = AssetBundle.LoadFromStream(s);
+		//}
+
 		Initialized = true;
+
+		LoadItems();
+
 		Log.LogInfo("[GrimoraPlugin] Initialized");
 	}
 
@@ -91,6 +98,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	internal static List<GameObject> kopieGameObjects = new List<GameObject>();
 	private void LoadAssetsSync()
 	{
+
 		AllAbilitiesTextures = AssetUtils.LoadAssetBundle<Texture>("grimoramod_abilities");
 		AllControllers = AssetUtils.LoadAssetBundle<RuntimeAnimatorController>("grimoramod_controller");
 		AllMats = AssetUtils.LoadAssetBundle<Material>("grimoramod_mats");
@@ -99,8 +107,16 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AllSounds = AssetUtils.LoadAssetBundle<AudioClip>("grimoramod_sounds");
 		AllSprites = AssetUtils.LoadAssetBundle<Sprite>("grimoramod_sprites");
 		var kopieSprites = AssetUtils.LoadAssetBundle<Sprite>("grimora_kopiebunde");
+
 		var kopiePrefabs = AssetUtils.LoadAssetBundle<GameObject>("grimora_kopiebunde");
-		#if DEBUG
+
+		var grimora_new_prefabs = AssetUtils.LoadAssetBundle<GameObject>("grimoramod_prefab_new");
+
+		var grimora_new = AssetUtils.LoadAssetBundle<Sprite>("grimoramod_new");
+
+		//var grimora_newmodels = AssetUtils.LoadAssetBundle<GameObject>("grimoramod_new");
+
+#if DEBUG
 		foreach (var s in kopieSprites)
 		{
 			Log.LogInfo($"Sprite added by Kopie {s}");
@@ -109,11 +125,13 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		{
 			Log.LogInfo($"Prefab added by Kopie {g}");
 		}
-		#endif
-
+#endif
+		AllSprites.AddRange(grimora_new);
 		AllSprites.AddRange(kopieSprites);
-		kopieGameObjects.AddRange(kopiePrefabs);
 
+		AllPrefabs.AddRange(grimora_new_prefabs);
+		kopieGameObjects.AddRange(kopiePrefabs);
+		kopieGameObjects.AddRange(grimora_new_prefabs);
 	}
 
 	private IEnumerator LoadAssetsAsync()
@@ -121,6 +139,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Log.LogInfo($"Loading asset bundles");
 
 		yield return StartCoroutine(AssetUtils.LoadAssetBundleAsync<GameObject>("grimoramod_prefabs"));
+
+
 	}
 
 	// private IEnumerator HotReloadMenuCardAdd()
@@ -313,10 +333,24 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private void LoadItems()
 	{
+
 		GrimoraCardInABottle.CreateModel();
-		AllGrimoraItems.Add(GrimoraCardInABottle.NewCardBottleItem("Skeleton"));
+		AllGrimoraItems.Add(GrimoraCardInABottle.NewCardBottleItem(NameRevenant));
 		AllGrimoraItems.Add(GrimoraCardInABottle.NewCardBottleItem(NameBonepile));
-		AllGrimoraItems.Add(GrimoraCardInABottle.NewCardBottleItem(NameFranknstein));
+
+		GameObject Urn = new GameObject("UrnParent");
+		GameObject Child = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("UrnPrefab")));
+		//Child.transform.parent = Urn.transform;
+		//Child.transform.localRotation = Quaternion.Euler(270, 0, 0);
+		//Child.transform.localPosition = new Vector3(0, 1.4f, 0);
+		//Child.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+
+		//Urn.transform.rotation = Quaternion.Euler(270, 0, 0);
+		//Urn.transform.localPosition = new Vector3(-2.5f, 5.8691f, - 3f);
+
+		AllGrimoraItems.Add(GrimoraUrn.NewGrimoraUrn(Child));
+
+
 	}
 
 	private void AddDebugCards()

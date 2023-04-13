@@ -1,5 +1,5 @@
-﻿using DiskCardGame;
-
+using DiskCardGame;
+using UnityEngine;
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
@@ -15,6 +15,7 @@ public partial class GrimoraPlugin
 			.SetEnergyCost(5)
 			.SetDescription("THEY HAVE LEARNED THE ANCIENT SPELL OF DEATH.")
 			.SetNames(NameSkelemagus, "Skelemagus")
+			.SetPortraits(AssetUtils.GetPrefab<Sprite>("Skelemagus_new"), AssetUtils.GetPrefab<Sprite>("Skelemagus_emission_new"))
 			.Build();
 	}
 }

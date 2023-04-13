@@ -51,9 +51,14 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		{
 			if (!EventManagement.HasLearnedMechanicElectricChair)
 			{
-				yield return TextDisplayer.Instance.ShowUntilInput("OH! I LOVE THIS ONE!");
-				yield return TextDisplayer.Instance.ShowUntilInput($"YOU STRAP ONE OF YOUR CARDS TO THE CHAIR, {"EMPOWERING".Blue()} IT!");
-				yield return TextDisplayer.Instance.ShowUntilInput("OF COURSE, IT DOESN'T HURT.\nYOU CAN'T DIE TWICE AFTER ALL.");
+
+				yield return TextDisplayer.Instance.ShowUntilInput("Oh, I love this one!");
+				yield return TextDisplayer.Instance.ShowUntilInput($"The Electric Chair, it allows you to harness the power of lightning itself, letting you {"empower".Blue()} your cards with mutating abilties!");
+				yield return TextDisplayer.Instance.ShowUntilInput("However, I must warn you, it is no ordinary chair. With the ability to adjust the voltage, one wrong move could lead to a shocking disaster.");
+				yield return TextDisplayer.Instance.ShowUntilInput($"The brave will master the current, the cowardly will blindly follow it.");
+				yield return TextDisplayer.Instance.ShowUntilInput($"Are you bold enough to tinker with its lever on the left, letting the voltage corrupt the selection of the sigils?");
+
+
 
 				EventManagement.HasLearnedMechanicElectricChair = true;
 			}

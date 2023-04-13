@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using DiskCardGame;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -78,7 +78,9 @@ public static class AssetConstants
 
 	#region Boneyard
 
-	public static GameObject BoneyardGrave => AssetUtils.GetPrefab<GameObject>("BoneyardBurialGrave");
+	public static GameObject BoneyardGrave => GrimoraPlugin.kopieGameObjects.Find(g => g.name.Contains("BoneyardBurialGraveNe"));
+
+
 
 	public static Material BoneyardSelectionSlot => AssetUtils.GetPrefab<Material>("Boneyard_SelectionSlot");
 

@@ -1,5 +1,5 @@
 using DiskCardGame;
-
+using UnityEngine;
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
@@ -15,6 +15,7 @@ public partial class GrimoraPlugin
 			.SetBoneCost(5)
 			.SetDescription("DESCRIBED BY SOME AS THE TRUEST NIGHTMARE.")
 			.SetNames(NameHydra, "Hydra")
+			.SetPortraits(AssetUtils.GetPrefab<Sprite>("hydra_new"), AssetUtils.GetPrefab<Sprite>("hydra_emission_new"))
 			.Build();
 	}
 }

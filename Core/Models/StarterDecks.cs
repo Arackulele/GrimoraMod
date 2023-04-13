@@ -2,6 +2,7 @@ using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Ascension;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -28,15 +29,33 @@ public class StarterDecks
 		},
 		new List<string>()
 		{
-			GrimoraPlugin.NameWillOTheWisp, GrimoraPlugin.NameDybbuk, GrimoraPlugin.NameVengefulSpirit, GrimoraPlugin.NameVengefulSpirit, GrimoraPlugin.NameDrownedSoul
+			GrimoraPlugin.NameWillOTheWisp, GrimoraPlugin.NameApparition, GrimoraPlugin.NameVengefulSpirit, GrimoraPlugin.NameVengefulSpirit, GrimoraPlugin.NameDrownedSoul
 		},
 		new List<string>()
 		{
-			GrimoraPlugin.NameBonepile, GrimoraPlugin.NameBonepile, GrimoraPlugin.NameScreamingSkull, GrimoraPlugin.NameSilbon, GrimoraPlugin.NameDeathKnell
+			GrimoraPlugin.NameBonepile, GrimoraPlugin.NameBonepile, GrimoraPlugin.NameDybbuk, GrimoraPlugin.NameDoll, GrimoraPlugin.NameDeathKnell
 		},
 		new List<string>()
 		{
-			GrimoraPlugin.NameGhostShip, GrimoraPlugin.NameDraugr, GrimoraPlugin.NameGravedigger, GrimoraPlugin.NameAnimator, GrimoraPlugin.NameTombRobber
+			GrimoraPlugin.NameGravedigger, GrimoraPlugin.NameGravedigger, GrimoraPlugin.NameDraugr, GrimoraPlugin.NameRevenant, GrimoraPlugin.NameAnimator
+		},
+
+		// new decks
+		new List<string>()
+		{
+			GrimoraPlugin.NameDraugr, GrimoraPlugin.NameDraugr, GrimoraPlugin.NameTombRobber, GrimoraPlugin.NameFamily, GrimoraPlugin.NameGlacier
+		},
+		new List<string>()
+		{
+			GrimoraPlugin.NameBonepile, GrimoraPlugin.NameObol, GrimoraPlugin.NameZombie, GrimoraPlugin.NameBonehound, GrimoraPlugin.NameBonehound
+		},
+		new List<string>()
+		{
+			GrimoraPlugin.NameGravedigger, GrimoraPlugin.NameGravedigger, GrimoraPlugin.NameSummoner, GrimoraPlugin.NamePirateFirstMateSnag, GrimoraPlugin.NamePirateCaptainYellowbeard
+		},
+		new List<string>()
+		{
+			GrimoraPlugin.NameGravedigger, GrimoraPlugin.NameBonepile, GrimoraPlugin.NameBoneLordsHorn, GrimoraPlugin.NameGiant, GrimoraPlugin.NameGiant
 		},
 	};
 
@@ -46,6 +65,10 @@ public class StarterDecks
 		"Ghost",
 		"Scream",
 		"Skeleton",
+		"Kaycee",
+		"Sawyer",
+		"Royal",
+		"Grimora"
 	};
 	
 	
@@ -54,7 +77,7 @@ public class StarterDecks
 
 	public static void RegisterStarterDecks()
 	{
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 8; i++)
 		{
 #if DEBUG
 			GrimoraPlugin.Log.LogInfo(i);
@@ -63,11 +86,58 @@ public class StarterDecks
 				GrimoraPlugin.GUID,
 				CreateStarterDeckInfo(deckNames[i], decks[i].ToArray())
 			);
-			
-			d.Info.iconSprite = GrimoraPlugin.AllSprites.Find(o => o.name == "deck_"+deckNames[i].ToLowerInvariant());
-			if(i==0)	
-				DefaultStarterDeck =d.Info.name;
-		}
+
+			if (i < 2)
+			{
+				d.Info.iconSprite = GrimoraPlugin.AllSprites.Find(o => o.name == "deck_" + deckNames[i].ToLowerInvariant());
+				if (i == 0)
+					DefaultStarterDeck = d.Info.name;
+
+			}
+
+			switch(i)
+			{
+
+
+				default:
+				case 0:
+					d.Info.iconSprite = AssetUtils.GetPrefab<Sprite>("deck_basic");
+					break;
+
+				case 1:
+					d.Info.iconSprite = AssetUtils.GetPrefab<Sprite>("deck_ghost");
+					break;
+
+				case 2:
+					d.Info.iconSprite = AssetUtils.GetPrefab<Sprite>("PSIcon");
+					break;
+
+
+				case 3:
+					d.Info.iconSprite = AssetUtils.GetPrefab<Sprite>("AMIcon");
+					break;
+
+				case 4:
+				//d.UnlockLevel = 2;
+				d.Info.iconSprite = AssetUtils.GetPrefab<Sprite>("KCIcon");
+					break;
+
+				case 5:
+				//d.UnlockLevel = 3;
+				d.Info.iconSprite = AssetUtils.GetPrefab<Sprite>("SYIcon");
+					break;
+
+				case 6:
+				//d.UnlockLevel = 4;
+				d.Info.iconSprite = AssetUtils.GetPrefab<Sprite>("RYIcon");
+					break;
+
+				case 7:
+				//d.UnlockLevel = 5;
+				d.Info.iconSprite = AssetUtils.GetPrefab<Sprite>("GMIcon");
+					break;
+			}
+	}
 		
 		StarterDeckManager.ModifyDeckList += delegate(List<StarterDeckManager.FullStarterDeck> decks)
 		{
@@ -75,6 +145,7 @@ public class StarterDecks
 
 			// Only keep decks where at least one card belongs to this temple
 			decks.RemoveAll(info => info.Info.cards.FirstOrDefault(ci => ci.temple == acceptableTemple) == null);
+
 
 			return decks;
 		};

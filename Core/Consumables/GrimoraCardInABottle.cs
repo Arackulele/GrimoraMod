@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using InscryptionAPI.Items;
 using InscryptionAPI.Items.Extensions;
 using UnityEngine;

@@ -1,5 +1,5 @@
 using DiskCardGame;
-
+using UnityEngine;
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
@@ -8,6 +8,9 @@ public partial class GrimoraPlugin
 
 	private void Add_Card_BonelordsHorn()
 	{
+
+		Sprite pixelSprite = "BonelordHorn".GetCardInfo().pixelPortrait;
+
 		CardBuilder.Builder
 			.SetAsRareCard()
 			.SetAbilities(Ability.IceCube, Ability.QuadrupleBones)
@@ -17,6 +20,6 @@ public partial class GrimoraPlugin
 			.SetEnergyCost(2)
 			.SetIceCube(NameBonePrince)
 			.SetNames(NameBoneLordsHorn, "Bonelord's Horn")
-			.Build();
+			.Build().pixelPortrait = pixelSprite;
 	}
 }

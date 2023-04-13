@@ -26,9 +26,9 @@ public class ElectricChairLever : HighlightedInteractable
 		BoneThief.ability,
 		DrawSkeletonOnHit.ability,
 		ColdFront.ability,
-		LatchSubmerge.ability,
 		LooseLimb.ability,
-		SpiritBearer.ability
+		SpiritBearer.ability,
+		Ability.SteelTrap,
 	};
 
 	public static readonly List<Ability> AbilitiesMinorRisk = new(AbilitiesSaferRisk)
@@ -68,6 +68,7 @@ public class ElectricChairLever : HighlightedInteractable
 
 	public static readonly List<Ability> AbilitiesMajorRisk = new(AbilitiesMinorRisk)
 	{
+		LatchSubmerge.ability,
 		Ability.ActivatedHeal,
 		Ability.ActivatedRandomPowerEnergy,
 		Ability.ActivatedStatsUp,
@@ -79,7 +80,6 @@ public class ElectricChairLever : HighlightedInteractable
 		Ability.DrawCopy,
 		Ability.ExplodeOnDeath,
 		Ability.GuardDog,
-		Ability.SteelTrap,
 		Ability.Strafe,
 		Ability.StrafePush,
 		Ability.StrafeSwap,

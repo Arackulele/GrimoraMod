@@ -1,5 +1,5 @@
 using DiskCardGame;
-
+using UnityEngine;
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
@@ -16,7 +16,7 @@ public partial class GrimoraPlugin
 		 .SetDescription("TRULY A SIGHT TO BEHOLD.")
 		 .SetNames(NameGiant, "Giant")
 		 .SetTraits(Trait.Giant)
-		 .Build()
-			;
+		 .Build().pixelPortrait = AssetUtils.GetPrefab<Sprite>("giant_pixel");
+		;
 	}
 }

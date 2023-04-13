@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers;
 using Sirenix.Utilities;
@@ -167,6 +167,14 @@ public class CardBuilder
 	internal CardBuilder SetTraits(params Trait[] traits)
 	{
 		_cardInfo.SetTraits(traits);
+		return this;
+	}
+
+	internal CardBuilder SetPortraits(Sprite portrait, Sprite portraitm)
+	{
+		_cardInfo.SetPortrait(portrait);
+		_cardInfo.SetEmissivePortrait(portraitm);
+
 		return this;
 	}
 }
