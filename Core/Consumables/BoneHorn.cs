@@ -11,14 +11,13 @@ using  static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod.Consumables;
 
-public class GrimoraUrn : BatteryItem
+public class BoneHorn : ConsumableItem
 {
 
 
 	public override bool ExtraActivationPrerequisitesMet()
 	{
-		return (ResourcesManager.Instance.PlayerMaxEnergy < 6
-				 || ResourcesManager.Instance.PlayerEnergy < ResourcesManager.Instance.PlayerMaxEnergy);
+		return (ResourcesManager.Instance.PlayerMaxEnergy > 0);
 	}
 
 	public override void OnExtraActivationPrerequisitesNotMet()
@@ -29,18 +28,20 @@ public class GrimoraUrn : BatteryItem
 
 	public override IEnumerator ActivateSequence()
 	{
-		Debug.Log("Using Urn");
+		Debug.Log("Using BoneHorn");
 
-		yield return ResourcesManager.Instance.AddEnergy(ResourcesManager.Instance.PlayerMaxEnergy - ResourcesManager.Instance.PlayerEnergy);
+		yield return ResourcesManager.Instance.AddBones(ResourcesManager.Instance.PlayerEnergy *2);
+		yield return ResourcesManager.Instance.SpendEnergy(ResourcesManager.Instance.PlayerEnergy);
+
 
 	}
 
-	public static ConsumableItemData NewGrimoraUrn(GameObject Model)
+	public static ConsumableItemData NewBoneHorn(GameObject Model)
 	{
-		Debug.Log("Added Urn");
+		Debug.Log("Added Horn");
 
 		Texture2D HahaL = new Texture2D(70, 80);
-		ConsumableItemData data = ConsumableItemManager.New(GUID, "Soul Urn", "Contains the Soul of the damned", HahaL, typeof(GrimoraUrn), Model);
+		ConsumableItemData data = ConsumableItemManager.New(GUID, "Bone Horn", "Consumes your current Soul, you gain 2 Bones for each Soul consumed.", HahaL, typeof(BoneHorn), Model);
 		data.rulebookCategory = AbilityMetaCategory.GrimoraRulebook;
 
 		return data;

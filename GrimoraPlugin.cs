@@ -13,6 +13,7 @@ using HarmonyLib;
 using InscryptionAPI;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers;
+using InscryptionAPI.Helpers.Extensions;
 using InscryptionAPI.Items;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -331,6 +332,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		}
 	}
 
+	public static GameObject HandModel;
+
 	private void LoadItems()
 	{
 
@@ -338,18 +341,31 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AllGrimoraItems.Add(GrimoraCardInABottle.NewCardBottleItem(NameRevenant));
 		AllGrimoraItems.Add(GrimoraCardInABottle.NewCardBottleItem(NameBonepile));
 
-		GameObject Urn = new GameObject("UrnParent");
-		GameObject Child = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("UrnPrefab")));
-		//Child.transform.parent = Urn.transform;
-		//Child.transform.localRotation = Quaternion.Euler(270, 0, 0);
-		//Child.transform.localPosition = new Vector3(0, 1.4f, 0);
-		//Child.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+		GameObject UrnModel = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("UrnPrefab")));
 
-		//Urn.transform.rotation = Quaternion.Euler(270, 0, 0);
-		//Urn.transform.localPosition = new Vector3(-2.5f, 5.8691f, - 3f);
+		GameObject HornModel = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("BoneLordsHornPrefab")));
 
-		AllGrimoraItems.Add(GrimoraUrn.NewGrimoraUrn(Child));
+		HandModel = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("HandPrefab")));
 
+		GameObject TrowelModel = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("TrowelPrefab")));
+
+		GameObject EmbalmModel = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("Embalming_Fluid_Prefab")));
+
+		GameObject ShipBottlePrefab = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("ShipBottlePrefab")));
+
+		AllGrimoraItems.Add(EmbalmingFluid.NewEmbalmingFluid(EmbalmModel));
+
+		AllGrimoraItems.Add(Mallet.NewMallet(UrnModel));
+
+		AllGrimoraItems.Add(ShipBottle.NewShipBottle(ShipBottlePrefab));
+
+		AllGrimoraItems.Add(GrimoraUrn.NewGrimoraUrn(UrnModel));
+
+		AllGrimoraItems.Add(DeadHandItem.NewDeadHand(HandModel));
+
+		AllGrimoraItems.Add(BoneHorn.NewBoneHorn(HornModel));
+
+		AllGrimoraItems.Add(Trowel.NewTrowel(TrowelModel));
 
 	}
 

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using GrimoraMod.Saving;
 using HarmonyLib;
@@ -151,6 +151,13 @@ public class MenuControllerPatches
 		{
 			cardRow.transform.position -= new Vector3(0.22f, 0, 0);
 		}
+
+
+		//add Logo
+		GameObject Logo = new GameObject();
+		Logo.transform.parent = GameObject.Find("CardMenuTitle").transform;
+
+
 
 		return menuCardGrimora;
 	}

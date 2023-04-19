@@ -68,10 +68,12 @@ public static class AssetConstants
 		ResourceBank.Get<ChessboardEnemyPiece>($"{PathChessboardMap}/ChessboardEnemyPiece");
 
 	public static GameObject CardRemovalFigurine => AssetUtils.GetPrefab<GameObject>("ChessboardPiece_CardRemove");
-
-	public static GameObject GainConsumableFigurine => AssetUtils.GetPrefab<GameObject>("ChessboardPiece_ElectricChair");
 	
-	public static GameObject GoatEyeFigurine => AssetUtils.GetPrefab<GameObject>("ChessboardPiece_GoatEye");
+	public static GameObject GoatEyeFigurine => GrimoraPlugin.kopieGameObjects.Find(g => g.name.Contains("AnkhGuardPrefab"));
+
+	public static GameObject GainConsumable => GrimoraPlugin.kopieGameObjects.Find(g => g.name.Contains("SarcophagusPrefab"));
+
+	public static GameObject GhostBottle => kopieGameObjects.Find(g => g.name.Contains("soul"));
 
 	#endregion
 
@@ -109,9 +111,11 @@ public static class AssetConstants
 
 	#region Menu
 
-	public static Sprite MenuCardGrimora => AssetUtils.GetPrefab<Sprite>("MenuCard_Grimora");
+	public static Sprite MenuCardGrimora => AssetUtils.GetPrefab<Sprite>("MenuCardNew");
 
-	public static Sprite TitleSprite => AssetUtils.GetPrefab<Sprite>("menutext_grimora_mod");
+
+
+	public static Sprite TitleSprite => AssetUtils.GetPrefab<Sprite>("TitleLogo");
 
 	#endregion
 

@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using GrimoraMod.Saving;
 using HarmonyLib;
 using Sirenix.Utilities;
@@ -48,7 +48,7 @@ public class GrimoraChessboard
 			},
 			{
 				typeof(ChessboardGainConsumablePiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.ElectricChairFigurine, GetGainConsumableNodes)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.GainConsumable, GetGainConsumableNodes)
 			}
 		};
 	}
@@ -268,6 +268,9 @@ public class GrimoraChessboard
 		);
 	}
 
+
+
+
 	public T PlacePiece<T>(int x, int y, string id = "", SpecialNodeData specialNodeData = null) where T : ChessboardPiece
 	{
 		return CreateChessPiece<T>(
@@ -363,37 +366,47 @@ public class GrimoraChessboard
 		{
 			case ChessboardEnemyPiece enemyPiece:
 			{
-				if (BossHelper.OpponentTupleBySpecialId.ContainsKey(specialEncounterId))
-				{
-					// enemyPiece.blueprint = BossHelper.OpponentTupleBySpecialId[specialEncounterId].Item3;
-					enemyPiece.blueprint = GetBlueprint(true);
-					int bossesDefeated = GrimoraRunState.CurrentRun.regionTier;
-					switch (bossesDefeated)
-					{
-						case 3:
-							// have to set the scale since the Grimora anim prefab is much larger
-							enemyPiece.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
-							enemyPiece.transform.Rotate(new Vector3(0, 215, 0));
-							break;
-						default:
-							enemyPiece.transform.localRotation = Quaternion.Euler(0, 90, 0);
-							GameObject head = enemyPiece.transform.GetChild(0).Find("Head").gameObject;
-							if (head.GetComponent<SineWaveMovement>().SafeIsUnityNull())
-							{
-								SineWaveMovement wave = head.AddComponent<SineWaveMovement>();
-								wave.speed = 1;
-								wave.xMagnitude = 0;
-								wave.yMagnitude = 0.1f;
-								wave.zMagnitude = 0;
-							}
 
-							break;
+
+					if (enemyPiece is ChessboardGoatEyePiece)
+					{
+
+						enemyPiece.blueprint = BlueprintUtils.BuildAnkhGuardBPone();
+
 					}
-				}
-				else
-				{
-					enemyPiece.blueprint = GetBlueprint();
-				}
+
+					else if (BossHelper.OpponentTupleBySpecialId.ContainsKey(specialEncounterId))
+					{
+						// enemyPiece.blueprint = BossHelper.OpponentTupleBySpecialId[specialEncounterId].Item3;
+						enemyPiece.blueprint = GetBlueprint(true);
+						int bossesDefeated = GrimoraRunState.CurrentRun.regionTier;
+						switch (bossesDefeated)
+						{
+							case 3:
+								// have to set the scale since the Grimora anim prefab is much larger
+								enemyPiece.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+								enemyPiece.transform.Rotate(new Vector3(0, 215, 0));
+								break;
+							default:
+								enemyPiece.transform.localRotation = Quaternion.Euler(0, 90, 0);
+								GameObject head = enemyPiece.transform.GetChild(0).Find("Head").gameObject;
+								if (head.GetComponent<SineWaveMovement>().SafeIsUnityNull())
+								{
+									SineWaveMovement wave = head.AddComponent<SineWaveMovement>();
+									wave.speed = 1;
+									wave.xMagnitude = 0;
+									wave.yMagnitude = 0.1f;
+									wave.zMagnitude = 0;
+								}
+
+								break;
+						}
+					}
+					else
+					{
+
+						enemyPiece.blueprint = GetBlueprint();
+					}
 
 				enemyPiece.specialEncounterId = specialEncounterId;
 				break;
@@ -451,9 +464,20 @@ public class GrimoraChessboard
 			}
 			default:
 			{
-				return isForBoss 
-					       ? BossHelper.OpponentTupleBySpecialId[_activeBossId].Item3 
-					       : BlueprintUtils.GetRandomBlueprintForRegion();
+					if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.HardMode))
+					{
+						return isForBoss
+								 ? BossHelper.OpponentTupleBySpecialId[_activeBossId].Item3
+								 : BlueprintUtils.GetRandomBlueprintForRegionHard();
+					}
+					else
+					{
+
+						return isForBoss
+								 ? BossHelper.OpponentTupleBySpecialId[_activeBossId].Item3
+								 : BlueprintUtils.GetRandomBlueprintForRegion();
+
+					}
 			}
 		}
 		

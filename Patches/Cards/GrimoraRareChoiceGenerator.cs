@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Card;
@@ -42,13 +42,6 @@ public class RareCardChoicesSequencerPatch
 		Tween.Position(__instance.box, vector, 0.3f, 0f, Tween.EaseOut);
 		yield return new WaitForSeconds(0.8f);
 
-		if (!SaveFile.IsAscension || !DialogueEventsData.EventIsPlayed("ChallengeNoBossRares"))
-		{
-			yield return TextDisplayer.Instance.PlayDialogueEvent(
-				"RareCardsIntro",
-				TextDisplayer.MessageAdvanceMode.Input
-			);
-		}
 		
 		__instance.selectableCards = __instance.SpawnCards(3, __instance.box.transform, new Vector3(-1.55f, 0.2f, 0f));
 
@@ -81,16 +74,6 @@ public class RareCardChoicesSequencerPatch
 		yield return new WaitForSeconds(2f);
 
 		ViewManager.Instance.SwitchToView(__instance.choicesView);
-		ChallengeActivationUI.TryShowActivation(AscensionChallenge.NoBossRares);
-		if (AscensionSaveData.Data.ChallengeIsActive(AscensionChallenge.NoBossRares)
-		 && !DialogueEventsData.EventIsPlayed("ChallengeNoBossRares"))
-		{
-			yield return new WaitForSeconds(0.5f);
-			yield return TextDisplayer.Instance.PlayDialogueEvent(
-				"ChallengeNoBossRares",
-				TextDisplayer.MessageAdvanceMode.Input
-			);
-		}
 		
 		InteractionCursor.Instance.InteractionDisabled = false;
 		__instance.SetCollidersEnabled(true);

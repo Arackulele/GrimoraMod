@@ -30,6 +30,8 @@ public class TurnManagerPatches
 		}
 		else
 		{
+			//only show activation when No Bones is changing something
+			if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.NoBones) && GrimoraRunState.CurrentRun.regionTier > 0) ChallengeActivationUI.TryShowActivation(ChallengeManagement.NoBones);
 			Log.LogInfo($"{SaveFile.IsAscension } +  {AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.NoBones)}");
 		}
 	}

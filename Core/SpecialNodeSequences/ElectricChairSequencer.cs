@@ -191,8 +191,14 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			{
 				chanceToDie += AddChanceToDieForSecondZap();
 				Log.LogDebug($"[ElectricChair] Chance to die is now [{chanceToDie}]");
-				if (UnityRandom.value < chanceToDie && ! AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.SafeChair))
+				if (UnityRandom.value < chanceToDie )
 				{
+
+					if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.SafeChair)) { 
+						//see when safe chair saves your card from dying
+						ChallengeActivationUI.TryShowActivation(ChallengeManagement.SafeChair);
+					}
+					else { 
 					AudioController.Instance.PlaySound3D(
 						"teslacoil_overload",
 						MixerGroup.TableObjectsSFX,
@@ -202,6 +208,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 					((GravestoneCardAnimationController)selectionSlot.Card.Anim).PlayGlitchOutAnimation();
 					GrimoraSaveData.Data.deck.RemoveCard(selectionSlot.Card.Info);
 					yield return new WaitForSeconds(1f);
+					}
 				}
 			}
 			else
@@ -270,12 +277,42 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private void ApplyModToCard(CardInfo card)
 	{
-		CardModificationInfo cardModificationInfo = new CardModificationInfo
+		CardModificationInfo cardModificationInfo;
+
+		if (card.name == NameFranknstein)
 		{
-			abilities = new List<Ability> { GetRandomAbility(card) },
-			singletonId = ModSingletonId,
-			nameReplacement = card.displayedName.Replace("Yellowbeard", "Bluebeard")
-		};
+			card.displayedName = "Frankenstein";
+
+
+
+			cardModificationInfo = new CardModificationInfo
+			{
+
+				abilities = new List<Ability> { GetRandomAbility(card), Ability.PermaDeath },
+				singletonId = ModSingletonId,
+				nameReplacement = "Frankenstein",
+				attackAdjustment = 1,
+				healthAdjustment = 1
+
+			};
+		}
+
+		else
+		{
+			cardModificationInfo = new CardModificationInfo
+			{
+
+				abilities = new List<Ability> { GetRandomAbility(card) },
+				singletonId = ModSingletonId,
+				nameReplacement = card.displayedName.Replace("Yellowbeard", "Bluebeard")
+
+
+
+			};
+
+		}
+
+
 		RunState.Run.playerDeck.ModifyCard(card, cardModificationInfo);
 	}
 

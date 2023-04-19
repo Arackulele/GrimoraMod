@@ -1,4 +1,4 @@
-﻿namespace GrimoraMod;
+namespace GrimoraMod;
 
 public class ChessboardBoneyardPiece : ChessboardPieceExt
 {

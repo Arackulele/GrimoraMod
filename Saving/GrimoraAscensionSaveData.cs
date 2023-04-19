@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod.Saving;
 
@@ -30,6 +30,8 @@ public class GrimoraAscensionSaveData : AscensionSaveData
 		this.playerAvatarHead = CompositeFigurine.RandomType();
 		this.playerAvatarBody = CompositeFigurine.RandomType();
 		this.playerAvatarArms = CompositeFigurine.RandomType();
+
+		//AscensionSaveData.Data.challengeLevel = 15;
 	}
 	
 	public new void NewRun(List<CardInfo> starterDeck)
@@ -48,8 +50,8 @@ public class GrimoraAscensionSaveData : AscensionSaveData
 		this.oilPaintingState.puzzleSolution = OilPaintingPuzzle.GenerateSolution(true);
 		
 		this.currentRun.consumables.Clear();
-		this.currentRun.consumables.Add("Pliers");
-		
+		this.currentRun.consumables.Add(GrimoraPlugin.AllGrimoraItems[6].name);
+
 		foreach (CardInfo cardInfo in starterDeck)
 		{
 			this.currentRun.playerDeck.AddCard(CardLoader.GetCardByName(cardInfo.name));

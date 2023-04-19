@@ -36,7 +36,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 	public override IEnumerator PreCleanUp()
 	{
-		if (!TurnManager.Instance.PlayerIsWinner() && ! AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.InfinitLives))
+		if (!TurnManager.Instance.PlayerIsWinner() && !AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.InfinitLives))
 		{
 			Opponent opponent = TurnManager.Instance.Opponent;
 
@@ -58,59 +58,85 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 			StartCoroutine(opponent.CleanUp());
 
-			yield return GlitchOutBoardAndHandCards();
-
-			RuleBookController.Instance.SetShown(false);
-			TableRuleBook.Instance.enabled = false;
-			GlitchOutAssetEffect.GlitchModel(TableRuleBook.Instance.transform);
-			yield return new WaitForSeconds(0.5f);
-
-			GlitchOutAssetEffect.GlitchModel(ResourceDrone.Instance.transform);
-			yield return new WaitForSeconds(0.5f);
-
-			GlitchOutAssetEffect.GlitchModel(((BoardManager3D)BoardManager3D.Instance).Bell.transform);
-			yield return new WaitForSeconds(0.5f);
-
-			GlitchOutAssetEffect.GlitchModel(LifeManager.Instance.Scales3D.transform);
-			yield return new WaitForSeconds(0.5f);
-
-			GlitchOutAssetEffect.GlitchModel(GrimoraItemsManagerExt.Instance.HammerSlot.transform);
-			yield return new WaitForSeconds(0.5f);
-
-			(ResourcesManager.Instance as Part1ResourcesManager).GlitchOutBoneTokens();
-			GlitchOutAssetEffect.GlitchModel(TableVisualEffectsManager.Instance.Table.transform);
-			yield return new WaitForSeconds(0.5f);
-
-			if (FindObjectOfType<StinkbugInteractable>())
+			if (SaveFile.IsAscension)
 			{
-				FindObjectOfType<StinkbugInteractable>().OnCursorSelectStart();
+
+				//for some reason i cant instanciate the loss Screen???
+
+				AscensionMenuScreens.ReturningFromSuccessfulRun = false;
+				AscensionMenuScreens.ReturningFromFailedRun = true;
+
+				foreach (AscensionChallenge c in AscensionSaveData.Data.activeChallenges)
+					if (!AscensionSaveData.Data.conqueredChallenges.Contains(c))
+						AscensionSaveData.Data.conqueredChallenges.Add(c);
+
+				AscensionStatsData.TryIncrementStat(AscensionStat.Type.Losses);
+
+				//SaveManager.SaveToFile(false);
+
+				//AscensionSaveData.Data.activeChallenges = new List<AscensionChallenge> { ChallengeManagement.FrailHammer };
+
+
+				SceneLoader.Load("Ascension_Configure");
+
+				//yield break;
 			}
+			else
+			{
+				yield return GlitchOutBoardAndHandCards();
 
-			GlitchOutAssetEffect.GlitchModel(GameObject.Find("EntireChamber").transform);
-			yield return new WaitForSeconds(0.5f);
+				RuleBookController.Instance.SetShown(false);
+				TableRuleBook.Instance.enabled = false;
+				GlitchOutAssetEffect.GlitchModel(TableRuleBook.Instance.transform);
+				yield return new WaitForSeconds(0.5f);
 
-			InteractionCursor.Instance.InteractionDisabled = false;
+				GlitchOutAssetEffect.GlitchModel(ResourceDrone.Instance.transform);
+				yield return new WaitForSeconds(0.5f);
 
-			Log.LogDebug($"[GameEnd] Switching to default view");
-			ViewManager.Instance.SwitchToView(View.Default, false, true);
+				GlitchOutAssetEffect.GlitchModel(((BoardManager3D)BoardManager3D.Instance).Bell.transform);
+				yield return new WaitForSeconds(0.5f);
 
-			HammerItemExt.useCounter = 0;
+				GlitchOutAssetEffect.GlitchModel(LifeManager.Instance.Scales3D.transform);
+				yield return new WaitForSeconds(0.5f);
 
-			Log.LogDebug($"[GameEnd] Time to rest");
-			yield return TextDisplayer.Instance.ShowThenClear(
-				"It is time to rest.",
-				2f,
-				0f,
-				Emotion.Curious
-			);
-			yield return new WaitForSeconds(0.75f);
-			Log.LogDebug($"[GameEnd] offset fov");
-			ViewManager.Instance.OffsetFOV(150f, 1.5f);
+				GlitchOutAssetEffect.GlitchModel(GrimoraItemsManagerExt.Instance.HammerSlot.transform);
+				yield return new WaitForSeconds(0.5f);
 
-			yield return new WaitForSeconds(1f);
-			AudioController.Instance.StopAllLoops();
-			AudioController.Instance.StopAllCoroutines();
-			yield return MenuController.Instance.TransitionToGame2(true);
+				(ResourcesManager.Instance as Part1ResourcesManager).GlitchOutBoneTokens();
+				GlitchOutAssetEffect.GlitchModel(TableVisualEffectsManager.Instance.Table.transform);
+				yield return new WaitForSeconds(0.5f);
+
+				if (FindObjectOfType<StinkbugInteractable>())
+				{
+					FindObjectOfType<StinkbugInteractable>().OnCursorSelectStart();
+				}
+
+				GlitchOutAssetEffect.GlitchModel(GameObject.Find("EntireChamber").transform);
+				yield return new WaitForSeconds(0.5f);
+
+				InteractionCursor.Instance.InteractionDisabled = false;
+
+				Log.LogDebug($"[GameEnd] Switching to default view");
+				ViewManager.Instance.SwitchToView(View.Default, false, true);
+
+				HammerItemExt.useCounter = 0;
+
+				Log.LogDebug($"[GameEnd] Time to rest");
+				yield return TextDisplayer.Instance.ShowThenClear(
+					"It is time to rest.",
+					2f,
+					0f,
+					Emotion.Curious
+				);
+				yield return new WaitForSeconds(0.75f);
+				Log.LogDebug($"[GameEnd] offset fov");
+				ViewManager.Instance.OffsetFOV(150f, 1.5f);
+
+				yield return new WaitForSeconds(1f);
+				AudioController.Instance.StopAllLoops();
+				AudioController.Instance.StopAllCoroutines();
+				yield return MenuController.Instance.TransitionToGame2(true);
+			}
 		}
 	}
 
@@ -134,6 +160,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 						break;
 					}
 					case 5:
+						ChallengeActivationUI.TryShowActivation(ChallengeManagement.KayceesKerfuffle);
 						yield return HandleKayceeKerfuffleChallenge();
 						break;
 				}
@@ -152,11 +179,13 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		if (ResourcesManager.Instance.PlayerBones > 2)
 		{
 			yield return ResourcesManager.Instance.SpendBones(1);
+			ChallengeActivationUI.TryShowActivation(ChallengeManagement.SawyersShowdown);
 			yield return TextDisplayer.Instance.ShowUntilInput("Sawyer thanks you for your contribution!");
 		}
 		else
 		{
 			yield return ResourcesManager.Instance.AddBones(1);
+			ChallengeActivationUI.TryShowActivation(ChallengeManagement.SawyersShowdown);
 			yield return TextDisplayer.Instance.ShowUntilInput("Sawyer felt bad for you.");
 		}
 
@@ -217,8 +246,8 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 	{
 		Log.LogDebug($"[GetFixedOpeningHand] Getting randomized list for starting hand");
 		var cardsToAdd = new List<CardInfo>();
-		var gravedigger = RunState.Run.playerDeck.Cards.Find(info => info.name.Equals(NameGravedigger));
-		var bonePile = RunState.Run.playerDeck.Cards.Find(info => info.name.Equals(NameBonepile));
+		var gravedigger = RunState.Run.playerDeck.Cards.Find(info => info.BonesCost < 2 || info.EnergyCost < 2);
+		var bonePile = RunState.Run.playerDeck.Cards.Find(info => info.name!= gravedigger.name && (info.BonesCost < 3 || info.EnergyCost < 3) );
 		if (bonePile)
 		{
 			cardsToAdd.Add(bonePile);
@@ -234,12 +263,16 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 	public override IEnumerator GameEnd(bool playerWon)
 	{
+
+		Log.LogDebug($"Triggering Game end in Boss Opponent");
+
 		if (playerWon)
 		{
 			// Log.LogDebug($"[GrimoraModBattleSequencer Adding enemy to config [{ActiveEnemyPiece.name}]");
 			if (!ActiveEnemyPiece.SafeIsUnityNull())
 			{
 				GrimoraRunState.CurrentRun.PiecesRemovedFromBoard.Add(ActiveEnemyPiece.name);
+
 			}
 
 			_cardsThatHaveDiedThisMatch.Clear();
@@ -262,6 +295,9 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 				Destroy(nonCardTriggerReceiver.gameObject);
 			}
 		}
+
+
+
 	}
 
 	public static IEnumerator GlitchOutBoardAndHandCards()

@@ -27,35 +27,58 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 	{
 		if (playerWon)
 		{
-			if (!DialogueEventsData.EventIsPlayed("FinaleGrimoraBattleWon"))
+
+			if (SaveFile.IsAscension)
 			{
-				Log.LogDebug($"FinaleGrimoraBattleWon has not played yet, playing now.");
-
-				ViewManager.Instance.SetViewLocked();
-				yield return new WaitForSeconds(0.5f);
-				yield return TextDisplayer.Instance.PlayDialogueEvent(
-					"FinaleGrimoraBattleWon",
-					TextDisplayer.MessageAdvanceMode.Input
-				);
-			}
-
-			yield return new WaitForSeconds(0.5f);
-
-			if (ConfigHelper.Instance.IsEndlessModeEnabled)
-			{
-				Log.LogInfo($"Player won against Grimora! Now to win again, endlessly...");
+				//logic for calling Win Screen
 				yield return TextDisplayer.Instance.ShowUntilInput("Wonderful! I am pleasantly surprised by your triumph against me!");
-				yield return TextDisplayer.Instance.ShowUntilInput("...You wish to continue? Endlessly? Splendid!");
-				yield return TextDisplayer.Instance.ShowUntilInput("Please, take a card of your choosing.");
+				yield return TextDisplayer.Instance.ShowUntilInput("...But it seems i cannot move on just yet.");
+				yield return TextDisplayer.Instance.ShowUntilInput("Goodbye, Luke.");
+
+
+				AscensionMenuScreens.ReturningFromSuccessfulRun = true;
+				AscensionMenuScreens.ReturningFromFailedRun = false;
+
+				AscensionStatsData.TryIncrementStat(AscensionStat.Type.Victories);
+
+
+				SceneLoader.Load("Ascension_Configure");
+
 			}
 			else
 			{
-				Log.LogInfo($"Player won against Grimora! Resetting run...");
-				GrimoraSaveManager.ResetRun();
-				GrimoraSaveUtil.IsGrimoraModRun = false;
-				FinaleDeletionWindowManager.instance.mainWindow.gameObject.SetActive(true);
-				yield return ((GrimoraGameFlowManager)GameFlowManager.Instance).EndSceneSequence();
+
+				if (!DialogueEventsData.EventIsPlayed("FinaleGrimoraBattleWon"))
+				{
+					Log.LogDebug($"FinaleGrimoraBattleWon has not played yet, playing now.");
+
+					ViewManager.Instance.SetViewLocked();
+					yield return new WaitForSeconds(0.5f);
+					yield return TextDisplayer.Instance.PlayDialogueEvent(
+						"FinaleGrimoraBattleWon",
+						TextDisplayer.MessageAdvanceMode.Input
+					);
+				}
+
+				yield return new WaitForSeconds(0.5f);
+
+				if (ConfigHelper.Instance.IsEndlessModeEnabled)
+				{
+					Log.LogInfo($"Player won against Grimora! Now to win again, endlessly...");
+					yield return TextDisplayer.Instance.ShowUntilInput("Wonderful! I am pleasantly surprised by your triumph against me!");
+					yield return TextDisplayer.Instance.ShowUntilInput("...You wish to continue? Endlessly? Splendid!");
+					yield return TextDisplayer.Instance.ShowUntilInput("Please, take a card of your choosing.");
+				}
+				else
+				{
+					Log.LogInfo($"Player won against Grimora! Resetting run...");
+					GrimoraSaveManager.ResetRun();
+					GrimoraSaveUtil.IsGrimoraModRun = false;
+					FinaleDeletionWindowManager.instance.mainWindow.gameObject.SetActive(true);
+					yield return ((GrimoraGameFlowManager)GameFlowManager.Instance).EndSceneSequence();
+				}
 			}
+
 		}
 		else
 		{

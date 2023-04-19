@@ -105,6 +105,8 @@ public static class BlueprintUtils
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_MassGrave = NameMassGrave.CreateCardBlueprint();
 
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Gashadokuro = NameGashadokuro.CreateCardBlueprint();
+
 	public static readonly EncounterBlueprintData.CardBlueprint bp_GraveBard = NameGravebard.CreateCardBlueprint();
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Hellhand = NameHellhand.CreateCardBlueprint();
@@ -151,6 +153,34 @@ public static class BlueprintUtils
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Kennel = NameKennel.CreateCardBlueprint();
 
 	#endregion
+
+	#endregion
+
+	#region Dictionaries
+
+
+
+
+
+	#region AnkhGuardBPs
+
+	public static EncounterBlueprintData BuildAnkhGuardBPone()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Kaycee_Draugr_Summoner";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Ripper, bp_Ripper, bp_Ripper, bp_Ripper },
+			new() { bp_Draugr },
+			new() { bp_Skeleton, bp_Skeleton, bp_Draugr },
+			new() { bp_Draugr },
+			new() { bp_Summoner },
+			new() { bp_Skeleton },
+			new() { bp_Draugr, bp_Skeleton }
+		};
+
+		return blueprint;
+	}
 
 	#endregion
 
@@ -214,9 +244,78 @@ public static class BlueprintUtils
 		}
 	};
 
+
+
+
+	internal static readonly Dictionary<Opponent.Type, List<EncounterBlueprintData>> RegionWithBlueprintsHard = new()
+	{
+		{
+			KayceeBossOpponent.FullOpponent.Id,
+			new List<EncounterBlueprintData>
+			{
+				BuildKayceeRegionBlueprintOneHard(),
+				BuildKayceeRegionBlueprintTwoHard(),
+				BuildKayceeRegionBlueprintThreeHard(),
+				BuildKayceeRegionBlueprintFourHard(),
+				BuildKayceeRegionBlueprintFiveHard(),
+				BuildKayceeRegionBlueprintSixHard(),
+				BuildKayceeRegionBlueprintSevenHard(),
+				BuildKayceeRegionBlueprintEightHard(),
+				BuildKayceeRegionBlueprintNineHard()
+			}
+		},
+		{
+			SawyerBossOpponent.FullOpponent.Id,
+			new List<EncounterBlueprintData>
+			{
+				BuildSawyerRegionBlueprintOne(),
+				BuildSawyerRegionBlueprintTwo(),
+				BuildSawyerRegionBlueprintThree(),
+				BuildSawyerRegionBlueprintFour(),
+				BuildSawyerRegionBlueprintFive(),
+				BuildSawyerRegionBlueprintSix(),
+				BuildSawyerRegionBlueprintSeven(),
+				BuildSawyerRegionBlueprintEight(),
+				BuildSawyerRegionBlueprintNine(),
+			}
+		},
+		{
+			RoyalBossOpponentExt.FullOpponent.Id,
+			new List<EncounterBlueprintData>
+			{
+				BuildRoyalBossRegionBlueprintOne(),
+				BuildRoyalBossRegionBlueprintTwo(),
+				BuildRoyalBossRegionBlueprintThree(),
+				BuildRoyalBossRegionBlueprintFour(),
+				BuildRoyalBossRegionBlueprintFive(),
+				BuildRoyalBossRegionBlueprintSix(),
+				BuildRoyalBossRegionBlueprintSeven(),
+				BuildRoyalBossRegionBlueprintEight(),
+				BuildRoyalBossRegionBlueprintNine(),
+			}
+		},
+		{
+			GrimoraBossOpponentExt.FullOpponent.Id,
+			new List<EncounterBlueprintData>
+			{
+				BuildGrimoraBossRegionBlueprintOne(),
+				BuildGrimoraBossRegionBlueprintTwo(),
+				BuildGrimoraBossRegionBlueprintThree(),
+				BuildGrimoraBossRegionBlueprintFour(),
+			}
+		}
+	};
+
+	#endregion
+
 	public static EncounterBlueprintData GetRandomBlueprintForRegion()
 	{
 		return RegionWithBlueprints.ElementAt(GrimoraRunState.CurrentRun.regionTier).Value.GetRandomItem();
+	}
+
+	public static EncounterBlueprintData GetRandomBlueprintForRegionHard()
+	{
+		return RegionWithBlueprintsHard.ElementAt(GrimoraRunState.CurrentRun.regionTier).Value.GetRandomItem();
 	}
 
 	public static EncounterBlueprintData BuildRandomBlueprint()
@@ -273,6 +372,7 @@ public static class BlueprintUtils
 
 		return blueprint;
 	}
+
 
 	private static EncounterBlueprintData BuildKayceeRegionBlueprintOne()
 	{
@@ -445,6 +545,182 @@ public static class BlueprintUtils
 	}
 	#endregion
 
+	#region KayceeHardMode
+
+
+	private static EncounterBlueprintData BuildKayceeRegionBlueprintOneHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Kaycee_Draugr_Summoner_Hard";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Summoner, bp_Draugr },
+			new() { bp_Summoner },
+			new() { bp_Zombie, bp_Skeleton, bp_Draugr },
+			new() { bp_FrankAndStein },
+			new() { bp_Summoner },
+			new() { bp_Skeleton },
+			new() { bp_Summoner, bp_Zombie },
+			new() { bp_Summoner },
+			new() { bp_Zombie },
+		};
+
+		return blueprint;
+	}
+
+	private static EncounterBlueprintData BuildKayceeRegionBlueprintTwoHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Kaycee_Draugr_Gravebard_Hard";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_GraveBard },
+			new() { bp_Glacier },
+			new() { bp_Revenant , bp_Glacier },
+			new() { bp_Zombie },
+			new() { bp_GraveBard },
+			new() { bp_GraveBard },
+			new() { bp_Glacier }
+		};
+
+		return blueprint;
+	}
+
+	private static EncounterBlueprintData BuildKayceeRegionBlueprintThreeHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Kaycee_Project_Sentry_Hard";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Dalgyal },
+			new() { bp_Ripper },
+			new(),
+			new() { bp_Dalgyal },
+			new() { bp_Project },
+			new(),
+			new() { bp_Skeleton },
+			new() { bp_Project },
+			new() { bp_Ripper },
+		};
+
+		return blueprint;
+	}
+	private static EncounterBlueprintData BuildKayceeRegionBlueprintFourHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Kaycee_Vampire_Sentry_Hard";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Vampire },
+			new() { bp_Dalgyal, bp_Zombie },
+			new(),
+			new() { bp_Revenant },
+			new() { bp_Vampire },
+			new(),
+			new() {  bp_Vampire },
+			new() { bp_Gashadokuro, bp_Gashadokuro }
+		};
+
+		return blueprint;
+	}
+
+	private static EncounterBlueprintData BuildKayceeRegionBlueprintFiveHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Kaycee_Basic_Undead_Hard";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Hellhand, bp_Hellhand },
+			new() { bp_Writher },
+			new() { bp_Hellhand, bp_Zombie },
+			new() { bp_Zombie },
+			new() { bp_Skeleton },
+			new(),
+			new() { bp_FrankAndStein },
+			new(),
+			new() { bp_Zombie }
+		};
+		return blueprint;
+	}
+
+	private static EncounterBlueprintData BuildKayceeRegionBlueprintSixHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Kaycee_Glacier_Bait";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Skeleton },
+			new() { bp_Revenant },
+			new(),
+			new() { bp_Glacier },
+			new(),
+			new() { bp_Zombie },
+			new(),
+			new() { bp_Skeleton, bp_Draugr },
+			new() { bp_Glacier }
+		};
+
+		return blueprint;
+	}
+	private static EncounterBlueprintData BuildKayceeRegionBlueprintSevenHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Kaycee_Glacier_Bait_Zombies";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Zombie },
+			new() { bp_Zombie, bp_Zombie },
+			new(),
+			new() { bp_Glacier },
+			new(),
+			new() { bp_Zombie },
+			new(),
+			new() { bp_Skeleton, bp_Draugr },
+			new() { bp_Glacier }
+		};
+
+		return blueprint;
+	}
+
+	private static EncounterBlueprintData BuildKayceeRegionBlueprintEightHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Kaycee_Frozen_Ocean";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Floatsam },
+			new() { bp_Draugr, bp_Floatsam },
+			new(),
+			new() { bp_Floatsam },
+			new() { bp_Draugr },
+			new() { bp_DrownedSoul },
+			new(),
+			new() { bp_Skeleton, bp_Draugr },
+			new() { bp_Glacier }
+		};
+
+		return blueprint;
+	}
+
+	private static EncounterBlueprintData BuildKayceeRegionBlueprintNineHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Kaycee_Flying_Undead";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Skeleton },
+			new(),
+			new() { bp_Banshee, bp_Banshee },
+			new() { bp_Banshee },
+			new() { bp_Skeleton },
+			new(),
+			new() { bp_FrankAndStein },
+			new(),
+			new() { bp_Banshee }
+		};
+		return blueprint;
+	}
+	#endregion
 
 	#region Royal
 

@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(GrimoraRandomAbility.ability, Ability.Haunter)
+			.SetAbilities(GrimoraRandomAbility.ability, Haunter.ability)
 			.SetBaseAttackAndHealth(1, 2)
 			.SetEnergyCost(4)
 			.SetDescription("Without a coherent form, who knows what sigil it will have next?")

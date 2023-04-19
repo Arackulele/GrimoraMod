@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -12,7 +12,7 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetAbilities(Ability.DrawNewHand)
 			.SetBaseAttackAndHealth(1, 1)
-			.SetBoneCost(5)
+			.SetBoneCost(4)
 			.SetDescription("CUT OFF FROM AN ANCIENT GOD, THE DEAD HAND TOOK ON ITS OWN LIFE.")
 			.SetNames(NameDeadHand, "Dead Hand")
 			.Build();

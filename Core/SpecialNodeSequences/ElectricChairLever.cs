@@ -145,6 +145,7 @@ public class ElectricChairLever : HighlightedInteractable
 		CursorSelectStarted += ChangeRisk;
 		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.JammedChair))
 		{
+			ChallengeActivationUI.TryShowActivation(ChallengeManagement.JammedChair);
 			currentSigilRisk = SigilRisk.Major;
 			SetCellColor(_cellMinorRisk.Item1, DarkCellColor);	
 			SetCellColor(_cellSaferRisk.Item1, DarkCellColor);

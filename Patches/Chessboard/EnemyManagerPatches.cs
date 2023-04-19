@@ -1,4 +1,5 @@
-﻿using DiskCardGame;
+using DiskCardGame;
+using GrimoraMod.Saving;
 using HarmonyLib;
 
 namespace GrimoraMod;
@@ -18,11 +19,15 @@ public class EnemyManagerPatches
 	{
 		// this will correctly place the pieces back if they aren't defeated.
 		// e.g. from quitting mid match
-		GrimoraModBattleSequencer.ActiveEnemyPiece = enemy;
+		if (enemy is ChessboardGoatEyePiece) { GrimoraRunState.CurrentRun.PiecesRemovedFromBoard.Add(enemy.name); }
+		else GrimoraModBattleSequencer.ActiveEnemyPiece = enemy;
 
 		MapNodeManager.Instance.SetAllNodesInteractable(false);
 		__instance.StartCoroutine(__instance.StartCombatSequence(enemy, playerStarted));
 
 		return false;
 	}
+
+
+
 }

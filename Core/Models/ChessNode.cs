@@ -15,6 +15,7 @@ public class ChessNode
 	
 	public const char ConsumableNode = 'i';
 
+
 	private readonly ChessRow _row;
 	private readonly int _index;
 	public char JsonValue;

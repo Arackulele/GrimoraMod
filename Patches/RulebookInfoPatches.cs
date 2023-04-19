@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Card;
 using Sirenix.Utilities;
@@ -49,7 +49,6 @@ public class RulebookInfoPatches
 		Ability.Haunter, // implemented as custom ability
 		Ability.HydraEgg,
 		Ability.Morsel,
-		Ability.PermaDeath, // not fun
 		Ability.RandomAbility, // implemented as GrimoraRandomAbility
 		Ability.Sacrificial, // lol blood
 		Ability.ShieldGems,

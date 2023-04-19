@@ -67,11 +67,12 @@ public class ChallengeManagement
 	public static AscensionChallenge FrailHammer { get; private set; }
 	public static AscensionChallenge JammedChair { get; private set; }
 	public static AscensionChallenge WiltedClover { get; private set; }
-
+	public static AscensionChallenge HardMode { get; private set; }
 
 	public static AscensionChallenge InfinitLives { get; private set; }
 	public static AscensionChallenge SafeChair { get; private set; }
 
+	public static AscensionChallenge PlaceBones { get; private set; }
 
 	public static List<AscensionChallengeInfo> PatchedChallengesReference;
 
@@ -88,11 +89,12 @@ public class ChallengeManagement
 		FrailHammer = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "FrailHammer");
 		JammedChair = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "JammedChair");
 		WiltedClover = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "WiltedClover");
-
+		HardMode = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "HardMode");
 
 		InfinitLives = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "InfinitLives");
 		SafeChair = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "SafeChair");
-		AntiChallenges = new List<AscensionChallenge>() {InfinitLives,SafeChair};
+		PlaceBones = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "PlaceBones");
+		AntiChallenges = new List<AscensionChallenge>() {InfinitLives,SafeChair, PlaceBones};
 
 
 
@@ -153,13 +155,13 @@ public class ChallengeManagement
 				activatedSprite = AssetUtils.GetPrefab<Sprite>("Soulless_Active"),
 				pointValue = 5
 			},
-							new()
+				new()
 				{
 					challengeType = FrailHammer,
 					title = "Frail Hammer",
 					description = "The Hammer gets repaired only after every Boss.",
-					iconSprite = AssetUtils.GetPrefab<Sprite>("FrailHammer"),
-					activatedSprite =  AssetUtils.GetPrefab<Sprite>("FrailHammer_Active"),
+					iconSprite = AssetUtils.GetPrefab<Sprite>("hammerskull"),
+					//activatedSprite =  AssetUtils.GetPrefab<Sprite>("FrailHammer_Active"),
 					pointValue = 15
 				}
 			,
@@ -180,6 +182,16 @@ public class ChallengeManagement
 				iconSprite = AssetUtils.GetPrefab<Sprite>("WiltedClover"),
 				pointValue = 20
 			},
+
+			new()
+			{
+				challengeType = HardMode,
+				title = "Hell Mode",
+				description = "Dont play this one, seriously. (Makes encounters Significantly Harder)",
+				iconSprite = AssetUtils.GetPrefab<Sprite>("hellmodeskull"),
+								activatedSprite = AssetUtils.GetPrefab<Sprite>("hellmodeeyes"),
+				pointValue = 80
+			},
 			
 			//Anti-Challenges below for good sorting
 			new()
@@ -191,12 +203,20 @@ public class ChallengeManagement
 				activatedSprite = AssetUtils.GetPrefab<Sprite>("InfLives_Active"),
 				pointValue = -999
 			},
-			new()
+						new()
 			{
 				challengeType = SafeChair,
 				title = "Safe Chair",
 				description = "Your cards are immune to electricity of the chair.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("SafeChair"),
+				pointValue = -20
+			},
+			new()
+			{
+				challengeType = PlaceBones,
+				title = "Bone Lords Mercy",
+				description = "Gain a Bone when you place any free Card on the Board.",
+				iconSprite = AssetUtils.GetPrefab<Sprite>("skukk"),
 				pointValue = -20
 			},
 		};
@@ -208,8 +228,10 @@ public class ChallengeManagement
 			JammedChair,
 			WiltedClover,
 			SafeChair,
+			PlaceBones,
 			//AscensionChallenge.SubmergeSquirrels,
 			NoBones,
+			HardMode,
 			//AscensionChallenge.BossTotems,
 			KayceesKerfuffle,
 			FrailHammer,

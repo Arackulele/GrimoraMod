@@ -1,22 +1,91 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using GrimoraMod.Saving;
 using HarmonyLib;
 using Pixelplacement;
 using Sirenix.Utilities;
 using UnityEngine;
+using static GrimoraMod.BlueprintUtils;
 
 namespace GrimoraMod;
 
-public class ChessboardGoatEyePiece : ChessboardPieceExt
+public class ChessboardGoatEyePiece : ChessboardEnemyPiece
 {
-	public ChessboardGoatEyePiece()
+	public int Random;
+	public override void OnPlayerInteracted()
 	{
-		newYPosition = 1.275f;
+		Random = UnityEngine.Random.RandomRangeInt(0, 4);
+		StartCoroutine(AnkhGuardPreStartDialogue());
+
+		
 	}
+
+
+	public IEnumerator AnkhGuardPreStartDialogue()
+	{
+
+		switch (Random)
+		{
+
+
+			default:
+			case 0:
+
+					yield return TextDisplayer.Instance.ShowUntilInput(
+					$"An ancient Guard stands in front of you, noticing you are trying to sneak past."
+					);
+
+					yield return TextDisplayer.Instance.ShowUntilInput(
+					$"You dare enter my {"TOMB".Red()}!Prepare for death."
+					);
+
+				break;
+
+			case 1:
+
+				yield return TextDisplayer.Instance.ShowUntilInput(
+				$"An imposing Man holding a sculpture of an Ankh blocks the way."
+				);
+
+				yield return TextDisplayer.Instance.ShowUntilInput(
+				$"My Ankh gives me life, you shall not rob my {"TOMB".Red()}."
+				);
+
+				break;
+
+			case 2:
+
+				yield return TextDisplayer.Instance.ShowUntilInput(
+				$"An old Pharaoh climbs out of his Sarcophagus."
+				);
+
+				yield return TextDisplayer.Instance.ShowUntilInput(
+				$"I have been called to protect my {"TOMB".Red()}."
+				);
+
+				break;
+
+			case 3:
+
+				yield return TextDisplayer.Instance.ShowUntilInput(
+				$"A holy figure looms over you."
+				);
+
+				yield return TextDisplayer.Instance.ShowUntilInput(
+				$"Your Fate is sealed, my {"TOMB".Red()} shall not be disturbed."
+				);
+
+				break;
+		}
+
+		Singleton<ChessboardEnemyManager>.Instance.StartCombatWithEnemy(this, playerStarted: true);
+
+		yield break;
+	}
+
 }
 
-[HarmonyPatch(typeof(ChessboardMapNode))]
+/*[HarmonyPatch(typeof(ChessboardMapNode))]
 public class GoatEyePatch
 {
 
@@ -69,4 +138,4 @@ public class GoatEyePatch
 			Tween.Rotation(gameObject.transform, rotation2, time, 0f, Tween.EaseInOut);
 		}
 	}
-}
+}*/

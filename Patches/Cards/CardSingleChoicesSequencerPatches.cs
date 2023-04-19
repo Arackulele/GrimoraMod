@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
 using Pixelplacement;
@@ -61,7 +61,7 @@ public class CardSingleChoicesSequencerPatches
 			randomSeed *= 2;
 			if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.WiltedClover))
 			{
-
+				ChallengeActivationUI.TryShowActivation(ChallengeManagement.WiltedClover);
 				wiltedClover = GameObject.Instantiate(GrimoraPlugin.kopieGameObjects.Find(g=>g.name.Contains("Clover")&&g.name.Contains("Prefab")));
 				wiltedClover.transform.position = new Vector3(-1.5f, 5.01f, -2);
 				while (choices.Count > 2) choices.Remove(choices[choices.Count - 1]);

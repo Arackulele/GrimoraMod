@@ -29,7 +29,7 @@ public class GrimoraGainConsumableSequencer : GainConsumablesSequencer
 		var gainConsumableSequence = cardRemoveSequencerObj.AddComponent<GrimoraGainConsumableSequencer>();
 
 
-		gainConsumableSequence.fullConsumablesReward = CardLoader.GetCardByName("arackulele.inscryption.grimoramod_Bonepile");
+		gainConsumableSequence.fullConsumablesReward = CardLoader.GetCardByName("Skeleton");
 		gainConsumableSequence.backpack = oldSequence.backpack;
 		gainConsumableSequence.rat = oldSequence.rat;
 		gainConsumableSequence.slots = oldSequence.slots;
@@ -51,6 +51,9 @@ public class GrimoraGainConsumableSequencer : GainConsumablesSequencer
 	
 	public new IEnumerator ReplenishConsumables(GainConsumablesNodeData nodeData)
 	{
+
+		Singleton<ChessboardEnemyManager>.Instance.StartCombatWithEnemy(null, playerStarted: true);
+
 		Singleton<ViewManager>.Instance.SwitchToView(View.Default, false, true);
 		yield return new WaitForEndOfFrame();
 		//Singleton<ExplorableAreaManager>.Instance.SetHandLightRange(17f, 0.25f);
@@ -230,7 +233,7 @@ public class GrimoraGainConsumableSequencer : GainConsumablesSequencer
 		string text = fullConsumablesReward.description;
 		if (ProgressionData.LearnedCard(fullConsumablesReward))
 		{
-			text = string.Format(Localization.Translate("A [c:bR]{0}[c:]... Always useful."), fullConsumablesReward.DisplayedNameLocalized);
+			text = string.Format(Localization.Translate("A [c:bR]{0}[c:]... He's only here for the riches."), fullConsumablesReward.DisplayedNameLocalized);
 		}
 		yield return LearnObjectSequence(cardObj.transform, 1f, new Vector3(20f, 0f, 0f), text);
 		Tween.Position(cardObj.transform, cardObj.transform.position + Vector3.up * 2f + Vector3.forward * 0.5f, 0.1f, 0f, null, Tween.LoopType.None, null, delegate

@@ -21,6 +21,7 @@ public class HammerItemExt : HammerItem
 	{
 		if (!AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.FrailHammer))		useCounter = 0;
 		if(useCounter>=3)this.gameObject.SetActive(false);
+		GameObject.Find("HammerModel").SetActive(false);
 	}
 
 

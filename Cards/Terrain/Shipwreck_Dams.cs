@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 		 .SetBaseAttackAndHealth(1, 1)
-		 .SetNames(NameShipwreckDams, "Shipwreck")
+		 .SetNames(NameShipwreckDams, "Flotsam")
 		 .SetTraits(Trait.Structure, Trait.Terrain)
 		 .Build();
 	}

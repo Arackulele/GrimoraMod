@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod.Saving;
 
@@ -58,8 +58,7 @@ public class GrimoraRunState : RunState
 		this.playerDeck.AddCard(GrimoraPlugin.NameZombie.GetCardInfo());
 
 		this.consumables.Clear();
-		this.consumables.Add("FishHook");
-		this.consumables.Add(GrimoraPlugin.AllGrimoraItems[0].name);
+		this.consumables.Add(GrimoraPlugin.AllGrimoraItems[6].name);
 		this.consumables.Add(GrimoraPlugin.AllGrimoraItems[1].name);
 		
 		this.boardData.gridX = 0;
