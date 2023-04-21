@@ -53,7 +53,7 @@ public class Quill : GrimoraTargetSlotItem
 		yield return new WaitForSeconds(0.35f);
 	}
 
-	public static ConsumableItemData NewMallet(GameObject Model)
+	public static ConsumableItemData NewQuill(GameObject Model)
 	{
 		Debug.Log("Added Quill");
 

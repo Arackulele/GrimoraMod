@@ -17,7 +17,6 @@ public class ChessboardGoatEyePiece : ChessboardEnemyPiece
 		Random = UnityEngine.Random.RandomRangeInt(0, 4);
 		StartCoroutine(AnkhGuardPreStartDialogue());
 
-		
 	}
 
 

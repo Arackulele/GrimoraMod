@@ -20,14 +20,119 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 	private readonly List<CardInfo> _cardsThatHaveDiedThisMatch = new List<CardInfo>();
 
+	List<EncounterData.StartCondition> GlobalStartCon = new List<EncounterData.StartCondition>()
+	{
+
+			new ()
+			{
+				cardsInOpponentSlots = new[] { null, NameObelisk.GetCardInfo(), null, null },
+				cardsInPlayerSlots = new[] { null, NameDeadTree.GetCardInfo(), null, null },
+			},
+			new ()
+			{
+				cardsInOpponentSlots = new[] { null, NameObol.GetCardInfo(), null, null },
+				cardsInPlayerSlots = new[] { null, null, null, NameDeadTree.GetCardInfo() },
+			},
+
+			new ()
+			{
+				cardsInOpponentSlots = new[] { NameDeadTree.GetCardInfo(), NameDisturbedGrave.GetCardInfo(), null, null },
+			},
+
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, NameDisturbedGrave.GetCardInfo(), null, NameDeadTree.GetCardInfo() },
+			},
+
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, NameDisturbedGrave.GetCardInfo(), null, NameObelisk.GetCardInfo() },
+			},
+
+			new ()
+			{
+				cardsInOpponentSlots = new[] { null, null , NameDeadTree.GetCardInfo(), null },
+				cardsInPlayerSlots = new[] { NameVoodooDoll.GetCardInfo() , null, null, null },
+			},
+
+			new ()
+			{
+				cardsInOpponentSlots = new[] { null, NameVoodooDoll.GetCardInfo(), NameDeadTree.GetCardInfo(), null },
+				cardsInPlayerSlots = new[] { null, , null, null, NameObelisk.GetCardInfo() },
+			},
+
+	};
+
+		List<EncounterData.StartCondition> KayceeStarts = new List<EncounterData.StartCondition>()
+		{
+			new ()
+			{
+				cardsInOpponentSlots = new[] { NameDraugr.GetCardInfo(), null, null, null },
+				cardsInPlayerSlots = new[] { null , null, null, NameDraugr.GetCardInfo() },
+			},
+			new ()
+			{
+				cardsInOpponentSlots = new[] { NameGlacier.GetCardInfo(), null, null, null },
+			},
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, null, null, NameGlacier.GetCardInfo() },
+			},
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, NameGlacier.GetCardInfo(), null, null },
+			},
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, NameGlacier.GetCardInfo(), null, null },
+			},
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, NameObelisk.GetCardInfo(), null, NameDraugr.GetCardInfo() },
+			},
+			new ()
+			{
+				cardsInOpponentSlots = new[] { null, null, NameVoodooDoll.GetCardInfo(), null },
+				cardsInPlayerSlots = new[] { null , null, null, NameDraugr.GetCardInfo() },
+			},
+
+		};
+
+
 	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
 	{
+
+		List<EncounterData.StartCondition> CompoundStartCon = new List<EncounterData.StartCondition>();
+
+		switch(GrimoraRunState.CurrentRun.regionTier)
+		{
+			case 1:
+				CompoundStartCon.AddRange(KayceeStarts);
+			break;
+			case 2:
+				//CompoundStartCon.AddRange(KayceeStarts);
+				break;
+			case 3:
+				//CompoundStartCon.AddRange(KayceeStarts);
+				break;
+			case 4:
+				//CompoundStartCon.AddRange(KayceeStarts);
+				break;
+
+
+
+		}
+
 		EncounterData data = new EncounterData
 		{
-			opponentType = Opponent.Type.Default,
+
+			startConditions = null,
+
+		opponentType = Opponent.Type.Default,
 			opponentTurnPlan = nodeData.blueprint
 			 .turns.Select(bpList1 => bpList1.Select(bpList2 => bpList2.card).ToList())
 			 .ToList()
+
 		};
 		data.opponentType = this is GrimoraModBossBattleSequencer boss ? boss.BossType : GrimoraModFinaleOpponent.FullOpponent.Id;
 

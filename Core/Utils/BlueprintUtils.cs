@@ -1114,7 +1114,7 @@ public static class BlueprintUtils
 			new(),
 			new() { bp_Skelemagus, bp_Skelemagus, bp_Skelemagus },
 			new() { bp_Zombie },
-			new() { bp_bp_SkelemagusZombie, bp_Skelemagus },
+			new() { bp_Skelemagus, bp_Zombie, bp_Skelemagus },
 			new() { bp_Zombie, bp_Zombie, bp_Zombie, bp_Silbon }
 		};
 

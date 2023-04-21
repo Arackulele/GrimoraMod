@@ -1,0 +1,407 @@
+using System.Collections;
+using DiskCardGame;
+using EasyFeedback.APIs;
+using GracesGames.Common.Scripts;
+using GrimoraMod.Saving;
+using InscryptionAPI.Card;
+using InscryptionAPI.Encounters;
+using InscryptionAPI.Helpers.Extensions;
+using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
+
+namespace GrimoraMod;
+
+public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
+{
+	public static readonly SpecialSequenceManager.FullSpecialSequencer FullSequencer = SpecialSequenceManager.Add(
+	GUID,
+	nameof(AnkhGuardCombatSequencer),
+	typeof(AnkhGuardCombatSequencer)
+);
+
+	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
+	{
+		EncounterData data = new EncounterData
+		{
+			opponentType = Opponent.Type.Default,
+			opponentTurnPlan = nodeData.blueprint
+			 .turns.Select(bpList1 => bpList1.Select(bpList2 => bpList2.card).ToList())
+			 .ToList()
+		};
+		data.opponentType = Opponent.Type.Default;
+
+		return data;
+	}
+
+	//type 0: OnTurnEnd
+	//type 1: OnCardPlayed
+	//type 2: DamageAddedToScale
+	//type 3: OnCardDie
+	//type 4: On attack ended
+	private static int Ruletype;
+
+	//effect 0: 1 Damage gets added to your scale, one of your cards gains 1 attack
+	//effect 1: 1 Damage gets added to your scale, one opponent card looses 1 attack
+	//effect 2: Opponent Cards heal 1 Attack, you get 1 Bone
+	//effect 3: Opponent Cards gain 1 Hp, you get 1 Soul
+	//effect 4: All Cards in play get a random Sigil
+	//effect 5: All Cards in play get 1 sigil removed
+	//effect 6: A Zombie gets played on a random slot
+	//effect 7: Opponent plays (the walkers, boneheap, skeleton or revenant)
+
+	private static int RuleEffect;
+
+	private IEnumerator Effect0()
+	{
+
+		Debug.Log("Triggering Effect0");
+
+		yield return Singleton<LifeManager>.Instance.ShowDamageSequence(1, 1, false);
+
+		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.playerSlots);
+
+		List<CardSlot> slotsfull = new List<CardSlot>();
+
+		CardModificationInfo cardModificationInfo = new CardModificationInfo
+		{
+			attackAdjustment = 1
+		};
+
+		foreach (var i in slots)
+		{
+			if (i.Card != null)
+			{
+				slotsfull.Add(i);
+			}
+		}
+
+
+
+		if (slotsfull.Count > 0)
+		{
+			CardSlot chosenslot = slotsfull.GetRandomItem();
+			chosenslot.Card.AddTemporaryMod(cardModificationInfo);
+			chosenslot.Card.OnStatsChanged();
+		}
+
+	}
+
+	private IEnumerator Effect1()
+	{
+
+		Debug.Log("Triggering Effect1");
+
+		yield return Singleton<LifeManager>.Instance.ShowDamageSequence(1, 1, false);
+
+		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.opponentSlots);
+
+		List<CardSlot> slotsfull = new List<CardSlot>();
+
+		CardModificationInfo cardModificationInfo = new CardModificationInfo
+		{
+			attackAdjustment = -1
+		};
+
+		foreach (var i in slots)
+		{
+			if (i.Card != null)
+			{
+				slotsfull.Add(i);
+			}
+		}
+
+
+
+		if (slotsfull.Count > 0)
+		{
+			CardSlot chosenslot = slotsfull.GetRandomItem();
+			chosenslot.Card.AddTemporaryMod(cardModificationInfo);
+			chosenslot.Card.OnStatsChanged();
+		}
+
+	}
+
+	private IEnumerator Effect2()
+	{
+
+		Debug.Log("Triggering Effect2");
+
+		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.opponentSlots);
+
+
+		CardModificationInfo cardModificationInfo = new CardModificationInfo
+		{
+			attackAdjustment = 1
+		};
+
+		foreach (var i in slots)
+		{
+			if (i.Card != null)
+			{
+				i.Card.AddTemporaryMod(cardModificationInfo);
+				i.Card.OnStatsChanged();
+			}
+		}
+
+		yield return ResourcesManager.Instance.AddBones(1);
+
+		yield return new WaitForSeconds(0.1f);
+
+	}
+
+	private IEnumerator Effect3()
+	{
+
+		Debug.Log("Triggering Effect3");
+
+		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.opponentSlots);
+
+
+		CardModificationInfo cardModificationInfo = new CardModificationInfo
+		{
+			healthAdjustment = 1
+		};
+
+		foreach (var i in slots)
+		{
+			if (i.Card != null)
+			{
+				i.Card.AddTemporaryMod(cardModificationInfo);
+				i.Card.OnStatsChanged();
+
+			}
+		}
+
+		yield return ResourcesManager.Instance.AddMaxEnergy(1);
+
+		yield return new WaitForSeconds(0.1f);
+
+	}
+
+	private IEnumerator Effect4()
+	{
+
+		Debug.Log("Triggering Effect4");
+
+		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.AllSlots);
+
+		Ability chosen = ElectricChairLever.AbilitiesMajorRisk.GetRandomItem();
+
+		CardModificationInfo cardModificationInfo = new CardModificationInfo
+		{
+			abilities = new List<Ability> { chosen }
+		};
+
+		foreach (var i in slots)
+		{
+			if (i.Card != null && i.Card.Info.Abilities.Count < 5)
+			{
+				i.Card.AddTemporaryMod(cardModificationInfo);
+				i.Card.OnStatsChanged();
+				i.Card.Anim.PlayTransformAnimation();
+			}
+		}
+
+		yield return new WaitForSeconds(0.1f);
+
+	}
+
+	private IEnumerator Effect5()
+	{
+
+		Debug.Log("Triggering Effect5");
+
+		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.AllSlots);
+
+		foreach (var i in slots)
+		{
+			if (i.Card != null)
+			{
+
+
+				i.Card.TakeDamage(1, null);
+
+
+			}
+		}
+
+		yield return new WaitForSeconds(0.1f);
+
+	}
+
+	private IEnumerator Effect6()
+	{
+		Debug.Log("Triggering Effect6");
+
+		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.allSlots);
+
+		List<CardSlot> slotsempty = new List<CardSlot>();
+
+		foreach (var i in slots)
+		{
+			if (i.Card == null)
+			{
+				slotsempty.Add(i);
+			}
+		}
+
+		if (slotsempty.Count > 0) yield return Singleton<BoardManager>.Instance.CreateCardInSlot(CardLoader.GetCardByName(NameZombie), slotsempty.GetRandomItem(), 0.25f, true);
+
+	}
+
+	private IEnumerator Effect7()
+	{
+		Debug.Log("Triggering Effect7");
+
+		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.opponentSlots);
+
+		List<CardSlot> slotsempty = new List<CardSlot>();
+
+		List<String> options = new List<String> { NameSkeleton, NameRevenant, NameFamily, NameBonepile };
+
+
+		foreach (var i in slots)
+		{
+			if (i.Card == null)
+			{
+				slotsempty.Add(i);
+			}
+		}
+
+		if (slotsempty.Count > 0) yield return Singleton<BoardManager>.Instance.CreateCardInSlot(CardLoader.GetCardByName(options.GetRandomItem()), slotsempty.GetRandomItem(), 0.25f, true);
+
+	}
+
+	private IEnumerator DoEffect()
+	{
+
+		switch(Ruletype)
+		{
+			case 0:
+				yield return Effect0();
+				break;
+			case 1:
+				yield return Effect1();
+				break;
+			case 2:
+				yield return Effect2();
+				break;
+			case 3:
+				yield return Effect3();
+				break;
+			case 4:
+				yield return Effect4();
+				break;
+			case 5:
+				yield return Effect5();
+				break;
+			case 6:
+				yield return Effect6();
+				break;
+			case 7:
+				yield return Effect7();
+				break;
+
+		}
+
+
+
+	}
+
+
+	public override bool RespondsToUpkeep(bool playerUpkeep)
+	{
+		return playerUpkeep;
+	}
+
+		public override bool RespondsToResolveOnBoard() => true;
+
+		public override IEnumerator PlayerUpkeep()
+	{
+		Debug.Log("Triggering PlayerUpkeep");
+		if (Ruletype == 0) yield return DoEffect();
+
+	}
+
+		public override IEnumerator PlayerCombatPostAttacks()
+	{
+		Debug.Log("Triggering OnPlayFromHand");
+		if (Ruletype == 1) yield return DoEffect();
+
+	}
+
+		public override IEnumerator OpponentUpkeep()
+	{
+		Debug.Log("Triggering OnDrawn");
+		if (Ruletype == 2) yield return DoEffect();
+
+	}
+
+
+		public override IEnumerator PreDeckSetup()
+		{
+
+		string triggerdesc = "none";
+
+		string effectdesc = "none";
+
+		Ruletype = UnityEngine.Random.Range(0, 2);
+
+		RuleEffect = UnityEngine.Random.Range(0, 7);
+
+		Debug.Log("Ankh Guard Trigger: " + Ruletype);
+
+		Debug.Log("Ankh Guard Rule: " + RuleEffect);
+
+
+		switch (Ruletype)
+		{
+			case 0:
+				triggerdesc = "Every time your turn Starts, ";
+				break;
+			case 1:
+				triggerdesc = "After your Cards attack, ";
+				break;
+			case 2:
+				triggerdesc = "Every time my turn Starts, ";
+				break;
+		}
+
+		switch (RuleEffect)
+		{
+			case 0:
+				effectdesc = "1 Damage gets added to your side of the Scale and 1 of your Cards attack increases";
+				break;
+			case 1:
+				effectdesc = "1 Damage gets added to your side of the Scale and 1 of my Cards attack decreases";
+				break;
+			case 2:
+				effectdesc = "My Cards attack increases and you gain 1 bone";
+				break;
+			case 3:
+				effectdesc = "My cards get healed and you gain 1 maximum soul";
+				break;
+			case 4:
+				effectdesc = "all cards gain a random sigil";
+				break;
+			case 5:
+				effectdesc = "all cards take 1 Damage";
+				break;
+			case 6:
+				effectdesc = "a zombie gets played in a random slot";
+				break;
+			case 7:
+				effectdesc = "i play a card of many bones";
+				break;
+		}
+
+
+
+		yield return TextDisplayer.Instance.ShowUntilInput($"THE GODS HAVE {"DECIDED".Gold()}!");
+
+		yield return TextDisplayer.Instance.ShowUntilInput($" {triggerdesc.Gold() + effectdesc.Orange()}!");
+
+	}
+
+
+}

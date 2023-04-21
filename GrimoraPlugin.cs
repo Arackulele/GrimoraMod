@@ -375,6 +375,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		AllGrimoraItems.Add(Trowel.NewTrowel(TrowelModel));
 
+		AllGrimoraItems.Add(Quill.NewQuill(HandModel));
+
 	}
 
 	private void AddDebugCards()
@@ -408,6 +410,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		ConfigHelper.Instance.HandleHotReloadBefore();
 		Resources.UnloadUnusedAssets();
 		GrimoraModBattleSequencer.ActiveEnemyPiece = null;
+		AnkhGuardCombatSequencer.ActiveEnemyPiece = null;
 		_harmony?.UnpatchSelf();
 	}
 

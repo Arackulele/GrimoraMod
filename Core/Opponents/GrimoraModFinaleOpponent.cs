@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using InscryptionAPI.Encounters;
 using Sirenix.Utilities;
 using static GrimoraMod.GrimoraPlugin;

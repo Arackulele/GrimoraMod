@@ -8,13 +8,22 @@ public class GainAttackNoBones : AbilityBehaviour
 {
 	public static Ability ability;
 
+		public const string ModSingletonId = "GrimoraMod_Malnourishment";
+
 	public override Ability Ability => ability;
 
 	private CardModificationInfo _modInfo;
 
+	private void Start()
+	{
+		_modInfo = new CardModificationInfo
+		{
+			singletonId = ModSingletonId
+		};
+		Card.AddTemporaryMod(_modInfo);
+	}
 
-
-		public override bool RespondsToUpkeep(bool playerUpkeep) => true;
+	public override bool RespondsToUpkeep(bool playerUpkeep) => true;
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{
@@ -37,7 +46,7 @@ public partial class GrimoraPlugin
 	public void Add_Ability_GainAttackNoBones()
 	{
 		const string rulebookDescription =
-			"If you have no Bones, [creature] deals 2 more damage.";
+			"If you have no Bones, at the start of your turn [creature] deals 2 more damage.";
 
 		AbilityBuilder<GainAttackNoBones>.Builder
 		 .SetRulebookDescription(rulebookDescription)

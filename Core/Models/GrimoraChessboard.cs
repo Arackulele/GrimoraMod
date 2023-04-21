@@ -174,7 +174,7 @@ public class GrimoraChessboard
 			PlacePieces<ChessboardChestPiece>();
 			PlacePieces<ChessboardElectricChairPiece>();
 			PlacePieces<ChessboardEnemyPiece>(GrimoraModBattleSequencer.FullSequencer.Id);
-			PlacePieces<ChessboardGoatEyePiece>();
+			PlacePieces<ChessboardGoatEyePiece>(AnkhGuardCombatSequencer.FullSequencer.Id);
 			PlacePieces<ChessboardGainConsumablePiece>();
 		}
 	}
