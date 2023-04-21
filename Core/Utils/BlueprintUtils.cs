@@ -11,6 +11,8 @@ public static class BlueprintUtils
 {
 	#region BlueprintCardtranslation
 
+	public static readonly EncounterBlueprintData.CardBlueprint bp_HellHound = NameHellHound.CreateCardBlueprint();
+
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Bonehound = NameBonehound.CreateCardBlueprint();
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Bonelord = NameBonelord.CreateCardBlueprint();
@@ -268,15 +270,15 @@ public static class BlueprintUtils
 			SawyerBossOpponent.FullOpponent.Id,
 			new List<EncounterBlueprintData>
 			{
-				BuildSawyerRegionBlueprintOne(),
-				BuildSawyerRegionBlueprintTwo(),
-				BuildSawyerRegionBlueprintThree(),
-				BuildSawyerRegionBlueprintFour(),
-				BuildSawyerRegionBlueprintFive(),
-				BuildSawyerRegionBlueprintSix(),
-				BuildSawyerRegionBlueprintSeven(),
-				BuildSawyerRegionBlueprintEight(),
-				BuildSawyerRegionBlueprintNine(),
+				BuildSawyerRegionBlueprintOneHard(),
+				BuildSawyerRegionBlueprintTwoHard(),
+				BuildSawyerRegionBlueprintThreeHard(),
+				BuildSawyerRegionBlueprintFourHard(),
+				BuildSawyerRegionBlueprintFiveHard(),
+				BuildSawyerRegionBlueprintSixHard(),
+				BuildSawyerRegionBlueprintSevenHard(),
+				BuildSawyerRegionBlueprintEightHard(),
+				BuildSawyerRegionBlueprintNineHard(),
 			}
 		},
 		{
@@ -298,10 +300,10 @@ public static class BlueprintUtils
 			GrimoraBossOpponentExt.FullOpponent.Id,
 			new List<EncounterBlueprintData>
 			{
-				BuildGrimoraBossRegionBlueprintOne(),
-				BuildGrimoraBossRegionBlueprintTwo(),
-				BuildGrimoraBossRegionBlueprintThree(),
-				BuildGrimoraBossRegionBlueprintFour(),
+				BuildGrimoraBossRegionBlueprintOneHard(),
+				BuildGrimoraBossRegionBlueprintTwoHard(),
+				BuildGrimoraBossRegionBlueprintThreeHard(),
+				BuildGrimoraBossRegionBlueprintFourHard(),
 			}
 		}
 	};
@@ -649,10 +651,10 @@ public static class BlueprintUtils
 		blueprint.name = "Kaycee_Glacier_Bait";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Skeleton },
-			new() { bp_Revenant },
+			new() { bp_Skeleton, bp_Glacier },
+			new() { bp_Revenant, bp_Glacier },
 			new(),
-			new() { bp_Glacier },
+			new() { bp_Glacier, bp_Glacier },
 			new(),
 			new() { bp_Zombie },
 			new(),
@@ -668,15 +670,15 @@ public static class BlueprintUtils
 		blueprint.name = "Kaycee_Glacier_Bait_Zombies";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Zombie },
-			new() { bp_Zombie, bp_Zombie },
+			new() { bp_Zombie, bp_Zombie, bp_Zombie },
+			new() { bp_Zombie, bp_Ripper },
 			new(),
 			new() { bp_Glacier },
 			new(),
-			new() { bp_Zombie },
+			new() { bp_Zombie, bp_Ripper },
 			new(),
 			new() { bp_Skeleton, bp_Draugr },
-			new() { bp_Glacier }
+			new() { bp_Glacier, bp_Glacier }
 		};
 
 		return blueprint;
@@ -688,10 +690,10 @@ public static class BlueprintUtils
 		blueprint.name = "Kaycee_Frozen_Ocean";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Floatsam },
+			new() { bp_Floatsam, bp_ForgottenMan },
 			new() { bp_Draugr, bp_Floatsam },
 			new(),
-			new() { bp_Floatsam },
+			new() { bp_Floatsam, bp_Project },
 			new() { bp_Draugr },
 			new() { bp_DrownedSoul },
 			new(),
@@ -708,15 +710,15 @@ public static class BlueprintUtils
 		blueprint.name = "Kaycee_Flying_Undead";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Skeleton },
+			new() { bp_Skeleton, bp_Giant },
 			new(),
 			new() { bp_Banshee, bp_Banshee },
 			new() { bp_Banshee },
 			new() { bp_Skeleton },
 			new(),
-			new() { bp_FrankAndStein },
+			new() { bp_FrankAndStein, bp_Banshee },
 			new(),
-			new() { bp_Banshee }
+			new() { bp_Banshee, bp_Banshee }
 		};
 		return blueprint;
 	}
@@ -1049,6 +1051,98 @@ public static class BlueprintUtils
 	#endregion
 
 
+	#region GrimoraHard
+
+
+	private static EncounterBlueprintData BuildGrimoraBossRegionBlueprintOneHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Grimora_Ancient_Army_Hard";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Giant,bp_Giant },
+			new() { bp_FirstMateSnag },
+			new() { bp_HellHound },
+			new() { bp_Glacier },
+			new() { bp_Obol,bp_Obol },
+			new() { bp_BooHag, bp_BooHag },
+			new() ,
+			new() { bp_Hellhand },
+			new() { bp_Hellhand },
+			new() { bp_BooHag }
+		};
+
+		return blueprint;
+	}
+
+	private static EncounterBlueprintData BuildGrimoraBossRegionBlueprintTwoHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Grimora_Bowling_Hard";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Gashadokuro },
+			new() { bp_Summoner,bp_Summoner, bp_Summoner },
+			new() { bp_Vampire },
+			new() { bp_Mummy, bp_Mummy },
+			new() { bp_Exploding_Pirate },
+			new() { bp_Vampire },
+			new() { bp_Vampire, bp_Mummy },
+			new() { bp_Mummy },
+			new() { bp_Exploding_Pirate },
+		};
+
+		return blueprint;
+	}
+
+	private static EncounterBlueprintData BuildGrimoraBossRegionBlueprintThreeHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Grimora_Macabre_Hard";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_DanseMacabre, bp_Silbon },
+			new() { bp_ScreamingSkull, bp_Silbon  },
+			new(),
+			new() { bp_Skelemagus, bp_Skelemagus, bp_Skelemagus },
+			new() { bp_Zombie },
+			new() { bp_Skelemagus, bp_Skelemagus },
+			new() { bp_Zombie, bp_Zombie, bp_Zombie },
+			new(),
+			new() { bp_DanseMacabre, bp_Silbon },
+			new() { bp_ScreamingSkull, bp_Silbon },
+			new(),
+			new() { bp_Skelemagus, bp_Skelemagus, bp_Skelemagus },
+			new() { bp_Zombie },
+			new() { bp_bp_SkelemagusZombie, bp_Skelemagus },
+			new() { bp_Zombie, bp_Zombie, bp_Zombie, bp_Silbon }
+		};
+
+		return blueprint;
+	}
+
+	private static EncounterBlueprintData BuildGrimoraBossRegionBlueprintFourHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Grimora_Impenetrable_Wall_Hard";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Glacier, bp_Glacier, bp_Glacier, bp_Glacier },
+			new() { bp_MassGrave },
+			new() { bp_Dybbuk },
+			new() { bp_MassGrave },
+			new() { bp_Dybbuk },
+			new() { bp_Silbon },
+			new(),
+			new() { bp_MassGrave },
+			new() { bp_Glacier, bp_Glacier, bp_Glacier, bp_Glacier }
+		};
+
+		return blueprint;
+	}
+
+	#endregion
+
 	#region Sawyer
 
 	internal static EncounterBlueprintData BuildSawyerBossInitialBlueprint()
@@ -1279,5 +1373,214 @@ public static class BlueprintUtils
 
 	#endregion
 
+
+
+	#region SawyerHardMode
+
+
+	private static EncounterBlueprintData BuildSawyerRegionBlueprintOneHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Sawyer_Target_Hard";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_MassGrave, bp_Writher },
+			new() { bp_Bonehound, bp_Bonehound },
+			new(),
+			new(),
+			new() { bp_Gashadokuro },
+			new(),
+			new() { bp_VengefulSpirit },
+			new() { bp_VengefulSpirit },
+			new() { bp_VengefulSpirit, bp_VengefulSpirit, bp_VengefulSpirit , bp_VengefulSpirit }
+		};
+
+		return blueprint;
+	}
+
+	private static EncounterBlueprintData BuildSawyerRegionBlueprintTwoHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Sawyer_Target_Sarcophagus_Hard";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_FrankAndStein },
+			new() { bp_Mummy },
+			new() { bp_Zombie },
+			new(),
+			new() { bp_VengefulSpirit },
+			new(),
+			new() { bp_VengefulSpirit },
+			new() { bp_Mummy },
+			new() { bp_VengefulSpirit }
+		};
+
+		return blueprint;
+	}
+
+	private static EncounterBlueprintData BuildSawyerRegionBlueprintThreeHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Sawyer_DefenseLine_Hard";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new(),
+			new() { bp_Centurion, bp_Centurion, bp_Centurion, bp_Centurion },
+			new() { bp_Obol },
+			new() { bp_Obol },
+			new() { bp_Centurion, bp_Centurion, bp_Centurion, bp_Centurion },
+			new(),
+			new(),
+			new() { bp_Centurion, bp_Centurion, bp_Centurion, bp_Centurion },
+			new() ,
+			new() { bp_Obol },
+			new() ,
+			new(),
+			new(),
+			new() { bp_Centurion, bp_Centurion, bp_Centurion, bp_Centurion },
+			new() ,
+			new() { bp_Obol },
+			new() { bp_Centurion, bp_Centurion, bp_Centurion, bp_Centurion }
+		};
+
+		return blueprint;
+	}
+
+	private static EncounterBlueprintData BuildSawyerRegionBlueprintFourHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Sawyer_Hell_Hard";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Hellhand,bp_Catacomb },
+			new() { bp_ScreamingSkull, bp_Catacomb },
+			new(),
+			new() { bp_Hellhand, bp_Catacomb },
+			new() { bp_ScreamingSkull },
+			new(),
+			new(),
+			new() { bp_Hellhand, bp_Hellhand },
+			new() { bp_ScreamingSkull, bp_Catacomb },
+			new() ,
+			new() ,
+			new() ,
+			new() { bp_ScreamingSkull, bp_Hellhand },
+			new() { bp_ScreamingSkull }
+		};
+
+		return blueprint;
+	}
+
+	private static EncounterBlueprintData BuildSawyerRegionBlueprintFiveHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Sawyer_Ripper_Rush_Hard";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Bonepile, bp_Bonepile, bp_Bonepile, bp_Bonepile },
+			new() { bp_Ripper },
+			new() { bp_Ripper, bp_Ripper },
+			new() { bp_Ripper, bp_Ripper, bp_Ripper },
+			new() { bp_Ripper, bp_Ripper, bp_Ripper, bp_Ripper },
+			new(),
+			new(),
+			new(),
+			new(),
+			new(),
+			new() { bp_Ripper, bp_Ripper, bp_Ripper, bp_Ripper },
+			new() { bp_Ripper, bp_Ripper, bp_Ripper, bp_Ripper },
+		};
+
+		return blueprint;
+	}
+
+	private static EncounterBlueprintData BuildSawyerRegionBlueprintSixHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Sawyer_Spirit_Lines";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Project },
+			new(),
+			new() { bp_HeadlessHorseman },
+			new() { bp_VengefulSpirit, bp_VengefulSpirit },
+			new() { bp_Poltergeist },
+			new() { bp_Project, bp_VengefulSpirit },
+			new() { bp_VengefulSpirit },
+			new(),
+			new() { bp_VengefulSpirit },
+			new(),
+			new() { bp_Project, bp_VengefulSpirit },
+
+		};
+
+		return blueprint;
+	}
+
+	private static EncounterBlueprintData BuildSawyerRegionBlueprintSevenHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Sawyer_Spirit_Lines_Deadly_Hard";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Kennel, bp_Kennel, bp_Kennel, bp_Kennel },
+			new(),
+			new() { bp_Manananggal },
+			new() { bp_Skelemagus, bp_VengefulSpirit },
+			new() { bp_VengefulSpirit },
+			new() { bp_VengefulSpirit, bp_Manananggal },
+			new() { bp_Skelemagus },
+			new(),
+			new() { bp_Manananggal },
+			new(),
+			new() { bp_Manananggal, bp_Manananggal },
+
+		};
+
+		return blueprint;
+	}
+	private static EncounterBlueprintData BuildSawyerRegionBlueprintEightHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Sawyer_Hounds_Hard";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_HellHound },
+			new(),
+			new() { bp_Skeleton },
+			new() { bp_Skeleton },
+			new() { bp_Revenant },
+			new() { bp_HellHound },
+			new() { bp_Skeleton, bp_Skeleton },
+			new(),
+			new() { bp_HellHound },
+
+		};
+
+		return blueprint;
+	}
+
+	private static EncounterBlueprintData BuildSawyerRegionBlueprintNineHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "Sawyer_Wechuges_Hard";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Wechuge, bp_PlagueDoctor },
+			new() { bp_PlagueDoctor },
+			new() { bp_Skeleton, bp_PlagueDoctor },
+			new() { bp_Skeleton, bp_PlagueDoctor },
+			new() { bp_Wechuge, bp_PlagueDoctor },
+			new() { bp_Wechuge, bp_PlagueDoctor },
+			new() { bp_Skeleton, bp_Skeleton, bp_PlagueDoctor },
+			new(),
+			new() { bp_Wechuge, bp_Wechuge },
+
+		};
+
+		return blueprint;
+	}
+
+	#endregion
 	#endregion
 }

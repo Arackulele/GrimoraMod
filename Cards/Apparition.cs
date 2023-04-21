@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(GrimoraRandomAbility.ability, Haunter.ability)
 			.SetBaseAttackAndHealth(1, 2)
 			.SetEnergyCost(4)
-			.SetDescription("Without a coherent form, who knows what sigil it will have next?")
+			.SetDescription("A formless Creature, that yet lingers. Truly a horrific sight.")
 			.SetNames(NameApparition, "Apparition")
 			.Build().pixelPortrait = AssetUtils.GetPrefab<Sprite>("apparition_pixel");
 	}

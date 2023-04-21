@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.DoubleDeath)
 			.SetBaseAttackAndHealth(1, 2)
 			.SetBoneCost(3)
-			.SetDescription("NOTHING DIES ONCE.")
+			.SetDescription("ALL EFFORTS TO PRESERVE LIFE AFTER DEATH HAVE BEEN FUTILE, YET THE NECROMANCER GOES ON. HE HAS TO.")
 			.SetNames(NameNecromancer, "Necromancer")
 			.Build();
 	}

@@ -1,4 +1,4 @@
-﻿namespace GrimoraMod;
+namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 		 .SetAbilities(Malnourishment.ability)
 		 .SetBaseAttackAndHealth(3, 3)
 		 .SetBoneCost(4)
-		 .SetDescription("A rebellious Starvation who has chosen to fight with us and not against us!")
+		 .SetDescription("DEATH IS A CRUEL FATE. STARVATION AN EVEN CRUELER ONE. WHY DO YOU FIGHT, OH DYING CHILD.")
 		 .SetNames(NameStarvedMan, "Starved Man")
 		 .Build();
 	}

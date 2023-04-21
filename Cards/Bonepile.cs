@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using UnityEngine;
 
 namespace GrimoraMod;

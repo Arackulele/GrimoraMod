@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetBaseAttackAndHealth(1, 1)
 			.SetEnergyCost(3)
-			.SetDescription("COMING FOR VENGEANCE, AND A BIT OF FUN, TOO!")
+			.SetDescription("TO NEVER BE SATISFIED, TO ALWAYS WANT MORE. THIS  SPIRIT SHALL NEVER FIND ITS PEACE.")
 			.SetNames(NameVengefulSpirit, "Vengeful Spirit")
 			.Build().pixelPortrait=GrimoraPlugin.AllSprites.Find(o=>o.name=="pixel_spirit");;
 	}

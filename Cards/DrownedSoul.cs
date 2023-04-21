@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetAbilities(Ability.Deathtouch, Ability.Submerge)
 			.SetBaseAttackAndHealth(1, 1)
-			.SetDescription("GOING INTO THAT WELL WASN'T THE BEST IDEA...")
+			.SetDescription("WHAT A SAD SIGHT, NO ONE SHALL KNOW WHAT LIES AT THE BOTTOM OF THAT WELL.")
 			.SetEnergyCost(5)
 			.SetNames(NameDrownedSoul, "Drowned Soul")
 			.Build().pixelPortrait=pixel;

@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 		 .SetAbilities(SpiritBearer.ability)
 		 .SetBaseAttackAndHealth(0, 1)
 		 .SetBoneCost(1)
-		 .SetDescription("Joyous spirits who provide additional soul to those they choose as companions.")
+		 .SetDescription("Joyous spirits, THEY WARM WITH THEIR BODIES OF LIGHT, DRAWING IN HOPELESS SOULS INTO THEIR BEACON.")
 		 .SetNames(NameWillOTheWisp, "Will 'O' The Wisp")
 		 .Build()
 		 .pixelPortrait = GrimoraPlugin.AllSprites.Find(o => o.name == "pixel_wisp");

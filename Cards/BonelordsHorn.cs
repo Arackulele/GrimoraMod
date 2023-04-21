@@ -16,7 +16,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.IceCube, Ability.QuadrupleBones)
 			.SetBaseAttackAndHealth(0, 1)
 			.SetBoneCost(3)
-			.SetDescription("THE HORN OF THE BONELORD, YOU DO NOT WANT TO FIND OUT WHAT'S INSIDE.")
+			.SetDescription("THE BONELORD SHEDS ITS OLD HORNS, THEY TAKE ON A LIFE OF THEIR OWN. WHAT A SAD EXISTANCE.")
 			.SetEnergyCost(2)
 			.SetIceCube(NameBonePrince)
 			.SetNames(NameBoneLordsHorn, "Bonelord's Horn")

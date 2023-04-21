@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 		 .SetAbilities(MarchingDead.ability)
 		 .SetBaseAttackAndHealth(2, 2)
 		 .SetBoneCost(8)
-		 .SetDescription("A highly attractive mistress. Others will follow her closely wherever she goes.")
+		 .SetDescription("SHE COMMANDS OTHERS WITH STRENGTH AND GLAMOUR. THEY WILL FOLLOW HER EVERYWHERE")
 		 .SetNames(NameCalaveraCatrina, "Calavera Catrina")
 		 .Build();
 	}

@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 		 .SetSpecialAbilities(OurobonesCore.FullSpecial.Id)
 		 .SetBaseAttackAndHealth(1, 1)
 		 .SetBoneCost(2)
-		 .SetDescription("An endless cycle of life and death has taken a toll on these discarded remains.")
+		 .SetDescription("IT IS SAID ALL IS WELL THAT ENDS WELL. IT IS SAID TIME IS LIKE AN OUROBOROS, IT DOES NOT END, IT ONLY REPEATS ITSELF.")
 		 .SetNames(NameOurobones, "Ourobones")
 		 .Build();
 	}

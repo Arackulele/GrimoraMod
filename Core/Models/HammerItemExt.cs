@@ -42,7 +42,14 @@ public class HammerItemExt : HammerItem
 
 		if (targetSlot.Card.NotDead() && useCounter < 3)
 		{
+			//Cant smash Frozen cards in KC
 			if (TurnManager.Instance.Opponent is KayceeBossOpponent && targetSlot.Card.HasAbility(Ability.IceCube))
+			{
+				useCounter = 3;
+			}
+
+			//Cant kill Swashbucklers in Royal
+			if (TurnManager.Instance.Opponent is RoyalBossOpponent && targetSlot.Card.HasAbility(Raider.ability))
 			{
 				useCounter = 3;
 			}

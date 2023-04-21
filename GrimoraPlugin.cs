@@ -214,6 +214,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Card_Gravedigger();               // vanilla
 		Add_Card_Hellhand();                  // Bt Y#0895
 		Add_Card_HellHound();                 // Cevin2006™ (◕‿◕)#7971
+		Add_Card_HauntedMirror();							// Bt Y#0895
 		Add_Card_Jikininki();                 // Bt Y#0895
 		Add_Card_Kennel();                    // Bt Y#0895
 		Add_Card_Manananggal();               // Bt Y#0895
@@ -263,6 +264,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Card_HeadlessHorseman();                // Cevin2006™ (◕‿◕)#7971
 		Add_Card_Hydra();                           // Cevin2006™ (◕‿◕)#7971
 		Add_Card_Necromancer();                     // Bt Y#0895
+		Add_Card_Nosferat();												// Bt Y#0895
 		Add_Card_Ourobones();												// Anne Bean?
 		Add_Card_PirateCaptainYellowbeard();        // Bt Y#0895
 		Add_Card_Ripper();                          // Bt Y#0895
@@ -274,7 +276,15 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Card_WritherTail();                     // Bt Y#0895
 
 		#endregion
-		
+
+		#region Egypt
+
+		Add_Card_Boneless();
+		Add_Card_Eidolon();
+		Add_Card_Boneclaw();
+
+		#endregion
+
 		AllGrimoraModCards.Sort((info1, info2) => string.Compare(info1.name, info2.name, StringComparison.Ordinal));
 		AllPlayableGrimoraModCards = AllGrimoraModCards.Where(info => info.metaCategories.Any()).ToList();
 
@@ -304,7 +314,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			Add_Card_FesteringWretch();  // Bt Y#0895
 			Add_Card_Flameskull();       // Bt Y#0895
 			Add_Card_Haltia();           // Bt Y#0895
-			Add_Card_HauntedMirror();    // Bt Y#0895
 			Add_Card_IceCube();          // Bt Y#0895
 			Add_Card_LaLlorona();       // Bt Y#0895
 			Add_Card_Moroi();           // Bt Y#0895
@@ -325,7 +334,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			Add_Card_BoneCollective(); // Bt Y#0895
 			Add_Card_EmberSpirit();    // Cevin2006™ (◕‿◕)#7971
 			Add_Card_Fylgja();         // Bt Y#0895
-			Add_Card_Nosferat();       // Bt Y#0895
 			Add_Card_Wyvern();         // Cevin2006™ (◕‿◕)#7971
 
 			#endregion

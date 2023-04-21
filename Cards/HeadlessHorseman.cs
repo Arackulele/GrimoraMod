@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.Flying, Ability.Strafe)
 			.SetBaseAttackAndHealth(5, 5)
 			.SetBoneCost(13)
-			.SetDescription("THE APOCALYPSE IS SOON.")
+			.SetDescription("THEY CALL HER THE RIDER OF THE APOCALYPSE. HER FLAMING BLADE CUTS THROUGH THE LIVING AND DEAD ALIKE.")
 			.SetNames(NameHeadlessHorseman, "Headless Horseman")
 			.Build();
 	}
