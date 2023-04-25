@@ -15,6 +15,7 @@ public partial class GrimoraPlugin
 			.SetBoneCost(3)
 			.SetDescription("IT WILL ALL MAKE SENSE SOON. THE OBOL IS OLDER THAN TIME ITSELF, AND THUS IT WILL REVEAL ITSELF IN DUE TIME.")
 			.SetNames(NameObol, "Ancient Obol")
+			.SetTraits(Trait.Structure, Trait.Terrain)
 			.Build().pixelPortrait = GrimoraPlugin.AllSprites.Find(o => o.name == "obol_pixel");
 	}
 }

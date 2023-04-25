@@ -48,6 +48,14 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	{
 		PlayTheme();
 
+		encounter.startConditions = new List<EncounterData.StartCondition>()
+		{
+			new()
+			{
+				cardsInOpponentSlots = new[] { NameObol.GetCardInfo() }
+			}
+		};
+
 		if (!ConfigHelper.Instance.IsDevModeEnabled)
 		{
 			yield return TextDisplayer.Instance.PlayDialogueEvent(

@@ -59,13 +59,21 @@ public class GrimoraChessboard
 		{ 1, () => AssetUtils.GetPrefab<GameObject>("Sawyer_BlockerPiece") },
 		{ 2, () => AssetUtils.GetPrefab<GameObject>("Blocker_Royal") },
 		{ 3, () => AssetUtils.GetPrefab<GameObject>("Blocker_Grimora") },
+		{ 4, () => kopieGameObjects.Find(g => g.name.Contains("ice_var_2_prefab")) },
 	};
 
 
 	public GameObject GetActiveRegionBlockerPiece()
 	{
 		int bossesDead = GrimoraRunState.CurrentRun.regionTier;
-		GameObject blockerPrefab = _bossByIndex.GetValueSafe(bossesDead).Invoke();
+		GameObject blockerPrefab;
+		if (bossesDead == 0) {
+			if (UnityEngine.Random.value > 0.5f) blockerPrefab = _bossByIndex.GetValueSafe(0).Invoke();
+			else blockerPrefab = _bossByIndex.GetValueSafe(4).Invoke();
+		}
+		else { 
+		blockerPrefab = _bossByIndex.GetValueSafe(bossesDead).Invoke();
+		}
 		blockerPrefab.GetComponentInChildren<MeshRenderer>().material = bossesDead switch
 		{
 			// the reason for doing this is because the materials are massive if in our own asset bundle, 5MB+ total
@@ -371,7 +379,7 @@ public class GrimoraChessboard
 					if (enemyPiece is ChessboardGoatEyePiece)
 					{
 
-						enemyPiece.blueprint = BlueprintUtils.BuildAnkhGuardBPone();
+						enemyPiece.blueprint = BlueprintUtils.AnkhGuardBPs.GetRandomItem();
 
 					}
 

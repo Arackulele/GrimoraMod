@@ -20,7 +20,7 @@ public class Trowel : GrimoraTargetSlotItem
 
 	public override string FirstPersonPrefabId => null;
 
-	public GameObject GrimoraFirstPersonPrefab = kopieGameObjects.Find(g => g.name.Contains("TrowelPrefabFirstPerson"));
+
 
 	public override Vector3 FirstPersonItemPos => new Vector3(0f, -1f, 2.5f);
 
@@ -69,7 +69,8 @@ public class Trowel : GrimoraTargetSlotItem
 		Debug.Log("Added Embalming Fluid");
 
 		Texture2D HahaL = new Texture2D(70, 80);
-		ConsumableItemData data = ConsumableItemManager.New(GUID, "Trowel", "You can dig up some Bones and Cards with this Trowel.", HahaL, typeof(Trowel), Model);
+		ConsumableItemData data = ConsumableItemManager.New(GUID, "Trowel", "You can dig up some Bones and Cards with this Trowel.", HahaL, typeof(Trowel), Model)
+							.SetLearnItemDescription("Digs for treasure, ! Not that there's much left anymore... i see youve learned from the Gravediggers");
 		data.rulebookCategory = AbilityMetaCategory.GrimoraRulebook;
 
 		return data;

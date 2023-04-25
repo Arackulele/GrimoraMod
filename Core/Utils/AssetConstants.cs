@@ -122,7 +122,7 @@ public static class AssetConstants
 
 	#region Skulls
 
-	public static GameObject BossSkullKaycee => AssetUtils.GetPrefab<GameObject>("KayceeBossSkull");
+	public static GameObject BossSkullKaycee => kopieGameObjects.Find(g => g.name.Contains("KayceeBossSkull"));
 
 	public static GameObject BossSkullSawyer => AssetUtils.GetPrefab<GameObject>("SawyerBossSkull");
 

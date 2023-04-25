@@ -25,6 +25,14 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
+		encounter.startConditions = new List<EncounterData.StartCondition>()
+		{
+			new()
+			{
+				cardsInOpponentSlots = new[] { NameShipwreck.GetCardInfo(), null, null, NameRevenant.GetCardInfo() }
+			}
+		};
+
 		yield return base.IntroSequence(encounter);
 
 		GrimoraAnimationController.Instance.SetHeadBool("face_happy", true);

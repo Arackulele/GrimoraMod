@@ -10,9 +10,9 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAsRareCard()
-			.SetAbilities(Ability.LatchBrittle, Ability.BloodGuzzler)
+			.SetAbilities(Ability.LatchBrittle, BloodGuzzler.ability)
 			.SetBaseAttackAndHealth(3, 1)
-			.SetBoneCost(8)
+			.SetBoneCost(7)
 			.SetDescription("The shambling corpse of a pale, sickly noble... it spreads it's filth as it sheds it's flesh.")
 			.SetNames(NameNosferat, "Nosferat")
 			.Build();

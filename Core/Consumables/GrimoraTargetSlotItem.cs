@@ -26,10 +26,13 @@ public class GrimoraTargetSlotItem : TargetSlotItem
 	//Just copied this from Decompiled ILSpy Code,
 	//this is just the normal TargetSlotItemSequencer but not using the FirstPersonPrefabIdString, instead using a custom variable
 
-	public GameObject GrimoraFirstPersonPrefab = kopieGameObjects.Find(g => g.name.Contains("TrowelPrefabFirstPerson"));
+	public GameObject GrimoraFirstPersonPrefab;
 
 	public override IEnumerator ActivateSequence()
 	{
+
+		if (this is Mallet) GrimoraFirstPersonPrefab = kopieGameObjects.Find(g => g.name.Contains("MalletPrefabFirstPerson"));
+		else GrimoraFirstPersonPrefab = kopieGameObjects.Find(g => g.name.Contains("TrowelPrefabFirstPerson"));
 		PlayExitAnimation();
 		yield return new WaitForSeconds(0.1f);
 		Singleton<UIManager>.Instance.Effects.GetEffect<EyelidMaskEffect>().SetIntensity(0.6f, 0.2f);

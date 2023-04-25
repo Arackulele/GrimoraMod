@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
 using Sirenix.Utilities;
@@ -100,6 +100,20 @@ public class HauntedSlot : NonCardTriggerReceiver
 	public override IEnumerator OnOtherCardAssignedToSlot(PlayableCard otherCard)
 	{
 		List<Ability> cardAllAbilities = otherCard.AllAbilities();
+
+		foreach (var i in cardAllAbilities)
+		{
+			if (i is Ability.Sentry || i is Ability.Sniper )
+			{
+
+				cardAllAbilities = new List<Ability> { Slasher.ability };
+				yield return TextDisplayer.Instance.ShowUntilInput($"Oh... ghosts cannot transfer this modern technology {otherCard.Info.DisplayedNameEnglish.LimeGreen()} , i hope this blade will do as consolation.");
+
+			}
+
+
+		}
+
 		if (cardAllAbilities.Count == 5)
 		{
 			yield return TextDisplayer.Instance.ShowUntilInput($"Oh... it will be rather difficult to haunt {otherCard.Info.DisplayedNameEnglish.LimeGreen()} with their abilities at max capacity.");

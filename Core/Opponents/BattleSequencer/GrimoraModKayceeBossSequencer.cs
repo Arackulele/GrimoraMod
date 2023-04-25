@@ -149,7 +149,7 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 		int attack = playableCard.Attack == 0 ? 0 : -playableCard.Attack;
 		var modInfo = new CardModificationInfo(attack, 1 - playableCard.Health)
 		{
-			negateAbilities = new List<Ability> { Ability.DebuffEnemy, Ability.Submerge, HookLineAndSinker.ability, Possessive.ability }
+			negateAbilities = new List<Ability> { Ability.DebuffEnemy, Ability.Submerge, HookLineAndSinker.ability, Possessive.ability, Ability.PermaDeath }
 		};
 		if (playableCard.LacksAbility(Ability.IceCube))
 		{

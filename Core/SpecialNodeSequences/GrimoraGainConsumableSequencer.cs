@@ -10,6 +10,8 @@ namespace GrimoraMod;
 
 public class GrimoraGainConsumableSequencer : GainConsumablesSequencer
 {
+
+	static GameObject PharaoChest;
 	public static void CreateSequencerInScene()
 	{
 		if (SpecialNodeHandler.Instance.SafeIsUnityNull() || SpecialNodeHandler.Instance.gainConsumablesSequencer)
@@ -21,6 +23,8 @@ public class GrimoraGainConsumableSequencer : GainConsumablesSequencer
 			ResourceBank.Get<GameObject>("Prefabs/SpecialNodeSequences/GainConsumablesSequencer"),
 			SpecialNodeHandler.Instance.transform
 		);
+
+		PharaoChest = GameObject.Instantiate(GrimoraPlugin.kopieGameObjects.Find(g => g.name.Contains("PharaoChestPrefab")));
 		cardRemoveSequencerObj.name = "CardRemoveSequencer_Grimora";
 
 		var oldSequence = cardRemoveSequencerObj.GetComponent<GainConsumablesSequencer>();
@@ -29,11 +33,13 @@ public class GrimoraGainConsumableSequencer : GainConsumablesSequencer
 		var gainConsumableSequence = cardRemoveSequencerObj.AddComponent<GrimoraGainConsumableSequencer>();
 
 
-		gainConsumableSequence.fullConsumablesReward = CardLoader.GetCardByName("Skeleton");
+
+		gainConsumableSequence.fullConsumablesReward = CardLoader.GetCardByName(GrimoraPlugin.NameTombRobber);
 		gainConsumableSequence.backpack = oldSequence.backpack;
 		gainConsumableSequence.rat = oldSequence.rat;
 		gainConsumableSequence.slots = oldSequence.slots;
 		gainConsumableSequence.slotsGamepadControl = oldSequence.slotsGamepadControl;
+		PharaoChest.transform.parent = gainConsumableSequence.backpack.transform;
 
 		gainConsumableSequence.ratCard = Instantiate(
 			AssetConstants.GrimoraSelectableCard,
@@ -52,13 +58,14 @@ public class GrimoraGainConsumableSequencer : GainConsumablesSequencer
 	public new IEnumerator ReplenishConsumables(GainConsumablesNodeData nodeData)
 	{
 
-		Singleton<ChessboardEnemyManager>.Instance.StartCombatWithEnemy(null, playerStarted: true);
 
 		Singleton<ViewManager>.Instance.SwitchToView(View.Default, false, true);
 		yield return new WaitForEndOfFrame();
 		//Singleton<ExplorableAreaManager>.Instance.SetHandLightRange(17f, 0.25f);
 		//Singleton<ExplorableAreaManager>.Instance.SetHangingLightRange(7f, 0.25f);
 		backpack.SetActive(true);
+		GameObject.Find("BackpackModel").transform.position = new Vector3(0, -1000f, 0);
+		PharaoChest.SetActive(true);
 		yield return new WaitForSeconds(0.25f);
 		if (Singleton<GameFlowManager>.Instance != null)
 		{
@@ -85,6 +92,7 @@ public class GrimoraGainConsumableSequencer : GainConsumablesSequencer
 		CustomCoroutine.WaitThenExecute(0.25f, delegate
 		{
 			backpack.SetActive(false);
+			PharaoChest.SetActive(false);
 		});
 		if (Singleton<GameFlowManager>.Instance != null)
 		{

@@ -50,7 +50,7 @@ public class GrimoraAscensionSaveData : AscensionSaveData
 		this.oilPaintingState.puzzleSolution = OilPaintingPuzzle.GenerateSolution(true);
 		
 		this.currentRun.consumables.Clear();
-		this.currentRun.consumables.Add(GrimoraPlugin.AllGrimoraItems[6].name);
+		this.currentRun.consumables.Add(GrimoraPlugin.AllGrimoraItems[5].name);
 
 		foreach (CardInfo cardInfo in starterDeck)
 		{

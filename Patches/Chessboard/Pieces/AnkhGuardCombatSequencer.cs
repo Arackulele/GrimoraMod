@@ -56,7 +56,7 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 
 		Debug.Log("Triggering Effect0");
 
-		yield return Singleton<LifeManager>.Instance.ShowDamageSequence(1, 1, false);
+		yield return Singleton<LifeManager>.Instance.ShowDamageSequence(1, 1, true);
 
 		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.playerSlots);
 
@@ -91,7 +91,7 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 
 		Debug.Log("Triggering Effect1");
 
-		yield return Singleton<LifeManager>.Instance.ShowDamageSequence(1, 1, false);
+		yield return Singleton<LifeManager>.Instance.ShowDamageSequence(1, 1, true);
 
 		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.opponentSlots);
 
@@ -185,7 +185,7 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 
 		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.AllSlots);
 
-		Ability chosen = ElectricChairLever.AbilitiesMajorRisk.GetRandomItem();
+		Ability chosen = AbilitiesChosenByRule5.GetRandomItem();
 
 		CardModificationInfo cardModificationInfo = new CardModificationInfo
 		{
@@ -206,6 +206,34 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 
 	}
 
+	public static readonly List<Ability> AbilitiesChosenByRule5 = new List<Ability>
+	{
+		LatchSubmerge.ability,
+		Ability.AllStrike,
+		Ability.CorpseEater,
+		Ability.DoubleDeath,
+		Ability.DoubleStrike,
+		Ability.DrawCopy,
+		Ability.ExplodeOnDeath,
+		Ability.GuardDog,
+		Ability.Strafe,
+		Ability.StrafePush,
+		Ability.StrafeSwap,
+		Ability.Submerge,
+		Ability.SwapStats,
+		Ability.TriStrike,
+		Ability.WhackAMole,
+		ActivatedDealDamageGrimora.ability,
+		Anchored.ability,
+		BloodGuzzler.ability,
+		FlameStrafe.ability,
+		Fylgja_GuardDog.ability,
+		InvertedStrike.ability,
+		MarchingDead.ability,
+		Possessive.ability,
+		Puppeteer.ability
+	};
+
 	private IEnumerator Effect5()
 	{
 
@@ -219,7 +247,7 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 			{
 
 
-				i.Card.TakeDamage(1, null);
+				yield return i.Card.TakeDamage(1, null);
 
 
 			}
@@ -233,7 +261,7 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 	{
 		Debug.Log("Triggering Effect6");
 
-		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.allSlots);
+		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.AllSlotsCopy);
 
 		List<CardSlot> slotsempty = new List<CardSlot>();
 
@@ -245,7 +273,7 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 			}
 		}
 
-		if (slotsempty.Count > 0) yield return Singleton<BoardManager>.Instance.CreateCardInSlot(CardLoader.GetCardByName(NameZombie), slotsempty.GetRandomItem(), 0.25f, true);
+		if (slotsempty != null && slotsempty.Count > 0) yield return Singleton<BoardManager>.Instance.CreateCardInSlot(CardLoader.GetCardByName(NameZombie), slotsempty.GetRandomItem(), 0.25f, true);
 
 	}
 
@@ -253,7 +281,7 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 	{
 		Debug.Log("Triggering Effect7");
 
-		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.opponentSlots);
+		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.OpponentSlotsCopy);
 
 		List<CardSlot> slotsempty = new List<CardSlot>();
 
@@ -275,7 +303,7 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 	private IEnumerator DoEffect()
 	{
 
-		switch(Ruletype)
+		switch(RuleEffect)
 		{
 			case 0:
 				yield return Effect0();

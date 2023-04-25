@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using GrimoraMod.Saving;
 using HarmonyLib;
@@ -56,5 +56,6 @@ public class ChestPatches
 		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 
 		GameFlowManager.Instance.TransitionToGameState(GameState.SpecialCardSequence, __instance.NodeData);
+
 	}
 }

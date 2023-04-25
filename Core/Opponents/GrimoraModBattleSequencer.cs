@@ -5,6 +5,7 @@ using InscryptionAPI.Encounters;
 using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
+using static UnityEngine.UIElements.UIRAtlasManager;
 
 namespace GrimoraMod;
 
@@ -18,10 +19,10 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 	public static ChessboardEnemyPiece ActiveEnemyPiece;
 
-	private readonly List<CardInfo> _cardsThatHaveDiedThisMatch = new List<CardInfo>();
+	private static readonly List<CardInfo> _cardsThatHaveDiedThisMatch = new List<CardInfo>();
 
-	List<EncounterData.StartCondition> GlobalStartCon = new List<EncounterData.StartCondition>()
-	{
+	public static readonly List<EncounterData.StartCondition> GlobalStartCon = new List<EncounterData.StartCondition>()
+			{
 
 			new ()
 			{
@@ -33,7 +34,6 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 				cardsInOpponentSlots = new[] { null, NameObol.GetCardInfo(), null, null },
 				cardsInPlayerSlots = new[] { null, null, null, NameDeadTree.GetCardInfo() },
 			},
-
 			new ()
 			{
 				cardsInOpponentSlots = new[] { NameDeadTree.GetCardInfo(), NameDisturbedGrave.GetCardInfo(), null, null },
@@ -57,14 +57,14 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 			new ()
 			{
-				cardsInOpponentSlots = new[] { null, NameVoodooDoll.GetCardInfo(), NameDeadTree.GetCardInfo(), null },
-				cardsInPlayerSlots = new[] { null, , null, null, NameObelisk.GetCardInfo() },
+				cardsInOpponentSlots = new[] { null, NameVoodooDoll.GetCardInfo(), null },
+				cardsInPlayerSlots = new[] { null, null, null, NameObelisk.GetCardInfo() },
 			},
 
-	};
+			};
 
-		List<EncounterData.StartCondition> KayceeStarts = new List<EncounterData.StartCondition>()
-		{
+	public static readonly List<EncounterData.StartCondition> KayceeStarts = new List<EncounterData.StartCondition>()
+			{
 			new ()
 			{
 				cardsInOpponentSlots = new[] { NameDraugr.GetCardInfo(), null, null, null },
@@ -76,14 +76,15 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			},
 			new ()
 			{
-				cardsInPlayerSlots = new[] { null, null, null, NameGlacier.GetCardInfo() },
+				cardsInPlayerSlots = new[] { null, null, null, NameDraugr.GetCardInfo() },
 			},
 			new ()
 			{
-				cardsInPlayerSlots = new[] { null, NameGlacier.GetCardInfo(), null, null },
+				cardsInPlayerSlots = new[] { null, NameDraugr.GetCardInfo(), null, null },
 			},
 			new ()
 			{
+				cardsInOpponentSlots = new[] { null, NameGlacier.GetCardInfo(), null, null },
 				cardsInPlayerSlots = new[] { null, NameGlacier.GetCardInfo(), null, null },
 			},
 			new ()
@@ -96,37 +97,86 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 				cardsInPlayerSlots = new[] { null , null, null, NameDraugr.GetCardInfo() },
 			},
 
-		};
+			};
 
+	public static readonly List<EncounterData.StartCondition> SawyerStarts = new List<EncounterData.StartCondition>()
+			{
+			new ()
+			{
+				cardsInOpponentSlots = new[] { NameObol.GetCardInfo(), null, null, null },
+				cardsInPlayerSlots = new[] { null , null, null, NameObelisk.GetCardInfo() },
+			},
+			new ()
+			{
+				cardsInOpponentSlots = new[] { NameKennel.GetCardInfo(), null, null, null },
+			},
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, null, null, NameObol.GetCardInfo() },
+			},
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, NameKennel.GetCardInfo(), null, null },
+			},
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, NameObol.GetCardInfo(), null, null },
+			},
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, NameObelisk.GetCardInfo(), null, NameKennel.GetCardInfo() },
+			},
+			new ()
+			{
+				cardsInOpponentSlots = new[] { null, null, NameObelisk.GetCardInfo(), null },
+				cardsInPlayerSlots = new[] { null , null, null, NameObol.GetCardInfo() },
+			},
+
+			};
+
+	public static readonly List<EncounterData.StartCondition> RoyalStarts = new List<EncounterData.StartCondition>()
+			{
+			new ()
+			{
+				cardsInOpponentSlots = new[] { NameShipwreck.GetCardInfo(), null, null, null },
+				cardsInPlayerSlots = new[] { null , null, null, NameShipwreck.GetCardInfo() },
+			},
+			new ()
+			{
+				cardsInOpponentSlots = new[] { NameShipwreck.GetCardInfo(), null, null, null },
+			},
+			new ()
+			{
+				cardsInOpponentSlots = new[] { null, null, null, NameShipwreckDams.GetCardInfo() },
+			},
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, NameShipwreck.GetCardInfo(), null, null },
+			},
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, NameShipwreckDams.GetCardInfo(), null, null },
+			},
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, NameObelisk.GetCardInfo(), null, NameShipwreck.GetCardInfo() },
+			},
+			new ()
+			{
+				cardsInOpponentSlots = new[] { null, null, NameShipwreckDams.GetCardInfo(), null },
+				cardsInPlayerSlots = new[] { null , null, null, NameShipwreck.GetCardInfo() },
+			},
+
+			};
 
 	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
 	{
 
-		List<EncounterData.StartCondition> CompoundStartCon = new List<EncounterData.StartCondition>();
-
-		switch(GrimoraRunState.CurrentRun.regionTier)
-		{
-			case 1:
-				CompoundStartCon.AddRange(KayceeStarts);
-			break;
-			case 2:
-				//CompoundStartCon.AddRange(KayceeStarts);
-				break;
-			case 3:
-				//CompoundStartCon.AddRange(KayceeStarts);
-				break;
-			case 4:
-				//CompoundStartCon.AddRange(KayceeStarts);
-				break;
-
-
-
-		}
 
 		EncounterData data = new EncounterData
 		{
 
-			startConditions = null,
+			startConditions = EnemyManagerPatches.OneCondition,
 
 		opponentType = Opponent.Type.Default,
 			opponentTurnPlan = nodeData.blueprint
@@ -170,10 +220,6 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 				AscensionMenuScreens.ReturningFromSuccessfulRun = false;
 				AscensionMenuScreens.ReturningFromFailedRun = true;
-
-				foreach (AscensionChallenge c in AscensionSaveData.Data.activeChallenges)
-					if (!AscensionSaveData.Data.conqueredChallenges.Contains(c))
-						AscensionSaveData.Data.conqueredChallenges.Add(c);
 
 				AscensionStatsData.TryIncrementStat(AscensionStat.Type.Losses);
 

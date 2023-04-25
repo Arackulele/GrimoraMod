@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Reflection;
 using System.Runtime.Serialization.Json;
 using System.Text;
@@ -369,6 +369,11 @@ public class ChessboardMapExt : GameMap
 
 	public override IEnumerator UnrollingSequence(float unrollSpeed)
 	{
+		Component interact = GameObject.Find("StinkbugInteractable").GetComponent<BoxCollider>();
+
+		Destroy(interact);
+		GameObject.Find("StinkbugInteractable").transform.position = new Vector3(4.5487f, GameObject.Find("StinkbugInteractable").transform.position.y , - 1.51f);
+
 		InteractionCursor.Instance.InteractionDisabled = true;
 
 		TableRuleBook.Instance.SetOnBoard(false);

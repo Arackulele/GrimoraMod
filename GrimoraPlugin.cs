@@ -73,10 +73,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		
 		ChallengeManagement.UpdateGrimoraChallenges();
 
-		//using (var s = Assembly.GetExecutingAssembly().GetManifestResourceStream("GrimoraMod.Embed.new_grimora"))
-		//{
-		//	new_grimora = AssetBundle.LoadFromStream(s);
-		//}
 
 		Initialized = true;
 
@@ -279,11 +275,15 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		#region Egypt
 
-		Add_Card_Boneless();
-		Add_Card_Eidolon();
-		Add_Card_Boneclaw();
+		Add_Card_Boneless();                        //gold#2445
+		Add_Card_Eidolon();                         // Bt Y#0895
+		Add_Card_Boneclaw();                        // Bt Y#0895
 
 		#endregion
+
+		Add_Card_Obelisk();         //keks307#7315
+		Add_Card_Voodoo_Doll();
+		Add_Card_DisturbedGrave();   // Bt Y#0895
 
 		AllGrimoraModCards.Sort((info1, info2) => string.Compare(info1.name, info2.name, StringComparison.Ordinal));
 		AllPlayableGrimoraModCards = AllGrimoraModCards.Where(info => info.metaCategories.Any()).ToList();
@@ -310,7 +310,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 			Add_Card_BloodySack();       // Bt Y#0895
 			Add_Card_CompoundFracture(); // Bt Y#0895
-			Add_Card_DisturbedGrave();   // Bt Y#0895
 			Add_Card_FesteringWretch();  // Bt Y#0895
 			Add_Card_Flameskull();       // Bt Y#0895
 			Add_Card_Haltia();           // Bt Y#0895
@@ -342,12 +341,10 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	public static GameObject HandModel;
 
+	public static GameObject FemurModel;
+
 	private void LoadItems()
 	{
-
-		GrimoraCardInABottle.CreateModel();
-		AllGrimoraItems.Add(GrimoraCardInABottle.NewCardBottleItem(NameRevenant));
-		AllGrimoraItems.Add(GrimoraCardInABottle.NewCardBottleItem(NameBonepile));
 
 		GameObject UrnModel = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("UrnPrefab")));
 
@@ -361,9 +358,17 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		GameObject ShipBottlePrefab = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("ShipBottlePrefab")));
 
-		AllGrimoraItems.Add(EmbalmingFluid.NewEmbalmingFluid(EmbalmModel));
+		GameObject QuillPrefab = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("QuillPrefab")));
 
-		AllGrimoraItems.Add(Mallet.NewMallet(UrnModel));
+		GameObject MalletPrefab = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("MalletPrefab")));
+
+		FemurModel = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("FemurPrefab")));
+
+		GrimoraCardInABottle.CreateModel();
+		AllGrimoraItems.Add(GrimoraCardInABottle.NewCardBottleItem(NameRevenant));
+		AllGrimoraItems.Add(GrimoraCardInABottle.NewCardBottleItem(NameBonepile));
+
+		AllGrimoraItems.Add(EmbalmingFluid.NewEmbalmingFluid(EmbalmModel));
 
 		AllGrimoraItems.Add(ShipBottle.NewShipBottle(ShipBottlePrefab));
 
@@ -375,7 +380,11 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		AllGrimoraItems.Add(Trowel.NewTrowel(TrowelModel));
 
-		AllGrimoraItems.Add(Quill.NewQuill(HandModel));
+		AllGrimoraItems.Add(Mallet.NewMallet(MalletPrefab));
+
+		AllGrimoraItems.Add(Quill.NewQuill(QuillPrefab));
+
+		AllGrimoraItems.Add(BoneLordsFemur.NewBoneLordsFemur(FemurModel));
 
 	}
 

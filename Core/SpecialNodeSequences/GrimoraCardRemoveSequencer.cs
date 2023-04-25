@@ -1,5 +1,6 @@
 using System.Collections;
 using DiskCardGame;
+using GrimoraMod.Consumables;
 using Pixelplacement;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -12,6 +13,8 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 	private static readonly int Exit = Animator.StringToHash("exit");
 
 	private static int SigilOffer = 0;
+
+
 
 	private IEnumerator InitialSetup()
 	{
@@ -124,8 +127,9 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 				Singleton<ViewManager>.Instance.SwitchToView(View.Consumables);
 
+				
 
-				RunState.Run.consumables.Add(GrimoraPlugin.AllGrimoraItems[2].name);
+				RunState.Run.consumables.Add(GrimoraPlugin.AllGrimoraItems[10].name);
 				Singleton<ItemsManager>.Instance.UpdateItems();
 
 
@@ -459,21 +463,21 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 						// grimora_deck_decrease_cost
 						cardThatWillHaveEffectApplied = ApplyEffectToCards(
 							"grimora_deck_health_increase",
-							$"... WHAT? WHY DID YOU DO THAT BONELORD?! {"INCREASING THE HEALTH OF THE ENTIRE DECK?!".BrightRed()} YOU FOOL!",
-							$"THAT'S UNFORTUNATE. YOU WERE SUPPOSED TO HAVE YOUR ENTIRE DECK INCREASED, BUT IT LOOKS LIKE THE BONELORD HAS ALREADY GIFTED YOU THAT. BEGONE!",
+							"The Bonelord has been generous.\n[c:bR]{0}[c:] base health has increased!",
+							$"YOU DON'T HAVE ANYMORE CARDS TO {"GAIN HP".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
 							false
 						);
 
 						break;
 					}
 
-				case <= 0.39f:
+				case <= 0.10f:
 					{
 						// grimora_deck_decrease_cost
 						cardThatWillHaveEffectApplied = ApplyEffectToCards(
 							"grimora_card_attack_increase",
-							$"... WHAT? WHY DID YOU DO THAT BONELORD?! {"INCREASING THE HEALTH OF THE ENTIRE DECK?!".BrightRed()} YOU FOOL!",
-							$"THAT'S UNFORTUNATE. YOU WERE SUPPOSED TO HAVE YOUR ENTIRE DECK INCREASED, BUT IT LOOKS LIKE THE BONELORD HAS ALREADY GIFTED YOU THAT. BEGONE!",
+							"The Bonelord has been very generous.\n[c:bR]{0}[c:] base attack has increased!",
+							$"YOU DON'T HAVE ANYMORE CARDS TO {"GAIN ATTACK".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
 							true
 						);
 
@@ -485,8 +489,8 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 						// grimora_deck_decrease_cost
 						cardThatWillHaveEffectApplied = ApplyEffectToCards(
 							"grimora_card_health_boost",
-							$"... WHAT? WHY DID YOU DO THAT BONELORD?! {"INCREASING THE HEALTH OF THE ENTIRE DECK?!".BrightRed()} YOU FOOL!",
-							$"THAT'S UNFORTUNATE. YOU WERE SUPPOSED TO HAVE YOUR ENTIRE DECK INCREASED, BUT IT LOOKS LIKE THE BONELORD HAS ALREADY GIFTED YOU THAT. BEGONE!",
+							"The Bonelord has been very generous.\n[c:bR]{0}[c:] base health has increased greatly!",
+							$"YOU DON'T HAVE ANYMORE CARDS TO {"GAIN HP".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
 							true
 						);
 
@@ -498,8 +502,8 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 						// grimora_deck_decrease_cost
 						cardThatWillHaveEffectApplied = ApplyEffectToCards(
 							"grimora_card_cost_sink",
-							$"... WHAT? WHY DID YOU DO THAT BONELORD?! {"INCREASING THE HEALTH OF THE ENTIRE DECK?!".BrightRed()} YOU FOOL!",
-							$"THAT'S UNFORTUNATE. YOU WERE SUPPOSED TO HAVE YOUR ENTIRE DECK INCREASED, BUT IT LOOKS LIKE THE BONELORD HAS ALREADY GIFTED YOU THAT. BEGONE!",
+							"The Bonelord has been generous.\n[c:bR]{0}[c:] bone cost has decreased greatly!",
+							$"YOU DON'T HAVE ANYMORE CARDS TO {"GAIN HP".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
 							true,
 							filterCardsOnPredicate: info => info.BonesCost > 1
 						);

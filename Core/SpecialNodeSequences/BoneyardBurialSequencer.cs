@@ -137,7 +137,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 					-0.65f
 				);
 				yield return TextDisplayer.Instance.ShowUntilInput(
-				$"THE CORPSE SEEMS TO BE OF A STARVING MAN, YOUR CARD WILL {"STARVE FOREVER".BrightRed()}, BUT {"ITS BONE COST WILL BE REDUCED BY 2".BrightRed()}.",
+				$"THE CORPSE SEEMS TO BE OF A STARVED MAN, YOUR CARD WILL {"STARVE FOREVER".BrightRed()}, BUT {"ITS BONE COST WILL BE REDUCED BY 2".BrightRed()}.",
 				-0.65f
 				);
 
@@ -274,7 +274,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 			if (EventManagement.HasLearnedMechanicBoneyard)
 			{
-				yield return TextDisplayer.Instance.ShowUntilInput("MARVELOUS! THEY CAME CRAWLING BACK AFTER YOU BURIED THEM.");
+				yield return TextDisplayer.Instance.ShowUntilInput("MARVELOUS! THEY CAME CRAWLING BACK AFTER DIGGING UP THE CORPSE.");
 				yield return TextDisplayer.Instance.ShowUntilInput("THEY STILL CARE ABOUT YOU IT SEEMS!");
 			}
 			else
@@ -283,7 +283,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 					$"TORN FROM ITS ETERNAL RESPITE WITH A RELUCTANT GROAN, THE {selectionSlot.Card.Info.DisplayedNameLocalized.Red()} SHAMBLES BACK TO ITS RIGHTFUL PLACE AMONG YOUR HORDE."
 				);
 				yield return TextDisplayer.Instance.ShowUntilInput(
-					"ITS BONES HOLLOWED THROUGH BY THE CREATURES OF THE SOIL, LEAVING THE DEAR THING A ROTTED HUSK OF ITS FORMER SELF."
+					"ITS BONES HOLLOWED THROUGH BY THE CREATURES OF THE SOIL, LEAVING IT FEELING UNNATURAL AND UNFAMILIAR."
 				);
 				yield return TextDisplayer.Instance.ShowUntilInput("THOUGH THE WEIGHT OF CONSEQUENCE ALSO SEEMS LIFTED...");
 
@@ -492,6 +492,11 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 	private static List<CardInfo> GetValidCards()
 	{
 		List<CardInfo> list = new List<CardInfo>(RunState.Run.playerDeck.Cards);
+
+		switch (effectrandomizer)
+		{
+			default:
+			case 1:
 		list.RemoveAll(
 			card => card.BonesCost <= 1
 			        || card.Abilities.Count == 5
@@ -499,6 +504,47 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 			        || card.HasSpecialAbility(SpecialTriggeredAbility.RandomCard)
 			        || card.traits.Exists(trait => trait == Trait.Pelt || trait == Trait.Terrain)
 		);
+				break;
+
+			case 2:
+				list.RemoveAll(
+					card => card.BonesCost <= 1
+									|| card.Abilities.Count == 5
+									|| card.HasAbility(Malnourishment.ability)
+									|| card.HasSpecialAbility(SpecialTriggeredAbility.RandomCard)
+									|| card.traits.Exists(trait => trait == Trait.Pelt || trait == Trait.Terrain)
+				);
+				break;
+
+			case 4:
+				list.RemoveAll(
+					card => card.Health <= 1
+									|| card.HasSpecialAbility(SpecialTriggeredAbility.RandomCard)
+									|| card.traits.Exists(trait => trait == Trait.Pelt || trait == Trait.Terrain)
+				);
+				break;
+
+			case 3:
+				list.RemoveAll(
+					card => card.BonesCost <= 0
+									|| card.EnergyCost >= 5
+									|| card.HasSpecialAbility(SpecialTriggeredAbility.RandomCard)
+									|| card.traits.Exists(trait => trait == Trait.Pelt || trait == Trait.Terrain)
+				);
+				break;
+
+			case 5:
+				list.RemoveAll(
+					card => card.EnergyCost >= 4
+									|| card.Abilities.Count == 5
+									|| card.HasAbility(Haunter.ability)
+									|| card.HasSpecialAbility(SpecialTriggeredAbility.RandomCard)
+									|| card.traits.Exists(trait => trait == Trait.Pelt || trait == Trait.Terrain)
+				);
+				break;
+
+
+		}
 
 		return list;
 	}

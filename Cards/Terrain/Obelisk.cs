@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAbilities(Ability.MadeOfStone )
-			.SetBaseAttackAndHealth(0, 1)
+			.SetBaseAttackAndHealth(0, 2)
 			.SetNames(NameObelisk, "Obelisk")
 			.SetTraits(Trait.Structure, Trait.Terrain)
 			.Build();

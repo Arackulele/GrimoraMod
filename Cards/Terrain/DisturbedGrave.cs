@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -13,8 +13,9 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.Evolve)
 			.SetBaseAttackAndHealth(0, 1)
 			.SetDescription("Its low cost is justified only by its low stats.")
-			.SetEvolve(NameZombie, 1)
+			.SetEvolve(NameZombie, 2)
 			.SetNames(NameDisturbedGrave, "Disturbed Grave")
+			.SetTraits(Trait.Structure, Trait.Terrain)
 			.Build();
 	}
 }

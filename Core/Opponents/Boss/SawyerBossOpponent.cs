@@ -26,6 +26,14 @@ public class SawyerBossOpponent : BaseBossExt
 	{
 		PlayTheme();
 
+		encounter.startConditions = new List<EncounterData.StartCondition>()
+		{
+			new()
+			{
+				cardsInOpponentSlots = new[] { null, NameKennel.GetCardInfo() }
+			}
+		};
+
 		SpawnScenery("CratesTableEffects");
 		yield return new WaitForSeconds(0.1f);
 

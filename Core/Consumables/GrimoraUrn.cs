@@ -40,7 +40,10 @@ public class GrimoraUrn : BatteryItem
 		Debug.Log("Added Urn");
 
 		Texture2D HahaL = new Texture2D(70, 80);
-		ConsumableItemData data = ConsumableItemManager.New(GUID, "Soul Urn", "Contains the Soul of the damned", HahaL, typeof(GrimoraUrn), Model);
+		ConsumableItemData data = ConsumableItemManager.New(GUID, "Soul Urn", "Contains the Soul of the damned", HahaL, typeof(GrimoraUrn), Model)
+		.SetLearnItemDescription("Restores your soul counter to full, the Robot wouldn't think it very useful.");
+
+
 		data.rulebookCategory = AbilityMetaCategory.GrimoraRulebook;
 
 		return data;

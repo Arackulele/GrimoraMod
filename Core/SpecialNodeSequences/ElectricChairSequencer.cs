@@ -279,7 +279,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	{
 		CardModificationInfo cardModificationInfo;
 
-		if (card.name == NameFranknstein)
+		if (card.name == NameFranknstein && card.displayedName != "Frankenstein")
 		{
 			card.displayedName = "Frankenstein";
 

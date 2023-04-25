@@ -17,10 +17,10 @@ internal static class Temp
 	{
 		if (ChallengeManagement.AntiChallenges.Contains(info.challengeType))
 		{
-			
+
 			Color parsed;
 			ColorUtility.TryParseHtmlString("#19FFBD", out parsed);
-			__instance.iconRenderer.color =parsed;
+			__instance.iconRenderer.color = parsed;
 			__instance.blinkEffect.blinkOffColor = parsed;
 
 		}
