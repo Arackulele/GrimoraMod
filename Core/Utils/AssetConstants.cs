@@ -84,7 +84,15 @@ public static class AssetConstants
 
 
 
-	public static Material BoneyardSelectionSlot => AssetUtils.GetPrefab<Material>("Boneyard_SelectionSlot");
+	public static Material EnergyGraveSelectionSlot => AssetUtils.GetPrefab<Material>("energygrave");
+
+	public static Material BrittleGraveSelectionSlot => AssetUtils.GetPrefab<Material>("gravebrittle");
+
+	public static Material HaunterGraveSelectionSlot => AssetUtils.GetPrefab<Material>("gravehaunter");
+
+	public static Material PrisonerGraveSelectionSlot => AssetUtils.GetPrefab<Material>("graveprisoner");
+
+	public static Material StarveGraveSelectionSlot => AssetUtils.GetPrefab<Material>("gravestarve");
 
 	public static Material BoneyardConfirmButton =>
 		AssetUtils.GetPrefab<Material>("Boneyard_ConfirmButton_Shovel");

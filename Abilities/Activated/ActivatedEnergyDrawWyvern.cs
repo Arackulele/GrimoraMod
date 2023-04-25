@@ -26,7 +26,7 @@ public partial class GrimoraPlugin
 {
 	public static void Add_Ability_ActivatedEnergyDrawWyvern()
 	{
-		const string rulebookDescription = "Pay 2 Energy for [creature] to summon a copy in your hand.";
+		const string rulebookDescription = "Pay 2 Souls for [creature] to summon a copy in your hand.";
 
 		AbilityBuilder<ActivatedEnergyDrawWyvern>.Builder
 		 .SetRulebookDescription(rulebookDescription)

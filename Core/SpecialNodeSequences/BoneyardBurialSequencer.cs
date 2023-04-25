@@ -223,6 +223,42 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 
 			selectionSlot.gameObject.SetActive(true);
+
+			switch (effectrandomizer)
+			{
+				default:
+				case 1:
+					selectionSlot.specificRenderers[0].material = AssetConstants.BrittleGraveSelectionSlot;
+					selectionSlot.specificRenderers[0].sharedMaterial = AssetConstants.BrittleGraveSelectionSlot;
+
+					break;
+
+				case 2:
+					selectionSlot.specificRenderers[0].material = AssetConstants.StarveGraveSelectionSlot;
+					selectionSlot.specificRenderers[0].sharedMaterial = AssetConstants.StarveGraveSelectionSlot;
+
+					break;
+
+				case 3:
+					selectionSlot.specificRenderers[0].material = AssetConstants.PrisonerGraveSelectionSlot;
+					selectionSlot.specificRenderers[0].sharedMaterial = AssetConstants.PrisonerGraveSelectionSlot;
+
+					break;
+
+				case 4:
+					selectionSlot.specificRenderers[0].material = AssetConstants.EnergyGraveSelectionSlot;
+					selectionSlot.specificRenderers[0].sharedMaterial = AssetConstants.EnergyGraveSelectionSlot;
+
+					break;
+
+				case 5:
+					selectionSlot.specificRenderers[0].material = AssetConstants.HaunterGraveSelectionSlot;
+					selectionSlot.specificRenderers[0].sharedMaterial = AssetConstants.HaunterGraveSelectionSlot;
+
+					break;
+
+			}
+
 			selectionSlot.RevealAndEnable();
 			selectionSlot.ClearDelegates();
 
@@ -597,14 +633,48 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 		newSequencer.pile.cardbackPrefab = AssetConstants.GrimoraCardBack;
 
 		newSequencer.selectionSlot = oldSequencer.selectionSlot;
-		Material selectionSlotMat = AssetConstants.BoneyardSelectionSlot;
+
 
 		var selectionSlot = newSequencer.selectionSlot;
 		selectionSlot.cardSelector.selectableCardPrefab = AssetConstants.GrimoraSelectableCard;
 		selectionSlot.pile.cardbackPrefab = AssetConstants.GrimoraCardBack;
 		selectionSlot.specificRenderers.RemoveAt(1);
-		selectionSlot.specificRenderers[0].material = selectionSlotMat;
-		selectionSlot.specificRenderers[0].sharedMaterial = selectionSlotMat;
+
+		switch (effectrandomizer)
+		{
+			default:
+			case 1:
+				selectionSlot.specificRenderers[0].material = AssetConstants.BrittleGraveSelectionSlot;
+				selectionSlot.specificRenderers[0].sharedMaterial = AssetConstants.BrittleGraveSelectionSlot;
+
+				break;
+
+			case 2:
+				selectionSlot.specificRenderers[0].material = AssetConstants.StarveGraveSelectionSlot;
+				selectionSlot.specificRenderers[0].sharedMaterial = AssetConstants.StarveGraveSelectionSlot;
+
+				break;
+
+			case 3:
+				selectionSlot.specificRenderers[0].material = AssetConstants.PrisonerGraveSelectionSlot;
+				selectionSlot.specificRenderers[0].sharedMaterial = AssetConstants.PrisonerGraveSelectionSlot;
+
+									break;
+
+			case 4:
+				selectionSlot.specificRenderers[0].material = AssetConstants.EnergyGraveSelectionSlot;
+				selectionSlot.specificRenderers[0].sharedMaterial = AssetConstants.EnergyGraveSelectionSlot;
+
+				break;
+
+			case 5:
+				selectionSlot.specificRenderers[0].material = AssetConstants.HaunterGraveSelectionSlot;
+				selectionSlot.specificRenderers[0].sharedMaterial = AssetConstants.HaunterGraveSelectionSlot;
+
+				break;
+
+		}
+
 		selectionSlot.transform.localPosition = new Vector3(0, 5.4f, 0.4f);
 		selectionSlot.transform.localScale = new Vector3(1f, 1f, 1f);
 		selectionSlot.transform.localRotation = Quaternion.Euler(0, 0, 0);

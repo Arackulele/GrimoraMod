@@ -194,7 +194,7 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 
 		foreach (var i in slots)
 		{
-			if (i.Card != null && i.Card.Info.Abilities.Count < 5)
+			if (i.Card != null && i.Card.AllAbilities().Count < 5 && UnityEngine.Random.Range(0, 10) > 5)
 			{
 				i.Card.AddTemporaryMod(cardModificationInfo);
 				i.Card.OnStatsChanged();
@@ -208,12 +208,9 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 
 	public static readonly List<Ability> AbilitiesChosenByRule5 = new List<Ability>
 	{
-		LatchSubmerge.ability,
 		Ability.AllStrike,
-		Ability.CorpseEater,
 		Ability.DoubleDeath,
 		Ability.DoubleStrike,
-		Ability.DrawCopy,
 		Ability.ExplodeOnDeath,
 		Ability.GuardDog,
 		Ability.Strafe,

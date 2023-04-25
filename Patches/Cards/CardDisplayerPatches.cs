@@ -12,10 +12,13 @@ public class CardDisplayerPatches
 	                                            CardRenderInfo renderInfo,
 	                                            PlayableCard playableCard)
 	{
-		if (GrimoraSaveUtil.IsNotGrimoraModRun)
+		// I check for GBCCameras because it is an object that only appears while act 2 cards are being rendered in any way
+		//to account for KCmod deck screen
+		if (GrimoraSaveUtil.IsNotGrimoraModRun || GameObject.Find("GBCCameras") != null )
 		{
 			return true;
 		}
+
 
 		_ = playableCard ? playableCard.MaxHealth : renderInfo.baseInfo.Health;
 

@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.Brittle, Ability.DrawCopyOnDeath)
 			.SetBaseAttackAndHealth(3, 1)
 			.SetBoneCost(4)
-			.SetDescription("FAMED AMONG THE FOLLOWERS OF THE PHARAO. THEY WERE BLESSED WITH ETERNAL LIFE LONG AGO.")
+			.SetDescription("FAMED AMONG THE FOLLOWERS OF THE PHARAOH. THEY WERE BLESSED WITH ETERNAL LIFE LONG AGO.")
 			.SetNames(NameDeadPets, "Pharaoh's Pets")
 			.Build();
 	}

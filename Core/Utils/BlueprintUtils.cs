@@ -185,6 +185,8 @@ public static class BlueprintUtils
 			new() { bp_Sarcophagus },
 			new() { bp_Boneclaw },
 			new() ,
+			new() ,
+			new() ,
 			new() { bp_Sarcophagus },
 			new() ,
 			new() ,
@@ -208,7 +210,9 @@ public static class BlueprintUtils
 		{
 			new() { bp_Boneclaw },
 			new() ,
+			new() ,
 			new() { bp_Ripper },
+			new() ,
 			new() { bp_Boneless },
 			new() ,
 			new() { bp_Boneclaw },
@@ -230,6 +234,7 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_Eidolon },
+			new() ,
 			new() { bp_Skeleton, bp_Boneless },
 			new() ,
 			new() { bp_Boneless },
@@ -254,9 +259,9 @@ public static class BlueprintUtils
 		{
 			new() { bp_Boneless },
 			new() ,
-			new() { bp_Giant },
+			new() { bp_Glacier },
 			new() ,
-			new() { bp_Boneless },
+			new() { bp_Boneless, bp_Zombie },
 			new() ,
 			new() { bp_Boneless },
 			new() { bp_Eidolon },
@@ -277,12 +282,12 @@ public static class BlueprintUtils
 		blueprint.name = "AnkhGuard_Rush";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Boneclaw },
+			new() { bp_Zombie },
 			new() { bp_Catacomb },
 			new() ,
 			new() { bp_Boneless },
 			new() ,
-			new() { bp_Boneclaw },
+			new() ,
 			new() { bp_Boneclaw },
 			new() ,
 			new() { bp_Catacomb },
@@ -301,7 +306,7 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_MassGrave },
-			new() { bp_Sarcophagus },
+			new() { bp_Zombie },
 			new() ,
 			new() { bp_DeadPets },
 			new() { bp_MassGrave },
@@ -1282,7 +1287,10 @@ public static class BlueprintUtils
 			new() { bp_Revenant },
 			new(),
 			new() { bp_Sarcophagus },
-			new() { bp_Skelemagus }
+			new() { bp_Skelemagus },
+			new() { bp_Silbon },
+			new(),
+			new() { bp_DanseMacabre },
 		};
 		return blueprint;
 	}

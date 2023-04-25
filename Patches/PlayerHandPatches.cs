@@ -48,10 +48,12 @@ public class PlayerHandPatches
 				ViewManager.Instance.SwitchToView(View.Board);
 				ChallengeActivationUI.TryShowActivation(ChallengeManagement.RoyalsRevenge);
 				yield return new WaitForSeconds(0.2f);
+				if (card != null) { 
 				card.AddTemporaryMod(new CardModificationInfo(LitFuse.ability));
 				card.Anim.StrongNegationEffect();
 				yield return new WaitForSeconds(0.2f);
 				cardsPlayedThisCombatForFuse = 0;
+				}
 			}
 		}
 		GrimoraPlugin.Log.LogInfo($"after change lit turn {cardsPlayedThisCombatForFuse}");

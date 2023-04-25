@@ -24,7 +24,7 @@ public class BoneLordsFemur : ConsumableItem
 
 		foreach (var i in slots)
 		{
-				if (i.Card != null && i.Card.Info.HasTrait(Trait.Uncuttable))
+				if (i.Card != null && !i.Card.Info.HasTrait(Trait.Uncuttable))
 			{
 				i.Card.Anim.StrongNegationEffect();
 			int attack = i.Card.Attack == 0 ? 0 : 1 - i.Card.Attack;
