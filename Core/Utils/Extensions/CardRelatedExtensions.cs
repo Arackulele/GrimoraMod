@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Text;
 using DiskCardGame;
 using InscryptionAPI.Card;
@@ -94,6 +94,16 @@ public static class CardRelatedExtension
 		return cardInfo.Mods.Exists(mod => mod.singletonId == ElectricChairSequencer.ModSingletonId);
 	}
 
+	public static bool HasBeenGraveDug(this CardInfo cardInfo)
+	{
+		return cardInfo.Mods.Exists(mod => mod.singletonId == BoneyardBurialSequencer.ModSingletonId);
+	}
+
+	public static bool HasBeenBonelorded(this CardInfo cardInfo)
+	{
+		return cardInfo.Mods.Exists(mod => mod.singletonId == GrimoraCardRemoveSequencer.ModSingletonId);
+	}
+
 	public static void RemoveAbilityFromThisCard(
 		this PlayableCard playableCard,
 		CardModificationInfo modInfo,
@@ -155,7 +165,7 @@ public static class CardRelatedExtension
 				}
 			}
 
-			if (playableCard.LacksAbility(Ability.QuadrupleBones) && playableCard.LacksAbility(Boneless.ability) && slotBeforeDeath.IsPlayerSlot)
+			if (playableCard.LacksAbility(Ability.QuadrupleBones) && playableCard.LacksAbility(Boneless.ability) && playableCard.LacksTrait(Trait.Terrain) && slotBeforeDeath.IsPlayerSlot)
 			{
 				yield return ResourcesManager.Instance.AddBones(1, slotBeforeDeath);
 			}

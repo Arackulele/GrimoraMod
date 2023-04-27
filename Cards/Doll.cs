@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
@@ -13,6 +15,6 @@ public partial class GrimoraPlugin
 			.SetBoneCost(3)
 			.SetDescription("A lonesome doll, returned from seas of slate and silent shores... it stares lifelessly.")
 			.SetNames(NameDoll, "Doll")
-			.Build();
+			.Build().pixelPortrait = AssetUtils.GetPrefab<Sprite>("dollpixel");
 	}
 }

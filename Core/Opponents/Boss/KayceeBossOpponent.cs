@@ -35,10 +35,13 @@ public class KayceeBossOpponent : BaseBossExt
 		SetSceneEffectsShownKaycee();
 
 		yield return base.IntroSequence(encounter);
+		GameObject.Find("SnowPhase2").GetComponent<ParticleSystem>().startLifetime = 0;
+		GameObject.Find("SnowPhase1").GetComponent<ParticleSystem>().startLifetime = 0;
 
 		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput($"{"BRRRR!".BrightBlue()} I'VE BEEN FREEZING FOR AGES!");
 		yield return TextDisplayer.Instance.ShowUntilInput($"LET'S TURN UP THE {"HEAT".Red()} FOR A GOOD FIGHT!");
+		GameObject.Find("SnowPhase1").GetComponent<ParticleSystem>().startLifetime = 10;
 
 		ViewManager.Instance.SwitchToView(View.Default);
 	}
@@ -98,6 +101,9 @@ public class KayceeBossOpponent : BaseBossExt
 		{
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput($"I'M STILL NOT FEELING {"WARMER!".Red()}");
+
+			GameObject.Find("SnowPhase1").SetActive(false);
+			GameObject.Find("SnowPhase2").GetComponent<ParticleSystem>().startLifetime = 5;
 
 			yield return base.ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
 		}

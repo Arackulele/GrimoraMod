@@ -72,6 +72,7 @@ public partial class GrimoraPlugin
 		 .SetIcon(AbilitiesUtil.LoadAbilityIcon(Ability.RandomAbility.ToString()))
 		 .SetRulebookDescription(rulebookDescription)
 		 .SetRulebookName("Random Ability")
+		 .SetPixelIcon(AssetUtils.GetPrefab<Sprite>("random_pixel"))
 		 .Build();
 	}
 }

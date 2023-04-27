@@ -16,6 +16,6 @@ public class OpponentBonesPatches
 		ref bool __result
 	)
 	{
-		__result = __result && card.LacksAbility(Boneless.ability);
+		__result = __result && card.LacksAbility(Boneless.ability) && card.LacksTrait(Trait.Terrain);
 	}
 }

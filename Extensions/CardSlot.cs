@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using InscryptionAPI.Helpers.Extensions;
 
 namespace GrimoraMod.Extensions;

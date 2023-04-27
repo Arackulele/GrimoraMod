@@ -128,7 +128,6 @@ public class CardBuilder
 			_cardInfo.appearanceBehaviour = new List<CardAppearanceBehaviour.Appearance>
 				{ CardAppearanceBehaviour.Appearance.RareCardBackground };
 		}
-
 		return this;
 	}
 
@@ -167,6 +166,19 @@ public class CardBuilder
 	internal CardBuilder SetTraits(params Trait[] traits)
 	{
 		_cardInfo.SetTraits(traits);
+
+		if ((traits ?? Array.Empty<Trait>()).Contains(Trait.Terrain))
+		{
+			_cardInfo.appearanceBehaviour = new List<CardAppearanceBehaviour.Appearance>
+				{ CardAppearanceBehaviour.Appearance.TerrainBackground };
+		}
+
+		if ((traits ?? Array.Empty<Trait>()).Contains(Trait.DeathcardCreationNonOption))
+		{
+			_cardInfo.appearanceBehaviour = new List<CardAppearanceBehaviour.Appearance>
+				{ CardAppearanceBehaviour.Appearance.GoldEmission };
+		}
+
 		return this;
 	}
 

@@ -37,6 +37,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<Haunter>.Builder
 		 .SetIcon(AbilitiesUtil.LoadAbilityIcon(Ability.Haunter.ToString()))
+		 .SetPixelIcon(AssetUtils.GetPrefab<Sprite>("haunter_pixel"))
 		 .SetRulebookDescription(rulebookDescription)
 		 .Build();
 	}
@@ -67,6 +68,11 @@ public class HauntedSlot : NonCardTriggerReceiver
 				hauntedIcon.gameObject.layer = icon.gameObject.layer;
 				hauntedIcon.name = AbilityManager.AllAbilities.Find(fa => fa.Id == icon.Ability).Info.rulebookName;
 				Renderer renderer = hauntedIcon.GetComponent<MeshRenderer>();
+				hauntedIcon.GetComponent<Renderer>().material.SetColor("_Color", GameColors.instance.yellow);
+
+				//TODO: fix it for community patch
+				//if (sigils.GetComponent<InscryptionCommunityPatch.Card.ActivatedAbilityIconInteractable>() != null) UnityEngine.Object.Destroy(sigils.GetComponent<InscryptionCommunityPatch.Card.ActivatedAbilityIconInteractable>());
+				if (hauntedIcon.GetComponent<AbilityIconInteractable>() != null) UnityEngine.Object.Destroy(hauntedIcon.GetComponent<AbilityIconInteractable>());
 				renderer.enabled = true;
 				// renderer.material.ChangeRenderMode(UnityObjectExtensions.BlendMode.Cutout);
 				// this is so that it doesn't appear behind the card slot texture at the lowest point in the wave movement 
@@ -103,13 +109,6 @@ public class HauntedSlot : NonCardTriggerReceiver
 
 		foreach (var i in cardAllAbilities)
 		{
-			if (i is Ability.Sentry || i is Ability.Sniper )
-			{
-
-				cardAllAbilities = new List<Ability> { Slasher.ability };
-				yield return TextDisplayer.Instance.ShowUntilInput($"Oh... ghosts cannot transfer this modern technology {otherCard.Info.DisplayedNameEnglish.LimeGreen()} , i hope this blade will do as consolation.");
-
-			}
 
 
 		}
@@ -136,6 +135,7 @@ public class HauntedSlot : NonCardTriggerReceiver
 			otherCard.AddTemporaryMod(_modInfo);
 			otherCard.Anim.PlayTransformAnimation();
 			otherCard.UpdateStatsText();
+			otherCard.RenderCard();
 			yield return new WaitForSeconds(0.1f);
 		}
 

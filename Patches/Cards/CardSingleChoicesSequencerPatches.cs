@@ -145,6 +145,7 @@ public class CardSingleChoicesSequencerPatches
 
 			__state.SetCollidersEnabled(true);
 			__state.choicesRerolled = false;
+			__state.gamepadGrid.enabled = true;
 			__state.EnableViewDeck(__state.viewControlMode, __state.basePosition);
 			yield return new WaitUntil(() => __state.chosenReward || __state.choicesRerolled);
 			__state.DisableViewDeck();

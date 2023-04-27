@@ -180,6 +180,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		#region Normal
 
+		Add_Card_Ashes();                  // Bt Y#0895
 		Add_Card_Banshee();                   // vanilla
 		Add_Card_Bonehound();                 // vanilla
 		Add_Card_Bonelord();                  // Ryan S. Art
@@ -392,15 +393,15 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		CardInfo trapInfo = "Trap".GetCardInfo();
 		CardBuilder.Builder
-		 .SetAbilities(Ability.BoneDigger, Ability.SteelTrap, Haunter.ability)
+		 .SetAbilities(Haunter.ability, Ability.Sniper, ActivatedDealDamageGrimora.ability)
 		 .SetBaseAttackAndHealth(0, 1)
 		 .SetNames($"{GUID}_!TRAP", "!TEST Trap", trapInfo.portraitTex)
 		 .Build();
 
 		CardBuilder.Builder
-		 .SetAbilities(Ability.DeathShield)
+		 .SetAbilities(Ability.DeathShield, Ability.Evolve)
 		 .SetBaseAttackAndHealth(0, 99)
-		 .SetNames($"{GUID}_!BLOCKER", "!TEST Blocker", trapInfo.portraitTex)
+		 .SetNames($"{GUID}_!BLOCKER","Blocker", trapInfo.portraitTex)
 		 .Build();
 	}
 

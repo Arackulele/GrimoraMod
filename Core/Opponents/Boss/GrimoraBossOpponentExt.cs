@@ -1,5 +1,7 @@
 using System.Collections;
 using DiskCardGame;
+using GracesGames.Common.Scripts;
+using GrimoraMod.Saving;
 using HarmonyLib;
 using InscryptionAPI.Encounters;
 using InscryptionAPI.Helpers.Extensions;
@@ -300,6 +302,89 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		yield return BeginBonelordsReign();
 
 		yield return CreateHornsInFarLeftAndRightLanes(oppSlots);
+
+		int ashpowerpool = RunState.Run.currency;
+
+		CardInfo AshCard = CardLoader.GetCardByName(NameAshes);
+
+		Ability AshAbility;
+
+		switch (ashpowerpool)
+		{
+			case 0:
+				AshAbility = Ability.Brittle;
+				break;
+			case >= 100:
+				AshAbility = Ability.TriStrike;
+				break;
+			case >= 80:
+				AshAbility = Ability.DoubleStrike;
+				break;
+			case >= 70:
+				AshAbility = Slasher.ability;
+				break;
+			case >= 50:
+				AshAbility = Imbued.ability;
+				break;
+			case >= 40:
+				AshAbility = Ability.Tutor;
+				break;
+			case >= 30:
+				AshAbility = LooseLimb.ability;
+				break;
+			case >= 20:
+				AshAbility = Ability.Sharp;
+				break;
+			case >= 10:
+				AshAbility = Ability.Strafe;
+				break;
+			default:
+			case >=5:
+				AshAbility = Boneless.ability;
+				break;
+		}
+
+		if (ashpowerpool == 0) { 
+		CardModificationInfo AshMods = new CardModificationInfo
+		{
+			attackAdjustment = 0,
+			healthAdjustment = 1,
+			abilities = new List<Ability> { AshAbility }
+
+		};
+		}
+		else { 
+			CardModificationInfo AshMods = new CardModificationInfo
+			{
+			attackAdjustment = (int)(ashpowerpool / 12),
+			healthAdjustment = (int)(ashpowerpool / 6),
+			abilities = new List<Ability> { AshAbility }
+
+			};
+		}
+
+		yield return new WaitForSeconds(0.8f);
+
+		yield return TextDisplayer.Instance.ShowUntilInput(
+						$"{"I ALMOST FORGOT".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
+	);
+
+		yield return TextDisplayer.Instance.ShowUntilInput(
+						$"{"ALL OF THIS SUFFERING YOU CAUSED, ALL OF THIS PAIN".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
+	);
+
+		yield return TextDisplayer.Instance.ShowUntilInput(
+						$"{"YOU OUGHT TO BE REWARDED FOR THAT".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
+	);
+
+		ViewManager.Instance.SwitchToView(View.Hand, false, true);
+
+		yield return TextDisplayer.Instance.ShowUntilInput(
+						$"{"TAKE THIS FOR YOUR EFFORTS".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
+	);
+
+		yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(AshCard, new List<CardModificationInfo> { AshMods }, 0.25f );
+
 	}
 
 	private IEnumerator BeginBonelordsReign()

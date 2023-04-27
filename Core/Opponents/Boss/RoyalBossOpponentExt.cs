@@ -25,13 +25,28 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
-		encounter.startConditions = new List<EncounterData.StartCondition>()
+		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.NoBones) && AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.Soulless))
+		{
+			encounter.startConditions = new List<EncounterData.StartCondition>()
+				{
+					new()
+					{
+						cardsInOpponentSlots = new[] { NameShipwreck.GetCardInfo(), null, null, null }
+					}
+				};
+		}
+		else
+		{
+
+			encounter.startConditions = new List<EncounterData.StartCondition>()
 		{
 			new()
 			{
 				cardsInOpponentSlots = new[] { NameShipwreck.GetCardInfo(), null, null, NameRevenant.GetCardInfo() }
 			}
 		};
+
+	}
 
 		yield return base.IntroSequence(encounter);
 
@@ -45,6 +60,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 			yield return TextDisplayer.Instance.ShowUntilInput("VAR, I SEE YOU MADE IT TO ME SHIP CHALLENGER!");
 			yield return TextDisplayer.Instance.ShowUntilInput("I'VE BEEN WAITING FOR A WORTHY FIGHT!");
 		}
+
 
 		cannons = Instantiate(
 			ResourceBank.Get<GameObject>("Prefabs/Environment/TableEffects/CannonTableEffects"),
@@ -62,6 +78,16 @@ public class RoyalBossOpponentExt : BaseBossExt
 		ViewManager.Instance.SwitchToView(View.Default);
 
 		PlayTheme();
+
+		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.NoBones) && AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.Soulless))
+		{
+			yield return BoardManager.Instance.opponentSlots[3].CreateCardInSlot(NameRevenant.GetCardInfo(), 1.0f);
+			ChallengeActivationUI.TryShowActivation(ChallengeManagement.NoBones);
+			yield return TextDisplayer.Instance.ShowUntilInput("OH, I SEE YEE ARE SEVERELY HAUNTED!");
+			ChallengeActivationUI.TryShowActivation(ChallengeManagement.Soulless);
+			yield return TextDisplayer.Instance.ShowUntilInput("REVENANT, PACK YE BAGS, YOURE GETTING THROWN OVERBOARD!");
+			yield return BoardManager.Instance.opponentSlots[3].Card.Die(false, null);
+		}
 	}
 
 	public override void ModifyQueuedCard(PlayableCard card)

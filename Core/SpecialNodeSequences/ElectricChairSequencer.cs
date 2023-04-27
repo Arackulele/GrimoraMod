@@ -2,6 +2,7 @@ using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using Pixelplacement;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -282,13 +283,13 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		if (card.name == NameFranknstein && card.displayedName != "Frankenstein")
 		{
 			card.displayedName = "Frankenstein";
-
-
+			card.portraitTex = AssetUtils.GetPrefab<Sprite>("FrankenStein");
+			card.SetEmissivePortrait(AssetUtils.GetPrefab<Sprite>("FrankenStein_emission"));
 
 			cardModificationInfo = new CardModificationInfo
 			{
 
-				abilities = new List<Ability> { GetRandomAbility(card), Ability.PermaDeath },
+				abilities = new List<Ability> { Ability.PermaDeath },
 				singletonId = ModSingletonId,
 				nameReplacement = "Frankenstein",
 				attackAdjustment = 1,

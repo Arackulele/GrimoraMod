@@ -42,6 +42,8 @@ public class GrimoraRunState : RunState
 		this.totems = new List<TotemDefinition>();
 		this.totemTops = new List<Tribe>();
 		this.totemBottoms = new List<Ability>();
+
+		HammerItemExt.useCounter = 0;
 	}
 
 	public void NewStandardGame()

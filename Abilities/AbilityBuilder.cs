@@ -85,6 +85,12 @@ public class AbilityBuilder<T> where T: AbilityBehaviour
 		return this;
 	}
 
+	public AbilityBuilder<T> SetPixelIcon(Sprite PixelIcon)
+	{
+		_abilityInfo.pixelIcon= PixelIcon;
+		return this;
+	}
+
 	/// <summary>
 	/// Pascal split will make strings like this:
 	/// "AreaOfEffectStrike" => "Area Of Effect Strike" 

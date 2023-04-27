@@ -107,7 +107,7 @@ public class ChallengeManagement
 				description = "You no longer gain the extra bones, from defeating bosses.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("NoBonesNew"),
 				activatedSprite = AssetUtils.GetPrefab<Sprite>("NoBones_Active"),
-				pointValue = 5,
+				pointValue = 15,
 			},
 				new()
 				{
@@ -134,7 +134,7 @@ public class ChallengeManagement
 					description = "Every third card you play gains the Lit Fuse sigil.",
 					iconSprite = AssetUtils.GetPrefab<Sprite>("RoyalsRevenge"),
 					activatedSprite = AssetUtils.GetPrefab<Sprite>("Royal_Active"),
-					pointValue = 10
+					pointValue = 5
 				}
 				,
 			new()
@@ -144,7 +144,7 @@ public class ChallengeManagement
 				description = "Skeletons cost +1 Energy.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("Soulless"),
 				activatedSprite = AssetUtils.GetPrefab<Sprite>("Soulless_Active"),
-				pointValue = 5
+				pointValue = 10
 			},
 			new()
 			{
@@ -153,7 +153,7 @@ public class ChallengeManagement
 				description = "Skeletons cost +1 Energy.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("Soulless"),
 				activatedSprite = AssetUtils.GetPrefab<Sprite>("Soulless_Active"),
-				pointValue = 5
+				pointValue = 10
 			},
 				new()
 				{

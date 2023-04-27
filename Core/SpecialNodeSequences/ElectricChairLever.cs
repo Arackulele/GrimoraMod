@@ -18,7 +18,6 @@ public class ElectricChairLever : HighlightedInteractable
 		Ability.DrawRandomCardOnDeath,
 		Ability.Evolve,
 		Ability.IceCube,
-		Ability.LatchDeathShield,
 		Ability.OpponentBones,
 		Ability.QuadrupleBones,
 		Ability.Sentry,
@@ -33,6 +32,7 @@ public class ElectricChairLever : HighlightedInteractable
 
 	public static readonly List<Ability> AbilitiesMinorRisk = new(AbilitiesSaferRisk)
 	{
+		Ability.LatchDeathShield,
 		Ability.BoneDigger,
 		Ability.BuffNeighbours,
 		Ability.CreateBells,
@@ -49,7 +49,7 @@ public class ElectricChairLever : HighlightedInteractable
 		Ability.MoveBeside,
 		Ability.Reach,
 		Ability.SkeletonStrafe,
-		Ability.Sniper,
+		Slasher.ability,
 		Ability.SplitStrike,
 		Ability.Tutor,
 		ActivatedDrawSkeletonGrimora.ability,

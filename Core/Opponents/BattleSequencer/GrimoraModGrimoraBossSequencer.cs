@@ -76,6 +76,9 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 					GrimoraSaveUtil.IsGrimoraModRun = false;
 					FinaleDeletionWindowManager.instance.mainWindow.gameObject.SetActive(true);
 					yield return ((GrimoraGameFlowManager)GameFlowManager.Instance).EndSceneSequence();
+
+					//if (SaveManager.saveFile.currentRun.currency == 10);
+					//if (RunState.Run.currency == 1) ;
 				}
 			}
 
@@ -85,6 +88,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 			yield return base.GameEnd(false);
 		}
 	}
+
 
 	private bool SlotContainsTwinGiant(CardSlot cardSlot)
 	{

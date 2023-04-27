@@ -82,10 +82,13 @@ public class BaseGameFlowManagerPatches
 		GameObject.Find("GameTable")
 			.AddComponent<Animator>()
 			.runtimeAnimatorController = AssetUtils.GetPrefab<RuntimeAnimatorController>("GrimoraGameTable");
+
+
 	}
 
 
-	private static void SetupPlayableAndSelectableCardPrefabs()
+
+		private static void SetupPlayableAndSelectableCardPrefabs()
 	{
 		AssetConstants.GrimoraPlayableCard
 			.transform

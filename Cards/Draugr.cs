@@ -20,7 +20,10 @@ public partial class GrimoraPlugin
 			.SetBoneCost(1)
 			.SetDescription("HIDING IN A SUIT OF ARMOR, OR ICE, WHAT DOES IT MATTER. THIS SKELETON WON'T LAST FOREVER.")
 			.SetIceCube(NameSkeleton)
+			//Just using an unused Trait so we dont have to make a new one
+			.SetTraits(Trait.DeathcardCreationNonOption)
 			.SetNames(NameDraugr, "Draugr")
-			.Build().pixelPortrait=pixelSprite;
+			.Build()
+			.pixelPortrait=pixelSprite;
 	}
 }

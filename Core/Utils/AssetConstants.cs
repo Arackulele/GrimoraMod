@@ -83,7 +83,7 @@ public static class AssetConstants
 	public static GameObject BoneyardGrave => GrimoraPlugin.kopieGameObjects.Find(g => g.name.Contains("BoneyardBurialGraveNe"));
 
 
-
+	public static Material OldBoneyardSlot => AssetUtils.GetPrefab<Material>("Boneyard_SelectionSlot");
 	public static Material EnergyGraveSelectionSlot => AssetUtils.GetPrefab<Material>("energygrave");
 
 	public static Material BrittleGraveSelectionSlot => AssetUtils.GetPrefab<Material>("gravebrittle");

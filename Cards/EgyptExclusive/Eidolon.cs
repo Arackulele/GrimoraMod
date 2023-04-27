@@ -9,7 +9,7 @@ public partial class GrimoraPlugin
 	private void Add_Card_Eidolon()
 	{
 		CardBuilder.Builder
-			.SetAbilities(Ability.Sentry, Boneless.ability, Ability.MadeOfStone)
+			.SetAbilities(Ability.Sentry, Ability.MadeOfStone)
 			.SetBaseAttackAndHealth(2, 4)
 			.SetNames(NameEidolon, "Eidolon")
 			.SetBoneCost(7)

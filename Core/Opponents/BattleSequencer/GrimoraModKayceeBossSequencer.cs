@@ -154,7 +154,12 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 		if (playableCard.LacksAbility(Ability.IceCube))
 		{
 			modInfo.abilities = new List<Ability> { Ability.IceCube };
+
+
 			playableCard.Info.iceCubeParams = new IceCubeParams { creatureWithin = playableCard.Info };
+
+			playableCard.GetComponentInChildren<GravestoneRenderStatsLayer>().Material.SetAlbedoTexture(AssetUtils.GetPrefab<Material>("GravestoneFrozen").mainTexture);
+			playableCard.RenderCard();
 		}
 
 		return modInfo;

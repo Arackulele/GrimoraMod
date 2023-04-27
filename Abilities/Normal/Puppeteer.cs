@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using GrimoraMod.Extensions;
 using InscryptionAPI.Card;
@@ -95,6 +95,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<Puppeteer>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetPixelIcon(AssetUtils.GetPrefab<Sprite>("puppet_pixel"))
 		 .Build();
 	}
 }

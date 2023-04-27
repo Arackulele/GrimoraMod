@@ -14,7 +14,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 	private static int SigilOffer = 0;
 
-
+	public const string ModSingletonId = "GrimoraMod_BonelordBuffed";
 
 	private IEnumerator InitialSetup()
 	{
@@ -639,7 +639,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		{
 			modificationInfo.bonesCostAdjustment = howMuchToAdjust;
 		}
-
+		modificationInfo.singletonId = ModSingletonId;
 		return modificationInfo;
 	}
 
@@ -653,7 +653,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 	{
 		var modificationInfo = GetModInfoFromSingletonId(singletonId);
 
-		List<CardInfo> cards = GetCardsWithoutMod(singletonId, filterCardsOnPredicate);
+		List<CardInfo> cards = GetCardsWithoutMod(ModSingletonId, filterCardsOnPredicate);
 
 		CardInfo cardToReturn = BoonsUtil.CreateCardForBoon(BoonData.Type.StartingBones);
 		if (cards.IsNullOrEmpty())

@@ -367,8 +367,39 @@ public class ChessboardMapExt : GameMap
 		}
 	}
 
+	private static void CheckLights()
+	{
+
+		if (GameObject.Find("BoardLight") != null)
+		{
+			if (GrimoraRunState.CurrentRun.regionTier == 1)
+			{
+				GameObject.Find("BoardLight").GetComponent<Light>().color = new Color(0.5240266f, 0.5660378f, 0.2429691f);
+				GameObject.Find("BoardLight_Cards").GetComponent<Light>().color = new Color(0.5240266f, 0.5660378f, 0.2429691f);
+			}
+
+			if (GrimoraRunState.CurrentRun.regionTier == 2)
+			{
+				GameObject.Find("BoardLight").GetComponent<Light>().color = new Color(0.13333f, 0.7451f, 0.8549f);
+				GameObject.Find("BoardLight_Cards").GetComponent<Light>().color = new Color(0.13333f, 0.7451f, 0.8549f);
+			}
+
+		if (GrimoraRunState.CurrentRun.regionTier == 3)
+				{ 
+				GameObject.Find("BoardLight").GetComponent<Light>().color = new Color(0.46275f, 0.32549f, 0.65098f);
+				GameObject.Find("BoardLight_Cards").GetComponent<Light>().color = new Color(0.46275f, 0.32549f, 0.65098f);
+			}
+		}
+
+		Debug.Log("Changed board light color");
+
+	}
+
 	public override IEnumerator UnrollingSequence(float unrollSpeed)
 	{
+
+		CheckLights();
+
 		Component interact = GameObject.Find("StinkbugInteractable").GetComponent<BoxCollider>();
 
 		Destroy(interact);

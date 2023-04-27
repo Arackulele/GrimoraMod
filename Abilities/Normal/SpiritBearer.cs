@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using UnityEngine;
 
@@ -34,6 +34,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<SpiritBearer>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetPixelIcon(AssetUtils.GetPrefab<Sprite>("spiritbearer_pixel"))
 		 .Build();
 	}
 }

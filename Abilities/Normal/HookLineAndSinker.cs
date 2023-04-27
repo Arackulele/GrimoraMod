@@ -77,6 +77,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<HookLineAndSinker>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+			.SetPixelIcon(AssetUtils.GetPrefab<Sprite>("hook_pixel"))
 		 .Build();
 	}
 }

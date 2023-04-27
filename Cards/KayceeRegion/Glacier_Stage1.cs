@@ -16,6 +16,7 @@ public partial class GrimoraPlugin
 			.SetIceCube(NameFrostGiant)
 			.SetNames(NameGlacier, "Glacier")
 			.SetTraits(Trait.Giant, Trait.Uncuttable)
+			.SetTraits(Trait.DeathcardCreationNonOption)
 			.SetDescription("I WONDER WHAT HAS BEEN FROZEN AWAY FOR SO LONG?")
 			.Build().pixelPortrait = AssetUtils.GetPrefab<Sprite>("glacier_pixel");
 		;
