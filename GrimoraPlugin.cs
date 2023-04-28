@@ -279,6 +279,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Card_Boneless();                        //gold#2445
 		Add_Card_Eidolon();                         // Bt Y#0895
 		Add_Card_Boneclaw();                        // Bt Y#0895
+		Add_Card_EgyptMummy();                      //gold#2445
+
 
 		#endregion
 

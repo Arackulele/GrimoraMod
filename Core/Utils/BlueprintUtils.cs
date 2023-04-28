@@ -164,6 +164,8 @@ public static class BlueprintUtils
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Boneless = NameBoneless.CreateCardBlueprint();
 
+	public static readonly EncounterBlueprintData.CardBlueprint bp_EgyptMummy = NameEgyptMummy.CreateCardBlueprint();
+
 	#endregion
 
 	#endregion
@@ -186,11 +188,10 @@ public static class BlueprintUtils
 			new() { bp_Boneclaw },
 			new() ,
 			new() ,
-			new() ,
 			new() { bp_Sarcophagus },
 			new() ,
 			new() ,
-			new() { bp_Mummy },
+			new() { bp_Sarcophagus },
 			new() { bp_Boneclaw },
 			new() ,
 			new() { bp_Boneclaw },
@@ -208,20 +209,23 @@ public static class BlueprintUtils
 		blueprint.name = "AnkhGuard_Clawed";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Boneclaw },
-			new() ,
+			new() { bp_EgyptMummy },
+			new() { bp_EgyptMummy },
 			new() ,
 			new() { bp_Ripper },
 			new() ,
 			new() { bp_Boneless },
 			new() ,
-			new() { bp_Boneclaw },
+			new() { bp_EgyptMummy },
 			new() { bp_Boneclaw },
 			new() ,
 			new() { bp_Ripper },
 			new() { bp_Boneclaw },
 			new() { bp_Boneless, bp_Boneless },
-			new() { bp_Sarcophagus, bp_Sarcophagus },
+			new() ,
+			new() { bp_EgyptMummy, bp_Ripper },
+			new() ,
+			new() { bp_Boneclaw },
 		};
 
 		return blueprint;
@@ -233,19 +237,19 @@ public static class BlueprintUtils
 		blueprint.name = "AnkhGuard_Protectors";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Eidolon },
+			new() { bp_Eidolon, bp_EgyptMummy },
 			new() ,
-			new() { bp_Skeleton, bp_Boneless },
+			new() { bp_EgyptMummy, bp_Boneless },
 			new() ,
 			new() { bp_Boneless },
 			new() ,
-			new() { bp_Skelemagus },
+			new() { bp_EgyptMummy },
 			new() { bp_Eidolon },
 			new() ,
-			new() { bp_Skelemagus },
+			new() { bp_Eidolon },
 			new() { bp_Obol, bp_Obol },
 			new() { bp_Eidolon, bp_Eidolon },
-			new() { bp_Skelemagus, bp_Skelemagus, bp_Skelemagus },
+			new() { bp_Mummy },
 		};
 
 		return blueprint;
@@ -257,20 +261,21 @@ public static class BlueprintUtils
 		blueprint.name = "AnkhGuard_Giant";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Boneless },
+			new() { bp_Boneless, bp_EgyptMummy },
 			new() ,
-			new() { bp_Glacier },
+			new() { bp_EgyptMummy },
 			new() ,
-			new() { bp_Boneless, bp_Zombie },
+			new() { bp_Boneless, bp_EgyptMummy },
 			new() ,
 			new() { bp_Boneless },
 			new() { bp_Eidolon },
 			new() ,
-			new() { bp_Giant },
+			new() { bp_Mummy },
 			new() ,
-			new() { bp_Obol, bp_Obol },
-			new() { bp_Eidolon, bp_Eidolon },
-			new() { bp_Giant },
+			new() { bp_Obol },
+			new() { bp_Eidolon, bp_EgyptMummy },
+			new() ,
+			new() { bp_Glacier },
 		};
 
 		return blueprint;
@@ -282,15 +287,15 @@ public static class BlueprintUtils
 		blueprint.name = "AnkhGuard_Rush";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Zombie },
-			new() { bp_Catacomb },
+			new() { bp_EgyptMummy },
+			new() { bp_Eidolon },
 			new() ,
 			new() { bp_Boneless },
 			new() ,
-			new() ,
+			new() { bp_EgyptMummy },
 			new() { bp_Boneclaw },
 			new() ,
-			new() { bp_Catacomb },
+			new() { bp_EgyptMummy, bp_EgyptMummy },
 			new() { bp_Boneclaw },
 			new() { bp_Boneless, bp_Boneless },
 			new() { bp_Sarcophagus, bp_Sarcophagus },

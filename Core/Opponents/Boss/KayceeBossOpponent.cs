@@ -1,6 +1,7 @@
 using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Encounters;
+using InscryptionAPI.Helpers.Extensions;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
 using static GrimoraMod.GrimoraPlugin;
@@ -99,13 +100,41 @@ public class KayceeBossOpponent : BaseBossExt
 	public override IEnumerator StartNewPhaseSequence()
 	{
 		{
+			AudioController.Instance.FadeOutLoop(20, 1);
+
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput($"I'M STILL NOT FEELING {"WARMER!".Red()}");
+
+			AudioController.Instance.SetLoopAndPlay("FrostburnStorm", 1);
+			AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
+			AudioController.Instance.SetLoopVolume(0.6f, 5f, 1);
 
 			GameObject.Find("SnowPhase1").SetActive(false);
 			GameObject.Find("SnowPhase2").GetComponent<ParticleSystem>().startLifetime = 5;
 
 			yield return base.ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
+
+			ViewManager.Instance.SwitchToView(View.Board);
+
+			yield return ClearQueue();
+
+			if (BoardManager.Instance.PlayerSlotsCopy[0].Card != null) yield return BoardManager.Instance.PlayerSlotsCopy[0].Card.Die(false, null);
+			if (BoardManager.Instance.PlayerSlotsCopy[0].Card != null) yield return BoardManager.Instance.PlayerSlotsCopy[0].Card.Die(false, null);
+			yield return new WaitForSeconds(0.3f);
+
+			if (BoardManager.Instance.OpponentSlotsCopy[0].Card != null) yield return BoardManager.Instance.OpponentSlotsCopy[0].Card.Die(false, null);
+			if (BoardManager.Instance.OpponentSlotsCopy[0].Card != null) yield return BoardManager.Instance.OpponentSlotsCopy[0].Card.Die(false, null);
+			yield return new WaitForSeconds(0.2f);
+
+			yield return BoardManager.Instance.PlayerSlotsCopy[0].CreateCardInSlot(NameGlacier.GetCardInfo());
+			yield return new WaitForSeconds(0.3f);
+			yield return BoardManager.Instance.OpponentSlotsCopy[0].CreateCardInSlot(NameGlacier.GetCardInfo());
+			yield return new WaitForSeconds(0.3f);
+			yield return TurnManager.Instance.Opponent.QueueCard(NameGlacier.GetCardInfo(), BoardManager.Instance.GetQueueSlots()[0]);
+			yield return new WaitForSeconds(0.3f);
+			yield return TextDisplayer.Instance.ShowUntilInput($"LETS SEE HOW YOU DEAL WITH {"THIS!".BrightBlue()}");
+
+
 		}
 	}
 

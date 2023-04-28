@@ -1,5 +1,6 @@
 using System.Collections;
 using DiskCardGame;
+using InscryptionAPI.Boons;
 using InscryptionAPI.Encounters;
 using InscryptionAPI.Helpers.Extensions;
 using UnityEngine;
@@ -79,6 +80,11 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 		PlayTheme();
 
+
+		GameObject.Find("BoardLight").GetComponent<Light>().cookie = ResourceBank.Get<Texture>("Art/Effects/WavesTextureCube");
+		GameObject.Find("BoardLight_Cards").GetComponent<Light>().cookie = ResourceBank.Get<Texture>("Art/Effects/WavesTextureCube");
+
+
 		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.NoBones) && AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.Soulless))
 		{
 			yield return BoardManager.Instance.opponentSlots[3].CreateCardInSlot(NameRevenant.GetCardInfo(), 1.0f);
@@ -134,7 +140,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 			GameColors.Instance.lightGray
 		);
 	}
-
+	GameObject Rain;
 	public override IEnumerator StartNewPhaseSequence()
 	{
 		AudioController.Instance.FadeOutLoop(5, 1);
@@ -150,6 +156,8 @@ public class RoyalBossOpponentExt : BaseBossExt
 			0.4f
 		);
 		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
+		Rain = GameObject.Instantiate(GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("RainParticles"))));
+		Rain.transform.parent = GameObject.Find("RoyalBossSkull(Clone)").transform;
 
 		yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
 
@@ -168,9 +176,10 @@ public class RoyalBossOpponentExt : BaseBossExt
 		ViewManager.Instance.SetViewUnlocked();
 
 		Log.LogDebug($"Playing royal theme 2");
-		AudioController.Instance.SetLoopAndPlay("RoyalRuckus_Phase2", 1);
+		AudioController.Instance.SetLoopAndPlay("RoyalRuckus_Phase2Rain", 1);
 		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
 		AudioController.Instance.SetLoopVolume(0.8f, 5f, 1);
+
 	}
 
 	public EncounterBlueprintData BuildNewPhaseBlueprint()
@@ -187,10 +196,10 @@ public class RoyalBossOpponentExt : BaseBossExt
 			new() { bp_Revenant ,bp_Skeleton },
 			new(),
 			new(),
-			new() { bp_Shipwreck, bp_Skeleton },
+			new() { bp_FirstMateSnag, bp_Skeleton },
 			new(),
 			new(),
-			new() { bp_Skeleton, bp_Skeleton },
+			new() { bp_CaptainYellowbeard },
 			new(),
 			new() { bp_Skeleton, bp_Skeleton },
 			new(),
@@ -220,7 +229,11 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 			yield return new WaitForSeconds(0.5f);
 
+			GameObject.Destroy(Rain);
+
 			yield return base.OutroSequence(true);
+			GameObject.Find("BoardLight").GetComponent<Light>().cookie = null;
+			GameObject.Find("BoardLight_Cards").GetComponent<Light>().cookie = null;
 
 			yield return new WaitForSeconds(0.05f);
 			ViewManager.Instance.SwitchToView(View.BossCloseup);

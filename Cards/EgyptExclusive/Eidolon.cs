@@ -10,9 +10,9 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAbilities(Ability.Sentry, Ability.MadeOfStone)
-			.SetBaseAttackAndHealth(2, 4)
+			.SetBaseAttackAndHealth(1, 4)
 			.SetNames(NameEidolon, "Eidolon")
-			.SetBoneCost(7)
+			.SetBoneCost(6)
 			.Build();
 	}
 }

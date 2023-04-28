@@ -344,8 +344,10 @@ public class GrimoraBossOpponentExt : BaseBossExt
 				break;
 		}
 
+		CardModificationInfo AshMods;
+
 		if (ashpowerpool == 0) { 
-		CardModificationInfo AshMods = new CardModificationInfo
+		AshMods = new CardModificationInfo
 		{
 			attackAdjustment = 0,
 			healthAdjustment = 1,
@@ -354,7 +356,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		};
 		}
 		else { 
-			CardModificationInfo AshMods = new CardModificationInfo
+			AshMods = new CardModificationInfo
 			{
 			attackAdjustment = (int)(ashpowerpool / 12),
 			healthAdjustment = (int)(ashpowerpool / 6),
