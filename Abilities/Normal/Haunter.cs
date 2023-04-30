@@ -3,6 +3,7 @@ using DiskCardGame;
 using InscryptionAPI.Card;
 using Sirenix.Utilities;
 using UnityEngine;
+using InscryptionCommunityPatch;
 
 namespace GrimoraMod;
 
@@ -71,7 +72,7 @@ public class HauntedSlot : NonCardTriggerReceiver
 				hauntedIcon.GetComponent<Renderer>().material.SetColor("_Color", GameColors.instance.yellow);
 
 				//TODO: fix it for community patch
-				//if (sigils.GetComponent<InscryptionCommunityPatch.Card.ActivatedAbilityIconInteractable>() != null) UnityEngine.Object.Destroy(sigils.GetComponent<InscryptionCommunityPatch.Card.ActivatedAbilityIconInteractable>());
+				if (hauntedIcon.GetComponent<InscryptionCommunityPatch.Card.ActivatedAbilityIconInteractable>() != null) UnityEngine.Object.Destroy(hauntedIcon.GetComponent<InscryptionCommunityPatch.Card.ActivatedAbilityIconInteractable>());
 				if (hauntedIcon.GetComponent<AbilityIconInteractable>() != null) UnityEngine.Object.Destroy(hauntedIcon.GetComponent<AbilityIconInteractable>());
 				renderer.enabled = true;
 				// renderer.material.ChangeRenderMode(UnityObjectExtensions.BlendMode.Cutout);

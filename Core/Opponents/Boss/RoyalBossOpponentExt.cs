@@ -3,6 +3,7 @@ using DiskCardGame;
 using InscryptionAPI.Boons;
 using InscryptionAPI.Encounters;
 using InscryptionAPI.Helpers.Extensions;
+using Pixelplacement;
 using UnityEngine;
 using static GrimoraMod.BlueprintUtils;
 using static GrimoraMod.GrimoraPlugin;
@@ -83,6 +84,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 		GameObject.Find("BoardLight").GetComponent<Light>().cookie = ResourceBank.Get<Texture>("Art/Effects/WavesTextureCube");
 		GameObject.Find("BoardLight_Cards").GetComponent<Light>().cookie = ResourceBank.Get<Texture>("Art/Effects/WavesTextureCube");
+		Tween.Rotate(Singleton<ExplorableAreaManager>.Instance.HangingLight.transform, new Vector3(150f, 0f, 0f), Space.World, 25f, 0f, Tween.EaseInOut, Tween.LoopType.PingPong);
 
 
 		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.NoBones) && AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.Soulless))
@@ -229,11 +231,12 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 			yield return new WaitForSeconds(0.5f);
 
-			GameObject.Destroy(Rain);
+			Destroy(Rain);
 
 			yield return base.OutroSequence(true);
 			GameObject.Find("BoardLight").GetComponent<Light>().cookie = null;
 			GameObject.Find("BoardLight_Cards").GetComponent<Light>().cookie = null;
+			Tween.Cancel(Singleton<ExplorableAreaManager>.Instance.HangingLight.transform.GetInstanceID());
 
 			yield return new WaitForSeconds(0.05f);
 			ViewManager.Instance.SwitchToView(View.BossCloseup);

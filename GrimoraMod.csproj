@@ -29,6 +29,9 @@
 			<HintPath>lib\InscryptionAPI.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
+		<Reference Include="InscryptionCommunityPatch">
+		  <HintPath>lib\InscryptionCommunityPatch.dll</HintPath>
+		</Reference>
 	</ItemGroup>
 
 	<ItemGroup>

@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 		CardBuilder.Builder
 			.SetAsNormalCard()
 			.SetAbilities(GrimoraRandomAbility.ability, Haunter.ability)
-			.SetBaseAttackAndHealth(1, 2)
+			.SetBaseAttackAndHealth(1, 1)
 			.SetEnergyCost(4)
 			.SetDescription("A formless Creature, that yet lingers. Truly a horrific sight.")
 			.SetNames(NameApparition, "Apparition")

@@ -379,7 +379,7 @@ public class GrimoraChessboard
 					if (enemyPiece is ChessboardGoatEyePiece)
 					{
 
-						enemyPiece.blueprint = BlueprintUtils.AnkhGuardBPs.GetRandomItem();
+						enemyPiece.blueprint = BlueprintUtils.GetRandomBlueprintForAnkhGuard();
 
 					}
 

@@ -44,17 +44,81 @@ public class GrimoraRandomAbility : AbilityBehaviour
 		Card.AddTemporaryMod(cardModificationInfo);
 	}
 
+	public static readonly List<Ability> AbilitiesGrimoraRandomAbility = new List<Ability> {
+		Ability.DrawRabbits,
+		DrawSkeletonOnHit.ability,
+		Ability.Strafe,
+		Ability.Deathtouch,
+		Ability.Evolve,
+		Ability.Tutor,
+		Ability.WhackAMole,
+		Ability.DrawCopy,
+		LooseLimb.ability,
+		Ability.CorpseEater,
+		Ability.QuadrupleBones,
+		Ability.Submerge,
+		Ability.DrawCopyOnDeath,
+		Ability.Sharp,
+		Ability.StrafePush,
+		Ability.GuardDog,
+		Ability.Flying,
+		Ability.Reach,
+		Ability.SplitStrike,
+		Ability.TriStrike,
+		Ability.IceCube,
+		Ability.BoneDigger,
+		Ability.AllStrike,
+		Ability.BuffNeighbours,
+		Ability.SkeletonStrafe,
+		Ability.DrawNewHand,
+		Ability.DeathShield,
+		Ability.ExplodeOnDeath,
+		Ability.Sentry,
+		Ability.LatchDeathShield,
+		Ability.LatchExplodeOnDeath,
+		Ability.DoubleDeath,
+		Ability.CreateBells,
+		Ability.DrawRandomCardOnDeath,
+		Ability.Loot,
+		Ability.DebuffEnemy,
+		Ability.SwapStats,
+		Ability.DoubleStrike,
+		Ability.MadeOfStone,
+		Ability.GainAttackOnKill,
+		AlternatingStrike.ability,
+		AreaOfEffectStrike.ability,
+		BloodGuzzler.ability,
+		BoneThief.ability,
+		BuffSkeletonsSeaShanty.ability,
+		ChaosStrike.ability,
+		ColdFront.ability,
+		CreateArmyOfSkeletons.ability,
+		CreateShipwrecks.ability,
+		Erratic.ability,
+		FlameStrafe.ability,
+		HookLineAndSinker.ability,
+		Imbued.ability,
+		InvertedStrike.ability,
+		LatchSubmerge.ability,
+		LitFuse.ability,
+		SpiritBearer.ability,
+		Slasher.ability
+	};
+
 	private Ability ChooseAbility()
 	{
 		Ability randomAbility = Ability.RandomAbility;
 		int num2 = 0;
-		while (randomAbility == Ability.RandomAbility)
+		while (randomAbility == null)
 		{
-			randomAbility = ElectricChairLever.AbilitiesMajorRisk.GetRandomItem();
-			num2++;
-			if (num2 > 100)
+			while (randomAbility == Ability.RandomAbility)
 			{
-				return Ability.Sharp;
+				randomAbility = AbilitiesGrimoraRandomAbility.GetRandomItem();
+				num2++;
+				if (num2 > 100)
+				{
+					return Ability.Sharp;
+				}
 			}
 		}
 

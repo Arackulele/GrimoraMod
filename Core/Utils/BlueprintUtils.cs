@@ -176,19 +176,19 @@ public static class BlueprintUtils
 
 
 
-	#region AnkhGuardBPs
+	#region AnkhGuardBPsHard
 
-	public static EncounterBlueprintData BuildAnkhGuardBPone()
+	public static EncounterBlueprintData BuildAnkhGuardBPoneHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
-		blueprint.name = "AnkhGuard_Lords";
+		blueprint.name = "AnkhGuard_Lords_Hard";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Sarcophagus },
+			new() { bp_FrankAndStein },
 			new() { bp_Boneclaw },
 			new() ,
-			new() ,
-			new() { bp_Sarcophagus },
+			new() { bp_Boneclaw },
+			new() { bp_Mummy },
 			new() ,
 			new() ,
 			new() { bp_Sarcophagus },
@@ -197,7 +197,7 @@ public static class BlueprintUtils
 			new() { bp_Boneclaw },
 			new() { bp_Sarcophagus },
 			new() { bp_Mummy },
-			new() { bp_Sarcophagus, bp_Sarcophagus },
+			new() { bp_Sarcophagus, bp_Mummy },
 		};
 
 		return blueprint;
@@ -327,7 +327,159 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
+	public static EncounterBlueprintData BuildAnkhGuardBPone()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "AnkhGuard_Lords";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Sarcophagus },
+			new() { bp_Boneclaw },
+			new() ,
+			new() ,
+			new() { bp_Sarcophagus },
+			new() ,
+			new() ,
+			new() { bp_Sarcophagus },
+			new() { bp_Boneclaw },
+			new() ,
+			new() { bp_Boneclaw },
+			new() { bp_Sarcophagus },
+			new() { bp_Mummy },
+			new() { bp_Sarcophagus, bp_Sarcophagus },
+		};
+
+		return blueprint;
+	}
+
+	public static EncounterBlueprintData BuildAnkhGuardBPtwoHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "AnkhGuard_Clawed_Hard";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_EgyptMummy, bp_EgyptMummy },
+			new() { bp_Ripper, bp_EgyptMummy },
+			new() ,
+			new() { bp_Ripper, bp_EgyptMummy },
+			new() ,
+			new() { bp_Boneless },
+			new() ,
+			new() { bp_EgyptMummy, bp_Ripper },
+			new() { bp_Boneclaw },
+			new() ,
+			new() { bp_Ripper, bp_Boneclaw },
+			new() { bp_Ripper, bp_EgyptMummy },
+			new() { bp_Boneless, bp_Boneless },
+			new() ,
+			new() { bp_EgyptMummy, bp_Ripper },
+			new() ,
+			new() { bp_Boneclaw,bp_Ripper  },
+		};
+
+		return blueprint;
+	}
+
+	public static EncounterBlueprintData BuildAnkhGuardBPthreeHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "AnkhGuard_Protectors_Hard";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Eidolon, bp_Eidolon, bp_Boneless },
+			new() ,
+			new() { bp_EgyptMummy, bp_Boneless },
+			new() ,
+			new() { bp_Boneless, bp_Eidolon },
+			new() ,
+			new() { bp_Mummy },
+			new() { bp_Eidolon, bp_Eidolon },
+			new() ,
+			new() { bp_Eidolon },
+			new() { bp_Obol, bp_Obol },
+			new() { bp_Eidolon, bp_Eidolon },
+			new() { bp_Mummy },
+		};
+
+		return blueprint;
+	}
+
+	public static EncounterBlueprintData BuildAnkhGuardBPfourHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "AnkhGuard_Giant_Hard";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Boneless, bp_EgyptMummy },
+			new() ,
+			new() ,
+			new() { bp_Manananggal },
+			new() ,
+			new() { bp_Boneless },
+			new() ,
+			new() { bp_Boneless },
+			new() { bp_Eidolon },
+			new() ,
+			new() { bp_Mummy },
+			new() ,
+			new() { bp_Obol },
+			new() { bp_Eidolon, bp_EgyptMummy },
+			new() ,
+			new() { bp_Giant },
+		};
+
+		return blueprint;
+	}
+
+	public static EncounterBlueprintData BuildAnkhGuardBPfiveHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "AnkhGuard_Rush_Hard";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_EgyptMummy },
+			new() { bp_Boneclaw },
+			new() ,
+			new() { bp_FrankAndStein },
+			new() ,
+			new() { bp_EgyptMummy },
+			new() { bp_Boneclaw },
+			new() ,
+			new() { bp_EgyptMummy, bp_EgyptMummy, bp_EgyptMummy, bp_EgyptMummy },
+			new() { bp_Boneclaw },
+			new() { bp_Boneless, bp_Boneless },
+			new() { bp_Sarcophagus, bp_Sarcophagus, bp_Sarcophagus, bp_Sarcophagus },
+		};
+
+		return blueprint;
+	}
+
+	public static EncounterBlueprintData BuildAnkhGuardBPsixHard()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.name = "AnkhGuard_Grave_Hard";
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Writher },
+			new() { bp_Zombie },
+			new() ,
+			new() { bp_DeadPets },
+			new() { bp_DeadPets },
+			new() ,
+			new() { bp_Writher, bp_Sarcophagus },
+			new() { bp_Boneclaw },
+			new() ,
+			new() { bp_Mummy },
+			new() ,
+			new() { bp_Mummy },
+		};
+
+		return blueprint;
+	}
+
 	#endregion
+
+
 
 
 	internal static readonly Dictionary<Opponent.Type, List<EncounterBlueprintData>> RegionWithBlueprints = new()
@@ -462,7 +614,19 @@ public static class BlueprintUtils
 
 	};
 
-	#endregion
+	internal static readonly List<EncounterBlueprintData> AnkhGuardBPsHard = new List<EncounterBlueprintData>
+	{
+
+		BuildAnkhGuardBPoneHard(),
+		BuildAnkhGuardBPtwoHard(),
+		BuildAnkhGuardBPthreeHard(),
+		BuildAnkhGuardBPfourHard(),
+		BuildAnkhGuardBPfiveHard(),
+		BuildAnkhGuardBPsixHard(),
+
+	};
+
+#endregion
 
 	public static EncounterBlueprintData GetRandomBlueprintForRegion()
 	{
@@ -472,6 +636,12 @@ public static class BlueprintUtils
 	public static EncounterBlueprintData GetRandomBlueprintForRegionHard()
 	{
 		return RegionWithBlueprintsHard.ElementAt(GrimoraRunState.CurrentRun.regionTier).Value.GetRandomItem();
+	}
+
+	public static EncounterBlueprintData GetRandomBlueprintForAnkhGuard()
+	{
+		if (GrimoraRunState.CurrentRun.regionTier < 2) return AnkhGuardBPs.GetRandomItem();
+		else return AnkhGuardBPsHard.GetRandomItem();
 	}
 
 	public static EncounterBlueprintData BuildRandomBlueprint()
@@ -1306,15 +1476,17 @@ public static class BlueprintUtils
 		blueprint.name = "Grimora_Ancient_Army";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Obol,bp_Obol },
-			new() { bp_BooHag, bp_BooHag },
+			new() { bp_Obol },
+			new() { bp_GraveBard, bp_Project },
 			new() { bp_Hellhand },
 			new(),
-			new() { bp_Obol,bp_Obol },
-			new() { bp_BooHag, bp_BooHag },
+			new() { bp_Obol },
+			new() { bp_GraveBard, bp_Project },
 			new() ,
 			new() { bp_Hellhand },
 			new() { bp_Hellhand },
+			new() ,
+			new() ,
 			new() { bp_BooHag }
 		};
 
@@ -1329,12 +1501,14 @@ public static class BlueprintUtils
 		{
 			new() { bp_Mummy },
 			new() { bp_Exploding_Pirate },
-			new() { bp_Vampire },
+			new() { bp_FrankAndStein },
+			new() { bp_Skeleton },
 			new() { bp_Mummy },
 			new() { bp_Exploding_Pirate },
 			new() { bp_Vampire },
-			new() { bp_Vampire },
+			new() { bp_FrankAndStein },
 			new() { bp_Mummy },
+			new() { bp_Exploding_Pirate },
 			new() { bp_Exploding_Pirate },
 		};
 

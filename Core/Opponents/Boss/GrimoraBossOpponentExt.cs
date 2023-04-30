@@ -262,6 +262,18 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 	private IEnumerator CreateTwinGiants(CardSlot otisSlot, CardSlot ephiSlot)
 	{
+		foreach (var i in Singleton<BoardManager>.Instance.opponentSlots)
+		{
+			if (GameObject.Find(name + "_Haunted") != null)
+			{ 
+				Destroy(GameObject.Find(name + "_Haunted"));
+
+				yield return TextDisplayer.Instance.ShowUntilInput($"Your weak Sprits are crushed by my Giants!");
+
+			}
+
+		}
+
 		// mimics the moon phase
 		Log.LogInfo("[Grimora] Creating Otis");
 		yield return otisSlot.CreateCardInSlot(NameGiantOtis.GetCardInfo(), 0.3f);

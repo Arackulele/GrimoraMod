@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using GrimoraMod.Extensions;
 using HarmonyLib;
@@ -45,7 +45,7 @@ public class PlayableCardPatches
 	{
 		Log.LogDebug($"[Possessive.CanAttackDirectly] Result before [{__result}]");
 		CardSlot oppositeSlot = __instance.OpposingSlot();
-		bool oppositeSlotHasPossessive = oppositeSlot.Card && oppositeSlot.Card.HasAbility(Possessive.ability);
+		bool oppositeSlotHasPossessive = oppositeSlot.Card && oppositeSlot.Card.HasAbility(Possessive.ability) && __instance.LacksTrait(Trait.Giant);
 		__result &= !oppositeSlotHasPossessive;
 		Log.LogDebug($"[Possessive.CanAttackDirectly] Result after  [{__result}]");
 	}

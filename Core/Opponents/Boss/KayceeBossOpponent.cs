@@ -19,6 +19,8 @@ public class KayceeBossOpponent : BaseBossExt
 
 	public override StoryEvent EventForDefeat => GrimoraEnums.StoryEvents.KayceeDefeated;
 
+	GameObject Phase2Snow;
+
 	public override string DefeatedPlayerDialogue => "YOUUUUUUUR, PAINNNFULLLLL DEAAATHHH AWAIIITTTSSS YOUUUUUUU!";
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
@@ -36,7 +38,8 @@ public class KayceeBossOpponent : BaseBossExt
 		SetSceneEffectsShownKaycee();
 
 		yield return base.IntroSequence(encounter);
-		GameObject.Find("SnowPhase2").GetComponent<ParticleSystem>().startLifetime = 0;
+		Phase2Snow = GameObject.Find("SnowPhase2");
+		Phase2Snow.SetActive(false);
 		GameObject.Find("SnowPhase1").GetComponent<ParticleSystem>().startLifetime = 0;
 
 		yield return FaceZoomSequence();
@@ -110,7 +113,7 @@ public class KayceeBossOpponent : BaseBossExt
 			AudioController.Instance.SetLoopVolume(0.6f, 5f, 1);
 
 			GameObject.Find("SnowPhase1").SetActive(false);
-			GameObject.Find("SnowPhase2").GetComponent<ParticleSystem>().startLifetime = 5;
+			Phase2Snow.SetActive(true);
 
 			yield return base.ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
 
@@ -146,8 +149,10 @@ public class KayceeBossOpponent : BaseBossExt
 			yield return TextDisplayer.Instance.ShowUntilInput($"OH COME ON DUDE, I'M STILL {"COLD!".Blue()}");
 			yield return TextDisplayer.Instance.ShowUntilInput("LET'S FIGHT AGAIN SOON!");
 
+			Phase2Snow.SetActive(false);
 			// this will put the mask away
 			yield return base.OutroSequence(true);
+
 
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(

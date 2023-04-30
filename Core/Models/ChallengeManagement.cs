@@ -71,8 +71,8 @@ public class ChallengeManagement
 
 	public static AscensionChallenge InfinitLives { get; private set; }
 	public static AscensionChallenge SafeChair { get; private set; }
-
 	public static AscensionChallenge PlaceBones { get; private set; }
+	public static AscensionChallenge EasyGuards { get; private set; }
 
 	public static List<AscensionChallengeInfo> PatchedChallengesReference;
 
@@ -94,7 +94,8 @@ public class ChallengeManagement
 		InfinitLives = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "InfinitLives");
 		SafeChair = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "SafeChair");
 		PlaceBones = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "PlaceBones");
-		AntiChallenges = new List<AscensionChallenge>() {InfinitLives,SafeChair, PlaceBones};
+		EasyGuards = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "EasyGuards");
+		AntiChallenges = new List<AscensionChallenge>() {InfinitLives,SafeChair, PlaceBones, EasyGuards};
 
 
 
@@ -203,7 +204,7 @@ public class ChallengeManagement
 				activatedSprite = AssetUtils.GetPrefab<Sprite>("InfLives_Active"),
 				pointValue = -999
 			},
-						new()
+			new()
 			{
 				challengeType = SafeChair,
 				title = "Safe Chair",
@@ -218,6 +219,14 @@ public class ChallengeManagement
 				description = "Gain a Bone when you place any free Card on the Board.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("skukk"),
 				pointValue = -20
+			},
+						new()
+			{
+				challengeType = EasyGuards,
+				title = "Pharaos Blessing",
+				description = "The Ankh Guard effects always benefit you.",
+				iconSprite = AssetUtils.GetPrefab<Sprite>("ankh"),
+				pointValue = -15
 			},
 		};
 

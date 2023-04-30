@@ -61,7 +61,6 @@ public class ElectricChairLever : HighlightedInteractable
 		CreateArmyOfSkeletons.ability,
 		CreateShipwrecks.ability,
 		GrimoraRandomAbility.ability,
-		Haunter.ability,
 		HookLineAndSinker.ability,
 		Imbued.ability
 	};

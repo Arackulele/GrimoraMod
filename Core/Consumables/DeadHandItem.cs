@@ -20,21 +20,35 @@ public class DeadHandItem : ConsumableItem
 	{
 
 		Debug.Log("Using Dead Hand");
+			ViewManager.Instance.SwitchToView(View.Hand);
+			yield return new WaitForSeconds(0.25f);
+			List<PlayableCard> cardsNotChoosingASlot = PlayerHand.Instance.CardsInHand.FindAll(x => x != PlayerHand.Instance.ChoosingSlotCard);
+			while (cardsNotChoosingASlot.Count > 0)
+			{
+				cardsNotChoosingASlot[0].SetInteractionEnabled(false);
+				cardsNotChoosingASlot[0].Anim.PlayDeathAnimation();
+				UnityObject.Destroy(cardsNotChoosingASlot[0].gameObject, 1f);
+				PlayerHand.Instance.RemoveCardFromHand(cardsNotChoosingASlot[0]);
+				cardsNotChoosingASlot.RemoveAt(0);
+			}
 
-		List<PlayableCard> list = Singleton<PlayerHand>.Instance.CardsInHand.FindAll((PlayableCard x) => x != Singleton<PlayerHand>.Instance.ChoosingSlotCard);
-		while (list.Count > 0)
-		{
-			list[0].SetInteractionEnabled(interactionEnabled: false);
-			list[0].Anim.PlayDeathAnimation();
-			UnityEngine.Object.Destroy(list[0].gameObject, 1f);
-			Singleton<PlayerHand>.Instance.RemoveCardFromHand(list[0]);
-			list.RemoveAt(0);
-		}
-		yield return new WaitForSeconds(0.5f);
+			yield return new WaitForSeconds(1f);
+		bool drawPile3DIsActive = CardDrawPiles3D.Instance && CardDrawPiles3D.Instance.pile;
+		ViewManager.Instance.SwitchToView(View.CardPiles, lockAfter: true);
+		yield return new WaitForSeconds(0.75f);
 		for (int i = 0; i < 4; i++)
 		{
-			yield return Singleton<CardDrawPiles>.Instance.DrawCardFromDeck();
+			if (drawPile3DIsActive)
+			{
+				CardDrawPiles3D.Instance.pile.Draw();
+			}
+			yield return CardDrawPiles.Instance.DrawCardFromDeck();
+			yield return new WaitForSeconds(0.1f);
 		}
+		yield return new WaitForSeconds(0.5f);
+		ViewManager.Instance.SwitchToView(View.Default);
+		ViewManager.Instance.SetViewUnlocked();
+
 
 	}
 

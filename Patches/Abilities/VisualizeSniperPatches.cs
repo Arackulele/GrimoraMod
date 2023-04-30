@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using HarmonyLib;
 using Pixelplacement;
 using Sirenix.Utilities;
@@ -20,6 +20,7 @@ public class VisualizeSniperPatches
 		{
 			return true;
 		}
+
 
 		skeletonArmSniper = sniperSlot.Card.transform.Find("Grimora_Sentry").GetChild(0).GetComponent<Animator>();
 		skeletonArmSniper.gameObject.SetActive(true);

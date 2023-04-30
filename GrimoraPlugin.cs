@@ -395,8 +395,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		CardInfo trapInfo = "Trap".GetCardInfo();
 		CardBuilder.Builder
-		 .SetAbilities(Haunter.ability, Ability.Sniper, ActivatedDealDamageGrimora.ability)
-		 .SetBaseAttackAndHealth(0, 1)
+		 .SetAbilities(Haunter.ability, ActivatedDrawSkeletonGrimora.ability)
+		 .SetBaseAttackAndHealth(1, 1)
 		 .SetNames($"{GUID}_!TRAP", "!TEST Trap", trapInfo.portraitTex)
 		 .Build();
 

@@ -240,14 +240,15 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 					break;
 
 				case 3:
-					selectionSlot.specificRenderers[0].material = AssetConstants.PrisonerGraveSelectionSlot;
-					selectionSlot.specificRenderers[0].sharedMaterial = AssetConstants.PrisonerGraveSelectionSlot;
+					selectionSlot.specificRenderers[0].material = AssetConstants.EnergyGraveSelectionSlot;
+					selectionSlot.specificRenderers[0].sharedMaterial = AssetConstants.EnergyGraveSelectionSlot;
 
 					break;
 
 				case 4:
-					selectionSlot.specificRenderers[0].material = AssetConstants.EnergyGraveSelectionSlot;
-					selectionSlot.specificRenderers[0].sharedMaterial = AssetConstants.EnergyGraveSelectionSlot;
+
+					selectionSlot.specificRenderers[0].material = AssetConstants.PrisonerGraveSelectionSlot;
+					selectionSlot.specificRenderers[0].sharedMaterial = AssetConstants.PrisonerGraveSelectionSlot;
 
 					break;
 
