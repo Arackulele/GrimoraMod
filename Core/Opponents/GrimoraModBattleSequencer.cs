@@ -1,6 +1,7 @@
 using System.Collections;
 using DiskCardGame;
 using GrimoraMod.Saving;
+using InscryptionAPI.Boons;
 using InscryptionAPI.Encounters;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -223,7 +224,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 				AscensionStatsData.TryIncrementStat(AscensionStat.Type.Losses);
 
-				//SaveManager.SaveToFile(false);
+			SaveManager.SaveToFile();
 
 				//AscensionSaveData.Data.activeChallenges = new List<AscensionChallenge> { ChallengeManagement.FrailHammer };
 
@@ -317,6 +318,26 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 				}
 			}
 		}
+	}
+
+		public override IEnumerator PlayerCombatEnd()
+		{
+		while (GameObject.Find("Weight(Clone)") != null)
+				{
+			GlitchOutAssetEffect.GlitchModel(GameObject.Find("Weight(Clone)").transform);
+			yield return new WaitForSeconds(0.2f);
+				}
+
+		}
+
+		public override IEnumerator OpponentCombatEnd()
+	{
+		while (GameObject.Find("Weight(Clone)") != null)
+		{
+			GlitchOutAssetEffect.GlitchModel(GameObject.Find("Weight(Clone)").transform);
+			yield return new WaitForSeconds(0.2f);
+		}
+
 	}
 
 	private IEnumerator HandleSawyersShowdownChallenge()

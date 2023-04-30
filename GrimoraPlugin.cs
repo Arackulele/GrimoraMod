@@ -287,6 +287,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Card_Obelisk();         //keks307#7315
 		Add_Card_Voodoo_Doll();
 		Add_Card_DisturbedGrave();   // Bt Y#0895
+		Add_Card_DisturbedGraveNonTerrain(); // Bt Y#0895
 
 		AllGrimoraModCards.Sort((info1, info2) => string.Compare(info1.name, info2.name, StringComparison.Ordinal));
 		AllPlayableGrimoraModCards = AllGrimoraModCards.Where(info => info.metaCategories.Any()).ToList();
@@ -395,14 +396,14 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		CardInfo trapInfo = "Trap".GetCardInfo();
 		CardBuilder.Builder
-		 .SetAbilities(Haunter.ability, ActivatedDrawSkeletonGrimora.ability)
+		 .SetAbilities(Haunter.ability, Ability.Sentry)
 		 .SetBaseAttackAndHealth(1, 1)
 		 .SetNames($"{GUID}_!TRAP", "!TEST Trap", trapInfo.portraitTex)
 		 .Build();
 
 		CardBuilder.Builder
-		 .SetAbilities(Ability.DeathShield, Ability.Evolve)
-		 .SetBaseAttackAndHealth(0, 99)
+		 .SetAbilities(Haunter.ability, Ability.Sniper)
+		 .SetBaseAttackAndHealth(1, 2)
 		 .SetNames($"{GUID}_!BLOCKER","Blocker", trapInfo.portraitTex)
 		 .Build();
 	}

@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using static DiskCardGame.CardAppearanceBehaviour;
 
 namespace GrimoraMod;
@@ -13,7 +13,6 @@ public partial class GrimoraPlugin
 			.SetAppearance(Appearance.TerrainBackground, Appearance.TerrainLayout)
 			.SetBaseAttackAndHealth(0, 1)
 			.SetNames(NameDeathKnellBell, "Chime")
-			.SetTraits(Trait.Structure, Trait.Terrain)
 			.Build();
 	}
 }

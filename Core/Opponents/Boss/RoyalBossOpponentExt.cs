@@ -232,6 +232,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 			yield return new WaitForSeconds(0.5f);
 
 			Destroy(Rain);
+			if (GameObject.Find("RainParticles(Clone)") != null) Destroy(GameObject.Find("RainParticles(Clone)"));
 
 			yield return base.OutroSequence(true);
 			GameObject.Find("BoardLight").GetComponent<Light>().cookie = null;

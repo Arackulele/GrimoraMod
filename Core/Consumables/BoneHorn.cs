@@ -30,7 +30,7 @@ public class BoneHorn : ConsumableItem
 	{
 		Debug.Log("Using BoneHorn");
 
-		yield return ResourcesManager.Instance.AddBones(ResourcesManager.Instance.PlayerEnergy *2);
+		yield return ResourcesManager.Instance.AddBones(ResourcesManager.Instance.PlayerEnergy);
 		yield return ResourcesManager.Instance.SpendEnergy(ResourcesManager.Instance.PlayerEnergy);
 
 
@@ -41,7 +41,7 @@ public class BoneHorn : ConsumableItem
 		Debug.Log("Added Horn");
 
 		Texture2D HahaL = new Texture2D(70, 80);
-		ConsumableItemData data = ConsumableItemManager.New(GUID, "Bone Horn", "Consumes your current Soul, you gain 2 Bones for each Soul consumed.", HahaL, typeof(BoneHorn), Model)
+		ConsumableItemData data = ConsumableItemManager.New(GUID, "Bone Horn", "Consumes your current Soul, you gain a Bones for each Soul consumed.", HahaL, typeof(BoneHorn), Model)
 			.SetLearnItemDescription("Gives you two bones for each Soul you have available, an unfortunate, but worthwhile sacrifice.");
 		data.rulebookCategory = AbilityMetaCategory.GrimoraRulebook;
 

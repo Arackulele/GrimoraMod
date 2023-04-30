@@ -47,7 +47,8 @@ public class EmbalmingFluid : GrimoraTargetSlotItem
 
 				CardModificationInfo cardModificationInfo = new CardModificationInfo
 				{
-					attackAdjustment = 1
+					attackAdjustment = 1,
+					healthAdjustment = 1,
 				};
 
 		target.Card.AddTemporaryMod(cardModificationInfo);
@@ -60,7 +61,7 @@ public class EmbalmingFluid : GrimoraTargetSlotItem
 
 		Texture2D HahaL = new Texture2D(70, 80);
 		ConsumableItemData data = ConsumableItemManager.New(GUID, "Embalming Fluid", "Pour it over a Card, itll gain 1 attack.", HahaL, typeof(EmbalmingFluid), Model)
-		.SetLearnItemDescription("Prepare to put a member of your army to rest, increasing its stamina as you do so!");
+		.SetLearnItemDescription("Prepare to put a member of your army to rest, increasing its stamina and vigot as you do so!");
 		data.rulebookCategory = AbilityMetaCategory.GrimoraRulebook;
 
 		return data;

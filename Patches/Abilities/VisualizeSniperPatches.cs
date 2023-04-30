@@ -21,6 +21,7 @@ public class VisualizeSniperPatches
 			return true;
 		}
 
+		sniperSlot.Card.GetComponent<GraveControllerExt>().AddCustomArmPrefabs(sniperSlot.Card);
 
 		skeletonArmSniper = sniperSlot.Card.transform.Find("Grimora_Sentry").GetChild(0).GetComponent<Animator>();
 		skeletonArmSniper.gameObject.SetActive(true);

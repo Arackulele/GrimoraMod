@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Card;
@@ -12,6 +12,9 @@ public class SentryPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(Sentry.FireAtOpposingSlot))]
 	public static IEnumerator PlayShootingAnim(IEnumerator enumerator, Sentry __instance, PlayableCard otherCard)
 	{
+
+		GrimoraPlugin.Log.LogDebug($"Trying sentry animation patch.");
+
 		if (otherCard == __instance.lastShotCard && TurnManager.Instance.TurnNumber == __instance.lastShotTurn)
 		{
 			yield break;
@@ -23,6 +26,8 @@ public class SentryPatches
 		yield return new WaitForSeconds(0.25f);
 		for (int i = 0; i < __instance.NumShots; i++)
 		{
+
+
 			if (otherCard.NotDead())
 			{
 				yield return __instance.PreSuccessfulTriggerSequence();
@@ -45,7 +50,7 @@ public class SentryPatches
 				}
 				else if (__instance.Card.Anim is GraveControllerExt graveController)
 				{
-					GrimoraPlugin.Log.LogDebug($"Playing shoot animation!");
+					GrimoraPlugin.Log.LogDebug($"Playing shoot animation! Instance is [{__instance.Card}]");
 					graveController.PlaySpecificAttackAnimation(
 						"attack_sentry",
 						__instance.Card.IsFlyingAttackingReach(),

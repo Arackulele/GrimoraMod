@@ -238,6 +238,7 @@ public class ChallengeManagement
 			WiltedClover,
 			SafeChair,
 			PlaceBones,
+			EasyGuards,
 			//AscensionChallenge.SubmergeSquirrels,
 			NoBones,
 			HardMode,

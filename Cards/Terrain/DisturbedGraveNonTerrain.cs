@@ -4,17 +4,17 @@ namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
-	public const string NameDisturbedGrave = $"{GUID}_DisturbedGrave";
+	public const string NameDisturbedGraveNonTerrain = $"{GUID}_DisturbedGraveNonTerrain";
 
-	private void Add_Card_DisturbedGrave()
+	private void Add_Card_DisturbedGraveNonTerrain()
 	{
 		CardBuilder.Builder
+			.SetAsNormalCard()
 			.SetAbilities(Ability.Evolve)
 			.SetBaseAttackAndHealth(0, 1)
 			.SetDescription("Its low cost is justified only by its low stats.")
-			.SetEvolve(NameZombie, 2)
-			.SetNames(NameDisturbedGrave, "Disturbed Grave")
-			.SetTraits(Trait.Structure, Trait.Terrain)
+			.SetEvolve(NameZombie, 1)
+			.SetNames(NameDisturbedGraveNonTerrain, "Disturbed Grave")
 			.Build();
 	}
 }

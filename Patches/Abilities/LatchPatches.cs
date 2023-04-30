@@ -1,6 +1,7 @@
 using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using Pixelplacement;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -12,13 +13,18 @@ public class LatchPatches
 {
 	private static List<CardSlot> GetValidTargets(Latch latch)
 	{
+
+		GrimoraPlugin.Log.LogDebug("Getting valid Targets for Latch");
+
 		List<CardSlot> validTargets = BoardManager.Instance.AllSlotsCopy;
 		validTargets.RemoveAll(
 			x => x.Card.SafeIsUnityNull() 
 			  || x.Card.Dead 
 			  || latch.CardHasLatchMod(x.Card) 
-			  || x.Card == latch.Card 
-			  || x.Card.AllAbilities().Count == 5
+			  || x.Card == latch.Card
+				|| x.Card == x.Card.Info.HasAbility(Ability.MadeOfStone)
+				|| x.Card.Info.HasTrait(Trait.Uncuttable)
+				|| x.Card.AllAbilities().Count > 4
 		);
 
 		return validTargets;

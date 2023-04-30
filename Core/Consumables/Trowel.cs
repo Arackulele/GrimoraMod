@@ -70,7 +70,7 @@ public class Trowel : GrimoraTargetSlotItem
 
 		Texture2D HahaL = new Texture2D(70, 80);
 		ConsumableItemData data = ConsumableItemManager.New(GUID, "Trowel", "You can dig up some Bones and Cards with this Trowel.", HahaL, typeof(Trowel), Model)
-							.SetLearnItemDescription("Digs for treasure, ! Not that there's much left anymore... i see youve learned from the Gravediggers");
+							.SetLearnItemDescription("Digs for treasure, or Terrain. And get some Bones too for your efforts.");
 		data.rulebookCategory = AbilityMetaCategory.GrimoraRulebook;
 
 		return data;

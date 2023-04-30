@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -16,7 +16,7 @@ public partial class GrimoraPlugin
 		 .SetBaseAttackAndHealth(1, 8)
 		 .SetBoneCost(15)
 		 .SetNames(NameGiantEphialtes, "Ephialtes", giantSprite)
-		 .SetTraits(Trait.Giant)
+		 .SetTraits(Trait.Giant, Trait.Uncuttable)
 		 .Build()
 			;
 	}
