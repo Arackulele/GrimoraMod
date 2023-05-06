@@ -11,7 +11,7 @@ public class GrimoraRareChoiceGenerator : Part1RareChoiceGenerator
 {
 	public override List<CardChoice> GenerateChoices(CardChoicesNodeData data, int randomSeed)
 	{
-		return RandomUtils.GenerateRandomChoicesOfCategory(CardManager.AllCardsCopy, CardMetaCategory.Rare);
+		return RandomUtils.GenerateRandomChoicesForRare(CardManager.AllCardsCopy);
 	}
 }
 

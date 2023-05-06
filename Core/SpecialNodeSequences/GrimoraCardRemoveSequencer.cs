@@ -30,7 +30,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		if (!EventManagement.HasLearnedMechanicCardRemoval)
 		{
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"HE WILL PROVIDE A HELPFUL OR HARMFUL CURSE UPON YOUR ARMY IF YOU LEAVE HIM AN OFFERING."
+				"HE WILL PROVIDE A HELPFUL CURSE OR BLESSING, AS SOME CALL IT UPON YOUR ARMY IF YOU LEAVE HIM AN OFFERING."
 			);
 		}
 
@@ -85,6 +85,8 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		CardInfo sacrificedInfo = sacrificeSlot.Card.Info;
 
 		SigilOffer = sacrificedInfo.Abilities.Count;
+
+		if (sacrificedInfo.metaCategories.Contains(CardMetaCategory.Rare)) SigilOffer++;
 
 		RunState.Run.playerDeck.RemoveCard(sacrificedInfo);
 

@@ -13,14 +13,17 @@ using HarmonyLib;
 using InscryptionAPI;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers;
+using InscryptionAPI.Guid;
 using InscryptionAPI.Helpers.Extensions;
 using InscryptionAPI.Items;
+using JetBrains.Annotations;
 using Sirenix.Utilities;
 using UnityEngine;
 
 namespace GrimoraMod;
 
 [BepInDependency(InscryptionAPIPlugin.ModGUID)]
+[BepInDependency("community.inscryption.patch")]
 [BepInPlugin(GUID, Name, Version)]
 public partial class GrimoraPlugin : BaseUnityPlugin
 {
@@ -46,7 +49,10 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	public static List<CardInfo> AllPlayableGrimoraModCards = new();
 	public static List<ConsumableItemData> AllGrimoraItems = new();
 
-
+	public static readonly CardMetaCategory GrimoraChoiceNode = GuidManager.GetEnumValue<CardMetaCategory>(GUID, "GrimoraModChoiceNode");
+	public static readonly CardMetaCategory ElectricChairLevel1 = GuidManager.GetEnumValue<CardMetaCategory>(GUID, "ElectricChairLevel1");
+	public static readonly CardMetaCategory ElectricChairLevel2 = GuidManager.GetEnumValue<CardMetaCategory>(GUID, "ElectricChairLevel2");
+	public static readonly CardMetaCategory ElectricChairLevel3 = GuidManager.GetEnumValue<CardMetaCategory>(GUID, "ElectricChairLevel3");
 
 	public static bool Initialized { get; set; } 
 
@@ -63,7 +69,9 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		LoadAssetsSync();
 
 		StartCoroutine(LoadAssetsAsync());
-		
+
+
+
 		LoadAbilitiesAndCards();
 		
 		LoadExpansionCards();
@@ -180,7 +188,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		#region Normal
 
-		Add_Card_Ashes();                  // Bt Y#0895
+		Add_Card_Ashes();											// Bt Y#0895
+		Add_Card_Avalanche();                 // Anne Bean
 		Add_Card_Banshee();                   // vanilla
 		Add_Card_Bonehound();                 // vanilla
 		Add_Card_Bonelord();                  // Ryan S. Art
@@ -219,6 +228,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Card_Obol();                      // Bt Y#0895
 		Add_Card_PirateExploding();           // Lich underling#7678, then Ara
 		Add_Card_PirateFirstMateSnag();       // Bt Y#0895
+		Add_Card_PiratePrivateer();						// Bt Y#0895
 		Add_Card_PirateSwashbuckler();        // Bt Y#0895
 		Add_Card_PlagueDoctor();              // Cevin2006™ (◕‿◕)#7971
 		Add_Card_Poltergeist();               // Cevin2006™ (◕‿◕)#7971
@@ -250,6 +260,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Card_Apparition();                      // Bt Y#0895
 		Add_Card_BonelordsHorn();                   // Cevin2006™ (◕‿◕)#7971
 		Add_Card_CalaveraCatrina();                 // Bt Y#0895
+		Add_Card_PirateDavyJones();                 // Bt Y#0895
+		Add_Card_DavyJonesLocker();									// Bt Y#0895
 		Add_Card_DeadPets();                        // Bt Y#0895
 		Add_Card_DeathKnell();                      // Bt Y#0895
 		Add_Card_DeathKnellBell();                  // Bt Y#0895
@@ -261,6 +273,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Card_HeadlessHorseman();                // Cevin2006™ (◕‿◕)#7971
 		Add_Card_Hydra();                           // Cevin2006™ (◕‿◕)#7971
 		Add_Card_Necromancer();                     // Bt Y#0895
+		Add_Card_Nixie();														// Bt Y#0895
 		Add_Card_Nosferat();												// Bt Y#0895
 		Add_Card_Ourobones();												// Anne Bean?
 		Add_Card_PirateCaptainYellowbeard();        // Bt Y#0895
@@ -305,6 +318,11 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	
 	private void LoadExpansionCards()
 	{
+		//these are needed for Boss Fights, only obtainable when expansion is enabled
+
+		Add_Card_Flameskull();       // Bt Y#0895
+		Add_Card_EmberSpirit();    // Cevin2006™ (◕‿◕)#7971
+
 		//extra cards dll doesnt actually do anything, as its probably more convenient for us to have everything in the main project
 		if (Chainloader.PluginInfos.ContainsKey("arackulele.inscryption._grimoramodextracards"))
 		{
@@ -315,14 +333,11 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			Add_Card_BloodySack();       // Bt Y#0895
 			Add_Card_CompoundFracture(); // Bt Y#0895
 			Add_Card_FesteringWretch();  // Bt Y#0895
-			Add_Card_Flameskull();       // Bt Y#0895
 			Add_Card_Haltia();           // Bt Y#0895
 			Add_Card_IceCube();          // Bt Y#0895
 			Add_Card_LaLlorona();       // Bt Y#0895
 			Add_Card_Moroi();           // Bt Y#0895
-			Add_Card_Nixie();           // Bt Y#0895
 			Add_Card_PiratePolly();     // Bt Y#0895
-			Add_Card_PiratePrivateer(); // Bt Y#0895
 			Add_Card_PossessedArmour(); // Bt Y#0895
 			Add_Card_Rot();             // Bt Y#0895
 			Add_Card_SkeletonArmy();    // Cevin2006™ (◕‿◕)#7971
@@ -335,7 +350,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 			Add_Card_BalBal();         // Bt Y#0895
 			Add_Card_BoneCollective(); // Bt Y#0895
-			Add_Card_EmberSpirit();    // Cevin2006™ (◕‿◕)#7971
 			Add_Card_Fylgja();         // Bt Y#0895
 			Add_Card_Wyvern();         // Cevin2006™ (◕‿◕)#7971
 
@@ -396,13 +410,13 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	{
 		CardInfo trapInfo = "Trap".GetCardInfo();
 		CardBuilder.Builder
-		 .SetAbilities(Haunter.ability, Ability.Sentry)
+		 .SetAbilities(Burning.ability)
 		 .SetBaseAttackAndHealth(1, 1)
 		 .SetNames($"{GUID}_!TRAP", "!TEST Trap", trapInfo.portraitTex)
 		 .Build();
 
 		CardBuilder.Builder
-		 .SetAbilities(Haunter.ability, Ability.Sniper)
+		 .SetAbilities(Haunter.ability, AlternatingStrike.ability)
 		 .SetBaseAttackAndHealth(1, 2)
 		 .SetNames($"{GUID}_!BLOCKER","Blocker", trapInfo.portraitTex)
 		 .Build();

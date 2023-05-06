@@ -300,7 +300,6 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 				ApplyModToCard(selectionSlot.Card.Info);
 				selectionSlot.Card.StatsLayer.SetEmissionColor(GameColors.Instance.darkLimeGreen);
 				selectionSlot.Card.Anim.PlayTransformAnimation();
-				selectionSlot.Card.StatsLayer.SetEmissionColor(GameColors.Instance.orange);
 				yield return new WaitForSeconds(0.15f);
 				selectionSlot.Card.SetInfo(selectionSlot.Card.Info);
 				selectionSlot.Card.SetInteractionEnabled(false);

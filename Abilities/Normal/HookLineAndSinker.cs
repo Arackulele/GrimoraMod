@@ -52,7 +52,15 @@ public class HookLineAndSinker : AbilityBehaviour
 			yield break;
 		}
 
-		if (targetCard.NotDead())
+		//Anchored Cards cannot be hooked
+		if (targetCard.HasAbility(Anchored.ability))
+		{
+			targetCard.Anim.StrongNegationEffect();
+
+			yield break;
+		}
+
+			if (targetCard.NotDead())
 		{
 			GrimoraPlugin.Log.LogInfo($"[HookLineAndSinker] Hooked card {targetCard.GetNameAndSlot()}, moving to slot [{Card.Slot.Index}]");
 			targetCard.SetIsOpponentCard(Card.Slot.IsOpponentSlot());

@@ -127,11 +127,17 @@ public static class BlueprintUtils
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Floatsam = NameShipwreckDams.CreateCardBlueprint();
 
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Flameskull = NameFlameskull.CreateCardBlueprint();
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_EmberSpirit = NameEmberSpirit.CreateCardBlueprint();
+
 	//Cards not in blueprints cause they dont work for the enemy: Apparition, Calavera Catrina, Deadeye, Doll, Jikininki, Sluagh
 
 	#region PiratesRoyal
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_CaptainYellowbeard = NamePirateCaptainYellowbeard.CreateCardBlueprint();
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_DavyJones = NameDavyJones.CreateCardBlueprint();
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_FirstMateSnag = NamePirateFirstMateSnag.CreateCardBlueprint();
 
@@ -141,6 +147,9 @@ public static class BlueprintUtils
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Exploding_Pirate = NamePirateExploding.CreateCardBlueprint();
 
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Nixie = NameNixie.CreateCardBlueprint();
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Privateer = NamePiratePrivateer.CreateCardBlueprint();
 
 	#endregion
 
@@ -1477,13 +1486,15 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_Obol },
-			new() { bp_GraveBard, bp_Project },
-			new() { bp_Hellhand },
+			new() { bp_GraveBard, bp_Hellhand },
+			new(),
+			new(),
+			new() { bp_Project },
 			new(),
 			new() { bp_Obol },
-			new() { bp_GraveBard, bp_Project },
+			new() { bp_GraveBard, bp_Hellhand },
 			new() ,
-			new() { bp_Hellhand },
+			new() { bp_Project },
 			new() { bp_Hellhand },
 			new() ,
 			new() ,

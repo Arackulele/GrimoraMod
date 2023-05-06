@@ -3,6 +3,7 @@ using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Ascension;
 using InscryptionAPI.Card;
+using InscryptionAPI.Helpers.Extensions;
 using Pixelplacement;
 using UnityEngine;
 
@@ -48,13 +49,27 @@ public class HammerItemExt : HammerItem
 				useCounter = 3;
 			}
 
+
+
 			//Cant kill Swashbucklers in Royal
 			if (TurnManager.Instance.Opponent is RoyalBossOpponent && targetSlot.Card.HasAbility(Raider.ability))
 			{
 				useCounter = 3;
 			}
 
-			yield return targetSlot.Card.Die(false);
+			//Cant smash Frozen cards in KC
+			if (TurnManager.Instance.Opponent is KayceeBossOpponent && targetSlot.Card.name == GrimoraPlugin.NameAvalanche)
+			{
+				useCounter = 3;
+				targetSlot.Card.TakeDamage(1, null);
+
+				yield return TextDisplayer.Instance.ShowUntilInput(
+			"OH, HOW SAD. YOUR HAMMER COULD NOT BREAK THE ICE, AND SHATTERED"
+				);
+
+				yield break;
+			}
+			else yield return targetSlot.Card.Die(false);
 			useCounter++;
 		}
 

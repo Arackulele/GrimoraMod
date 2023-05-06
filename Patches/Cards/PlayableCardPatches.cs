@@ -84,8 +84,8 @@ public class PlayableCardPatches
 		return BoardManager.Instance.opponentSlots
 		 .Where(slot => slot.Card == giantCard)
 		 .Count(slot => slot.GetAdjacentSlots(true)
-			       .GetCards(pCard => pCard != giantCard)
-			       .Exists(pCard => pCard.HasAbility(Ability.BuffNeighbours))
+						 .GetCards(pCard => pCard != giantCard)
+						 .Exists(pCard => pCard.HasAbility(Ability.BuffNeighbours))
 			);
 	}
 }

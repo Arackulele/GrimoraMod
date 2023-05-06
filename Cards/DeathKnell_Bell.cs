@@ -10,7 +10,6 @@ public partial class GrimoraPlugin
 	private void Add_Card_DeathKnellBell()
 	{
 		CardBuilder.Builder
-			.SetAppearance(Appearance.TerrainBackground, Appearance.TerrainLayout)
 			.SetBaseAttackAndHealth(0, 1)
 			.SetNames(NameDeathKnellBell, "Chime")
 			.Build();

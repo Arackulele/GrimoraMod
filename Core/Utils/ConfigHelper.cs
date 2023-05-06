@@ -43,8 +43,10 @@ public class ConfigHelper
 	public bool IsEndlessModeEnabled => _configEndlessMode.Value;
 
 	private ConfigEntry<bool> _configCardsLeftInDeck;
-
 	public bool EnableCardsLeftInDeckView => _configCardsLeftInDeck.Value;
+
+	private ConfigEntry<bool> _configMotionSickness;
+	public bool DisableMotionSicknessEffects => _configMotionSickness.Value;
 
 	private ConfigEntry<bool> _configDeveloperMode;
 
@@ -78,6 +80,13 @@ public class ConfigHelper
 			true,
 			new ConfigDescription("This option will allow you to see what cards are left in your deck.")
 		);
+
+		_configMotionSickness = GrimoraConfigFile.Bind(
+	Name,
+	"Disable Motion Sickness Inducing effects",
+	false,
+	new ConfigDescription("This option will disable all effects that might cause motion sickness and other visually jarring effects.")
+);
 
 		_configDeveloperMode = GrimoraConfigFile.Bind(
 			Name,

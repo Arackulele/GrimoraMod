@@ -3,6 +3,7 @@ using HarmonyLib;
 using InscryptionAPI;
 using InscryptionAPI.Ascension;
 using InscryptionAPI.Guid;
+using System.Linq;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -30,6 +31,17 @@ internal static class Temp
 
 			Color parsed;
 			ColorUtility.TryParseHtmlString("#FFD877", out parsed);
+			__instance.iconRenderer.color = parsed;
+			__instance.blinkEffect.blinkOffColor = parsed;
+
+		}
+
+
+		if (ChallengeManagement.RedChallenge.Contains(info.challengeType))
+		{
+
+			Color parsed;
+			ColorUtility.TryParseHtmlString("#cc1d57", out parsed);
 			__instance.iconRenderer.color = parsed;
 			__instance.blinkEffect.blinkOffColor = parsed;
 
@@ -68,6 +80,7 @@ public class ChallengeManagement
 	public static AscensionChallenge JammedChair { get; private set; }
 	public static AscensionChallenge WiltedClover { get; private set; }
 	public static AscensionChallenge HardMode { get; private set; }
+	public static AscensionChallenge ThreePhaseGhouls { get; private set; }
 
 	public static AscensionChallenge InfinitLives { get; private set; }
 	public static AscensionChallenge SafeChair { get; private set; }
@@ -78,6 +91,7 @@ public class ChallengeManagement
 
 	public static List<AscensionChallenge> ValidChallenges;
 	public static List<AscensionChallenge> AntiChallenges;
+	public static List<AscensionChallenge> RedChallenge;
 
 	public static void UpdateGrimoraChallenges()
 	{
@@ -95,8 +109,10 @@ public class ChallengeManagement
 		SafeChair = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "SafeChair");
 		PlaceBones = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "PlaceBones");
 		EasyGuards = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "EasyGuards");
-		AntiChallenges = new List<AscensionChallenge>() {InfinitLives,SafeChair, PlaceBones, EasyGuards};
 
+		ThreePhaseGhouls = GuidManager.GetEnumValue<AscensionChallenge>(GUID, "ThreePhaseGhouls");
+		AntiChallenges = new List<AscensionChallenge>() {InfinitLives,SafeChair, PlaceBones, EasyGuards};
+		RedChallenge = new List<AscensionChallenge>() { ThreePhaseGhouls };
 
 
 		PatchedChallengesReference = new List<AscensionChallengeInfo>()
@@ -125,6 +141,7 @@ public class ChallengeManagement
 					title = "Sawyer's Showdown",
 					description = "Lose 1 bone every 3rd turn, if you have less than 3, gain 1 Bone",
 					iconSprite = AssetUtils.GetPrefab<Sprite>("SawyersShowdown"),
+					activatedSprite = AssetUtils.GetPrefab<Sprite>("normaleyes"),
 					pointValue = 5
 				}
 				,
@@ -162,7 +179,7 @@ public class ChallengeManagement
 					title = "Frail Hammer",
 					description = "The Hammer gets repaired only after every Boss.",
 					iconSprite = AssetUtils.GetPrefab<Sprite>("hammerskull"),
-					//activatedSprite =  AssetUtils.GetPrefab<Sprite>("FrailHammer_Active"),
+					activatedSprite = AssetUtils.GetPrefab<Sprite>("normaleyes"),
 					pointValue = 15
 				}
 			,
@@ -181,6 +198,7 @@ public class ChallengeManagement
 				title = "Wilted Clover",
 				description = "There is only 2 Cards present at every Card chest.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("WiltedClover"),
+				activatedSprite = AssetUtils.GetPrefab<Sprite>("normaleyes"),
 				pointValue = 20
 			},
 
@@ -190,7 +208,7 @@ public class ChallengeManagement
 				title = "Hell Mode",
 				description = "Dont play this one, seriously. (Makes encounters Significantly Harder)",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("hellmodeskull"),
-								activatedSprite = AssetUtils.GetPrefab<Sprite>("hellmodeeyes"),
+				activatedSprite = AssetUtils.GetPrefab<Sprite>("hellmodeeyes"),
 				pointValue = 80
 			},
 			
@@ -210,6 +228,7 @@ public class ChallengeManagement
 				title = "Safe Chair",
 				description = "Your cards are immune to electricity of the chair.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("SafeChair"),
+				activatedSprite = AssetUtils.GetPrefab<Sprite>("antichallengeeyes"),
 				pointValue = -20
 			},
 			new()
@@ -218,6 +237,7 @@ public class ChallengeManagement
 				title = "Bone Lords Mercy",
 				description = "Gain a Bone when you place any free Card on the Board.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("skukk"),
+				activatedSprite = AssetUtils.GetPrefab<Sprite>("antichallengeeyes"),
 				pointValue = -20
 			},
 						new()
@@ -226,7 +246,19 @@ public class ChallengeManagement
 				title = "Pharaos Blessing",
 				description = "The Ankh Guard effects always benefit you.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("ankh"),
+				activatedSprite = AssetUtils.GetPrefab<Sprite>("antichallengeeyes"),
 				pointValue = -15
+			},
+
+
+			new()
+			{
+				challengeType = ThreePhaseGhouls,
+				title = "Vengeant Ghouls",
+				description = "Kaycee, Sawyer and Royal have new tricks up their sleeve",
+				iconSprite = AssetUtils.GetPrefab<Sprite>("threephaseghouls"),
+				activatedSprite = AssetUtils.GetPrefab<Sprite>("threephaseeyes"),
+				pointValue = 40
 			},
 		};
 
@@ -247,6 +279,7 @@ public class ChallengeManagement
 			FrailHammer,
 			SawyersShowdown,
 			RoyalsRevenge,
+			ThreePhaseGhouls
 		};
 
 

@@ -195,6 +195,21 @@ public static class CardRelatedExtension
 			{
 				GrimoraPlugin.Log.LogInfo($"[DieCustom] Waiting until tween is finished to play death animation");
 				Vector3 positionCopy = playableCard.transform.localPosition;
+
+				if (royalTableSwayValue == -7f) {
+
+					TweenBase slidingCard = Tween.LocalPosition(
+		playableCard.transform,
+		new Vector3(positionCopy.x, 5f, positionCopy.z),
+		GrimoraModRoyalBossSequencer.DurationTableSway,
+		0,
+		Tween.EaseIn,
+		completeCallback: () => playableCard.Anim.PlayDeathAnimation(playSound && !wasSacrifice)
+	);
+
+				}
+
+				else { 
 				TweenBase slidingCard = Tween.LocalPosition(
 					playableCard.transform,
 					new Vector3(royalTableSwayValue, positionCopy.y, positionCopy.z),
@@ -203,6 +218,7 @@ public static class CardRelatedExtension
 					Tween.EaseIn,
 					completeCallback: () => playableCard.Anim.PlayDeathAnimation(playSound && !wasSacrifice)
 				);
+				}
 			}
 		}
 	}

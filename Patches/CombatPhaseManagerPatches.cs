@@ -14,7 +14,7 @@ namespace GrimoraMod;
 public class CombatPhaseManagerPatches
 {
 	private static readonly Stopwatch Stopwatch = new Stopwatch();
-	
+
 	[HarmonyPostfix, HarmonyPatch(nameof(CombatPhaseManager.SlotAttackSequence))]
 	public static IEnumerator HandleSpecificAttacksForCustomAnims(
 		IEnumerator enumerator,
@@ -142,9 +142,9 @@ public class CombatPhaseManagerPatches
 			}
 		}
 
-		if(slot.Card.NotDead())
+		if (slot.Card.NotDead())
 		{
-			if(slot.Card.Anim.DoingAttackAnimation)
+			if (slot.Card.Anim.DoingAttackAnimation)
 			{
 				Log.LogInfo($"[SlotAttackSequence] [{slot.Card.GetNameAndSlot()}] is still doing attack anim, waiting until finished");
 				yield return new WaitUntil(() => !slot.Card.Anim.DoingAttackAnimation);
@@ -157,7 +157,7 @@ public class CombatPhaseManagerPatches
 				yield return new WaitForSeconds(0.25f);
 			}
 
-			if(customArmPrefab)
+			if (customArmPrefab)
 			{
 				customArmPrefab.gameObject.SetActive(false);
 			}

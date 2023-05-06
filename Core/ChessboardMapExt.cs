@@ -443,6 +443,8 @@ public class ChessboardMapExt : GameMap
 
 		SaveManager.SaveToFile();
 		InteractionCursor.Instance.InteractionDisabled = false;
+
+		CheckLights();
 		Log.LogDebug($"Finished unrolling chessboard");
 	}
 
@@ -610,6 +612,7 @@ public class ChessboardMapExt : GameMap
 
 	public override IEnumerator RerollingSequence()
 	{
+		CheckLights();
 		foreach (var piece in pieces.Where(piece => piece.gameObject.activeInHierarchy))
 		{
 			piece.Hide();

@@ -56,7 +56,7 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 
 		Debug.Log("Triggering Effect0");
 
-		yield return Singleton<LifeManager>.Instance.ShowDamageSequence(1, 1, true);
+		if (!AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.EasyGuards)) yield return Singleton<LifeManager>.Instance.ShowDamageSequence(1, 1, true);
 
 		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.playerSlots);
 
@@ -91,7 +91,7 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 
 		Debug.Log("Triggering Effect1");
 
-		yield return Singleton<LifeManager>.Instance.ShowDamageSequence(1, 1, true);
+		if (!AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.EasyGuards)) yield return Singleton<LifeManager>.Instance.ShowDamageSequence(1, 1, true);
 
 		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.opponentSlots);
 
@@ -126,21 +126,26 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 
 		Debug.Log("Triggering Effect2");
 
-		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.opponentSlots);
-
-
-		CardModificationInfo cardModificationInfo = new CardModificationInfo
+		if (!AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.EasyGuards))
 		{
-			attackAdjustment = 1
-		};
 
-		foreach (var i in slots)
-		{
-			if (i.Card != null)
+			List<CardSlot> slots = new(Singleton<BoardManager>.Instance.opponentSlots);
+
+
+			CardModificationInfo cardModificationInfo = new CardModificationInfo
 			{
-				i.Card.AddTemporaryMod(cardModificationInfo);
-				i.Card.OnStatsChanged();
+				attackAdjustment = 1
+			};
+
+			foreach (var i in slots)
+			{
+				if (i.Card != null)
+				{
+					i.Card.AddTemporaryMod(cardModificationInfo);
+					i.Card.OnStatsChanged();
+				}
 			}
+
 		}
 
 		yield return ResourcesManager.Instance.AddBones(1);
@@ -154,22 +159,26 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 
 		Debug.Log("Triggering Effect3");
 
-		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.opponentSlots);
-
-
-		CardModificationInfo cardModificationInfo = new CardModificationInfo
+		if (!AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.EasyGuards))
 		{
-			healthAdjustment = 1
-		};
+			List<CardSlot> slots = new(Singleton<BoardManager>.Instance.opponentSlots);
 
-		foreach (var i in slots)
-		{
-			if (i.Card != null)
+
+			CardModificationInfo cardModificationInfo = new CardModificationInfo
 			{
-				i.Card.AddTemporaryMod(cardModificationInfo);
-				i.Card.OnStatsChanged();
+				healthAdjustment = 1
+			};
 
+			foreach (var i in slots)
+			{
+				if (i.Card != null)
+				{
+					i.Card.AddTemporaryMod(cardModificationInfo);
+					i.Card.OnStatsChanged();
+
+				}
 			}
+
 		}
 
 		yield return ResourcesManager.Instance.AddMaxEnergy(1);
@@ -180,11 +189,11 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 
 	private IEnumerator Effect4()
 	{
-
+		List<CardSlot> slots;
 		Debug.Log("Triggering Effect4");
 
-		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.AllSlots);
-
+		if (!AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.EasyGuards)) slots = new(Singleton<BoardManager>.Instance.AllSlots);
+		else slots = new(Singleton<BoardManager>.Instance.playerSlots);
 		Ability chosen = AbilitiesChosenByRule5.GetRandomItem();
 
 		CardModificationInfo cardModificationInfo = new CardModificationInfo
@@ -236,7 +245,9 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 
 		Debug.Log("Triggering Effect5");
 
-		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.AllSlots);
+		List<CardSlot> slots;
+		if (!AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.EasyGuards)) slots = new(Singleton<BoardManager>.Instance.AllSlots);
+		else slots = new(Singleton<BoardManager>.Instance.opponentSlots);
 
 		foreach (var i in slots)
 		{
@@ -258,7 +269,9 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 	{
 		Debug.Log("Triggering Effect6");
 
-		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.AllSlotsCopy);
+		List<CardSlot> slots;
+		if (!AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.EasyGuards)) slots = new(Singleton<BoardManager>.Instance.AllSlots);
+		else slots = new(Singleton<BoardManager>.Instance.playerSlots);
 
 		List<CardSlot> slotsempty = new List<CardSlot>();
 
@@ -278,7 +291,9 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 	{
 		Debug.Log("Triggering Effect7");
 
-		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.OpponentSlotsCopy);
+		List<CardSlot> slots;
+		if (!AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.EasyGuards)) slots = new(Singleton<BoardManager>.Instance.OpponentSlotsCopy);
+		else slots = new(Singleton<BoardManager>.Instance.playerSlots);
 
 		List<CardSlot> slotsempty = new List<CardSlot>();
 
@@ -354,25 +369,49 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 		if (Ruletype == 1) yield return DoEffect();
 
 	}
+	int timer = 0;
 
-		public override IEnumerator OpponentUpkeep()
+	public override bool RespondsToOtherCardDie(
+	PlayableCard card,
+	CardSlot deathSlot,
+	bool fromCombat,
+	PlayableCard killer
+)
 	{
-		Debug.Log("Triggering OnDrawn");
-		if (Ruletype == 2) yield return DoEffect();
+		return true;
+	}
 
+	public override IEnumerator OnOtherCardDie(
+		PlayableCard card,
+		CardSlot deathSlot,
+		bool fromCombat,
+		PlayableCard killer
+	)
+	{
+		if (Ruletype == 2)
+		{
+			if (timer == 0) timer++;
+			else
+			{
+				yield return DoEffect();
+				timer = 0;
+			}
+
+		}
 	}
 
 
 		public override IEnumerator PreDeckSetup()
 		{
 
-		string triggerdesc = "none";
+
+			string triggerdesc = "none";
 
 		string effectdesc = "none";
 
-		Ruletype = UnityEngine.Random.Range(0, 2);
+		Ruletype = UnityEngine.Random.Range(0, 3);
 
-		RuleEffect = UnityEngine.Random.Range(0, 7);
+		RuleEffect = UnityEngine.Random.Range(0, 8);
 
 		Debug.Log("Ankh Guard Trigger: " + Ruletype);
 
@@ -388,10 +427,43 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 				triggerdesc = "After your Cards attack, ";
 				break;
 			case 2:
-				triggerdesc = "Every time my turn Starts, ";
+				triggerdesc = "Every second Card that dies, ";
 				break;
 		}
 
+		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.EasyGuards))
+		{
+			ChallengeActivationUI.TryShowActivation(ChallengeManagement.EasyGuards);
+
+			switch (RuleEffect)
+			{
+				case 0:
+					effectdesc = "1 of your Cards attack increases and i get no benefit";
+					break;
+				case 1:
+					effectdesc = "1 of my Cards attack decreases  and i get no benefit";
+					break;
+				case 2:
+					effectdesc = "You gain 1 bone and i get no benefit";
+					break;
+				case 3:
+					effectdesc = "You gain 1 maximum soul and i get no benefit";
+					break;
+				case 4:
+					effectdesc = "all of your cards gain a random sigil and i get no benefit";
+					break;
+				case 5:
+					effectdesc = "all of my take 1 Damage and i get no benefit";
+					break;
+				case 6:
+					effectdesc = "a zombie gets played in one of your slots and i get no benefit";
+					break;
+				case 7:
+					effectdesc = "you play a card of many bones and i get no benefit";
+					break;
+			}
+		}
+		else { 
 		switch (RuleEffect)
 		{
 			case 0:
@@ -419,7 +491,7 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 				effectdesc = "i play a card of many bones";
 				break;
 		}
-
+		}
 
 
 		yield return TextDisplayer.Instance.ShowUntilInput($"THE GODS HAVE {"DECIDED".Gold()}!");

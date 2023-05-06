@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 		 .SetAsNormalCard()
-		 .SetAbilities(Ability.Brittle, Ability.Flying)
+		 .SetAbilities(Ability.Brittle, Ability.Flying, Anchored.ability)
 		 .SetBaseAttackAndHealth(3, 1)
 		 .SetBoneCost(4)
 		 .SetDescription("Parrots usually make great sea-side companions, this one just ate a poisoned cracker...")

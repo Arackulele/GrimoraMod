@@ -49,10 +49,18 @@ public class PlayerHandPatches
 				ChallengeActivationUI.TryShowActivation(ChallengeManagement.RoyalsRevenge);
 				yield return new WaitForSeconds(0.2f);
 				if (card != null) { 
+					if (card.AllAbilities().Count < 5) { 
 				card.AddTemporaryMod(new CardModificationInfo(LitFuse.ability));
 				card.Anim.StrongNegationEffect();
 				yield return new WaitForSeconds(0.2f);
 				cardsPlayedThisCombatForFuse = 0;
+					}
+					else
+					{
+						yield return TextDisplayer.Instance.ShowUntilInput("Your card cannot explode, how dissapointing.");
+						card.TakeDamage(1, null);
+						cardsPlayedThisCombatForFuse = 0;
+					}
 				}
 			}
 		}

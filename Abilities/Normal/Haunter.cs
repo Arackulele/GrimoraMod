@@ -108,11 +108,6 @@ public class HauntedSlot : NonCardTriggerReceiver
 	{
 		List<Ability> cardAllAbilities = otherCard.AllAbilities();
 
-		foreach (var i in cardAllAbilities)
-		{
-
-
-		}
 
 		if (cardAllAbilities.Count == 5)
 		{

@@ -1,4 +1,4 @@
-﻿namespace GrimoraMod;
+namespace GrimoraMod;
 
 public static class GrimoraSaveUtil
 {

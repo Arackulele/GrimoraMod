@@ -28,7 +28,7 @@ public partial class GrimoraPlugin
 		 .SetAppliesToHealth(false)
 		 .SetIconGraphic(AssetUtils.GetPrefab<Texture>("ability_GainAttackBones"))
 		 .SetRulebookName(GainAttackBones.RulebookName)
-		 .SetRulebookDescription("[creature] gains 1 attack for each bone the player currently has.")
+		 .SetRulebookDescription("A card bearing this sigil gains 1 attack for each bone the player currently has.")
 		 .Build();
 	}
 }

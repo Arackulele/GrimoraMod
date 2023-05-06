@@ -41,8 +41,14 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 				AscensionStatsData.TryIncrementStat(AscensionStat.Type.Victories);
 
+				if (!EventManagement.HasSeenCredits)
+				{ 
+				EventManagement.HasSeenCredits = true;
+				SceneLoader.Load("Ascension_Credits");
+				}
+				else SceneLoader.Load("Ascension_Configure");
 
-				SceneLoader.Load("Ascension_Configure");
+				//SceneLoader.Load("Ascension_Configure");
 
 			}
 			else
@@ -162,7 +168,15 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 			);
 
 			CardSlot slot = opponentQueuedSlots.GetRandomItem();
-			yield return TurnManager.Instance.Opponent.QueueCard(card.Info, slot);
+
+			if (card.HasAbility(Haunter.ability)) {
+
+				yield return TextDisplayer.Instance.ShowUntilInput("YOUR WEAK SPIRITS SHALL NOT HAUNT ME NO MORE.");
+
+				if (Card.GetName(card) == NameApparition) yield return TurnManager.Instance.Opponent.QueueCard(CardLoader.GetCardByName(NameVengefulSpirit), slot);
+				else yield return TurnManager.Instance.Opponent.QueueCard(CardLoader.GetCardByName(Card.GetName(card)), slot);
+			}
+			else yield return TurnManager.Instance.Opponent.QueueCard(card.Info, slot);
 			_willReanimateCardThatDied = false;
 			yield return new WaitForSeconds(0.5f);
 		}

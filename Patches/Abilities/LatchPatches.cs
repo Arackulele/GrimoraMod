@@ -22,7 +22,6 @@ public class LatchPatches
 			  || x.Card.Dead 
 			  || latch.CardHasLatchMod(x.Card) 
 			  || x.Card == latch.Card
-				|| x.Card == x.Card.Info.HasAbility(Ability.MadeOfStone)
 				|| x.Card.Info.HasTrait(Trait.Uncuttable)
 				|| x.Card.AllAbilities().Count > 4
 		);
@@ -44,6 +43,8 @@ public class LatchPatches
 		{
 			yield break;
 		}
+
+		__instance.Card.GetComponent<GraveControllerExt>().AddCustomArmPrefabs(__instance.Card);
 
 		ViewManager.Instance.SwitchToView(View.Board);
 		__instance.Card.Anim.PlayHitAnimation();

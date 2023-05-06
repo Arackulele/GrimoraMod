@@ -1,10 +1,12 @@
 using System.Collections;
+using System.Runtime.InteropServices;
 using DiskCardGame;
 using InscryptionAPI.Boons;
 using InscryptionAPI.Encounters;
 using InscryptionAPI.Helpers.Extensions;
 using Pixelplacement;
 using UnityEngine;
+using UnityStandardAssets.ImageEffects;
 using static GrimoraMod.BlueprintUtils;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -27,6 +29,13 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
+
+		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.ThreePhaseGhouls))
+		{
+			NumLives = 3;
+		}
+		else NumLives = 2;
+
 		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.NoBones) && AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.Soulless))
 		{
 			encounter.startConditions = new List<EncounterData.StartCondition>()
@@ -75,6 +84,14 @@ public class RoyalBossOpponentExt : BaseBossExt
 		{
 			AudioController.Instance.PlaySound2D("boss_royal", volume: 0.5f);
 			yield return new WaitForSeconds(0.1f);
+		}
+
+		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.ThreePhaseGhouls))
+		{
+
+			yield return TextDisplayer.Instance.ShowUntilInput($"IT SEEMS A STORM IS BREWING, I HOPE ME SHIP CAN HANDLE IT");
+
+			bossSkull.EnterHand();
 		}
 
 		ViewManager.Instance.SwitchToView(View.Default);
@@ -143,45 +160,115 @@ public class RoyalBossOpponentExt : BaseBossExt
 		);
 	}
 	GameObject Rain;
+	AudioSource oceanSound;
 	public override IEnumerator StartNewPhaseSequence()
 	{
-		AudioController.Instance.FadeOutLoop(5, 1);
 
-		TurnPlan.Clear();
-		yield return ClearQueue();
-		yield return ClearBoard();
+		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.ThreePhaseGhouls) && NumLives == 1)
+		{
 
-		yield return FaceZoomSequence();
-		yield return TextDisplayer.Instance.ShowUntilInput(
-			"YARRG, TWAS JUST DA FIRST ROUND!\nLETS SEE HOW YE FARE 'GAINST ME PERSONAL SHIP AN CREW!",
-			-0.65f,
-			0.4f
+			yield return TextDisplayer.Instance.ShowUntilInput(
+"ME SHIP! I FEAR WE MAY BE SINKING."
+);
+
+			yield return ClearQueue();
+
+			yield return ClearBoard();
+
+			if (GameObject.Find("RainParticles(Clone)") != null) Destroy(GameObject.Find("RainParticles(Clone)"));
+			if (Rain != null) Destroy(Rain);
+
+			oceanSound = AudioController.Instance.PlaySound2D("ocean_fall");
+
+			yield return new WaitForSeconds(4);
+
+			TableVisualEffectsManager.Instance.ChangeTableColors(
+			GameColors.instance.nearBlack,
+			GameColors.instance.darkBlue,
+			GameColors.instance.nearBlack,
+			GameColors.instance.blue,
+			GameColors.instance.blue,
+			GameColors.Instance.brightBlue,
+			GameColors.instance.blue,
+			GameColors.instance.blue,
+			GameColors.instance.brightBlue
 		);
-		ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
-		Rain = GameObject.Instantiate(GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("RainParticles"))));
-		Rain.transform.parent = GameObject.Find("RoyalBossSkull(Clone)").transform;
 
-		yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
 
-		yield return BoardManager.Instance
-		 .GetOpponentOpenSlots()
-		 .GetRandomItem()
-		 .CreateCardInSlot(NamePirateFirstMateSnag.GetCardInfo());
+			if (ConfigHelper.Instance.DisableMotionSicknessEffects == false) Singleton<CameraEffects>.Instance.ShowUnderwater();
 
-		yield return new WaitForSeconds(0.25f);
 
-		yield return BoardManager.Instance
-		 .GetOpponentOpenSlots()
-		 .GetRandomItem()
-		 .CreateCardInSlot(NameGhostShipRoyal.GetCardInfo());
 
-		ViewManager.Instance.SetViewUnlocked();
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				"PREPARE TO HOLD YEE BREATH!",
+				-0.65f,
+				0.4f
+			);
 
-		Log.LogDebug($"Playing royal theme 2");
-		AudioController.Instance.SetLoopAndPlay("RoyalRuckus_Phase2Rain", 1);
-		AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
-		AudioController.Instance.SetLoopVolume(0.8f, 5f, 1);
+			yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprintAgain());
 
+			List<CardSlot> slots = new(Singleton<BoardManager>.Instance.playerSlots);
+			List<CardSlot> full = new List<CardSlot>();
+
+			foreach (var i in slots)
+			{
+				if (i.Card != null)
+				{
+					full.Add(i);
+				}
+			}
+
+			ViewManager.Instance.SwitchToView(View.Board);
+
+			yield return TextDisplayer.Instance.ShowUntilInput($"HOLY FISHPASTE, YE FOUND DAVY JONES TREASURE");
+
+			foreach (var i in full)
+			{
+
+				yield return i.opposingSlot.CreateCardInSlot(NameDavyJonesLocker.GetCardInfo());
+
+			}
+		}
+		else
+		{
+			AudioController.Instance.FadeOutLoop(5, 1);
+
+			TurnPlan.Clear();
+			yield return ClearQueue();
+			yield return ClearBoard();
+
+			yield return FaceZoomSequence();
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				"YARRG, TWAS JUST DA FIRST ROUND!\nLETS SEE HOW YE FARE 'GAINST ME PERSONAL SHIP AN CREW!",
+				-0.65f,
+				0.4f
+			);
+			ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
+			Rain = GameObject.Instantiate(GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("RainParticles"))));
+			Rain.transform.parent = GameObject.Find("RoyalBossSkull(Clone)").transform;
+
+			yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());
+
+			yield return BoardManager.Instance
+			 .GetOpponentOpenSlots()
+			 .GetRandomItem()
+			 .CreateCardInSlot(NamePirateFirstMateSnag.GetCardInfo());
+
+			yield return new WaitForSeconds(0.25f);
+
+			yield return BoardManager.Instance
+			 .GetOpponentOpenSlots()
+			 .GetRandomItem()
+			 .CreateCardInSlot(NameGhostShipRoyal.GetCardInfo());
+
+			ViewManager.Instance.SetViewUnlocked();
+
+			Log.LogDebug($"Playing royal theme 2");
+			AudioController.Instance.SetLoopAndPlay("RoyalRuckus_Phase2Rain", 1);
+			AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
+			AudioController.Instance.SetLoopVolume(0.8f, 5f, 1);
+
+		}
 	}
 
 	public EncounterBlueprintData BuildNewPhaseBlueprint()
@@ -209,6 +296,36 @@ public class RoyalBossOpponentExt : BaseBossExt
 		return blueprint;
 	}
 
+	public EncounterBlueprintData BuildNewPhaseBlueprintAgain()
+	{
+		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
+		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_Privateer },
+			new() { bp_DavyJones },
+			new(),
+			new(),
+			new() { bp_Nixie },
+			new(),
+			new() { bp_Revenant },
+			new() { bp_Privateer },
+			new(),
+			new() { bp_FirstMateSnag },
+			new(),
+			new() { bp_Revenant },
+			new(),
+			new() { bp_Privateer },
+			new(),
+			new() { bp_Nixie },
+			new(),
+			new() { bp_DavyJones },
+			new(),
+			new() { bp_Privateer, bp_Privateer },
+			new(),
+		};
+		return blueprint;
+	}
+
 	public override IEnumerator OutroSequence(bool wasDefeated)
 	{
 		if (wasDefeated)
@@ -221,6 +338,23 @@ public class RoyalBossOpponentExt : BaseBossExt
 				1f
 			);
 
+			if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.ThreePhaseGhouls))
+			{
+				AudioController.Instance.FadeSourceVolume(oceanSound, 0f, 5.5f);
+
+				(Singleton<TurnManager>.Instance.SpecialSequencer as GrimoraMod.GrimoraModRoyalBossSequencer).CleanupTargetIcons();
+
+				if (ConfigHelper.Instance.DisableMotionSicknessEffects == false)
+				{	Singleton<UIManager>.Instance.Effects.GetEffect<ScreenColorEffect>().SetAlpha(1);
+				Singleton<UIManager>.Instance.Effects.GetEffect<ScreenColorEffect>().SetIntensity(0f, 1);
+				Singleton<CameraEffects>.Instance.blur.enabled = false;
+				Singleton<CameraEffects>.Instance.blur.blurSize = 3.5f;
+				Singleton<CameraEffects>.Instance.fisheye.enabled = false;
+			}
+
+
+			}
+
 			// taken from Opponent patches as it makes more sense to glitch the cannons out once defeated
 			GrimoraAnimationController.Instance.SetHeadBool("face_disappointed", true);
 			GrimoraAnimationController.Instance.SetHeadBool("face_happy", false);
@@ -231,7 +365,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 			yield return new WaitForSeconds(0.5f);
 
-			Destroy(Rain);
+			if (Rain!= null) Destroy(Rain);
 			if (GameObject.Find("RainParticles(Clone)") != null) Destroy(GameObject.Find("RainParticles(Clone)"));
 
 			yield return base.OutroSequence(true);
@@ -253,7 +387,58 @@ public class RoyalBossOpponentExt : BaseBossExt
 		}
 		else
 		{
-			yield return TextDisplayer.Instance.ShowUntilInput(
+			if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.InfinitLives))
+			{
+
+				yield return TextDisplayer.Instance.ShowUntilInput("I beat the livin' PULP out o' ye!");
+
+				GameObject.Find("BoardLight").GetComponent<Light>().cookie = null;
+				GameObject.Find("BoardLight_Cards").GetComponent<Light>().cookie = null;
+				Tween.Cancel(Singleton<ExplorableAreaManager>.Instance.HangingLight.transform.GetInstanceID());
+				yield return cannons.GetComponent<CannonTableEffects>().GlitchOutCannons();
+				GlitchOutAssetEffect.GlitchModel(cannons.transform);
+
+				if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.ThreePhaseGhouls))
+				{
+					AudioController.Instance.FadeSourceVolume(oceanSound, 0f, 5.5f);
+
+					(Singleton<TurnManager>.Instance.SpecialSequencer as GrimoraMod.GrimoraModRoyalBossSequencer).CleanupTargetIcons();
+
+					if (ConfigHelper.Instance.DisableMotionSicknessEffects == false)
+					{
+						Singleton<UIManager>.Instance.Effects.GetEffect<ScreenColorEffect>().SetAlpha(1);
+						Singleton<UIManager>.Instance.Effects.GetEffect<ScreenColorEffect>().SetIntensity(0f, 1);
+						Singleton<CameraEffects>.Instance.blur.enabled = false;
+						Singleton<CameraEffects>.Instance.blur.blurSize = 3.5f;
+						Singleton<CameraEffects>.Instance.fisheye.enabled = false;
+					}
+
+
+				}
+
+				if (Rain != null) Destroy(Rain);
+				if (GameObject.Find("RainParticles(Clone)") != null) Destroy(GameObject.Find("RainParticles(Clone)"));
+
+				AudioController.Instance.PlaySound2D("glitch_error", MixerGroup.TableObjectsSFX);
+
+				yield return HideRightHandBossSkull();
+
+				DestroyScenery();
+
+				SetSceneEffectsShown(false);
+
+				AudioController.Instance.StopAllLoops();
+
+				yield return new WaitForSeconds(0.75f);
+
+				CleanUpBossBehaviours();
+
+				ViewManager.Instance.SwitchToView(View.Default, false, true);
+
+				TableVisualEffectsManager.Instance.ResetTableColors();
+				yield return new WaitForSeconds(0.25f);
+			}
+			else yield return TextDisplayer.Instance.ShowUntilInput(
 				DefeatedPlayerDialogue,
 				-0.65f,
 				0.4f

@@ -3,6 +3,7 @@ using DiskCardGame;
 using GracesGames.Common.Scripts;
 using GrimoraMod.Saving;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using InscryptionAPI.Encounters;
 using InscryptionAPI.Helpers.Extensions;
 using Pixelplacement;
@@ -262,17 +263,6 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 	private IEnumerator CreateTwinGiants(CardSlot otisSlot, CardSlot ephiSlot)
 	{
-		foreach (var i in Singleton<BoardManager>.Instance.opponentSlots)
-		{
-			if (GameObject.Find(name + "_Haunted") != null)
-			{ 
-				Destroy(GameObject.Find(name + "_Haunted"));
-
-				yield return TextDisplayer.Instance.ShowUntilInput($"Your weak Sprits are crushed by my Giants!");
-
-			}
-
-		}
 
 		// mimics the moon phase
 		Log.LogInfo("[Grimora] Creating Otis");
@@ -388,7 +378,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	);
 
 		yield return TextDisplayer.Instance.ShowUntilInput(
-						$"{"YOU OUGHT TO BE REWARDED FOR THAT".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
+						$"{"YOU OUGHT TO BE REWARDED FOR ALL THAT EXCESS DAMAGE".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
 	);
 
 		ViewManager.Instance.SwitchToView(View.Hand, false, true);
@@ -396,6 +386,31 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		yield return TextDisplayer.Instance.ShowUntilInput(
 						$"{"TAKE THIS FOR YOUR EFFORTS".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
 	);
+
+		if (ashpowerpool < 24)
+		{
+
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				$"{"WHAT A TERRIBLE FOE, THIS WONT DEFEAT ME!".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
+
+				AshCard.displayedName = "Minor Ashes";
+				AshCard.portraitTex = AssetUtils.GetPrefab<Sprite>("LesserAshes");
+				AshCard.SetEmissivePortrait(AssetUtils.GetPrefab<Sprite>("LesserAshes_emission"));
+
+		}
+		else if (ashpowerpool > 47)
+		{
+
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				$"{"WHAT DID YOU DO. I AM DOOMED.".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
+
+			AshCard.displayedName = "Greater Ashes";
+			AshCard.portraitTex = AssetUtils.GetPrefab<Sprite>("GreaterAshes");
+			AshCard.SetEmissivePortrait(AssetUtils.GetPrefab<Sprite>("GreaterAshes_emission"));
+
+		}
+		else yield return TextDisplayer.Instance.ShowUntilInput(
+				$"{"A FORMIDABLE OPPONENT, YOU DID WELL IT SEEMS.".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
 
 		yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(AshCard, new List<CardModificationInfo> { AshMods }, 0.25f );
 
