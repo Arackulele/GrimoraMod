@@ -288,10 +288,10 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		#endregion
 
 		#region Egypt
-
-		Add_Card_Boneless();                        //gold#2445
+		
+		Add_Card_Boneless();                        // Bt Y#0895
 		Add_Card_Eidolon();                         // Bt Y#0895
-		Add_Card_Boneclaw();                        // Bt Y#0895
+		Add_Card_Boneclaw();                        //gold#2445
 		Add_Card_EgyptMummy();                      //gold#2445
 
 
@@ -330,8 +330,12 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 			#region Normal
 
-			Add_Card_BloodySack();       // Bt Y#0895
-			Add_Card_CompoundFracture(); // Bt Y#0895
+			Add_Card_RandomCard();
+
+			Add_Card_Bigbones();					// Bt Y#0895
+			Add_Card_BloodySack();				// Bt Y#0895
+			Add_Card_CompoundFracture();	// Bt Y#0895
+			Add_Card_Crossbones();				// Bt Y#0895
 			Add_Card_FesteringWretch();  // Bt Y#0895
 			Add_Card_Haltia();           // Bt Y#0895
 			Add_Card_IceCube();          // Bt Y#0895
@@ -351,6 +355,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			Add_Card_BalBal();         // Bt Y#0895
 			Add_Card_BoneCollective(); // Bt Y#0895
 			Add_Card_Fylgja();         // Bt Y#0895
+			Add_Card_GraveCarver();		 // Bt Y#0895
 			Add_Card_Wyvern();         // Cevin2006™ (◕‿◕)#7971
 
 			#endregion

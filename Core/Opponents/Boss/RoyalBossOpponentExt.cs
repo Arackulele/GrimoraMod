@@ -301,8 +301,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Privateer },
-			new() { bp_DavyJones },
+			new() { bp_Privateer, bp_DavyJones },
 			new(),
 			new(),
 			new() { bp_Nixie },

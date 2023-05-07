@@ -36,7 +36,7 @@ public class GrimoraModSawyerBossSequencer : GrimoraModBossBattleSequencer
 		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.ThreePhaseGhouls) && TurnManager.Instance.Opponent.NumLives == 1)
 		{
 
-			if (bonesTakenCounter >= 2)
+			if (bonesTakenCounter >= 2 && BoardManager.Instance.GetOpponentOpenSlots() != null)
 			{
 
 				if (sawyerbank > 0)

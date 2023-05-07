@@ -1157,12 +1157,13 @@ public static class BlueprintUtils
 			new() { bp_FirstMateSnag },
 			new() { bp_Shipwreck },
 			new() { bp_FirstMateSnag },
-			new() { bp_Swashbuckler },
 			new(),
-			new() { bp_Shipwreck, bp_Swashbuckler },
+			new() { bp_Summoner },
+			new(),
+			new() { bp_Shipwreck, bp_Summoner },
 			new() { bp_FirstMateSnag },
 			new(),
-			new() { bp_Swashbuckler },
+			new() { bp_Summoner },
 			new(),
 			new() { bp_Shipwreck }
 		};
@@ -1196,12 +1197,12 @@ public static class BlueprintUtils
 		{
 			new() { bp_FrankAndStein },
 			new() { bp_Exploding_Pirate, bp_Exploding_Pirate, bp_Exploding_Pirate },
-			new() { bp_Swashbuckler },
+			new() { bp_DavyJones },
 			new(),
 			new() { bp_FrankAndStein },
 			new() { bp_Exploding_Pirate, bp_Exploding_Pirate, bp_Exploding_Pirate },
 			new(),
-			new() { bp_Swashbuckler }
+			new() { bp_FirstMateSnag }
 		};
 
 		return blueprint;
@@ -1339,12 +1340,12 @@ public static class BlueprintUtils
 			new() { bp_FirstMateSnag },
 			new() { bp_Shipwreck },
 			new() { bp_FirstMateSnag },
-			new() { bp_Swashbuckler },
+			new(),
 			new() { bp_FirstMateSnag },
-			new() { bp_Shipwreck, bp_Swashbuckler },
+			new() { bp_Shipwreck, bp_Summoner },
 			new() { bp_FirstMateSnag },
 			new() { bp_Manananggal },
-			new() { bp_Swashbuckler },
+			new() { bp_Summoner },
 			new(),
 			new() { bp_Shipwreck }
 		};
@@ -1378,7 +1379,7 @@ public static class BlueprintUtils
 		{
 			new() { bp_FirstMateSnag },
 			new() { bp_Exploding_Pirate, bp_Exploding_Pirate, bp_Exploding_Pirate },
-			new() { bp_Swashbuckler },
+			new() { bp_Nixie },
 			new() { bp_FirstMateSnag, bp_FirstMateSnag },
 			new() { bp_FirstMateSnag, bp_FirstMateSnag },
 			new() { bp_Exploding_Pirate, bp_Exploding_Pirate, bp_Exploding_Pirate },
@@ -1532,16 +1533,16 @@ public static class BlueprintUtils
 		blueprint.name = "Grimora_Macabre";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_DanseMacabre },
-			new() { bp_ScreamingSkull },
+			new() { bp_Zombie },
+			new() { bp_EmberSpirit },
 			new(),
 			new() { bp_Zombie, bp_Zombie, bp_Zombie },
-			new() { bp_Zombie },
+			new() { bp_DanseMacabre },
 			new() { bp_Zombie, bp_Zombie },
 			new() { bp_Zombie, bp_Zombie, bp_Zombie },
 			new(),
 			new() { bp_DanseMacabre },
-			new() { bp_ScreamingSkull },
+			new() { bp_EmberSpirit },
 			new(),
 			new() { bp_Zombie, bp_Zombie, bp_Zombie },
 			new() { bp_Zombie },
@@ -1624,7 +1625,7 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_DanseMacabre, bp_Silbon },
-			new() { bp_ScreamingSkull, bp_Silbon  },
+			new() { bp_Flameskull, bp_Silbon  },
 			new(),
 			new() { bp_Skelemagus, bp_Skelemagus, bp_Skelemagus },
 			new() { bp_Zombie },
@@ -1632,7 +1633,7 @@ public static class BlueprintUtils
 			new() { bp_Zombie, bp_Zombie, bp_Zombie },
 			new(),
 			new() { bp_DanseMacabre, bp_Silbon },
-			new() { bp_ScreamingSkull, bp_Silbon },
+			new() { bp_Flameskull, bp_Silbon },
 			new(),
 			new() { bp_Skelemagus, bp_Skelemagus, bp_Skelemagus },
 			new() { bp_Zombie },
@@ -1765,19 +1766,21 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_Hellhand },
-			new() { bp_ScreamingSkull },
+			new() { bp_Flameskull },
 			new(),
+			new(),
+			new() ,
 			new() { bp_Hellhand },
-			new() { bp_ScreamingSkull },
+			new() { bp_Flameskull },
 			new(),
 			new(),
 			new() { bp_Hellhand, bp_Hellhand },
-			new() { bp_ScreamingSkull },
+			new() { bp_Flameskull },
 			new() ,
 			new() ,
 			new() ,
-			new() { bp_ScreamingSkull, bp_Hellhand },
-			new() { bp_ScreamingSkull }
+			new() { bp_Flameskull, bp_Hellhand },
+			new() { bp_Flameskull }
 		};
 
 		return blueprint;
@@ -1973,19 +1976,19 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_Hellhand,bp_Catacomb },
-			new() { bp_ScreamingSkull, bp_Catacomb },
+			new() { bp_Flameskull, bp_Catacomb },
 			new(),
 			new() { bp_Hellhand, bp_Catacomb },
-			new() { bp_ScreamingSkull },
+			new() { bp_Flameskull },
 			new(),
 			new(),
 			new() { bp_Hellhand, bp_Hellhand },
-			new() { bp_ScreamingSkull, bp_Catacomb },
+			new() { bp_Flameskull, bp_Catacomb },
 			new() ,
 			new() ,
 			new() ,
-			new() { bp_ScreamingSkull, bp_Hellhand },
-			new() { bp_ScreamingSkull }
+			new() { bp_Flameskull, bp_Hellhand },
+			new() { bp_Flameskull }
 		};
 
 		return blueprint;

@@ -1,3 +1,4 @@
+using BepInEx.Bootstrap;
 using DiskCardGame;
 
 namespace GrimoraMod;
@@ -8,11 +9,24 @@ public partial class GrimoraPlugin
 
 	private void Add_Card_Boneless()
 	{
-		CardBuilder.Builder
+		if (Chainloader.PluginInfos.ContainsKey("arackulele.inscryption._grimoramodextracards"))
+		{
+			CardBuilder.Builder
+			 .SetAsNormalCard()
 			.SetAbilities(Boneless.ability, GainAttackNoBones.ability)
 			.SetBaseAttackAndHealth(1, 3)
 			.SetNames(NameBoneless, "Boneless")
 			.SetBoneCost(4)
 			.Build();
+		}
+		else
+		{
+			CardBuilder.Builder
+			.SetAbilities(Boneless.ability, GainAttackNoBones.ability)
+			.SetBaseAttackAndHealth(1, 3)
+			.SetNames(NameBoneless, "Boneless")
+			.SetBoneCost(4)
+			.Build();
+		}
 	}
 }

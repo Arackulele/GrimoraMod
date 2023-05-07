@@ -1,9 +1,45 @@
+using BepInEx.Bootstrap;
 using DiskCardGame;
 
 namespace GrimoraMod.Saving;
 
 public class GrimoraAscensionSaveData : AscensionSaveData
 {
+	public static CardInfo GetRandomCardBones(int minbones, int maxbones)
+	{
+		GrimoraPlugin.Log.LogDebug("Start Get Random Card");
+		List<CardInfo> playablecards = new List<CardInfo>(GrimoraPlugin.AllPlayableGrimoraModCards);
+		List<CardInfo> validcards = new List<CardInfo>();
+		GrimoraPlugin.Log.LogDebug("Added Lists");
+		foreach (var i in playablecards)
+			{
+			GrimoraPlugin.Log.LogDebug("Looping through all cards");
+			if (i.BonesCost > maxbones | i.BonesCost < minbones | i.EnergyCost > 0) { }
+				else validcards.Add(i);
+			}
+		GrimoraPlugin.Log.LogDebug("Returning Item");
+		return validcards.GetRandomItem();
+	}
+
+	public static CardInfo GetRandomCardEnergy(int minbones, int maxbones)
+	{
+		GrimoraPlugin.Log.LogDebug("Start Get Random Card");
+		List<CardInfo> playablecards = new List<CardInfo>(GrimoraPlugin.AllPlayableGrimoraModCards);
+		List<CardInfo> validcards = new List<CardInfo>();
+		GrimoraPlugin.Log.LogDebug("Added Lists");
+		foreach (var i in playablecards)
+			{
+			GrimoraPlugin.Log.LogDebug("Looping through all cards");
+			if (i.EnergyCost > maxbones | i.EnergyCost < minbones | i.BonesCost > 0) { }
+				else validcards.Add(i);
+			}
+		GrimoraPlugin.Log.LogDebug("Returning Item");
+		return validcards.GetRandomItem();
+
+	}
+
+
+
 	public static bool RunExists
 	{
 		get
@@ -52,9 +88,66 @@ public class GrimoraAscensionSaveData : AscensionSaveData
 		this.currentRun.consumables.Clear();
 		this.currentRun.consumables.Add(GrimoraPlugin.AllGrimoraItems[5].name);
 
-		foreach (CardInfo cardInfo in starterDeck)
+		if (starterDeck.Count() > 4 )
 		{
+			foreach (CardInfo cardInfo in starterDeck)
 			this.currentRun.playerDeck.AddCard(CardLoader.GetCardByName(cardInfo.name));
+		}
+		else
+		{
+			if (Chainloader.PluginInfos.ContainsKey("arackulele.inscryption._grimoramodextracards"))
+			{
+
+								List<CardInfo> EnergyCreation = new List<CardInfo> {
+				GrimoraPlugin.NameWillOTheWisp.GetCardInfo(), GrimoraPlugin.NameWillOTheWisp.GetCardInfo(), GrimoraPlugin.NameWillOTheWisp.GetCardInfo(),
+				GrimoraPlugin.NameMoroi.GetCardInfo(), GrimoraPlugin.NameMoroi.GetCardInfo(),
+				GrimoraPlugin.NameDalgyal.GetCardInfo(),
+				GrimoraPlugin.NameSluagh.GetCardInfo(),
+				};
+
+				List<CardInfo> BoneCreation = new List<CardInfo> {
+					GrimoraPlugin.NameBonepile.GetCardInfo(), GrimoraPlugin.NameBonepile.GetCardInfo(),
+					GrimoraPlugin.NameGravedigger.GetCardInfo(), GrimoraPlugin.NameGravedigger.GetCardInfo(),
+					GrimoraPlugin.NameDraugr.GetCardInfo(), GrimoraPlugin.NameDraugr.GetCardInfo(),
+					GrimoraPlugin.NameCrossBones.GetCardInfo(), GrimoraPlugin.NameCrossBones.GetCardInfo(),
+					GrimoraPlugin.NameGhostShip.GetCardInfo(),
+					GrimoraPlugin.NameNecromancer.GetCardInfo(),
+					GrimoraPlugin.NameBoneLordsHorn.GetCardInfo(),
+					GrimoraPlugin.NameSporedigger.GetCardInfo(),
+				};
+
+	bool IsEnergy = false;
+				if (UnityEngine.Random.Range(0, 10) > 6) IsEnergy = true;
+
+				if (IsEnergy)
+				{
+					GrimoraPlugin.Log.LogDebug("Energy Pre adding Card 1");
+					this.currentRun.playerDeck.AddCard(EnergyCreation.GetRandomItem());
+					this.currentRun.playerDeck.AddCard(EnergyCreation.GetRandomItem());
+					GrimoraPlugin.Log.LogDebug("Energy Pre adding Card 3");
+
+					if (UnityEngine.Random.Range(0, 10) > 5) this.currentRun.playerDeck.AddCard(GetRandomCardBones(1, 6));
+					else this.currentRun.playerDeck.AddCard(GetRandomCardEnergy(2, 5));
+
+					GrimoraPlugin.Log.LogDebug("Energy Pre adding Card 4 & 5");
+					this.currentRun.playerDeck.AddCard(GetRandomCardEnergy(1, 6));
+					this.currentRun.playerDeck.AddCard(GetRandomCardEnergy(3, 6));
+				}
+				else
+				{
+					GrimoraPlugin.Log.LogDebug("Bone Pre adding Card 1");
+					this.currentRun.playerDeck.AddCard(BoneCreation.GetRandomItem());
+					this.currentRun.playerDeck.AddCard(BoneCreation.GetRandomItem());
+					GrimoraPlugin.Log.LogDebug("Bone Pre adding Card 3");
+
+					if (UnityEngine.Random.Range(0, 10) > 5) this.currentRun.playerDeck.AddCard(GetRandomCardEnergy(2, 5));
+					else this.currentRun.playerDeck.AddCard(GetRandomCardBones(2, 5));
+
+					GrimoraPlugin.Log.LogDebug("Bone Pre adding Card 4 & 5");
+					this.currentRun.playerDeck.AddCard(GetRandomCardBones(3, 9));
+					this.currentRun.playerDeck.AddCard(GetRandomCardBones(5, 12));
+				}
+			}
 		}
 	}
 }

@@ -1,3 +1,4 @@
+using BepInEx.Bootstrap;
 using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Ascension;
@@ -57,7 +58,10 @@ public class StarterDecks
 		{
 			GrimoraPlugin.NameGravedigger, GrimoraPlugin.NameBonepile, GrimoraPlugin.NameBoneLordsHorn, GrimoraPlugin.NameGiant, GrimoraPlugin.NameGiant
 		},
+
 	};
+
+
 
 	public static List<string> deckNames = new List<string>()
 	{
@@ -68,7 +72,8 @@ public class StarterDecks
 		"Kaycee",
 		"Sawyer",
 		"Royal",
-		"Grimora"
+		"Grimora",
+		"Random"
 	};
 	
 	
@@ -77,11 +82,24 @@ public class StarterDecks
 
 	public static void RegisterStarterDecks()
 	{
-		for (int i = 0; i < 8; i++)
+		int amnt = 8;
+		if (Chainloader.PluginInfos.ContainsKey("arackulele.inscryption._grimoramodextracards"))
+		{
+			amnt = 9;
+			decks.Add(new List<string>()
+		{
+			GrimoraPlugin.NameRandomCard
+		});
+		}
+
+
+
+		for (int i = 0; i < amnt; i++)
 		{
 #if DEBUG
 			GrimoraPlugin.Log.LogInfo(i);
 #endif
+
 			var d = StarterDeckManager.Add(
 				GrimoraPlugin.GUID,
 				CreateStarterDeckInfo(deckNames[i], decks[i].ToArray())
@@ -136,6 +154,13 @@ public class StarterDecks
 				//d.UnlockLevel = 5;
 				d.Info.iconSprite = AssetUtils.GetPrefab<Sprite>("GMIcon");
 					break;
+
+				case 8:
+					//d.UnlockLevel = 5;
+					d.Info.iconSprite = AssetUtils.GetPrefab<Sprite>("RNIcon");
+					break;
+
+
 			}
 	}
 		

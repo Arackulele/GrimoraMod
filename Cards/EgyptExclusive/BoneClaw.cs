@@ -1,3 +1,4 @@
+using BepInEx.Bootstrap;
 using DiskCardGame;
 
 namespace GrimoraMod;
@@ -8,11 +9,24 @@ public partial class GrimoraPlugin
 
 	private void Add_Card_Boneclaw()
 	{
-		CardBuilder.Builder
+		if (Chainloader.PluginInfos.ContainsKey("arackulele.inscryption._grimoramodextracards"))
+		{
+			CardBuilder.Builder
+			.SetAsNormalCard()
 			.SetAbilities(Slasher.ability)
 			.SetBaseAttackAndHealth(2, 2)
 			.SetNames(NameBoneclaw, "Boneclaw")
 			.SetBoneCost(7)
 			.Build();
+		}
+		else
+		{
+			CardBuilder.Builder
+			.SetAbilities(Slasher.ability)
+			.SetBaseAttackAndHealth(2, 2)
+			.SetNames(NameBoneclaw, "Boneclaw")
+			.SetBoneCost(7)
+			.Build();
+		}
 	}
 }
