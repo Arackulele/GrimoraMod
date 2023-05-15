@@ -7,7 +7,7 @@ public class ActivatedEnergyDrawWyvern : ActivatedAbilityBehaviour
 {
 	private const int ENERGY_COST = 2;
 
-	public const string RulebookName = "Screeching Call";
+	public const string RulebookName = "Materialize";
 
 	public static Ability ability;
 	public override Ability Ability => ability;

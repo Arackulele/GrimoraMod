@@ -36,6 +36,7 @@ public partial class GrimoraPlugin
 		StatIconBuilder<GainAttackPirates>.Builder
 		 .SetAppliesToHealth(false)
 		 .SetIconGraphic(AssetUtils.GetPrefab<Texture>("ability_GainAttackPirates"))
+		 .SetPixelIconGraphic(AssetUtils.GetPrefab<Sprite>("ability_GainAttackPirates_pixel"))
 		 .SetRulebookName(GainAttackPirates.RulebookName)
 		 .SetRulebookDescription("A card bearing this sigil gains 1 attack for every pirate on the board.")
 		 .Build();

@@ -9,7 +9,7 @@ public partial class GrimoraPlugin
 	private void Add_Card_Bigbones()
 	{
 		string DisplayName = "Big Bones";
-		List<String> FunnyNames = new List<String> { "Burly Bones", "Beefy Bones", "Cal C. Um", "Sizeable Bones", "Considerable Bones", "Vigorous Bones" };
+		List<String> FunnyNames = new List<String> { "Burly Bones", "Beefy Bones", "Cal C. Um", "Sizeable Bones", "Considerable Bones", "Vigorous Bones", "Vigorous Bones", "Hefty Bones" };
 		if (UnityEngine.Random.Range(1, 100) < 6) DisplayName = FunnyNames.GetRandomItem();
 		CardBuilder.Builder
 			.SetAsNormalCard()

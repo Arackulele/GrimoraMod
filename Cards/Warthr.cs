@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 		CardBuilder.Builder
 			.SetAsNormalCard()
 			.SetAbilities(Ability.WhackAMole)
-			.SetBaseAttackAndHealth(0, 3)
+			.SetBaseAttackAndHealth(0, 5)
 			.SetEnergyCost(4)
 			.SetDescription("THIS GELID SPECTER ENVELOPS WOULD-BE ATTACKERS IN AN ICY MIST.")
 			.SetNames(NameWarthr, "Warthr")

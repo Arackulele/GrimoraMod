@@ -25,7 +25,7 @@ public class GravestoneRenderStatsLayerPatches
 		//Has gotten Boneyard Buff, or is Hellhound > Lime
 		//Has gotten Electric Chair Buff > Blue
 
-		if (info.baseInfo.HasBeenBonelorded() || info.baseInfo.name == GrimoraPlugin.NameBonelord || info.baseInfo.name == GrimoraPlugin.NameBoneLordsHorn)
+		if (info.baseInfo.HasBeenBonelorded() || info.baseInfo.name == GrimoraPlugin.NameBonelord || info.baseInfo.name == GrimoraPlugin.NameBoneLordsHorn || info.baseInfo.name == GrimoraPlugin.NameSpectre)
 		{
 			__instance.SetEmissionColor(GameColors.Instance.glowRed);
 		}

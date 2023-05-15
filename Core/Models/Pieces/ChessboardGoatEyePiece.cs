@@ -2,6 +2,7 @@ using System.Collections;
 using DiskCardGame;
 using GrimoraMod.Saving;
 using HarmonyLib;
+using InscryptionAPI.Helpers.Extensions;
 using Pixelplacement;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -22,7 +23,8 @@ public class ChessboardGoatEyePiece : ChessboardEnemyPiece
 
 	public IEnumerator AnkhGuardPreStartDialogue()
 	{
-
+		Singleton<MapNodeManager>.Instance.SetAllNodesInteractable(nodesInteractable: false);
+		Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Locked;
 		switch (Random)
 		{
 
@@ -76,7 +78,7 @@ public class ChessboardGoatEyePiece : ChessboardEnemyPiece
 
 				break;
 		}
-
+		Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Unlocked;
 		Singleton<ChessboardEnemyManager>.Instance.StartCombatWithEnemy(this, playerStarted: true);
 
 		yield break;
@@ -84,7 +86,7 @@ public class ChessboardGoatEyePiece : ChessboardEnemyPiece
 
 }
 
-/*[HarmonyPatch(typeof(ChessboardMapNode))]
+[HarmonyPatch(typeof(ChessboardMapNode))]
 public class GoatEyePatch
 {
 
@@ -100,16 +102,13 @@ public class GoatEyePatch
 		yield return enumerator;
 
 		Vector3 playerPos = PlayerMarker.Instance.transform.position;
-		foreach (var goatEyePiece in UnityObject.FindObjectsOfType<ChessboardGoatEyePiece>())
-		{
-			TurnToFacePoint(goatEyePiece.gameObject, playerPos, 0.1f);
-		}
 
 		if (GrimoraRunState.CurrentRun.regionTier == 3)
 		{
 			foreach (var blocker in UnityObject.FindObjectsOfType<ChessboardBlockerPieceExt>())
 			{
-				TurnToFacePoint(blocker.gameObject, playerPos, 0.1f);
+				if (blocker.gameObject.FindChild("EyeRight") != null) TurnToFacePoint(blocker.gameObject, playerPos, 0.1f);
+
 			}
 		}
 		
@@ -137,4 +136,4 @@ public class GoatEyePatch
 			Tween.Rotation(gameObject.transform, rotation2, time, 0f, Tween.EaseInOut);
 		}
 	}
-}*/
+}

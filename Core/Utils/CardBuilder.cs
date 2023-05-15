@@ -17,6 +17,7 @@ public class CardBuilder
 
 	private string _cardEmissionNoGuid;
 
+
 	public CardInfo Build()
 	{
 		_cardInfo.temple = CardTemple.Undead;
@@ -54,6 +55,12 @@ public class CardBuilder
 		if (ogCardArt.SafeIsUnityNull())
 		{
 			_cardInfo.portraitTex = AssetUtils.GetPrefab<Sprite>(_cardNameNoGuid);
+
+			Sprite pixelsprite = AllSprites.Find(spr => spr.name.Equals(_cardNameNoGuid+"_pixel"));
+			if (pixelsprite)
+			{
+				_cardInfo.SetPixelPortrait(pixelsprite);
+			}
 
 			Sprite emissionSprite = AllSprites.Find(spr => spr.name.Equals(_cardEmissionNoGuid));
 			if (emissionSprite)

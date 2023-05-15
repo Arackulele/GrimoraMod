@@ -60,6 +60,9 @@ public class GrimoraChessboard
 		{ 2, () => AssetUtils.GetPrefab<GameObject>("Blocker_Royal") },
 		{ 3, () => AssetUtils.GetPrefab<GameObject>("Blocker_Grimora") },
 		{ 4, () => kopieGameObjects.Find(g => g.name.Contains("ice_var_2_prefab")) },
+		{ 5, () => Resources.Load<GameObject>("prefabs/map/chessboardmap/Chessboard_Tombstone_3") },
+		{ 6, () => Resources.Load<GameObject>("prefabs/map/chessboardmap/Chessboard_Tombstone_2") },
+		{ 7, () => Resources.Load<GameObject>("prefabs/map/chessboardmap/Chessboard_Tombstone_1") },
 	};
 
 
@@ -70,6 +73,13 @@ public class GrimoraChessboard
 		if (bossesDead == 0) {
 			if (UnityEngine.Random.value > 0.5f) blockerPrefab = _bossByIndex.GetValueSafe(0).Invoke();
 			else blockerPrefab = _bossByIndex.GetValueSafe(4).Invoke();
+		}
+		else if (bossesDead == 3)
+		{
+			if (UnityEngine.Random.value < 0.34f) blockerPrefab = _bossByIndex.GetValueSafe(3).Invoke();
+			else if (UnityEngine.Random.value < 0.4f) blockerPrefab = _bossByIndex.GetValueSafe(5).Invoke();
+			else if (UnityEngine.Random.value < 0.4f) blockerPrefab = _bossByIndex.GetValueSafe(6).Invoke();
+			else blockerPrefab = _bossByIndex.GetValueSafe(7).Invoke();
 		}
 		else { 
 		blockerPrefab = _bossByIndex.GetValueSafe(bossesDead).Invoke();

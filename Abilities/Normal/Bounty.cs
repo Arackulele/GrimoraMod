@@ -21,7 +21,7 @@ public class Bounty : AbilityBehaviour
 
 	public override bool RespondsToTurnEnd(bool playerTurnEnd)
 		{
-				return !playerTurnEnd;
+				return playerTurnEnd;
 		}
 
 	public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer) => true;
@@ -70,6 +70,7 @@ public partial class GrimoraPlugin
 		+ "When [creature] dies, you gain all soul contained in it.";
 
 		AbilityBuilder<Bounty>.Builder
+			.SetPixelIcon(AssetUtils.GetPrefab<Sprite>("bounty_pixel"))
 		 .SetRulebookDescription(rulebookDescription)
 		 .Build();
 	}

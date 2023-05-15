@@ -10,6 +10,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(2, 1)
 			.SetBoneCost(1)
 			.SetDescription("IF I AM TRAPPED, SO WILL YOU. YOU CANNOT END THIS.")
+			.SetEvolve(NameBonelord, 1)
 			.SetNames(NameBonePrince, "Bone Prince")
 			.Build();
 	}

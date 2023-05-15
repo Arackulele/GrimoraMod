@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
 using UnityEngine;
@@ -37,10 +37,11 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_ActivatedDealDamageGrimora()
 	{
-		const string rulebookDescription = "Pay 1 Energy to deal 1 damage to the creature across from [creature].";
+		const string rulebookDescription = "Pay 1 Soul to deal 1 damage to the creature across from [creature].";
 
 		AbilityBuilder<ActivatedDealDamageGrimora>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetPixelIcon(AssetUtils.GetPrefab<Sprite>("pixelability_activated_dealsouldamage"))
 		 .SetRulebookName(ActivatedDealDamageGrimora.RulebookName)
 		 .Build();
 	}

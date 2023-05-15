@@ -1,5 +1,5 @@
-﻿using DiskCardGame;
-
+using DiskCardGame;
+using UnityEngine;
 namespace GrimoraMod;
 
 public class ActivatedDrawSkeletonGrimora : ActivatedDrawSkeleton
@@ -21,6 +21,7 @@ public partial class GrimoraPlugin
 		
 		AbilityBuilder<ActivatedDrawSkeletonGrimora>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetPixelIcon(AssetUtils.GetPrefab<Sprite>("pixelability_activated_drawskeletons"))
 		 .SetRulebookName(ActivatedDrawSkeletonGrimora.RulebookName)
 		 .Build();
 	}

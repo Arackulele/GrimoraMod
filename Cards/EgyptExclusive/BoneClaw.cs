@@ -1,5 +1,6 @@
 using BepInEx.Bootstrap;
 using DiskCardGame;
+using UnityEngine;
 
 namespace GrimoraMod;
 
@@ -13,6 +14,7 @@ public partial class GrimoraPlugin
 		{
 			CardBuilder.Builder
 			.SetAsNormalCard()
+			.SetPortraits(AssetUtils.GetPrefab<Sprite>("boneclaw"), AssetUtils.GetPrefab<Sprite>("boneclaw_emission"))
 			.SetAbilities(Slasher.ability)
 			.SetBaseAttackAndHealth(2, 2)
 			.SetNames(NameBoneclaw, "Boneclaw")
@@ -23,6 +25,7 @@ public partial class GrimoraPlugin
 		{
 			CardBuilder.Builder
 			.SetAbilities(Slasher.ability)
+			.SetPortraits(AssetUtils.GetPrefab<Sprite>("boneclaw"), AssetUtils.GetPrefab<Sprite>("boneclaw_emission"))
 			.SetBaseAttackAndHealth(2, 2)
 			.SetNames(NameBoneclaw, "Boneclaw")
 			.SetBoneCost(7)

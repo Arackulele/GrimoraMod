@@ -110,6 +110,7 @@ public class GrimoraAscensionSaveData : AscensionSaveData
 					GrimoraPlugin.NameGravedigger.GetCardInfo(), GrimoraPlugin.NameGravedigger.GetCardInfo(),
 					GrimoraPlugin.NameDraugr.GetCardInfo(), GrimoraPlugin.NameDraugr.GetCardInfo(),
 					GrimoraPlugin.NameCrossBones.GetCardInfo(), GrimoraPlugin.NameCrossBones.GetCardInfo(),
+					GrimoraPlugin.NameGratefulDead.GetCardInfo(), GrimoraPlugin.NameGratefulDead.GetCardInfo(),
 					GrimoraPlugin.NameGhostShip.GetCardInfo(),
 					GrimoraPlugin.NameNecromancer.GetCardInfo(),
 					GrimoraPlugin.NameBoneLordsHorn.GetCardInfo(),
@@ -117,6 +118,17 @@ public class GrimoraAscensionSaveData : AscensionSaveData
 				};
 
 	bool IsEnergy = false;
+
+				if (UnityEngine.Random.Range(0, 10) < 4)
+				{
+
+					List<string> randomloser = StarterDecks.loosingdecks.GetRandomItem();
+
+						foreach (var i in randomloser)
+						this.currentRun.playerDeck.AddCard(CardLoader.GetCardByName(i));
+
+				}
+				else {
 				if (UnityEngine.Random.Range(0, 10) > 6) IsEnergy = true;
 
 				if (IsEnergy)
@@ -145,7 +157,8 @@ public class GrimoraAscensionSaveData : AscensionSaveData
 
 					GrimoraPlugin.Log.LogDebug("Bone Pre adding Card 4 & 5");
 					this.currentRun.playerDeck.AddCard(GetRandomCardBones(3, 9));
-					this.currentRun.playerDeck.AddCard(GetRandomCardBones(5, 12));
+					this.currentRun.playerDeck.AddCard(GetRandomCardBones(5, 20));
+				}
 				}
 			}
 		}

@@ -241,6 +241,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Card_Skelemagus();                // Cevin2006™ (◕‿◕)#7971
 		Add_Card_Sluagh();                    // Bt Y#0895
 		Add_Card_Spectrabbit();               // Bt Y#0895
+		Add_Card_Spectre();                    // Bt Y#0895
 		Add_Card_Summoner();                  // Cevin2006™ (◕‿◕)#7971
 		Add_Card_TamperedCoffin();            // Bt Y#0895
 		Add_Card_TombRobber();                // LavaErrorDoggo#1564
@@ -261,7 +262,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Card_BonelordsHorn();                   // Cevin2006™ (◕‿◕)#7971
 		Add_Card_CalaveraCatrina();                 // Bt Y#0895
 		Add_Card_PirateDavyJones();                 // Bt Y#0895
-		Add_Card_DavyJonesLocker();									// Bt Y#0895
+		Add_Card_DavyJonesLocker();                 // Bt Y#0895
+		Add_Card_DeadManWalking();										// Bt Y#0895
 		Add_Card_DeadPets();                        // Bt Y#0895
 		Add_Card_DeathKnell();                      // Bt Y#0895
 		Add_Card_DeathKnellBell();                  // Bt Y#0895
@@ -274,7 +276,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Card_Hydra();                           // Cevin2006™ (◕‿◕)#7971
 		Add_Card_Necromancer();                     // Bt Y#0895
 		Add_Card_Nixie();														// Bt Y#0895
-		Add_Card_Nosferat();												// Bt Y#0895
 		Add_Card_Ourobones();												// Anne Bean?
 		Add_Card_PirateCaptainYellowbeard();        // Bt Y#0895
 		Add_Card_Ripper();                          // Bt Y#0895
@@ -337,6 +338,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			Add_Card_CompoundFracture();	// Bt Y#0895
 			Add_Card_Crossbones();				// Bt Y#0895
 			Add_Card_FesteringWretch();  // Bt Y#0895
+			Add_Card_GratefulDead();          // Bt Y#0895
 			Add_Card_Haltia();           // Bt Y#0895
 			Add_Card_IceCube();          // Bt Y#0895
 			Add_Card_LaLlorona();       // Bt Y#0895
@@ -355,11 +357,12 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			Add_Card_BalBal();         // Bt Y#0895
 			Add_Card_BoneCollective(); // Bt Y#0895
 			Add_Card_Fylgja();         // Bt Y#0895
-			Add_Card_GraveCarver();		 // Bt Y#0895
-			Add_Card_Wyvern();         // Cevin2006™ (◕‿◕)#7971
-
-			#endregion
-		}
+			Add_Card_GraveCarver();    // Bt Y#0895
+			Add_Card_Nosferat();       // Bt Y#0895
+			Add_Card_Extoplasm();         // Cevin2006™ (◕‿◕)#7971
+			Add_Card_SlingersSoul();
+				#endregion
+			}
 	}
 
 	public static GameObject HandModel;

@@ -141,6 +141,11 @@ public class CardSingleChoicesSequencerPatches
 				}
 			}
 
+			//ViewManager.Instance.SetViewUnlocked();
+			//Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Unlocked;
+			//Singleton<ViewController>.Instance.allowedViews = new List<View> { View.Choices, View.MapDeckReview };
+			//ViewManager.Instance.CurrentView = View.MapDeckReview;
+
 			yield return new WaitForSeconds(0.2f);
 
 			__state.SetCollidersEnabled(true);
