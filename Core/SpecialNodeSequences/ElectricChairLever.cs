@@ -11,7 +11,7 @@ public class ElectricChairLever : HighlightedInteractable
 
 	private const float DefaultLeverDuration = 0.375f;
 
-	public static readonly List<Ability> AbilitiesSaferRisk = new()
+	public static List<Ability> AbilitiesSaferRisk = new()
 	{
 		Ability.DeathShield,
 		Ability.DrawRabbits,
@@ -30,7 +30,7 @@ public class ElectricChairLever : HighlightedInteractable
 		Ability.SteelTrap,
 	};
 
-	public static readonly List<Ability> AbilitiesMinorRisk = new(AbilitiesSaferRisk)
+	public static List<Ability> AbilitiesMinorRisk = new(AbilitiesSaferRisk)
 	{
 		Ability.LatchDeathShield,
 		Ability.BoneDigger,
@@ -65,7 +65,7 @@ public class ElectricChairLever : HighlightedInteractable
 		Imbued.ability
 	};
 
-	public static readonly List<Ability> AbilitiesMajorRisk = new(AbilitiesMinorRisk)
+	public static List<Ability> AbilitiesMajorRisk = new(AbilitiesMinorRisk)
 	{
 		LatchSubmerge.ability,
 		Ability.ActivatedHeal,

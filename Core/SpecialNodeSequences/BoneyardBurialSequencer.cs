@@ -189,7 +189,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 					-0.65f
 				);
 				yield return TextDisplayer.Instance.ShowUntilInput(
-				$"THE CORPSE SEEMS TO BE OF A CHAINED PRISONER, YOUR CARD WILL {"DEAL 1 MORE DAMAGE".BrightRed()} , BUT {"IT WILL DIE AFTER JUST 1 STRIKE".BrightRed()}.",
+				$"THE CORPSE SEEMS TO BE OF A CHAINED PRISONER, YOUR CARD WILL {"DEAL 1 MORE DAMAGE".BrightRed()} , BUT {"IT WILL BECOME VERY FRAIL".BrightRed()}.",
 				-0.65f
 				);
 

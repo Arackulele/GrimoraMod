@@ -1,0 +1,78 @@
+ManifestFileVersion: 0
+CRC: 214231244
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: cf353c349626c9ec62808b8a63726a28
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 200bbd967792db2c6e46e4377de3d2c7
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 54
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
+- Class: 135
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/ChessboardPieces/Sawyer/SawyerFigurine.prefab
+- Assets/Models/sawyer/SawyerBossSkull.prefab
+- Assets/ChessboardPieces/Kaycee/Blocker_Kaycee.prefab
+- Assets/BoneyardBurialGrave.obj
+- Assets/Animations/CardSkeletonAnim/SkeletonArms_Giants.prefab
+- Assets/Animations/CardSkeletonAnim/SkeletonArm_BoneLordSnap.prefab
+- Assets/ChessboardPieces/ChessboardPiece_GoatEye.prefab
+- Assets/Animations/CardSkeletonAnim/SkeletonArmFist.fbx
+- Assets/ChessboardPieces/Sawyer/Blocker_Sawyer.prefab
+- Assets/ChessboardPieces/ChessboardPiece_CardRemove.prefab
+- Assets/Electric_Chair.prefab
+- Assets/Models/Layout/NewNewLayout.prefab
+- Assets/ChessboardPieces/Blocker_Grimora.prefab
+- Assets/Animations/VfxBoltLightning.prefab
+- Assets/ChessboardPieces/ChessboardPiece_ElectricChair.prefab
+- Assets/ChessboardPieces/Kaycee/KayceeFigurine.prefab
+- Assets/Models/hammer/GrimoraHammer.prefab
+- Assets/Models/EnergyCells_Right.prefab
+- Assets/Models/hammer/FirstPersonGrimoraHammer.prefab
+- Assets/Models/EnergyCells_Left.prefab
+- Assets/ChessboardPieces/Sawyer/Sawyer_BlockerPiece.prefab
+- Assets/ChessboardPieces/Royal/Blocker_Royal.prefab
+- Assets/Animations/CardSkeletonAnim/Skeleton2ArmsAttacks.prefab
+- Assets/ChessboardPieces/ChessboardPiece_Boneyard.prefab
+- Assets/Animations/CardSkeletonAnim/Grimora_Sentry.prefab
+- Assets/Models/BonelordTableEffects.prefab
+- Assets/Animations/CardSkeletonAnim/SkeletonArm_BombFist.prefab
+- Assets/Animations/CardSkeletonAnim/SkeletonArm_SingleSlam.prefab
+Dependencies: []

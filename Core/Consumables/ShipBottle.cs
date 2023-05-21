@@ -30,7 +30,10 @@ public class ShipBottle : ConsumableItem
 		List<CardSlot> slots = ValidSlots();
 		foreach (CardSlot cardSlot in slots)
 		{
-			yield return Singleton<BoardManager>.Instance.CreateCardInSlot(CardLoader.GetCardByName(NameSkeleton), cardSlot, 0.25f, true);
+			List<String> PirateNames = new List<String> { "Browntooth Barrie", "Bonnie Splinter", "Freebooter Bethel", "Crazy Oakes Hayward", "Ashton Swabby", "Plankton Braxton", "Yeller-eye Colby", "Fishwife Nate", "Four-finger Fred", "Dawg Julie", "Wicked Jones", "Crabby Steele" };
+			CardInfo NewSkeleton = CardLoader.GetCardByName(NameSkeleton);
+			NewSkeleton.displayedName = PirateNames.GetRandomItem();
+			yield return Singleton<BoardManager>.Instance.CreateCardInSlot(NewSkeleton, cardSlot, 0.25f, true);
 			yield return new WaitForSeconds(0.1f);
 		}
 
@@ -41,11 +44,12 @@ public class ShipBottle : ConsumableItem
 	{
 		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.AllSlots);
 
-
 		CardModificationInfo cardModificationInfo = new CardModificationInfo
 		{
 			attackAdjustment = 1
 		};
+
+
 
 		foreach (var i in slots)
 		{
@@ -53,7 +57,7 @@ public class ShipBottle : ConsumableItem
 
 		}
 
-			slots.RemoveAll((a) => a.Card != null);
+		slots.RemoveAll((a) => a.Card != null);
 		return slots;
 
 

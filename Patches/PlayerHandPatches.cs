@@ -48,7 +48,7 @@ public class PlayerHandPatches
 				ViewManager.Instance.SwitchToView(View.Board);
 				ChallengeActivationUI.TryShowActivation(ChallengeManagement.RoyalsRevenge);
 				yield return new WaitForSeconds(0.2f);
-				if (card != null) { 
+				if (card != null && !card.Dead) { 
 					if (card.AllAbilities().Count < 5) { 
 				card.AddTemporaryMod(new CardModificationInfo(LitFuse.ability));
 				card.Anim.StrongNegationEffect();
@@ -57,9 +57,13 @@ public class PlayerHandPatches
 					}
 					else
 					{
-						yield return TextDisplayer.Instance.ShowUntilInput("Your card cannot explode, how dissapointing.");
-						card.TakeDamage(1, null);
-						cardsPlayedThisCombatForFuse = 0;
+						if (card != null && !card.Dead)
+						{
+							yield return TextDisplayer.Instance.ShowUntilInput("Your card cannot explode, how dissapointing.");
+							card.TakeDamage(1, null);
+							cardsPlayedThisCombatForFuse = 0;
+						}
+						else yield break;
 					}
 				}
 			}

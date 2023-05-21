@@ -19,8 +19,9 @@ using InscryptionAPI.Items;
 using JetBrains.Annotations;
 using Sirenix.Utilities;
 using UnityEngine;
-
+using static InscryptionAPI.Card.AbilityManager;
 namespace GrimoraMod;
+
 
 [BepInDependency(InscryptionAPIPlugin.ModGUID)]
 [BepInDependency("community.inscryption.patch")]
@@ -50,9 +51,9 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	public static List<ConsumableItemData> AllGrimoraItems = new();
 
 	public static readonly CardMetaCategory GrimoraChoiceNode = GuidManager.GetEnumValue<CardMetaCategory>(GUID, "GrimoraModChoiceNode");
-	public static readonly CardMetaCategory ElectricChairLevel1 = GuidManager.GetEnumValue<CardMetaCategory>(GUID, "ElectricChairLevel1");
-	public static readonly CardMetaCategory ElectricChairLevel2 = GuidManager.GetEnumValue<CardMetaCategory>(GUID, "ElectricChairLevel2");
-	public static readonly CardMetaCategory ElectricChairLevel3 = GuidManager.GetEnumValue<CardMetaCategory>(GUID, "ElectricChairLevel3");
+	public static readonly AbilityMetaCategory ElectricChairLevel1 = GuidManager.GetEnumValue<AbilityMetaCategory>(GUID, "ElectricChairLevel1");
+	public static readonly AbilityMetaCategory ElectricChairLevel2 = GuidManager.GetEnumValue<AbilityMetaCategory>(GUID, "ElectricChairLevel2");
+	public static readonly AbilityMetaCategory ElectricChairLevel3 = GuidManager.GetEnumValue<AbilityMetaCategory>(GUID, "ElectricChairLevel3");
 
 	public static bool Initialized { get; set; } 
 
@@ -81,13 +82,27 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		
 		ChallengeManagement.UpdateGrimoraChallenges();
 
+		//StartCoroutine(LoadMetaCategories());
 
 		Initialized = true;
 
 		LoadItems();
 
+		AbilityManager.ModifyAbilityList += delegate (List<FullAbility> abilities)
+		{
+			foreach (FullAbility ability in abilities)
+			{
+				if (ElectricChairLever.AbilitiesSaferRisk.Contains(ability.Info.ability)) { ability.Info.AddMetaCategories(ElectricChairLevel1); }
+				if (ElectricChairLever.AbilitiesMinorRisk.Contains(ability.Info.ability)) { ability.Info.AddMetaCategories(ElectricChairLevel1); }
+				if (ElectricChairLever.AbilitiesMajorRisk.Contains(ability.Info.ability)) { ability.Info.AddMetaCategories(ElectricChairLevel1); }
+			}
+			return abilities;
+		};
+
 		Log.LogInfo("[GrimoraPlugin] Initialized");
 	}
+
+
 
 #if DEBUG
 	private void Update()
@@ -426,7 +441,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		CardBuilder.Builder
 		 .SetAbilities(Haunter.ability, AlternatingStrike.ability)
 		 .SetBaseAttackAndHealth(1, 2)
-		 .SetNames($"{GUID}_!BLOCKER","Blocker", trapInfo.portraitTex)
+		 .SetNames($"{GUID}_!BLOCKER","I am going to kill your mum", trapInfo.portraitTex)
 		 .Build();
 	}
 

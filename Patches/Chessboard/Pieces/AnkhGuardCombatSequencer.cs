@@ -69,7 +69,7 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 
 		foreach (var i in slots)
 		{
-			if (i.Card != null)
+			if (i.Card != null && !i.Card.Dead)
 			{
 				slotsfull.Add(i);
 			}
@@ -80,8 +80,11 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 		if (slotsfull.Count > 0)
 		{
 			CardSlot chosenslot = slotsfull.GetRandomItem();
-			chosenslot.Card.AddTemporaryMod(cardModificationInfo);
-			chosenslot.Card.OnStatsChanged();
+			if (chosenslot.Card != null && !chosenslot.Card.Dead)
+			{
+				chosenslot.Card.AddTemporaryMod(cardModificationInfo);
+				chosenslot.Card.OnStatsChanged();
+			}
 		}
 
 	}
@@ -104,7 +107,7 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 
 		foreach (var i in slots)
 		{
-			if (i.Card != null)
+			if (i.Card != null && !i.Card.Dead)
 			{
 				slotsfull.Add(i);
 			}
@@ -115,8 +118,11 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 		if (slotsfull.Count > 0)
 		{
 			CardSlot chosenslot = slotsfull.GetRandomItem();
-			chosenslot.Card.AddTemporaryMod(cardModificationInfo);
-			chosenslot.Card.OnStatsChanged();
+			if (chosenslot.Card != null && !chosenslot.Card.Dead )
+			{
+				chosenslot.Card.AddTemporaryMod(cardModificationInfo);
+				chosenslot.Card.OnStatsChanged();
+			}
 		}
 
 	}
@@ -139,7 +145,7 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 
 			foreach (var i in slots)
 			{
-				if (i.Card != null)
+				if (i.Card != null && !i.Card.Dead)
 				{
 					i.Card.AddTemporaryMod(cardModificationInfo);
 					i.Card.OnStatsChanged();
@@ -171,7 +177,7 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 
 			foreach (var i in slots)
 			{
-				if (i.Card != null)
+				if (i.Card != null && !i.Card.Dead)
 				{
 					i.Card.AddTemporaryMod(cardModificationInfo);
 					i.Card.OnStatsChanged();
@@ -251,7 +257,7 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 
 		foreach (var i in slots)
 		{
-			if (i.Card != null)
+			if (i.Card!= null && !i.Card.Dead)
 			{
 
 

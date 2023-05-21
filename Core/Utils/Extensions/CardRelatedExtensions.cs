@@ -165,11 +165,16 @@ public static class CardRelatedExtension
 				}
 			}
 
+			if (!GrimoraSaveUtil.IsNotGrimoraModRun) { 
 			if (playableCard.LacksAbility(Ability.QuadrupleBones) && playableCard.LacksAbility(Boneless.ability) && playableCard.LacksTrait(Trait.Terrain) && slotBeforeDeath.IsPlayerSlot)
 			{
 				yield return ResourcesManager.Instance.AddBones(1, slotBeforeDeath);
 			}
-
+			}
+			else if (playableCard.LacksAbility(Ability.QuadrupleBones) && playableCard.LacksAbility(Boneless.ability) && slotBeforeDeath.IsPlayerSlot)
+			{
+				yield return ResourcesManager.Instance.AddBones(1, slotBeforeDeath);
+			}
 
 			if (playableCard.TriggerHandler.RespondsToTrigger(Trigger.Die, wasSacrifice, killer))
 			{

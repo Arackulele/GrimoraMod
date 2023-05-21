@@ -128,11 +128,13 @@ public class HauntedSlot : NonCardTriggerReceiver
 				List<Ability> abilitiesToAdd = _modInfo.abilities.GetRange(0, 5 - cardAllAbilities.Count);
 				_modInfo.abilities = abilitiesToAdd;
 			}
+			if (otherCard != null) { 
 			otherCard.AddTemporaryMod(_modInfo);
 			otherCard.Anim.PlayTransformAnimation();
 			otherCard.UpdateStatsText();
 			otherCard.RenderCard();
 			yield return new WaitForSeconds(0.1f);
+			}
 		}
 
 		GrimoraPlugin.Log.LogDebug($"Destroying HauntedSlot [{this}]");

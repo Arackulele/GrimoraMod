@@ -66,7 +66,7 @@ public class Mallet : GrimoraTargetSlotItem
 
 		Texture2D HahaL = new Texture2D(70, 80);
 		ConsumableItemData data = ConsumableItemManager.New(GUID, "Mallet", "Whack a Card, itll become brittle and loose 1 Hp.", HahaL, typeof(Mallet), Model)
-		.SetLearnItemDescription("Youd think this is comical, but it is quite cruel. Injures a card, and leaves it frail.");
+		.SetLearnItemDescription("You'd think this is comical, but it is quite cruel. Injures a card, and leaves it frail.");
 		data.rulebookCategory = AbilityMetaCategory.GrimoraRulebook;
 
 		return data;

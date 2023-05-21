@@ -169,12 +169,12 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 			CardSlot slot = opponentQueuedSlots.GetRandomItem();
 
-			if (card.HasAbility(Haunter.ability) && card.name != null) {
+			if (card != null && card.HasAbility(Haunter.ability)) {
 
 				yield return TextDisplayer.Instance.ShowUntilInput("YOUR WEAK SPIRITS SHALL NOT HAUNT ME NO MORE.");
 
-				if (card.name == NameApparition) yield return TurnManager.Instance.Opponent.QueueCard(CardLoader.GetCardByName(NameVengefulSpirit), slot);
-				else yield return TurnManager.Instance.Opponent.QueueCard(CardLoader.GetCardByName(card.name), slot);
+				yield return TurnManager.Instance.Opponent.QueueCard(NameVengefulSpirit.GetCardInfo(), slot);
+				//else yield return TurnManager.Instance.Opponent.QueueCard(CardLoader.GetCardByName(card.name), slot);
 			}
 			else yield return TurnManager.Instance.Opponent.QueueCard(card.Info, slot);
 			_willReanimateCardThatDied = false;

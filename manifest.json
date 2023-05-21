@@ -1,9 +1,9 @@
 {
 	"name": "GrimoraMod",
-	"version_number": "2.10.1",
+	"version_number": "7.2.3",
 	"website_url": "https://github.com/Arackulele/GrimoraMod",
-	"description": "Compatibility update... again! Probably the biggest and most ambitious mod. Gives Grimora a full act!",
+	"description": "[New 3.2.0 Update] New Starter Decks! The real act 4 for Inscryption.",
 	"dependencies": [
-		"API_dev-API-2.4.0"
+		"API_dev-API-2.11.2"
 	]
 }

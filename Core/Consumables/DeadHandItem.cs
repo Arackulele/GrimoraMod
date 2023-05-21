@@ -42,6 +42,17 @@ public class DeadHandItem : ConsumableItem
 			{
 				CardDrawPiles3D.Instance.pile.Draw();
 			}
+
+			if (CardDrawPiles3D.Instance.Deck.cards.Count == 0)
+			{
+
+				yield return new WaitForSeconds(0.5f);
+				ViewManager.Instance.SwitchToView(View.Default);
+				yield return CardSpawner.Instance.SpawnCardToHand(NameDeadHand.GetCardInfo());
+				ViewManager.Instance.SetViewUnlocked();
+				yield break;
+
+			}
 			yield return CardDrawPiles.Instance.DrawCardFromDeck();
 			yield return new WaitForSeconds(0.1f);
 		}

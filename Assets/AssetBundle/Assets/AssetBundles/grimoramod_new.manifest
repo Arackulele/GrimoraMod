@@ -1,0 +1,99 @@
+ManifestFileVersion: 0
+CRC: 3523347080
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 10817f41c7541b21242bb111ac9db72b
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: c90fc19e2679e5295d10bd00f33cb4c3
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/PixelPortraits/Centurion_pixel.png
+- Assets/DeckIcon/SNIcon.png
+- Assets/Menu/TitleLogo.png
+- Assets/tomb_robber_new.png
+- Assets/PixelPortraits/imbued_pixel.png
+- Assets/PixelPortraits/Crossbones_pixel.png
+- Assets/PixelPortraits/obol_pixel.png
+- Assets/Abilities/New_Abilities/ability_GainAttackPirates_pixel.bmp
+- Assets/AscensionChallengeSprites/hammerskull.png
+- Assets/DeckIcon/EUIcon.png
+- Assets/PixelPortraits/deathknell_pixel.png
+- Assets/DeckIcon/AMIcon.png
+- Assets/Skelemagus_new.png
+- Assets/grimgorvictoryfolder.png
+- Assets/PixelPortraits/relichoarder2.png
+- Assets/PixelPortraits/summoner_pixel.png
+- Assets/AscensionChallengeSprites/normaleyes.png
+- Assets/PixelPortraits/BoneCollective_pixel.png
+- Assets/summoner_new.png
+- Assets/PixelPortraits/Vellum_pixel.png
+- Assets/DeckIcon/BCIcon.png
+- Assets/PixelPortraits/yellowbeard_pixel.png
+- Assets/PixelPortraits/glacier_pixel.png
+- Assets/DeckIcon/LMIcon.png
+- Assets/PixelPortraits/bounty_pixel.png
+- Assets/PixelPortraits/SlingersSoul_pixel.png
+- Assets/DeckIcon/SYIcon.png
+- Assets/PixelPortraits/PiratePrivateer_pixel.png
+- Assets/PixelPortraits/invertedstrike2.png
+- Assets/PixelPortraits/dollpixel.png
+- Assets/PixelPortraits/giant_pixel.png
+- Assets/Skelemagus_emission_new.png
+- Assets/AscensionChallengeSprites/threephaseeyes.png
+- Assets/PixelPortraits/Bigbones_pixel.png
+- Assets/PixelPortraits/dybbuk_pixel.png
+- Assets/tomb_robber_emission_new.png
+- Assets/PixelPortraits/pixelability_activated_dealsouldamage.png
+- Assets/PixelPortraits/Hydra_pixel.png
+- Assets/summoner_new_emission.png
+- Assets/DeckIcon/GMIcon.png
+- Assets/DeckIcon/KCIcon.png
+- Assets/AscensionChallengeSprites/hellmodeskull.png
+- Assets/PixelPortraits/random_pixel.png
+- Assets/PixelPortraits/PossessedArmour_pixel.png
+- Assets/PixelPortraits/apparition_pixel.png
+- Assets/PixelPortraits/DeadManWalking_pixel.png
+- Assets/PixelPortraits/CalaveraCatrina_pixel.png
+- Assets/Menu/MenuCardNew.png
+- Assets/AscensionChallengeSprites/antichallengeeyes.png
+- Assets/hydra_emission_new.png
+- Assets/PixelPortraits/haunter_pixel.png
+- Assets/PixelPortraits/randompixelportrait.png
+- Assets/PixelPortraits/GratefulDead_pixel.png
+- Assets/PixelPortraits/PiratePolly_pixel.png
+- Assets/PixelPortraits/snag_pixel.png
+- Assets/PixelPortraits/diggerlatcher2.png
+- Assets/PixelPortraits/skeletonhorde2.png
+- Assets/PixelPortraits/anchor_pixel.png
+- Assets/PixelPortraits/hook_pixel.png
+- Assets/PixelPortraits/shanty_pixel.png
+- Assets/DeckIcon/RYIcon.png
+- Assets/DeckIcon/RNIcon.png
+- Assets/AscensionChallengeSprites/hellmodeeyes.png
+- Assets/hydra_new.png
+- Assets/AscensionChallengeSprites/threephaseghouls.png
+- Assets/PixelPortraits/SkeletonArmy_pixel.png
+- Assets/PixelPortraits/PlagueDoctor_pixel.png
+- Assets/PixelPortraits/PirateDavyJones_pixel.png
+- Assets/DeckIcon/RLIcon.png
+- Assets/AscensionChallengeSprites/skukk.png
+- Assets/PixelPortraits/LaLlorona_pixel.png
+- Assets/PixelPortraits/Gravebard_pixel.png
+- Assets/DeckIcon/DJIcon.png
+- Assets/AscensionChallengeSprites/ankh.png
+- Assets/PixelPortraits/posessive_pixel.png
+- Assets/PixelPortraits/puppet_pixel.png
+- Assets/grimgordefeat.png
+- Assets/PixelPortraits/pixelability_activated_drawskeletons.png
+- Assets/DeckIcon/PSIcon.png
+- Assets/PixelPortraits/spiritbearer_pixel.png
+- Assets/DeckIcon/HDIcon.png
+Dependencies: []

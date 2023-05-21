@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Reflection;
 using DiskCardGame;
 using InscryptionAPI.Card;
@@ -58,7 +59,7 @@ public class AbilityBuilder<T> where T: AbilityBehaviour
 			);
 			field.SetValue(null, newAbility.Id);
 
-			return newAbility;
+				return newAbility;
 		}
 
 	}

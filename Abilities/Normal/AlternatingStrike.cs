@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers.Extensions;
@@ -64,6 +64,7 @@ public partial class GrimoraPlugin
 		AbilityBuilder<AlternatingStrike>.Builder
 		 .FlipIconIfOnOpponentSide()
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetPowerLevel(0)
 		 .Build();
 	}
 }

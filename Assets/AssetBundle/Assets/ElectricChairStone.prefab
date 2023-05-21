@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!54 &180116888874533609
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5804048958572268090}
+  serializedVersion: 2
+  m_Mass: 2
+  m_Drag: 0.2
+  m_AngularDrag: 0.2
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &4749928869016771532
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5804048958572268090}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.022446534, y: 0.046131745, z: 0.02134817}
+  m_Center: {x: -0.0018695229, y: 0.008640687, z: -0.00027765002}
+--- !u!1001 &6626074347460758640
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 14430993471986928, guid: ea7b91769daac5348bde5896057b1410,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 14430993471986928, guid: ea7b91769daac5348bde5896057b1410,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.2680002
+      objectReference: {fileID: 0}
+    - target: {fileID: 14430993471986928, guid: ea7b91769daac5348bde5896057b1410,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 14430993471986928, guid: ea7b91769daac5348bde5896057b1410,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.7480009
+      objectReference: {fileID: 0}
+    - target: {fileID: 14430993471986928, guid: ea7b91769daac5348bde5896057b1410,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 14430993471986928, guid: ea7b91769daac5348bde5896057b1410,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 14430993471986928, guid: ea7b91769daac5348bde5896057b1410,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 14430993471986928, guid: ea7b91769daac5348bde5896057b1410,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 14430993471986928, guid: ea7b91769daac5348bde5896057b1410,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 14430993471986928, guid: ea7b91769daac5348bde5896057b1410,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 14430993471986928, guid: ea7b91769daac5348bde5896057b1410,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 826573559539631690, guid: ea7b91769daac5348bde5896057b1410,
+        type: 3}
+      propertyPath: m_Name
+      value: ElectricChairStone
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ea7b91769daac5348bde5896057b1410, type: 3}
+--- !u!1 &5804048958572268090 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 826573559539631690, guid: ea7b91769daac5348bde5896057b1410,
+    type: 3}
+  m_PrefabInstance: {fileID: 6626074347460758640}
+  m_PrefabAsset: {fileID: 0}

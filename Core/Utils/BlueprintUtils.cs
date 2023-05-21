@@ -1043,11 +1043,11 @@ public static class BlueprintUtils
 		blueprint.name = "Kaycee_Flying_Undead";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Skeleton, bp_Giant },
-			new(),
+			new() { bp_Skeleton },
+			new() { bp_FrankAndStein },
 			new() { bp_Banshee, bp_Banshee },
 			new() { bp_Banshee },
-			new() { bp_Skeleton },
+			new() { bp_FrankAndStein },
 			new(),
 			new() { bp_FrankAndStein, bp_Banshee },
 			new(),
