@@ -62,15 +62,27 @@ public class ConfigHelper
 
 
 	private ConfigEntry<int> _configInputConfig;
-
 	public int InputType => _configInputConfig.Value;
 
 	private ConfigEntry<int> _configElectricChairBurnRateType;
-
 	public int ElectricChairBurnRateType => _configElectricChairBurnRateType.Value;
 
+	private ConfigEntry<int> _configHardSavedValues;
+	public int ConfigHardSave
+	{
+		get => _configHardSavedValues.Value;
+		set => _configHardSavedValues.Value = value;
+	}
 
-	internal void BindConfig()
+	public void SetSkullStormDefeated()
+	{
+
+		//this is just a sequence of numbers i got by generating a random number sequence with the seed set as 'bonelord'
+		ConfigHardSave = 44731;
+
+	}
+
+		internal void BindConfig()
 	{
 		Log.LogDebug($"Binding config");
 
@@ -140,6 +152,15 @@ public class ConfigHelper
 		+ "\n2 = Low: 12.5%, Medium: 17.5%, High 30%. Meaning, if the first shock is high, then the second one is also high, the chance for the card to be destroyed is 60%."
 		+ "\n3 = Low: 12.5%, Medium: 20%, High 27.5%. Meaning, if the first shock is high, then the second one is also high, the chance for the card to be destroyed is 55%."
 		);
+
+		_configHardSavedValues = GrimoraConfigFile.Bind(
+		Name,
+		"Hard Saved Values",
+		00000,
+		new ConfigDescription(
+			"Dont change this value, it is used by the game to store certain events."
+		)
+);
 
 		GrimoraConfigFile.SaveOnConfigSet = true;
 	}

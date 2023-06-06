@@ -47,6 +47,12 @@ public class EventManagement
 		set => ModdedSaveManager.SaveData.SetValue(GUID, "HasSeenCredits", value);
 	}
 
+	public static bool HasBeatenSkullStorm
+	{
+		get => ModdedSaveManager.SaveData.GetValueAsBoolean(GUID, "HasBeatenSkullStorm");
+		set => ModdedSaveManager.SaveData.SetValue(GUID, "HasBeatenSkullStorm", value);
+	}
+
 	public static readonly StoryEvent[] GrimoraAscensionSaveEvents =
 	{
 		HasReachedTable,

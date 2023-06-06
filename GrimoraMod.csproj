@@ -15,6 +15,12 @@
 <!--		<ManagedFolder>C:\Program Files (x86)\GOG Galaxy\Games\Inscryption\Inscryption_Data\Managed</ManagedFolder>-->
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <Compile Remove="Assets\**" />
+	  <EmbeddedResource Remove="Assets\**" />
+	  <None Remove="Assets\**" />
+	</ItemGroup>
+
 	<!-- BepInEx dependencies -->
 	<ItemGroup>
 		<PackageReference Include="BepInEx.Analyzers" Version="1.0.8" PrivateAssets="all" IncludeAssets="all" />

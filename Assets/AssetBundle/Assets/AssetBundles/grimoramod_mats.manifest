@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2745210708
+CRC: 2587677210
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: ff9e734d2a14358baa81eaeca0f7644f
+    Hash: 73b708265cf522b037b061d554dec534
   TypeTreeHash:
     serializedVersion: 2
     Hash: 22357172b8cea85847937e8f62d0c077
@@ -29,6 +29,7 @@ Assets:
 - Assets/Materials/GravestoneTerrain.mat
 - Assets/Materials/Boneyard_ConfirmButton_Shovel.mat
 - Assets/Materials/ElectricChair_SelectionSlot.mat
+- Assets/Materials/Gravestone_Gold.mat
 - Assets/Materials/gravestarve_tex.png
 - Assets/Materials/graveprisoner_tex.png
 - Assets/Materials/GravestoneCard_Base_Frozen.jpg

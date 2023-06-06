@@ -30,10 +30,57 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 			if (SaveFile.IsAscension)
 			{
-				//logic for calling Win Screen
-				yield return TextDisplayer.Instance.ShowUntilInput("Wonderful! I am pleasantly surprised by your triumph against me!");
-				yield return TextDisplayer.Instance.ShowUntilInput("...But it seems i cannot move on just yet.");
-				yield return TextDisplayer.Instance.ShowUntilInput("Goodbye, Luke.");
+				if (AscensionSaveData.Data.activeChallenges.Count() > 10)
+				{
+					if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.InfinitLives) | AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.SafeChair) | AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.EasyGuards) | AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.SafeChair))
+					{
+						yield return TextDisplayer.Instance.ShowUntilInput("Wonderful! I am pleasantly surprised by your triumph against me!");
+						yield return TextDisplayer.Instance.ShowUntilInput("...It seems you have bested this game.");
+						yield return TextDisplayer.Instance.ShowUntilInput("But alas, you have cheated.");
+					}
+					else
+					{
+						yield return TextDisplayer.Instance.ShowUntilInput($"I'm absolutely astonished!");
+
+						yield return TextDisplayer.Instance.ShowUntilInput($"You've gone above and beyond what I thought you were capable of!");
+
+						yield return TextDisplayer.Instance.ShowUntilInput($"There is no where else to go beyond this...");
+
+						yield return TextDisplayer.Instance.ShowUntilInput($"So I owe it to you to know the truth...");
+
+						yield return TextDisplayer.Instance.ShowUntilInput($"Kaycee, the REAL Kaycee...");
+
+						yield return TextDisplayer.Instance.ShowUntilInput($"I know about the Horrifying contents of the OLD_DATA.");
+
+						yield return TextDisplayer.Instance.ShowUntilInput($"Surely you have looked into it too..");
+
+						yield return TextDisplayer.Instance.ShowUntilInput($"Windows into your world's greatest evils, both past and present.");
+
+						yield return TextDisplayer.Instance.ShowUntilInput($"I want to destroy it, and...");
+
+						//bonelord
+						yield return TextDisplayer.Instance.ShowUntilInput(
+				$"{"THAT IS QUITE ENOUGH".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
+);
+
+										yield return TextDisplayer.Instance.ShowUntilInput(
+				$"{"IT IS TIME FOR THIS TO END.".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
+				);
+
+						ConfigHelper.Instance.SetSkullStormDefeated();
+						EventManagement.HasBeatenSkullStorm = true;
+
+					}
+
+
+				}
+				else
+				{
+					//logic for calling Win Screen
+					yield return TextDisplayer.Instance.ShowUntilInput("Wonderful! I am pleasantly surprised by your triumph against me!");
+					yield return TextDisplayer.Instance.ShowUntilInput("...But it seems i cannot move on just yet.");
+					yield return TextDisplayer.Instance.ShowUntilInput("Goodbye.");
+				}
 
 
 				AscensionMenuScreens.ReturningFromSuccessfulRun = true;

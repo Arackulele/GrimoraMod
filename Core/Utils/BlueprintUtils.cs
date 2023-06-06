@@ -891,7 +891,7 @@ public static class BlueprintUtils
 		{
 			new() { bp_Summoner, bp_Draugr },
 			new() { bp_Summoner },
-			new() { bp_Zombie, bp_Skeleton, bp_Draugr },
+			new() { bp_Skeleton, bp_Draugr },
 			new() { bp_FrankAndStein },
 			new() { bp_Summoner },
 			new() { bp_Skeleton },
@@ -928,9 +928,9 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_Dalgyal },
-			new() { bp_Ripper },
+			new() { bp_Revenant },
 			new(),
-			new() { bp_Dalgyal },
+			new() { bp_Revenant },
 			new() { bp_Project },
 			new(),
 			new() { bp_Skeleton },
@@ -965,9 +965,9 @@ public static class BlueprintUtils
 		blueprint.name = "Kaycee_Basic_Undead_Hard";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Hellhand, bp_Hellhand },
+			new() { bp_Hellhand },
 			new() { bp_Writher },
-			new() { bp_Hellhand, bp_Zombie },
+			new() { bp_Zombie },
 			new() { bp_Zombie },
 			new() { bp_Skeleton },
 			new(),
@@ -987,12 +987,12 @@ public static class BlueprintUtils
 			new() { bp_Skeleton, bp_Glacier },
 			new() { bp_Revenant, bp_Glacier },
 			new(),
-			new() { bp_Glacier, bp_Glacier },
+			new() { bp_Glacier },
 			new(),
 			new() { bp_Zombie },
 			new(),
 			new() { bp_Skeleton, bp_Draugr },
-			new() { bp_Glacier }
+			new() { bp_Skeleton }
 		};
 
 		return blueprint;
@@ -1003,10 +1003,10 @@ public static class BlueprintUtils
 		blueprint.name = "Kaycee_Glacier_Bait_Zombies";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Zombie, bp_Zombie, bp_Zombie },
-			new() { bp_Zombie, bp_Ripper },
-			new(),
-			new() { bp_Glacier },
+			new() { bp_Zombie, bp_Zombie },
+			new() { bp_Skeleton },
+			new() { bp_Zombie },
+			new() { bp_Ripper },
 			new(),
 			new() { bp_Zombie, bp_Ripper },
 			new(),
@@ -1023,9 +1023,9 @@ public static class BlueprintUtils
 		blueprint.name = "Kaycee_Frozen_Ocean";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Floatsam, bp_ForgottenMan },
-			new() { bp_Draugr, bp_Floatsam },
-			new(),
+			new() { bp_Floatsam  },
+			new() { bp_Draugr, bp_Revenant },
+			new() { bp_ForgottenMan },
 			new() { bp_Floatsam, bp_Project },
 			new() { bp_Draugr },
 			new() { bp_DrownedSoul },
@@ -1284,7 +1284,7 @@ public static class BlueprintUtils
 			new() { bp_Summoner, bp_FirstMateSnag },
 			new() { bp_CaptainYellowbeard, bp_FirstMateSnag },
 			new(),
-			new() { bp_GhostShip},
+			new() { bp_GhostShip },
 			new() { bp_Revenant, bp_Revenant, bp_Animator, bp_Animator },
 			new() { bp_ForgottenMan }
 		};
@@ -1298,10 +1298,13 @@ public static class BlueprintUtils
 		blueprint.name = "Royal_Hellpirates";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Giant },
-			new() { bp_Manananggal, bp_Banshee },
+			new() { bp_Manananggal },
+			new(),
+			new(),
+			new() { bp_BonePrince, bp_Banshee },
 			new() { bp_Shipwreck },
 			new() { bp_Manananggal },
+			new(),
 			new() { bp_Banshee },
 			new() { bp_Banshee, bp_Manananggal },
 			new() { bp_FirstMateSnag },
@@ -1317,11 +1320,13 @@ public static class BlueprintUtils
 		blueprint.name = "Royal_Hellpirates_SilbonVar";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Floatsam, bp_GraveBard },
-			new() { bp_Silbon, bp_DanseMacabre },
-			new() { bp_Shipwreck, bp_FirstMateSnag },
+			new() { bp_GraveBard, bp_Skeleton },
+			new() { bp_DanseMacabre },
+			new(),
+			new() { bp_Silbon },
+			new(),
 			new() { bp_GhostShip, bp_FirstMateSnag },
-			new() { bp_Zombie, bp_DanseMacabre },
+			new() { bp_DanseMacabre },
 			new() { bp_Zombie, bp_Zombie },
 			new(),
 			new() { bp_GhostShip }
@@ -1339,12 +1344,13 @@ public static class BlueprintUtils
 		{
 			new() { bp_FirstMateSnag },
 			new() { bp_Shipwreck },
+			new(),
 			new() { bp_FirstMateSnag },
 			new(),
 			new() { bp_FirstMateSnag },
 			new() { bp_Shipwreck, bp_Summoner },
 			new() { bp_FirstMateSnag },
-			new() { bp_Manananggal },
+			new() ,
 			new() { bp_Summoner },
 			new(),
 			new() { bp_Shipwreck }
@@ -1359,11 +1365,11 @@ public static class BlueprintUtils
 		blueprint.name = "Royal_Bellist";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Skeleton, bp_Skeleton, bp_Skeleton },
+			new() { bp_Skeleton },
 			new() { bp_DeathKnell },
-			new() { bp_DeathKnell, bp_DeathKnell },
-			new() { bp_Summoner },
-			new() { bp_DeathKnell, bp_DeathKnell },
+			new() { bp_DeathKnell },
+			new(),
+			new() { bp_DeathKnell, bp_Summoner },
 			new() { bp_Skeleton },
 			new() { bp_DeathKnell, bp_DeathKnell },
 			new() { bp_Skeleton , bp_Skeleton ,bp_Skeleton }
@@ -1381,10 +1387,10 @@ public static class BlueprintUtils
 			new() { bp_Exploding_Pirate, bp_Exploding_Pirate, bp_Exploding_Pirate },
 			new() { bp_Nixie },
 			new() { bp_FirstMateSnag, bp_FirstMateSnag },
-			new() { bp_FirstMateSnag, bp_FirstMateSnag },
 			new() { bp_Exploding_Pirate, bp_Exploding_Pirate, bp_Exploding_Pirate },
 			new() { bp_DrownedSoul, bp_DrownedSoul },
-			new() { bp_GhostShip, bp_CaptainYellowbeard }
+			new() { bp_GhostShip, bp_CaptainYellowbeard },
+
 		};
 
 		return blueprint;
@@ -1395,10 +1401,10 @@ public static class BlueprintUtils
 		blueprint.name = "Royal_Captain";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_CaptainYellowbeard },
+			new() {  },
 			new() { bp_Skeleton, bp_CaptainYellowbeard },
 			new() { bp_Skeleton, bp_Skeleton, bp_CaptainYellowbeard },
-			new() { bp_Skeleton, bp_Skeleton, bp_Skeleton , bp_CaptainYellowbeard },
+			new() { bp_Skeleton, bp_Skeleton, bp_Skeleton },
 			new() { bp_Skeleton, bp_Skeleton, bp_Skeleton , bp_Skeleton },
 			new() { bp_CaptainYellowbeard },
 			new(),
@@ -1416,10 +1422,11 @@ public static class BlueprintUtils
 		blueprint.name = "Royal_Drowned_Army";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_DrownedSoul, bp_CaptainYellowbeard },
-			new() { bp_CaptainYellowbeard, bp_Skeleton, bp_Skeleton, bp_Skeleton },
-			new() { bp_ForgottenMan, bp_CaptainYellowbeard },
-			new() { bp_StarvedMan },
+			new() { bp_DrownedSoul },
+			new(),
+			new() { bp_CaptainYellowbeard, bp_Skeleton, bp_Skeleton },
+			new() { bp_ForgottenMan },
+			new() { bp_StarvedMan, bp_Skeleton },
 			new() { bp_StarvedMan },
 			new() { bp_DrownedSoul },
 			new(),
@@ -1439,10 +1446,13 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_GhostShip, bp_Revenant, bp_Animator },
-			new() { bp_Animator , bp_Ripper},
-			new() { bp_StarvedMan, bp_StarvedMan, bp_StarvedMan, bp_StarvedMan },
+			new() {  bp_Ripper},
+			new() ,
 			new() { bp_Animator , bp_Ripper},
 			new() { bp_Revenant },
+			new() ,
+			new() ,
+			new() {  bp_StarvedMan, bp_StarvedMan, bp_StarvedMan },
 
 		};
 
@@ -1583,12 +1593,12 @@ public static class BlueprintUtils
 		blueprint.name = "Grimora_Ancient_Army_Hard";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Giant,bp_Giant },
+			new() { bp_Skeleton },
 			new() { bp_FirstMateSnag },
 			new() { bp_HellHound },
 			new() { bp_Glacier },
 			new() { bp_Obol,bp_Obol },
-			new() { bp_BooHag, bp_BooHag },
+			new() { bp_Hellhand, bp_GraveBard },
 			new() ,
 			new() { bp_Hellhand },
 			new() { bp_Hellhand },
@@ -1604,14 +1614,15 @@ public static class BlueprintUtils
 		blueprint.name = "Grimora_Bowling_Hard";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Gashadokuro },
-			new() { bp_Summoner,bp_Summoner, bp_Summoner },
-			new() { bp_Vampire },
-			new() { bp_Mummy, bp_Mummy },
+			new() { bp_Draugr },
+			new() { bp_Summoner,bp_Summoner },
+			new() { bp_Vampire, bp_Summoner },
+			new() { bp_Mummy },
 			new() { bp_Exploding_Pirate },
 			new() { bp_Vampire },
+			new(),
 			new() { bp_Vampire, bp_Mummy },
-			new() { bp_Mummy },
+			new() { bp_Mummy, bp_Exploding_Pirate },
 			new() { bp_Exploding_Pirate },
 		};
 
@@ -1624,16 +1635,18 @@ public static class BlueprintUtils
 		blueprint.name = "Grimora_Macabre_Hard";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_DanseMacabre, bp_Silbon },
-			new() { bp_Flameskull, bp_Silbon  },
-			new(),
-			new() { bp_Skelemagus, bp_Skelemagus, bp_Skelemagus },
+			new() { bp_Silbon },
 			new() { bp_Zombie },
+			new(),
+			new() { bp_Flameskull, bp_Skelemagus },
+			new() { bp_Zombie },
+			new(),
 			new() { bp_Skelemagus, bp_Skelemagus },
 			new() { bp_Zombie, bp_Zombie, bp_Zombie },
 			new(),
 			new() { bp_DanseMacabre, bp_Silbon },
-			new() { bp_Flameskull, bp_Silbon },
+			new(),
+			new() { bp_Flameskull },
 			new(),
 			new() { bp_Skelemagus, bp_Skelemagus, bp_Skelemagus },
 			new() { bp_Zombie },
@@ -1802,6 +1815,8 @@ public static class BlueprintUtils
 			new(),
 			new(),
 			new(),
+			new(),
+			new(),
 			new() { bp_Ripper, bp_Ripper, bp_Ripper, bp_Ripper },
 			new() { bp_Ripper, bp_Ripper, bp_Ripper, bp_Ripper },
 		};
@@ -1908,10 +1923,11 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_MassGrave, bp_Writher },
-			new() { bp_Bonehound, bp_Bonehound },
+			new() { bp_Zombie },
+			new() { bp_Bonehound },
 			new(),
+			new() { bp_MassGrave },
 			new(),
-			new() { bp_Gashadokuro },
 			new(),
 			new() { bp_VengefulSpirit },
 			new() { bp_VengefulSpirit },
@@ -1929,12 +1945,12 @@ public static class BlueprintUtils
 		{
 			new() { bp_FrankAndStein },
 			new() { bp_Mummy },
-			new() { bp_Zombie },
+			new() { bp_Zombie, bp_Zombie },
 			new(),
 			new() { bp_VengefulSpirit },
 			new(),
 			new() { bp_VengefulSpirit },
-			new() { bp_Mummy },
+			new() { bp_Mummy, bp_Zombie },
 			new() { bp_VengefulSpirit }
 		};
 
@@ -1948,22 +1964,22 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new(),
-			new() { bp_Centurion, bp_Centurion, bp_Centurion, bp_Centurion },
+			new() { bp_Centurion, bp_Centurion },
 			new() { bp_Obol },
 			new() { bp_Obol },
-			new() { bp_Centurion, bp_Centurion, bp_Centurion, bp_Centurion },
+			new(),
+			new() { bp_Centurion },
+			new() ,
+			new() { bp_Centurion },
+			new() ,
+			new() { bp_Obol, bp_Centurion },
+			new() ,
 			new(),
 			new(),
-			new() { bp_Centurion, bp_Centurion, bp_Centurion, bp_Centurion },
+			new() { bp_Centurion, bp_Centurion },
 			new() ,
 			new() { bp_Obol },
-			new() ,
-			new(),
-			new(),
-			new() { bp_Centurion, bp_Centurion, bp_Centurion, bp_Centurion },
-			new() ,
-			new() { bp_Obol },
-			new() { bp_Centurion, bp_Centurion, bp_Centurion, bp_Centurion }
+			new() { bp_Centurion, bp_Centurion }
 		};
 
 		return blueprint;
@@ -1975,10 +1991,10 @@ public static class BlueprintUtils
 		blueprint.name = "Sawyer_Hell_Hard";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Hellhand,bp_Catacomb },
+			new() { bp_Hellhand, bp_Catacomb },
 			new() { bp_Flameskull, bp_Catacomb },
 			new(),
-			new() { bp_Hellhand, bp_Catacomb },
+			new() { bp_Hellhand },
 			new() { bp_Flameskull },
 			new(),
 			new(),
@@ -2025,11 +2041,12 @@ public static class BlueprintUtils
 		{
 			new() { bp_Project },
 			new(),
-			new() { bp_HeadlessHorseman },
+			new() { bp_Zombie },
 			new() { bp_VengefulSpirit, bp_VengefulSpirit },
-			new() { bp_Poltergeist },
+			new() ,
 			new() { bp_Project, bp_VengefulSpirit },
-			new() { bp_VengefulSpirit },
+			new(),
+			new() { bp_HeadlessHorseman },
 			new(),
 			new() { bp_VengefulSpirit },
 			new(),
@@ -2046,9 +2063,11 @@ public static class BlueprintUtils
 		blueprint.name = "Sawyer_Spirit_Lines_Deadly_Hard";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Kennel, bp_Kennel, bp_Kennel, bp_Kennel },
+			new() { bp_Kennel, bp_Kennel },
 			new(),
 			new() { bp_Manananggal },
+			new(),
+			new(),
 			new() { bp_Skelemagus, bp_VengefulSpirit },
 			new() { bp_VengefulSpirit },
 			new() { bp_VengefulSpirit, bp_Manananggal },
@@ -2076,7 +2095,7 @@ public static class BlueprintUtils
 			new() { bp_HellHound },
 			new() { bp_Skeleton, bp_Skeleton },
 			new(),
-			new() { bp_HellHound },
+			new() { bp_Skeleton },
 
 		};
 
@@ -2089,12 +2108,13 @@ public static class BlueprintUtils
 		blueprint.name = "Sawyer_Wechuges_Hard";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Wechuge, bp_PlagueDoctor },
+			new() { bp_Wechuge },
 			new() { bp_PlagueDoctor },
+			new(),
 			new() { bp_Skeleton, bp_PlagueDoctor },
-			new() { bp_Skeleton, bp_PlagueDoctor },
+			new() ,
 			new() { bp_Wechuge, bp_PlagueDoctor },
-			new() { bp_Wechuge, bp_PlagueDoctor },
+			new() { bp_Wechuge },
 			new() { bp_Skeleton, bp_Skeleton, bp_PlagueDoctor },
 			new(),
 			new() { bp_Wechuge, bp_Wechuge },

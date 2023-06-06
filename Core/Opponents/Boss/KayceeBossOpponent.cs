@@ -41,8 +41,6 @@ public class KayceeBossOpponent : BaseBossExt
 
 		PlayTheme();
 
-
-
 		encounter.startConditions = new List<EncounterData.StartCondition>()
 		{
 			new()

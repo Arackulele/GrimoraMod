@@ -58,6 +58,18 @@ namespace GrimoraMod
 				new CreditEntry("Boo Hag", "Obvious reasons"),
 				};
 
+				if (EventManagement.HasBeatenSkullStorm)
+				{
+					AllCredits.Add(new CreditEntry("The Bone Lord", "Your overlord"));
+
+					AllCredits.Add(new CreditEntry("Grimora", "Your dearest Scrybe"));
+
+					AllCredits.Add(new CreditEntry("The Old Data", "[Redacted]"));
+
+					AllCredits.Add(new CreditEntry("Thank you for playing", " "));
+						
+						}
+
 				foreach(var entry in AllCredits) { 
 				__instance.creditsData.credits.Add(entry);
 				}
