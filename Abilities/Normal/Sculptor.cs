@@ -8,6 +8,8 @@ namespace GrimoraMod;
 
 public class Sculptor : AbilityBehaviour
 {
+	public const string RulebookName = "Sculptor";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -61,12 +63,15 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_Sculptor()
 	{
-		const string rulebookDescription =
+		const string rulebookDescriptionEnglish =
 			"When [creature] is played, it carves its Sigils into adjacent Cards.";
+		const string rulebookDescriptionChinese =
+			"When [creature] is played, it carves its Sigils into adjacent Cards.";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<Sculptor>.Builder
 		 .SetRulebookDescription(rulebookDescription)
-		 .SetRulebookName("Sculptor")
+		 .SetRulebookName(Sculptor.RulebookName)
 		 .Build();
 	}
 }

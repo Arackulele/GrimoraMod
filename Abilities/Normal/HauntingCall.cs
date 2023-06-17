@@ -8,6 +8,8 @@ namespace GrimoraMod;
 
 public class HauntingCall : AbilityBehaviour
 {
+	public const string RulebookName = "Haunting Call";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -51,12 +53,15 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_HauntingCall()
 	{
-		const string rulebookDescription =
+		const string rulebookDescriptionEnglish =
 			"Every turn [creature] is on the Board, it will take a Bone from you, if you have no Bones, it perishes.";
+		const string rulebookDescriptionChinese =
+			"Every turn [creature] is on the Board, it will take a Bone from you, if you have no Bones, it perishes.";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<HauntingCall>.Builder
 		 .SetRulebookDescription(rulebookDescription)
-		 .SetRulebookName("Haunting Call")
+		 .SetRulebookName(HauntingCall.RulebookName)
 		 .Build();
 	}
 }

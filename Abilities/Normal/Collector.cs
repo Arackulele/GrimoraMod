@@ -40,12 +40,16 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_Collector()
 	{
-		const string rulebookDescription =
+		const string rulebookDescriptionEnglish =
 			"When [creature] dies, gain a consumable item, if you have a free slot.";
+		const string rulebookDescriptionChinese =
+			"When [creature] dies, gain a consumable item, if you have a free slot.";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<Collector>.Builder
 		 .SetPixelIcon(AssetUtils.GetPrefab<Sprite>("relichoarder2"))
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(Collector.RulebookName)
 		 .Build();
 	}
 }

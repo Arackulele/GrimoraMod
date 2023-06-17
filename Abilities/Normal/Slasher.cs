@@ -8,6 +8,8 @@ namespace GrimoraMod;
 
 public class Slasher : AbilityBehaviour
 {
+	public const string RulebookName = "Slasher";
+
 	public static Ability ability;
 	public override Ability Ability => ability;
 
@@ -48,11 +50,15 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_Slasher()
 	{
-			const string rulebookDescription =
-				"When [creature] hits an opposing card, one of the targets adjacent allies will take damage as well ";
+		const string rulebookDescriptionEnglish =
+			"When [creature] hits an opposing card, one of the targets adjacent allies will take damage as well ";
+		const string rulebookDescriptionChinese =
+			"When [creature] hits an opposing card, one of the targets adjacent allies will take damage as well ";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<Slasher>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(Slasher.RulebookName)
 		 .Build();
 	}
 }
