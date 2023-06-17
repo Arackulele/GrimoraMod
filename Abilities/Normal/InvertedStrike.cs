@@ -1,6 +1,7 @@
 using DiskCardGame;
 using InscryptionAPI.Card;
 using InscryptionAPI.Triggers;
+using UnityEngine;
 
 namespace GrimoraMod;
 
@@ -93,6 +94,7 @@ public partial class GrimoraPlugin
 		AbilityBuilder<InvertedStrike>.Builder
 		 .SetRulebookDescription(rulebookDescription)
 		 .SetRulebookName(InvertedStrike.RulebookName)
+		 .SetPixelIcon(AssetUtils.GetPrefab<Sprite>("invertedstrike2"))
 		 .FlipIconIfOnOpponentSide()
 		 .Build();
 	}

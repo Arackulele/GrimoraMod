@@ -1,0 +1,31 @@
+ManifestFileVersion: 0
+CRC: 1066426347
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: grimoramod_abilities
+      Dependencies: {}
+    Info_1:
+      Name: grimoramod_sprites
+      Dependencies: {}
+    Info_2:
+      Name: grimoramod_prefabs
+      Dependencies: {}
+    Info_3:
+      Name: grimoramod_controller
+      Dependencies: {}
+    Info_4:
+      Name: grimoramod_sounds
+      Dependencies: {}
+    Info_5:
+      Name: grimoramod_mats
+      Dependencies: {}
+    Info_6:
+      Name: grimoramod_mesh
+      Dependencies: {}
+    Info_7:
+      Name: grimoramod_new
+      Dependencies: {}
+    Info_8:
+      Name: grimoramod_prefab_new
+      Dependencies: {}

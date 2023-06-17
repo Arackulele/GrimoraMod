@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Text;
 using DiskCardGame;
 using InscryptionAPI.Card;
@@ -14,7 +14,7 @@ public static class CardRelatedExtension
 	
 	public static Animator GetCustomArm(this CardAnimationController controller)
 	{
-		return GrimoraSaveUtil.IsGrimora ? ((GraveControllerExt)controller).GetCustomArm() : null;
+		return GrimoraSaveUtil.IsGrimoraModRun ? ((GraveControllerExt)controller).GetCustomArm() : null;
 	}
 
 	public static void PlaySpecificAttackAnimation(
@@ -94,6 +94,16 @@ public static class CardRelatedExtension
 		return cardInfo.Mods.Exists(mod => mod.singletonId == ElectricChairSequencer.ModSingletonId);
 	}
 
+	public static bool HasBeenGraveDug(this CardInfo cardInfo)
+	{
+		return cardInfo.Mods.Exists(mod => mod.singletonId == BoneyardBurialSequencer.ModSingletonId);
+	}
+
+	public static bool HasBeenBonelorded(this CardInfo cardInfo)
+	{
+		return cardInfo.Mods.Exists(mod => mod.singletonId == GrimoraCardRemoveSequencer.ModSingletonId);
+	}
+
 	public static void RemoveAbilityFromThisCard(
 		this PlayableCard playableCard,
 		CardModificationInfo modInfo,
@@ -155,11 +165,16 @@ public static class CardRelatedExtension
 				}
 			}
 
-			if (playableCard.LacksAbility(Ability.QuadrupleBones) && playableCard.LacksAbility(Boneless.ability) && slotBeforeDeath.IsPlayerSlot)
+			if (!GrimoraSaveUtil.IsNotGrimoraModRun) { 
+			if (playableCard.LacksAbility(Ability.QuadrupleBones) && playableCard.LacksAbility(Boneless.ability) && playableCard.LacksTrait(Trait.Terrain) && slotBeforeDeath.IsPlayerSlot)
 			{
 				yield return ResourcesManager.Instance.AddBones(1, slotBeforeDeath);
 			}
-
+			}
+			else if (playableCard.LacksAbility(Ability.QuadrupleBones) && playableCard.LacksAbility(Boneless.ability) && slotBeforeDeath.IsPlayerSlot)
+			{
+				yield return ResourcesManager.Instance.AddBones(1, slotBeforeDeath);
+			}
 
 			if (playableCard.TriggerHandler.RespondsToTrigger(Trigger.Die, wasSacrifice, killer))
 			{
@@ -185,6 +200,21 @@ public static class CardRelatedExtension
 			{
 				GrimoraPlugin.Log.LogInfo($"[DieCustom] Waiting until tween is finished to play death animation");
 				Vector3 positionCopy = playableCard.transform.localPosition;
+
+				if (royalTableSwayValue == -7f) {
+
+					TweenBase slidingCard = Tween.LocalPosition(
+		playableCard.transform,
+		new Vector3(positionCopy.x, 5f, positionCopy.z),
+		GrimoraModRoyalBossSequencer.DurationTableSway,
+		0,
+		Tween.EaseIn,
+		completeCallback: () => playableCard.Anim.PlayDeathAnimation(playSound && !wasSacrifice)
+	);
+
+				}
+
+				else { 
 				TweenBase slidingCard = Tween.LocalPosition(
 					playableCard.transform,
 					new Vector3(royalTableSwayValue, positionCopy.y, positionCopy.z),
@@ -193,6 +223,7 @@ public static class CardRelatedExtension
 					Tween.EaseIn,
 					completeCallback: () => playableCard.Anim.PlayDeathAnimation(playSound && !wasSacrifice)
 				);
+				}
 			}
 		}
 	}

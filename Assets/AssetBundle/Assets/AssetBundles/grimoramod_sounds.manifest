@@ -1,0 +1,27 @@
+ManifestFileVersion: 0
+CRC: 2438191403
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 8f64e688ed8fb036a519903b2a172556
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 3f7d0c5e0986ec71841622bcb2f9be1c
+HashAppended: 0
+ClassTypes:
+- Class: 83
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Sounds/RoyalRuckus_Phase2Rain.wav
+- Assets/Sounds/wind__artic__cold-6195.mp3
+- Assets/Sounds/light-rain-109591.mp3
+- Assets/Sounds/Grimoras_Theme_Phase1.ogg
+- Assets/Sounds/RoyalRuckus_Phase1.ogg
+- Assets/Sounds/Grimora_Bone_Lords_Theme_Phase3.ogg
+- Assets/Sounds/Sawyer_Dogbite_Phase1.ogg
+- Assets/Sounds/Frostburn.ogg
+- Assets/Sounds/RoyalRuckus_Phase2.ogg
+- Assets/Sounds/FrostburnStorm.wav
+- Assets/Sounds/Sawyer_Hellhound_Phase2.ogg
+Dependencies: []

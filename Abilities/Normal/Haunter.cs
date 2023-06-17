@@ -3,6 +3,7 @@ using DiskCardGame;
 using InscryptionAPI.Card;
 using Sirenix.Utilities;
 using UnityEngine;
+using InscryptionCommunityPatch;
 
 namespace GrimoraMod;
 
@@ -42,6 +43,7 @@ public partial class GrimoraPlugin
 
 		AbilityBuilder<Haunter>.Builder
 		 .SetIcon(AbilitiesUtil.LoadAbilityIcon(Ability.Haunter.ToString()))
+		 .SetPixelIcon(AssetUtils.GetPrefab<Sprite>("haunter_pixel"))
 		 .SetRulebookDescription(rulebookDescription)
 		 .SetRulebookName(Haunter.RulebookName)
 		 .Build();
@@ -73,6 +75,11 @@ public class HauntedSlot : NonCardTriggerReceiver
 				hauntedIcon.gameObject.layer = icon.gameObject.layer;
 				hauntedIcon.name = AbilityManager.AllAbilities.Find(fa => fa.Id == icon.Ability).Info.rulebookName;
 				Renderer renderer = hauntedIcon.GetComponent<MeshRenderer>();
+				hauntedIcon.GetComponent<Renderer>().material.SetColor("_Color", GameColors.instance.yellow);
+
+				//TODO: fix it for community patch
+				if (hauntedIcon.GetComponent<InscryptionCommunityPatch.Card.ActivatedAbilityIconInteractable>() != null) UnityEngine.Object.Destroy(hauntedIcon.GetComponent<InscryptionCommunityPatch.Card.ActivatedAbilityIconInteractable>());
+				if (hauntedIcon.GetComponent<AbilityIconInteractable>() != null) UnityEngine.Object.Destroy(hauntedIcon.GetComponent<AbilityIconInteractable>());
 				renderer.enabled = true;
 				// renderer.material.ChangeRenderMode(UnityObjectExtensions.BlendMode.Cutout);
 				// this is so that it doesn't appear behind the card slot texture at the lowest point in the wave movement 
@@ -106,6 +113,8 @@ public class HauntedSlot : NonCardTriggerReceiver
 	public override IEnumerator OnOtherCardAssignedToSlot(PlayableCard otherCard)
 	{
 		List<Ability> cardAllAbilities = otherCard.AllAbilities();
+
+
 		if (cardAllAbilities.Count == 5)
 		{
 			yield return TextDisplayer.Instance.ShowUntilInput($"Oh... it will be rather difficult to haunt {otherCard.Info.DisplayedNameEnglish.LimeGreen()} with their abilities at max capacity.");
@@ -125,10 +134,13 @@ public class HauntedSlot : NonCardTriggerReceiver
 				List<Ability> abilitiesToAdd = _modInfo.abilities.GetRange(0, 5 - cardAllAbilities.Count);
 				_modInfo.abilities = abilitiesToAdd;
 			}
+			if (otherCard != null) { 
 			otherCard.AddTemporaryMod(_modInfo);
 			otherCard.Anim.PlayTransformAnimation();
 			otherCard.UpdateStatsText();
+			otherCard.RenderCard();
 			yield return new WaitForSeconds(0.1f);
+			}
 		}
 
 		GrimoraPlugin.Log.LogDebug($"Destroying HauntedSlot [{this}]");

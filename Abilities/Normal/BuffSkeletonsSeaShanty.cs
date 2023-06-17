@@ -1,6 +1,7 @@
 using DiskCardGame;
 using InscryptionAPI.Card;
 using InscryptionAPI.Triggers;
+using UnityEngine;
 
 namespace GrimoraMod;
 
@@ -34,6 +35,7 @@ public partial class GrimoraPlugin
 		AbilityBuilder<BuffSkeletonsSeaShanty>.Builder
 		 .SetRulebookDescription(rulebookDescription)
 		 .SetRulebookName(BuffSkeletonsSeaShanty.RulebookName)
+		 .SetPixelIcon(AssetUtils.GetPrefab<Sprite>("shanty_pixel"))
 		 .Build();
 	}
 }

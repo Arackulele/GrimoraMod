@@ -1,6 +1,7 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using Pixelplacement;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -12,13 +13,17 @@ public class LatchPatches
 {
 	private static List<CardSlot> GetValidTargets(Latch latch)
 	{
+
+		GrimoraPlugin.Log.LogDebug("Getting valid Targets for Latch");
+
 		List<CardSlot> validTargets = BoardManager.Instance.AllSlotsCopy;
 		validTargets.RemoveAll(
 			x => x.Card.SafeIsUnityNull() 
 			  || x.Card.Dead 
 			  || latch.CardHasLatchMod(x.Card) 
-			  || x.Card == latch.Card 
-			  || x.Card.AllAbilities().Count == 5
+			  || x.Card == latch.Card
+				|| x.Card.Info.HasTrait(Trait.Uncuttable)
+				|| x.Card.AllAbilities().Count > 4
 		);
 
 		return validTargets;
@@ -27,7 +32,7 @@ public class LatchPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(Latch.OnPreDeathAnimation))]
 	public static IEnumerator PostfixChangeLogicForGrimora(IEnumerator enumerator, Latch __instance, bool wasSacrifice)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			yield return enumerator;
 			yield break;
@@ -38,6 +43,8 @@ public class LatchPatches
 		{
 			yield break;
 		}
+
+		__instance.Card.GetComponent<GraveControllerExt>().AddCustomArmPrefabs(__instance.Card);
 
 		ViewManager.Instance.SwitchToView(View.Board);
 		__instance.Card.Anim.PlayHitAnimation();

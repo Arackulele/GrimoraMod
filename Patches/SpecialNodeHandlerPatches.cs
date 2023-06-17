@@ -9,7 +9,7 @@ public class SpecialNodeHandlerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(SpecialNodeHandler.StartSpecialNodeSequence))]
 	public static bool CastToGrimoraCardRemoveSequencer(SpecialNodeHandler __instance, ref SpecialNodeData nodeData)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			return true;
 		}
@@ -19,7 +19,13 @@ public class SpecialNodeHandlerPatches
 			// We have to cast it, otherwise it tries to call the base version of it
 			__instance.StartCoroutine(((GrimoraCardRemoveSequencer)__instance.cardRemoveSequencer).RemoveSequence());
 			return false;
+		}
 
+		if (nodeData is GrimoraGainConsumableNodeData)
+		{
+			// We have to cast it, otherwise it tries to call the base version of it
+			__instance.StartCoroutine(((GrimoraGainConsumableSequencer)__instance.gainConsumablesSequencer).ReplenishConsumables(null));
+			return false;
 		}
 
 		if (nodeData is BoneyardBurialNodeData)

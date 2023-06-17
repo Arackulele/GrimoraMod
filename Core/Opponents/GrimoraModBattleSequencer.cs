@@ -1,9 +1,12 @@
 using System.Collections;
 using DiskCardGame;
+using GrimoraMod.Saving;
+using InscryptionAPI.Boons;
 using InscryptionAPI.Encounters;
 using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
+using static UnityEngine.UIElements.UIRAtlasManager;
 
 namespace GrimoraMod;
 
@@ -17,16 +20,170 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 	public static ChessboardEnemyPiece ActiveEnemyPiece;
 
-	private readonly List<CardInfo> _cardsThatHaveDiedThisMatch = new List<CardInfo>();
+	private static readonly List<CardInfo> _cardsThatHaveDiedThisMatch = new List<CardInfo>();
+
+	public static readonly List<EncounterData.StartCondition> GlobalStartCon = new List<EncounterData.StartCondition>()
+			{
+
+			new ()
+			{
+				cardsInOpponentSlots = new[] { null, NameObelisk.GetCardInfo(), null, null },
+				cardsInPlayerSlots = new[] { null, NameDeadTree.GetCardInfo(), null, null },
+			},
+			new ()
+			{
+				cardsInOpponentSlots = new[] { null, NameObol.GetCardInfo(), null, null },
+				cardsInPlayerSlots = new[] { null, null, null, NameDeadTree.GetCardInfo() },
+			},
+			new ()
+			{
+				cardsInOpponentSlots = new[] { NameDeadTree.GetCardInfo(), NameDisturbedGrave.GetCardInfo(), null, null },
+			},
+
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, NameDisturbedGrave.GetCardInfo(), null, NameDeadTree.GetCardInfo() },
+			},
+
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, NameDisturbedGrave.GetCardInfo(), null, NameObelisk.GetCardInfo() },
+			},
+
+			new ()
+			{
+				cardsInOpponentSlots = new[] { null, null , NameDeadTree.GetCardInfo(), null },
+				cardsInPlayerSlots = new[] { NameVoodooDoll.GetCardInfo() , null, null, null },
+			},
+
+			new ()
+			{
+				cardsInOpponentSlots = new[] { null, NameVoodooDoll.GetCardInfo(), null },
+				cardsInPlayerSlots = new[] { null, null, null, NameObelisk.GetCardInfo() },
+			},
+
+			};
+
+	public static readonly List<EncounterData.StartCondition> KayceeStarts = new List<EncounterData.StartCondition>()
+			{
+			new ()
+			{
+				cardsInOpponentSlots = new[] { NameDraugr.GetCardInfo(), null, null, null },
+				cardsInPlayerSlots = new[] { null , null, null, NameDraugr.GetCardInfo() },
+			},
+			new ()
+			{
+				cardsInOpponentSlots = new[] { NameGlacier.GetCardInfo(), null, null, null },
+			},
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, null, null, NameDraugr.GetCardInfo() },
+			},
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, NameDraugr.GetCardInfo(), null, null },
+			},
+			new ()
+			{
+				cardsInOpponentSlots = new[] { null, NameGlacier.GetCardInfo(), null, null },
+				cardsInPlayerSlots = new[] { null, NameGlacier.GetCardInfo(), null, null },
+			},
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, NameObelisk.GetCardInfo(), null, NameDraugr.GetCardInfo() },
+			},
+			new ()
+			{
+				cardsInOpponentSlots = new[] { null, null, NameVoodooDoll.GetCardInfo(), null },
+				cardsInPlayerSlots = new[] { null , null, null, NameDraugr.GetCardInfo() },
+			},
+
+			};
+
+	public static readonly List<EncounterData.StartCondition> SawyerStarts = new List<EncounterData.StartCondition>()
+			{
+			new ()
+			{
+				cardsInOpponentSlots = new[] { NameObol.GetCardInfo(), null, null, null },
+				cardsInPlayerSlots = new[] { null , null, null, NameObelisk.GetCardInfo() },
+			},
+			new ()
+			{
+				cardsInOpponentSlots = new[] { NameKennel.GetCardInfo(), null, null, null },
+			},
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, null, null, NameObol.GetCardInfo() },
+			},
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, NameKennel.GetCardInfo(), null, null },
+			},
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, NameObol.GetCardInfo(), null, null },
+			},
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, NameObelisk.GetCardInfo(), null, NameKennel.GetCardInfo() },
+			},
+			new ()
+			{
+				cardsInOpponentSlots = new[] { null, null, NameObelisk.GetCardInfo(), null },
+				cardsInPlayerSlots = new[] { null , null, null, NameObol.GetCardInfo() },
+			},
+
+			};
+
+	public static readonly List<EncounterData.StartCondition> RoyalStarts = new List<EncounterData.StartCondition>()
+			{
+			new ()
+			{
+				cardsInOpponentSlots = new[] { NameShipwreck.GetCardInfo(), null, null, null },
+				cardsInPlayerSlots = new[] { null , null, null, NameShipwreck.GetCardInfo() },
+			},
+			new ()
+			{
+				cardsInOpponentSlots = new[] { NameShipwreck.GetCardInfo(), null, null, null },
+			},
+			new ()
+			{
+				cardsInOpponentSlots = new[] { null, null, null, NameShipwreckDams.GetCardInfo() },
+			},
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, NameShipwreck.GetCardInfo(), null, null },
+			},
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, NameShipwreckDams.GetCardInfo(), null, null },
+			},
+			new ()
+			{
+				cardsInPlayerSlots = new[] { null, NameObelisk.GetCardInfo(), null, NameShipwreck.GetCardInfo() },
+			},
+			new ()
+			{
+				cardsInOpponentSlots = new[] { null, null, NameShipwreckDams.GetCardInfo(), null },
+				cardsInPlayerSlots = new[] { null , null, null, NameShipwreck.GetCardInfo() },
+			},
+
+			};
 
 	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
 	{
+
+
 		EncounterData data = new EncounterData
 		{
-			opponentType = Opponent.Type.Default,
+
+			startConditions = EnemyManagerPatches.OneCondition,
+
+		opponentType = Opponent.Type.Default,
 			opponentTurnPlan = nodeData.blueprint
 			 .turns.Select(bpList1 => bpList1.Select(bpList2 => bpList2.card).ToList())
 			 .ToList()
+
 		};
 		data.opponentType = this is GrimoraModBossBattleSequencer boss ? boss.BossType : GrimoraModFinaleOpponent.FullOpponent.Id;
 
@@ -35,7 +192,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 	public override IEnumerator PreCleanUp()
 	{
-		if (!TurnManager.Instance.PlayerIsWinner() && ! AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.InfinitLives))
+		if (!TurnManager.Instance.PlayerIsWinner() && !AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.InfinitLives))
 		{
 			Opponent opponent = TurnManager.Instance.Opponent;
 
@@ -57,59 +214,81 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 			StartCoroutine(opponent.CleanUp());
 
-			yield return GlitchOutBoardAndHandCards();
-
-			RuleBookController.Instance.SetShown(false);
-			TableRuleBook.Instance.enabled = false;
-			GlitchOutAssetEffect.GlitchModel(TableRuleBook.Instance.transform);
-			yield return new WaitForSeconds(0.5f);
-
-			GlitchOutAssetEffect.GlitchModel(ResourceDrone.Instance.transform);
-			yield return new WaitForSeconds(0.5f);
-
-			GlitchOutAssetEffect.GlitchModel(((BoardManager3D)BoardManager3D.Instance).Bell.transform);
-			yield return new WaitForSeconds(0.5f);
-
-			GlitchOutAssetEffect.GlitchModel(LifeManager.Instance.Scales3D.transform);
-			yield return new WaitForSeconds(0.5f);
-
-			GlitchOutAssetEffect.GlitchModel(GrimoraItemsManagerExt.Instance.hammerSlot.transform);
-			yield return new WaitForSeconds(0.5f);
-
-			(ResourcesManager.Instance as Part1ResourcesManager).GlitchOutBoneTokens();
-			GlitchOutAssetEffect.GlitchModel(TableVisualEffectsManager.Instance.Table.transform);
-			yield return new WaitForSeconds(0.5f);
-
-			if (FindObjectOfType<StinkbugInteractable>())
+			if (SaveFile.IsAscension)
 			{
-				FindObjectOfType<StinkbugInteractable>().OnCursorSelectStart();
+
+				//for some reason i cant instanciate the loss Screen???
+
+				AscensionMenuScreens.ReturningFromSuccessfulRun = false;
+				AscensionMenuScreens.ReturningFromFailedRun = true;
+
+				AscensionStatsData.TryIncrementStat(AscensionStat.Type.Losses);
+
+			SaveManager.SaveToFile();
+
+				//AscensionSaveData.Data.activeChallenges = new List<AscensionChallenge> { ChallengeManagement.FrailHammer };
+
+
+				SceneLoader.Load("Ascension_Configure");
+
+				//yield break;
 			}
+			else
+			{
+				yield return GlitchOutBoardAndHandCards();
 
-			GlitchOutAssetEffect.GlitchModel(GameObject.Find("EntireChamber").transform);
-			yield return new WaitForSeconds(0.5f);
+				RuleBookController.Instance.SetShown(false);
+				TableRuleBook.Instance.enabled = false;
+				GlitchOutAssetEffect.GlitchModel(TableRuleBook.Instance.transform);
+				yield return new WaitForSeconds(0.5f);
 
-			InteractionCursor.Instance.InteractionDisabled = false;
+				GlitchOutAssetEffect.GlitchModel(ResourceDrone.Instance.transform);
+				yield return new WaitForSeconds(0.5f);
 
-			Log.LogDebug($"[GameEnd] Switching to default view");
-			ViewManager.Instance.SwitchToView(View.Default, false, true);
+				GlitchOutAssetEffect.GlitchModel(((BoardManager3D)BoardManager3D.Instance).Bell.transform);
+				yield return new WaitForSeconds(0.5f);
 
-			HammerItemExt.useCounter = 0;
+				GlitchOutAssetEffect.GlitchModel(LifeManager.Instance.Scales3D.transform);
+				yield return new WaitForSeconds(0.5f);
 
-			Log.LogDebug($"[GameEnd] Time to rest");
-			yield return TextDisplayer.Instance.ShowThenClear(
-				"It is time to rest.",
-				2f,
-				0f,
-				Emotion.Curious
-			);
-			yield return new WaitForSeconds(0.75f);
-			Log.LogDebug($"[GameEnd] offset fov");
-			ViewManager.Instance.OffsetFOV(150f, 1.5f);
+				GlitchOutAssetEffect.GlitchModel(GrimoraItemsManagerExt.Instance.HammerSlot.transform);
+				yield return new WaitForSeconds(0.5f);
 
-			yield return new WaitForSeconds(1f);
-			AudioController.Instance.StopAllLoops();
-			AudioController.Instance.StopAllCoroutines();
-			yield return MenuController.Instance.TransitionToGame2(true);
+				(ResourcesManager.Instance as Part1ResourcesManager).GlitchOutBoneTokens();
+				GlitchOutAssetEffect.GlitchModel(TableVisualEffectsManager.Instance.Table.transform);
+				yield return new WaitForSeconds(0.5f);
+
+				if (FindObjectOfType<StinkbugInteractable>())
+				{
+					FindObjectOfType<StinkbugInteractable>().OnCursorSelectStart();
+				}
+
+				GlitchOutAssetEffect.GlitchModel(GameObject.Find("EntireChamber").transform);
+				yield return new WaitForSeconds(0.5f);
+
+				InteractionCursor.Instance.InteractionDisabled = false;
+
+				Log.LogDebug($"[GameEnd] Switching to default view");
+				ViewManager.Instance.SwitchToView(View.Default, false, true);
+
+				HammerItemExt.useCounter = 0;
+
+				Log.LogDebug($"[GameEnd] Time to rest");
+				yield return TextDisplayer.Instance.ShowThenClear(
+					"It is time to rest.",
+					2f,
+					0f,
+					Emotion.Curious
+				);
+				yield return new WaitForSeconds(0.75f);
+				Log.LogDebug($"[GameEnd] offset fov");
+				ViewManager.Instance.OffsetFOV(150f, 1.5f);
+
+				yield return new WaitForSeconds(1f);
+				AudioController.Instance.StopAllLoops();
+				AudioController.Instance.StopAllCoroutines();
+				yield return MenuController.Instance.TransitionToGame2(true);
+			}
 		}
 	}
 
@@ -127,12 +306,13 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			{
 				switch (TurnManager.Instance.TurnNumber)
 				{
-					case 3:
+					case 4:
 					{
 						yield return TextDisplayer.Instance.ShowUntilInput("I hope you're able to warm up next turn.");
 						break;
 					}
-					case 4:
+					case 5:
+						ChallengeActivationUI.TryShowActivation(ChallengeManagement.KayceesKerfuffle);
 						yield return HandleKayceeKerfuffleChallenge();
 						break;
 				}
@@ -140,16 +320,48 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		}
 	}
 
+		public override IEnumerator PlayerCombatEnd()
+		{
+		while (GameObject.Find("Weight(Clone)") != null)
+				{
+			GlitchOutAssetEffect.GlitchModel(GameObject.Find("Weight(Clone)").transform);
+			yield return new WaitForSeconds(0.2f);
+				}
+
+		}
+
+		public override IEnumerator OpponentCombatEnd()
+	{
+		while (GameObject.Find("Weight(Clone)") != null)
+		{
+			GlitchOutAssetEffect.GlitchModel(GameObject.Find("Weight(Clone)").transform);
+			yield return new WaitForSeconds(0.2f);
+		}
+
+	}
+
 	private IEnumerator HandleSawyersShowdownChallenge()
 	{
-		if (ResourcesManager.Instance.PlayerBones > 0)
+
+		ViewManager.Instance.SwitchToView(View.BoneTokens);
+		yield return new WaitForSeconds(0.25f);
+
+
+
+		if (ResourcesManager.Instance.PlayerBones > 2)
 		{
-			ViewManager.Instance.SwitchToView(View.BoneTokens);
-			yield return new WaitForSeconds(0.25f);
-			yield return TextDisplayer.Instance.ShowUntilInput("Sawyer thanks you for your contribution!");
 			yield return ResourcesManager.Instance.SpendBones(1);
-			yield return new WaitForSeconds(1f);
+			ChallengeActivationUI.TryShowActivation(ChallengeManagement.SawyersShowdown);
+			yield return TextDisplayer.Instance.ShowUntilInput("Sawyer thanks you for your contribution!");
 		}
+		else
+		{
+			yield return ResourcesManager.Instance.AddBones(1);
+			ChallengeActivationUI.TryShowActivation(ChallengeManagement.SawyersShowdown);
+			yield return TextDisplayer.Instance.ShowUntilInput("Sawyer felt bad for you.");
+		}
+
+		yield return new WaitForSeconds(1f);
 	}
 
 	private IEnumerator HandleKayceeKerfuffleChallenge()
@@ -206,8 +418,8 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 	{
 		Log.LogDebug($"[GetFixedOpeningHand] Getting randomized list for starting hand");
 		var cardsToAdd = new List<CardInfo>();
-		var gravedigger = GrimoraSaveUtil.DeckList.Find(info => info.name.Equals(NameGravedigger));
-		var bonePile = GrimoraSaveUtil.DeckList.Find(info => info.name.Equals(NameBonepile));
+		var gravedigger = RunState.Run.playerDeck.Cards.Find(info => info.BonesCost < 2 || info.EnergyCost < 2);
+		var bonePile = RunState.Run.playerDeck.Cards.Find(info => info.name!= gravedigger.name && (info.BonesCost < 3 || info.EnergyCost < 3) );
 		if (bonePile)
 		{
 			cardsToAdd.Add(bonePile);
@@ -223,12 +435,16 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 	public override IEnumerator GameEnd(bool playerWon)
 	{
+
+		Log.LogDebug($"Triggering Game end in Boss Opponent");
+
 		if (playerWon)
 		{
 			// Log.LogDebug($"[GrimoraModBattleSequencer Adding enemy to config [{ActiveEnemyPiece.name}]");
 			if (!ActiveEnemyPiece.SafeIsUnityNull())
 			{
-				ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(ActiveEnemyPiece.name);
+				GrimoraRunState.CurrentRun.PiecesRemovedFromBoard.Add(ActiveEnemyPiece.name);
+
 			}
 
 			_cardsThatHaveDiedThisMatch.Clear();
@@ -251,6 +467,9 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 				Destroy(nonCardTriggerReceiver.gameObject);
 			}
 		}
+
+
+
 	}
 
 	public static IEnumerator GlitchOutBoardAndHandCards()

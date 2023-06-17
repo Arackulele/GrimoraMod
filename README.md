@@ -1,10 +1,17 @@
 # Grimora Mod
 
-- A giant Mod made by just a lot of people (look in the credits section of the readme for more info), that builds upon the finale with Grimora's chessboard.
+- A giant Mod made by just a lot of people (look in the credits section or the in game credits of the readme for more info), that builds upon the finale with Grimora's chessboard, expanding it into the would-be 4th Act of Inscryption.
 
+- **IF YOU ARE HAVNG SAVING ISSUES, OR ISSUES WITH THE BONES OR THE BELLS INSTALL THE UNLOCKALL MOD, THIS USUALLY FIXES THEM**:
 
-- **MOST IMPORTANT**: **!!!YOU WILL ENCOUNTER BUGS!!!**
-- **BEWARE**:
+   - Get that mod here : <https://inscryption.thunderstore.io/package/IngoH/Unlock_All/>
+
+- **Please Check out this Form about the Mod! It would be very appreciated if you could fill it out ( It is a very short Form, only 5 Questions or so )** <https://forms.gle/YMfZuJ39wmqjf94u5> 
+
+- **COMPATIBILITY WITH OTHER MODS NOT GUARANTEED, EXCEPT THE OFFICIAL EXPANSION**:
+
+- **MOST IMPORTANT**: **!!!YOU WILL PROBABLY ENCOUNTER BUGS, SUBMIT THEM ON THE PAGE LISTED IN THE REPORTING ISSUES SECTION!!!**
+
 
   - THIS WILL UNLOCK CERTAIN STORY EVENTS IN ORDER FOR THE MOD TO WORK, WHICH ALSO MEANS UNLOCKING CERTAIN ACHIEVEMENTS!
   - In the event you are starting from a brand new save, this mod will unlock all learned abilities, mechanics, and cards
@@ -16,7 +23,6 @@
 ## Reporting Issues
 
 - If you would to help report issues, please raise a thread here with as much detail as you can provide: <https://github.com/Arackulele/GrimoraMod/issues>
-- Bug reports can also be submitted on the Discord Server: <https://discord.gg/Xf8CBuS8a8>
 
 ## Icon Definitions
 
@@ -30,154 +36,333 @@
 
 ### Haunter sigils can be seen through cards in hand
 
-- Currently investigating, although I'm not quite sure where the issue exactly lies. Tried messing around with the layer ordering and that didn't seem to fix the issue.
+- Non fixable for now, the renderer breaks with the layering of the sigils
 
 ### A card with Area of Effect Strike, Tri Strike, and Sniper sigils only allows 3 attacks
 
 - Believe it or not, this is how the vanilla game code for the `Sniper` sigil is handled. It doesn't base it off how many attacks you're doing, it hard codes to either 2 for `Split Strike` or 3 for `Tri Strike`.
 
+### The Bell doesnt appear/ bones dont appear when cards die
+
+- This is an issue with Inscryptions Save file still thinking you're in Leshy's tutorial
+
+- Install the unlock all mod to fix this
+
 ### Current save file is already at the finale with Grimora
 
 - Make a backup of your save, then delete your current save. Having your current save already at the finale seems to break the mod.
 
-## Update Notes
+- Install the unlock all mod, it helps a lot with these issues.
 
-### 2.10.1
+### Any issues relating to Boo Hag
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png)  New Anti- Challenge ( Safe Chair )
+- Boo Hag breaks sometimes, i will probably never find and fix every issues with the card
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Issues with api 2.4
+## Recent Update Notes
 
-### 2.10.0
+### Why do the Version Numbers on Thunderstore not match the actual Version?
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png)  4 New Challenges ( Soulless x2 , Fraile Hammer, Jammed Chair and Wilted Clover )
+- Because of the official Arg this mod was involved in, i set the version Number fo the ARG version of the mod to 6.6.6 (because its all demonic and spooky), but since you cannot delete a thunderstore Version or release a new version with a lower version Number, the Mod will forever be stuck after 6.6.6
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) 1 New Anti- Challenge ( Infinite Lives )
+### 7.2.3 (really 3.2.2)
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Challenges and anti Challenge Skulls are now properly colored ( challenge skulls are now cream-yellow and anti-challenge Skulls are electric-blue )
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) The Electric chair Sigils now have their own metacategories so other modders can use them for their mods, and add new sigils to the list
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) The KC mod related code has been basically completely rewritten, resulting in a much more stable experience ( major thanks to Kopie for this )
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) The Dead Hand Item now gives you a Dead Hand ( Card ) if you use it while having no Cards in your main deck, or when you use it with less than 4 Cards in your main deck
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Changed the name of the Royals Revenge challenge to Royal Rumble
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Changed the Kaycee Hell Mode encounter where it spawns a turn 1 giant
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Reworked the Sawyers Showdowm Challenge
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed that one Grimora Map where people couldnt click on the boss and were softlocked
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed an issue where the player wouldnt gain Bones even when the No Bones Challenge is disabled
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed a Softlock with the Royal Rumble challenge ( rarely the challenge still makes you unable to play Cards from your Hand, im looking for a fix for that )
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed an issue where Quitting a Kc mod grimora run wouldnt delete the assosiated Save Data
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) More Pharao fight bugs squashed
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed an issue where quitting the game in a Kc mod Grimora run and returning to it would reset the Players Deck
+### 7.2.2 (really 3.2.2)
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed Various issues with Challenges not applying behaviors properly
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Cards spawned by the ship in a bottle now get random pirate names
 
-### 2.8.10 aka 2.9.0
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Apparition and other cards with Haunter breaking the final boss 
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with the mod being incompatible with the newest version of the Api.
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Some Pharao fight crashes
 
-### 2.8.9
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Haunter breaking when a Card placed on a Haunted Slot is immediately destroyed ( by for example Sentry )
 
-- **If you happen to encounter any further bugs, you may have to delete your `ModdedSaveFile.gwsave` file in your Inscryption directory. This is in the same directory as your main save file, SaveFile.gwsave**
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Terrain Cards not dropping Bones in act 1 when grimora mod is installed
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue with choosing a card causing a softlock. Apparently you can't use `.Any()` on the override choices.
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Various Dialogue issues
 
-### 2.8.8
+### 7.2.1 (really 3.2.1)
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Potentially fixed issue with current save file already being at the Grimora finale.
-  - Thanks to the work already done by `divisionbyzorro#2868` with the [P03 Mod](https://inscryption.thunderstore.io/package/Infiniscryption/P03_In_Kaycees_Mod/), I was able to borrow and tweak accordingly a lot of the code related to save file handling.
-  - Still expect bugs because it is not perfect.
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Dead Man walking crash
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Initial beta for Ascension Mode! EXPECT A LOT OF BUGS!
-  - Challenge skull art courtesy of `Bt Y#0895`.
-  - No Bones: You no longer gain the extra bones after defeating bosses.
-  - Kaycee's Kerfuffle: The fourth turn of every battle, all your cards will are Frozen Away.
-  - Sawyer's Showdown: Lose 1 bone every 3 turns.
-  - Royal's Revenge: Every third card you play gains the `Lit Fuse` sigil.
+### 7.2.0 (really 3.2.0)
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) The last Skeleton in your side deck pile now has 2 attack instead of 1.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Card Changes:
 
-#### Ability Changes
+  - New Card: Spectre
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Latch related abilities can no longer choose cards with 5 abilities as targets.
+  - New Card: Dead Man Walking
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) `Chaos Strike` description updated: `[creature] will strike the opposing slots to the left, right, and center of it randomly, up to 3 times.`
+  - Some Cards have gotten new art
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) `Skin Crawler` can no longer go under other cards with `Skin Crawler`.
+  - Plague doctor: Hp buffed to 2
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) `Marrow Sucker` can now only be activated if the card is not at max health.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Expansion Changes:
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) `Marrow Sucker` now correctly shows up in Rulebook.
+  - Added 8 new starter Decks, 7 of which were picked from the starter deck competition
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) `Malnourishment` will now correctly cause the card having the sigil to die if the health reaches zero.
+  - The last starter deck uses a guided random generator to randomlz generate decks
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) `Sea Shanty` will now only buff Skeletons on the owner's side of the board, and not all Skeletons.
+  - New Card: Grave Carver
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Malnourishment` no longer appears in the chair.
+  - New Card: Grateful Dead
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Blood Guzzler` is no longer possible to get on zero attack cards in the Electric Chair.
+  - New Card: Big Bones
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Updated rulebook descriptions of `Power Dice` and `Marrow Sucker` so that it better indicates what it actually does.
+  - New Card: Crossbones
 
-#### Card Changes
+  - Card Change: Wyvern changed to Ectoplasm
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Spectrabbits` sigils not showing when drawn from `Fecundity`.
+  - Warthr: Hp buffed to 5
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Added `Ourobones` card. 1/1 2 Bone cost with `Brittle`.
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Control Changes:
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Spectrabbits` sigils will no longer stack.
-  - This is to fix the issue with getting `Fecundity` and `Sentry` on the rabbits to the point where you end up one-shotting everything.
+  - The arrow Keys controls have been Changed to IJKL, i recommend using this control scheme over the wasd one, as it does not overlap with any other controls
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Multiple card descriptions updated per `Mr. Etc.#3925`.
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) A lot of miscellanious bug fixes
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Vampire` attack nerfed from 3 to 2. Bone cost buffed from 6 to 5.
+### 7.1.0 (really 3.1.0)
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Giant` attack buffed from 2 to 3.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Credits, when you beat a KCmod run of Grimora Mod for the first time, the mosd full credits will play
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Ripper` bone cost buffed from 9 to 6.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New Challenge : Vengeful Ghouls
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Jikininki` attack buffed from 0 to 1. Energy cost nerfed from 4 to 6.
+  - All Bosses gain a third phase with this final challenge, it is the Grimora mod equivilant of Kcmods royal challenge
 
-### 2.8.7
+  - Kaycee gains a fiery new phase where she finally stops freezing
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed issue when assets don't load fast enough on slow hard drives, causing exceptions when entering the game.
+  - Sawyer finally stops being scared after you kill the Hellhound, and he uses his bones to make your life hell
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Added check to only replace the bomb object from `Explode On Death` when it's Grimora's finale.
+  - To find out what Royal does, youll have to get there in game ( no spoilers here )
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Cards can now have 5 abilities!
-  - The sigil icons have now also been resized and repositioned slightly to better fit on the cards.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New Anti-Challenge : Pharaos Blessing
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Multiple refactors to handle new API 2.2 updates.
+  - This Final helpful modifier makes the effects of elite fights always benefit you
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Added KMod code logic for regular and rare card choices.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Elite Fight difficulty has been readjustet and is now region based instead of constant
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Cursor interaction disabled at beginning of Electric Chair intro so you can't break the intro sequence...
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New Visuals and sounds
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Added custom animation controller for playing specific animations and better overall control for card animations instead of using patches.
+  - Kaycees Snow Effects have been completely redone, including completely different blizzard effects in her second phase
 
-#### Bosses
+  - Her fights second phase also features new snow storm ambience
 
-##### Grimora
+  - Royals second phase now features a Rain Storm
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed Twin Giants and Bonelord playing attack animation after dying.
+  - The third phases may or may not feature some visual effects too
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed softlock with Twin Giants and Bonelord if their attack animations don't finish playing before another card attacks.
+  - Frozen Cards ( Draugr, Glacier, Cards frozen bz Kaycee or by Cold front ) are now actually encased in ice
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Now using `ModifyQueuedCard` and `ModifySpawnedCard` methods instead of patches when spawning cards.
+  - Terrain Cards are now dirty and Zombie-like
 
-#### Ability Changes
+  - Every area now has unique lighting, with Kaycees region keeping the original turquoise
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Blood Guzzler` and `Malnourishment` causing a softlock if the card dies from `Sharp Quills` or other means before the attack sequence finishes.
+  - Every Node now gives Cards a unique emission Color
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) Skeletons Within: `Once [creature] is struck, draw a card from your Skeleton pile.`. Art courtesy of `Bt Y#0895`.
+  - Several cards start with unique emissions
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) `Alternating Strike` icon will now flip if on the opponent side.
+  - Most of the starter decks have new icons
 
-- ![Refactor](https://i.imgur.com/5bTRm1B.png) Moved logic for enraging a Twin Giant to be inside the `Giant Strike` sigil instead of Grimora's battle sequence.
+  - Missing card portraits and abilities have been added to the starter deck menu
 
-#### Card Changes
+  - Hellhounds art has been redone
 
-- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Fixed `Skin Crawler` cards not being destroyed correctly during Royal's fight after swaying.
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Frankenstein ( not Frank & Stein ) now has unique Art and doesnt gain another sigil when being transformed at the electric Chair
 
-- ![Feature](https://i.imgur.com/uL9uYNV.png) `Hellhand` is actually usable now!
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New Cards: Davy Jones and his locker
+
+  - Davy Jones is a rare pirate card, that gains more damage for every pirate on the board
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Terrain Cards now no longer drop Bones
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) Anchored Cards are now immune to Hook, Line and Sinker
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Kaycees second Phase
+
+  - Kaycee now sends a barrage of Avalanches on the Board at the start of her second Phase
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Card spawning and custom Mods
+
+  - Custom Card mod compatibility has been greatly increased, cards can now spawn via a custom metacategory
+
+  - Custom Sigils can now be assigned to a specific level of the electric chair with a metacategory too
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Sniper and Sentry no longer Softlock when given mid battle
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Latchers and Sniper now use custom visuals again, instead of the ones by the api
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Latcher Bugfixes and general errors fixed
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) When having an Area of effect Strike or Raider Card on the Board, and the dealt damage by all cards on one side of the board equals 0, the resulting damage points will no longer stay on the table and will instead be deleted
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Infinite Lives now correctly disappears boss visuals when loosing
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Giant Cards not being immune to certain effects they should be immune to
+
+### 7.0.6 (really 3.0.6)
+
+- ![Refactor](https://i.imgur.com/uL9uYNV.png) Nerfs some of the Ankh Guard Blueprints
+
+- ![Bugfix](https://i.imgur.com/uL9uYNV.png)  Some Bug fixes
+
+### 7.0.4 (really 3.0.4)
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) All Items have descriptions now
+
+- ![Bugfix](https://i.imgur.com/uL9uYNV.png)  Two soft locks, one at the Card removal node, one at the Item Node
+
+- ![Bugfix](https://i.imgur.com/uL9uYNV.png)  Card art fixes
+
+### 7.0.1 - 7.0.3 (really 3.0.3)
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) The Item Node now has custom Visuals
+
+- ![Refactor](https://i.imgur.com/uL9uYNV.png)  New Card portraits for some Cards
+
+- ![Bugfix](https://i.imgur.com/uL9uYNV.png)  Minor Bug fixes concerning the Items
+﻿
+### 7.0.0 (really 3.0.0)
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) New Title Screen, the Mod's Logo is now displayed and the start Run Card has entirely new Art, thanks to Nevernamed
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png) The Mod has a new Icon, woo (Also thanks to Nevernamed) !
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png)  A new Event (Node) that functions like the Item Node in act 1/3: The Pharaoh's Tomb
+
+- There is 9 unique Items you can gain here
+
+- Revenant Bottle ( functions like the Bottle Items in act 1, just with a Revenant in it! )
+
+- Bone Heap Bottle ( functions like the Bottle Items in act 1, just with a Bone Heap in it! You start with this in a normal run. )
+
+- Dead Hand ( Discards your current Hand, you draw 4 new Cards, You start with this Item in both normal and KC mod runs. )
+
+- Bone Lords Horn ( Uses up all your current Soul, you gain 2 Bones for each used Soul. )
+
+- Spectral Urn ( Functions like the Battery Item in act 3, refills all of your Soul to its current maximum. )
+
+- Ship in a Bottle ( Places Skeletons on every empty Slot, all existing Skeletons gain 1 Power. )
+
+- Mallet ( Deal 1 Damage to any enemy Card, which will then become Brittle. )
+
+- Embalming Fluid ( Select any friendly Card, which will then gain 1 Attack. )
+
+- Trowel ( Select an empty Slot, a random Terrain Card will be played for free on that Slot, and you will gain some Bones. )
+
+- There may be a secret 10th Item, which can only be gained in a certain way
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png)  A new type of Fight : The Ankh Guard which is much more difficult than regular fights
+
+- These have unique Battle Blueprints and Cards, which are especially powerful
+
+- At the start of an Ankh Guard fight, a random Rule will be generated, with both positive and negative Effects for the Player
+
+- There is always one Ankh Guard per map, which protects the Pharaoh's Tomb Event
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png)  Terrain now spawns in fights, and is unique to each Area
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png)  2 new Challenges!
+
+- The Bone Lords Mercy anti-challenge is intended to make the game easier and more fair, giving you increased Bone generation
+
+- Hell Mode is a terible new challenge, which makes the Game way too difficult
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png)  Starter Deck Changes
+
+- As most of the Starter Decks were unfun and unplayable before, all but the default one have been reworked
+
+- 4 new Starter Decks have been added, one for each Boss in Grimora Mod
+
+- ![Feature](https://i.imgur.com/uL9uYNV.png)  Kaycee Mode win and loss Screens
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Complete rework to the Boneyard Node
+
+- It now has several different effects, which Grimora tells you about before you bury your Cards, so listen to what she says!
+
+- Completely new visuals for the Node thanks to Pink
+
+- Read more about the specifics on the Wikie here: <https://grimoramod.fandom.com/wiki/Boneyard_Event_Piece>
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Rework to the Grim Reaper / Bone Lord Node
+
+- The Node is now less random and its probabilities are determined by the amount of Sigils the Card you sacrifice has
+
+- The Bone Lord is a big fan of Obols
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Changes to Challenges
+
+- Several Challenges have new Art
+
+- Challenges now show the "Bug out" Effect that also happens during act 1 when a KC Mode challenge gets activated
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Grimoras dialogue was cleaned up and fixed
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Changes to existing Cards
+
+- Haunted Mirror and Nosferat are now in the main Mod
+
+- Some underused Cards like Silbon and Dead Hand have had their Bone Cost reduced
+
+- The Descriptions of Cards have been majorly reworked, to be more mysterious and philosophical
+
+- Several Cards have new Art
+
+- Several new Cards have been added, mainly as Terrains
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) New Fair Hand! Before, you would always draw a Bone Heap and Gravedigger in your starting Hand if you had one in your Deck. The fair Hand now chooses from any cheap Cards in your Deck, making certain Strategies much more viable
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) The Stinkbug has been moved, and can no longer be killed
+
+- No Animals were harmed in the making of this Mod
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Some Snow Storm Effects have been added to Kaycee, in anticipation of adding more visual Identity to the differnt Ghouls, will see how much Players like this
+
+- Kaycees Area now also has some unique, randomized Blocker pieces
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Several Easter Eggs have been added, mostly involving placing certain Cards on certain Nodes
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Bug where after loosing in a KC Mod run, your Game would freeze and completely break
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) The Mod is now compatible with the newest API version
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Several smaller Bugs regarding Sigil interactions
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Many small Bugs, the mod should now be much more consistent to play and save
+
+
+### 6.6.8 (really 2.11.1)
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Sawyer fight nerfed (Phase 2 spawns 1 less Bonehound, Sawyer gives you free cards at the start of Phase 2)
+
+- ![Refactor](https://i.imgur.com/5bTRm1B.png) Anti Challenges now give negative Challenge Points
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) You now again gain more starting Bones after eadch Boss
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Some challenge issues fixed
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Soulless Challenge now correctly ordered, beautiful
+
+### 6.6.7 (really 2.11.0)
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Save file issues fixed
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) Some challenge issues fixed
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) raid pirate/ screaming skull fix
+
+- ![Bugfix](https://i.imgur.com/CYIMfjn.png) fix for new api versions
+
 
 ## Full Credits
 
@@ -191,39 +376,42 @@
 
 - JulianMods (xXxStoner420BongMasterxXx) for refactoring the code.
 
+- Ourochi Umbra for additional work
+
 ### Code
 
-- Arackulele for additional programming
+- Arackulele (thats me) for a large Chunk of the code
 
-- Kopie for some Bug fixes
+- JulianMods (xXxStoner420BongMasterxXx) for a ton of the Code, and general improvements
 
-- Orochi Umbra for some code for the Ourobones Card
+- JamesGames for the item manager and rewrite of the saving system
 
-- JulianMods (xXxStoner420BongMasterxXx) for a ton of the Code
-
-**Note from BongMaster 2022-04-30**
-  - Due to the toxicity/negativity of the GrimoraMod server in regards to really any discussion that might be taking place, I'm going to be taking a hiatus from working on the mod.
-  - I personally have been private messaged from 6 different members in the server about ideas being not only shutdown, but aggressively attacked from other members in the server as well. I wanted to work on this mod as it was a great idea and to extend the Scrybe of the Dead even further, not deal with people who are unable to have a decent idea discussion or have no idea how to give constructive criticism.
+- Kopie for some Bug fixes and challenges
 
 
 ### Artists
 
-- LavaErrorDoggo (LavaErrorDoggo#1564) for making the Original Act 2 Cards but in full Size Artwork
+- Bt Y#0895 for a ton of 2D Assets for the Mods, including almost all Cards ( special thanks for the item ideas )
 
-- Bt Y#0895 for a ton of 2D Assets for the Mods
-
-- Cevin_2006 (Cevin2006™ (◕‿◕)#7971) for additional Card art
-
- and some Challenge Skull Art
 - Lich Underling (Lich underling#7678) for additional Card Art
 
-- Anne Ghoul for some additional Card Art
+- Anne Bean for some additional Card Art
+
+- Cevin_2006 (Cevin2006™ (◕‿◕)#7971) for additional art
+
+- Catboy Stinkbug (Catboy Stinkbug#4099) for additional art
+
+- Amy (Amy#7082) for additional art
+
+- Gold for additional Art
+
+(Legacy) - LavaErrorDoggo (LavaErrorDoggo#1564) for making the Original Act 2 Cards but in full Size Artwork
 
 ### 3D Models
 
-- Pinks8n (Pink#5387) for making the Boss Skull Models , currently working on a full crypt 3D Model, etc
+- Pink (Pink#6999) for making the Boss Skull Models , Bone Lord Model, Walkable Crypt Model, Event Node Models and some Item Models
 
-- Catboy Stinkbug (Catboy Stinkbug#4099) for the Board Skull 3D Models and Wilted Clover Model
+- Catboy Stinkbug (Catboy Stinkbug#4099) for the Board Skull 3D Models, most of the Item Models, Node Board Models, Event Node Models etc
 
 - Draconis17#3692 for the new energy cells game object.
 
@@ -231,16 +419,14 @@
 
 ### Dialogue
 
-- Primordial Clok-Roo (The Primordial Clok-Roo#2156) for a ton of future Dialogue
-
 - Bob the Nerd (BobTheNerd10#2164) for some dialogue
 
 - Spooky Pig (Mr. Etc.#3925) for event dialogue
 
-- Arackulele, for the original Dialogue
+- Arackulele for the much of the Dialogue
 
 - JulianMods (xXxStoner420BongMasterxXx) for additional Dialogue
 
-### Additional Credits
+### Special Thanks
 
-- The people of the Grimora Mod Discord Server, for Ideas , voting on features and being awesome
+-The Grimora Mod Community

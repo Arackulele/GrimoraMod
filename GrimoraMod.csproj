@@ -15,13 +15,17 @@
 <!--		<ManagedFolder>C:\Program Files (x86)\GOG Galaxy\Games\Inscryption\Inscryption_Data\Managed</ManagedFolder>-->
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <Compile Remove="Assets\**" />
+	  <EmbeddedResource Remove="Assets\**" />
+	  <None Remove="Assets\**" />
+	</ItemGroup>
+
 	<!-- BepInEx dependencies -->
 	<ItemGroup>
 		<PackageReference Include="BepInEx.Analyzers" Version="1.0.8" PrivateAssets="all" IncludeAssets="all" />
 		<PackageReference Include="BepInEx.Core" Version="5.4.19" />
 		<PackageReference Include="Inscryption.GameLibs" Version="1.9.0-r.0" />
-		<PackageReference Include="SimpleJson" Version="0.38.0" />
-		<PackageReference Include="System.Resources.Extensions" Version="6.0.0" />
 		<PackageReference Include="UnityEngine.Modules" Version="2019.4.24" IncludeAssets="compile" />
 	</ItemGroup>
 
@@ -30,6 +34,9 @@
 		<Reference Include="InscryptionAPI">
 			<HintPath>lib\InscryptionAPI.dll</HintPath>
 			<Private>False</Private>
+		</Reference>
+		<Reference Include="InscryptionCommunityPatch">
+		  <HintPath>lib\InscryptionCommunityPatch.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 

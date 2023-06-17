@@ -30,12 +30,12 @@ public class GrimoraRandomAbility : AbilityBehaviour
 		yield return LearnAbility(0.5f);
 	}
 
-		private void AddMod()
+	private void AddMod()
 	{
 		Card.Status.hiddenAbilities.Add(Ability);
 		CardModificationInfo cardModificationInfo = new CardModificationInfo(ChooseAbility());
-		CardModificationInfo cardModificationInfo2 = Card.TemporaryMods.Find(x => x.HasAbility(Ability)) 
-		                                          ?? Card.Info.Mods.Find(x => x.HasAbility(Ability));
+		CardModificationInfo cardModificationInfo2 = Card.TemporaryMods.Find(x => x.HasAbility(Ability))
+																							?? Card.Info.Mods.Find(x => x.HasAbility(Ability));
 
 		if (cardModificationInfo2.IsNotNull())
 		{
@@ -77,6 +77,7 @@ public partial class GrimoraPlugin
 		 .SetIcon(AbilitiesUtil.LoadAbilityIcon(Ability.RandomAbility.ToString()))
 		 .SetRulebookDescription(rulebookDescription)
 		 .SetRulebookName(GrimoraRandomAbility.RulebookName)
+		 .SetPixelIcon(AssetUtils.GetPrefab<Sprite>("random_pixel"))
 		 .Build();
 	}
 }

@@ -2,12 +2,27 @@ namespace GrimoraMod;
 
 public class ChessNode
 {
+	public const char PathNode = '0';
+	public const char BlockerNode = '1';
+	public const char ChestNode = '2';
+	public const char EnemyNode = '3';
+	public const char BossNode = '4';
+	public const char CardRemovalNode = '5';
+	public const char BoneyardNode = '6';
+	public const char ElectricChairNode = '7';
+	public const char GoatEyeNode = '8';
+	public const char PlayerNode = '9';
+	
+	public const char ConsumableNode = 'i';
+
+
 	private readonly ChessRow _row;
 	private readonly int _index;
-	public int JsonValue;
+	public char JsonValue;
 	public readonly bool IsBlocker;
 	public readonly bool isBoss;
 	public readonly bool isCardRemoval;
+	public readonly bool isGainConsumable;
 	public readonly bool isChest;
 	public readonly bool isEnemy;
 	public readonly bool IsPath;
@@ -17,29 +32,32 @@ public class ChessNode
 	public int GridY => _row.Index;
 
 
-	public ChessNode(int jsonValue, int index, ChessRow row)
+	public ChessNode(char jsonValue, int index, ChessRow row)
 	{
 		switch (jsonValue)
 		{
-			case 0:
+			case PathNode:
 				IsPath = true;
 				break;
-			case 1:
+			case BlockerNode:
 				IsBlocker = true;
 				break;
-			case 2:
+			case ChestNode:
 				isChest = true;
 				break;
-			case 3:
+			case EnemyNode:
 				isEnemy = true;
 				break;
-			case 4:
+			case BossNode:
 				isBoss = true;
 				break;
-			case 5:
+			case CardRemovalNode:
 				isCardRemoval = true;
 				break;
-			default:
+			case ConsumableNode:
+				isGainConsumable = true;
+				break;
+			case PlayerNode:
 				isPlayer = true;
 				break;
 		}
@@ -81,6 +99,21 @@ public class ChessNode
 			return $"IsBoss_{GetCoords()}";
 		}
 
-		return $"IsPlayer_{GetCoords()}";
+		if (isPlayer)
+		{
+			return $"IsPlayer_{GetCoords()}";
+		}
+
+		if (isGainConsumable)
+		{
+			return $"IsGainConsumable_{GetCoords()}";
+		}
+
+		if (isCardRemoval)
+		{
+			return $"IsCardRemoval_{GetCoords()}";
+		}
+		
+		return $"IsUnknown({JsonValue})_{GetCoords()}";
 	}
 }

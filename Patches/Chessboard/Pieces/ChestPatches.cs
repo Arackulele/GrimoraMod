@@ -1,5 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
+using GrimoraMod.Saving;
 using HarmonyLib;
 using UnityEngine;
 
@@ -40,7 +41,7 @@ public class ChestPatches
 		}
 
 		GrimoraPlugin.Log.LogDebug($"[ChessboardChestPiece.OpenSequence] Piece [{__instance.name}]");
-		ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(__instance.name);
+		GrimoraRunState.CurrentRun.PiecesRemovedFromBoard.Add(__instance.name);
 
 		MapNodeManager.Instance.SetAllNodesInteractable(false);
 
@@ -55,5 +56,6 @@ public class ChestPatches
 		ViewManager.Instance.Controller.LockState = ViewLockState.Unlocked;
 
 		GameFlowManager.Instance.TransitionToGameState(GameState.SpecialCardSequence, __instance.NodeData);
+
 	}
 }

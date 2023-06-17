@@ -2,6 +2,7 @@ using System.Collections;
 using DiskCardGame;
 using GrimoraMod.Extensions;
 using InscryptionAPI.Helpers.Extensions;
+using UnityEngine;
 
 namespace GrimoraMod;
 
@@ -63,6 +64,7 @@ public partial class GrimoraPlugin
 		AbilityBuilder<CreateArmyOfSkeletons>.Builder
 		 .SetRulebookDescription(rulebookDescription)
 		 .SetRulebookName(CreateArmyOfSkeletons.RulebookName)
+		 .SetPixelIcon(AssetUtils.GetPrefab<Sprite>("skeletonhorde2"))
 		 .Build();
 	}
 }

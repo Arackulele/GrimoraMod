@@ -11,7 +11,7 @@ public class DeckPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(Deck.Draw), typeof(CardInfo))]
 	public static void AddOnePowerToLastSkeletonInSideDeck(Deck __instance, ref CardInfo __result)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora || __instance.CardsInDeck > 0 || __result.SafeIsUnityNull() || __result.name != "Skeleton")
+		if (GrimoraSaveUtil.IsNotGrimoraModRun || __instance.CardsInDeck > 0 || __result.SafeIsUnityNull() || __result.name != "Skeleton")
 		{
 			return;
 		}

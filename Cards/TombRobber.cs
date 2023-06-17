@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace GrimoraMod;
 
@@ -18,6 +18,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(0, 1)
 			.SetDescription("NOTHING... NOTHING AGAIN... NO TREASURE IS LEFT ANYMORE.")
 			.SetNames(NameTombRobber, "Tomb Robber")
+			.SetPortraits(AssetUtils.GetPrefab<Sprite>("tomb_robber_new"), AssetUtils.GetPrefab<Sprite>("tomb_robber_emission_new"))
 			.Build().pixelPortrait=pixelSprite;
 	}
 }

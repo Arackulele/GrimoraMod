@@ -1,4 +1,7 @@
 using DiskCardGame;
+using InscryptionAPI.Card;
+using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
 
@@ -13,8 +16,11 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.SplitStrike)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(4)
-			.SetDescription("THIS SKELETON LEARNED NECROMANCY JUST TO NOT FALL IN ONE STRIKE.")
+			.SetDescription("HE HAS SPENT YEARS IN HIS STUDY, IN A TIRELESS ATTEMPT TO CHANGE HIS FATE. YET FATE IS A CRUEL MISTRESS.")
 			.SetNames(NameSummoner, "Summoner")
-			.Build();
+			.SetPortraits(AssetUtils.GetPrefab<Sprite>("summoner_new"), AssetUtils.GetPrefab<Sprite>("summoner_new_emission"))
+			.Build().pixelPortrait = AssetUtils.GetPrefab<Sprite>("summoner_pixel");
+
+
 	}
 }

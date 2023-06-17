@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(1, 4)
 			.SetBoneCost(6)
 			.SetNames(NameCenturion, "Centurion")
-			.SetDescription("A heavily armoured Centurion, last of his century, leader to none.")
+			.SetDescription("A heavily armoured warrior, last of his century, leader to none.")
 			.Build();
 	}
 }

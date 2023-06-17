@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using HarmonyLib;
 using Pixelplacement;
 using Sirenix.Utilities;
@@ -16,10 +16,12 @@ public class VisualizeSniperPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(CombatPhaseManager.VisualizeStartSniperAbility))]
 	public static bool VisualizeStartSniperAbilityGrimora(CardSlot sniperSlot)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			return true;
 		}
+
+		sniperSlot.Card.GetComponent<GraveControllerExt>().AddCustomArmPrefabs(sniperSlot.Card);
 
 		skeletonArmSniper = sniperSlot.Card.transform.Find("Grimora_Sentry").GetChild(0).GetComponent<Animator>();
 		skeletonArmSniper.gameObject.SetActive(true);
@@ -30,7 +32,7 @@ public class VisualizeSniperPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(CombatPhaseManager.VisualizeAimSniperAbility))]
 	public static bool VisualizeAimForGrimoraGrimora(CardSlot sniperSlot, CardSlot targetSlot)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			return true;
 		}
@@ -42,7 +44,7 @@ public class VisualizeSniperPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(CombatPhaseManager.VisualizeConfirmSniperAbility))]
 	public static bool VisualizeConfirmSniperAbilityGrimora(CombatPhaseManager __instance, CardSlot targetSlot)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			return true;
 		}
@@ -65,7 +67,7 @@ public class VisualizeSniperPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(CombatPhaseManager.VisualizeClearSniperAbility))]
 	public static bool VisualizeClearSniperAbilityGrimora()
 	{
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			return true;
 		}

@@ -1,4 +1,4 @@
-﻿namespace GrimoraMod;
+namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetBaseAttackAndHealth(3, 3)
 			.SetBoneCost(8)
-			.SetDescription("THE CYCLE OF THE MUMMY LORD IS NEVER ENDING.")
+			.SetDescription("HIS AGE OF GLORY IS LONG GONE, YET IT IS WHAT KEEPS HIM GOING.")
 			.SetNames(NameMummy, "Mummy Lord")
 			.Build();
 	}

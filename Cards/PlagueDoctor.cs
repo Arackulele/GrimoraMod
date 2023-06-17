@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 		CardBuilder.Builder
 			.SetAsNormalCard()
 			.SetAbilities(Ability.Deathtouch)
-			.SetBaseAttackAndHealth(1, 1)
+			.SetBaseAttackAndHealth(1, 2)
 			.SetBoneCost(6)
 			.SetNames(NamePlagueDoctor, "Plague Doctor")
 			.SetDescription("IRONICALLY ENOUGH, NOT A REAL DOCTOR.")

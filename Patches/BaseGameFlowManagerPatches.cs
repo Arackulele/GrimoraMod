@@ -1,8 +1,10 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
+using GrimoraMod.Saving;
 using HarmonyLib;
 using Sirenix.Utilities;
 using UnityEngine;
+using static GrimoraMod.GrimoraPlugin;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -13,7 +15,7 @@ public class BaseGameFlowManagerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(GameFlowManager.Start))]
 	public static void PrefixStart(GameFlowManager __instance)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			return;
 		}
@@ -29,6 +31,11 @@ public class BaseGameFlowManagerPatches
 		if (rightWrist && rightWrist.transform.GetChild(6))
 		{
 			UnityObject.Destroy(rightWrist.transform.GetChild(6).gameObject);
+		}
+
+		if (ResourceBank.instance == null)
+		{
+			__instance.gameObject.AddComponent<ResourceBank>();
 		}
 
 		DisableAttackAndHealthStatShadowsAndScaleUpStatIcons();
@@ -52,7 +59,9 @@ public class BaseGameFlowManagerPatches
 
 		GrimoraCardRemoveSequencer.CreateSequencerInScene();
 
-		GrimoraItemsManagerExt.AddHammer();
+		GrimoraGainConsumableSequencer.CreateSequencerInScene();
+
+		GrimoraItemsManagerExt.CreateHammerSlot();
 
 		AddDeckReviewSequencerToScene();
 
@@ -73,10 +82,13 @@ public class BaseGameFlowManagerPatches
 		GameObject.Find("GameTable")
 			.AddComponent<Animator>()
 			.runtimeAnimatorController = AssetUtils.GetPrefab<RuntimeAnimatorController>("GrimoraGameTable");
+
+
 	}
 
 
-	private static void SetupPlayableAndSelectableCardPrefabs()
+
+		private static void SetupPlayableAndSelectableCardPrefabs()
 	{
 		AssetConstants.GrimoraPlayableCard
 			.transform
@@ -132,6 +144,7 @@ public class BaseGameFlowManagerPatches
 
 	private static void AddEnergyDrone()
 	{
+
 		ResourceDrone resourceEnergy = ResourceDrone.Instance;
 
 		if (BoardManager3D.Instance && resourceEnergy.SafeIsUnityNull())
@@ -164,6 +177,53 @@ public class BaseGameFlowManagerPatches
 
 		UnityObject.Destroy(moduleEnergy.Find("Connector").gameObject);
 		resourceEnergy.emissiveRenderers.Clear();
+
+
+		//Ghost Bottle Management
+		bool Soul = false;
+		if (Soul == true) { 
+		GameObject SoulCounter = new GameObject("SoulCounter");
+		SoulCounter.transform.parent = resourceEnergy.transform;
+
+		GameObject Half1 = new GameObject("SoulCounter");
+		Half1.transform.position = new Vector3(0.9618f, 0, 0);
+		Half1.transform.parent = SoulCounter.transform;
+
+		GameObject Half2 = new GameObject("SoulCounter");
+		Half2.transform.parent = SoulCounter.transform;
+
+		GameObject Bottle1 = GameObject.Instantiate(AssetConstants.GhostBottle);
+		GameObject Bottle2 = GameObject.Instantiate(AssetConstants.GhostBottle);
+		GameObject Bottle3 = GameObject.Instantiate(AssetConstants.GhostBottle);
+		GameObject Bottle4 = GameObject.Instantiate(AssetConstants.GhostBottle);
+		GameObject Bottle5 = GameObject.Instantiate(AssetConstants.GhostBottle);
+		GameObject Bottle6 = GameObject.Instantiate(AssetConstants.GhostBottle);
+
+		Bottle1.transform.position = new Vector3(2.9582f, 5.9637f, 4.8164f);
+		Bottle1.transform.rotation = Quaternion.Euler(0f, 192.4423f, 0f);
+		Bottle1.transform.parent = Half1.transform;
+
+		Bottle2.transform.position = new Vector3(4.251f, 5.9455f, 4.8164f);
+		Bottle2.transform.rotation = Quaternion.Euler(0f, 192.4423f, 0f);
+		Bottle2.transform.parent = Half1.transform;
+
+		Bottle3.transform.position = new Vector3(5.5619f, 5.9455f, 4.8164f);
+		Bottle3.transform.rotation = Quaternion.Euler(0f, 192.4423f, 0f);
+		Bottle3.transform.parent = Half1.transform;
+
+		Bottle4.transform.position = new Vector3(3.1422f, 7.8347f, 6.6033f);
+		Bottle4.transform.rotation = Quaternion.Euler(0f, 192.4423f, 0f);
+		Bottle4.transform.parent = Half2.transform;
+
+		Bottle5.transform.position = new Vector3(4.5004f, 7.8347f, 6.6033f);
+		Bottle5.transform.rotation = Quaternion.Euler(0f, 192.4423f, 0f);
+		Bottle5.transform.parent = Half2.transform;
+
+		Bottle6.transform.position = new Vector3(5.8022f, 7.8347f, 6.6033f);
+		Bottle6.transform.rotation = Quaternion.Euler(0f, 192.4423f, 0f);
+		Bottle6.transform.parent = Half2.transform;
+
+		}
 	}
 
 	private static void AddDeckReviewSequencerToScene()
@@ -207,7 +267,7 @@ public class BaseGameFlowManagerPatches
 		bool unlockViewAfterTransition = true
 	)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora || gameState != GameState.Map)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun || gameState != GameState.Map)
 		{
 			// run the original code
 			yield return enumerator;
@@ -226,10 +286,18 @@ public class BaseGameFlowManagerPatches
 			ChessboardMapExt.Instance.SetAnimActiveIfInactive();
 		}
 
-		bool isBossDefeated = ChessboardMapExt.Instance.BossDefeated;
+		bool isBossDefeated = GrimoraRunState.CurrentRun.PiecesRemovedFromBoard.Exists(piece => piece.Contains("BossPiece"));
 		bool piecesExist = ChessboardMapExt.Instance.pieces.IsNotEmpty();
 
-		Log.LogDebug($"[TransitionTo] IsBossDefeated [{isBossDefeated}] Pieces exist [{piecesExist}]");
+		Log.LogInfo($"[TransitionTo] IsBossDefeated [{isBossDefeated}] Pieces exist [{piecesExist}]");
+		Log.LogInfo($"[TransitionTo] IsBossDefeated [{triggeringNodeData}]");
+		if (triggeringNodeData != null)
+		{
+			Log.LogInfo($"[TransitionTo] IsBossDefeated [{triggeringNodeData.id}]");
+			Log.LogInfo($"[TransitionTo] IsBossDefeated [{triggeringNodeData.prefabPath}]");
+			Log.LogInfo($"[TransitionTo] IsBossDefeated [{triggeringNodeData.GetType()}]");
+			Log.LogInfo($"[TransitionTo] IsBossDefeated [{triggeringNodeData.position}]");
+		}
 
 		// FOR ENUMS IN POSTFIX CALLS, 'IS', 'IS NOT' is the same as '==' and '!=' respectively, despite what the IDE says
 		if (piecesExist && isBossDefeated)

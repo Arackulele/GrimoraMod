@@ -11,14 +11,13 @@ public class ElectricChairLever : HighlightedInteractable
 
 	private const float DefaultLeverDuration = 0.375f;
 
-	public static readonly List<Ability> AbilitiesSaferRisk = new()
+	public static List<Ability> AbilitiesSaferRisk = new()
 	{
 		Ability.DeathShield,
 		Ability.DrawRabbits,
 		Ability.DrawRandomCardOnDeath,
 		Ability.Evolve,
 		Ability.IceCube,
-		Ability.LatchDeathShield,
 		Ability.OpponentBones,
 		Ability.QuadrupleBones,
 		Ability.Sentry,
@@ -26,13 +25,14 @@ public class ElectricChairLever : HighlightedInteractable
 		BoneThief.ability,
 		DrawSkeletonOnHit.ability,
 		ColdFront.ability,
-		LatchSubmerge.ability,
 		LooseLimb.ability,
-		SpiritBearer.ability
+		SpiritBearer.ability,
+		Ability.SteelTrap,
 	};
 
-	public static readonly List<Ability> AbilitiesMinorRisk = new(AbilitiesSaferRisk)
+	public static List<Ability> AbilitiesMinorRisk = new(AbilitiesSaferRisk)
 	{
+		Ability.LatchDeathShield,
 		Ability.BoneDigger,
 		Ability.BuffNeighbours,
 		Ability.CreateBells,
@@ -49,7 +49,7 @@ public class ElectricChairLever : HighlightedInteractable
 		Ability.MoveBeside,
 		Ability.Reach,
 		Ability.SkeletonStrafe,
-		Ability.Sniper,
+		Slasher.ability,
 		Ability.SplitStrike,
 		Ability.Tutor,
 		ActivatedDrawSkeletonGrimora.ability,
@@ -61,13 +61,13 @@ public class ElectricChairLever : HighlightedInteractable
 		CreateArmyOfSkeletons.ability,
 		CreateShipwrecks.ability,
 		GrimoraRandomAbility.ability,
-		Haunter.ability,
 		HookLineAndSinker.ability,
 		Imbued.ability
 	};
 
-	public static readonly List<Ability> AbilitiesMajorRisk = new(AbilitiesMinorRisk)
+	public static List<Ability> AbilitiesMajorRisk = new(AbilitiesMinorRisk)
 	{
+		LatchSubmerge.ability,
 		Ability.ActivatedHeal,
 		Ability.ActivatedRandomPowerEnergy,
 		Ability.ActivatedStatsUp,
@@ -79,7 +79,6 @@ public class ElectricChairLever : HighlightedInteractable
 		Ability.DrawCopy,
 		Ability.ExplodeOnDeath,
 		Ability.GuardDog,
-		Ability.SteelTrap,
 		Ability.Strafe,
 		Ability.StrafePush,
 		Ability.StrafeSwap,
@@ -145,6 +144,7 @@ public class ElectricChairLever : HighlightedInteractable
 		CursorSelectStarted += ChangeRisk;
 		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.JammedChair))
 		{
+			ChallengeActivationUI.TryShowActivation(ChallengeManagement.JammedChair);
 			currentSigilRisk = SigilRisk.Major;
 			SetCellColor(_cellMinorRisk.Item1, DarkCellColor);	
 			SetCellColor(_cellSaferRisk.Item1, DarkCellColor);

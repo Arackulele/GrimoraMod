@@ -1,12 +1,15 @@
-﻿namespace GrimoraMod;
+using GrimoraMod.Saving;
+namespace GrimoraMod;
+using InscryptionAPI.Helpers;
+using InscryptionAPI.Helpers.Extensions;
 
 public class ChessboardBlockerPieceExt : ChessboardPieceExt
 {
 	public ChessboardBlockerPieceExt()
 	{
-		if (ConfigHelper.Instance.BossesDefeated == 3)
+		if (GrimoraRunState.CurrentRun.regionTier == 3)
 		{
-			newYPosition = 1.25f;
+			if (this.gameObject.FindChild("EyeRight") != null) newYPosition = 1.25f;
 		}
 	}
 }

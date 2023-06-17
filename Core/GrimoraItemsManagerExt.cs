@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Helpers.Extensions;
@@ -10,12 +10,13 @@ namespace GrimoraMod;
 
 public class GrimoraItemsManagerExt : ItemsManager
 {
-	[SerializeField] internal HammerItemSlot hammerSlot;
-
 	public new static GrimoraItemsManagerExt Instance => ItemsManager.Instance as GrimoraItemsManagerExt;
 
-	public override List<string> SaveDataItemsList => Part3SaveData.Data.items;
-
+	public override List<string> SaveDataItemsList => RunState.Run.consumables;
+	public HammerItemSlot HammerSlot => hammerSlot;
+	
+	private HammerItemSlot hammerSlot;
+	
 	public void SetHammerActive(bool active = true)
 	{
 		hammerSlot.gameObject.SetActive(active);
@@ -23,15 +24,17 @@ public class GrimoraItemsManagerExt : ItemsManager
 
 	public override void OnBattleStart()
 	{
+		// Creates hammer
 		hammerSlot.InitializeHammer();
 	}
 
 	public override void OnBattleEnd()
 	{
+		// Deletes hammer
 		hammerSlot.CleanupHammer();
 	}
 
-	public static void AddHammer()
+	public static void CreateHammerSlot()
 	{
 		GrimoraItemsManager currentItemsManager = GrimoraItemsManager.Instance.GetComponent<GrimoraItemsManager>();
 
@@ -57,39 +60,31 @@ public class GrimoraItemsManagerExt : ItemsManager
 			ext.hammerSlot.gameObject.transform.rotation = Quaternion.Euler(0, 20, -90);
 		}
 
-		if (FindObjectOfType<Part3ItemsManager>())
+		Part3ItemsManager findObjectOfType = FindObjectOfType<Part3ItemsManager>();
+		if (findObjectOfType)
 		{
-			Destroy(FindObjectOfType<Part3ItemsManager>().gameObject);
+			Destroy(findObjectOfType.gameObject);
 		}
 		
-		if (ext.consumableSlots.Any(slot => slot.isActiveAndEnabled))
+		/*if (ext.consumableSlots.Any(slot => slot.isActiveAndEnabled))
 		{
 			// TODO: disable all consumable item slots so the items dont cause a shit load of exceptions
 			Log.LogDebug($"[ChangeDefaultHammerModel] Disabling other consumable item slots");
 			ext.consumableSlots.ForEach(slot => slot.gameObject.SetActive(false));
-		}
+		}*/
 	}
 }
 
 [HarmonyPatch(typeof(ItemSlot))]
-public class AddNewHammerExt
+public class ItemSlotPatches
 {
 	[HarmonyPrefix, HarmonyPatch(nameof(ItemSlot.CreateItem))]
 	public static bool ChangeDefaultHammerModel(ItemSlot __instance, ItemData data, bool skipDropAnimation = false)
 	{
 		Log.LogDebug($"[ItemSlot.CreateItem] ItemSlot [{__instance}] ItemData [{data}]");
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsGrimoraModRun && data && data.prefabId.Equals("HammerItem"))
 		{
-			return true;
-		}
-
-		if (__instance && __instance.Item)
-		{
-			UnityObject.Destroy(__instance.Item.gameObject);
-		}
-
-		if (data && data.prefabId.Equals("HammerItem"))
-		{
+			// TODO: Use API to do this instead
 			Log.LogDebug($"Adding new HammerItemExt");
 			HammerItemExt grimoraHammer = UnityObject.Instantiate(
 					AssetConstants.GrimoraHammer,
@@ -114,7 +109,7 @@ public class DeactivateHammerAfterThreeUses
 	public static IEnumerator CheckHammerForThreeUses(IEnumerator enumerator, ConsumableItemSlot __instance)
 	{
 		yield return enumerator;
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			yield break;
 		}
@@ -141,7 +136,7 @@ public class FirstPersonHammerPatch
 		Action<int> keyframesCallback = null
 	)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora || !prefabName.Contains("FirstPersonHammer"))
+		if (GrimoraSaveUtil.IsNotGrimoraModRun || !prefabName.Contains("FirstPersonHammer"))
 		{
 			return true;
 		}

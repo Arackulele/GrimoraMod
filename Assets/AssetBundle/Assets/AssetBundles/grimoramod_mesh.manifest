@@ -1,0 +1,17 @@
+ManifestFileVersion: 0
+CRC: 2918294504
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: dd89049a694d8541b86d69941e0382aa
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: b1c4c89ef90976e0af8e967bcb404a52
+HashAppended: 0
+ClassTypes:
+- Class: 43
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Models/GravestoneCard_Giant_2Slots.mesh
+Dependencies: []

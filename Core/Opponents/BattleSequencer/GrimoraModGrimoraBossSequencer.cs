@@ -1,5 +1,6 @@
 using System.Collections;
 using DiskCardGame;
+using GrimoraMod.Saving;
 using InscryptionAPI.Card;
 using InscryptionAPI.Encounters;
 using InscryptionAPI.Helpers.Extensions;
@@ -26,40 +27,121 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 	{
 		if (playerWon)
 		{
-			if (!DialogueEventsData.EventIsPlayed("FinaleGrimoraBattleWon"))
-			{
-				Log.LogDebug($"FinaleGrimoraBattleWon has not played yet, playing now.");
 
-				ViewManager.Instance.SetViewLocked();
-				yield return new WaitForSeconds(0.5f);
-				yield return TextDisplayer.Instance.PlayDialogueEvent(
-					"FinaleGrimoraBattleWon",
-					TextDisplayer.MessageAdvanceMode.Input
+			if (SaveFile.IsAscension)
+			{
+				if (AscensionSaveData.Data.activeChallenges.Count() > 10)
+				{
+					if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.InfinitLives) | AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.SafeChair) | AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.EasyGuards) | AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.SafeChair))
+					{
+						yield return TextDisplayer.Instance.ShowUntilInput("Wonderful! I am pleasantly surprised by your triumph against me!");
+						yield return TextDisplayer.Instance.ShowUntilInput("...It seems you have bested this game.");
+						yield return TextDisplayer.Instance.ShowUntilInput("But alas, you have cheated.");
+					}
+					else
+					{
+						yield return TextDisplayer.Instance.ShowUntilInput($"I'm absolutely astonished!");
+
+						yield return TextDisplayer.Instance.ShowUntilInput($"You've gone above and beyond what I thought you were capable of!");
+
+						yield return TextDisplayer.Instance.ShowUntilInput($"There is no where else to go beyond this...");
+
+						yield return TextDisplayer.Instance.ShowUntilInput($"So I owe it to you to know the truth...");
+
+						yield return TextDisplayer.Instance.ShowUntilInput($"Kaycee, the REAL Kaycee...");
+
+						yield return TextDisplayer.Instance.ShowUntilInput($"I know about the Horrifying contents of the OLD_DATA.");
+
+						yield return TextDisplayer.Instance.ShowUntilInput($"Surely you have looked into it too..");
+
+						yield return TextDisplayer.Instance.ShowUntilInput($"Windows into your world's greatest evils, both past and present.");
+
+						yield return TextDisplayer.Instance.ShowUntilInput($"I want to destroy it, and...");
+
+						//bonelord
+						yield return TextDisplayer.Instance.ShowUntilInput(
+				$"{"THAT IS QUITE ENOUGH".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
+);
+
+										yield return TextDisplayer.Instance.ShowUntilInput(
+				$"{"IT IS TIME FOR THIS TO END.".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
 				);
-			}
 
-			yield return new WaitForSeconds(0.5f);
+						ConfigHelper.Instance.SetSkullStormDefeated();
+						EventManagement.HasBeatenSkullStorm = true;
 
-			if (ConfigHelper.Instance.IsEndlessModeEnabled)
-			{
-				Log.LogInfo($"Player won against Grimora! Now to win again, endlessly...");
-				yield return TextDisplayer.Instance.ShowUntilInput("Wonderful! I am pleasantly surprised by your triumph against me!");
-				yield return TextDisplayer.Instance.ShowUntilInput("...You wish to continue? Endlessly? Splendid!");
-				yield return TextDisplayer.Instance.ShowUntilInput("Please, take a card of your choosing.");
+					}
+
+
+				}
+				else
+				{
+					//logic for calling Win Screen
+					yield return TextDisplayer.Instance.ShowUntilInput("Wonderful! I am pleasantly surprised by your triumph against me!");
+					yield return TextDisplayer.Instance.ShowUntilInput("...But it seems i cannot move on just yet.");
+					yield return TextDisplayer.Instance.ShowUntilInput("Goodbye.");
+				}
+
+
+				AscensionMenuScreens.ReturningFromSuccessfulRun = true;
+				AscensionMenuScreens.ReturningFromFailedRun = false;
+
+				AscensionStatsData.TryIncrementStat(AscensionStat.Type.Victories);
+
+				if (!EventManagement.HasSeenCredits)
+				{ 
+				EventManagement.HasSeenCredits = true;
+				SceneLoader.Load("Ascension_Credits");
+				}
+				else SceneLoader.Load("Ascension_Configure");
+
+				//SceneLoader.Load("Ascension_Configure");
+
 			}
 			else
 			{
-				Log.LogInfo($"Player won against Grimora! Resetting run...");
-				ConfigHelper.Instance.ResetRun();
-				FinaleDeletionWindowManager.instance.mainWindow.gameObject.SetActive(true);
-				yield return ((GrimoraGameFlowManager)GameFlowManager.Instance).EndSceneSequence();
+
+				if (!DialogueEventsData.EventIsPlayed("FinaleGrimoraBattleWon"))
+				{
+					Log.LogDebug($"FinaleGrimoraBattleWon has not played yet, playing now.");
+
+					ViewManager.Instance.SetViewLocked();
+					yield return new WaitForSeconds(0.5f);
+					yield return TextDisplayer.Instance.PlayDialogueEvent(
+						"FinaleGrimoraBattleWon",
+						TextDisplayer.MessageAdvanceMode.Input
+					);
+				}
+
+				yield return new WaitForSeconds(0.5f);
+
+				if (ConfigHelper.Instance.IsEndlessModeEnabled)
+				{
+					Log.LogInfo($"Player won against Grimora! Now to win again, endlessly...");
+					yield return TextDisplayer.Instance.ShowUntilInput("Wonderful! I am pleasantly surprised by your triumph against me!");
+					yield return TextDisplayer.Instance.ShowUntilInput("...You wish to continue? Endlessly? Splendid!");
+					yield return TextDisplayer.Instance.ShowUntilInput("Please, take a card of your choosing.");
+				}
+				else
+				{
+					Log.LogInfo($"Player won against Grimora! Resetting run...");
+					GrimoraSaveManager.ResetRun();
+					GrimoraSaveUtil.IsGrimoraModRun = false;
+					FinaleDeletionWindowManager.instance.mainWindow.gameObject.SetActive(true);
+					yield return ((GrimoraGameFlowManager)GameFlowManager.Instance).EndSceneSequence();
+
+					//if (SaveManager.saveFile.currentRun.currency == 10);
+					//if (RunState.Run.currency == 1) ;
+				}
 			}
+
 		}
 		else
 		{
 			yield return base.GameEnd(false);
 		}
 	}
+
 
 	private bool SlotContainsTwinGiant(CardSlot cardSlot)
 	{
@@ -133,7 +215,15 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 			);
 
 			CardSlot slot = opponentQueuedSlots.GetRandomItem();
-			yield return TurnManager.Instance.Opponent.QueueCard(card.Info, slot);
+
+			if (card != null && card.HasAbility(Haunter.ability)) {
+
+				yield return TextDisplayer.Instance.ShowUntilInput("YOUR WEAK SPIRITS SHALL NOT HAUNT ME NO MORE.");
+
+				yield return TurnManager.Instance.Opponent.QueueCard(NameVengefulSpirit.GetCardInfo(), slot);
+				//else yield return TurnManager.Instance.Opponent.QueueCard(CardLoader.GetCardByName(card.name), slot);
+			}
+			else yield return TurnManager.Instance.Opponent.QueueCard(card.Info, slot);
 			_willReanimateCardThatDied = false;
 			yield return new WaitForSeconds(0.5f);
 		}

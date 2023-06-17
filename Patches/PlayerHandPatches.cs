@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
@@ -20,15 +20,15 @@ public class PlayerHandPatches
 	)
 	{
 		GrimoraPlugin.Log.LogInfo($"Pre change lit turn {cardsPlayedThisCombatForFuse}");
-		if (GrimoraSaveUtil.IsGrimora && __instance.CardsInHand.Contains(card) && card.HasAbility(MarchingDead.ability))
+		if (GrimoraSaveUtil.IsGrimoraModRun && __instance.CardsInHand.Contains(card) && card.HasAbility(MarchingDead.ability))
 		{
 			card.GetComponent<MarchingDead>().SetAdjCardsToPlay(__instance.CardsInHand);
 		}
 
 		yield return enumerator;
 
-		
-		
+
+
 		if (SaveFile.IsAscension && AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.RoyalsRevenge))
 		{
 			if (lastRegisteredTurn > TurnManager.Instance.TurnNumber)
@@ -42,19 +42,43 @@ public class PlayerHandPatches
 			{
 				yield return TextDisplayer.Instance.ShowUntilInput("Careful, the life of your next card will be on a timer.");
 			}
-			if (cardsPlayedThisCombatForFuse==3)
+			if (cardsPlayedThisCombatForFuse == 3)
 			{
 				yield return TextDisplayer.Instance.ShowUntilInput("I look forward to the [c:brnO]explosive[c:] results!");
 				ViewManager.Instance.SwitchToView(View.Board);
+				ChallengeActivationUI.TryShowActivation(ChallengeManagement.RoyalsRevenge);
 				yield return new WaitForSeconds(0.2f);
+				if (card != null && !card.Dead) { 
+					if (card.AllAbilities().Count < 5) { 
 				card.AddTemporaryMod(new CardModificationInfo(LitFuse.ability));
 				card.Anim.StrongNegationEffect();
 				yield return new WaitForSeconds(0.2f);
 				cardsPlayedThisCombatForFuse = 0;
+					}
+					else
+					{
+						if (card != null && !card.Dead)
+						{
+							yield return TextDisplayer.Instance.ShowUntilInput("Your card cannot explode, how dissapointing.");
+							card.TakeDamage(1, null);
+							cardsPlayedThisCombatForFuse = 0;
+						}
+						else yield break;
+					}
+				}
 			}
 		}
 		GrimoraPlugin.Log.LogInfo($"after change lit turn {cardsPlayedThisCombatForFuse}");
 
+
+		if (SaveFile.IsAscension && AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.PlaceBones))
+		{
+			if (card.Info.bonesCost == 0)
+			{ 
+			ChallengeActivationUI.TryShowActivation(ChallengeManagement.PlaceBones);
+			yield return ResourcesManager.Instance.AddBones(1);
+			}
+		}
 	}
 
 	[HarmonyPostfix, HarmonyPatch(nameof(PlayerHand.AddCardToHand))]

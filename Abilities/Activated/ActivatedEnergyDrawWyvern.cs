@@ -7,7 +7,7 @@ public class ActivatedEnergyDrawWyvern : ActivatedAbilityBehaviour
 {
 	private const int ENERGY_COST = 2;
 
-	public const string RulebookName = "Screeching Call";
+	public const string RulebookName = "Materialize";
 
 	public static Ability ability;
 	public override Ability Ability => ability;
@@ -26,8 +26,8 @@ public partial class GrimoraPlugin
 {
 	public static void Add_Ability_ActivatedEnergyDrawWyvern()
 	{
-		const string rulebookDescriptionEnglish = "Pay 2 Energy for [creature] to summon a copy in your hand.";
-		const string rulebookDescriptionChinese = "消耗2点能量，[creature]会向你的手牌中添加一张自己的复制品。";
+		const string rulebookDescriptionEnglish = "Pay 2 Souls for [creature] to summon a copy in your hand.";
+		const string rulebookDescriptionChinese = "消耗2点魂能，[creature]会向你的手牌中添加一张自己的复制品。";
 		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<ActivatedEnergyDrawWyvern>.Builder

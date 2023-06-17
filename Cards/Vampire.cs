@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(BloodGuzzler.ability)
 			.SetBaseAttackAndHealth(2, 1)
 			.SetBoneCost(5)
-			.SetDescription("Cursed with eternal life, but only if their thirst can be satisfied.")
+			.SetDescription("THE VAMPIRE IS A CREATURE OF LEGENDS, YET THERE IS LITTLE BLOOD TO DRINK AFTER EVERYONE HAS DIED.")
 			.SetNames(NameVampire, "Vampire")
 			.Build();
 	}

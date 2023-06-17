@@ -9,12 +9,13 @@ public partial class GrimoraPlugin
 	private void Add_Card_HellHound()
 	{
 		CardBuilder.Builder
-			.SetAbilities(Ability.WhackAMole, Ability.Reach)
+			.SetAbilities(Ability.WhackAMole, Ability.Reach, Ability.MadeOfStone)
 			.SetSpecialAbilities(GainAttackBones.FullSpecial.Id)
 			.SetBaseAttackAndHealth(1, 9)
 			.SetBoneCost(5)
 			.SetDescription("A RABID DOG. IT KILLED ONE OF MY GHOULS.")
 			.SetNames(NameHellHound, "Hell Hound")
+			.SetTraits(Trait.Uncuttable)
 			.SetSpecialStatIcon(GainAttackBones.FullStatIcon.Id)
 			.Build();
 	}

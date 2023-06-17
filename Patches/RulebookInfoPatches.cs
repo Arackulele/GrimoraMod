@@ -49,7 +49,6 @@ public class RulebookInfoPatches
 		Ability.Haunter, // implemented as custom ability
 		Ability.HydraEgg,
 		Ability.Morsel,
-		Ability.PermaDeath, // not fun
 		Ability.RandomAbility, // implemented as GrimoraRandomAbility
 		Ability.Sacrificial, // lol blood
 		Ability.ShieldGems,
@@ -69,7 +68,7 @@ public class RulebookInfoPatches
 		ref List<RuleBookPageInfo> __result
 	)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			return;
 		}

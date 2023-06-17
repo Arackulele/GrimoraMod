@@ -1,18 +1,89 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
+using GrimoraMod.Saving;
 using HarmonyLib;
+using InscryptionAPI.Helpers.Extensions;
 using Pixelplacement;
 using Sirenix.Utilities;
 using UnityEngine;
+using static GrimoraMod.BlueprintUtils;
 
 namespace GrimoraMod;
 
-public class ChessboardGoatEyePiece : ChessboardPieceExt
+public class ChessboardGoatEyePiece : ChessboardEnemyPiece
 {
-	public ChessboardGoatEyePiece()
+	public int Random;
+	public override void OnPlayerInteracted()
 	{
-		newYPosition = 1.275f;
+		Random = UnityEngine.Random.RandomRangeInt(0, 4);
+		StartCoroutine(AnkhGuardPreStartDialogue());
+
 	}
+
+
+	public IEnumerator AnkhGuardPreStartDialogue()
+	{
+		Singleton<MapNodeManager>.Instance.SetAllNodesInteractable(nodesInteractable: false);
+		Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Locked;
+		switch (Random)
+		{
+
+
+			default:
+			case 0:
+
+					yield return TextDisplayer.Instance.ShowUntilInput(
+					$"An ancient Guard stands in front of you, noticing you are trying to sneak past."
+					);
+
+					yield return TextDisplayer.Instance.ShowUntilInput(
+					$"You dare enter my {"TOMB".Red()}!Prepare for death."
+					);
+
+				break;
+
+			case 1:
+
+				yield return TextDisplayer.Instance.ShowUntilInput(
+				$"An imposing Man holding a sculpture of an Ankh blocks the way."
+				);
+
+				yield return TextDisplayer.Instance.ShowUntilInput(
+				$"My Ankh gives me life, you shall not rob my {"TOMB".Red()}."
+				);
+
+				break;
+
+			case 2:
+
+				yield return TextDisplayer.Instance.ShowUntilInput(
+				$"An old Pharaoh climbs out of his Sarcophagus."
+				);
+
+				yield return TextDisplayer.Instance.ShowUntilInput(
+				$"I have been called to protect my {"TOMB".Red()}."
+				);
+
+				break;
+
+			case 3:
+
+				yield return TextDisplayer.Instance.ShowUntilInput(
+				$"A holy figure looms over you."
+				);
+
+				yield return TextDisplayer.Instance.ShowUntilInput(
+				$"Your Fate is sealed, my {"TOMB".Red()} shall not be disturbed."
+				);
+
+				break;
+		}
+		Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Unlocked;
+		Singleton<ChessboardEnemyManager>.Instance.StartCombatWithEnemy(this, playerStarted: true);
+
+		yield break;
+	}
+
 }
 
 [HarmonyPatch(typeof(ChessboardMapNode))]
@@ -31,16 +102,13 @@ public class GoatEyePatch
 		yield return enumerator;
 
 		Vector3 playerPos = PlayerMarker.Instance.transform.position;
-		foreach (var goatEyePiece in UnityObject.FindObjectsOfType<ChessboardGoatEyePiece>())
-		{
-			TurnToFacePoint(goatEyePiece.gameObject, playerPos, 0.1f);
-		}
 
-		if (ConfigHelper.Instance.BossesDefeated == 3)
+		if (GrimoraRunState.CurrentRun.regionTier == 3)
 		{
 			foreach (var blocker in UnityObject.FindObjectsOfType<ChessboardBlockerPieceExt>())
 			{
-				TurnToFacePoint(blocker.gameObject, playerPos, 0.1f);
+				if (blocker.gameObject.FindChild("EyeRight") != null) TurnToFacePoint(blocker.gameObject, playerPos, 0.1f);
+
 			}
 		}
 		

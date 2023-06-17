@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.LatchBrittle)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(5)
-			.SetDescription("I WOULDN'T GET TOO CLOSE DEAR. YOU CAN'T BREAK THE HOLD ONCE IT LATCHES ON.")
+			.SetDescription("I WOULDN'T GET TOO CLOSE DEAR. YOU CAN'T BREAK THE HOLD ONCE IT LATCHES ON. OH, WHAT A LIFE OF SIN HAS BROUGHT YOU.")
 			.SetNames(NameHellhand, "Hellhand")
 			.Build();
 	}

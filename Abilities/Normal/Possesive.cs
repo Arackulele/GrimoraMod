@@ -1,6 +1,7 @@
 using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
+using UnityEngine;
 
 namespace GrimoraMod;
 
@@ -38,6 +39,7 @@ public partial class GrimoraPlugin
 		AbilityBuilder<Possessive>.Builder
 		 .SetRulebookDescription(rulebookDescription)
 		 .SetRulebookName(Possessive.RulebookName)
+		 .SetPixelIcon(AssetUtils.GetPrefab<Sprite>("posessive_pixel"))
 		 .Build();
 	}
 }

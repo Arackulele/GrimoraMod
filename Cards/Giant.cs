@@ -1,5 +1,5 @@
 using DiskCardGame;
-
+using UnityEngine;
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
@@ -13,10 +13,10 @@ public partial class GrimoraPlugin
 		 .SetAbilities(Ability.QuadrupleBones, Ability.SplitStrike)
 		 .SetBaseAttackAndHealth(3, 8)
 		 .SetBoneCost(15)
-		 .SetDescription("TRULY A SIGHT TO BEHOLD.")
+		 .SetDescription("THE FAMED RACE OF GIANTS IS SAID TO HAVE DIED OUT LONG AGO, THIS IS PROOF. TRULY A SIGHT TO BEHOLD.")
 		 .SetNames(NameGiant, "Giant")
 		 .SetTraits(Trait.Giant)
-		 .Build()
-			;
+		 .Build().pixelPortrait = AssetUtils.GetPrefab<Sprite>("giant_pixel");
+		;
 	}
 }

@@ -1,5 +1,5 @@
 using DiskCardGame;
-
+using UnityEngine;
 namespace GrimoraMod;
 
 public class Anchored : AbilityBehaviour
@@ -22,6 +22,7 @@ public partial class GrimoraPlugin
 		AbilityBuilder<Anchored>.Builder
 		 .SetRulebookDescription(rulebookDescription)
 		 .SetRulebookName(Anchored.RulebookName)
+		 .SetPixelIcon(AssetUtils.GetPrefab<Sprite>("anchor_pixel"))
 		 .Build();
 	}
 }

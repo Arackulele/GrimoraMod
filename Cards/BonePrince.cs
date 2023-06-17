@@ -1,4 +1,4 @@
-﻿namespace GrimoraMod;
+namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
@@ -9,7 +9,8 @@ public partial class GrimoraPlugin
 		CardBuilder.Builder
 			.SetBaseAttackAndHealth(2, 1)
 			.SetBoneCost(1)
-			.SetDescription("MY, WHAT A LOVELY PRINCE!")
+			.SetDescription("IF I AM TRAPPED, SO WILL YOU. YOU CANNOT END THIS.")
+			.SetEvolve(NameBonelord, 1)
 			.SetNames(NameBonePrince, "Bone Prince")
 			.Build();
 	}

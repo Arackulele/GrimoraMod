@@ -1,4 +1,6 @@
-﻿namespace GrimoraMod;
+using DiskCardGame;
+using UnityEngine;
+namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
@@ -8,11 +10,11 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(GrimoraRandomAbility.ability)
-			.SetBaseAttackAndHealth(1, 2)
+			.SetAbilities(GrimoraRandomAbility.ability, Haunter.ability)
+			.SetBaseAttackAndHealth(1, 1)
 			.SetEnergyCost(4)
-			.SetDescription("Without a coherent form, who knows what sigil it will have next?")
+			.SetDescription("A formless Creature, that yet lingers. Truly a horrific sight.")
 			.SetNames(NameApparition, "Apparition")
-			.Build();
+			.Build().pixelPortrait = AssetUtils.GetPrefab<Sprite>("apparition_pixel");
 	}
 }

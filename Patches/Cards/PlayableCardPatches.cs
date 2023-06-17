@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using GrimoraMod.Extensions;
 using HarmonyLib;
@@ -45,7 +45,7 @@ public class PlayableCardPatches
 	{
 		Log.LogDebug($"[Possessive.CanAttackDirectly] Result before [{__result}]");
 		CardSlot oppositeSlot = __instance.OpposingSlot();
-		bool oppositeSlotHasPossessive = oppositeSlot.Card && oppositeSlot.Card.HasAbility(Possessive.ability);
+		bool oppositeSlotHasPossessive = oppositeSlot.Card && oppositeSlot.Card.HasAbility(Possessive.ability) && __instance.LacksTrait(Trait.Giant);
 		__result &= !oppositeSlotHasPossessive;
 		Log.LogDebug($"[Possessive.CanAttackDirectly] Result after  [{__result}]");
 	}
@@ -55,7 +55,7 @@ public class PlayableCardPatches
 	[HarmonyPostfix, HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.GetPassiveAttackBuffs))]
 	public static void CorrectBuffsAndDebuffsForGrimoraGiants(PlayableCard __instance, ref int __result)
 	{
-		bool isGrimoraGiant = GrimoraSaveUtil.IsGrimora && __instance.IsGrimoraGiant();
+		bool isGrimoraGiant = GrimoraSaveUtil.IsGrimoraModRun && __instance.IsGrimoraGiant();
 		if (__instance.OnBoard && isGrimoraGiant)
 		{
 			int finalAttackNum = 0;
@@ -84,8 +84,8 @@ public class PlayableCardPatches
 		return BoardManager.Instance.opponentSlots
 		 .Where(slot => slot.Card == giantCard)
 		 .Count(slot => slot.GetAdjacentSlots(true)
-			       .GetCards(pCard => pCard != giantCard)
-			       .Exists(pCard => pCard.HasAbility(Ability.BuffNeighbours))
+						 .GetCards(pCard => pCard != giantCard)
+						 .Exists(pCard => pCard.HasAbility(Ability.BuffNeighbours))
 			);
 	}
 }

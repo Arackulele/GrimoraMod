@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(6, 6)
 			.SetBoneCost(6)
 			.SetNames(NameRipper, "Ripper")
-			.SetDescription("WHEN ALL HOPE IS LOST, YOU CAN ALWAYS COUNT ON THIS DEMON STRAIGHT FROM HELL!")
+			.SetDescription("THE RIPPER SOLVES EVERYTHING THROUGH SHEER STRENGTH, IT WILL PUNCH ANY ISSUE STRAIGHT IN THE FACE, AND SOLVE IT, TOO.")
 			.Build();
 	}
 }

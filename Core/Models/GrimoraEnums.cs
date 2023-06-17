@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -11,5 +11,7 @@ public static class GrimoraEnums
 		public const StoryEvent SawyerDefeated = (StoryEvent)6661;
 		public const StoryEvent RoyalDefeated = (StoryEvent)6662;
 		public const StoryEvent GrimoraDefeated = (StoryEvent)6663;
+
+		public const StoryEvent PharaoDefeated = (StoryEvent)6664;
 	}
 }

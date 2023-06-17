@@ -1,17 +1,12 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using GBC;
+using GrimoraMod.Saving;
 using HarmonyLib;
 using InscryptionAPI.Ascension;
-using Sirenix.Utilities;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
-
-
-
-
-
 
 [HarmonyPatch(typeof(CardInfo), nameof(CardInfo.EnergyCost), MethodType.Getter)]
 public static class SoullessPatch
@@ -30,25 +25,47 @@ public static class SoullessPatch
 	}
 }
 
+[HarmonyPatch(typeof(AscensionStartScreen), nameof(AscensionStartScreen.OnEnable))]
+public static class AscensionStartScreen_OnEnable
+{
+	[HarmonyPrefix]
+	public static void Prefix()
+	{
+		Log.LogDebug($"[AscensionMenuScreens.OnEnable]");
+		GrimoraSaveUtil.IsGrimoraModRun = false; // No runs active right now!
+	}
+}
 
-
-
-
-
-
-
-
-
-
+[HarmonyPatch(typeof(AscensionMenuScreens), nameof(AscensionMenuScreens.ConfigurePostGameScreens), new Type[]{})]
+public static class AscensionMenuScreens_ConfigurePostGameScreens_EndRunFix
+{
+	// When we end a run we want to end the correct one.
+	// Set isGromoraModRun to true so this method uses the correct data when calling EndRun().
+	public static bool Prefix()
+	{
+		GrimoraSaveUtil.IsGrimoraModRun = GrimoraSaveUtil.LastRunWasGrimoraModRun;
+		return true;
+	}
+	
+	public static void Postfix()
+	{
+		GrimoraSaveUtil.IsGrimoraModRun = false;
+	}
+}
 
 [HarmonyPatch(typeof(AscensionStartScreen), nameof(AscensionStartScreen.Start))]
-public static class RunStartWhenEnabled
+public static class CreateAscensionButtonsOnStart
 {
 	[HarmonyPrefix]
 	public static void Prefix(ref AscensionStartScreen __instance)
 	{
-	AdjustAscensionMenuItemsSpacing itemsSpacing = UnityObject.FindObjectOfType<AdjustAscensionMenuItemsSpacing>();
-		AscensionMenuInteractable menuText = itemsSpacing.menuItems[0].GetComponent<AscensionMenuInteractable>();
+		Log.LogDebug($"[AscensionMenuScreens.Start] CreateAscensionButtonsOnStart");
+		AscensionStartScreen ascensionStartScreen = UnityObject.FindObjectOfType<AscensionStartScreen>();
+		AdjustAscensionMenuItemsSpacing itemsSpacing = UnityObject.FindObjectOfType<AdjustAscensionMenuItemsSpacing>();
+		AscensionMenuInteractable newGameButtonTemplate = ascensionStartScreen.newRunText;
+		AscensionMenuInteractable continueGameButtonTemplate = ascensionStartScreen.continueRunText;
+		AscensionMenuInteractable continueGameButtonDisabledTemplate = ascensionStartScreen.continueRunDisabledText;
+		Log.LogDebug($"[AscensionMenuScreens.Start] continueGameButtonTemplate " + continueGameButtonTemplate);
 
 		AscensionMenuScreenTransition transitionController = AscensionMenuScreens.Instance.startScreen.GetComponent<AscensionMenuScreenTransition>();
 		List<GameObject> onEnableRevealedObjects = transitionController.onEnableRevealedObjects;
@@ -66,56 +83,123 @@ public static class RunStartWhenEnabled
 		else
 		{
 			Log.LogDebug($"[AscensionMenuScreens.Start] Setting new text for continue button...");
-			menuText.GetComponentInChildren<PixelText>().SetText("- NEW LESHY RUN -");
+			newGameButtonTemplate.GetComponentInChildren<PixelText>().SetText("- NEW LESHY RUN -");
+			continueGameButtonTemplate.GetComponentInChildren<PixelText>().SetText("- CONTINUE LESHY RUN -");
+			continueGameButtonDisabledTemplate.GetComponentInChildren<PixelText>().SetText(continueGameButtonTemplate.GetComponentInChildren<PixelText>().Text);
 		}
-
+		
 		// Clone the new button
-		AscensionMenuInteractable grimoraButtonController = AscensionRelatedPatches.CreateAscensionButton(menuText);
+		Transform continueGrimoraButtonContainer = CreateContinueGrimoraAscensionButtons(ascensionStartScreen);
+		AscensionMenuInteractable newGrimoraButtonController = CreateNewGrimoraAscensionButton(newGameButtonTemplate);
+		Log.LogDebug($"[AscensionMenuScreens.Start] continueGrimoraButtonController " + continueGrimoraButtonContainer);
 
 		// Add to transition
-		
-		onEnableRevealedObjects.Insert(onEnableRevealedObjects.IndexOf(menuText.gameObject) + 1, grimoraButtonController.gameObject);
-		screenInteractables.Insert(screenInteractables.IndexOf(menuText) + 1, grimoraButtonController);
-		foreach (var button in screenInteractables.FindAll(b=>b.gameObject.GetComponentInChildren<PixelText>().Text.StartsWith("- NEW")&&b.gameObject.GetComponentInChildren<PixelText>().Text.EndsWith("RUN -")))
+
+		onEnableRevealedObjects.Insert(onEnableRevealedObjects.IndexOf(newGameButtonTemplate.gameObject) + 1, newGrimoraButtonController.gameObject);
+		screenInteractables.Insert(screenInteractables.IndexOf(newGameButtonTemplate) + 1, newGrimoraButtonController);
+		onEnableRevealedObjects.Insert(onEnableRevealedObjects.IndexOf(continueGameButtonTemplate.gameObject) + 1, continueGrimoraButtonContainer.gameObject);
+		screenInteractables.Insert(screenInteractables.IndexOf(continueGameButtonTemplate) + 1, continueGrimoraButtonContainer.GetChild(0).GetComponent<MainInputInteractable>());
+		screenInteractables.Insert(screenInteractables.IndexOf(continueGameButtonTemplate) + 2, continueGrimoraButtonContainer.GetChild(1).GetComponent<MainInputInteractable>());
+		foreach (var button in GetInteractableButtons(screenInteractables))
 		{
-			button.CursorSelectStarted+= delegate(MainInputInteractable interactable)
+			button.CursorSelectStarted += delegate(MainInputInteractable interactable)
 			{
-				var scrybe = button.GetComponentInChildren<PixelText>().Text.Replace("- NEW ", "").Replace(" RUN -","");
+				var scrybe = button.GetComponentInChildren<PixelText>().Text.Replace("- NEW ", "").Replace(" RUN -", "").Replace("- CONTINUE ", "");
 				switch (scrybe)
 				{
 					case "GRIMORA":
 					{
 						ScreenManagement.ScreenState = CardTemple.Undead;
-						SaveDataRelatedPatches.IsGrimoraRun = true;
+						GrimoraSaveUtil.IsGrimoraModRun = true;
 						break;
 					}
 					case "P03":
 					{
 						ScreenManagement.ScreenState = CardTemple.Tech;
-						SaveDataRelatedPatches.IsGrimoraRun = false;
+						GrimoraSaveUtil.IsGrimoraModRun = false;
 						break;
 					}
 					case "LESHY":
 					{
 						ScreenManagement.ScreenState = CardTemple.Nature;
-						SaveDataRelatedPatches.IsGrimoraRun = false;
+						GrimoraSaveUtil.IsGrimoraModRun = false;
 						break;
 					}
-			}
-					ChallengeManager.SyncChallengeList();
-				};
+				}
+
+				ChallengeManager.SyncChallengeList();
+				GrimoraSaveUtil.LastRunWasGrimoraModRun = GrimoraSaveUtil.IsGrimoraModRun;
+				Log.LogDebug($"[AscensionMenuScreens.Start] CursorSelectStarted scrybe[{scrybe}] ScreenState[{ScreenManagement.ScreenState}] IsGrimoraModRun[{GrimoraSaveUtil.IsGrimoraModRun}]");
+			};
 		}
-		itemsSpacing.menuItems.Insert(1, grimoraButtonController.transform);
+
+		itemsSpacing.menuItems.Insert(1, newGrimoraButtonController.transform);
+		itemsSpacing.menuItems.Insert(itemsSpacing.menuItems.IndexOf(continueGameButtonTemplate.transform.parent) + 1, continueGrimoraButtonContainer.transform);
 
 		for (int i = 1; i < itemsSpacing.menuItems.Count; i++)
 		{
 			Transform item = itemsSpacing.menuItems[i];
 			item.localPosition = new Vector2(item.localPosition.x, i * -0.11f);
 		}
-
-		// itemsSpacing.SpaceOutItems();
 	}
-	
+
+	private static List<MainInputInteractable> GetInteractableButtons(List<MainInputInteractable> screenInteractables)
+	{
+		return screenInteractables.FindAll(b =>
+		{
+			string buttonText = b.gameObject.GetComponentInChildren<PixelText>().Text;
+			bool startsWith = buttonText.StartsWith("- NEW") || buttonText.StartsWith("- CONTINUE");
+			return startsWith && buttonText.EndsWith("RUN -");
+		});
+	}
+
+	internal static AscensionMenuInteractable CreateNewGrimoraAscensionButton(AscensionMenuInteractable newRunButton)
+	{
+		Log.LogDebug($"[AscensionMenuScreens.Start] Creating new Grimora ascension run button");
+		AscensionMenuInteractable newGrimoraButton = UnityObject.Instantiate(newRunButton, newRunButton.transform.parent);
+		newGrimoraButton.name = "Menu_New_Grimora";
+		newGrimoraButton.CursorSelectStarted = delegate
+		{
+			GrimoraSaveUtil.IsGrimoraModRun = true;
+			GrimoraSaveUtil.LastRunWasGrimoraModRun = GrimoraSaveUtil.IsGrimoraModRun;
+			ScreenManagement.ScreenState = CardTemple.Undead;
+			ChallengeManager.SyncChallengeList();
+			GrimoraSaveManager.NewAscensionRun();
+			Log.LogDebug($"[AscensionMenuScreens.Start] Set screen state to undead, invoking CursorSelectStart");
+			newRunButton.CursorSelectStart();
+		};
+		newGrimoraButton.GetComponentInChildren<PixelText>().SetText("- NEW GRIMORA RUN -");
+
+		return newGrimoraButton;
+	}
+
+	internal static Transform CreateContinueGrimoraAscensionButtons(AscensionStartScreen startScreen)
+	{
+		Log.LogDebug($"[AscensionMenuScreens.Start] Creating continue Grimora ascension run button");
+		Transform container = UnityObject.Instantiate(startScreen.continueRunText.transform.parent, startScreen.continueRunText.transform.parent.parent);
+
+		// Enabled button
+		AscensionMenuInteractable enabledButton = container.GetChild(0).GetComponent<AscensionMenuInteractable>();
+		enabledButton.name = "Menu_Continue_Grimora";
+		enabledButton.CursorSelectStarted = delegate
+		{
+			GrimoraSaveUtil.IsGrimoraModRun = true;
+			GrimoraSaveUtil.LastRunWasGrimoraModRun = GrimoraSaveUtil.IsGrimoraModRun;
+			ScreenManagement.ScreenState = CardTemple.Undead;
+			Log.LogDebug($"[AscensionMenuScreens.Start] Set screen state to undead, invoking CursorSelectStart");
+			startScreen.continueRunText.CursorSelectStart();
+		};
+		enabledButton.GetComponentInChildren<PixelText>().SetText("- CONTINUE GRIMORA RUN -");
+		enabledButton.gameObject.SetActive(GrimoraAscensionSaveData.RunExists);
+		
+		// Disabled button
+		AscensionMenuInteractable disabledButton = container.GetChild(1).GetComponent<AscensionMenuInteractable>();
+		disabledButton.name = "Menu_Continue_Grimora_Disabled";
+		disabledButton.GetComponentInChildren<PixelText>().SetText("- CONTINUE GRIMORA RUN -");
+		disabledButton.gameObject.SetActive(!GrimoraAscensionSaveData.RunExists);
+
+		return container;
+	}
 }
 
 
@@ -126,45 +210,33 @@ public class AscensionRelatedPatches
 	[HarmonyBefore(ConfigHelper.PackManagerGuid, ConfigHelper.P03ModGuid)]
 	public static bool InitializeGrimoraSaveData(ref AscensionMenuScreens __instance, bool newRun = true)
 	{
-		Log.LogDebug($"[AscensionMenuScreens.TransitionToGame] " +
-		             $"IsGrimoraRun [{SaveDataRelatedPatches.IsGrimoraRun}] " +
-		             $"newRun [{newRun}] " +
-		             $"screen state [{ScreenManagement.ScreenState}] " +
-		             $"currentStarterDeck [{AscensionSaveData.Data.currentStarterDeck}]" +
-		             $"currentRun [{AscensionSaveData.Data.currentRun}]"
+		Log.LogInfo($"[AscensionMenuScreens.TransitionToGame] " +
+		            $"IsGrimoraRun [{GrimoraSaveUtil.IsGrimoraModRun}] " +
+		            $"newRun [{newRun}] " +
+		            $"screen state [{ScreenManagement.ScreenState}] " +
+		            $"currentStarterDeck [{AscensionSaveData.Data.currentStarterDeck}]" +
+		            $"currentRun [{AscensionSaveData.Data.currentRun}]"
 		);
-		if (newRun)
-		{
-			if (ScreenManagement.ScreenState == CardTemple.Undead)
-			{
-				// Ensure the old grimora save data gets saved if it needs to be
-				Log.LogInfo($"[AscensionMenuScreens.TransitionToGame] Ensuring regular save");
-				SaveDataRelatedPatches.EnsureRegularSave();
-				SaveDataRelatedPatches.IsGrimoraRun = true;
-				SaveManager.SaveToFile();
-			}
-			else
-			{
-				SaveDataRelatedPatches.IsGrimoraRun = false;
-			}
-		}
 
-		if (SaveDataRelatedPatches.IsGrimoraRun)
+		GrimoraSaveUtil.IsGrimoraModRun = ScreenManagement.ScreenState == CardTemple.Undead;
+		GrimoraSaveUtil.LastRunWasGrimoraModRun = GrimoraSaveUtil.IsGrimoraModRun;
+		
+		if (newRun && GrimoraSaveUtil.IsGrimoraModRun)
 		{
+			GrimoraAscensionSaveData ascensionSaveData = (GrimoraAscensionSaveData)AscensionSaveData.Data;
 			Log.LogInfo($"[AscensionMenuScreens.TransitionToGame] Setting ScreenState to Undead");
-			ScreenManagement.ScreenState = CardTemple.Undead;
-			if (AscensionSaveData.Data.currentStarterDeck.Equals("Vanilla", StringComparison.InvariantCultureIgnoreCase))
+			if (ascensionSaveData.currentStarterDeck.Equals("Vanilla", StringComparison.InvariantCultureIgnoreCase))
 			{
 				Log.LogInfo($"[AscensionMenuScreens.TransitionToGame] --> Changing current starter deck to default");
-				AscensionSaveData.Data.currentStarterDeck = StarterDecks.DefaultStarterDeck;
+				ascensionSaveData.currentStarterDeck = StarterDecks.DefaultStarterDeck;
 			}
 
-			Log.LogInfo($"[AscensionMenuScreens.TransitionToGame] Creating new ascension run from starter deck [{StarterDecks.DefaultStarterDeck}]");
-			StarterDeckInfo deckInfo = StarterDecksUtil.GetInfo(StarterDecks.DefaultStarterDeck);
+			Log.LogInfo($"[AscensionMenuScreens.TransitionToGame] Creating new ascension run from starter deck [{ascensionSaveData.currentStarterDeck}]");
+			StarterDeckInfo deckInfo = StarterDecksUtil.GetInfo(ascensionSaveData.currentStarterDeck);
 			if (deckInfo)
 			{
 				Log.LogInfo($"[AscensionMenuScreens.TransitionToGame] --> DeckInfo not null [{deckInfo.cards.Join(c => c.name)}]");
-				AscensionSaveData.Data.NewRun(deckInfo.cards);
+				ascensionSaveData.NewRun(deckInfo.cards);
 				SaveManager.SaveToFile(false);
 			}
 			else
@@ -183,51 +255,5 @@ public class AscensionRelatedPatches
 		}
 
 		return true;
-	}
-
-	private static void ClearGrimoraData()
-	{
-		if (!AscensionMenuScreens.ReturningFromFailedRun && !AscensionMenuScreens.ReturningFromSuccessfulRun)
-		{
-			ScreenManagement.ScreenState = CardTemple.Undead;
-		}
-	}
-
-	[HarmonyPrefix, HarmonyPatch(nameof(AscensionMenuScreens.SwitchToScreen))]
-	public static void ClearGrimoraSaveOnNewRun(AscensionMenuScreens __instance, AscensionMenuScreens.Screen screen)
-	{
-		if (screen == AscensionMenuScreens.Screen.Start) // At the main screen, you can't be in any style of run. Not yet.
-		{
-			ClearGrimoraData();
-		}
-	}
-
-	[HarmonyPrefix, HarmonyPatch(nameof(AscensionMenuScreens.Start))]
-	public static void ClearScreenStatePrefix(AscensionMenuScreens __instance)
-	{
-		ClearGrimoraData();
-	}
-	
-	
-	
-	
-
-
-	internal static AscensionMenuInteractable CreateAscensionButton(AscensionMenuInteractable newRunButton)
-	{
-		Log.LogDebug($"[AscensionMenuScreens.Start] Creating new Grimora ascension run button");
-		AscensionMenuInteractable newGrimoraButton = UnityObject.Instantiate(newRunButton, newRunButton.transform.parent);
-		newGrimoraButton.name = "Menu_New_Grimora";
-		newGrimoraButton.CursorSelectStarted = delegate
-		{
-			SaveDataRelatedPatches.IsGrimoraRun = true;
-			ScreenManagement.ScreenState = CardTemple.Undead;
-			ChallengeManager.SyncChallengeList();
-			Log.LogDebug($"[AscensionMenuScreens.Start] Set screen state to undead, invoking CursorSelectStart");
-			newRunButton.CursorSelectStart();
-		};
-		newGrimoraButton.GetComponentInChildren<PixelText>().SetText("- NEW GRIMORA RUN -");
-
-		return newGrimoraButton;
 	}
 }

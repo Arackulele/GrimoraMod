@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using HarmonyLib;
 
 namespace GrimoraMod;
@@ -14,5 +14,14 @@ public class GrimoraCardDrawPilesPatches
 		__result.Add(skeletonInfo);
 		__result.Add(skeletonInfo);
 		__result.Add(skeletonInfo);
+
+		if (ConfigHelper.Instance.ConfigHardSave == 44731) { 
+		foreach (CardInfo info in __result)
+		{
+
+			info.appearanceBehaviour.Add(CardAppearanceBehaviour.Appearance.HologramPortrait);
+
+		}
+		}
 	}
 }

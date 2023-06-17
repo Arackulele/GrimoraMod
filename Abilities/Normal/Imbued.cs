@@ -67,6 +67,7 @@ public partial class GrimoraPlugin
 		AbilityBuilder<Imbued>.Builder
 		 .SetRulebookDescription(rulebookDescription)
 		 .SetRulebookName(Imbued.RulebookName)
+		 .SetPixelIcon(AssetUtils.GetPrefab<Sprite>("imbued_pixel"))
 		 .Build();
 	}
 }

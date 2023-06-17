@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ece899f3fd1f6f4abeab0363bfc6f43, type: 3}
+  m_Name: GameColors
+  m_EditorClassIdentifier: 
+  nearBlack: {r: 0.9647, g: 0.5059, b: 0.1451, a: 1}
+  gray: {r: 0, g: 0, b: 0, a: 0}
+  lightGray: {r: 0, g: 0, b: 0, a: 0}
+  darkPurple: {r: 0, g: 0, b: 0, a: 0}
+  purple: {r: 0.5656023, g: 0, b: 1, a: 1}
+  lightPurple: {r: 0, g: 0, b: 0, a: 0}
+  darkFuschia: {r: 0, g: 0, b: 0, a: 0}
+  fuschia: {r: 0, g: 0, b: 0, a: 0}
+  darkRed: {r: 0, g: 0, b: 0, a: 0}
+  red: {r: 0, g: 0, b: 0, a: 0}
+  brightRed: {r: 0, g: 0, b: 0, a: 0}
+  glowRed: {r: 0, g: 0, b: 0, a: 0}
+  brown: {r: 0, g: 0, b: 0, a: 0}
+  lightBrown: {r: 0, g: 0, b: 0, a: 0}
+  brownOrange: {r: 0, g: 0, b: 0, a: 0}
+  orange: {r: 0, g: 0, b: 0, a: 0}
+  darkGold: {r: 0, g: 0, b: 0, a: 0}
+  gold: {r: 0, g: 0, b: 0, a: 0}
+  brightGold: {r: 0, g: 0, b: 0, a: 0}
+  yellow: {r: 0, g: 0, b: 0, a: 0}
+  marigold: {r: 0, g: 0, b: 0, a: 0}
+  nearWhite: {r: 0, g: 0, b: 0, a: 0}
+  brightNearWhite: {r: 0, g: 0, b: 0, a: 0}
+  darkLimeGreen: {r: 0, g: 0, b: 0, a: 0}
+  limeGreen: {r: 0, g: 0, b: 0, a: 0}
+  brightLimeGreen: {r: 0, g: 0, b: 0, a: 0}
+  darkSeafoam: {r: 0, g: 0, b: 0, a: 0}
+  seafoam: {r: 0, g: 0, b: 0, a: 0}
+  brightSeafoam: {r: 0, g: 0, b: 0, a: 0}
+  glowSeafoam: {r: 0, g: 0, b: 0, a: 0}
+  darkBlue: {r: 0, g: 0, b: 0, a: 0}
+  blue: {r: 0, g: 0, b: 0, a: 0}
+  brightBlue: {r: 0, g: 0, b: 0, a: 0}

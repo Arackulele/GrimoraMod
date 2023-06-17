@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using DiskCardGame;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -67,19 +67,32 @@ public static class AssetConstants
 	public static readonly ChessboardEnemyPiece EnemyPiece =
 		ResourceBank.Get<ChessboardEnemyPiece>($"{PathChessboardMap}/ChessboardEnemyPiece");
 
-	public static GameObject CardRemovalFigurine
-		=> AssetUtils.GetPrefab<GameObject>("ChessboardPiece_CardRemove");
+	public static GameObject CardRemovalFigurine => AssetUtils.GetPrefab<GameObject>("ChessboardPiece_CardRemove");
+	
+	public static GameObject GoatEyeFigurine => GrimoraPlugin.kopieGameObjects.Find(g => g.name.Contains("AnkhGuardPrefab"));
 
-	public static GameObject GoatEyeFigurine => AssetUtils.GetPrefab<GameObject>("ChessboardPiece_GoatEye");
+	public static GameObject GainConsumable => GrimoraPlugin.kopieGameObjects.Find(g => g.name.Contains("SarcophagusPrefab"));
+
+	public static GameObject GhostBottle => kopieGameObjects.Find(g => g.name.Contains("soul"));
 
 	#endregion
 
 
 	#region Boneyard
 
-	public static GameObject BoneyardGrave => AssetUtils.GetPrefab<GameObject>("BoneyardBurialGrave");
+	public static GameObject BoneyardGrave => GrimoraPlugin.kopieGameObjects.Find(g => g.name.Contains("BoneyardBurialGraveNe"));
 
-	public static Material BoneyardSelectionSlot => AssetUtils.GetPrefab<Material>("Boneyard_SelectionSlot");
+
+	public static Material OldBoneyardSlot => AssetUtils.GetPrefab<Material>("Boneyard_SelectionSlot");
+	public static Material EnergyGraveSelectionSlot => AssetUtils.GetPrefab<Material>("energygrave");
+
+	public static Material BrittleGraveSelectionSlot => AssetUtils.GetPrefab<Material>("gravebrittle");
+
+	public static Material HaunterGraveSelectionSlot => AssetUtils.GetPrefab<Material>("gravehaunter");
+
+	public static Material PrisonerGraveSelectionSlot => AssetUtils.GetPrefab<Material>("graveprisoner");
+
+	public static Material StarveGraveSelectionSlot => AssetUtils.GetPrefab<Material>("gravestarve");
 
 	public static Material BoneyardConfirmButton =>
 		AssetUtils.GetPrefab<Material>("Boneyard_ConfirmButton_Shovel");
@@ -106,16 +119,18 @@ public static class AssetConstants
 
 	#region Menu
 
-	public static Sprite MenuCardGrimora => AssetUtils.GetPrefab<Sprite>("MenuCard_Grimora");
+	public static Sprite MenuCardGrimora => AssetUtils.GetPrefab<Sprite>("MenuCardNew");
 
-	public static Sprite TitleSprite => AssetUtils.GetPrefab<Sprite>("menutext_grimora_mod");
+
+
+	public static Sprite TitleSprite => AssetUtils.GetPrefab<Sprite>("TitleLogo");
 
 	#endregion
 
 
 	#region Skulls
 
-	public static GameObject BossSkullKaycee => AssetUtils.GetPrefab<GameObject>("KayceeBossSkull");
+	public static GameObject BossSkullKaycee => kopieGameObjects.Find(g => g.name.Contains("KayceeBossSkull"));
 
 	public static GameObject BossSkullSawyer => AssetUtils.GetPrefab<GameObject>("SawyerBossSkull");
 

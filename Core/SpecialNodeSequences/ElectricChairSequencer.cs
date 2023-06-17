@@ -2,6 +2,7 @@ using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using Pixelplacement;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -51,9 +52,14 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		{
 			if (!EventManagement.HasLearnedMechanicElectricChair)
 			{
-				yield return TextDisplayer.Instance.ShowUntilInput("OH! I LOVE THIS ONE!");
-				yield return TextDisplayer.Instance.ShowUntilInput($"YOU STRAP ONE OF YOUR CARDS TO THE CHAIR, {"EMPOWERING".Blue()} IT!");
-				yield return TextDisplayer.Instance.ShowUntilInput("OF COURSE, IT DOESN'T HURT.\nYOU CAN'T DIE TWICE AFTER ALL.");
+
+				yield return TextDisplayer.Instance.ShowUntilInput("Oh, I love this one!");
+				yield return TextDisplayer.Instance.ShowUntilInput($"The Electric Chair, it allows you to harness the power of lightning itself, letting you {"empower".Blue()} your cards with mutating abilties!");
+				yield return TextDisplayer.Instance.ShowUntilInput("However, I must warn you, it is no ordinary chair. With the ability to adjust the voltage, one wrong move could lead to a shocking disaster.");
+				yield return TextDisplayer.Instance.ShowUntilInput($"The brave will master the current, the cowardly will blindly follow it.");
+				yield return TextDisplayer.Instance.ShowUntilInput($"Are you bold enough to tinker with its lever on the left, letting the voltage corrupt the selection of the sigils?");
+
+
 
 				EventManagement.HasLearnedMechanicElectricChair = true;
 			}
@@ -186,8 +192,14 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			{
 				chanceToDie += AddChanceToDieForSecondZap();
 				Log.LogDebug($"[ElectricChair] Chance to die is now [{chanceToDie}]");
-				if (UnityRandom.value < chanceToDie && ! AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.SafeChair))
+				if (UnityRandom.value < chanceToDie )
 				{
+
+					if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.SafeChair)) { 
+						//see when safe chair saves your card from dying
+						ChallengeActivationUI.TryShowActivation(ChallengeManagement.SafeChair);
+					}
+					else { 
 					AudioController.Instance.PlaySound3D(
 						"teslacoil_overload",
 						MixerGroup.TableObjectsSFX,
@@ -197,6 +209,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 					((GravestoneCardAnimationController)selectionSlot.Card.Anim).PlayGlitchOutAnimation();
 					GrimoraSaveData.Data.deck.RemoveCard(selectionSlot.Card.Info);
 					yield return new WaitForSeconds(1f);
+					}
 				}
 			}
 			else
@@ -265,13 +278,43 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private void ApplyModToCard(CardInfo card)
 	{
-		CardModificationInfo cardModificationInfo = new CardModificationInfo
+		CardModificationInfo cardModificationInfo;
+
+		if (card.name == NameFranknstein && card.displayedName != "Frankenstein")
 		{
-			abilities = new List<Ability> { GetRandomAbility(card) },
-			singletonId = ModSingletonId,
-			nameReplacement = card.displayedName.Replace("Yellowbeard", "Bluebeard")
-		};
-		GrimoraSaveUtil.ModifyCard(card, cardModificationInfo);
+			card.displayedName = "Frankenstein";
+			card.portraitTex = AssetUtils.GetPrefab<Sprite>("FrankenStein");
+			card.SetEmissivePortrait(AssetUtils.GetPrefab<Sprite>("FrankenStein_emission"));
+
+			cardModificationInfo = new CardModificationInfo
+			{
+
+				abilities = new List<Ability> { Ability.PermaDeath },
+				singletonId = ModSingletonId,
+				nameReplacement = "Frankenstein",
+				attackAdjustment = 1,
+				healthAdjustment = 1
+
+			};
+		}
+
+		else
+		{
+			cardModificationInfo = new CardModificationInfo
+			{
+
+				abilities = new List<Ability> { GetRandomAbility(card) },
+				singletonId = ModSingletonId,
+				nameReplacement = card.displayedName.Replace("Yellowbeard", "Bluebeard")
+
+
+
+			};
+
+		}
+
+
+		RunState.Run.playerDeck.ModifyCard(card, cardModificationInfo);
 	}
 
 	private Ability GetRandomAbility(CardInfo card)
@@ -343,7 +386,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 	private static List<CardInfo> GetValidCards()
 	{
-		List<CardInfo> deckCopy = GrimoraSaveUtil.DeckListCopy;
+		List<CardInfo> deckCopy = new List<CardInfo>(RunState.Run.playerDeck.Cards);
 		deckCopy.RemoveAll(
 			card => card.Abilities.Count == 5
 			        || card.HasAbility(SkinCrawler.ability)
@@ -394,7 +437,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		AudioController.Instance.FadeInLoop(0.5f, 0.75f, 1);
 		yield return new WaitForSeconds(0.25f);
 
-		yield return pile.SpawnCards(GrimoraSaveUtil.DeckList.Count, 0.5f);
+		yield return pile.SpawnCards(RunState.Run.playerDeck.Cards.Count, 0.5f);
 		TableRuleBook.Instance.SetOnBoard(true);
 		InteractionCursor.Instance.SetEnabled(true);
 	}

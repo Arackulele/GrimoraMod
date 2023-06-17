@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
 using InscryptionAPI.Encounters;
@@ -65,7 +65,17 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 
 	public override IEnumerator OpponentCombatEnd()
 	{
-		var validCards = GetValidCardsForLitFuse();
+		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.ThreePhaseGhouls) && TurnManager.Instance.Opponent.NumLives == 1)
+		{
+			if (cannonTargetSlots.Count > 0)
+			{
+				yield return FireCannonsSequence();
+			}
+			yield return ChooseWaveTargetsSequence();
+
+		}
+		else { 
+			var validCards = GetValidCardsForLitFuse();
 		if (validCards.IsNullOrEmpty())
 		{
 			yield break;
@@ -75,13 +85,146 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 		{
 			yield return ApplyLitFuseToPlayerCard(validCards.GetRandomItem());
 		}
+		}
 	}
+
+	private List<CardSlot> cannonTargetSlots = new List<CardSlot>();
+
+	private List<GameObject> targetIcons = new List<GameObject>();
+
+	private bool playFireDialogue;
+
+	private bool playPirateImmuneDialogue;
+
+	private bool playedCannonTargetDialogue;
+
+	private GameObject targetIconPrefab;
+
+	private IEnumerator ChooseWaveTargetsSequence()
+	{
+		Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Locked;
+		yield return new WaitForSeconds(0.3f);
+		int seed = SaveManager.SaveFile.GetCurrentRandomSeed() + Singleton<TurnManager>.Instance.TurnNumber;
+		if (targetIconPrefab == null)
+		{
+			targetIconPrefab = ResourceBank.Get<GameObject>("Prefabs/Cards/SpecificCardModels/CannonTargetIcon");
+		}
+		List<CardSlot> opponentSlotsCopy = Singleton<BoardManager>.Instance.OpponentSlotsCopy;
+		opponentSlotsCopy.RemoveAll((CardSlot x) => cannonTargetSlots.Contains(x));
+		List<CardSlot> playerSlotsCopy = Singleton<BoardManager>.Instance.PlayerSlotsCopy;
+		playerSlotsCopy.RemoveAll((CardSlot x) => cannonTargetSlots.Contains(x));
+		cannonTargetSlots.Clear();
+		cannonTargetSlots.Add(opponentSlotsCopy[SeededRandom.Range(0, opponentSlotsCopy.Count, seed++)]);
+		cannonTargetSlots.Add(playerSlotsCopy[SeededRandom.Range(0, playerSlotsCopy.Count, seed)]);
+		Singleton<ViewManager>.Instance.SwitchToView(View.Board, immediate: false, lockAfter: true);
+		yield return new WaitForSeconds(0.25f);
+		foreach (CardSlot slot in cannonTargetSlots)
+		{
+			yield return new WaitForSeconds(0.05f);
+			GameObject gameObject = UnityEngine.Object.Instantiate(targetIconPrefab, slot.transform);
+			gameObject.transform.localPosition = new Vector3(0f, 0.25f, 0f);
+			gameObject.transform.localRotation = Quaternion.identity;
+			targetIcons.Add(gameObject);
+		}
+		yield return new WaitForSeconds(0.3f);
+		if (!playedCannonTargetDialogue)
+		{
+			yield return TextDisplayer.Instance.ShowUntilInput($"BOIL ME ORANGES, THERES A-WAVES COMIN!");
+			playedCannonTargetDialogue = true;
+		}
+		yield return new WaitForSeconds(0.3f);
+	}
+
+	private IEnumerator FireCannonsSequence()
+	{
+		bool firedLeftSide = false;
+		bool firedRightSide = false;
+		for (int i = 0; i < cannonTargetSlots.Count; i++)
+		{
+			Singleton<ViewManager>.Instance.SwitchToView(View.Default, immediate: false, lockAfter: true);
+			yield return new WaitForSeconds(0.25f);
+			CardSlot slot = cannonTargetSlots[i];
+			if (!(slot.Card != null) || slot.Card.Dead)
+			{
+				continue;
+			}
+			if (i == 0)
+			{
+				playFireDialogue = !playFireDialogue;
+				if (playFireDialogue)
+				{
+					yield return TextDisplayer.Instance.ShowUntilInput($"THESE WAVES WILL PUSH YE CARD OFF THE BOARD, BACK TO YER HAND!");
+				}
+				firedRightSide = true;
+			}
+			else
+			{
+				firedLeftSide = true;
+			}
+			yield return new WaitForSeconds(0.5f);
+			Singleton<ViewManager>.Instance.SwitchToView(View.Board);
+
+			if (!slot.Card.AllAbilities().Contains(Anchored.ability))
+			{
+				CardInfo cloneInfo = slot.Card.Info.Clone() as CardInfo;
+				cloneInfo.Mods = new(slot.Card.Info.Mods);
+				ViewManager.Instance.SetViewUnlocked();
+
+				yield return CardSpawner.Instance.SpawnCardToHand(cloneInfo);
+				yield return slot.Card.DieCustom(
+				false,
+				royalTableSwayValue: -7f
+			);
+				yield return new WaitForSeconds(0.8f);
+				Singleton<ViewManager>.Instance.SwitchToView(View.Hand);
+			}
+			else
+			{
+				if (playPirateImmuneDialogue)
+				{
+					yield return TextDisplayer.Instance.ShowUntilInput($"THIS PIRATE CANNOT BE TAKEN BACK UP BY THE WAVES! BUT EVEN THE ZESTIEST OF PIRATES WILL BE SHAKEN UP!");
+					playPirateImmuneDialogue = false;
+				}
+				slot.Card.TakeDamage(1, null);
+				slot.Card.Anim.StrongNegationEffect();
+			}
+		}
+		CleanupTargetIcons();
+	}
+
+	public void CleanupTargetIcons()
+	{
+		targetIcons.ForEach(delegate (GameObject x)
+		{
+			if (x != null)
+			{
+				CleanUpTargetIcon(x);
+			}
+		});
+		targetIcons.Clear();
+	}
+
+	private void CleanUpTargetIcon(GameObject icon)
+	{
+		Tween.LocalScale(icon.transform, Vector3.zero, 0.1f, 0f, Tween.EaseIn, Tween.LoopType.None, null, delegate
+		{
+			UnityEngine.Object.Destroy(icon);
+		});
+	}
+
+
 
 	public override IEnumerator PlayerUpkeep()
 	{
-		if (boardSwayCounter++ >= 2)
+		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.ThreePhaseGhouls) && TurnManager.Instance.Opponent.NumLives == 1)
 		{
-			yield return StartBoardSway();
+		}
+		else
+		{
+			if (boardSwayCounter++ >= 2)
+			{
+				yield return StartBoardSway();
+			}
 		}
 
 		yield return base.PlayerUpkeep();

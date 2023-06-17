@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.Tutor)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(5)
-			.SetDescription("AN ANIMATED EYE, IT HELPS DRAW FORTH CREATURES FROM YOUR ARMY OF UNDEAD.")
+			.SetDescription("SOME SAY THIS EYE ONCE BELONGED TO AN ANCIENT GOD, IT GAZES UPON YOUR ARMY, PICKING ITS FAVORITE TO AID IT ON THE BATTLEFIELD.")
 			.SetNames(NameDeadeye, "Deadeye")
 			.Build();
 	}

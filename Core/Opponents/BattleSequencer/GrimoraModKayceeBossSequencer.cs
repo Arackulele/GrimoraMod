@@ -18,7 +18,7 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 
 	public static readonly List<Ability> AbilitiesThatShouldBeRemovedWhenFrozen = new()
 	{
-		Ability.DebuffEnemy, Ability.Submerge, HookLineAndSinker.ability, Possessive.ability,
+		Ability.DebuffEnemy, Ability.Submerge, HookLineAndSinker.ability, Possessive.ability, Haunter.ability
 	};
 
 	private bool _playedDialogueSubmerge = false;
@@ -28,6 +28,10 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 	private bool _playedDialoguePossessive = false;
 	
 	private bool _playedDialogueStinky = false;
+
+	private int fireballslot = 0;
+
+	private bool fireballnext = false;
 
 	public override Opponent.Type BossType => KayceeBossOpponent.FullOpponent.Id;
 
@@ -47,7 +51,39 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 	{
 		var playerCardsWithAttacks = GetValidCardsForFreezing();
 
-		_freezeCounter += playerCardsWithAttacks.Count;
+		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.ThreePhaseGhouls) && TurnManager.Instance.Opponent.NumLives == 1)
+		{
+
+			if (fireballnext == false) fireballnext = true;
+			else
+			{
+				ViewManager.Instance.SwitchToView(View.Board);
+				yield return TextDisplayer.Instance.ShowUntilInput($"LETS {"HEAT".Red()} UP SOME CARDS!");
+				if (BoardManager.Instance.playerSlots[fireballslot].Card != null)
+				{
+					yield return BoardManager.Instance.playerSlots[fireballslot].Card.TakeDamage(2, null);
+					if (BoardManager.Instance.playerSlots[fireballslot].Card == null) BoardManager.Instance.CreateCardInSlot(NameFlames.GetCardInfo(), BoardManager.Instance.playerSlots[fireballslot]);
+				}
+
+				if (BoardManager.Instance.opponentSlots[fireballslot].Card != null) 
+				{
+					yield return BoardManager.Instance.opponentSlots[fireballslot].Card.TakeDamage(2, null);
+					if (BoardManager.Instance.opponentSlots[fireballslot].Card == null) BoardManager.Instance.CreateCardInSlot(NameFlames.GetCardInfo(), BoardManager.Instance.opponentSlots[fireballslot]);
+
+				}
+
+
+				fireballslot++;
+
+				if (fireballslot >= 4) fireballslot = 0;
+				fireballnext = false;
+			}
+
+
+
+
+		}
+		else	_freezeCounter += playerCardsWithAttacks.Count;
 		Log.LogWarning($"[Kaycee] Freeze counter [{_freezeCounter}]");
 
 		if (playerCardsWithAttacks.Any())
@@ -149,12 +185,17 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 		int attack = playableCard.Attack == 0 ? 0 : -playableCard.Attack;
 		var modInfo = new CardModificationInfo(attack, 1 - playableCard.Health)
 		{
-			negateAbilities = new List<Ability> { Ability.DebuffEnemy, Ability.Submerge, HookLineAndSinker.ability, Possessive.ability }
+			negateAbilities = new List<Ability> { Ability.DebuffEnemy, Ability.Submerge, HookLineAndSinker.ability, Possessive.ability, Ability.PermaDeath }
 		};
 		if (playableCard.LacksAbility(Ability.IceCube))
 		{
 			modInfo.abilities = new List<Ability> { Ability.IceCube };
+
+
 			playableCard.Info.iceCubeParams = new IceCubeParams { creatureWithin = playableCard.Info };
+
+			playableCard.GetComponentInChildren<GravestoneRenderStatsLayer>().Material.SetAlbedoTexture(AssetUtils.GetPrefab<Material>("GravestoneFrozen").mainTexture);
+			playableCard.RenderCard();
 		}
 
 		return modInfo;

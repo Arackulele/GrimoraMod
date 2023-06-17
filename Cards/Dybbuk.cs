@@ -13,6 +13,6 @@ public partial class GrimoraPlugin
 			.SetBoneCost(3)
 			.SetDescription("NO ONE KNOWS WHAT EXACTLY THE DYBBUK IS, SOME SAY IT IS BETTER LEFT UNKNOWN.")
 			.SetNames(NameDybbuk, "Dybbuk")
-			.Build().pixelPortrait=GrimoraPlugin.AllSprites.Find(o=>o.name=="pixel_dybbuk");;
+			.Build().pixelPortrait = GrimoraPlugin.AllSprites.Find(o=>o.name=="dybbuk_pixel");
 	}
 }

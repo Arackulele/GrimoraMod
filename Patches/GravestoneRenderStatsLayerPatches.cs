@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using HarmonyLib;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -18,10 +18,26 @@ public class GravestoneRenderStatsLayerPatches
 	[HarmonyPostfix, HarmonyPatch(nameof(GravestoneRenderStatsLayer.RenderCard))]
 	public static void PrefixChangeEmissionColorBasedOnModSingletonId(GravestoneRenderStatsLayer __instance, ref CardRenderInfo info)
 	{
-		if (info.baseInfo.HasBeenElectricChaired())
+
+		//Emission Colors in render order
+		//Has Imbued? Does not glow until it has 1 attack
+		//Has gotten Bonelord Buff, is bonelord or name is bonelordshorn > Red
+		//Has gotten Boneyard Buff, or is Hellhound > Lime
+		//Has gotten Electric Chair Buff > Blue
+
+		if (info.baseInfo.HasBeenBonelorded() || info.baseInfo.name == GrimoraPlugin.NameBonelord || info.baseInfo.name == GrimoraPlugin.NameBoneLordsHorn || info.baseInfo.name == GrimoraPlugin.NameSpectre)
+		{
+			__instance.SetEmissionColor(GameColors.Instance.glowRed);
+		}
+		else if (info.baseInfo.HasBeenGraveDug() || info.baseInfo.name == GrimoraPlugin.NameHellHound)
+		{
+			__instance.SetEmissionColor(GameColors.Instance.darkLimeGreen);
+		}
+		else if (info.baseInfo.HasBeenElectricChaired())
 		{
 			__instance.SetEmissionColor(GameColors.Instance.blue);
 		}
+
 
 		if (info.baseInfo.HasAbility(Imbued.ability) && info.attack == 0)
 		{

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -42,15 +42,48 @@ public abstract class BaseBossExt : Part1BossOpponent
 		}
 	}
 
+	public IEnumerator PharaoPostSequencer(bool wasDefeated)
+	{
+		if (wasDefeated)
+		{
+
+			AudioController.Instance.PlaySound2D("glitch_error", MixerGroup.TableObjectsSFX);
+
+			yield return HideRightHandBossSkull();
+
+			DestroyScenery();
+
+			SetSceneEffectsShown(false);
+
+			AudioController.Instance.StopAllLoops();
+
+			yield return new WaitForSeconds(0.75f);
+
+			CleanUpBossBehaviours();
+
+			ViewManager.Instance.SwitchToView(View.Default, false, true);
+
+			TableVisualEffectsManager.Instance.ResetTableColors();
+			yield return new WaitForSeconds(0.25f);
+
+			TurnManager.Instance.PostBattleSpecialNode = null;
+		}
+		else
+		{
+			yield return base.OutroSequence(false);
+		}
+	}
+
 	public override IEnumerator OutroSequence(bool wasDefeated)
 	{
 		if (wasDefeated)
 		{
-			ConfigHelper.Instance.SetBossDefeatedInConfig(this);
+			// TODO:
+			/*ConfigHelper.Instance.SetBossDefeatedInConfig(this);
 			if (ConfigHelper.Instance.BossesDefeated >= 4)
 			{
 				ConfigHelper.Instance.BossesDefeated = 0;
-			}
+			}*/
 
 			AudioController.Instance.PlaySound2D("glitch_error", MixerGroup.TableObjectsSFX);
 

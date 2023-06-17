@@ -101,6 +101,7 @@ public partial class GrimoraPlugin
 		AbilityBuilder<Puppeteer>.Builder
 		 .SetRulebookDescription(rulebookDescription)
 		 .SetRulebookName(Puppeteer.RulebookName)
+		 .SetPixelIcon(AssetUtils.GetPrefab<Sprite>("puppet_pixel"))
 		 .Build();
 	}
 }

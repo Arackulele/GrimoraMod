@@ -1,0 +1,185 @@
+ManifestFileVersion: 0
+CRC: 3379220101
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 2a6fe30f865827d3e824652e7d4b6bb8
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: b856567ce920a0a7527b78b6db21cf92
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 330
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/ChessboardPieces/Kaycee/ice_var_2.fbx
+- Assets/Models/soul.fbx
+- Assets/Items/EmbalmingFluid/Fluid.mat
+- Assets/Items/ShipBottlePrefab.prefab
+- Assets/TexturesCom_Ground_Soil3_2x2_512_albedo.tif
+- Assets/Items/Hands_Low_defaultMat1_normal.png
+- Assets/Items/EmbalmingFluid/Embalming_Fluid_Prefab.prefab
+- Assets/Abilities/Particles/CardFire.prefab
+- Assets/Items/Meat_Raw_001_albedo.jpg
+- Assets/Models/AnkhGuard/EnchantressMat.mat
+- Assets/Items/Mallet/Wood_plancks_004_SPEC.jpg
+- Assets/Models/kaycee/smokescreen.png
+- Assets/Items/HandPrefab.prefab
+- Assets/Abilities/Particles/fire.png
+- Assets/Models/Sarcophagus/SarcophagusPrefab.prefab
+- Assets/Items/PirateShip_Normal.png
+- Assets/Models/AnkhGuard/GravediggerMat_Albedo_Stone.png
+- Assets/Items/Horn/ram_skull_NORMAL_2K.png
+- Assets/Items/Wood_027_roughness.jpg
+- Assets/Items/Quill/quill.fbx
+- Assets/Models/kaycee/KayceeBossSkull.prefab
+- Assets/Abilities/Particles/Grimora_Fire.mat
+- Assets/Items/Trowel/TrowelItem.fbx
+- Assets/Items/Quill/sparrow.png
+- Assets/Items/Trowel/TrowelPrefabFirstPerson.prefab
+- Assets/Items/Trowel/TrowelPrefab.prefab
+- Assets/Items/StoneMarbleCalacatta004_REFL_1K.jpg
+- Assets/Models/kaycee/cevinsnow/Blizzard/Mist.png
+- Assets/Items/Meat_Raw_001_normal.jpg
+- Assets/Items/bone_albedo.png
+- Assets/Models/Sarcophagus/coff_normal.jpg
+- Assets/ChessboardPieces/Kaycee/ice_var_2_prefab.prefab
+- Assets/Items/PirateShip_Albedo.png
+- Assets/Abilities/Particles/RedFire.prefab
+- Assets/Models/royal/RainParticles.prefab
+- Assets/Models/royal/rain.png
+- Assets/Items/Mallet/Organic_matter_001_NORM.jpg
+- Assets/Items/EmbalmingFluid/LidNormal.png
+- Assets/Models/Sarcophagus/coff.jpg
+- Assets/Items/Wood_027_ambientOcclusion.jpg
+- Assets/Items/Wood_027_height.png
+- Assets/Items/Femur/bone_albedo.png
+- Assets/Items/Trowel/M_Trowel.png
+- Assets/Models/kaycee/cevinsnow/Blizzard/snow.png
+- Assets/Models/AnkhGuard/BaseMat_Albedo_Stone.png
+- Assets/Items/StoneMarbleCalacatta004_Flat.jpg
+- Assets/Items/Mallet/Organic_matter_001_SPEC.jpg
+- Assets/Items/Wood_027_normal.jpg
+- Assets/Items/Hands_Low_defaultMat1_roughness.jpg
+- Assets/Items/EmbalmingFluid/Lid_albedo.jpg
+- Assets/rough_wood_diff_4k.jpg
+- Assets/Models/AnkhGuard/AnkhChest/PBSShader_roughness.png
+- Assets/Models/AnkhGuard/BaseMat_Normal.png
+- Assets/Models/Glass.mat
+- Assets/Items/Meat_Raw_001_roughness.jpg
+- Assets/Models/kaycee/cevinsnow/snow.png
+- Assets/Items/Femur/FemurPrefab.prefab
+- Assets/Items/EmbalmingFluid/EmbalmingFluidPrefabFirstPerson.prefab
+- Assets/Items/Wood_027_albedo.jpg
+- Assets/ChessboardPieces/Kaycee/ice_2.mat
+- Assets/Models/AnkhGuard/white.png
+- Assets/ChessboardPieces/Kaycee/ice_var_2_tex.png
+- Assets/Models/Eyes.mat
+- Assets/Models/kaycee/cevinsnow/Blizzard/SnowMaterial.mat
+- Assets/Items/deadhand.fbx
+- Assets/Boneyard_SelectionSlotNew.mat
+- Assets/Items/Meat_Raw_001_ambientOcclusion.jpg
+- Assets/Items/EmbalmingFluid/EmbalmingFluid_albedo.jpg
+- Assets/BoneyardBurialGraveNew.fbx
+- Assets/Items/Quill/QuillPrefabFirstPerson.prefab
+- Assets/Items/Mallet/Organic_matter_001_DISP.png
+- Assets/Items/Mallet/Wood_plancks_004_NRM.jpg
+- Assets/Items/GlassBottle_Cork_Normal.png
+- Assets/Items/BottleGlass.mat
+- Assets/Items/EmbalmingFluid/Glass.mat
+- Assets/Items/PirateShip_Metallic.png
+- Assets/Items/Quill/QuillPrefab.prefab
+- Assets/Items/SoulUrn.fbx
+- Assets/Items/Mallet/Organic_matter_001_OCC.jpg
+- Assets/Models/AnkhGuard/sarcophagus.fbx
+- Assets/Items/GlassBottle_Normal.png
+- Assets/Models/AnkhGuard/AnkhGuardPrefab.prefab
+- Assets/Models/AnkhGuard/AnkhChest/PBSShader_metallic.png
+- Assets/Models/AnkhGuard/AnkhChest/pharaoh chestt.fbx
+- Assets/Models/AnkhGuard/GravediggerStone.mat
+- Assets/rough_wood_nor_gl_4k.exr
+- Assets/Items/Mallet/stick.mat
+- Assets/Items/Mallet/MalletPrefab.prefab
+- Assets/Items/UrnPrefab.prefab
+- Assets/Items/Horn/Bonehorn.fbx
+- Assets/Items/EmbalmingFluid/the_worldwide_internet.fbx
+- Assets/Items/PirateShip_Emission.png
+- Assets/Models/kaycee/cevinsnow/SnowMaterial.mat
+- Assets/Models/AnkhGuard/Tex.mat
+- Assets/Models/AnkhGuard/AnkhChest/PharaoChestPrefab.prefab
+- Assets/Models/kaycee/cevinsnow/Blizzard/TornadoSpin.anim
+- Assets/Models/AnkhGuard/Base_Stone.mat
+- Assets/Models/AnkhGuard/GravediggerMat_Normal.png
+- Assets/Items/MarbleGrimoraEmission.mat
+- Assets/Models/AnkhGuard/Eyes.mat
+- Assets/Items/Mallet/organic_matter.mat
+- Assets/Models/GrimoraEnergyLightCell1.mat
+- Assets/Items/Mallet/MalletPrefabFirstPerson.prefab
+- Assets/Items/StoneMarbleCalacatta004_COL_1K.jpg
+- Assets/Abilities/Particles/Fire_Parent.prefab
+- Assets/Models/kaycee/cevinsnow/Blizzard/MistMaterial.mat
+- Assets/grave.png
+- Assets/Items/Hands_Low_defaultMat1_AO.jpg
+- Assets/Items/GlassBottle_Metallic.png
+- Assets/Models/Sarcophagus/PharaohTreasureNode.fbx
+- Assets/Models/AnkhGuard/AnkhChest/PBSShader_normal.png
+- Assets/Models/AnkhGuard/sarceyes.png
+- Assets/Models/Sarcophagus/coff_occlusion.jpg
+- Assets/Items/Hands_Low_defaultMat1_metallic.jpg
+- Assets/Items/Trowel/Spec_Trowel.png
+- Assets/Items/Horn/BoneLordsHornPrefab.prefab
+- Assets/Items/Mallet/Wood_plancks_004_DISP.jpg
+- Assets/Items/OldUrn.fbx
+- Assets/Items/ShipInABottle.fbx
+- Assets/Models/AnkhGuard/EnchantressMat_Normal.png
+- Assets/Items/EmbalmingFluid/Glass_albedo.jpg
+- Assets/Models/kaycee/cevinsnow/Blizzard/Clouds.controller
+- Assets/TexturesCom_Ground_Soil3_2x2_512_normal.tif
+- Assets/Models/kaycee/cevinsnow/Blizzard/BlizzardParticles.prefab
+- Assets/Items/EmbalmingFluid/GlassNormal.png
+- Assets/Items/Mallet/Wood_plancks_004_OCC.jpg
+- Assets/Items/Mallet/OldSeptember.fbx
+- Assets/Items/Hands_Low_defaultMat1_albedo.jpg
+- Assets/Models/AnkhGuard/AnkhChest/PBSShader_height.png
+- Assets/Items/Horn/ram_skull_COLOUR_2K.png
+- Assets/Items/Mallet/Wood_plancks_004_COLOR.jpg
+- Assets/Abilities/Particles/Grimora_KCFlames.mat
+- Assets/Items/StoneMarbleCalacatta004_GLOSS_1K.jpg
+- Assets/Items/Mallet/Organic_matter_001_albedo.jpg
+- Assets/Models/AnkhGuard/sarctex.png
+- Assets/Models/kaycee/cevinsnow/SnowParticles.prefab
+- Assets/Items/Femur/BoneLordFemur.fbx
+- Assets/Models/AnkhGuard/AnkhChest/PBSShader_albedo.png
+- Assets/Items/StoneMarbleCalacatta004_NRM_1K.jpg
+Dependencies: []

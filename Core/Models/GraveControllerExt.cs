@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Text;
 using DiskCardGame;
 using Pixelplacement;
@@ -37,7 +37,10 @@ public class GraveControllerExt : GravestoneCardAnimationController
 
 	public static void SetupNewController(GravestoneCardAnimationController graveController)
 	{
+		Log.LogInfo($"[GraveControllerExt] SetupNewController [{graveController}]");
+		Log.LogInfo($"[GraveControllerExt] SetupNewController [{graveController.gameObject}]");
 		GraveControllerExt ext = graveController.gameObject.AddComponent<GraveControllerExt>();
+		Log.LogInfo($"[GraveControllerExt] ext [{ext}]");
 		ext.cardRenderer = graveController.cardRenderer;
 		ext.intendedRendererYPos = ext.cardRenderer.transform.localPosition.y;
 		ext.armAnim = graveController.armAnim;
@@ -50,6 +53,7 @@ public class GraveControllerExt : GravestoneCardAnimationController
 		ext.statsLater = graveController.statsLater;
 		ext._graveAnim = graveController.Anim;
 
+		Log.LogInfo($"[GraveControllerExt] graveController.PlayableCard [{graveController.PlayableCard}]");
 		if (graveController.PlayableCard)
 		{
 			ext._playableCard = graveController.PlayableCard;
@@ -63,6 +67,7 @@ public class GraveControllerExt : GravestoneCardAnimationController
 	{
 		if (animToPlay.IsNotEmpty() && animToPlay == "attack_sentry")
 		{
+			Log.LogDebug($"Getting custom sentry arm");
 			return CustomArmSentry;
 		}
 
@@ -76,11 +81,22 @@ public class GraveControllerExt : GravestoneCardAnimationController
 		Action impactCallback
 	)
 	{
+		Log.LogDebug($"[{animToPlay}] [{attackPlayer}] [{targetSlot}] [{impactCallback}]");
 		Log.LogDebug($"[PlaySpecificAttackAnimation] Playing [{animToPlay}] for card [{_playableCard.GetNameAndSlot()}]");
 		DoingAttackAnimation = true;
 		string typeToAttack = attackPlayer ? "attack_player" : "attack_creature";
 		string soundId = "gravestone_card_" + typeToAttack;
-		Animator customArm = GetCustomArm(animToPlay);
+		Animator customArm;
+		customArm = GetCustomArm(animToPlay);
+
+		if (customArm == null)
+		{ 
+			//adding prefabs to card in case ability was gained as temporary mod, in which case the card would not have the prefab
+			AddCustomArmPrefabs(_playableCard);
+			Log.LogDebug("addingprefab");
+			customArm = GetCustomArm(animToPlay);
+		}
+
 		customArm.gameObject.SetActive(true);
 		customArm.Play(animToPlay, 0, 0);
 		PlayAttackSound(soundId);
@@ -90,6 +106,14 @@ public class GraveControllerExt : GravestoneCardAnimationController
 	public override void PlayAttackAnimation(bool attackPlayer, CardSlot targetSlot)
 	{
 		Animator customArmPrefab = GetCustomArm();
+
+		if (customArmPrefab == null)
+		{
+			//adding prefabs to card in case ability was gained as temporary mod, in which case the card would not have the prefab
+			AddCustomArmPrefabs(_playableCard);
+			Log.LogDebug("addingprefab");
+			customArmPrefab = GetCustomArm();
+		}
 
 		armAnim.gameObject.SetActive(false);
 		_graveAnim.Play("shake", 0, 0f);
@@ -102,6 +126,9 @@ public class GraveControllerExt : GravestoneCardAnimationController
 		if (doPlayCustomAttack || IsGiant)
 		{
 			Log.LogDebug($"[PlayAttackAnimation] Playing custom attack [{animToPlay}] for card {_playableCard.GetNameAndSlot()}");
+
+
+
 			customArmPrefab.gameObject.SetActive(true);
 			customArmPrefab.Play(animToPlay, 0, 0f);
 			// if (animToPlay == "sniper_shoot")

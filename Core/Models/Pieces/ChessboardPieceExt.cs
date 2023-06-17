@@ -1,5 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
+using GrimoraMod.Saving;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -46,7 +47,7 @@ public class ChessboardPieceExt : ChessboardPiece
 	private IEnumerator StartSpecialNodeSequence()
 	{
 		GrimoraPlugin.Log.LogDebug($"[StartSpecialNodeSequence] Piece [{name}] Node [{GetType()}]");
-		ConfigHelper.Instance.AddPieceToRemovedPiecesConfig(name);
+		GrimoraRunState.CurrentRun.PiecesRemovedFromBoard.Add(name);
 
 		MapNodeManager.Instance.SetAllNodesInteractable(false);
 

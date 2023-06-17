@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers;
 using Sirenix.Utilities;
@@ -16,6 +16,7 @@ public class CardBuilder
 	private string _cardNameNoGuid;
 
 	private string _cardEmissionNoGuid;
+
 
 	public CardInfo Build()
 	{
@@ -54,6 +55,12 @@ public class CardBuilder
 		if (ogCardArt.SafeIsUnityNull())
 		{
 			_cardInfo.portraitTex = AssetUtils.GetPrefab<Sprite>(_cardNameNoGuid);
+
+			Sprite pixelsprite = AllSprites.Find(spr => spr.name.Equals(_cardNameNoGuid+"_pixel"));
+			if (pixelsprite)
+			{
+				_cardInfo.SetPixelPortrait(pixelsprite);
+			}
 
 			Sprite emissionSprite = AllSprites.Find(spr => spr.name.Equals(_cardEmissionNoGuid));
 			if (emissionSprite)
@@ -128,7 +135,6 @@ public class CardBuilder
 			_cardInfo.appearanceBehaviour = new List<CardAppearanceBehaviour.Appearance>
 				{ CardAppearanceBehaviour.Appearance.RareCardBackground };
 		}
-
 		return this;
 	}
 
@@ -167,6 +173,27 @@ public class CardBuilder
 	internal CardBuilder SetTraits(params Trait[] traits)
 	{
 		_cardInfo.SetTraits(traits);
+
+		if ((traits ?? Array.Empty<Trait>()).Contains(Trait.Terrain))
+		{
+			_cardInfo.appearanceBehaviour = new List<CardAppearanceBehaviour.Appearance>
+				{ CardAppearanceBehaviour.Appearance.TerrainBackground };
+		}
+
+		if ((traits ?? Array.Empty<Trait>()).Contains(Trait.DeathcardCreationNonOption))
+		{
+			_cardInfo.appearanceBehaviour = new List<CardAppearanceBehaviour.Appearance>
+				{ CardAppearanceBehaviour.Appearance.GoldEmission };
+		}
+
+		return this;
+	}
+
+	internal CardBuilder SetPortraits(Sprite portrait, Sprite portraitm)
+	{
+		_cardInfo.SetPortrait(portrait);
+		_cardInfo.SetEmissivePortrait(portraitm);
+
 		return this;
 	}
 }

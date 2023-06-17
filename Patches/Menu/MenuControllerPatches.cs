@@ -1,5 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
+using GrimoraMod.Saving;
 using HarmonyLib;
 using InscryptionAPI.Ascension;
 using Sirenix.Utilities;
@@ -36,6 +37,7 @@ public class MenuControllerPatches
 						card.SetBorderColor(__instance.slottedBorderColor);
 						AudioController.Instance.PlaySound2D("crunch_short#1", MixerGroup.None, 0.6f);
 						__instance.Shake(0.015f, 0.3f);
+						GrimoraSaveUtil.IsGrimoraModRun = true;
 						CustomCoroutine.Instance.StartCoroutine(__instance.TransitionToGame2(true));
 
 						return false;
@@ -51,7 +53,9 @@ public class MenuControllerPatches
 			AudioController.Instance.PlaySound2D("crunch_short#1", MixerGroup.None, 0.6f);
 
 			__instance.Shake(0.015f, 0.3f);
-			CustomCoroutine.Instance.StartCoroutine(__instance.TransitionToGame2());
+			GrimoraSaveUtil.IsGrimoraModRun = true;
+			bool resetRun = GrimoraSaveManager.CurrentSaveFile.CurrentRun == null || GrimoraSaveManager.CurrentSaveFile.CurrentRun.playerLives <= 0;
+			CustomCoroutine.Instance.StartCoroutine(__instance.TransitionToGame2(resetRun));
 			return false;
 		}
 
@@ -69,7 +73,7 @@ public class MenuControllerPatches
 				__instance.cards.Add(CreateMenuButton(__instance));
 			}
 		}
-		else if (GrimoraSaveUtil.IsGrimora)
+		else if (GrimoraSaveUtil.IsGrimoraModRun)
 		{
 			if (__instance.cardRow.Find("MenuCard_ResetRun").SafeIsUnityNull())
 			{
@@ -85,9 +89,9 @@ public class MenuControllerPatches
 		Log.LogDebug($"[MenuController.LoadGameFromMenu] " +
 		             $"NewGameGBC [{newGameGBC}] " +
 		             $"SaveFile.IsAscension [{SaveFile.IsAscension}] " +
-		             $"Is Grimora run? [{SaveDataRelatedPatches.IsGrimoraRun}] " +
+		             $"Is Grimora run? [{GrimoraSaveUtil.IsGrimoraModRun}] " +
 		             $"CurrentRun [{AscensionSaveData.Data.currentRun}]");
-		if (!newGameGBC && SaveFile.IsAscension && SaveDataRelatedPatches.IsGrimoraRun)
+		if (!newGameGBC && SaveFile.IsAscension && GrimoraSaveUtil.IsGrimoraModRun)
 		{
 			Log.LogDebug($"[MenuController.LoadGameFromMenu] --> Save file is ascension and IsGrimoraRun");
 			SaveManager.LoadFromFile();
@@ -148,6 +152,13 @@ public class MenuControllerPatches
 			cardRow.transform.position -= new Vector3(0.22f, 0, 0);
 		}
 
+
+		//add Logo
+		GameObject Logo = new GameObject();
+		Logo.transform.parent = GameObject.Find("CardMenuTitle").transform;
+
+
+
 		return menuCardGrimora;
 	}
 }
@@ -184,7 +195,7 @@ public static class TransitionExt
 		if (resetRun)
 		{
 			Log.LogDebug($"[TransitionToGame2] Before reset run");
-			ConfigHelper.Instance.ResetRun();
+			GrimoraSaveManager.ResetRun();
 			yield return new WaitForSecondsRealtime(0.75f);
 		}
 

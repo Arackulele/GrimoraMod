@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
 
@@ -48,19 +48,19 @@ public class ChessboardPlayerMarkerPatches
 	
 	private static void MoveWasdInput(ChessboardPlayerMarker __instance)
 	{
-		if (Input.GetKeyDown(KeyCode.LeftArrow))
+		if (Input.GetKeyDown(KeyCode.J))
 		{
 			__instance.MoveToZone(LookDirection.West);
 		}
-		if (Input.GetKeyDown(KeyCode.RightArrow))
+		if (Input.GetKeyDown(KeyCode.L))
 		{
 			__instance.MoveToZone(LookDirection.East);
 		}
-		if (Input.GetKeyDown(KeyCode.UpArrow))
+		if (Input.GetKeyDown(KeyCode.I))
 		{
 			__instance.MoveToZone(LookDirection.North);
 		}
-		if (Input.GetKeyDown(KeyCode.DownArrow))
+		if (Input.GetKeyDown(KeyCode.K))
 		{
 			__instance.MoveToZone(LookDirection.South);
 		}

@@ -1,4 +1,6 @@
-﻿namespace GrimoraMod;
+using UnityEngine;
+using UnityEngine;
+namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
@@ -13,6 +15,6 @@ public partial class GrimoraPlugin
 		 .SetBoneCost(7)
 		 .SetDescription("He betrayed his captain for that large hook, now he is sure to make anyone a double-crosser!")
 		 .SetNames(NamePirateFirstMateSnag, "First Mate Snag")
-		 .Build();
+		 .Build().pixelPortrait = AssetUtils.GetPrefab<Sprite>("snag_pixel");
 	}
 }

@@ -17,7 +17,7 @@ public partial class GrimoraPlugin
 		 .SetAbilities(Ability.BoneDigger)
 		 .SetBaseAttackAndHealth(0, 3)
 		 .SetBoneCost(1)
-		 .SetDescription("HE SPENDS HIS TIME ALONE DIGGING FOR BONES IN HOPES OF FINDING A TREASURE. JUST LIKE HIS GRANDPA.")
+		 .SetDescription("HE SPENDS HIS TIME ALONE DIGGING FOR BONES IN HOPES OF FINDING A TREASURE. JUST LIKE HIS GRANDPA BEFORE HIM.")
 		 .SetEvolve(NameSporedigger, 1)
 		 .SetNames(NameGravedigger, "Gravedigger", ogSprite)
 		 

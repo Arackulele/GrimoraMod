@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Card;
 
@@ -10,7 +10,7 @@ public class OnlyAllowGrimoraModCardsInNormalCardChoices
 	[HarmonyPrefix, HarmonyPatch(nameof(GrimoraCardChoiceGenerator.GenerateChoices))]
 	public static bool Prefix(ref List<CardChoice> __result, int randomSeed)
 	{
-		__result = RandomUtils.GenerateRandomChoicesOfCategory(CardManager.AllCardsCopy, CardMetaCategory.ChoiceNode);
+		__result = RandomUtils.GenerateRandomChoicesOfCategory(CardManager.AllCardsCopy);
 		return false;
 	}
 }

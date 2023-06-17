@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 			.SetSpecialAbilities(LammergeierAttack.FullSpecial.Id)
 			.SetBaseAttackAndHealth(0, 10)
 			.SetBoneCost(10)
-			.SetDescription("Its power scales in proportion to your Bones.")
+			.SetDescription("A GROUP OF SKELETONS IS CALLED A CATACOMB. THIS IS A RATHER LARGE GATHERING.")
 			.SetNames(NameCatacomb, "Catacomb")
 			.SetSpecialStatIcon(LammergeierAttack.FullStatIcon.Id)
 			.Build();

@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -12,9 +12,9 @@ public partial class GrimoraPlugin
 			.SetAsRareCard()
 			.SetAbilities(InvertedStrike.ability, Ability.Strafe)
 			.SetBaseAttackAndHealth(3, 2)
-			.SetBoneCost(7)
+			.SetBoneCost(6)
 			.SetDescription("A SKILLED HUNTER. WHAT DID IT HUNT? THAT IS UNKNOWN...")
 			.SetNames(NameSilbon, "Silbon")
-			.Build().pixelPortrait=GrimoraPlugin.AllSprites.Find(o=>o.name=="pixel_silbon");;
+			.Build().pixelPortrait=GrimoraPlugin.AllSprites.Find(o=>o.name=="pixel_silbon");
 	}
 }

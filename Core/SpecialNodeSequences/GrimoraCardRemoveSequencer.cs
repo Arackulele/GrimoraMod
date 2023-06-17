@@ -1,5 +1,6 @@
 using System.Collections;
 using DiskCardGame;
+using GrimoraMod.Consumables;
 using Pixelplacement;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -10,6 +11,10 @@ namespace GrimoraMod;
 public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 {
 	private static readonly int Exit = Animator.StringToHash("exit");
+
+	private static int SigilOffer = 0;
+
+	public const string ModSingletonId = "GrimoraMod_BonelordBuffed";
 
 	private IEnumerator InitialSetup()
 	{
@@ -25,11 +30,11 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		if (!EventManagement.HasLearnedMechanicCardRemoval)
 		{
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"HE WILL PROVIDE A HELPFUL OR HARMFUL CURSE UPON YOUR ARMY IF YOU LEAVE HIM AN OFFERING."
+				"HE WILL PROVIDE A HELPFUL CURSE OR BLESSING, AS SOME CALL IT UPON YOUR ARMY IF YOU LEAVE HIM AN OFFERING."
 			);
 		}
 
-		yield return deckPile.SpawnCards(GrimoraSaveUtil.DeckList.Count, 0.5f);
+		yield return deckPile.SpawnCards(RunState.Run.playerDeck.Cards.Count, 0.5f);
 		ViewManager.Instance.SwitchToView(View.CardMergeSlots);
 
 		ExplorableAreaManager.Instance.TweenHangingLightColors(
@@ -79,7 +84,11 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 		CardInfo sacrificedInfo = sacrificeSlot.Card.Info;
 
-		GrimoraSaveUtil.RemoveCard(sacrificedInfo);
+		SigilOffer = sacrificedInfo.Abilities.Count;
+
+		if (sacrificedInfo.metaCategories.Contains(CardMetaCategory.Rare)) SigilOffer++;
+
+		RunState.Run.playerDeck.RemoveCard(sacrificedInfo);
 
 		((GravestoneCardAnimationController)sacrificeSlot.Card.Anim).PlayGlitchOutAnimation();
 
@@ -89,6 +98,71 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 			sacrificeSlot.transform.position
 		);
 		yield return new WaitForSeconds(0.5f);
+
+
+		if (sacrificedInfo.name == NameObol)
+		{
+
+			if (RunState.Run.consumables.Count < 3)
+			{
+
+								yield return TextDisplayer.Instance.ShowUntilInput(
+					"THE BONELORD IS VERY HAPPY WITH THIS OFFERING"
+				);
+
+				yield return new WaitForSeconds(1f);
+
+				ExplorableAreaManager.Instance.TweenHangingLightColors(
+				GameColors.Instance.nearBlack,
+				GameColors.Instance.darkRed,
+				0.1f);
+
+
+				yield return TextDisplayer.Instance.ShowUntilInput(
+										$"{"I AM VERY THANKFUL FOR THIS".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
+					);
+
+				yield return TextDisplayer.Instance.ShowUntilInput(
+						 $"{"TAKE THIS IN RETURN, YOU CAN USE IT TO CALL ME ANYTIME".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
+					);
+
+
+				Singleton<ViewManager>.Instance.SwitchToView(View.Consumables);
+
+				
+
+				RunState.Run.consumables.Add(GrimoraPlugin.AllGrimoraItems[10].name);
+				Singleton<ItemsManager>.Instance.UpdateItems();
+
+
+
+
+				ExplorableAreaManager.Instance.TweenHangingLightColors(
+							GameColors.Instance.glowRed,
+							GameColors.Instance.orange,
+							0.1f
+							);
+
+
+				yield return TextDisplayer.Instance.ShowUntilInput(
+						 $"{"YOU CANNOT END THIS, END ME, THAT IS".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
+);
+
+				yield return new WaitForSeconds(0.5f);
+
+				Singleton<ViewManager>.Instance.SwitchToView(View.Default);
+
+			}
+
+			else
+			{
+
+
+
+			}
+
+
+		}
 
 		sacrificeSlot.DestroyCard();
 
@@ -194,95 +268,345 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		float rngValue = UnityRandom.value;
 
 		CardInfo cardThatWillHaveEffectApplied = BoonsUtil.CreateCardForBoon(BoonData.Type.StartingBones);
-		switch (rngValue)
+
+
+
+
+		if (SigilOffer < 2)
 		{
-			// decrease entire deck by 1
-			case <= 0.02f:
+
+			switch (rngValue)
 			{
-				// grimora_deck_decrease_cost
-				cardThatWillHaveEffectApplied = ApplyEffectToCards(
-					"grimora_deck_bones_decrease",
-					$"... WHAT? WHY DID YOU DO THAT BONELORD?! {"DECREASING THE COST OF THE ENTIRE DECK?!".BrightRed()} YOU FOOL!",
-					$"THAT'S UNFORTUNATE. YOU WERE SUPPOSED TO HAVE YOUR ENTIRE DECK DECREASED, BUT IT LOOKS LIKE THE BONELORD HAS ALREADY GIFTED YOU THAT. BEGONE!",
-					false,
-					info => info.BonesCost > 0
-				);
 
-				break;
+				case <= 0.001f:
+					{
+						cardThatWillHaveEffectApplied = ApplyEffectToCards(
+							"grimora_deck_bones_decrease",
+							$"... WHAT? WHY DID YOU DO THAT BONELORD?! {"DECREASING THE COST OF THE ENTIRE DECK?!".BrightRed()} YOU FOOL!",
+							$"THAT'S UNFORTUNATE. YOU WERE SUPPOSED TO HAVE YOUR ENTIRE DECK DECREASED, BUT IT LOOKS LIKE THE BONELORD HAS ALREADY GIFTED YOU THAT. BEGONE!",
+							false,
+							info => info.BonesCost > 0
+						);
+
+						break;
+					}
+
+
+				case <= 0.002f:
+					{
+						cardThatWillHaveEffectApplied = ApplyEffectToCards(
+							"grimora_deck_health_increase",
+							$"... WHAT? WHY DID YOU DO THAT BONELORD?! {"INCREASING THE HEALTH OF THE ENTIRE DECK?!".BrightRed()} YOU FOOL!",
+							$"THAT'S UNFORTUNATE. YOU WERE SUPPOSED TO HAVE YOUR ENTIRE DECK DECREASED, BUT IT LOOKS LIKE THE BONELORD HAS ALREADY GIFTED YOU THAT. BEGONE!",
+							false
+						);
+
+						break;
+					}
+
+				case <= 0.52f:
+					{
+						// grimora_deck_decrease_cost
+						cardThatWillHaveEffectApplied = ApplyEffectToCards(
+							"grimora_card_health_increase",
+							"The Bonelord has been generous.\n[c:bR]{0}[c:] base health has increased!",
+							$"YOU DON'T HAVE ANYMORE CARDS TO {"GAIN HP".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
+							true
+						);
+
+						break;
+					}
+
+				case <= 1.1f:
+					{
+						// grimora_deck_decrease_cost
+						cardThatWillHaveEffectApplied = ApplyEffectToCards(
+							"grimora_card_bones_decrease",
+							"The Bonelord has been generous.\n[c:bR]{0}[c:] bone cost has decreased!",
+							$"YOU DON'T HAVE ANYMORE CARDS TO {"GAIN HP".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
+							true,
+							filterCardsOnPredicate: info => info.BonesCost > 0
+						);
+
+						break;
+					}
+
 			}
-			/*
-		// increase entire deck by 1
-		case <= 0.01f:
-		{
-			cardThatWillHaveEffectApplied = ApplyEffectToCards(
-				"grimora_deck_bones_increase",
-				$"OH MY, THE BONELORD HAS NO EMPATHY TODAY. {"INCREASING THE COST OF YOUR ENTIRE DECK BY 1".BrightRed()}, I AM QUITE CURIOUS HOW YOU'LL SURVIVE NOW.",
-				$"YOU'RE QUITE LUCKY. THE BONELORD {"WANTED".BrightRed()} TO INCREASE YOUR ENTIRE DECK BY 1, BUT I FELT THAT WAS A BIT HARSH SINCE IT ALREADY HAS HAPPENED. YOU BEST THANK ME.",
-				false
-			);
 
-			break;
 		}
-		// card bonesCost increase = 9%~
-		case <= 0.10f:
-		{
-			cardThatWillHaveEffectApplied = ApplyEffectToCards(
-				"grimora_card_bones_increase",
-				"I hope this doesn't hurt too much.\n[c:bR]{0}[c:] cost has increased!",
-				$"YOU DON'T HAVE ANYMORE CARDS TO {"INCREASE THEIR BONE COST".BrightRed()}, HOW SAD. NOW PLEASE LEAVE."
-			);
 
-			break;
-		}
-			*/
-			// card bonesCost reduce = 20% of the time
-			case <= 0.5f:
+		else if (SigilOffer < 4)
+		{
+
+			switch (rngValue)
 			{
-				cardThatWillHaveEffectApplied = ApplyEffectToCards(
-					"grimora_card_bones_decrease",
-					"Oh dear, it looks like [c:bR]{0}[c:] cost has decreased!",
-					$"YOU DON'T HAVE ANYMORE CARDS TO {"REDUCE THEIR BONE COST".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
-					filterCardsOnPredicate: info => info.BonesCost > 0
-				);
 
-				break;
-			}
-			// card gains 1 HP = 10%?
-			case <= 1f:
-			{
-				cardThatWillHaveEffectApplied = ApplyEffectToCards(
-					"grimora_card_health_increase",
-					"The Bonelord has been generous.\n[c:bR]{0}[c:] base health has increased!",
-					$"YOU DON'T HAVE ANYMORE CARDS TO {"GAIN HP".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
-					filterCardsOnPredicate: info => info.Health > 0
-				);
+				case <= 0.02f:
+					{
+						// grimora_deck_decrease_cost
+						cardThatWillHaveEffectApplied = ApplyEffectToCards(
+							"grimora_deck_bones_decrease",
+							$"... WHAT? WHY DID YOU DO THAT BONELORD?! {"DECREASING THE COST OF THE ENTIRE DECK?!".BrightRed()} YOU FOOL!",
+							$"THAT'S UNFORTUNATE. YOU WERE SUPPOSED TO HAVE YOUR ENTIRE DECK DECREASED, BUT IT LOOKS LIKE THE BONELORD HAS ALREADY GIFTED YOU THAT. BEGONE!",
+							false,
+							info => info.BonesCost > 0
+						);
 
-				break;
+						break;
+					}
+
+
+				case <= 0.04f:
+					{
+						// grimora_deck_decrease_cost
+						cardThatWillHaveEffectApplied = ApplyEffectToCards(
+							"grimora_deck_health_increase",
+							$"... WHAT? WHY DID YOU DO THAT BONELORD?! {"INCREASING THE HEALTH OF THE ENTIRE DECK?!".BrightRed()} YOU FOOL!",
+							$"THAT'S UNFORTUNATE. YOU WERE SUPPOSED TO HAVE YOUR ENTIRE DECK INCREASED, BUT IT LOOKS LIKE THE BONELORD HAS ALREADY GIFTED YOU THAT. BEGONE!",
+							false
+						);
+
+						break;
+					}
+
+				case <= 0.23f:
+					{
+						// grimora_deck_decrease_cost
+						cardThatWillHaveEffectApplied = ApplyEffectToCards(
+							"grimora_card_attack_increase",
+							"The Bonelord has been very generous.\n[c:bR]{0}[c:] base attack has increased!",
+							$"YOU DON'T HAVE ANYMORE CARDS TO {"GAIN ATTACK".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
+							true
+						);
+
+						break;
+					}
+
+				case <= 0.42f:
+					{
+						// grimora_deck_decrease_cost
+						cardThatWillHaveEffectApplied = ApplyEffectToCards(
+							"grimora_card_health_boost",
+							"The Bonelord has been very generous.\n[c:bR]{0}[c:] base health has increased greatly!",
+							$"YOU DON'T HAVE ANYMORE CARDS TO {"GAIN HP".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
+							true
+						);
+
+						break;
+					}
+
+				case <= 0.61f:
+					{
+						// grimora_deck_decrease_cost
+						cardThatWillHaveEffectApplied = ApplyEffectToCards(
+							"grimora_card_cost_sink",
+							"The Bonelord has been generous.\n[c:bR]{0}[c:] bone cost has decreased greatly!",
+							$"YOU DON'T HAVE ANYMORE CARDS TO {"GAIN HP".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
+							true
+						);
+
+						break;
+					}
+
+				case <= 0.80f:
+					{
+						// grimora_deck_decrease_cost
+						cardThatWillHaveEffectApplied = ApplyEffectToCards(
+							"grimora_card_health_increase",
+							"The Bonelord has been generous.\n[c:bR]{0}[c:] base health has increased!",
+							$"YOU DON'T HAVE ANYMORE CARDS TO {"GAIN HP".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
+							true
+						);
+
+						break;
+					}
+
+				case <= 1.1f:
+					{
+						// grimora_deck_decrease_cost
+						cardThatWillHaveEffectApplied = ApplyEffectToCards(
+							"grimora_card_bones_decrease",
+							"Oh dear, it looks like [c:bR]{0}[c:] bone cost has decreased!",
+							$"YOU DON'T HAVE ANYMORE CARDS TO {"REDUCE THEIR BONE COST".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
+							true,
+						filterCardsOnPredicate: info => info.BonesCost > 0
+						);
+
+						break;
+					}
+
 			}
-			/*
-		// card loses 1 HP = 10%?
-		case <= 50f:
+
+		}
+
+		else if (SigilOffer < 5)
 		{
-			cardThatWillHaveEffectApplied = ApplyEffectToCards(
-				"grimora_card_health_decrease",
-				"Be glad the Bonelord doesn't take more.\n[c:bR]{0}[c:] base health has decreased!",
-				$"YOU DON'T HAVE ANYMORE CARDS TO {"LOSE HP".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
-				filterCardsOnPredicate: info => info.Health > 1
-			);
 
-			break;
-		}
-			*/
+			switch (rngValue)
+			{
+
+				case <= 0.02f:
+					{
+						// grimora_deck_decrease_cost
+						cardThatWillHaveEffectApplied = ApplyEffectToCards(
+							"grimora_deck_bones_decrease",
+							$"... WHAT? WHY DID YOU DO THAT BONELORD?! {"DECREASING THE COST OF THE ENTIRE DECK?!".BrightRed()} YOU FOOL!",
+							$"THAT'S UNFORTUNATE. YOU WERE SUPPOSED TO HAVE YOUR ENTIRE DECK DECREASED, BUT IT LOOKS LIKE THE BONELORD HAS ALREADY GIFTED YOU THAT. BEGONE!",
+							false,
+							info => info.BonesCost > 0
+						);
+
+						break;
+					}
+
+
+				case <= 0.04f:
+					{
+						// grimora_deck_decrease_cost
+						cardThatWillHaveEffectApplied = ApplyEffectToCards(
+							"grimora_deck_health_increase",
+							"The Bonelord has been generous.\n[c:bR]{0}[c:] base health has increased!",
+							$"YOU DON'T HAVE ANYMORE CARDS TO {"GAIN HP".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
+							false
+						);
+
+						break;
+					}
+
+				case <= 0.10f:
+					{
+						// grimora_deck_decrease_cost
+						cardThatWillHaveEffectApplied = ApplyEffectToCards(
+							"grimora_card_attack_increase",
+							"The Bonelord has been very generous.\n[c:bR]{0}[c:] base attack has increased!",
+							$"YOU DON'T HAVE ANYMORE CARDS TO {"GAIN ATTACK".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
+							true
+						);
+
+						break;
+					}
+
+				case <= 0.69f:
+					{
+						// grimora_deck_decrease_cost
+						cardThatWillHaveEffectApplied = ApplyEffectToCards(
+							"grimora_card_health_boost",
+							"The Bonelord has been very generous.\n[c:bR]{0}[c:] base health has increased greatly!",
+							$"YOU DON'T HAVE ANYMORE CARDS TO {"GAIN HP".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
+							true
+						);
+
+						break;
+					}
+
+				case <= 1.1f:
+					{
+						// grimora_deck_decrease_cost
+						cardThatWillHaveEffectApplied = ApplyEffectToCards(
+							"grimora_card_cost_sink",
+							"The Bonelord has been generous.\n[c:bR]{0}[c:] bone cost has decreased greatly!",
+							$"YOU DON'T HAVE ANYMORE CARDS TO {"GAIN HP".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
+							true,
+							filterCardsOnPredicate: info => info.BonesCost > 1
+						);
+
+						break;
+					}
+
+
+			}
+
 		}
 
-		GrimoraSaveUtil.DeckInfo.UpdateModDictionary();
+		else if (SigilOffer < 6)
+		{
+
+			switch (rngValue)
+			{
+
+
+				case <= 0.1f:
+					{
+						// grimora_deck_decrease_cost
+						cardThatWillHaveEffectApplied = ApplyEffectToCards(
+							"grimora_deck_bones_decrease",
+							$"... WHAT? WHY DID YOU DO THAT BONELORD?! {"DECREASING THE COST OF THE ENTIRE DECK?!".BrightRed()} YOU FOOL!",
+							$"THAT'S UNFORTUNATE. YOU WERE SUPPOSED TO HAVE YOUR ENTIRE DECK DECREASED, BUT IT LOOKS LIKE THE BONELORD HAS ALREADY GIFTED YOU THAT. BEGONE!",
+							false,
+							info => info.BonesCost > 0
+						);
+
+						break;
+					}
+
+
+				case <= 0.2f:
+					{
+						// grimora_deck_decrease_cost
+						cardThatWillHaveEffectApplied = ApplyEffectToCards(
+							"grimora_deck_health_increase",
+							$"... WHAT? WHY DID YOU DO THAT BONELORD?! {"INCREASING THE HEALTH OF THE ENTIRE DECK?!".BrightRed()} YOU FOOL!",
+							$"THAT'S UNFORTUNATE. YOU WERE SUPPOSED TO HAVE YOUR ENTIRE DECK INCREASED, BUT IT LOOKS LIKE THE BONELORD HAS ALREADY GIFTED YOU THAT. BEGONE!",
+							false
+						);
+
+						break;
+					}
+
+				case <= 0.44f:
+					{
+						// grimora_deck_decrease_cost
+						cardThatWillHaveEffectApplied = ApplyEffectToCards(
+							"grimora_card_attack_increase",
+							"The Bonelord has been very generous.\n[c:bR]{0}[c:] base attack has increased!",
+							$"YOU DON'T HAVE ANYMORE CARDS TO {"GAIN ATTACK".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
+							true
+						);
+
+						break;
+					}
+
+				case <= 0.70f:
+					{
+						// grimora_deck_decrease_cost
+						cardThatWillHaveEffectApplied = ApplyEffectToCards(
+							"grimora_card_health_boost",
+							"The Bonelord has been very generous.\n[c:bR]{0}[c:] base health has increased greatly!",
+							$"YOU DON'T HAVE ANYMORE CARDS TO {"GAIN HP".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.",
+							true
+						);
+
+						break;
+					}
+
+				case <= 1.1f:
+					{
+						// grimora_deck_decrease_cost
+						cardThatWillHaveEffectApplied = ApplyEffectToCards(
+							"grimora_card_cost_sink",
+							"The Bonelord has been generous.\n[c:bR]{0}[c:] bone cost has decreased greatly!",
+							$"YOU DON'T HAVE ANYMORE CARDS TO {"GAIN HP".BrightRed()}, HOW SAD. NOW PLEASE LEAVE.", 
+							true,
+							filterCardsOnPredicate: info => info.BonesCost > 1
+						);
+
+						break;
+					}
+
+			}
+
+		}
+
+
+
+		RunState.Run.playerDeck.UpdateModDictionary();
 
 		return cardThatWillHaveEffectApplied;
 	}
 
 	private List<CardInfo> GetCardsWithoutMod(string singletonId, Predicate<CardInfo> cardInfoPredicate = null)
 	{
-		return GrimoraSaveUtil.DeckList
+		return RunState.Run.playerDeck.Cards
 		 .Where(
 				info => (cardInfoPredicate == null || cardInfoPredicate.Invoke(info))
 				     && info.Mods.IsNotNull()
@@ -301,15 +625,23 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 		int howMuchToAdjust = whetherIncreaseOrDecrease.Equals("increase") ? 1 : -1;
 
+		if (whetherIncreaseOrDecrease.Equals("boost")) howMuchToAdjust = 2;
+
+		if (whetherIncreaseOrDecrease.Equals("sink")) howMuchToAdjust = -2;
+
 		if (whatToApplyTo.Equals("health"))
 		{
 			modificationInfo.healthAdjustment = howMuchToAdjust;
+		}
+		else if (whatToApplyTo.Equals("attack"))
+		{
+			modificationInfo.attackAdjustment = howMuchToAdjust;
 		}
 		else
 		{
 			modificationInfo.bonesCostAdjustment = howMuchToAdjust;
 		}
-
+		modificationInfo.singletonId = ModSingletonId;
 		return modificationInfo;
 	}
 
@@ -323,7 +655,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 	{
 		var modificationInfo = GetModInfoFromSingletonId(singletonId);
 
-		List<CardInfo> cards = GetCardsWithoutMod(singletonId, filterCardsOnPredicate);
+		List<CardInfo> cards = GetCardsWithoutMod(ModSingletonId, filterCardsOnPredicate);
 
 		CardInfo cardToReturn = BoonsUtil.CreateCardForBoon(BoonData.Type.StartingBones);
 		if (cards.IsNullOrEmpty())
@@ -371,7 +703,9 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 		sacrificeSlot.SetEnabled(false);
 		sacrificeSlot.ShowState(HighlightedInteractable.State.NonInteractable);
 		confirmStone.Exit();
-		((SelectCardFromDeckSlot)slot).SelectFromCards(GrimoraSaveUtil.DeckListCopy, OnSelectionEnded, false);
+
+		List<CardInfo> cards = new List<CardInfo>(RunState.Run.playerDeck.Cards);
+		((SelectCardFromDeckSlot)slot).SelectFromCards(cards, OnSelectionEnded, false);
 	}
 
 	public static void CreateSequencerInScene()

@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetSpecialAbilities(GrimoraGiant.FullSpecial.Id)
 			.SetBaseAttackAndHealth(1, 20)
 			.SetBoneCost(666)
-			.SetDescription("WHEN THE BONELORD APPEARS, EVERY CREATURE WILL FALL.")
+			.SetDescription("SO YOU HAVE MADE IT HERE, YOU CANNOT END WHAT I HAVE STARTED, IT HAS GONE TOO FAR.")
 			.SetTraits(Trait.Giant, Trait.Uncuttable)
 			.SetNames(NameBonelord, "The Bonelord")
 			.Build();

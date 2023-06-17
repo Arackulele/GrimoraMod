@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using HarmonyLib;
 
 namespace GrimoraMod;
@@ -13,7 +13,7 @@ public class ViewControllerPatches
 		bool immediate = false
 	)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora || mode != ViewController.ControlMode.Map)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun || mode != ViewController.ControlMode.Map)
 		{
 			return true;
 		}

@@ -1,0 +1,38 @@
+ManifestFileVersion: 0
+CRC: 2587677210
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 73b708265cf522b037b061d554dec534
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 22357172b8cea85847937e8f62d0c077
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Materials/energygrave_tex.png
+- Assets/Materials/GravestoneFrozen.mat
+- Assets/Materials/GravestoneCardBack_Rare.mat
+- Assets/Materials/gravestarve.mat
+- Assets/Materials/gravebrittle_tex.png
+- Assets/Materials/gravebrittle.mat
+- Assets/Materials/graveprisoner.mat
+- Assets/Materials/gravehaunter.mat
+- Assets/Materials/gravehaunter_tex.png
+- Assets/Materials/GravestoneTerrain.mat
+- Assets/Materials/Boneyard_ConfirmButton_Shovel.mat
+- Assets/Materials/ElectricChair_SelectionSlot.mat
+- Assets/Materials/Gravestone_Gold.mat
+- Assets/Materials/gravestarve_tex.png
+- Assets/Materials/graveprisoner_tex.png
+- Assets/Materials/GravestoneCard_Base_Frozen.jpg
+- Assets/Materials/energygrave.mat
+- Assets/Materials/Boneyard_SelectionSlot.mat
+Dependencies: []

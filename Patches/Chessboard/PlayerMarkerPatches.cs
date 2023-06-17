@@ -1,4 +1,5 @@
 ﻿using DiskCardGame;
+using GrimoraMod.Saving;
 using HarmonyLib;
 
 namespace GrimoraMod;
@@ -9,7 +10,7 @@ public class PlayerMarkerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(AnimatedGameMapMarker.Show))]
 	public static bool PrefixShowHandleGrimoraBossPiece(AnimatedGameMapMarker __instance)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora || ConfigHelper.Instance.BossesDefeated != 3 || !__instance.name.Contains("Boss"))
+		if (GrimoraSaveUtil.IsNotGrimoraModRun || GrimoraRunState.CurrentRun.regionTier != 3 || !__instance.name.Contains("Boss"))
 		{
 			return true;
 		}
@@ -22,7 +23,7 @@ public class PlayerMarkerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(AnimatedGameMapMarker.Hide))]
 	public static bool PrefixHideHandleGrimoraBossPiece(AnimatedGameMapMarker __instance, bool immediate = false)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora || ConfigHelper.Instance.BossesDefeated != 3 || !__instance.name.Contains("Boss"))
+		if (GrimoraSaveUtil.IsNotGrimoraModRun || GrimoraRunState.CurrentRun.regionTier != 3 || !__instance.name.Contains("Boss"))
 		{
 			return true;
 		}

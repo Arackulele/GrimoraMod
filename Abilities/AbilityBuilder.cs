@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Reflection;
 using DiskCardGame;
 using InscryptionAPI.Card;
@@ -40,23 +41,7 @@ public class AbilityBuilder<T> where T: AbilityBehaviour
 	private AbilityManager.FullAbility SetupAbility()
 	{
 
-		if (_type == typeof(CumulativeTorment))
 
-		{
-			Texture icon = GrimoraPlugin.AllSprites.Find(o=>o.name=="ability_tornment").texture;
-		
-			// instantiate
-			var newAbility = AbilityManager.Add(GrimoraPlugin.GUID, _abilityInfo, _type, icon);
-
-			// Get static field
-			FieldInfo field = _type.GetField(
-				"ability",
-				BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance
-			);
-			field.SetValue(null, newAbility.Id);
-
-			return newAbility;
-		}
 
 		{
 			
@@ -74,7 +59,7 @@ public class AbilityBuilder<T> where T: AbilityBehaviour
 			);
 			field.SetValue(null, newAbility.Id);
 
-			return newAbility;
+				return newAbility;
 		}
 
 	}
@@ -82,6 +67,12 @@ public class AbilityBuilder<T> where T: AbilityBehaviour
 	public AbilityBuilder<T> SetRulebookName(string rulebookName)
 	{
 		_abilityInfo.rulebookName = rulebookName;
+		return this;
+	}
+
+	public AbilityBuilder<T> SetPixelIcon(Sprite PixelIcon)
+	{
+		_abilityInfo.pixelIcon= PixelIcon;
 		return this;
 	}
 

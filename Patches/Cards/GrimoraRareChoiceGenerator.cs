@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Card;
@@ -11,7 +11,7 @@ public class GrimoraRareChoiceGenerator : Part1RareChoiceGenerator
 {
 	public override List<CardChoice> GenerateChoices(CardChoicesNodeData data, int randomSeed)
 	{
-		return RandomUtils.GenerateRandomChoicesOfCategory(CardManager.AllCardsCopy, CardMetaCategory.Rare);
+		return RandomUtils.GenerateRandomChoicesForRare(CardManager.AllCardsCopy);
 	}
 }
 
@@ -21,7 +21,7 @@ public class RareCardChoicesSequencerPatch
 	[HarmonyPostfix, HarmonyPatch(nameof(RareCardChoicesSequencer.ChooseRareCard))]
 	public static IEnumerator ChangeDeckListRunState(IEnumerator enumerator, RareCardChoicesSequencer __instance)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			yield return enumerator;
 			yield break;
@@ -33,7 +33,7 @@ public class RareCardChoicesSequencerPatch
 
 		TableRuleBook.Instance.SetOnBoard(true);
 		__instance.deckPile.gameObject.SetActive(true);
-		__instance.StartCoroutine(__instance.deckPile.SpawnCards(GrimoraSaveUtil.DeckList.Count));
+		__instance.StartCoroutine(__instance.deckPile.SpawnCards(RunState.Run.playerDeck.Cards.Count));
 		Vector3 vector = new Vector3(__instance.box.position.x, __instance.box.position.y, 0.5f);
 		Vector3 startPos = new Vector3(vector.x, vector.y, 9f);
 		__instance.box.position = startPos;
@@ -42,13 +42,6 @@ public class RareCardChoicesSequencerPatch
 		Tween.Position(__instance.box, vector, 0.3f, 0f, Tween.EaseOut);
 		yield return new WaitForSeconds(0.8f);
 
-		if (!SaveFile.IsAscension || !DialogueEventsData.EventIsPlayed("ChallengeNoBossRares"))
-		{
-			yield return TextDisplayer.Instance.PlayDialogueEvent(
-				"RareCardsIntro",
-				TextDisplayer.MessageAdvanceMode.Input
-			);
-		}
 		
 		__instance.selectableCards = __instance.SpawnCards(3, __instance.box.transform, new Vector3(-1.55f, 0.2f, 0f));
 
@@ -81,16 +74,6 @@ public class RareCardChoicesSequencerPatch
 		yield return new WaitForSeconds(2f);
 
 		ViewManager.Instance.SwitchToView(__instance.choicesView);
-		ChallengeActivationUI.TryShowActivation(AscensionChallenge.NoBossRares);
-		if (AscensionSaveData.Data.ChallengeIsActive(AscensionChallenge.NoBossRares)
-		 && !DialogueEventsData.EventIsPlayed("ChallengeNoBossRares"))
-		{
-			yield return new WaitForSeconds(0.5f);
-			yield return TextDisplayer.Instance.PlayDialogueEvent(
-				"ChallengeNoBossRares",
-				TextDisplayer.MessageAdvanceMode.Input
-			);
-		}
 		
 		InteractionCursor.Instance.InteractionDisabled = false;
 		__instance.SetCollidersEnabled(true);

@@ -70,6 +70,7 @@ public partial class GrimoraPlugin
 		 .FlipIconIfOnOpponentSide()
 		 .SetRulebookDescription(rulebookDescription)
 		 .SetRulebookName(AlternatingStrike.RulebookName)
+		 .SetPowerLevel(0)
 		 .Build();
 	}
 }

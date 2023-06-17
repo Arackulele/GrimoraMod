@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using HarmonyLib;
 using Pixelplacement;
@@ -25,7 +25,7 @@ public class CardSingleChoicesSequencerPatches
 		CardSingleChoicesSequencer __state
 	)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			yield return enumerator;
 			yield break;
@@ -61,7 +61,7 @@ public class CardSingleChoicesSequencerPatches
 			randomSeed *= 2;
 			if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.WiltedClover))
 			{
-
+				ChallengeActivationUI.TryShowActivation(ChallengeManagement.WiltedClover);
 				wiltedClover = GameObject.Instantiate(GrimoraPlugin.kopieGameObjects.Find(g=>g.name.Contains("Clover")&&g.name.Contains("Prefab")));
 				wiltedClover.transform.position = new Vector3(-1.5f, 5.01f, -2);
 				while (choices.Count > 2) choices.Remove(choices[choices.Count - 1]);
@@ -140,6 +140,11 @@ public class CardSingleChoicesSequencerPatches
 					emission.rateOverTime = 0f;
 				}
 			}
+
+			//ViewManager.Instance.SetViewUnlocked();
+			//Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Unlocked;
+			//Singleton<ViewController>.Instance.allowedViews = new List<View> { View.Choices, View.MapDeckReview };
+			//ViewManager.Instance.CurrentView = View.MapDeckReview;
 
 			yield return new WaitForSeconds(0.2f);
 

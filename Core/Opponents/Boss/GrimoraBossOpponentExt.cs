@@ -1,6 +1,9 @@
 using System.Collections;
 using DiskCardGame;
+using GracesGames.Common.Scripts;
+using GrimoraMod.Saving;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using InscryptionAPI.Encounters;
 using InscryptionAPI.Helpers.Extensions;
 using Pixelplacement;
@@ -47,6 +50,14 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
 		PlayTheme();
+
+		encounter.startConditions = new List<EncounterData.StartCondition>()
+		{
+			new()
+			{
+				cardsInOpponentSlots = new[] { NameObol.GetCardInfo() }
+			}
+		};
 
 		if (!ConfigHelper.Instance.IsDevModeEnabled)
 		{
@@ -252,6 +263,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 	private IEnumerator CreateTwinGiants(CardSlot otisSlot, CardSlot ephiSlot)
 	{
+
 		// mimics the moon phase
 		Log.LogInfo("[Grimora] Creating Otis");
 		yield return otisSlot.CreateCardInSlot(NameGiantOtis.GetCardInfo(), 0.3f);
@@ -292,6 +304,116 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		yield return BeginBonelordsReign();
 
 		yield return CreateHornsInFarLeftAndRightLanes(oppSlots);
+
+		int ashpowerpool = RunState.Run.currency;
+
+		CardInfo AshCard = CardLoader.GetCardByName(NameAshes);
+
+		Ability AshAbility;
+
+		switch (ashpowerpool)
+		{
+			case 0:
+				AshAbility = Ability.Brittle;
+				break;
+			case >= 100:
+				AshAbility = Ability.TriStrike;
+				break;
+			case >= 80:
+				AshAbility = Ability.DoubleStrike;
+				break;
+			case >= 70:
+				AshAbility = Slasher.ability;
+				break;
+			case >= 50:
+				AshAbility = Imbued.ability;
+				break;
+			case >= 40:
+				AshAbility = Ability.Tutor;
+				break;
+			case >= 30:
+				AshAbility = LooseLimb.ability;
+				break;
+			case >= 20:
+				AshAbility = Ability.Sharp;
+				break;
+			case >= 10:
+				AshAbility = Ability.Strafe;
+				break;
+			default:
+			case >=5:
+				AshAbility = Boneless.ability;
+				break;
+		}
+
+		CardModificationInfo AshMods;
+
+		if (ashpowerpool == 0) { 
+		AshMods = new CardModificationInfo
+		{
+			attackAdjustment = 0,
+			healthAdjustment = 1,
+			abilities = new List<Ability> { AshAbility }
+
+		};
+		}
+		else { 
+			AshMods = new CardModificationInfo
+			{
+			attackAdjustment = (int)(ashpowerpool / 12),
+			healthAdjustment = (int)(ashpowerpool / 6),
+			abilities = new List<Ability> { AshAbility }
+
+			};
+		}
+
+		yield return new WaitForSeconds(0.8f);
+
+		yield return TextDisplayer.Instance.ShowUntilInput(
+						$"{"I ALMOST FORGOT".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
+	);
+
+		yield return TextDisplayer.Instance.ShowUntilInput(
+						$"{"ALL OF THIS SUFFERING YOU CAUSED, ALL OF THIS PAIN".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
+	);
+
+		yield return TextDisplayer.Instance.ShowUntilInput(
+						$"{"YOU OUGHT TO BE REWARDED FOR ALL THAT EXCESS DAMAGE".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
+	);
+
+		ViewManager.Instance.SwitchToView(View.Hand, false, true);
+
+		yield return TextDisplayer.Instance.ShowUntilInput(
+						$"{"TAKE THIS FOR YOUR EFFORTS".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
+	);
+
+		if (ashpowerpool < 24)
+		{
+
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				$"{"WHAT A TERRIBLE FOE, THIS WONT DEFEAT ME!".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
+
+				AshCard.displayedName = "Minor Ashes";
+				AshCard.portraitTex = AssetUtils.GetPrefab<Sprite>("LesserAshes");
+				AshCard.SetEmissivePortrait(AssetUtils.GetPrefab<Sprite>("LesserAshes_emission"));
+
+		}
+		else if (ashpowerpool > 47)
+		{
+
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				$"{"WHAT DID YOU DO. I AM DOOMED.".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
+
+			AshCard.displayedName = "Greater Ashes";
+			AshCard.portraitTex = AssetUtils.GetPrefab<Sprite>("GreaterAshes");
+			AshCard.SetEmissivePortrait(AssetUtils.GetPrefab<Sprite>("GreaterAshes_emission"));
+
+		}
+		else yield return TextDisplayer.Instance.ShowUntilInput(
+				$"{"A FORMIDABLE OPPONENT, YOU DID WELL IT SEEMS.".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
+
+		yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(AshCard, new List<CardModificationInfo> { AshMods }, 0.25f );
+
 	}
 
 	private IEnumerator BeginBonelordsReign()

@@ -39,6 +39,7 @@ public partial class GrimoraPlugin
 		AbilityBuilder<SpiritBearer>.Builder
 		 .SetRulebookDescription(rulebookDescription)
 		 .SetRulebookName(SpiritBearer.RulebookName)
+		 .SetPixelIcon(AssetUtils.GetPrefab<Sprite>("spiritbearer_pixel"))
 		 .Build();
 	}
 }

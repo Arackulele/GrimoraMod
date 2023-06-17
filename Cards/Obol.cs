@@ -1,5 +1,5 @@
-﻿using DiskCardGame;
-
+using DiskCardGame;
+using UnityEngine;
 namespace GrimoraMod;
 
 public partial class GrimoraPlugin
@@ -13,8 +13,9 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.Reach, Ability.Sharp)
 			.SetBaseAttackAndHealth(0, 3)
 			.SetBoneCost(3)
-			.SetDescription("THE KEY TO EVERYTHING, SOMEHOW.")
+			.SetDescription("IT WILL ALL MAKE SENSE SOON. THE OBOL IS OLDER THAN TIME ITSELF, AND THUS IT WILL REVEAL ITSELF IN DUE TIME.")
 			.SetNames(NameObol, "Ancient Obol")
-			.Build();
+			.Build()
+			.pixelPortrait = GrimoraPlugin.AllSprites.Find(o => o.name == "obol_pixel");
 	}
 }

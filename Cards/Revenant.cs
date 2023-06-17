@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -9,6 +9,8 @@ public partial class GrimoraPlugin
 
 	private void Add_Card_Revenant()
 	{
+		Sprite pixelSprite = "Revenant".GetCardInfo().pixelPortrait;
+
 		Sprite ogSprite = "Revenant".GetCardInfo().portraitTex;
 		CardBuilder.Builder
 			.SetAsNormalCard()
@@ -17,6 +19,6 @@ public partial class GrimoraPlugin
 			.SetBoneCost(3)
 			.SetDescription("THE REVENANT, BRINGING THE SCYTHE OF DEATH.")
 			.SetNames(NameRevenant, "Revenant", ogSprite)
-			.Build();
+			.Build().pixelPortrait = pixelSprite;
 	}
 }

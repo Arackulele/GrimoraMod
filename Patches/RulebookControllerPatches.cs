@@ -10,7 +10,7 @@ public class RulebookControllerPatches
 	[HarmonyPrefix, HarmonyPatch(nameof(RuleBookController.Start))]
 	public static void ChangeRuleBookInfo(ref RuleBookController __instance)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun)
 		{
 			return;
 		}
@@ -30,7 +30,7 @@ public class PageContentLoaderPatch
 	[HarmonyPrefix, HarmonyPatch(nameof(PageContentLoader.LoadPage))]
 	public static bool Prefix(ref PageContentLoader __instance, RuleBookPageInfo pageInfo)
 	{
-		if (GrimoraSaveUtil.IsNotGrimora || pageInfo.abilityPage)
+		if (GrimoraSaveUtil.IsNotGrimoraModRun || pageInfo.abilityPage)
 		{
 			return true;
 		}

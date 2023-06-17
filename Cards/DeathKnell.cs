@@ -14,9 +14,9 @@ public partial class GrimoraPlugin
 			.SetSpecialAbilities(SpecialTriggeredAbility.BellProximity, SpecialTriggeredAbility.Daus)
 			.SetBaseAttackAndHealth(0, 2)
 			.SetBoneCost(8)
-			.SetDescription("FOR WHOM THE BELL TOLLS?")
+			.SetDescription("FOR WHOM THE BELL TOLLS? FOR WHOM THE TAP DRIPS DRY AND THE BATHWATER RUNS COLD.")
 			.SetNames(NameDeathKnell, "Death Knell")
 			.SetSpecialStatIcon(SpecialStatIcon.Bell)
-			.Build().pixelPortrait=GrimoraPlugin.AllSprites.Find(o=>o.name=="pixel_knell");;
+			.Build().pixelPortrait=GrimoraPlugin.AllSprites.Find(o=>o.name=="deathknell_pixel");
 	}
 }
