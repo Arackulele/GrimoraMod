@@ -20,6 +20,8 @@ public class SawyerBossOpponent : BaseBossExt
 
 	public override StoryEvent EventForDefeat => GrimoraEnums.StoryEvents.SawyerDefeated;
 
+	public bool validforcoward = false;
+
 	public override string DefeatedPlayerDialogue => "My dogs will enjoy your bones!";
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
@@ -137,6 +139,12 @@ public class SawyerBossOpponent : BaseBossExt
 	{
 		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.ThreePhaseGhouls) && NumLives == 1)
 		{
+			foreach (var i in BoardManager.Instance.OpponentSlotsCopy)
+			{
+				if (i.Card != null && i.Card.name.Contains("Hell")) validforcoward = true;
+
+			}
+
 			AudioController.Instance.StopAllLoops();
 			AudioController.Instance.SetLoopAndPlay("Sawyer_Dogbite_Phase1", 1);
 			AudioController.Instance.SetLoopVolumeImmediate(0f, 1);
@@ -261,6 +269,18 @@ public class SawyerBossOpponent : BaseBossExt
 	{
 		if (wasDefeated)
 		{
+
+			if (!AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.ThreePhaseGhouls))
+			{ 
+			foreach(var i in BoardManager.Instance.OpponentSlotsCopy)
+			{
+				if (i.Card != null && i.Card.name.Contains("Hell")) validforcoward = true;
+
+			}
+			}
+
+			if (validforcoward == true) AchievementManager.Unlock(CowardsEnd);
+
 			yield return TextDisplayer.Instance.ShowUntilInput("THANKS FOR GETTING IT OVER WITH, AND DON'T EVER RETURN!");
 
 			yield return new WaitForSeconds(0.5f);

@@ -38,6 +38,8 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	{
 		yield return InitialSetup();
 
+		_lever.ResetRisk();
+
 		if (GetValidCards().IsNullOrEmpty())
 		{
 			// no valid cards
@@ -55,7 +57,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 
 				yield return TextDisplayer.Instance.ShowUntilInput("Oh, I love this one!");
 				yield return TextDisplayer.Instance.ShowUntilInput($"The Electric Chair, it allows you to harness the power of lightning itself, letting you {"empower".Blue()} your cards with mutating abilties!");
-				yield return TextDisplayer.Instance.ShowUntilInput("However, I must warn you, it is no ordinary chair. With the ability to adjust the voltage, one wrong move could lead to a shocking disaster.");
+				yield return TextDisplayer.Instance.ShowUntilInput("However, I must warn you, it is no ordinary chair. With the ability to adjust the voltage, a higher level of course increases the unpredictability of the mutation.");
 				yield return TextDisplayer.Instance.ShowUntilInput($"The brave will master the current, the cowardly will blindly follow it.");
 				yield return TextDisplayer.Instance.ShowUntilInput($"Are you bold enough to tinker with its lever on the left, letting the voltage corrupt the selection of the sigils?");
 

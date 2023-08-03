@@ -30,6 +30,8 @@ public class RoyalBossOpponentExt : BaseBossExt
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
 
+		GrimoraModRoyalBossSequencer.validforstormseason = true;
+
 		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.ThreePhaseGhouls))
 		{
 			NumLives = 3;
@@ -133,6 +135,8 @@ public class RoyalBossOpponentExt : BaseBossExt
 		}
 	}
 
+	GameObject corals;
+
 	public override void PlayTheme()
 	{
 		Log.LogDebug($"Playing royal theme 1");
@@ -178,9 +182,14 @@ public class RoyalBossOpponentExt : BaseBossExt
 			if (GameObject.Find("RainParticles(Clone)") != null) Destroy(GameObject.Find("RainParticles(Clone)"));
 			if (Rain != null) Destroy(Rain);
 
+			
+
+
 			oceanSound = AudioController.Instance.PlaySound2D("ocean_fall");
 
 			yield return new WaitForSeconds(4);
+
+
 
 			TableVisualEffectsManager.Instance.ChangeTableColors(
 			GameColors.instance.nearBlack,
@@ -198,6 +207,9 @@ public class RoyalBossOpponentExt : BaseBossExt
 			if (ConfigHelper.Instance.DisableMotionSicknessEffects == false) Singleton<CameraEffects>.Instance.ShowUnderwater();
 
 
+			corals = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("BrokenShipParts")));
+
+			yield return cannons.GetComponent<CannonTableEffects>().GlitchOutCannons();
 
 			yield return TextDisplayer.Instance.ShowUntilInput(
 				"PREPARE TO HOLD YEE BREATH!",
@@ -337,6 +349,8 @@ public class RoyalBossOpponentExt : BaseBossExt
 				1f
 			);
 
+			if (GrimoraModRoyalBossSequencer.validforstormseason == true) AchievementManager.Unlock(SeasonOfStorms);
+
 			if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.ThreePhaseGhouls))
 			{
 				AudioController.Instance.FadeSourceVolume(oceanSound, 0f, 5.5f);
@@ -359,13 +373,18 @@ public class RoyalBossOpponentExt : BaseBossExt
 			GrimoraAnimationController.Instance.SetHeadBool("face_happy", false);
 			yield return new WaitForSeconds(0.5f);
 			ViewManager.Instance.SwitchToView(View.Default);
-			yield return cannons.GetComponent<CannonTableEffects>().GlitchOutCannons();
-			GlitchOutAssetEffect.GlitchModel(cannons.transform);
+			if (!AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.ThreePhaseGhouls)) yield return cannons.GetComponent<CannonTableEffects>().GlitchOutCannons();
+
+			if (GameObject.Find("BrokenShipParts") != null) GlitchOutAssetEffect.GlitchModel(GameObject.Find("BrokenShipParts").transform);
+
+			GlitchOutAssetEffect.GlitchModel(corals.transform);
+			
 
 			yield return new WaitForSeconds(0.5f);
 
 			if (Rain!= null) Destroy(Rain);
 			if (GameObject.Find("RainParticles(Clone)") != null) Destroy(GameObject.Find("RainParticles(Clone)"));
+
 
 			yield return base.OutroSequence(true);
 			GameObject.Find("BoardLight").GetComponent<Light>().cookie = null;

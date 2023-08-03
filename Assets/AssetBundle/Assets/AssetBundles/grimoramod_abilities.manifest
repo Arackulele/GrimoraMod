@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 146569348
+CRC: 958655818
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b9c6f7495ca2a7b317b925d55c031983
+    Hash: e2893faa639258241a2e760d688a316e
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7859cd501ea75098bcf7e53f1b477c26
@@ -13,30 +13,40 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
+- Assets/Abilities/Achievements/achievement_sawyer.png
 - Assets/Materials/lightcookieroyal.jpg
 - Assets/Abilities/ability_Bounty_2.png
+- Assets/Abilities/Achievements/achievement_hell.png
+- Assets/Abilities/Achievements/achievement_ghost.png
 - Assets/Abilities/ability_ActivatedGainEnergySoulSucker_4.png
 - Assets/Abilities/ability_Boneless.png
 - Assets/Abilities/ability_Raider.png
 - Assets/Abilities/ability_LooseLimb.png
 - Assets/Abilities/ability_LatchBoneDigger.png
 - Assets/Abilities/ability_LatchBomb.png
+- Assets/Abilities/Achievements/achievement_royal.png
 - Assets/Abilities/ability_GainAttackPirates.png
 - Assets/Abilities/ability_BoneThief.png
 - Assets/Abilities/ability_InvertedStrike.png
 - Assets/Abilities/ability_Bounty_6.png
+- Assets/Abilities/Achievements/achievement_kc.png
 - Assets/Abilities/ability_ActivatedGainEnergySoulSucker_3.png
 - Assets/Abilities/ability_Puppeteer.png
 - Assets/Abilities/ability_FlameStrafe.png
+- Assets/Abilities/Achievements/achievement_saw.png
 - Assets/Abilities/ability_Sculptor.png
 - Assets/Abilities/ability_Looter.png
 - Assets/Abilities/ability_Imbued.png
 - Assets/Abilities/ability_Slasher.png
+- Assets/Abilities/Achievements/achievement_lord.png
 - Assets/Abilities/ability_Bounty_0.png
 - Assets/Abilities/ability_Bounty_8.png
 - Assets/Abilities/ability_SpiritBearer.png
 - Assets/Abilities/ability_LatchShield.png
+- Assets/Abilities/Achievements/achievement_dance.png
+- Assets/Abilities/Achievements/achievement_cull.png
 - Assets/Abilities/ability_CreateRoyalsCrewMate.png
+- Assets/Abilities/Achievements/achievement_hand.png
 - Assets/Abilities/ability_HookLineAndSinker.png
 - Assets/Abilities/ability_Collector.png
 - Assets/Abilities/ability_AlternatingStrike.png
@@ -48,6 +58,7 @@ Assets:
 - Assets/Abilities/ability_ActivatedGainEnergySoulSucker_1.png
 - Assets/Abilities/ability_GiantStrike.png
 - Assets/Abilities/ability_ChaosStrike.png
+- Assets/Abilities/Achievements/achievement_placeholder.png
 - Assets/Abilities/ability_Bounty.png
 - Assets/Abilities/ability_DrawSkeletonOnHit.png
 - Assets/Abilities/ability_CreateArmyOfSkeletons.png
@@ -61,13 +72,16 @@ Assets:
 - Assets/Abilities/ability_LitFuse_Blind.png
 - Assets/Abilities/ability_LatchBrittle.png
 - Assets/Abilities/ability_Possessive.png
+- Assets/Abilities/Achievements/achievement_lock.png
 - Assets/Abilities/Ability_Burning.png
 - Assets/Abilities/ability_Malnourishment.png
 - Assets/Abilities/ability_Erratic.png
 - Assets/Abilities/ability_LatchSubmerge.png
 - Assets/Abilities/ability_GainAttackBones.png
+- Assets/Abilities/Achievements/achievement_pit.png
 - Assets/Abilities/ability_AreaOfEffectStrike.png
 - Assets/Abilities/ability_GiantStrikeEnraged.png
+- Assets/Abilities/Achievements/achievement_ouro.png
 - Assets/Abilities/ability_MarchingDead.png
 - Assets/Abilities/ability_SeaLegs_LichUnderling.png
 - Assets/Abilities/ability_ActivatedDrawSkeletonGrimora.png

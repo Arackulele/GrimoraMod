@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/testscene.unity
+- path: Assets/Models/kaycee/fire/FireParticlesFromAwesomeHitModFnafMod/Scene/4_Fire.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0

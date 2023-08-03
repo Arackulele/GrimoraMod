@@ -18,6 +18,7 @@ public class OurobonesCore : SpecialCardBehaviour
 		changedInfo.baseAttack++;
 		changedInfo.baseHealth++;
 		changedInfo.Mods = new(Card.Info.Mods);
+		if (changedInfo.baseAttack >= 7) AchievementManager.Unlock(GrimoraPlugin.SomethingEnds);
 		yield return CardSpawner.Instance.SpawnCardToHand(changedInfo);
 	}
 }

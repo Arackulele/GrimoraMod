@@ -26,6 +26,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 
 	public int boardSwayCounter = 0;
 	public bool boardSwayedLeftLast;
+	public static bool validforstormseason = true;
 
 	public override Opponent.Type BossType => RoyalBossOpponentExt.FullOpponent.Id;
 
@@ -171,6 +172,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 				ViewManager.Instance.SetViewUnlocked();
 
 				yield return CardSpawner.Instance.SpawnCardToHand(cloneInfo);
+				validforstormseason = false;
 				yield return slot.Card.DieCustom(
 				false,
 				royalTableSwayValue: -7f
@@ -398,6 +400,7 @@ public class GrimoraModRoyalBossSequencer : GrimoraModBossBattleSequencer
 			float leftOrRightX = movingLeft
 				                     ? positionCopy.x - 6
 				                     : positionCopy.x + 6;
+			validforstormseason = false;
 			yield return playableCard.DieCustom(
 				false,
 				royalTableSwayValue: leftOrRightX

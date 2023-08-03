@@ -31,6 +31,9 @@
 
 	<ItemGroup>
 <!--		<Reference Include="$(ManagedFolder)/UnityEngine.*.dll" />-->
+		<Reference Include="Infiniscryption.Achievements">
+		  <HintPath>lib\Infiniscryption.Achievements.dll</HintPath>
+		</Reference>
 		<Reference Include="InscryptionAPI">
 			<HintPath>lib\InscryptionAPI.dll</HintPath>
 			<Private>False</Private>

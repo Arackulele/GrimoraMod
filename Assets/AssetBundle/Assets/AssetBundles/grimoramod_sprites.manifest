@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3520423017
+CRC: 3661964703
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: d483f12e0d54a54b86b0a5a7314e721e
+    Hash: 465443bc927a8c71288ff5c3f6731f71
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -55,7 +55,7 @@ Assets:
 - Assets/Cards/DeathKnell_emission.png
 - Assets/Cards/Eidolon.png
 - Assets/Cards/GratefulDead_emission.png
-- Assets/Cards/LaLlorona_emmission.png
+- Assets/Cards/LaLlorona_emission.png
 - Assets/Cards/PirateFirstMateSnag.png
 - Assets/Cards/DeadPets.png
 - Assets/Cards/Terrain/DisturbedGrave.png

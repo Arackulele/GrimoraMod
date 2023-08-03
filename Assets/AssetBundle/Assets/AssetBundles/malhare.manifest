@@ -1,0 +1,24 @@
+ManifestFileVersion: 0
+CRC: 2385303489
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: e0fe5c4b6a8bf86d54e7c8bb2cfc0e83
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 22357172b8cea85847937e8f62d0c077
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Models/kaycee/BlizzardParticlesFire/FireParticlesFromAwesomeHitModFnafMod/Materials/MAT_Fire_Alpha.mat
+- Assets/Models/kaycee/BlizzardParticlesFire/FireParticlesFromAwesomeHitModFnafMod/Materials/MAT_Fire_Add.mat
+- Assets/Models/kaycee/BlizzardParticlesFire/FireParticlesFromAwesomeHitModFnafMod/Materials/MAT_Sparks.mat
+- Assets/Models/kaycee/BlizzardParticlesFire/FireParticlesFromAwesomeHitModFnafMod/Materials/MAT_Glow.mat
+Dependencies: []

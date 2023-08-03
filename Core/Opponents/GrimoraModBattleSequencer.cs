@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Resources;
 using DiskCardGame;
 using GrimoraMod.Saving;
 using InscryptionAPI.Boons;
@@ -224,7 +225,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 				AscensionStatsData.TryIncrementStat(AscensionStat.Type.Losses);
 
-			SaveManager.SaveToFile();
+				SaveManager.SaveToFile();
 
 				//AscensionSaveData.Data.activeChallenges = new List<AscensionChallenge> { ChallengeManagement.FrailHammer };
 
@@ -318,6 +319,9 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 				}
 			}
 		}
+
+		if (ResourcesManager.Instance.PlayerBones > 29) AchievementManager.Unlock(BoneSaw);
+		if (ResourcesManager.Instance.PlayerMaxEnergy > 5 && TurnManager.Instance.TurnNumber < 4) AchievementManager.Unlock(TheSpiritsWay);
 	}
 
 		public override IEnumerator PlayerCombatEnd()

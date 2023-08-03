@@ -1,5 +1,6 @@
 using System.Collections;
 using DiskCardGame;
+using Infiniscryption.Achievements;
 using InscryptionAPI.Card;
 using InscryptionAPI.Encounters;
 using InscryptionAPI.Helpers.Extensions;
@@ -42,10 +43,27 @@ public class GrimoraModKayceeBossSequencer : GrimoraModBossBattleSequencer
 
 	private int _freezeCounter = 2;
 
+	public int cardsunfrozen = 0;
+
 	public static List<PlayableCard> GetValidCardsForFreezing()
 	{
 		return BoardManager.Instance.GetPlayerCards(pCard => pCard.Attack > 0 && !pCard.FaceDown && pCard.LacksAbility(Ability.IceCube));
 	}
+
+		public override IEnumerator OnOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
+		{
+		if (card.HasAbility(Ability.IceCube) && !deathSlot.IsOpponentSlot())
+		{
+			cardsunfrozen++;
+		}
+
+		if (cardsunfrozen > 4) {
+			AchievementManager.Unlock(GrimReminder);
+		}
+				
+				return base.OnOtherCardDie(card, deathSlot, fromCombat, killer);
+		}
+
 
 	public override IEnumerator OnUpkeep(bool playerUpkeep)
 	{

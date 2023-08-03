@@ -50,6 +50,7 @@ public class DeadHandItem : ConsumableItem
 				ViewManager.Instance.SwitchToView(View.Default);
 				yield return CardSpawner.Instance.SpawnCardToHand(NameDeadHand.GetCardInfo());
 				ViewManager.Instance.SetViewUnlocked();
+				AchievementManager.Unlock(WailOfTheDamned);
 				yield break;
 
 			}

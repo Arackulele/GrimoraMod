@@ -19,12 +19,16 @@ using InscryptionAPI.Items;
 using JetBrains.Annotations;
 using Sirenix.Utilities;
 using UnityEngine;
+using Infiniscryption.Achievements;
 using static InscryptionAPI.Card.AbilityManager;
+using static DiskCardGame.ConceptNode;
+
 namespace GrimoraMod;
 
 
 [BepInDependency(InscryptionAPIPlugin.ModGUID)]
 [BepInDependency("community.inscryption.patch")]
+[BepInDependency("zorro.inscryption.infiniscryption.achievements")]
 [BepInPlugin(GUID, Name, Version)]
 public partial class GrimoraPlugin : BaseUnityPlugin
 {
@@ -55,6 +59,31 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	public static readonly AbilityMetaCategory ElectricChairLevel2 = GuidManager.GetEnumValue<AbilityMetaCategory>(GUID, "ElectricChairLevel2");
 	public static readonly AbilityMetaCategory ElectricChairLevel3 = GuidManager.GetEnumValue<AbilityMetaCategory>(GUID, "ElectricChairLevel3");
 
+	//Defeat Kaycee and unfreeze at least 5 of your own cards
+	internal static Achievement GrimReminder { get; private set; }
+	//Defeat Sawyers phase 2 without killing the hellhound
+	internal static Achievement CowardsEnd { get; private set; }
+	//Destroy Royals ship with a single attack
+	internal static Achievement SeasonOfStorms { get; private set; }
+	//Defeat Grimora without defeating the bonelord 
+	internal static Achievement TheBlackBirdTheDarkSlope { get; private set; }
+	//Have 30 or more bones at the end of a turn
+	internal static Achievement BoneSaw { get; private set; }
+	//Beat skullstorm
+	internal static Achievement PileOfSkulls { get; private set; }
+	//Beat grimora
+	internal static Achievement DanceOfDoom { get; private set; }
+	//Reach 6 Souls by turn 3
+	internal static Achievement TheSpiritsWay { get; private set; }
+	//Use the dead hand item when out of cards
+	internal static Achievement WailOfTheDamned { get; private set; }
+	//Get an ourobones to deal 6 damage
+	internal static Achievement SomethingEnds { get; private set; }
+	//Sacrifice an obol with 5 sigils to the bone lord
+	internal static Achievement CullTheWeak { get; private set; }
+	//Beat Hell Mode
+	internal static Achievement GatewayToDis { get; private set; }
+
 	public static bool Initialized { get; set; } 
 
 	private void Awake()
@@ -84,6 +113,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		//StartCoroutine(LoadMetaCategories());
 
+		AddAchievements();
+
 		Initialized = true;
 
 		LoadItems();
@@ -93,8 +124,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			foreach (FullAbility ability in abilities)
 			{
 				if (ElectricChairLever.AbilitiesSaferRisk.Contains(ability.Info.ability)) { ability.Info.AddMetaCategories(ElectricChairLevel1); }
-				if (ElectricChairLever.AbilitiesMinorRisk.Contains(ability.Info.ability)) { ability.Info.AddMetaCategories(ElectricChairLevel1); }
-				if (ElectricChairLever.AbilitiesMajorRisk.Contains(ability.Info.ability)) { ability.Info.AddMetaCategories(ElectricChairLevel1); }
+				if (ElectricChairLever.AbilitiesMinorRisk.Contains(ability.Info.ability)) { ability.Info.AddMetaCategories(ElectricChairLevel2); }
+				if (ElectricChairLever.AbilitiesMajorRisk.Contains(ability.Info.ability)) { ability.Info.AddMetaCategories(ElectricChairLevel3); }
 			}
 			return abilities;
 		};
@@ -104,15 +135,33 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 
 
-#if DEBUG
+
 	private void Update()
 	{
+		/*
 		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
 			CustomCoroutine.Instance.StartCoroutine(LifeManager.Instance.ShowDamageSequence(1, 1, false));
 		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha2))
+		{
+			AchievementManager.Unlock(GrimReminder);
+			AchievementManager.Unlock(CowardsEnd);
+			AchievementManager.Unlock(SeasonOfStorms);
+			AchievementManager.Unlock(TheBlackBirdTheDarkSlope);
+			AchievementManager.Unlock(BoneSaw);
+			AchievementManager.Unlock(TheSpiritsWay);
+			AchievementManager.Unlock(PileOfSkulls);
+			AchievementManager.Unlock(DanceOfDoom);
+			AchievementManager.Unlock(WailOfTheDamned);
+			AchievementManager.Unlock(SomethingEnds);
+			AchievementManager.Unlock(CullTheWeak);
+			AchievementManager.Unlock(GatewayToDis);
+		}*/
+
 	}
-#endif
+
 
 
 	internal static List<GameObject> kopieGameObjects = new List<GameObject>();
@@ -429,7 +478,134 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	}
 
-	private void AddDebugCards()
+
+
+	private void AddAchievements()
+	{
+
+		
+
+
+		ModdedAchievementManager.AchievementGroup groupId = ModdedAchievementManager.NewGroup(
+		GUID,
+		"Grimora Mod Achievements",
+		AssetUtils.GetPrefab<Texture>("achievement_lock").ToTexture2D()
+		).ID;
+
+
+		GrimReminder = ModdedAchievementManager.New(
+		GUID,       // plugin guid
+		"Grim Reminder",  // Achievement name
+		"Defeat Kaycee and thaw at least 5 of your cards.",
+		false,
+		groupId,
+		AssetUtils.GetPrefab<Texture>("achievement_kc").ToTexture2D()
+		).ID;
+
+		CowardsEnd = ModdedAchievementManager.New(
+		GUID,       // plugin guid
+		"Cowards End",  // Achievement name
+		"Defeat Sawyers second phase without hurting the hellhound.",
+		false,
+		groupId,
+		AssetUtils.GetPrefab<Texture>("achievement_sawyer").ToTexture2D()
+		).ID;
+
+		
+
+		SeasonOfStorms = ModdedAchievementManager.New(
+		GUID,       // plugin guid
+		"Season Of Storms",  // Achievement name
+		"Defeat Royal and have no cards walk the plank.",
+		false,
+		groupId,
+		AssetUtils.GetPrefab<Texture>("achievement_royal").ToTexture2D()
+		).ID;
+
+		TheBlackBirdTheDarkSlope = ModdedAchievementManager.New(
+		GUID,       // plugin guid
+		"The Black Bird//",  // Achievement name
+		"The Dark Slope. Defeat [redacted] without defeating [redacted].",
+		false,
+		groupId,
+		AssetUtils.GetPrefab<Texture>("achievement_lord").ToTexture2D()
+		).ID;
+
+		BoneSaw = ModdedAchievementManager.New(
+		GUID,       // plugin guid
+		"Bonesaw",  // Achievement name
+		"End a turn with at least 30 bones.",
+		false,
+		groupId,
+		AssetUtils.GetPrefab<Texture>("achievement_saw").ToTexture2D()
+		).ID;
+
+		PileOfSkulls = ModdedAchievementManager.New(
+		GUID,       // plugin guid
+		"Pile Of Skulls",  // Achievement name
+		"Win with all challenges enabled and no antichallenges enabled.",
+		false,
+		groupId,
+		AssetUtils.GetPrefab<Texture>("achievement_pit").ToTexture2D()
+		).ID;
+
+		DanceOfDoom = ModdedAchievementManager.New(
+		GUID,       // plugin guid
+		"Dance of Doom",  // Achievement name
+		"Witness the end of everything.",
+		false,
+		groupId,
+		AssetUtils.GetPrefab<Texture>("achievement_dance").ToTexture2D()
+		).ID;
+
+		TheSpiritsWay = ModdedAchievementManager.New(
+		GUID,       // plugin guid
+		"The Spirits Way",  // Achievement name
+		"Reach 6 Souls by turn 3.",
+		false,
+		groupId,
+		AssetUtils.GetPrefab<Texture>("achievement_ghost").ToTexture2D()
+		).ID;
+
+		WailOfTheDamned = ModdedAchievementManager.New(
+		GUID,       // plugin guid
+		"Wail Of The Damned",  // Achievement name
+		"Use the dead hand item when your deck is empty.",
+		false,
+		groupId,
+		AssetUtils.GetPrefab<Texture>("achievement_hand").ToTexture2D()
+		).ID;
+
+		SomethingEnds = ModdedAchievementManager.New(
+		GUID,       // plugin guid
+		"Something Ends...",  // Achievement name
+		"...Something Begins. Get an ourobones to deal 6 damage.",
+		false,
+		groupId,
+		AssetUtils.GetPrefab<Texture>("achievement_ouro").ToTexture2D()
+		).ID;
+
+		CullTheWeak = ModdedAchievementManager.New(
+		GUID,       // plugin guid
+		"Cull the weak",  // Achievement name
+		"Sacrifice an Obol with 5 sigils to the Bonelord.",
+		false,
+		groupId,
+		AssetUtils.GetPrefab<Texture>("achievement_cull").ToTexture2D()
+		).ID;
+
+		GatewayToDis = ModdedAchievementManager.New(
+		GUID,       // plugin guid
+		"Gateway to Dis",  // Achievement name
+		"Win while Hell mode is active.",
+		false,
+		groupId,
+		AssetUtils.GetPrefab<Texture>("achievement_hell").ToTexture2D()
+		).ID;
+
+	}
+
+		private void AddDebugCards()
 	{
 		CardInfo trapInfo = "Trap".GetCardInfo();
 		CardBuilder.Builder
@@ -441,7 +617,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		CardBuilder.Builder
 		 .SetAbilities(Haunter.ability, AlternatingStrike.ability)
 		 .SetBaseAttackAndHealth(1, 2)
-		 .SetNames($"{GUID}_!BLOCKER","I am going to kill your mum", trapInfo.portraitTex)
+		 .SetNames($"{GUID}_!BLOCKER","I am going to", trapInfo.portraitTex)
 		 .Build();
 	}
 

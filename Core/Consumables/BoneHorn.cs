@@ -42,7 +42,7 @@ public class BoneHorn : ConsumableItem
 
 		Texture2D HahaL = new Texture2D(70, 80);
 		ConsumableItemData data = ConsumableItemManager.New(GUID, "Bone Horn", "Consumes your current Soul, you gain a Bones for each Soul consumed.", HahaL, typeof(BoneHorn), Model)
-			.SetLearnItemDescription("Gives you two bones for each Soul you have available, an unfortunate, but worthwhile sacrifice.");
+			.SetLearnItemDescription("Gives you a bone for each Soul you have available, an unfortunate, but worthwhile sacrifice.");
 		data.rulebookCategory = AbilityMetaCategory.GrimoraRulebook;
 
 		return data;

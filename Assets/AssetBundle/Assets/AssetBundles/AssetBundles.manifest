@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 1066426347
+CRC: 2607596488
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -28,4 +28,8 @@ AssetBundleManifest:
       Dependencies: {}
     Info_8:
       Name: grimoramod_prefab_new
+      Dependencies:
+        Dependency_0: moxbundle
+    Info_9:
+      Name: moxbundle
       Dependencies: {}

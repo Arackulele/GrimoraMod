@@ -27,7 +27,13 @@ public class PlayerHandPatches
 
 		yield return enumerator;
 
+		if (card.EnergyCost > 0 && card.name != "skeleton")
+		{
 
+			if (ConfigHelper.Instance.EnergyMode == true && ResourcesManager.Instance.PlayerMaxEnergy >= card.EnergyCost) yield return ResourcesManager.Instance.PlayerMaxEnergy -= card.EnergyCost;
+
+
+		}
 
 		if (SaveFile.IsAscension && AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.RoyalsRevenge))
 		{
@@ -42,10 +48,11 @@ public class PlayerHandPatches
 			{
 				yield return TextDisplayer.Instance.ShowUntilInput("Careful, the life of your next card will be on a timer.");
 			}
-			if (cardsPlayedThisCombatForFuse == 3)
+			if (cardsPlayedThisCombatForFuse >= 3)
 			{
 				yield return TextDisplayer.Instance.ShowUntilInput("I look forward to the [c:brnO]explosive[c:] results!");
 				ViewManager.Instance.SwitchToView(View.Board);
+				cardsPlayedThisCombatForFuse = 0;
 				ChallengeActivationUI.TryShowActivation(ChallengeManagement.RoyalsRevenge);
 				yield return new WaitForSeconds(0.2f);
 				if (card != null && !card.Dead) { 

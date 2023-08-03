@@ -21,6 +21,8 @@ public class KayceeBossOpponent : BaseBossExt
 
 	GameObject Phase2Snow;
 
+	GameObject FireParticles;
+
 	public override string DefeatedPlayerDialogue => "YOUUUUUUUR, PAINNNFULLLLL DEAAATHHH AWAIIITTTSSS YOUUUUUUU!";
 
 
@@ -55,6 +57,9 @@ public class KayceeBossOpponent : BaseBossExt
 		Phase2Snow = GameObject.Find("SnowPhase2");
 		Phase2Snow.SetActive(false);
 		GameObject.Find("SnowPhase1").GetComponent<ParticleSystem>().startLifetime = 0;
+
+		FireParticles = GameObject.Find("FireParticles");
+		FireParticles.SetActive(false);
 
 		yield return FaceZoomSequence();
 		yield return TextDisplayer.Instance.ShowUntilInput($"{"BRRRR!".BrightBlue()} I'VE BEEN FREEZING FOR AGES!");
@@ -159,6 +164,8 @@ public class KayceeBossOpponent : BaseBossExt
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput($"OH, IT SEEMS I HAVE FINALLY {"WARMED UP!".Red()}");
 
+			FireParticles.SetActive(true);
+
 			Phase2Snow.SetActive(false);
 
 			AudioController.Instance.StopAllLoops();
@@ -167,15 +174,15 @@ public class KayceeBossOpponent : BaseBossExt
 			AudioController.Instance.SetLoopVolume(0.6f, 5f, 1);
 
 			TableVisualEffectsManager.Instance.ChangeTableColors(
-	GameColors.instance.orange,
-	GameColors.instance.orange,
-	GameColors.instance.orange,
-	GameColors.instance.yellow,
-	GameColors.instance.red,
-	GameColors.Instance.brightNearWhite,
-	GameColors.instance.darkRed,
-	GameColors.instance.red,
-	GameColors.instance.brownOrange
+			GameColors.instance.orange,
+			GameColors.instance.orange,
+			GameColors.instance.orange,
+			GameColors.instance.yellow,
+			GameColors.instance.red,
+			GameColors.Instance.brightNearWhite,
+			GameColors.instance.darkRed,
+			GameColors.instance.red,
+			GameColors.instance.brownOrange
 	);
 
 
@@ -265,6 +272,7 @@ public class KayceeBossOpponent : BaseBossExt
 			yield return TextDisplayer.Instance.ShowUntilInput($"OH COME ON DUDE, I'M STILL {"COLD!".Blue()}");
 			yield return TextDisplayer.Instance.ShowUntilInput("LET'S FIGHT AGAIN SOON!");
 
+			FireParticles.SetActive(false);
 			Phase2Snow.SetActive(false);
 			// this will put the mask away
 			yield return base.OutroSequence(true);

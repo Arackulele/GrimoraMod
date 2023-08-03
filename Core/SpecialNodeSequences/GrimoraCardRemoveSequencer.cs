@@ -152,6 +152,8 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 				Singleton<ViewManager>.Instance.SwitchToView(View.Default);
 
+				if (SigilOffer > 4) AchievementManager.Unlock(CullTheWeak);
+
 			}
 
 			else

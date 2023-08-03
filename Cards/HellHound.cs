@@ -9,7 +9,7 @@ public partial class GrimoraPlugin
 	private void Add_Card_HellHound()
 	{
 		CardBuilder.Builder
-			.SetAbilities(Ability.WhackAMole, Ability.Reach, Ability.MadeOfStone)
+			.SetAbilities(Ability.WhackAMole, Ability.MadeOfStone)
 			.SetSpecialAbilities(GainAttackBones.FullSpecial.Id)
 			.SetBaseAttackAndHealth(1, 9)
 			.SetBoneCost(5)

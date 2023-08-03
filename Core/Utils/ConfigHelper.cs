@@ -54,6 +54,10 @@ public class ConfigHelper
 
 	private ConfigEntry<bool> _configHotReloadEnabled;
 
+	public bool EnergyMode => _configEnergyMode.Value;
+
+	private ConfigEntry<bool> _configEnergyMode;
+
 	public bool IsHotReloadEnabled => _configHotReloadEnabled.Value;
 
 	private ConfigEntry<int> _configEncounterBlueprintType;
@@ -93,18 +97,25 @@ public class ConfigHelper
 			new ConfigDescription("This option will allow you to see what cards are left in your deck.")
 		);
 
-		_configMotionSickness = GrimoraConfigFile.Bind(
-	Name,
-	"Disable Motion Sickness Inducing effects",
-	false,
-	new ConfigDescription("This option will disable all effects that might cause motion sickness and other visually jarring effects.")
-);
+				_configMotionSickness = GrimoraConfigFile.Bind(
+			Name,
+			"Disable Motion Sickness Inducing effects",
+			false,
+			new ConfigDescription("This option will disable all effects that might cause motion sickness and other visually jarring effects.")
+		);
 
 		_configDeveloperMode = GrimoraConfigFile.Bind(
 			Name,
 			"Enable Developer Mode",
 			false,
 			new ConfigDescription("Does not generate blocker pieces. Chests fill first row, enemy pieces fill first column.")
+		);
+
+		_configEnergyMode = GrimoraConfigFile.Bind(
+			Name,
+			"Enable Alternate Energy Cost",
+			false,
+			new ConfigDescription("Makes it so Cards that cost energy also take max energy.")
 		);
 
 		_configHotReloadEnabled = GrimoraConfigFile.Bind(

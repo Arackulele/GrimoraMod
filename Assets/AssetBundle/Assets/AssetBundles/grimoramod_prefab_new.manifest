@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3379220101
+CRC: 2226651752
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 2a6fe30f865827d3e824652e7d4b6bb8
+    Hash: 0118e7e0ba3b2a2fc09b39684428c946
   TypeTreeHash:
     serializedVersion: 2
-    Hash: b856567ce920a0a7527b78b6db21cf92
+    Hash: ae8a383304a1d683486d2f5bd1396001
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -24,6 +24,8 @@ ClassTypes:
 - Class: 43
   Script: {instanceID: 0}
 - Class: 48
+  Script: {instanceID: 0}
+- Class: 64
   Script: {instanceID: 0}
 - Class: 74
   Script: {instanceID: 0}
@@ -44,12 +46,18 @@ ClassTypes:
 SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/ChessboardPieces/Kaycee/ice_var_2.fbx
+- Assets/Models/kaycee/BlizzardParticlesFire/FireParticlesFromAwesomeHitModFnafMod/Materials/MAT_Fire_Alpha.mat
+- Assets/Models/newEnergyCell/Particles/Emerald/sm_gem_emerald.asset
 - Assets/Models/soul.fbx
+- Assets/Models/newEnergyCell/Particles/RessourceStuff/Energy3.fbx
 - Assets/Items/EmbalmingFluid/Fluid.mat
 - Assets/Items/ShipBottlePrefab.prefab
+- Assets/Models/newEnergyCell/Particles/Ruby/sm_gem_ruby_0.asset
 - Assets/TexturesCom_Ground_Soil3_2x2_512_albedo.tif
+- Assets/Models/kaycee/BlizzardParticlesFire/FireParticlesFromAwesomeHitModFnafMod/Materials/MAT_Fire_Add.mat
 - Assets/Items/Hands_Low_defaultMat1_normal.png
 - Assets/Items/EmbalmingFluid/Embalming_Fluid_Prefab.prefab
+- Assets/Models/newEnergyCell/Particles/GrimoraMats/Grimora_BrickWall.mat
 - Assets/Abilities/Particles/CardFire.prefab
 - Assets/Items/Meat_Raw_001_albedo.jpg
 - Assets/Models/AnkhGuard/EnchantressMat.mat
@@ -58,15 +66,22 @@ Assets:
 - Assets/Items/HandPrefab.prefab
 - Assets/Abilities/Particles/fire.png
 - Assets/Models/Sarcophagus/SarcophagusPrefab.prefab
+- Assets/Models/newEnergyCell/Particles/GrimoraMats/brick_floor_003_nor_gl_1k.exr
+- Assets/Models/newEnergyCell/Particles/Sapphire/sm_gem_sapphire.asset
 - Assets/Items/PirateShip_Normal.png
 - Assets/Models/AnkhGuard/GravediggerMat_Albedo_Stone.png
+- Assets/Models/newEnergyCell/Particles/RessourceStuff/BloodCrystalMat.mat
 - Assets/Items/Horn/ram_skull_NORMAL_2K.png
 - Assets/Items/Wood_027_roughness.jpg
+- Assets/Models/newEnergyCell/Particles/Sapphire/SapphireMat.mat
+- Assets/Models/newEnergyCell/Particles/GrimoraMats/grimora_wall_marble_01_nor_gl_1k.exr
 - Assets/Items/Quill/quill.fbx
 - Assets/Models/kaycee/KayceeBossSkull.prefab
 - Assets/Abilities/Particles/Grimora_Fire.mat
 - Assets/Items/Trowel/TrowelItem.fbx
 - Assets/Items/Quill/sparrow.png
+- Assets/Models/newEnergyCell/Particles/GrimoraMats/brick_wall_003_rough_1k.jpg
+- Assets/Models/royal/coral/brokenship/BrokenShipParts.prefab
 - Assets/Items/Trowel/TrowelPrefabFirstPerson.prefab
 - Assets/Items/Trowel/TrowelPrefab.prefab
 - Assets/Items/StoneMarbleCalacatta004_REFL_1K.jpg
@@ -78,9 +93,14 @@ Assets:
 - Assets/Items/PirateShip_Albedo.png
 - Assets/Abilities/Particles/RedFire.prefab
 - Assets/Models/royal/RainParticles.prefab
+- Assets/Models/newEnergyCell/Particles/RessourceStuff/EnergyMat.mat
+- Assets/Models/newEnergyCell/Particles/MoxGreen.prefab
 - Assets/Models/royal/rain.png
 - Assets/Items/Mallet/Organic_matter_001_NORM.jpg
+- Assets/Models/newEnergyCell/Particles/RessourceStuff/Energy6.fbx
 - Assets/Items/EmbalmingFluid/LidNormal.png
+- Assets/Models/newEnergyCell/Particles/Emerald/sm_gem_emerald_0.asset
+- Assets/Models/newEnergyCell/Particles/GemDiamond.prefab
 - Assets/Models/Sarcophagus/coff.jpg
 - Assets/Items/Wood_027_ambientOcclusion.jpg
 - Assets/Items/Wood_027_height.png
@@ -90,18 +110,23 @@ Assets:
 - Assets/Models/AnkhGuard/BaseMat_Albedo_Stone.png
 - Assets/Items/StoneMarbleCalacatta004_Flat.jpg
 - Assets/Items/Mallet/Organic_matter_001_SPEC.jpg
+- Assets/Models/kaycee/BlizzardParticlesFire/FireParticles.prefab
 - Assets/Items/Wood_027_normal.jpg
 - Assets/Items/Hands_Low_defaultMat1_roughness.jpg
 - Assets/Items/EmbalmingFluid/Lid_albedo.jpg
 - Assets/rough_wood_diff_4k.jpg
 - Assets/Models/AnkhGuard/AnkhChest/PBSShader_roughness.png
+- Assets/Models/newEnergyCell/Particles/MoxRed.prefab
 - Assets/Models/AnkhGuard/BaseMat_Normal.png
 - Assets/Models/Glass.mat
 - Assets/Items/Meat_Raw_001_roughness.jpg
+- Assets/Models/newEnergyCell/Particles/GemSapphire.prefab
 - Assets/Models/kaycee/cevinsnow/snow.png
+- Assets/Models/newEnergyCell/Particles/RessourceStuff/BloodCrystal.fbx
 - Assets/Items/Femur/FemurPrefab.prefab
 - Assets/Items/EmbalmingFluid/EmbalmingFluidPrefabFirstPerson.prefab
 - Assets/Items/Wood_027_albedo.jpg
+- Assets/Models/newEnergyCell/Particles/RessourceStuff/Energy5.fbx
 - Assets/ChessboardPieces/Kaycee/ice_2.mat
 - Assets/Models/AnkhGuard/white.png
 - Assets/ChessboardPieces/Kaycee/ice_var_2_tex.png
@@ -109,46 +134,62 @@ Assets:
 - Assets/Models/kaycee/cevinsnow/Blizzard/SnowMaterial.mat
 - Assets/Items/deadhand.fbx
 - Assets/Boneyard_SelectionSlotNew.mat
+- Assets/Models/kaycee/BlizzardParticlesFire/FireParticlesFromAwesomeHitModFnafMod/Materials/MAT_Sparks.mat
 - Assets/Items/Meat_Raw_001_ambientOcclusion.jpg
+- Assets/Models/newEnergyCell/Particles/GrimoraMats/grimora_wall_marble_01_rough_1k.jpg
+- Assets/Models/newEnergyCell/Particles/RessourceStuff/Energy2.fbx
 - Assets/Items/EmbalmingFluid/EmbalmingFluid_albedo.jpg
 - Assets/BoneyardBurialGraveNew.fbx
 - Assets/Items/Quill/QuillPrefabFirstPerson.prefab
 - Assets/Items/Mallet/Organic_matter_001_DISP.png
 - Assets/Items/Mallet/Wood_plancks_004_NRM.jpg
+- Assets/Models/kaycee/BlizzardParticlesFire/FireParticlesFromAwesomeHitModFnafMod/Materials/MAT_Glow.mat
 - Assets/Items/GlassBottle_Cork_Normal.png
 - Assets/Items/BottleGlass.mat
 - Assets/Items/EmbalmingFluid/Glass.mat
+- Assets/Models/newEnergyCell/GraveStoneRessource.prefab
+- Assets/Models/newEnergyCell/Particles/GrimoraMats/Grimora_Floor.mat
 - Assets/Items/PirateShip_Metallic.png
 - Assets/Items/Quill/QuillPrefab.prefab
 - Assets/Items/SoulUrn.fbx
 - Assets/Items/Mallet/Organic_matter_001_OCC.jpg
 - Assets/Models/AnkhGuard/sarcophagus.fbx
+- Assets/Models/newEnergyCell/Particles/RessourceStuff/Energy4.fbx
 - Assets/Items/GlassBottle_Normal.png
 - Assets/Models/AnkhGuard/AnkhGuardPrefab.prefab
 - Assets/Models/AnkhGuard/AnkhChest/PBSShader_metallic.png
 - Assets/Models/AnkhGuard/AnkhChest/pharaoh chestt.fbx
+- Assets/Models/newEnergyCell/Particles/Ruby/sm_gem_ruby.asset
 - Assets/Models/AnkhGuard/GravediggerStone.mat
 - Assets/rough_wood_nor_gl_4k.exr
 - Assets/Items/Mallet/stick.mat
 - Assets/Items/Mallet/MalletPrefab.prefab
+- Assets/Models/newEnergyCell/Particles/DirtyGemEmerald.prefab
 - Assets/Items/UrnPrefab.prefab
 - Assets/Items/Horn/Bonehorn.fbx
+- Assets/Models/newEnergyCell/Particles/MoxBlue.prefab
 - Assets/Items/EmbalmingFluid/the_worldwide_internet.fbx
 - Assets/Items/PirateShip_Emission.png
 - Assets/Models/kaycee/cevinsnow/SnowMaterial.mat
 - Assets/Models/AnkhGuard/Tex.mat
+- Assets/Models/newEnergyCell/Particles/Ruby/RubyMat.mat
 - Assets/Models/AnkhGuard/AnkhChest/PharaoChestPrefab.prefab
 - Assets/Models/kaycee/cevinsnow/Blizzard/TornadoSpin.anim
 - Assets/Models/AnkhGuard/Base_Stone.mat
 - Assets/Models/AnkhGuard/GravediggerMat_Normal.png
 - Assets/Items/MarbleGrimoraEmission.mat
+- Assets/Models/newEnergyCell/Particles/RessourceStuff/Energy1.fbx
+- Assets/Models/newEnergyCell/Particles/reverseSphere.obj
 - Assets/Models/AnkhGuard/Eyes.mat
 - Assets/Items/Mallet/organic_matter.mat
 - Assets/Models/GrimoraEnergyLightCell1.mat
+- Assets/Models/kaycee/BlizzardParticlesFire/FireParticlesFromAwesomeHitModFnafMod/Textures/TXT_Fire_01.tga
 - Assets/Items/Mallet/MalletPrefabFirstPerson.prefab
 - Assets/Items/StoneMarbleCalacatta004_COL_1K.jpg
 - Assets/Abilities/Particles/Fire_Parent.prefab
 - Assets/Models/kaycee/cevinsnow/Blizzard/MistMaterial.mat
+- Assets/Models/royal/coral/coral.prefab
+- Assets/Models/kaycee/BlizzardParticlesFire/FireParticlesFromAwesomeHitModFnafMod/Objects/Flame.prefab
 - Assets/grave.png
 - Assets/Items/Hands_Low_defaultMat1_AO.jpg
 - Assets/Items/GlassBottle_Metallic.png
@@ -158,17 +199,27 @@ Assets:
 - Assets/Models/Sarcophagus/coff_occlusion.jpg
 - Assets/Items/Hands_Low_defaultMat1_metallic.jpg
 - Assets/Items/Trowel/Spec_Trowel.png
+- Assets/Models/newEnergyCell/Particles/GrimoraMats/brick_wall_002_diffuse_1k.png
+- Assets/Models/newEnergyCell/Particles/StarMat.mat
+- Assets/Models/newEnergyCell/Particles/Sapphire/sm_gem_sapphire_0.asset
+- Assets/Models/newEnergyCell/Particles/DirtyGemSapphire.prefab
+- Assets/Models/newEnergyCell/Particles/GemEmerald.prefab
 - Assets/Items/Horn/BoneLordsHornPrefab.prefab
 - Assets/Items/Mallet/Wood_plancks_004_DISP.jpg
+- Assets/Models/newEnergyCell/Particles/DirtyGemRuby.prefab
 - Assets/Items/OldUrn.fbx
 - Assets/Items/ShipInABottle.fbx
 - Assets/Models/AnkhGuard/EnchantressMat_Normal.png
 - Assets/Items/EmbalmingFluid/Glass_albedo.jpg
+- Assets/Models/kaycee/BlizzardParticlesFire/FireParticlesFromAwesomeHitModFnafMod/Textures/TXT_Sparks_01.tga
 - Assets/Models/kaycee/cevinsnow/Blizzard/Clouds.controller
 - Assets/TexturesCom_Ground_Soil3_2x2_512_normal.tif
+- Assets/Models/newEnergyCell/Particles/GrimoraMats/grimora_wall_marble_1_diff_1k.png
 - Assets/Models/kaycee/cevinsnow/Blizzard/BlizzardParticles.prefab
+- Assets/Models/newEnergyCell/Particles/StarSurrounding.prefab
 - Assets/Items/EmbalmingFluid/GlassNormal.png
 - Assets/Items/Mallet/Wood_plancks_004_OCC.jpg
+- Assets/Models/newEnergyCell/Particles/StarSurroundingBlackMat.mat
 - Assets/Items/Mallet/OldSeptember.fbx
 - Assets/Items/Hands_Low_defaultMat1_albedo.jpg
 - Assets/Models/AnkhGuard/AnkhChest/PBSShader_height.png
@@ -176,10 +227,12 @@ Assets:
 - Assets/Items/Mallet/Wood_plancks_004_COLOR.jpg
 - Assets/Abilities/Particles/Grimora_KCFlames.mat
 - Assets/Items/StoneMarbleCalacatta004_GLOSS_1K.jpg
+- Assets/Models/newEnergyCell/Particles/Emerald/EmeraldMat.mat
 - Assets/Items/Mallet/Organic_matter_001_albedo.jpg
 - Assets/Models/AnkhGuard/sarctex.png
 - Assets/Models/kaycee/cevinsnow/SnowParticles.prefab
 - Assets/Items/Femur/BoneLordFemur.fbx
 - Assets/Models/AnkhGuard/AnkhChest/PBSShader_albedo.png
 - Assets/Items/StoneMarbleCalacatta004_NRM_1K.jpg
-Dependencies: []
+Dependencies:
+- C:/Users/nicki/Pointedclick/GrimoraMod/Assets/AssetBundle/Assets/AssetBundles/moxbundle

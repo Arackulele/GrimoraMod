@@ -79,6 +79,7 @@ public class CardAppearanceBehaviourPatch
 		if (renderer != null)
 		{
 			renderer.Material.SetAlbedoTexture(GravestoneSlate.mainTexture);
+			renderer.Material.SetInt("_Metallic", 1);
 		}
 
 		return false;

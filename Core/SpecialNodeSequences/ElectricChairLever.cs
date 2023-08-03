@@ -26,8 +26,7 @@ public class ElectricChairLever : HighlightedInteractable
 		DrawSkeletonOnHit.ability,
 		ColdFront.ability,
 		LooseLimb.ability,
-		SpiritBearer.ability,
-		Ability.SteelTrap,
+		SpiritBearer.ability
 	};
 
 	public static List<Ability> AbilitiesMinorRisk = new(AbilitiesSaferRisk)
@@ -94,6 +93,7 @@ public class ElectricChairLever : HighlightedInteractable
 		InvertedStrike.ability,
 		MarchingDead.ability,
 		Possessive.ability,
+		Ability.SteelTrap,
 		Puppeteer.ability
 	};
 
@@ -154,7 +154,13 @@ public class ElectricChairLever : HighlightedInteractable
 
 	public void ResetRisk()
 	{
-		currentSigilRisk = SigilRisk.Safe;
+		//currentSigilRisk = SigilRisk.Safe;
+		DoLeverAnimAndSetCurrentRisk(SigilRisk.Safe, -45, () =>
+		{
+			SetCellColor(_cellMinorRisk.Item1, DarkCellColor);
+			SetCellColor(_cellMajorRisk.Item1, DarkCellColor);
+		});
+
 	}
 
 	public Ability GetAbilityFromLeverRisk()

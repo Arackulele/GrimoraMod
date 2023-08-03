@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 		 .SetSpecialAbilities(GainAttackPirates.FullSpecial.Id)
 		 .SetBaseAttackAndHealth(0, 3)
 		 .SetBoneCost(5)
-		 .SetDescription("His songs raise the morale of only Skeletons, as no one else seems to like it.")
+		 .SetDescription("The true captain of the crew, respected by all yet still elusive.")
 		 .SetNames(NameDavyJones, "Davy Jones")
 			.SetSpecialStatIcon(GainAttackPirates.FullStatIcon.Id)
 		 .Build();

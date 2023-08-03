@@ -23,10 +23,21 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 	public override Opponent.Type BossType => GrimoraBossOpponentExt.FullOpponent.Id;
 
+	public bool validfordarkslope = true;
+
 	public override IEnumerator GameEnd(bool playerWon)
 	{
+
 		if (playerWon)
 		{
+
+
+
+			if (validfordarkslope == true) AchievementManager.Unlock(TheBlackBirdTheDarkSlope);
+
+			AchievementManager.Unlock(DanceOfDoom);
+
+			if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.HardMode)) AchievementManager.Unlock(GatewayToDis);
 
 			if (SaveFile.IsAscension)
 			{
@@ -69,6 +80,8 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 						ConfigHelper.Instance.SetSkullStormDefeated();
 						EventManagement.HasBeatenSkullStorm = true;
+						AchievementManager.Unlock(PileOfSkulls);
+
 
 					}
 
@@ -95,7 +108,6 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 				}
 				else SceneLoader.Load("Ascension_Configure");
 
-				//SceneLoader.Load("Ascension_Configure");
 
 			}
 			else
@@ -193,7 +205,9 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 	)
 	{
 		bool isPhaseOne = card.IsPlayerCard() && TurnManager.Instance.Opponent.NumLives == 3;
-		return isPhaseOne;
+
+		if (TurnManager.Instance.Opponent.NumLives == 1) return true;
+		else return isPhaseOne;
 	}
 
 	private bool _willReanimateCardThatDied = false;
@@ -205,28 +219,40 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		PlayableCard killer
 	)
 	{
-		List<CardSlot> opponentQueuedSlots = BoardManager.Instance.GetQueueSlots();
-		if (opponentQueuedSlots.IsNotEmpty() && _willReanimateCardThatDied)
+
+		if (TurnManager.Instance.Opponent.NumLives == 3)
 		{
-			ViewManager.Instance.SwitchToView(View.BossCloseup);
-			yield return TextDisplayer.Instance.PlayDialogueEvent(
-				"GrimoraBossReanimate1",
-				TextDisplayer.MessageAdvanceMode.Input
-			);
+			List<CardSlot> opponentQueuedSlots = BoardManager.Instance.GetQueueSlots();
+			if (opponentQueuedSlots.IsNotEmpty() && _willReanimateCardThatDied)
+			{
+				ViewManager.Instance.SwitchToView(View.BossCloseup);
+				yield return TextDisplayer.Instance.PlayDialogueEvent(
+					"GrimoraBossReanimate1",
+					TextDisplayer.MessageAdvanceMode.Input
+				);
 
-			CardSlot slot = opponentQueuedSlots.GetRandomItem();
+				CardSlot slot = opponentQueuedSlots.GetRandomItem();
 
-			if (card != null && card.HasAbility(Haunter.ability)) {
+				if (card != null && card.HasAbility(Haunter.ability))
+				{
 
-				yield return TextDisplayer.Instance.ShowUntilInput("YOUR WEAK SPIRITS SHALL NOT HAUNT ME NO MORE.");
+					yield return TextDisplayer.Instance.ShowUntilInput("YOUR WEAK SPIRITS SHALL NOT HAUNT ME NO MORE.");
 
-				yield return TurnManager.Instance.Opponent.QueueCard(NameVengefulSpirit.GetCardInfo(), slot);
-				//else yield return TurnManager.Instance.Opponent.QueueCard(CardLoader.GetCardByName(card.name), slot);
+					yield return TurnManager.Instance.Opponent.QueueCard(NameVengefulSpirit.GetCardInfo(), slot);
+					//else yield return TurnManager.Instance.Opponent.QueueCard(CardLoader.GetCardByName(card.name), slot);
+				}
+				else yield return TurnManager.Instance.Opponent.QueueCard(card.Info, slot);
+				_willReanimateCardThatDied = false;
+				yield return new WaitForSeconds(0.5f);
 			}
-			else yield return TurnManager.Instance.Opponent.QueueCard(card.Info, slot);
-			_willReanimateCardThatDied = false;
-			yield return new WaitForSeconds(0.5f);
+			else { _willReanimateCardThatDied = true; }
+
 		}
-		else { _willReanimateCardThatDied = true; }
+		else
+		{
+
+			if (card.name.Contains("lord")) validfordarkslope = false;
+
+		}
 	}
 }
