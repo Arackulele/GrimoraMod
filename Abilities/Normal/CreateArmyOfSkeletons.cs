@@ -8,6 +8,8 @@ namespace GrimoraMod;
 
 public class CreateArmyOfSkeletons : AbilityBehaviour
 {
+	public const string RulebookName = "Skeleton Horde";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -53,12 +55,15 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_CreateArmyOfSkeletons()
 	{
-		const string rulebookDescription =
+		const string rulebookDescriptionEnglish =
 			"When [creature] is played, a Skeleton is created in each empty space on the owner's side. [define:Skeleton]";
+		const string rulebookDescriptionChinese =
+			"使用[creature]时，持牌人侧牌桌上所有空位均会出现骷髅卡牌。 [define:Skeleton]";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<CreateArmyOfSkeletons>.Builder
 		 .SetRulebookDescription(rulebookDescription)
-		 .SetRulebookName("Skeleton Horde")
+		 .SetRulebookName(CreateArmyOfSkeletons.RulebookName)
 		 .SetPixelIcon(AssetUtils.GetPrefab<Sprite>("skeletonhorde2"))
 		 .Build();
 	}

@@ -6,9 +6,11 @@ namespace GrimoraMod;
 
 public class GainAttackNoBones : AbilityBehaviour
 {
+	public const string RulebookName = "Bone Starved";
+
 	public static Ability ability;
 
-		public const string ModSingletonId = "GrimoraMod_Malnourishment";
+	public const string ModSingletonId = "GrimoraMod_Malnourishment";
 
 	public override Ability Ability => ability;
 
@@ -45,12 +47,15 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_GainAttackNoBones()
 	{
-		const string rulebookDescription =
+		const string rulebookDescriptionEnglish =
 			"If you have no Bones, at the start of your turn [creature] deals 2 more damage.";
+		const string rulebookDescriptionChinese =
+			"If you have no Bones, at the start of your turn [creature] deals 2 more damage.";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<GainAttackNoBones>.Builder
 		 .SetRulebookDescription(rulebookDescription)
-		 .SetRulebookName("Bone Starved")
+		 .SetRulebookName(GainAttackNoBones.RulebookName)
 		 .Build();
 	}
 }

@@ -65,13 +65,18 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_Bounty()
 	{
-		const string rulebookDescription =
+		const string rulebookDescriptionEnglish =
 			"[creature] takes 1 Soul from you at the end of every turn and stores it as 2 Bones, up to a maximum of 8. "
 		+ "When [creature] dies, you gain all soul contained in it.";
+		const string rulebookDescriptionChinese =
+		    "[creature] takes 1 Soul from you at the end of every turn and stores it as 2 Bones, up to a maximum of 8. "
+        + "When [creature] dies, you gain all soul contained in it.";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<Bounty>.Builder
-			.SetPixelIcon(AssetUtils.GetPrefab<Sprite>("bounty_pixel"))
+		 .SetPixelIcon(AssetUtils.GetPrefab<Sprite>("bounty_pixel"))
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(Bounty.RulebookName)
 		 .Build();
 	}
 }

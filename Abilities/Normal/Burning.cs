@@ -8,6 +8,8 @@ namespace GrimoraMod;
 
 public class Burning : AbilityBehaviour
 {
+	public const string RulebookName = "Burning";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -97,11 +99,14 @@ public override bool RespondsToDealDamage(int amount, PlayableCard target) => Ca
 	public void Add_Ability_Burning()
 	{
 
-		const string rulebookDescription = "[creature] takes 1 Damage at the end of your turn, when it gets attacked by another Card, that card gets set on fire.";
+		const string rulebookDescriptionEnglish = "[creature] takes 1 Damage at the end of your turn, when it gets attacked by another Card, that card gets set on fire.";
+		const string rulebookDescriptionChinese = "[creature] takes 1 Damage at the end of your turn, when it gets attacked by another Card, that card gets set on fire.";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
-			AbilityBuilder<Burning>.Builder
-			 .SetRulebookDescription(rulebookDescription)
-			 .Build();
+		AbilityBuilder<Burning>.Builder
+		  .SetRulebookDescription(rulebookDescription)
+		  .SetRulebookName(Burning.RulebookName)
+		  .Build();
 		}
 }
 

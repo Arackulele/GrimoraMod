@@ -33,12 +33,16 @@ public partial class GrimoraPlugin
 {
 	public static void Add_Ability_GainAttackPirates()
 	{
+		const string rulebookDescriptionEnglish = "A card bearing this sigil gains 1 attack for every pirate on the board.";
+		const string rulebookDescriptionChinese = "A card bearing this sigil gains 1 attack for every pirate on the board.";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
+
 		StatIconBuilder<GainAttackPirates>.Builder
 		 .SetAppliesToHealth(false)
 		 .SetIconGraphic(AssetUtils.GetPrefab<Texture>("ability_GainAttackPirates"))
 		 .SetPixelIconGraphic(AssetUtils.GetPrefab<Sprite>("ability_GainAttackPirates_pixel"))
 		 .SetRulebookName(GainAttackPirates.RulebookName)
-		 .SetRulebookDescription("A card bearing this sigil gains 1 attack for every pirate on the board.")
+		 .SetRulebookDescription(rulebookDescription)
 		 .Build();
 	}
 }

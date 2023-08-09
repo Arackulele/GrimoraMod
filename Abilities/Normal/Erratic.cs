@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using Sirenix.Utilities;
 using static GrimoraMod.GrimoraPlugin;
@@ -7,6 +7,8 @@ namespace GrimoraMod;
 
 public class Erratic : Strafe
 {
+	public const string RulebookName = "Erratic";
+
 	public static Ability ability;
 	public override Ability Ability => ability;
 
@@ -52,10 +54,13 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_Erratic()
 	{
-		const string rulebookDescription = "At the end of the owner's turn, [creature] will move in a random direction.";
+		const string rulebookDescriptionEnglish = "At the end of the owner's turn, [creature] will move in a random direction.";
+		const string rulebookDescriptionChinese = "持牌人回合结束时，[creature]将向随机方向移动。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<Erratic>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(Erratic.RulebookName)
 		 .Build();
 	}
 }

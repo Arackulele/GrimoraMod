@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
 
@@ -7,7 +7,9 @@ namespace GrimoraMod;
 public class Malnourishment : AbilityBehaviour
 {
 	public const string ModSingletonId = "GrimoraMod_Malnourishment";
-	
+
+	public const string RulebookName = "Malnourishment";
+
 	public static Ability ability;
 	
 	public override Ability Ability => ability;
@@ -47,10 +49,13 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_Malnourishment()
 	{
-		const string rulebookDescription = "Each time [creature] deals damage directly, it loses 1 power and health.";
+		const string rulebookDescriptionEnglish = "Each time [creature] deals damage directly, it loses 1 power and health.";
+		const string rulebookDescriptionChinese = "当[creature]直接造成伤害时，自身损失1点力量和生命。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<Malnourishment>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(Malnourishment.RulebookName)
 		 .Build();
 	}
 }

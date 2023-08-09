@@ -9,6 +9,8 @@ namespace GrimoraMod;
 
 public class HookLineAndSinker : AbilityBehaviour
 {
+	public const string RulebookName = "Hook Line And Sinker";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -80,12 +82,16 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_HookLineAndSinker()
 	{
-		const string rulebookDescription =
+		const string rulebookDescriptionEnglish =
 			"When [creature] perishes, the creature in the opposing slot is dragged onto the owner's side of the board.";
+		const string rulebookDescriptionChinese =
+			"[creature]阵亡时，它对面的造物会被拉到持牌人侧牌桌。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<HookLineAndSinker>.Builder
 		 .SetRulebookDescription(rulebookDescription)
-			.SetPixelIcon(AssetUtils.GetPrefab<Sprite>("hook_pixel"))
+		 .SetRulebookName(HookLineAndSinker.RulebookName)
+		 .SetPixelIcon(AssetUtils.GetPrefab<Sprite>("hook_pixel"))
 		 .Build();
 	}
 }

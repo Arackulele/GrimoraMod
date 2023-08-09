@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers.Extensions;
@@ -8,6 +8,8 @@ namespace GrimoraMod;
 
 public class ChaosStrike : AbilityBehaviour, IGetOpposingSlots
 {
+	public const string RulebookName = "Chaos Strike";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -36,11 +38,14 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_ChaosStrike()
 	{
-		const string rulebookDescription = "[creature] will strike the opposing slots to the left, right, and center of it randomly, up to 3 times.";
+		const string rulebookDescriptionEnglish = "[creature] will strike the opposing slots to the left, right, and center of it randomly, up to 3 times.";
+		const string rulebookDescriptionChinese = "[creature]会随机攻击正对面的左右两侧和中间位置，共3次。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<ChaosStrike>.Builder
 		 .FlipIconIfOnOpponentSide()
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(ChaosStrike.RulebookName)
 		 .Build();
 	}
 }

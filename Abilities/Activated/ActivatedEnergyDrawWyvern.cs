@@ -26,7 +26,9 @@ public partial class GrimoraPlugin
 {
 	public static void Add_Ability_ActivatedEnergyDrawWyvern()
 	{
-		const string rulebookDescription = "Pay 2 Souls for [creature] to summon a copy in your hand.";
+		const string rulebookDescriptionEnglish = "Pay 2 Souls for [creature] to summon a copy in your hand.";
+		const string rulebookDescriptionChinese = "消耗2点魂能，[creature]会向你的手牌中添加一张自己的复制品。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<ActivatedEnergyDrawWyvern>.Builder
 		 .SetRulebookDescription(rulebookDescription)

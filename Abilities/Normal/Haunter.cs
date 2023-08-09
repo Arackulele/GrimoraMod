@@ -9,6 +9,8 @@ namespace GrimoraMod;
 
 public class Haunter : AbilityBehaviour
 {
+	public const string RulebookName = "Haunter";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -33,13 +35,17 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_Haunter()
 	{
-		const string rulebookDescription = "When [creature] perishes, it haunts the space it died in. "
+		const string rulebookDescriptionEnglish = "When [creature] perishes, it haunts the space it died in. "
 		                                 + "The first creature played on this space gain its old sigils.";
+		const string rulebookDescriptionChinese = "[creature]阵亡时，它会变成其生前位置的地缚灵，"
+																 + "后续放在同一位置的第一只造物可继承它的印记。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<Haunter>.Builder
 		 .SetIcon(AbilitiesUtil.LoadAbilityIcon(Ability.Haunter.ToString()))
 		 .SetPixelIcon(AssetUtils.GetPrefab<Sprite>("haunter_pixel"))
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(Haunter.RulebookName)
 		 .Build();
 	}
 }

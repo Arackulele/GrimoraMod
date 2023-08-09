@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using UnityEngine;
 
@@ -6,6 +6,8 @@ namespace GrimoraMod;
 
 public class DrawSkeletonOnHit : AbilityBehaviour
 {
+	public const string RulebookName = "Skeletons Within";
+
 	public static Ability ability;
 	
 	public override Ability Ability => ability;
@@ -36,12 +38,15 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_DrawSkeletonOnHit()
 	{
-		const string rulebookDescription =
+		const string rulebookDescriptionEnglish =
 			"Once [creature] is struck, draw a card from your Skeleton pile.";
+		const string rulebookDescriptionChinese =
+			"[creature]受到攻击时，从骷髅副牌组中抽一张牌。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<DrawSkeletonOnHit>.Builder
 		 .SetRulebookDescription(rulebookDescription)
-		 .SetRulebookName("Skeletons Within")
+		 .SetRulebookName(DrawSkeletonOnHit.RulebookName)
 		 .Build();
 	}
 }

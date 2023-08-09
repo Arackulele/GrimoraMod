@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers.Extensions;
@@ -13,7 +13,9 @@ namespace GrimoraMod;
 public class SkinCrawler : AbilityBehaviour
 {
 	public const string ModSingletonId = "GrimoraMod_SkinCrawler";
-	
+
+	public const string RulebookName = "Skin Crawler";
+
 	public static Ability ability;
 
 	public override Ability Ability => ability;
@@ -206,12 +208,17 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_SkinCrawler()
 	{
-		const string rulebookDescription =
+		const string rulebookDescriptionEnglish =
 			"[creature] will attempt to find a host in an adjacent friendly slot, hiding under it providing a +1/+1 buff. "
 		+ "Cards on the left take priority.";
+		const string rulebookDescriptionChinese =
+			"[creature]会尝试在相邻位置中寻找一只宿主，自身会藏在宿主下方并使宿主的力量和生命各加1。"
+		+ "优先选择左边的造物。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<SkinCrawler>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(SkinCrawler.RulebookName)
 		 .Build();
 	}
 }

@@ -7,6 +7,8 @@ namespace GrimoraMod;
 
 public class ColdFront : AbilityBehaviour
 {
+	public const string RulebookName = "Cold Front";
+
 	private static bool _playedDialogueGrimoraGiantFrozen;
 	
 	public static Ability ability;
@@ -46,10 +48,13 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_ColdFront()
 	{
-		const string rulebookDescription = "When [creature] perishes, the card opposing it is Frozen Away if not already frozen.";
+		const string rulebookDescriptionEnglish = "When [creature] perishes, the card opposing it is Frozen Away if not already frozen.";
+		const string rulebookDescriptionChinese = "[creature]阵亡时，它对面的造物如果没有被冰封，则会被冰封禁锢。无法冰封某些造物。";
+		string rulebookDescription = Localization.CurrentLanguage == Language.ChineseSimplified ? rulebookDescriptionChinese : rulebookDescriptionEnglish;
 
 		AbilityBuilder<ColdFront>.Builder
 		 .SetRulebookDescription(rulebookDescription)
+		 .SetRulebookName(ColdFront.RulebookName)
 		 .Build();
 	}
 }
