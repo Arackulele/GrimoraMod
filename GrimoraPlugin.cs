@@ -29,6 +29,8 @@ namespace GrimoraMod;
 [BepInDependency(InscryptionAPIPlugin.ModGUID)]
 [BepInDependency("community.inscryption.patch")]
 [BepInDependency("zorro.inscryption.infiniscryption.achievements")]
+[BepInIncompatibility("silenceman.inscryption.magnificusmod")]
+[BepInIncompatibility("zorro.inscryption.infiniscryption.p03kayceerun")]
 [BepInPlugin(GUID, Name, Version)]
 public partial class GrimoraPlugin : BaseUnityPlugin
 {
