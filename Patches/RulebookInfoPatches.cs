@@ -94,7 +94,7 @@ public class RulebookInfoPatches
 							}
 							case Ability.ActivatedRandomPowerEnergy:
 							{
-								x.rulebookDescription = "Pay 1 Energy to add power to [creature] randomly between 1 and 6.";
+								x.rulebookDescription = "Pay 1 Soul to add power to [creature] randomly between 1 and 6.";
 								break;
 							}
 							case Ability.ActivatedHeal:

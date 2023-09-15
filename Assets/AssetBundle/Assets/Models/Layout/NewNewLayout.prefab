@@ -4389,6 +4389,36 @@ PrefabInstance:
       propertyPath: m_Name
       value: CryptGreenCandle_Custom
       objectReference: {fileID: 0}
+    - target: {fileID: 60821211938070080, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 61911454572755952, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 62245707928889701, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 71068301607666072, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 71737351894667324, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 132924794615391066, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d3c26122008b4a4f98bfb32719fe06f, type: 3}
 --- !u!4 &3790614262867576043 stripped
@@ -4408,6 +4438,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CryptGreenCandle_Custom
+      objectReference: {fileID: 0}
+    - target: {fileID: 60821211938070080, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 61911454572755952, guid: 5d3c26122008b4a4f98bfb32719fe06f,
         type: 3}
@@ -4433,6 +4468,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ReflectionProbeUsage
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 61911454572755952, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 62245707928889701, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 71068301607666072, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 71737351894667324, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 132924794615391066, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d3c26122008b4a4f98bfb32719fe06f, type: 3}
@@ -4509,6 +4569,36 @@ PrefabInstance:
       propertyPath: m_Name
       value: CryptGreenCandle_Custom
       objectReference: {fileID: 0}
+    - target: {fileID: 60821211938070080, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 61911454572755952, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 62245707928889701, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 71068301607666072, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 71737351894667324, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 132924794615391066, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d3c26122008b4a4f98bfb32719fe06f, type: 3}
 --- !u!4 &7397648695351524698 stripped
@@ -4583,6 +4673,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CryptGreenCandle_Custom
+      objectReference: {fileID: 0}
+    - target: {fileID: 60821211938070080, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 61911454572755952, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 62245707928889701, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 71068301607666072, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 71737351894667324, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 132924794615391066, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d3c26122008b4a4f98bfb32719fe06f, type: 3}
@@ -4659,6 +4779,36 @@ PrefabInstance:
       propertyPath: m_Name
       value: CryptGreenCandle_Custom
       objectReference: {fileID: 0}
+    - target: {fileID: 60821211938070080, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 61911454572755952, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 62245707928889701, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 71068301607666072, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 71737351894667324, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 132924794615391066, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d3c26122008b4a4f98bfb32719fe06f, type: 3}
 --- !u!4 &8434818478536188135 stripped
@@ -4733,6 +4883,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CryptGreenCandle_Custom
+      objectReference: {fileID: 0}
+    - target: {fileID: 60821211938070080, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 61911454572755952, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 62245707928889701, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 71068301607666072, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 71737351894667324, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 132924794615391066, guid: 5d3c26122008b4a4f98bfb32719fe06f,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d3c26122008b4a4f98bfb32719fe06f, type: 3}

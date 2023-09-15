@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2226651752
+CRC: 3530034111
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 0118e7e0ba3b2a2fc09b39684428c946
+    Hash: 1416022c61a5258fefae4f265a2970d8
   TypeTreeHash:
     serializedVersion: 2
     Hash: ae8a383304a1d683486d2f5bd1396001
@@ -66,6 +66,7 @@ Assets:
 - Assets/Items/HandPrefab.prefab
 - Assets/Abilities/Particles/fire.png
 - Assets/Models/Sarcophagus/SarcophagusPrefab.prefab
+- Assets/Models/clover/Cloverprefab.prefab
 - Assets/Models/newEnergyCell/Particles/GrimoraMats/brick_floor_003_nor_gl_1k.exr
 - Assets/Models/newEnergyCell/Particles/Sapphire/sm_gem_sapphire.asset
 - Assets/Items/PirateShip_Normal.png

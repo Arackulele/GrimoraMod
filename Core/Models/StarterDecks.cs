@@ -286,7 +286,18 @@ public class StarterDecks
 		"Europa"
 	};
 	
-	
+	public static  void AddGrimoraStarterdeck(List<string> Cards, Sprite Icon, String name)
+	{
+
+		var i = StarterDeckManager.Add(
+						GrimoraPlugin.GUID,
+						CreateStarterDeckInfo(name, Cards.ToArray())
+					);
+
+		i.Info.iconSprite = Icon;
+
+
+	}
 	
 	
 

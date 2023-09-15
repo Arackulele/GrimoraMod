@@ -39,6 +39,8 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 			if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.HardMode)) AchievementManager.Unlock(GatewayToDis);
 
+			SaveManager.SaveToFile();
+
 			if (SaveFile.IsAscension)
 			{
 				if (AscensionSaveData.Data.activeChallenges.Count() > 10)
@@ -82,7 +84,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 						EventManagement.HasBeatenSkullStorm = true;
 						AchievementManager.Unlock(PileOfSkulls);
 
-
+						SaveManager.SaveToFile();
 					}
 
 
@@ -251,7 +253,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		else
 		{
 
-			if (card.name.Contains("lord")) validfordarkslope = false;
+			if (card.name == NameBonelord) validfordarkslope = false;
 
 		}
 	}

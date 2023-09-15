@@ -355,6 +355,8 @@ public class RoyalBossOpponentExt : BaseBossExt
 			{
 				AudioController.Instance.FadeSourceVolume(oceanSound, 0f, 5.5f);
 
+				GlitchOutAssetEffect.GlitchModel(corals.transform);
+
 				(Singleton<TurnManager>.Instance.SpecialSequencer as GrimoraMod.GrimoraModRoyalBossSequencer).CleanupTargetIcons();
 
 				if (ConfigHelper.Instance.DisableMotionSicknessEffects == false)
@@ -373,11 +375,11 @@ public class RoyalBossOpponentExt : BaseBossExt
 			GrimoraAnimationController.Instance.SetHeadBool("face_happy", false);
 			yield return new WaitForSeconds(0.5f);
 			ViewManager.Instance.SwitchToView(View.Default);
+
 			if (!AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.ThreePhaseGhouls)) yield return cannons.GetComponent<CannonTableEffects>().GlitchOutCannons();
 
-			if (GameObject.Find("BrokenShipParts") != null) GlitchOutAssetEffect.GlitchModel(GameObject.Find("BrokenShipParts").transform);
 
-			GlitchOutAssetEffect.GlitchModel(corals.transform);
+			
 			
 
 			yield return new WaitForSeconds(0.5f);

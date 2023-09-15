@@ -1,5 +1,6 @@
 using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 
 namespace GrimoraMod;
 
@@ -22,6 +23,19 @@ public class GrimoraCardDrawPilesPatches
 			info.appearanceBehaviour.Add(CardAppearanceBehaviour.Appearance.HologramPortrait);
 
 		}
+		}
+
+		if (SaveFile.IsAscension)
+		{
+			int num = 0;
+			num = AscensionSaveData.Data.GetNumChallengesOfTypeActive(ChallengeManagement.Soulless);
+			if (num > 0)
+			{
+				foreach (CardInfo info in __result)
+				{
+					info.SetEnergyCost(num);
+				}
+			}
 		}
 	}
 }

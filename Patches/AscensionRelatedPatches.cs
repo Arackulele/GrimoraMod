@@ -11,18 +11,18 @@ namespace GrimoraMod;
 [HarmonyPatch(typeof(CardInfo), nameof(CardInfo.EnergyCost), MethodType.Getter)]
 public static class SoullessPatch
 {
-	
+	/*
 	[HarmonyPostfix]
 	public static void EnergyChange(ref int __result, ref CardInfo __instance)
 	{
-		if (__instance.name != "Skeleton") return;
+		if (__instance.name != NameSkeleton) return;
 		int num=0;
 		num = AscensionSaveData.Data.GetNumChallengesOfTypeActive(ChallengeManagement.Soulless);
 		if (num > 0)
 		{
 			__result += num;
 		}
-	}
+	}*/
 }
 
 [HarmonyPatch(typeof(AscensionStartScreen), nameof(AscensionStartScreen.OnEnable))]

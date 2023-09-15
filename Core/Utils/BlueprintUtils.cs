@@ -680,7 +680,7 @@ public static class BlueprintUtils
 
 	#region Kaycee
 
-	internal static EncounterBlueprintData BuildKayceeBossInitialBlueprint()
+	public static EncounterBlueprintData BuildKayceeBossInitialBlueprint()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Kaycee_Boss";
@@ -709,7 +709,7 @@ public static class BlueprintUtils
 	}
 
 
-	private static EncounterBlueprintData BuildKayceeRegionBlueprintOne()
+	public static EncounterBlueprintData BuildKayceeRegionBlueprintOne()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Kaycee_Draugr_Summoner";
@@ -727,7 +727,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildKayceeRegionBlueprintTwo()
+	public static EncounterBlueprintData BuildKayceeRegionBlueprintTwo()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Kaycee_Draugr_Gravebard";
@@ -745,7 +745,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildKayceeRegionBlueprintThree()
+	public static EncounterBlueprintData BuildKayceeRegionBlueprintThree()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Kaycee_Project_Sentry";
@@ -763,7 +763,7 @@ public static class BlueprintUtils
 
 		return blueprint;
 	}
-	private static EncounterBlueprintData BuildKayceeRegionBlueprintFour()
+	public static EncounterBlueprintData BuildKayceeRegionBlueprintFour()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Kaycee_Vampire_Sentry";
@@ -782,7 +782,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildKayceeRegionBlueprintFive()
+	public static EncounterBlueprintData BuildKayceeRegionBlueprintFive()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Kaycee_Basic_Undead";
@@ -801,7 +801,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildKayceeRegionBlueprintSix()
+	public static EncounterBlueprintData BuildKayceeRegionBlueprintSix()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Kaycee_Glacier_Bait";
@@ -820,7 +820,7 @@ public static class BlueprintUtils
 
 		return blueprint;
 	}
-	private static EncounterBlueprintData BuildKayceeRegionBlueprintSeven()
+	public static EncounterBlueprintData BuildKayceeRegionBlueprintSeven()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Kaycee_Glacier_Bait_Zombies";
@@ -840,7 +840,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildKayceeRegionBlueprintEight()
+	public static EncounterBlueprintData BuildKayceeRegionBlueprintEight()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Kaycee_Frozen_Ocean";
@@ -860,7 +860,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildKayceeRegionBlueprintNine()
+	public static EncounterBlueprintData BuildKayceeRegionBlueprintNine()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Kaycee_Flying_Undead";
@@ -883,7 +883,7 @@ public static class BlueprintUtils
 	#region KayceeHardMode
 
 
-	private static EncounterBlueprintData BuildKayceeRegionBlueprintOneHard()
+	public static EncounterBlueprintData BuildKayceeRegionBlueprintOneHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Kaycee_Draugr_Summoner_Hard";
@@ -903,7 +903,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildKayceeRegionBlueprintTwoHard()
+	public static EncounterBlueprintData BuildKayceeRegionBlueprintTwoHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Kaycee_Draugr_Gravebard_Hard";
@@ -921,7 +921,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildKayceeRegionBlueprintThreeHard()
+	public static EncounterBlueprintData BuildKayceeRegionBlueprintThreeHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Kaycee_Project_Sentry_Hard";
@@ -940,7 +940,7 @@ public static class BlueprintUtils
 
 		return blueprint;
 	}
-	private static EncounterBlueprintData BuildKayceeRegionBlueprintFourHard()
+	public static EncounterBlueprintData BuildKayceeRegionBlueprintFourHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Kaycee_Vampire_Sentry_Hard";
@@ -959,7 +959,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildKayceeRegionBlueprintFiveHard()
+	public static EncounterBlueprintData BuildKayceeRegionBlueprintFiveHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Kaycee_Basic_Undead_Hard";
@@ -978,7 +978,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildKayceeRegionBlueprintSixHard()
+	public static EncounterBlueprintData BuildKayceeRegionBlueprintSixHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Kaycee_Glacier_Bait";
@@ -997,7 +997,7 @@ public static class BlueprintUtils
 
 		return blueprint;
 	}
-	private static EncounterBlueprintData BuildKayceeRegionBlueprintSevenHard()
+	public static EncounterBlueprintData BuildKayceeRegionBlueprintSevenHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Kaycee_Glacier_Bait_Zombies";
@@ -1017,7 +1017,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildKayceeRegionBlueprintEightHard()
+	public static EncounterBlueprintData BuildKayceeRegionBlueprintEightHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Kaycee_Frozen_Ocean";
@@ -1037,7 +1037,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildKayceeRegionBlueprintNineHard()
+	public static EncounterBlueprintData BuildKayceeRegionBlueprintNineHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Kaycee_Flying_Undead";
@@ -1059,7 +1059,7 @@ public static class BlueprintUtils
 
 	#region Royal
 
-	internal static EncounterBlueprintData BuildRoyalBossInitialBlueprint()
+	public static EncounterBlueprintData BuildRoyalBossInitialBlueprint()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Royal_Boss";
@@ -1088,7 +1088,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintOne()
+	public static EncounterBlueprintData BuildRoyalBossRegionBlueprintOne()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Royal_Ships";
@@ -1109,7 +1109,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintTwo()
+	public static EncounterBlueprintData BuildRoyalBossRegionBlueprintTwo()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Royal_Hellpirates";
@@ -1128,7 +1128,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintThree()
+	public static EncounterBlueprintData BuildRoyalBossRegionBlueprintThree()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Royal_Hellpirates_SilbonVar";
@@ -1148,7 +1148,7 @@ public static class BlueprintUtils
 
 	}
 
-	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintFour()
+	public static EncounterBlueprintData BuildRoyalBossRegionBlueprintFour()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Royal_Mates";
@@ -1171,7 +1171,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintFive()
+	public static EncounterBlueprintData BuildRoyalBossRegionBlueprintFive()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Royal_Bellist";
@@ -1189,7 +1189,7 @@ public static class BlueprintUtils
 
 		return blueprint;
 	}
-	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintSix()
+	public static EncounterBlueprintData BuildRoyalBossRegionBlueprintSix()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Royal_Exploding_Barrels";
@@ -1207,7 +1207,7 @@ public static class BlueprintUtils
 
 		return blueprint;
 	}
-	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintSeven()
+	public static EncounterBlueprintData BuildRoyalBossRegionBlueprintSeven()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Royal_Captain";
@@ -1228,7 +1228,7 @@ public static class BlueprintUtils
 
 		return blueprint;
 	}
-	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintEight()
+	public static EncounterBlueprintData BuildRoyalBossRegionBlueprintEight()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Royal_Drowned_Army";
@@ -1250,7 +1250,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintNine()
+	public static EncounterBlueprintData BuildRoyalBossRegionBlueprintNine()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Royal_Deathbringers";
@@ -1271,7 +1271,7 @@ public static class BlueprintUtils
 
 	#region RoyalHard
 
-	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintOneHard()
+	public static EncounterBlueprintData BuildRoyalBossRegionBlueprintOneHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Royal_Ships";
@@ -1292,7 +1292,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintTwoHard()
+	public static EncounterBlueprintData BuildRoyalBossRegionBlueprintTwoHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Royal_Hellpirates";
@@ -1314,7 +1314,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintThreeHard()
+	public static EncounterBlueprintData BuildRoyalBossRegionBlueprintThreeHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Royal_Hellpirates_SilbonVar";
@@ -1336,7 +1336,7 @@ public static class BlueprintUtils
 
 	}
 
-	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintFourHard()
+	public static EncounterBlueprintData BuildRoyalBossRegionBlueprintFourHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Royal_Mates";
@@ -1359,7 +1359,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintFiveHard()
+	public static EncounterBlueprintData BuildRoyalBossRegionBlueprintFiveHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Royal_Bellist";
@@ -1377,7 +1377,7 @@ public static class BlueprintUtils
 
 		return blueprint;
 	}
-	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintSixHard()
+	public static EncounterBlueprintData BuildRoyalBossRegionBlueprintSixHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Royal_Exploding_Barrels";
@@ -1395,7 +1395,7 @@ public static class BlueprintUtils
 
 		return blueprint;
 	}
-	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintSevenHard()
+	public static EncounterBlueprintData BuildRoyalBossRegionBlueprintSevenHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Royal_Captain";
@@ -1416,7 +1416,7 @@ public static class BlueprintUtils
 
 		return blueprint;
 	}
-	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintEightHard()
+	public static EncounterBlueprintData BuildRoyalBossRegionBlueprintEightHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Royal_Drowned_Army";
@@ -1439,7 +1439,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildRoyalBossRegionBlueprintNineHard()
+	public static EncounterBlueprintData BuildRoyalBossRegionBlueprintNineHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Royal_Deathbringers_Hard";
@@ -1463,7 +1463,7 @@ public static class BlueprintUtils
 
 	#region Grimora
 
-	internal static EncounterBlueprintData BuildGrimoraBossInitialBlueprint()
+	public static EncounterBlueprintData BuildGrimoraBossInitialBlueprint()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Grimora_Boss";
@@ -1490,7 +1490,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildGrimoraBossRegionBlueprintOne()
+	public static EncounterBlueprintData BuildGrimoraBossRegionBlueprintOne()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Grimora_Ancient_Army";
@@ -1515,7 +1515,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildGrimoraBossRegionBlueprintTwo()
+	public static EncounterBlueprintData BuildGrimoraBossRegionBlueprintTwo()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Grimora_Bowling";
@@ -1537,7 +1537,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildGrimoraBossRegionBlueprintThree()
+	public static EncounterBlueprintData BuildGrimoraBossRegionBlueprintThree()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Grimora_Macabre";
@@ -1563,7 +1563,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildGrimoraBossRegionBlueprintFour()
+	public static EncounterBlueprintData BuildGrimoraBossRegionBlueprintFour()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Grimora_Impenetrable_Wall";
@@ -1587,7 +1587,7 @@ public static class BlueprintUtils
 	#region GrimoraHard
 
 
-	private static EncounterBlueprintData BuildGrimoraBossRegionBlueprintOneHard()
+	public static EncounterBlueprintData BuildGrimoraBossRegionBlueprintOneHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Grimora_Ancient_Army_Hard";
@@ -1608,7 +1608,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildGrimoraBossRegionBlueprintTwoHard()
+	public static EncounterBlueprintData BuildGrimoraBossRegionBlueprintTwoHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Grimora_Bowling_Hard";
@@ -1629,7 +1629,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildGrimoraBossRegionBlueprintThreeHard()
+	public static EncounterBlueprintData BuildGrimoraBossRegionBlueprintThreeHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Grimora_Macabre_Hard";
@@ -1657,7 +1657,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildGrimoraBossRegionBlueprintFourHard()
+	public static EncounterBlueprintData BuildGrimoraBossRegionBlueprintFourHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Grimora_Impenetrable_Wall_Hard";
@@ -1681,7 +1681,7 @@ public static class BlueprintUtils
 
 	#region Sawyer
 
-	internal static EncounterBlueprintData BuildSawyerBossInitialBlueprint()
+	public static EncounterBlueprintData BuildSawyerBossInitialBlueprint()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Sawyer_Boss";
@@ -1704,7 +1704,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildSawyerRegionBlueprintOne()
+	public static EncounterBlueprintData BuildSawyerRegionBlueprintOne()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Sawyer_Target";
@@ -1724,7 +1724,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildSawyerRegionBlueprintTwo()
+	public static EncounterBlueprintData BuildSawyerRegionBlueprintTwo()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Sawyer_Target_Sarcophagus";
@@ -1744,7 +1744,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildSawyerRegionBlueprintThree()
+	public static EncounterBlueprintData BuildSawyerRegionBlueprintThree()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Sawyer_DefenseLine";
@@ -1772,7 +1772,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildSawyerRegionBlueprintFour()
+	public static EncounterBlueprintData BuildSawyerRegionBlueprintFour()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Sawyer_Hell";
@@ -1799,7 +1799,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildSawyerRegionBlueprintFive()
+	public static EncounterBlueprintData BuildSawyerRegionBlueprintFive()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Sawyer_Ripper_Rush";
@@ -1824,7 +1824,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildSawyerRegionBlueprintSix()
+	public static EncounterBlueprintData BuildSawyerRegionBlueprintSix()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Sawyer_Spirit_Lines";
@@ -1847,7 +1847,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildSawyerRegionBlueprintSeven()
+	public static EncounterBlueprintData BuildSawyerRegionBlueprintSeven()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Sawyer_Spirit_Lines_Deadly";
@@ -1869,7 +1869,7 @@ public static class BlueprintUtils
 
 		return blueprint;
 	}
-	private static EncounterBlueprintData BuildSawyerRegionBlueprintEight()
+	public static EncounterBlueprintData BuildSawyerRegionBlueprintEight()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Sawyer_Hounds";
@@ -1890,7 +1890,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildSawyerRegionBlueprintNine()
+	public static EncounterBlueprintData BuildSawyerRegionBlueprintNine()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Sawyer_Wechuges";
@@ -1916,7 +1916,7 @@ public static class BlueprintUtils
 	#region SawyerHardMode
 
 
-	private static EncounterBlueprintData BuildSawyerRegionBlueprintOneHard()
+	public static EncounterBlueprintData BuildSawyerRegionBlueprintOneHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Sawyer_Target_Hard";
@@ -1937,7 +1937,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildSawyerRegionBlueprintTwoHard()
+	public static EncounterBlueprintData BuildSawyerRegionBlueprintTwoHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Sawyer_Target_Sarcophagus_Hard";
@@ -1957,7 +1957,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildSawyerRegionBlueprintThreeHard()
+	public static EncounterBlueprintData BuildSawyerRegionBlueprintThreeHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Sawyer_DefenseLine_Hard";
@@ -1985,7 +1985,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildSawyerRegionBlueprintFourHard()
+	public static EncounterBlueprintData BuildSawyerRegionBlueprintFourHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Sawyer_Hell_Hard";
@@ -2010,7 +2010,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildSawyerRegionBlueprintFiveHard()
+	public static EncounterBlueprintData BuildSawyerRegionBlueprintFiveHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Sawyer_Ripper_Rush_Hard";
@@ -2033,7 +2033,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildSawyerRegionBlueprintSixHard()
+	public static EncounterBlueprintData BuildSawyerRegionBlueprintSixHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Sawyer_Spirit_Lines";
@@ -2057,7 +2057,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildSawyerRegionBlueprintSevenHard()
+	public static EncounterBlueprintData BuildSawyerRegionBlueprintSevenHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Sawyer_Spirit_Lines_Deadly_Hard";
@@ -2081,7 +2081,7 @@ public static class BlueprintUtils
 
 		return blueprint;
 	}
-	private static EncounterBlueprintData BuildSawyerRegionBlueprintEightHard()
+	public static EncounterBlueprintData BuildSawyerRegionBlueprintEightHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Sawyer_Hounds_Hard";
@@ -2102,7 +2102,7 @@ public static class BlueprintUtils
 		return blueprint;
 	}
 
-	private static EncounterBlueprintData BuildSawyerRegionBlueprintNineHard()
+	public static EncounterBlueprintData BuildSawyerRegionBlueprintNineHard()
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Sawyer_Wechuges_Hard";

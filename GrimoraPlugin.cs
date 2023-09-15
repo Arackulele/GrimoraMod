@@ -34,7 +34,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 {
 	public const string GUID = "arackulele.inscryption.grimoramod";
 	public const string Name = "GrimoraMod";
-	private const string Version = "2.8.81";
+	private const string Version = "3.3.2";
 
 	internal static ManualLogSource Log;
 
@@ -100,8 +100,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		StartCoroutine(LoadAssetsAsync());
 
-
-
 		LoadAbilitiesAndCards();
 		
 		LoadExpansionCards();
@@ -138,6 +136,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private void Update()
 	{
+
+
 		/*
 		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
