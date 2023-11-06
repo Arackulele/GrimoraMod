@@ -24,6 +24,8 @@ public class GrimoraModSawyerBossSequencer : GrimoraModBossBattleSequencer
 
 	public int bonesTakenCounter = 0;
 
+	public static int CandyCounter = 10;
+
 	public static int sawyerbank = 2;
 
 	private bool playedbankdialogue;

@@ -43,8 +43,8 @@ public class GrimoraChessboard
 				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.EnemyPiece.gameObject, GetEnemyNodes)
 			},
 			{
-				typeof(ChessboardGoatEyePiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.GoatEyeFigurine, GetGoatEyeNodes)
+				typeof(AnkhGuardPiece),
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.AnkhGuardFigurine, GetGoatEyeNodes)
 			},
 			{
 				typeof(ChessboardGainConsumablePiece),
@@ -59,7 +59,7 @@ public class GrimoraChessboard
 		{ 1, () => AssetUtils.GetPrefab<GameObject>("Sawyer_BlockerPiece") },
 		{ 2, () => AssetUtils.GetPrefab<GameObject>("Blocker_Royal") },
 		{ 3, () => AssetUtils.GetPrefab<GameObject>("Blocker_Grimora") },
-		{ 4, () => kopieGameObjects.Find(g => g.name.Contains("ice_var_2_prefab")) },
+		{ 4, () => NewObjects.Find(g => g.name.Contains("ice_var_2_prefab")) },
 		{ 5, () => Resources.Load<GameObject>("prefabs/map/chessboardmap/Chessboard_Tombstone_3") },
 		{ 6, () => Resources.Load<GameObject>("prefabs/map/chessboardmap/Chessboard_Tombstone_2") },
 		{ 7, () => Resources.Load<GameObject>("prefabs/map/chessboardmap/Chessboard_Tombstone_1") },
@@ -192,7 +192,7 @@ public class GrimoraChessboard
 			PlacePieces<ChessboardChestPiece>();
 			PlacePieces<ChessboardElectricChairPiece>();
 			PlacePieces<ChessboardEnemyPiece>(GrimoraModBattleSequencer.FullSequencer.Id);
-			PlacePieces<ChessboardGoatEyePiece>(AnkhGuardCombatSequencer.FullSequencer.Id);
+			PlacePieces<AnkhGuardPiece>(AnkhGuardCombatSequencer.FullSequencer.Id);
 			PlacePieces<ChessboardGainConsumablePiece>();
 		}
 	}
@@ -386,7 +386,7 @@ public class GrimoraChessboard
 			{
 
 
-					if (enemyPiece is ChessboardGoatEyePiece)
+					if (enemyPiece is AnkhGuardPiece)
 					{
 
 						enemyPiece.blueprint = BlueprintUtils.GetRandomBlueprintForAnkhGuard();

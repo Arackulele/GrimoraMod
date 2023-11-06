@@ -31,8 +31,8 @@ public class GrimoraUrn : BatteryItem
 	{
 		Debug.Log("Using Urn");
 
-		ResourcesManager.Instance.AddMaxEnergy(1);
-		yield return ResourcesManager.Instance.AddEnergy(ResourcesManager.Instance.PlayerMaxEnergy - ResourcesManager.Instance.PlayerEnergy);
+		yield return ResourcesManager.Instance.AddMaxEnergy(ResourcesManager.Instance.PlayerMaxEnergy);
+		yield return ResourcesManager.Instance.SpendEnergy(ResourcesManager.Instance.PlayerEnergy);
 
 	}
 
@@ -42,7 +42,7 @@ public class GrimoraUrn : BatteryItem
 
 		Texture2D HahaL = new Texture2D(70, 80);
 		ConsumableItemData data = ConsumableItemManager.New(GUID, "Soul Urn", "Contains the Soul of the damned", HahaL, typeof(GrimoraUrn), Model)
-		.SetLearnItemDescription("Restores your soul counter to full and increase the maximum by 1, the Robot wouldn't think it very useful.");
+		.SetLearnItemDescription("Takes all of your Soul but increases your maximum by the amount taken, a certain acquaintance of mine would call this a return on investment.");
 
 
 		data.rulebookCategory = AbilityMetaCategory.GrimoraRulebook;

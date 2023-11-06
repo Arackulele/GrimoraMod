@@ -75,7 +75,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			GameFlowManager.Instance.TransitionToGameState(GameState.Map);
 		}
 	}
-	
+
 	public static Dictionary<ElectricChairLever.SigilRisk, float> BuildWithChances(float safeRiskChance, float minorRiskChance, float majorRiskChance)
 	{
 		return new Dictionary<ElectricChairLever.SigilRisk, float>
@@ -100,12 +100,12 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		{
 			return 0.5f;
 		}
-		
+
 		float chance = _burnRateTypeInt == 1 ? 0.3f : 0f;
 		chance += ElectricChairBurnRateByType.GetValueSafe(_burnRateTypeInt)[_lever.currentSigilRisk];
 		return chance;
 	}
-	
+
 	private float AddChanceToDieForSecondZap()
 	{
 		return ElectricChairBurnRateByType.GetValueSafe(_burnRateTypeInt)[_lever.currentSigilRisk];
@@ -139,7 +139,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 				selectionSlot.transform.position,
 				skipToTime: 0.5f
 			);
-			
+
 			ApplyModToCard(selectionSlot.Card.Info);
 			selectionSlot.Card.Anim.PlayTransformAnimation();
 			yield return new WaitForSeconds(0.15f);
@@ -176,7 +176,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			retrieveCardInteractable.gameObject.SetActive(true);
 			retrieveCardInteractable.CursorSelectEnded = null;
 			GenericMainInputInteractable genericMainInputInteractable = retrieveCardInteractable;
-			genericMainInputInteractable.CursorSelectEnded += delegate { cancelledByClickingCard = true; }; 
+			genericMainInputInteractable.CursorSelectEnded += delegate { cancelledByClickingCard = true; };
 			confirmStone.Unpress();
 			StartCoroutine(confirmStone.WaitUntilConfirmation());
 			yield return new WaitUntil(
@@ -194,23 +194,25 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 			{
 				chanceToDie += AddChanceToDieForSecondZap();
 				Log.LogDebug($"[ElectricChair] Chance to die is now [{chanceToDie}]");
-				if (UnityRandom.value < chanceToDie )
+				if (UnityRandom.value < chanceToDie)
 				{
 
-					if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.SafeChair)) { 
+					if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.SafeChair))
+					{
 						//see when safe chair saves your card from dying
 						ChallengeActivationUI.TryShowActivation(ChallengeManagement.SafeChair);
 					}
-					else { 
-					AudioController.Instance.PlaySound3D(
-						"teslacoil_overload",
-						MixerGroup.TableObjectsSFX,
-						selectionSlot.transform.position
-					);
-					destroyedCard = selectionSlot.Card.Info;
-					((GravestoneCardAnimationController)selectionSlot.Card.Anim).PlayGlitchOutAnimation();
-					GrimoraSaveData.Data.deck.RemoveCard(selectionSlot.Card.Info);
-					yield return new WaitForSeconds(1f);
+					else
+					{
+						AudioController.Instance.PlaySound3D(
+							"teslacoil_overload",
+							MixerGroup.TableObjectsSFX,
+							selectionSlot.transform.position
+						);
+						destroyedCard = selectionSlot.Card.Info;
+						((GravestoneCardAnimationController)selectionSlot.Card.Anim).PlayGlitchOutAnimation();
+						GrimoraSaveData.Data.deck.RemoveCard(selectionSlot.Card.Info);
+						yield return new WaitForSeconds(1f);
 					}
 				}
 			}
@@ -350,16 +352,16 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	private bool HasAbilityComboThatWillBreakTheGame(CardInfo card, Ability randomSigil)
 	{
 		return randomSigil == Haunter.ability && card.Abilities.Count == 0
-		    || randomSigil == Ability.SwapStats && (card.Attack < 1 || card.Health < 3)
-		    || RandomSigilShouldNotExistOnZeroAttackCard(card, randomSigil)
-		    || RandomSigilShouldNotExistWithSkinCrawlerOrStrafe(card, randomSigil)
+				|| randomSigil == Ability.SwapStats && (card.Attack < 1 || card.Health < 3)
+				|| RandomSigilShouldNotExistOnZeroAttackCard(card, randomSigil)
+				|| RandomSigilShouldNotExistWithSkinCrawlerOrStrafe(card, randomSigil)
 			;
 	}
 
 	private bool RandomSigilShouldNotExistWithSkinCrawlerOrStrafe(CardInfo card, Ability randomSigil)
 	{
 		return card.HasAbility(SkinCrawler.ability) && AbilitiesThatShouldNotExistOnSkinCrawler.Contains(randomSigil)
-		       || randomSigil == SkinCrawler.ability && AbilitiesThatShouldNotExistOnSkinCrawler.Exists(card.HasAbility);
+					 || randomSigil == SkinCrawler.ability && AbilitiesThatShouldNotExistOnSkinCrawler.Exists(card.HasAbility);
 	}
 
 	private bool RandomSigilShouldNotExistOnZeroAttackCard(CardInfo card, Ability randomSigil)
@@ -380,7 +382,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 	)
 	{
 		return card.HasAbility(cardAbility) && randomSigil == abilityToCheckAgainst
-		       || card.HasAbility(abilityToCheckAgainst) && randomSigil == cardAbility;
+					 || card.HasAbility(abilityToCheckAgainst) && randomSigil == cardAbility;
 	}
 
 	#endregion
@@ -391,10 +393,10 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		List<CardInfo> deckCopy = new List<CardInfo>(RunState.Run.playerDeck.Cards);
 		deckCopy.RemoveAll(
 			card => card.Abilities.Count == 5
-			        || card.HasAbility(SkinCrawler.ability)
-			        || card.SpecialAbilities.Contains(SpecialTriggeredAbility.RandomCard)
-			        || card.traits.Contains(Trait.Pelt)
-			        || card.traits.Contains(Trait.Terrain)
+							|| card.HasAbility(SkinCrawler.ability)
+							|| card.SpecialAbilities.Contains(SpecialTriggeredAbility.RandomCard)
+							|| card.traits.Contains(Trait.Pelt)
+							|| card.traits.Contains(Trait.Terrain)
 		);
 
 		return deckCopy;
@@ -417,7 +419,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		ViewManager.Instance.OffsetPosition(new Vector3(0f, 0f, 2.25f), 0.1f);
 		yield return new WaitForSeconds(1f);
 
-		figurines.ForEach(delegate(CompositeFigurine x) { x.gameObject.SetActive(true); });
+		figurines.ForEach(delegate (CompositeFigurine x) { x.gameObject.SetActive(true); });
 
 		stakeRingParent.SetActive(true);
 		ExplorableAreaManager.Instance.HandLight.gameObject.SetActive(true);
@@ -456,12 +458,12 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		yield return pile.DestroyCards();
 		yield return new WaitForSeconds(0.2f);
 
-		figurines.ForEach(delegate(CompositeFigurine x) { x.gameObject.SetActive(false); });
+		figurines.ForEach(delegate (CompositeFigurine x) { x.gameObject.SetActive(false); });
 
 		stakeRingParent.SetActive(false);
 		confirmStone.SetStoneInactive();
 		selectionSlot.gameObject.SetActive(false);
-		
+
 		_lever.ResetRisk();
 
 		CustomCoroutine.WaitThenExecute(
@@ -532,7 +534,7 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 		var positionCopy = confirmStoneButton.position;
 		confirmStoneButton.position = new Vector3(positionCopy.x, positionCopy.y, -0.5f);
 
-		newSequencer.figurines = new List<CompositeFigurine>{ CreateElectricChair(cardStatObj) };
+		newSequencer.figurines = new List<CompositeFigurine> { CreateElectricChair(cardStatObj) };
 
 		newSequencer.pile = oldSequencer.pile;
 		newSequencer.pile.cardbackPrefab = AssetConstants.GrimoraCardBack;

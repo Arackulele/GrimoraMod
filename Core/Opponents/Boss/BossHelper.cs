@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -9,10 +9,10 @@ public static class BossHelper
 	{
 		{ KayceeBossOpponent.FullOpponent.Id, AssetConstants.BossSkullKaycee },
 		{ SawyerBossOpponent.FullOpponent.Id, AssetConstants.BossSkullSawyer },
-		{ RoyalBossOpponentExt.FullOpponent.Id, AssetConstants.BossSkullRoyal },
+		{ RoyalBossOpponentExt.FullOpponent.Id, AssetConstants.BossSkullRoyal }
 	};
 
-	public static readonly Dictionary<string, Tuple<System.Type, GameObject, EncounterBlueprintData>>
+	public static Dictionary<string, Tuple<System.Type, GameObject, EncounterBlueprintData>>
 		OpponentTupleBySpecialId = new()
 		{
 			{
@@ -47,4 +47,5 @@ public static class BossHelper
 				)
 			}
 		};
+
 }

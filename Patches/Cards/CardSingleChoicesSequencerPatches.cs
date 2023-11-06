@@ -62,7 +62,7 @@ public class CardSingleChoicesSequencerPatches
 			if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.WiltedClover))
 			{
 				ChallengeActivationUI.TryShowActivation(ChallengeManagement.WiltedClover);
-				wiltedClover = GameObject.Instantiate(GrimoraPlugin.kopieGameObjects.Find(g=>g.name.Contains("Cloverprefab")));
+				wiltedClover = GameObject.Instantiate(GrimoraPlugin.NewObjects.Find(g=>g.name.Contains("Cloverprefab")));
 				while (choices.Count > 2) choices.Remove(choices[choices.Count - 1]);
 			}
 				

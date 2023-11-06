@@ -45,7 +45,7 @@ public class Trowel : GrimoraTargetSlotItem
 	public override IEnumerator OnValidTargetSelected(CardSlot target, GameObject firstPersonItem)
 	{
 
-		List<String> PossibleCards = new List<String> { NameKennel, NameKennel, NameObol, NameObol, NameDeadTree, NameDeadTree, NameShipwreck, NameShipwreck, NameGravedigger, NameSkeleton };
+		List<String> PossibleCards = new List<String> { NameKennel, NameObol, NameDeadTree, NameDeadTree, NameShipwreck, NameShipwreck, NameGravedigger, NameSkeleton, NameObelisk, NameObelisk, NameVoodooDoll, NameVoodooDoll };
 
 		yield return new WaitForSeconds(0.1f);
 
@@ -53,7 +53,7 @@ public class Trowel : GrimoraTargetSlotItem
 
 		ViewManager.Instance.SwitchToView(View.BoneTokens, lockAfter: false);
 		yield return new WaitForSeconds(0.4f);
-		yield return ResourcesManager.Instance.AddBones(UnityEngine.Random.Range(1, 5));
+		yield return ResourcesManager.Instance.AddBones(UnityEngine.Random.Range(1, 3));
 		yield return new WaitForSeconds(0.4f);
 
 		ViewManager.Instance.SetViewUnlocked();
@@ -69,7 +69,7 @@ public class Trowel : GrimoraTargetSlotItem
 		Debug.Log("Added Embalming Fluid");
 
 		Texture2D HahaL = new Texture2D(70, 80);
-		ConsumableItemData data = ConsumableItemManager.New(GUID, "Trowel", "You can dig up some Bones and Cards with this Trowel.", HahaL, typeof(Trowel), Model)
+		ConsumableItemData data = ConsumableItemManager.New(GUID, "Trowel", "You can dig up some Bones and Cards with this Trowel, though dont expect too much.", HahaL, typeof(Trowel), Model)
 							.SetLearnItemDescription("Digs for treasure, or Terrain. And get some Bones too for your efforts.");
 		data.rulebookCategory = AbilityMetaCategory.GrimoraRulebook;
 

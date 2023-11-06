@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3530034111
+CRC: 3584222337
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 1416022c61a5258fefae4f265a2970d8
+    Hash: 278732f4478b2880cde957b8d2e689c0
   TypeTreeHash:
     serializedVersion: 2
     Hash: ae8a383304a1d683486d2f5bd1396001
@@ -58,7 +58,6 @@ Assets:
 - Assets/Items/Hands_Low_defaultMat1_normal.png
 - Assets/Items/EmbalmingFluid/Embalming_Fluid_Prefab.prefab
 - Assets/Models/newEnergyCell/Particles/GrimoraMats/Grimora_BrickWall.mat
-- Assets/Abilities/Particles/CardFire.prefab
 - Assets/Items/Meat_Raw_001_albedo.jpg
 - Assets/Models/AnkhGuard/EnchantressMat.mat
 - Assets/Items/Mallet/Wood_plancks_004_SPEC.jpg
@@ -145,6 +144,7 @@ Assets:
 - Assets/Items/Mallet/Organic_matter_001_DISP.png
 - Assets/Items/Mallet/Wood_plancks_004_NRM.jpg
 - Assets/Models/kaycee/BlizzardParticlesFire/FireParticlesFromAwesomeHitModFnafMod/Materials/MAT_Glow.mat
+- Assets/Abilities/Particles/OldWitch.prefab
 - Assets/Items/GlassBottle_Cork_Normal.png
 - Assets/Items/BottleGlass.mat
 - Assets/Items/EmbalmingFluid/Glass.mat
@@ -221,17 +221,20 @@ Assets:
 - Assets/Items/EmbalmingFluid/GlassNormal.png
 - Assets/Items/Mallet/Wood_plancks_004_OCC.jpg
 - Assets/Models/newEnergyCell/Particles/StarSurroundingBlackMat.mat
+- Assets/Abilities/Particles/fire_red.png
 - Assets/Items/Mallet/OldSeptember.fbx
 - Assets/Items/Hands_Low_defaultMat1_albedo.jpg
 - Assets/Models/AnkhGuard/AnkhChest/PBSShader_height.png
 - Assets/Items/Horn/ram_skull_COLOUR_2K.png
 - Assets/Items/Mallet/Wood_plancks_004_COLOR.jpg
 - Assets/Abilities/Particles/Grimora_KCFlames.mat
+- Assets/Abilities/Particles/BewitchedSlot.prefab
 - Assets/Items/StoneMarbleCalacatta004_GLOSS_1K.jpg
 - Assets/Models/newEnergyCell/Particles/Emerald/EmeraldMat.mat
 - Assets/Items/Mallet/Organic_matter_001_albedo.jpg
 - Assets/Models/AnkhGuard/sarctex.png
 - Assets/Models/kaycee/cevinsnow/SnowParticles.prefab
+- Assets/Abilities/Particles/CardFire.prefab
 - Assets/Items/Femur/BoneLordFemur.fbx
 - Assets/Models/AnkhGuard/AnkhChest/PBSShader_albedo.png
 - Assets/Items/StoneMarbleCalacatta004_NRM_1K.jpg

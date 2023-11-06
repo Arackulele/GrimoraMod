@@ -199,7 +199,31 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		}
 	}
 
-	public override bool RespondsToOtherCardDie(
+		public override bool RespondsToOtherCardPreDeath(CardSlot deathSlot, bool fromCombat, PlayableCard killer)
+		{
+		if (TurnManager.Instance.Opponent.NumLives < 3) return true;
+		else return false;
+		}
+
+		public override IEnumerator OnOtherCardPreDeath(CardSlot deathSlot, bool fromCombat, PlayableCard killer)
+		{
+		CardModificationInfo removetrap = new CardModificationInfo()
+		{
+			negateAbilities = new List<Ability>() { Ability.SteelTrap }
+		};
+
+		if (deathSlot.Card.HasAbility(Ability.SteelTrap))
+		{
+			yield return TextDisplayer.Instance.ShowThenClear("SUCH A SMALL TRAP CANNOT AFFECT GIANTS.", 2f);
+
+			deathSlot.Card.AddTemporaryMod(removetrap);
+			deathSlot.Card.Anim.StrongNegationEffect();
+		}
+
+		yield break;
+		}
+
+		public override bool RespondsToOtherCardDie(
 		PlayableCard card,
 		CardSlot deathSlot,
 		bool fromCombat,
@@ -208,7 +232,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 	{
 		bool isPhaseOne = card.IsPlayerCard() && TurnManager.Instance.Opponent.NumLives == 3;
 
-		if (TurnManager.Instance.Opponent.NumLives == 1) return true;
+		if (TurnManager.Instance.Opponent.NumLives < 3) return true;
 		else return isPhaseOne;
 	}
 
@@ -253,7 +277,8 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		else
 		{
 
-			if (card.name == NameBonelord) validfordarkslope = false;
+			if (card.Info.bonesCost == 666) validfordarkslope = false;
+
 
 		}
 	}

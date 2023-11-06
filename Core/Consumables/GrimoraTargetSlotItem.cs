@@ -31,10 +31,10 @@ public class GrimoraTargetSlotItem : TargetSlotItem
 	public override IEnumerator ActivateSequence()
 	{
 
-		if (this is Mallet) GrimoraFirstPersonPrefab = kopieGameObjects.Find(g => g.name.Contains("MalletPrefabFirstPerson"));
-		else if (this is Trowel) GrimoraFirstPersonPrefab = kopieGameObjects.Find(g => g.name.Contains("TrowelPrefabFirstPerson"));
-		else if (this is Quill) GrimoraFirstPersonPrefab = kopieGameObjects.Find(g => g.name.Contains("QuillPrefabFirstPerson"));
-		else if (this is EmbalmingFluid) GrimoraFirstPersonPrefab = kopieGameObjects.Find(g => g.name.Contains("EmbalmingFluidPrefabFirstPerson"));
+		if (this is Mallet) GrimoraFirstPersonPrefab = NewObjects.Find(g => g.name.Contains("MalletPrefabFirstPerson"));
+		else if (this is Trowel) GrimoraFirstPersonPrefab = NewObjects.Find(g => g.name.Contains("TrowelPrefabFirstPerson"));
+		else if (this is Quill) GrimoraFirstPersonPrefab = NewObjects.Find(g => g.name.Contains("QuillPrefabFirstPerson"));
+		else if (this is EmbalmingFluid) GrimoraFirstPersonPrefab = NewObjects.Find(g => g.name.Contains("EmbalmingFluidPrefabFirstPerson"));
 		PlayExitAnimation();
 		yield return new WaitForSeconds(0.1f);
 		Singleton<UIManager>.Instance.Effects.GetEffect<EyelidMaskEffect>().SetIntensity(0.6f, 0.2f);

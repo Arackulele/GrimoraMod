@@ -32,7 +32,12 @@ public class ShipBottle : ConsumableItem
 		{
 			List<String> PirateNames = new List<String> { "Browntooth Barrie", "Bonnie Splinter", "Freebooter Bethel", "Crazy Oakes Hayward", "Ashton Swabby", "Plankton Braxton", "Yeller-eye Colby", "Fishwife Nate", "Four-finger Fred", "Dawg Julie", "Wicked Jones", "Crabby Steele" };
 			CardInfo NewSkeleton = CardLoader.GetCardByName(NameSkeleton);
-			NewSkeleton.displayedName = PirateNames.GetRandomItem();
+
+			String namepick = PirateNames.GetRandomItem();
+
+			PirateNames.Remove(namepick);
+
+			NewSkeleton.displayedName = namepick;
 			yield return Singleton<BoardManager>.Instance.CreateCardInSlot(NewSkeleton, cardSlot, 0.25f, true);
 			yield return new WaitForSeconds(0.1f);
 		}

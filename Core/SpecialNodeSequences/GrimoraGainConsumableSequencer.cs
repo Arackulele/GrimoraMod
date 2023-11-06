@@ -24,7 +24,7 @@ public class GrimoraGainConsumableSequencer : GainConsumablesSequencer
 			SpecialNodeHandler.Instance.transform
 		);
 
-		PharaoChest = GameObject.Instantiate(GrimoraPlugin.kopieGameObjects.Find(g => g.name.Contains("PharaoChestPrefab")));
+		PharaoChest = GameObject.Instantiate(GrimoraPlugin.NewObjects.Find(g => g.name.Contains("PharaoChestPrefab")));
 		cardRemoveSequencerObj.name = "CardRemoveSequencer_Grimora";
 
 		var oldSequence = cardRemoveSequencerObj.GetComponent<GainConsumablesSequencer>();

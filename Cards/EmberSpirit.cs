@@ -16,7 +16,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(1, 3)
 			.SetDescription("A TRICKSTER SPIRIT FLEEING AND LEAVING BEHIND ITS FLAMES.")
 			.SetEnergyCost(6)
-			.SetNames(NameEmberSpirit, "Spirit of Ember")
+			.SetNames(NameEmberSpirit, "Ember Spirit")
 			.Build();
 		}
 		else
@@ -26,7 +26,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(1, 3)
 			.SetDescription("A TRICKSTER SPIRIT FLEEING AND LEAVING BEHIND ITS FLAMES.")
 			.SetEnergyCost(6)
-			.SetNames(NameEmberSpirit, "Spirit of Ember")
+			.SetNames(NameEmberSpirit, "Ember Spirit")
 			.Build();
 		}
 	}

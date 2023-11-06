@@ -59,6 +59,8 @@ public class BaseGameFlowManagerPatches
 
 		GrimoraCardRemoveSequencer.CreateSequencerInScene();
 
+		//GoatEyeSequencer.CreateSequencerInScene();
+
 		GrimoraGainConsumableSequencer.CreateSequencerInScene();
 
 		GrimoraItemsManagerExt.CreateHammerSlot();

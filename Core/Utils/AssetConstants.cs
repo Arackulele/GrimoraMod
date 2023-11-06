@@ -69,18 +69,18 @@ public static class AssetConstants
 
 	public static GameObject CardRemovalFigurine => AssetUtils.GetPrefab<GameObject>("ChessboardPiece_CardRemove");
 	
-	public static GameObject GoatEyeFigurine => GrimoraPlugin.kopieGameObjects.Find(g => g.name.Contains("AnkhGuardPrefab"));
+	public static GameObject AnkhGuardFigurine => GrimoraPlugin.NewObjects.Find(g => g.name.Contains("AnkhGuardPrefab"));
 
-	public static GameObject GainConsumable => GrimoraPlugin.kopieGameObjects.Find(g => g.name.Contains("SarcophagusPrefab"));
+	public static GameObject GainConsumable => GrimoraPlugin.NewObjects.Find(g => g.name.Contains("SarcophagusPrefab"));
 
-	public static GameObject GhostBottle => kopieGameObjects.Find(g => g.name.Contains("soul"));
+	public static GameObject GhostBottle => NewObjects.Find(g => g.name.Contains("soul"));
 
 	#endregion
 
 
 	#region Boneyard
 
-	public static GameObject BoneyardGrave => GrimoraPlugin.kopieGameObjects.Find(g => g.name.Contains("BoneyardBurialGraveNe"));
+	public static GameObject BoneyardGrave => GrimoraPlugin.NewObjects.Find(g => g.name.Contains("BoneyardBurialGraveNe"));
 
 
 	public static Material OldBoneyardSlot => AssetUtils.GetPrefab<Material>("Boneyard_SelectionSlot");
@@ -130,7 +130,7 @@ public static class AssetConstants
 
 	#region Skulls
 
-	public static GameObject BossSkullKaycee => kopieGameObjects.Find(g => g.name.Contains("KayceeBossSkull"));
+	public static GameObject BossSkullKaycee => NewObjects.Find(g => g.name.Contains("KayceeBossSkull"));
 
 	public static GameObject BossSkullSawyer => AssetUtils.GetPrefab<GameObject>("SawyerBossSkull");
 

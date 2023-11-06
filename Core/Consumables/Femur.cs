@@ -32,7 +32,7 @@ public class BoneLordsFemur : ConsumableItem
 				i.Card.AddTemporaryMod(mod);
 				i.Card.Anim.PlayTransformAnimation();
 			yield return new WaitForSeconds(0.25f);
-				ResourcesManager.Instance.AddBones(1);
+			yield return ResourcesManager.Instance.AddBones(1);
 			}
 		}
 

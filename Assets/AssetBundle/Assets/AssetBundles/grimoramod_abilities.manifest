@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2132565289
+CRC: 478504435
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 95d8bcd323e6ab4ae207355512cd8d3e
+    Hash: 948b80fd7edf5bdbc204455cf1728dee
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7859cd501ea75098bcf7e53f1b477c26
@@ -38,9 +38,11 @@ Assets:
 - Assets/Abilities/ability_Looter.png
 - Assets/Abilities/ability_Imbued.png
 - Assets/Abilities/ability_Slasher.png
+- Assets/Abilities/ability_GainAttackCandy.png
 - Assets/Abilities/Achievements/achievement_lord.png
 - Assets/Abilities/ability_Bounty_0.png
 - Assets/Abilities/ability_Bounty_8.png
+- Assets/Abilities/ability_NegateFire.png
 - Assets/Abilities/ability_SpiritBearer.png
 - Assets/Abilities/ability_LatchShield.png
 - Assets/Abilities/Achievements/achievement_dance.png
@@ -54,6 +56,7 @@ Assets:
 - Assets/Abilities/ability_BuffSkeletonsSeaShanty.png
 - Assets/Abilities/ability_ColdFront.png
 - Assets/Abilities/ability_Bounty_4.png
+- Assets/Abilities/ability_DropCandy.png
 - Assets/Abilities/ability_ActivatedDealDamageGrimora.png
 - Assets/Abilities/ability_ActivatedGainEnergySoulSucker_1.png
 - Assets/Abilities/ability_GiantStrike.png

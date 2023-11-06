@@ -11,6 +11,8 @@ public static class BlueprintUtils
 {
 	#region BlueprintCardtranslation
 
+	public static readonly EncounterBlueprintData.CardBlueprint bp_CandyBucket = NameCandyBucket.CreateCardBlueprint();
+
 	public static readonly EncounterBlueprintData.CardBlueprint bp_HellHound = NameHellHound.CreateCardBlueprint();
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Bonehound = NameBonehound.CreateCardBlueprint();
@@ -218,8 +220,8 @@ public static class BlueprintUtils
 		blueprint.name = "AnkhGuard_Clawed";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_EgyptMummy },
-			new() { bp_EgyptMummy },
+			new() { bp_EgyptMummy, bp_Draugr },
+			new() { bp_EgyptMummy, bp_Obol },
 			new() ,
 			new() { bp_Ripper },
 			new() ,
@@ -274,7 +276,7 @@ public static class BlueprintUtils
 			new() ,
 			new() { bp_EgyptMummy },
 			new() ,
-			new() { bp_Boneless, bp_EgyptMummy },
+			new() { bp_Boneless, bp_Vampire },
 			new() ,
 			new() { bp_Boneless },
 			new() { bp_Eidolon },
@@ -296,7 +298,7 @@ public static class BlueprintUtils
 		blueprint.name = "AnkhGuard_Rush";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_EgyptMummy },
+			new() { bp_Project },
 			new() { bp_Eidolon },
 			new() ,
 			new() { bp_Boneless },
@@ -320,7 +322,7 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_MassGrave },
-			new() { bp_Zombie },
+			new() { bp_Zombie, bp_Wechuge },
 			new() ,
 			new() { bp_DeadPets },
 			new() { bp_MassGrave },
@@ -342,11 +344,11 @@ public static class BlueprintUtils
 		blueprint.name = "AnkhGuard_Lords";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Sarcophagus },
+			new() { bp_Sarcophagus, bp_Skeleton },
 			new() { bp_Boneclaw },
 			new() ,
 			new() ,
-			new() { bp_Sarcophagus },
+			new() { bp_Sarcophagus, bp_Skeleton },
 			new() ,
 			new() ,
 			new() { bp_Sarcophagus },
@@ -368,7 +370,7 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_EgyptMummy, bp_EgyptMummy },
-			new() { bp_Ripper, bp_EgyptMummy },
+			new() { bp_Revenant, bp_EgyptMummy },
 			new() ,
 			new() { bp_Ripper, bp_EgyptMummy },
 			new() ,
@@ -420,7 +422,6 @@ public static class BlueprintUtils
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_Boneless, bp_EgyptMummy },
-			new() ,
 			new() ,
 			new() { bp_Manananggal },
 			new() ,
@@ -1685,7 +1686,33 @@ public static class BlueprintUtils
 	{
 		var blueprint = ScriptableObject.CreateInstance<EncounterBlueprintData>();
 		blueprint.name = "Sawyer_Boss";
-		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+
+		//Sawy-O-Ween
+		if (System.DateTime.Now.ToString("yyyy.MM.dd").Contains("10.31") || System.DateTime.Now.ToString("yyyy.MM.dd").Contains("11.01"))
+		{
+			blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
+		{
+			new() { bp_CandyBucket, bp_Flameskull },
+			new() { bp_Vampire },
+			new() { bp_Zombie },
+			new(),
+			new() { bp_CandyBucket, bp_CandyBucket },
+			new() { bp_Zombie },
+			new() { bp_CandyBucket },
+			new(),
+			new() { bp_CandyBucket },
+			new(),
+			new() { bp_FrankAndStein },
+			new() { bp_CandyBucket, bp_CandyBucket, bp_Flameskull },
+			new(),
+			new() { bp_CandyBucket, bp_EmberSpirit },
+			new() { bp_Vampire },
+			new() { bp_Zombie },
+			new() { bp_Ripper },
+		};
+
+		}
+		else	blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_Bonehound, bp_Zombie },
 			new(),
@@ -1703,6 +1730,7 @@ public static class BlueprintUtils
 
 		return blueprint;
 	}
+
 
 	public static EncounterBlueprintData BuildSawyerRegionBlueprintOne()
 	{

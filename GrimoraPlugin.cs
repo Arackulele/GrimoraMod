@@ -164,7 +164,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 
 
-	internal static List<GameObject> kopieGameObjects = new List<GameObject>();
+	internal static List<GameObject> NewObjects = new List<GameObject>();
 	private void LoadAssetsSync()
 	{
 
@@ -199,8 +199,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AllSprites.AddRange(kopieSprites);
 
 		AllPrefabs.AddRange(grimora_new_prefabs);
-		kopieGameObjects.AddRange(kopiePrefabs);
-		kopieGameObjects.AddRange(grimora_new_prefabs);
+		NewObjects.AddRange(kopiePrefabs);
+		NewObjects.AddRange(grimora_new_prefabs);
 	}
 
 	private IEnumerator LoadAssetsAsync()
@@ -284,6 +284,11 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Card_Gravedigger();               // vanilla
 		Add_Card_Hellhand();                  // Bt Y#0895
 		Add_Card_HellHound();                 // Cevin2006™ (◕‿◕)#7971
+
+		//Hellhound halloween
+		Add_Card_CandyMonster();
+		Add_Card_CandyBucket();
+
 		Add_Card_HauntedMirror();							// Bt Y#0895
 		Add_Card_Jikininki();                 // Bt Y#0895
 		Add_Card_Kennel();                    // Bt Y#0895
@@ -305,10 +310,11 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Card_Skelemagus();                // Cevin2006™ (◕‿◕)#7971
 		Add_Card_Sluagh();                    // Bt Y#0895
 		Add_Card_Spectrabbit();               // Bt Y#0895
-		Add_Card_Spectre();                    // Bt Y#0895
+		Add_Card_Spectre();                   // Bt Y#0895
 		Add_Card_Summoner();                  // Cevin2006™ (◕‿◕)#7971
 		Add_Card_TamperedCoffin();            // Bt Y#0895
 		Add_Card_TombRobber();                // LavaErrorDoggo#1564
+		Add_Card_Urn();                       // Bt Y#0895
 		Add_Card_Vampire();                   // gabe
 		Add_Card_Vellum();                    // Bt Y#0895
 		Add_Card_VengefulSpirit();            // Cevin2006™ (◕‿◕)#7971
@@ -436,23 +442,23 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	private void LoadItems()
 	{
 
-		GameObject UrnModel = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("UrnPrefab")));
+		GameObject UrnModel = GameObject.Instantiate(NewObjects.Find(g => g.name.Contains("UrnPrefab")));
 
-		GameObject HornModel = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("BoneLordsHornPrefab")));
+		GameObject HornModel = GameObject.Instantiate(NewObjects.Find(g => g.name.Contains("BoneLordsHornPrefab")));
 
-		HandModel = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("HandPrefab")));
+		HandModel = GameObject.Instantiate(NewObjects.Find(g => g.name.Contains("HandPrefab")));
 
-		GameObject TrowelModel = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("TrowelPrefab")));
+		GameObject TrowelModel = GameObject.Instantiate(NewObjects.Find(g => g.name.Contains("TrowelPrefab")));
 
-		GameObject EmbalmModel = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("Embalming_Fluid_Prefab")));
+		GameObject EmbalmModel = GameObject.Instantiate(NewObjects.Find(g => g.name.Contains("Embalming_Fluid_Prefab")));
 
-		GameObject ShipBottlePrefab = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("ShipBottlePrefab")));
+		GameObject ShipBottlePrefab = GameObject.Instantiate(NewObjects.Find(g => g.name.Contains("ShipBottlePrefab")));
 
-		GameObject QuillPrefab = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("QuillPrefab")));
+		GameObject QuillPrefab = GameObject.Instantiate(NewObjects.Find(g => g.name.Contains("QuillPrefab")));
 
-		GameObject MalletPrefab = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("MalletPrefab")));
+		GameObject MalletPrefab = GameObject.Instantiate(NewObjects.Find(g => g.name.Contains("MalletPrefab")));
 
-		FemurModel = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("FemurPrefab")));
+		FemurModel = GameObject.Instantiate(NewObjects.Find(g => g.name.Contains("FemurPrefab")));
 
 		GrimoraCardInABottle.CreateModel();
 		AllGrimoraItems.Add(GrimoraCardInABottle.NewCardBottleItem(NameRevenant));
@@ -615,7 +621,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		 .Build();
 
 		CardBuilder.Builder
-		 .SetAbilities(Haunter.ability, AlternatingStrike.ability)
+		 .SetAbilities(Haunter.ability, Ability.IceCube, Ability.LatchBrittle)
 		 .SetBaseAttackAndHealth(1, 2)
 		 .SetNames($"{GUID}_!BLOCKER","I am going to", trapInfo.portraitTex)
 		 .Build();

@@ -12,15 +12,20 @@ public class Burning : AbilityBehaviour
 
 	public override Ability Ability => ability;
 
-
-	public static void tryburningcard(Card card,  string FireParticles)
+	public static void tryburningcard(Card card,  string FireParticles, bool removeFire = false)
 	{
+		GameObject cardfire;
 		if (card.transform.Find(FireParticles) == null)
 		{
-			GameObject cardfire = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains(FireParticles)));
+			cardfire = GameObject.Instantiate(NewObjects.Find(g => g.name.Contains(FireParticles)));
 			cardfire.transform.parent = card.transform;
 			//need to set the position again because of weird card transforms
 			cardfire.transform.localPosition = new Vector3(-0.0836f, 0, 0);
+		}
+
+		if (removeFire)
+		{
+			GameObject.Destroy(GameObject.Find("CardFire(Clone)"));
 		}
 	}
 
@@ -39,6 +44,7 @@ public override bool RespondsToDealDamage(int amount, PlayableCard target) => Ca
 	{
 		return true;
 	}
+
 
 	public override IEnumerator OnResolveOnBoard()
 	{
@@ -88,6 +94,7 @@ public override bool RespondsToDealDamage(int amount, PlayableCard target) => Ca
 		}
 		yield break;
 	}
+
 }
 
 

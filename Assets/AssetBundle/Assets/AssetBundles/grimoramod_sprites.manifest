@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2414143395
+CRC: 2040143360
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 212a78bd436125e4ffade0eaa12ce867
+    Hash: 57cb614d5e54782bdb6d97df7e47d7e9
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -23,6 +23,7 @@ Assets:
 - Assets/Cards/Dybbuk_emission.png
 - Assets/Cards/Fylgja_WardingPresence_emission.png
 - Assets/Cards/Centurion.png
+- Assets/Cards/Candy/CandyBucket2.png
 - Assets/Cards/Deadeye.png
 - Assets/Cards/Obol_emission.png
 - Assets/Cards/Wechuge.png
@@ -62,6 +63,7 @@ Assets:
 - Assets/Cards/GreaterAshes_emission.png
 - Assets/Cards/PirateDavyJones.png
 - Assets/Cards/Nosferat_emission.png
+- Assets/Cards/Candy/CandyBucket1.png
 - Assets/Cards/WillOTheWisp.png
 - Assets/Cards/Silbon_emission.png
 - Assets/Cards/BonePrince_emission.png
@@ -92,6 +94,7 @@ Assets:
 - Assets/Cards/PirateCaptainYellowbeard_emission.png
 - Assets/Cards/Deadeye_emission.png
 - Assets/Cards/Wyvern.png
+- Assets/Cards/Candy/CandyBucket.png
 - Assets/Cards/Draugr_emission.png
 - Assets/Menu/MenuCard_Grimora.png
 - Assets/Cards/Terrain/Avalanche.png
@@ -166,11 +169,13 @@ Assets:
 - Assets/Cards/PiratePrivateer.png
 - Assets/Cards/Nixie_emission.png
 - Assets/Cards/Warthr_emission.png
+- Assets/Cards/Candy/CandyBucket_emission.png
 - Assets/Menu/MenuCard_ResetRun.png
 - Assets/Cards/Vampire.png
 - Assets/Cards/Terrain/Voodoo_Doll.png
 - Assets/Cards/Summoner.png
 - Assets/Cards/Doll.png
+- Assets/Cards/urn.png
 - Assets/Cards/Manananggal_emission.png
 - Assets/Cards/Family.png
 - Assets/Cards/SkeletonArmy.png
@@ -228,9 +233,11 @@ Assets:
 - Assets/Cards/Project.png
 - Assets/Cards/Draugr.png
 - Assets/Cards/CompoundFracture_emission.png
+- Assets/Cards/CandyMonster_emission.png
 - Assets/Cards/Warthr.png
 - Assets/Cards/HeadlessHorseman.png
 - Assets/Cards/LesserAshes.png
+- Assets/Cards/Candy/CandyBucket2_emission.png
 - Assets/Cards/Ripper.png
 - Assets/Cards/Flameskull_emission.png
 - Assets/Cards/boneclaw_emission.png
@@ -252,12 +259,14 @@ Assets:
 - Assets/Cards/Eidolon_emission.png
 - Assets/Cards/WillOTheWisp_emission.png
 - Assets/Cards/Bonepile.png
+- Assets/Cards/Candy/CandyBucket1_emission.png
 - Assets/Cards/SkeletonArmy_emission.png
 - Assets/Cards/Sporedigger_emission.png
 - Assets/Cards/Starvation_emission.png
 - Assets/Cards/Bonelord.png
 - Assets/Cards/Skelemaniac.png
 - Assets/Cards/Necromancer.png
+- Assets/Cards/CandyMonster.png
 - Assets/Cards/DeadHand_emission.png
 - Assets/Cards/TombRobber.png
 - Assets/Cards/CalaveraCatrina.png

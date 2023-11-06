@@ -64,9 +64,19 @@ public class Puppeteer : AbilityBehaviour
 		 .GetSlots(Card.IsPlayerCard())
 		 .GetCards(CardHasBeenPuppeteered);
 
-		foreach (var card in cardsThatHadBrittle)
+		bool otherPuppeteer = false;
+
+		foreach (var card in BoardManager.Instance.GetSlots(Card.IsPlayerCard()).GetCards())
 		{
-			yield return AddBrittleBack(card);
+			if (card.HasAbility(Puppeteer.ability)) otherPuppeteer = true;
+		}
+
+		if (otherPuppeteer == false)
+		{
+			foreach (var card in cardsThatHadBrittle)
+			{
+				yield return AddBrittleBack(card);
+			}
 		}
 	}
 

@@ -6,7 +6,11 @@ using GrimoraMod.Saving;
 using InscryptionAPI.Card;
 using InscryptionAPI.Encounters;
 using InscryptionAPI.Helpers.Extensions;
+using Steamworks;
 using UnityEngine;
+using UnityEngine.Experimental.AI;
+using UnityEngine.UI;
+using static GrimoraMod.GravestoneRenderStatsLayerPatches;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -33,476 +37,470 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 		return data;
 	}
 
-	//type 0: OnTurnEnd
-	//type 1: OnCardPlayed
-	//type 2: DamageAddedToScale
-	//type 3: OnCardDie
-	//type 4: On attack ended
-	private static int Ruletype;
+	//type 0: Sandstorm ( The rightmost Card on each Side will take 1 damage at the end of grimoras turn )
+	//type 1: Heatwave ( burning, water urns )
+	//type 2: Overgrowth ( dead tree is placed on a random space on both sides at the end of grimoras turn, dead trees will not spawn if there is only one open slot left on the side )
+	//type 3: Witching Hour ( 1 slot one ach side becomes enchanted )
+	//type 4: Witches Cauldron ( After attacking phase, 2 cards swap places )
+	//type 5: Night of the living dead ( Energy/Bone cost swap )
+	//type 6: Zombie Invasion ( every card becomes 1/1 for 2 bones )
+	//type 7: Haunted Grounds ( every card except skeletons get haunter )
+	//type 8: Great Flood ( middle and then outer slots become waterlogged )
+	private static int CurrentEnv;
 
-	//effect 0: 1 Damage gets added to your scale, one of your cards gains 1 attack
-	//effect 1: 1 Damage gets added to your scale, one opponent card looses 1 attack
-	//effect 2: Opponent Cards heal 1 Attack, you get 1 Bone
-	//effect 3: Opponent Cards gain 1 Hp, you get 1 Soul
-	//effect 4: All Cards in play get a random Sigil
-	//effect 5: All Cards in play get 1 sigil removed
-	//effect 6: A Zombie gets played on a random slot
-	//effect 7: Opponent plays (the walkers, boneheap, skeleton or revenant)
 
-	private static int RuleEffect;
-
-	private IEnumerator Effect0()
+	private IEnumerator Effect0(bool forenemy)
 	{
 
 		Debug.Log("Triggering Effect0");
+		List<CardSlot> validslots;
 
-		if (!AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.EasyGuards)) yield return Singleton<LifeManager>.Instance.ShowDamageSequence(1, 1, true);
+		if (!forenemy) validslots = Singleton<BoardManager>.Instance.playerSlots;
+		else validslots = Singleton<BoardManager>.Instance.opponentSlots;
 
-		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.playerSlots);
+		float largestdistance = 0;
 
-		List<CardSlot> slotsfull = new List<CardSlot>();
+		PlayableCard targetselect = null;
 
-		CardModificationInfo cardModificationInfo = new CardModificationInfo
-		{
-			attackAdjustment = 1
-		};
-
-		foreach (var i in slots)
-		{
-			if (i.Card != null && !i.Card.Dead)
+			foreach (CardSlot slot in validslots)
 			{
-				slotsfull.Add(i);
+				if (slot && slot.Card)
+				{
+					float dist = Vector2.Distance(validslots.First().transform.position, slot.Card.transform.position);
+					if (dist > largestdistance)
+					{
+						targetselect = slot.Card;
+						largestdistance = dist;
+					}
+				}
 			}
-		}
 
+		if (targetselect != null && !targetselect.Dead) yield return targetselect.TakeDamage(1, null);
 
-
-		if (slotsfull.Count > 0)
-		{
-			CardSlot chosenslot = slotsfull.GetRandomItem();
-			if (chosenslot.Card != null && !chosenslot.Card.Dead)
-			{
-				chosenslot.Card.AddTemporaryMod(cardModificationInfo);
-				chosenslot.Card.OnStatsChanged();
-			}
-		}
-
+		yield break;
 	}
 
-	private IEnumerator Effect1()
+	private IEnumerator Effect1(bool forenemy)
 	{
-
 		Debug.Log("Triggering Effect1");
 
-		if (!AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.EasyGuards)) yield return Singleton<LifeManager>.Instance.ShowDamageSequence(1, 1, true);
 
-		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.opponentSlots);
-
-		List<CardSlot> slotsfull = new List<CardSlot>();
-
-		CardModificationInfo cardModificationInfo = new CardModificationInfo
-		{
-			attackAdjustment = -1
-		};
-
-		foreach (var i in slots)
-		{
-			if (i.Card != null && !i.Card.Dead)
-			{
-				slotsfull.Add(i);
-			}
-		}
-
-
-
-		if (slotsfull.Count > 0)
-		{
-			CardSlot chosenslot = slotsfull.GetRandomItem();
-			if (chosenslot.Card != null && !chosenslot.Card.Dead )
-			{
-				chosenslot.Card.AddTemporaryMod(cardModificationInfo);
-				chosenslot.Card.OnStatsChanged();
-			}
-		}
-
+		yield break;
 	}
 
-	private IEnumerator Effect2()
+		private IEnumerator Effect2(bool forenemy)
 	{
-
 		Debug.Log("Triggering Effect2");
+		bool safe = false;
+		List<CardSlot> validslots;
 
-		if (!AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.EasyGuards))
-		{
+		if (!forenemy) validslots = Singleton<BoardManager>.Instance.playerSlots;
+		else validslots = Singleton<BoardManager>.Instance.opponentSlots;
+		List<CardSlot> slotsempty = new List<CardSlot>();
 
-			List<CardSlot> slots = new(Singleton<BoardManager>.Instance.opponentSlots);
-
-
-			CardModificationInfo cardModificationInfo = new CardModificationInfo
+			foreach (var i in validslots)
 			{
-				attackAdjustment = 1
-			};
-
-			foreach (var i in slots)
-			{
-				if (i.Card != null && !i.Card.Dead)
+				if (i.Card == null)
 				{
-					i.Card.AddTemporaryMod(cardModificationInfo);
-					i.Card.OnStatsChanged();
+					slotsempty.Add(i);
+					safe = true;
 				}
 			}
+		if (slotsempty.Count < 2) safe = false;
+		if (safe == true) yield return Singleton<BoardManager>.Instance.CreateCardInSlot(CardLoader.GetCardByName(NameDeadTree), slotsempty.GetRandomItem(), 0.25f, true);
 
-		}
-
-		yield return ResourcesManager.Instance.AddBones(1);
-
-		yield return new WaitForSeconds(0.1f);
-
+		yield break;
 	}
 
-	private IEnumerator Effect3()
+	CardSlot p;
+
+	CardSlot e;
+
+	private IEnumerator Effect3SetUp()
 	{
+		Debug.Log("Triggering Effect3Setup");
 
-		Debug.Log("Triggering Effect3");
+		p = Singleton<BoardManager>.Instance.playerSlots.GetRandomItem();
+		yield return new WaitForSeconds(0.01f);
+		e = Singleton<BoardManager>.Instance.opponentSlots.GetRandomItem();
 
-		if (!AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.EasyGuards))
-		{
-			List<CardSlot> slots = new(Singleton<BoardManager>.Instance.opponentSlots);
+		p.SetColors(GameColors.instance.purple, GameColors.instance.lightPurple, GameColors.instance.brightNearWhite);
+		p.ShowState(p.currentState);
+		e.SetColors(GameColors.instance.purple, GameColors.instance.lightPurple, GameColors.instance.brightNearWhite);
+		e.ShowState(e.currentState);
 
+		GameObject bewitchp = GameObject.Instantiate(NewObjects.Find(g => g.name.Contains("BewitchedSlot")));
+		GameObject bewitche = GameObject.Instantiate(NewObjects.Find(g => g.name.Contains("BewitchedSlot")));
 
-			CardModificationInfo cardModificationInfo = new CardModificationInfo
-			{
-				healthAdjustment = 1
-			};
+		bewitchp.transform.parent = p.transform;
+		bewitchp.transform.localPosition = new Vector3(-0.0836f, 0, 0);
 
-			foreach (var i in slots)
-			{
-				if (i.Card != null && !i.Card.Dead)
-				{
-					i.Card.AddTemporaryMod(cardModificationInfo);
-					i.Card.OnStatsChanged();
+		bewitche.transform.parent = e.transform;
+		bewitche.transform.localPosition = new Vector3(-0.0836f, 0, 0);
 
-				}
-			}
-
-		}
-
-		yield return ResourcesManager.Instance.AddMaxEnergy(1);
-
-		yield return new WaitForSeconds(0.1f);
-
+		yield break;
 	}
 
-	private IEnumerator Effect4()
+	private IEnumerator Effect4(bool forenemy)
 	{
-		List<CardSlot> slots;
 		Debug.Log("Triggering Effect4");
 
-		if (!AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.EasyGuards)) slots = new(Singleton<BoardManager>.Instance.AllSlots);
-		else slots = new(Singleton<BoardManager>.Instance.playerSlots);
-		Ability chosen = AbilitiesChosenByRule5.GetRandomItem();
+		List<CardSlot> allslots;
 
-		CardModificationInfo cardModificationInfo = new CardModificationInfo
-		{
-			abilities = new List<Ability> { chosen }
-		};
+		List<CardSlot> validslots;
 
-		foreach (var i in slots)
+		if (!forenemy)
 		{
-			if (i.Card != null && i.Card.AllAbilities().Count < 5 && UnityEngine.Random.Range(0, 10) > 5)
-			{
-				i.Card.AddTemporaryMod(cardModificationInfo);
-				i.Card.OnStatsChanged();
-				i.Card.Anim.PlayTransformAnimation();
-			}
+			allslots = Singleton<BoardManager>.Instance.PlayerSlotsCopy;
+			validslots = Singleton<BoardManager>.Instance.PlayerSlotsCopy;
+		}
+		else
+		{
+			allslots = Singleton<BoardManager>.Instance.OpponentSlotsCopy;
+			validslots = Singleton<BoardManager>.Instance.OpponentSlotsCopy;
 		}
 
-		yield return new WaitForSeconds(0.1f);
+		foreach (var i in allslots)
+		{
+			if (i.Card == null || i.Card.HasAbility(Anchored.ability)) validslots.Remove(i);
+		}
 
+	  if(validslots.Count > 1)
+		{
+		PlayableCard swap1 = validslots.GetRandomItem().Card;
+		validslots.Remove(swap1.Slot);
+		yield return new WaitForSeconds(0.01f);
+		PlayableCard swap2 = validslots.GetRandomItem().Card;
+
+			if (swap1 != null && swap2 != null)
+			{
+				CardSlot temp = new CardSlot();
+				CardSlot OldPos2 = swap2.Slot;
+				CardSlot OldPos1 = swap1.Slot;
+				yield return Singleton<BoardManager>.Instance.AssignCardToSlot(swap2, OldPos1);
+				yield return Singleton<BoardManager>.Instance.AssignCardToSlot(swap1, OldPos2);
+			}
+
+		}
+
+		yield break;
 	}
 
-	public static readonly List<Ability> AbilitiesChosenByRule5 = new List<Ability>
+	private IEnumerator Effect5(PlayableCard C)
 	{
-		Ability.AllStrike,
-		Ability.DoubleDeath,
-		Ability.DoubleStrike,
-		Ability.ExplodeOnDeath,
-		Ability.GuardDog,
-		Ability.Strafe,
-		Ability.StrafePush,
-		Ability.StrafeSwap,
-		Ability.Submerge,
-		Ability.SwapStats,
-		Ability.TriStrike,
-		Ability.WhackAMole,
-		ActivatedDealDamageGrimora.ability,
-		Anchored.ability,
-		BloodGuzzler.ability,
-		FlameStrafe.ability,
-		Fylgja_GuardDog.ability,
-		InvertedStrike.ability,
-		MarchingDead.ability,
-		Possessive.ability,
-		Puppeteer.ability
-	};
-
-	private IEnumerator Effect5()
-	{
-
 		Debug.Log("Triggering Effect5");
 
-		List<CardSlot> slots;
-		if (!AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.EasyGuards)) slots = new(Singleton<BoardManager>.Instance.AllSlots);
-		else slots = new(Singleton<BoardManager>.Instance.opponentSlots);
+		int overflow = Math.Max(C.Info.BonesCost -6, 0);
 
-		foreach (var i in slots)
+		CardModificationInfo switchmod = new CardModificationInfo
 		{
-			if (i.Card!= null && !i.Card.Dead)
-			{
+			bonesCostAdjustment = (C.Info.EnergyCost + overflow) - C.Info.BonesCost,
+			energyCostAdjustment = Math.Min(C.Info.BonesCost - C.Info.EnergyCost, 6)
+		};
 
-
-				yield return i.Card.TakeDamage(1, null);
-
-
-			}
+		if (C.name != NameSkeleton)
+		{
+			C.AddTemporaryMod(switchmod);
+			yield return new WaitForSeconds(0.05f);
+			LiveUpdateEnergyDisplay(C);
 		}
 
-		yield return new WaitForSeconds(0.1f);
+		
 
+		yield break;
 	}
 
-	private IEnumerator Effect6()
+
+	private IEnumerator Effect6(PlayableCard C)
 	{
 		Debug.Log("Triggering Effect6");
 
-		List<CardSlot> slots;
-		if (!AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.EasyGuards)) slots = new(Singleton<BoardManager>.Instance.AllSlots);
-		else slots = new(Singleton<BoardManager>.Instance.playerSlots);
-
-		List<CardSlot> slotsempty = new List<CardSlot>();
-
-		foreach (var i in slots)
+		CardModificationInfo zombiemod = new CardModificationInfo
 		{
-			if (i.Card == null)
-			{
-				slotsempty.Add(i);
-			}
+			attackAdjustment = -(C.Attack - 1),
+			healthAdjustment = -(C.Health - 1),
+			bonesCostAdjustment = -(C.Info.BonesCost - 2),
+			energyCostAdjustment = -(C.Info.EnergyCost)
+		};
+
+		if (C.name != NameSkeleton)
+		{
+			C.AddTemporaryMod(zombiemod);
+			yield return new WaitForSeconds(0.05f);
+			LiveUpdateEnergyDisplay(C);
 		}
 
-		if (slotsempty != null && slotsempty.Count > 0) yield return Singleton<BoardManager>.Instance.CreateCardInSlot(CardLoader.GetCardByName(NameZombie), slotsempty.GetRandomItem(), 0.25f, true);
-
+		yield break;
 	}
 
-	private IEnumerator Effect7()
+	private IEnumerator Effect7(PlayableCard C)
 	{
 		Debug.Log("Triggering Effect7");
 
-		List<CardSlot> slots;
-		if (!AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.EasyGuards)) slots = new(Singleton<BoardManager>.Instance.OpponentSlotsCopy);
-		else slots = new(Singleton<BoardManager>.Instance.playerSlots);
-
-		List<CardSlot> slotsempty = new List<CardSlot>();
-
-		List<String> options = new List<String> { NameSkeleton, NameRevenant, NameFamily, NameBonepile };
-
-
-		foreach (var i in slots)
+		CardModificationInfo hauntedmod = new CardModificationInfo
 		{
-			if (i.Card == null)
-			{
-				slotsempty.Add(i);
-			}
+			abilities = new List<Ability>() { Haunter.ability }
+		};
+
+		if (C.LacksAbility(Ability.Brittle) && C != null && !C.Dead) C.AddTemporaryMod(hauntedmod);
+
+		yield break;
+	}
+
+	public List<CardSlot> CurrentWaterlog = new List<CardSlot>();
+
+	int cycle = 0;
+
+	private IEnumerator Effect8()
+	{
+		Debug.Log("Triggering Effect8");
+
+		if (cycle < 2)
+		{
+			cycle++;
+			CurrentWaterlog = new List<CardSlot>();
+		}
+		else if (cycle < 4)
+		{
+			cycle++;
+			CurrentWaterlog = new List<CardSlot>() {
+			Singleton<BoardManager>.Instance.OpponentSlotsCopy.First(), Singleton<BoardManager>.Instance.OpponentSlotsCopy.Last(),
+			Singleton<BoardManager>.Instance.PlayerSlotsCopy.First(), Singleton<BoardManager>.Instance.PlayerSlotsCopy.Last()
+		};
+		}
+		else if (cycle < 6)
+		{
+			cycle++;
+			CurrentWaterlog = new List<CardSlot>() {
+			Singleton<BoardManager>.Instance.OpponentSlotsCopy[1], Singleton<BoardManager>.Instance.OpponentSlotsCopy[2],
+			Singleton<BoardManager>.Instance.PlayerSlotsCopy[1], Singleton<BoardManager>.Instance.PlayerSlotsCopy[2]
+		};
+		}
+		else cycle = 0;
+
+		foreach (var i in CurrentWaterlog) 
+		{
+
+		i.SetColors(GameColors.instance.blue, GameColors.instance.brightBlue, GameColors.instance.brightNearWhite);
+
+			if (i.Card != null && CurrentWaterlog.Contains(i) && !i.Card.HasAbility(Ability.Submerge) && !i.Card.Dead && !i.Card.HasAbility(Ability.MadeOfStone)) yield return i.Card.Die(false, null);
 		}
 
-		if (slotsempty.Count > 0) yield return Singleton<BoardManager>.Instance.CreateCardInSlot(CardLoader.GetCardByName(options.GetRandomItem()), slotsempty.GetRandomItem(), 0.25f, true);
-
-	}
-
-	private IEnumerator DoEffect()
-	{
-
-		switch(RuleEffect)
+		foreach (var i in BoardManager.Instance.AllSlots)
 		{
-			case 0:
-				yield return Effect0();
-				break;
-			case 1:
-				yield return Effect1();
-				break;
-			case 2:
-				yield return Effect2();
-				break;
-			case 3:
-				yield return Effect3();
-				break;
-			case 4:
-				yield return Effect4();
-				break;
-			case 5:
-				yield return Effect5();
-				break;
-			case 6:
-				yield return Effect6();
-				break;
-			case 7:
-				yield return Effect7();
-				break;
+
+			if (!CurrentWaterlog.Contains(i)) i.ResetColors();
 
 		}
 
 
-
+		yield break;
 	}
 
+		public override bool RespondsToTurnEnd(bool playerTurnEnd)
+		{
+				return true;
+		}
 
-	public override bool RespondsToUpkeep(bool playerUpkeep)
-	{
-		return playerUpkeep;
-	}
+		public override bool RespondsToOtherCardAssignedToSlot(PlayableCard otherCard)
+		{
+				return true;
+		}
 
-		public override bool RespondsToResolveOnBoard() => true;
-
-		public override IEnumerator PlayerUpkeep()
-	{
-		Debug.Log("Triggering PlayerUpkeep");
-		if (Ruletype == 0) yield return DoEffect();
-
-	}
-
-		public override IEnumerator PlayerCombatPostAttacks()
-	{
-		Debug.Log("Triggering OnPlayFromHand");
-		if (Ruletype == 1) yield return DoEffect();
-
-	}
-	int timer = 0;
-
-	public override bool RespondsToOtherCardDie(
-	PlayableCard card,
-	CardSlot deathSlot,
-	bool fromCombat,
-	PlayableCard killer
-)
-	{
+		public override bool RespondsToOtherCardDrawn(PlayableCard card)
+		{
 		return true;
+		}
+
+		public override IEnumerator OpponentCombatEnd()
+		{
+		if (CurrentEnv == 8) yield return Effect8();
+		}
+
+		public override IEnumerator OnTurnEnd(bool playerTurnEnd)
+		{
+		if (playerTurnEnd && CurrentEnv == 0) yield return Effect0(false);
+		else if (CurrentEnv == 0) yield return Effect0(true);
+
+		if (playerTurnEnd && CurrentEnv == 2) yield return Effect2(false);
+		else if (CurrentEnv == 2) yield return Effect2(true);
+
+		if (playerTurnEnd && CurrentEnv == 4) yield return Effect4(false);
+		else if (CurrentEnv == 4) yield return Effect4(true);
+
+		yield break;
+		}
+
+		public override IEnumerator OnOtherCardAssignedToSlot(PlayableCard otherCard)
+		{
+		CardModificationInfo statbuffwitched = new CardModificationInfo
+		{
+			attackAdjustment = 1,
+			healthAdjustment = 1,
+		};
+
+		if (otherCard.slot == p || otherCard.slot == e)
+		{
+
+
+
+			yield return new WaitForSeconds(0.2f);
+
+			otherCard.AddTemporaryMod(statbuffwitched);
+			otherCard.OnStatsChanged();
+		}
+		else otherCard.RemoveTemporaryMod(statbuffwitched);
+
+		CardModificationInfo zombiemod = new CardModificationInfo
+		{
+			attackAdjustment = -(otherCard.Attack - 1),
+			healthAdjustment = -(otherCard.Health - 1),
+			bonesCostAdjustment = -(otherCard.Info.BonesCost - 2),
+			energyCostAdjustment = -(otherCard.Info.EnergyCost)
+		};
+
+		if (CurrentEnv == 1 && otherCard != null && !otherCard.Dead) otherCard.AddTemporaryMod(new CardModificationInfo(Burning.ability));
+
+		if (CurrentEnv == 7 && !otherCard.HasAbility(Ability.Brittle) && !otherCard.HasAbility(Haunter.ability) && !otherCard.Dead ) otherCard.AddTemporaryMod(new CardModificationInfo(Haunter.ability));
+
+		if (CurrentEnv == 6 && !otherCard.HasAbility(Ability.Brittle) && !otherCard.Dead) otherCard.AddTemporaryMod(zombiemod);
+
+		if ( CurrentWaterlog.Contains(otherCard.slot) && !otherCard.HasAbility(Ability.Submerge) && !otherCard.Dead && !otherCard.HasAbility(Ability.MadeOfStone)) yield return otherCard.Die(false, null);
+
 	}
 
-	public override IEnumerator OnOtherCardDie(
-		PlayableCard card,
-		CardSlot deathSlot,
-		bool fromCombat,
-		PlayableCard killer
-	)
+	public override IEnumerator OnOtherCardDrawn(PlayableCard card)
 	{
-		if (Ruletype == 2)
-		{
-			if (timer == 0) timer++;
-			else
-			{
-				yield return DoEffect();
-				timer = 0;
-			}
-
-		}
+		if (CurrentEnv == 5 && !card.HasAbility(Ability.Brittle)) yield return Effect5(card);
+		if (CurrentEnv == 6 && !card.HasAbility(Ability.Brittle)) yield return Effect6(card);
 	}
 
 
-		public override IEnumerator PreDeckSetup()
+
+	public override IEnumerator PreDeckSetup()
 		{
+		string triggerdesc;
+		string triggertitle;
 
+		//TODO: Seeded Random
+		CurrentEnv = UnityEngine.Random.Range(0, 9);
 
-			string triggerdesc = "none";
-
-		string effectdesc = "none";
-
-		Ruletype = UnityEngine.Random.Range(0, 3);
-
-		RuleEffect = UnityEngine.Random.Range(0, 8);
-
-		Debug.Log("Ankh Guard Trigger: " + Ruletype);
-
-		Debug.Log("Ankh Guard Rule: " + RuleEffect);
-
-
-		switch (Ruletype)
-		{
-			case 0:
-				triggerdesc = "Every time your turn Starts, ";
-				break;
-			case 1:
-				triggerdesc = "After your Cards attack, ";
-				break;
-			case 2:
-				triggerdesc = "Every second Card that dies, ";
-				break;
-		}
-
-		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.EasyGuards))
-		{
-			ChallengeActivationUI.TryShowActivation(ChallengeManagement.EasyGuards);
-
-			switch (RuleEffect)
+		switch (CurrentEnv)
 			{
-				case 0:
-					effectdesc = "1 of your Cards attack increases and i get no benefit";
-					break;
-				case 1:
-					effectdesc = "1 of my Cards attack decreases  and i get no benefit";
-					break;
-				case 2:
-					effectdesc = "You gain 1 bone and i get no benefit";
-					break;
-				case 3:
-					effectdesc = "You gain 1 maximum soul and i get no benefit";
-					break;
-				case 4:
-					effectdesc = "all of your cards gain a random sigil and i get no benefit";
-					break;
-				case 5:
-					effectdesc = "all of my take 1 Damage and i get no benefit";
-					break;
-				case 6:
-					effectdesc = "a zombie gets played in one of your slots and i get no benefit";
-					break;
-				case 7:
-					effectdesc = "you play a card of many bones and i get no benefit";
-					break;
-			}
-		}
-		else { 
-		switch (RuleEffect)
-		{
+			default:
 			case 0:
-				effectdesc = "1 Damage gets added to your side of the Scale and 1 of your Cards attack increases";
+				yield return TextDisplayer.Instance.ShowUntilInput($"A {"SANDSTORM".Gold()} IS BREWING!");
+				triggerdesc = "At the end of a turn, the rightmost Card will take 1 Damage!";
 				break;
 			case 1:
-				effectdesc = "1 Damage gets added to your side of the Scale and 1 of my Cards attack decreases";
+				yield return TextDisplayer.Instance.ShowUntilInput($"ITS GETTING HOTTER!A {"HEATWAVE".Gold()} IS STARTING!");
+				triggerdesc = "All cards on the board will burn!";
 				break;
 			case 2:
-				effectdesc = "My Cards attack increases and you gain 1 bone";
+				yield return TextDisplayer.Instance.ShowUntilInput($"TREES START SPROUTING AROUND YOU.AN {"OVERGROWTH".Gold()} IS INBOUND!");
+				triggerdesc = "Trees will sprout every turn!";
 				break;
 			case 3:
-				effectdesc = "My cards get healed and you gain 1 maximum soul";
+				yield return TextDisplayer.Instance.ShowUntilInput($"YOU HEAR WITCHES CHANTING.THE CLOCK STRIKES THE {"WITCHING HOUR".Gold()}!");
+				triggerdesc = "Cards on enchanted slots will gain more attack and health!";
 				break;
 			case 4:
-				effectdesc = "all cards gain a random sigil";
+				yield return TextDisplayer.Instance.ShowUntilInput($"A CAULDRON IS BUBBLING IN THE DISTANCE.YOUR CARDS ARE PUT IN THE {"WITCHES CAULDRON".Gold()}!");
+				triggerdesc = "2 Cards will swap after the end of the turn!";
 				break;
 			case 5:
-				effectdesc = "all cards take 1 Damage";
+				yield return TextDisplayer.Instance.ShowUntilInput($"SKELETONS START DANCING IN THE DISTANCE, YOU CAN SEE GHOSTS MOVE AROUND.ITS THE {"NIGHT OF THE LIVING DEAD".Gold()}!");
+				triggerdesc = "Bone and soul cost of all cards are swapped!";
 				break;
 			case 6:
-				effectdesc = "a zombie gets played in a random slot";
+				yield return TextDisplayer.Instance.ShowUntilInput($"ZOMBIES ARE APPROACHING FROM ALL SIDES.A {"ZOMBIE INVASION".Gold()} WILL APPROACH!");
+				triggerdesc = "Every card is now a Zombie!";
 				break;
 			case 7:
-				effectdesc = "i play a card of many bones";
+				yield return TextDisplayer.Instance.ShowUntilInput($"THE DIRT IS PLAGUED WITH SPIRITS FROM CENTURIES PAST.YOU'VE APPROACHED THE {"HAUNTED GROUNDS".Gold()}!");
+				triggerdesc = "Every non Skeletal Card will gain Haunter!";
 				break;
+			case 8:
+				yield return TextDisplayer.Instance.ShowUntilInput($"THE WATER LEVEL ALL AROUND IS RISING SLOWLY.A {"GREAT FLOOD".Gold()} IS STARTING!");
+				triggerdesc = "Different slots on the board will become waterlogged, non waterborne cards on these slots will drown!";
+				break;
+
+
+		}
+
+		yield return TextDisplayer.Instance.ShowUntilInput($" {triggerdesc.Gold()}");
+
+		if (CurrentEnv == 3) yield return Effect3SetUp();
+
+		if (CurrentEnv == 8) cycle++;
+
+		if (CurrentEnv == 1)
+		{
+			yield return CardSpawner.Instance.SpawnCardToHand(NameUrn.GetCardInfo());
+			yield return CardSpawner.Instance.SpawnCardToHand(NameUrn.GetCardInfo());
+			yield return CardSpawner.Instance.SpawnCardToHand(NameUrn.GetCardInfo());
 		}
 		}
 
+		public override IEnumerator GameEnd(bool playerWon)
+		{
+		foreach (var i in BoardManager.Instance.AllSlots)
+		{
 
-		yield return TextDisplayer.Instance.ShowUntilInput($"THE GODS HAVE {"DECIDED".Gold()}!");
+			i.ResetColors();
 
-		yield return TextDisplayer.Instance.ShowUntilInput($" {triggerdesc.Gold() + effectdesc.Orange()}!");
+			GameObject.Destroy(GameObject.Find("BewitchedSlot(Clone)"));
+			yield return new WaitForSeconds(0.05f);
+
+		}
+
+		yield return base.GameEnd(playerWon);
+		}
+
+		private void LiveUpdateEnergyDisplay(Card C)
+		{
+		if (C != null) { 
+			foreach (Transform transform in C.transform)
+			{
+				if (transform.name != "RotatingParent") transform.gameObject.SetActive(false);
+			}
+
+		GrimoraPlugin.Log.LogInfo(" checking for Energy availability");
+		if (C.Info.EnergyCost >= 1)
+		{
+			GrimoraPlugin.Log.LogInfo("Calculating Energy Stuff");
+			GrimoraPlugin.Log.LogInfo("energy: " + C.Info.EnergyCost);
+
+			GrimoraPlugin.Log.LogInfo("adding Energy");
+			if (C.Info.EnergyCost >= 1 && C.transform.Find("Energy1") != null)
+			{
+				C.transform.Find("Energy1").gameObject.SetActive(true);
+			}
+			if (C.Info.EnergyCost >= 2 && C.transform.Find("Energy2") != null)
+				{
+				C.transform.Find("Energy2").gameObject.SetActive(true);
+			}
+			if (C.Info.EnergyCost >= 3 && C.transform.Find("Energy3") != null)
+				{
+				C.transform.Find("Energy3").gameObject.SetActive(true);
+			}
+			if (C.Info.EnergyCost >= 4 && C.transform.Find("Energy4") != null)
+				{
+				C.transform.Find("Energy4").gameObject.SetActive(true);
+			}
+			if (C.Info.EnergyCost >= 5 && C.transform.Find("Energy5") != null)
+				{
+				C.transform.Find("Energy5").gameObject.SetActive(true);
+			}
+			if (C.Info.EnergyCost > 5 && C.transform.Find("Energy6") != null)
+				{
+				C.transform.Find("Energy6").gameObject.SetActive(true);
+			}
+
+		}
+
+
+		}
 
 	}
 

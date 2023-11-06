@@ -52,7 +52,7 @@ public class EnemyManagerPatches
 
 		// this will correctly place the pieces back if they aren't defeated.
 		// e.g. from quitting mid match
-		if (enemy is ChessboardGoatEyePiece) { 
+		if (enemy is AnkhGuardPiece) { 
 			//GrimoraRunState.CurrentRun.PiecesRemovedFromBoard.Add(enemy.name);
 			AnkhGuardCombatSequencer.ActiveEnemyPiece = enemy;
 		}

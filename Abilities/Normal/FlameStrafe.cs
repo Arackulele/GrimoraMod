@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Helpers.Extensions;
 using Sirenix.Utilities;
@@ -25,8 +25,9 @@ public partial class GrimoraPlugin
 {
 	public void Add_Ability_FlameStrafe()
 	{
+		//For some reason i cant use NameFlames???
 		const string rulebookDescription =
-			"Whenever [creature] moves, it leaves a trail of Embers. The warmth of the Embers shall enlighten nearby cards.";
+			$"Whenever [creature] moves, it leaves a trail of Embers. [define:{"arackulele.inscryption.grimoramod_Flames"}]";
 
 		AbilityBuilder<FlameStrafe>.Builder
 		 .SetRulebookDescription(rulebookDescription)

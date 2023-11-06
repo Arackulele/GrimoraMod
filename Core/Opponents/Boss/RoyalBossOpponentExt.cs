@@ -207,7 +207,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 			if (ConfigHelper.Instance.DisableMotionSicknessEffects == false) Singleton<CameraEffects>.Instance.ShowUnderwater();
 
 
-			corals = GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("BrokenShipParts")));
+			corals = GameObject.Instantiate(NewObjects.Find(g => g.name.Contains("BrokenShipParts")));
 
 			yield return cannons.GetComponent<CannonTableEffects>().GlitchOutCannons();
 
@@ -256,7 +256,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 				0.4f
 			);
 			ViewManager.Instance.SwitchToView(View.Board, lockAfter: true);
-			Rain = GameObject.Instantiate(GameObject.Instantiate(kopieGameObjects.Find(g => g.name.Contains("RainParticles"))));
+			Rain = GameObject.Instantiate(GameObject.Instantiate(NewObjects.Find(g => g.name.Contains("RainParticles"))));
 			Rain.transform.parent = GameObject.Find("RoyalBossSkull(Clone)").transform;
 
 			yield return ReplaceBlueprintCustom(BuildNewPhaseBlueprint());

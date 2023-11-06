@@ -27,7 +27,7 @@ public class GravestoneRenderStatsLayerPatches
 		{
 			__instance.SetEmissionColor(GameColors.Instance.glowRed);
 		}
-		else if (info.baseInfo.HasBeenGraveDug() || info.baseInfo.name == GrimoraPlugin.NameHellHound)
+		else if (info.baseInfo.HasBeenGraveDug() || info.baseInfo.name == GrimoraPlugin.NameHellHound || info.baseInfo.name == GrimoraPlugin.NameCandyMonster)
 		{
 			__instance.SetEmissionColor(GameColors.Instance.darkLimeGreen);
 		}
@@ -75,7 +75,9 @@ public class GravestoneRenderStatsLayerPatches
 		{
 			GrimoraPlugin.Log.LogInfo("adding RessourceManager to Card");
 
-			GameObject ResourceManager = UnityObject.Instantiate(GrimoraPlugin.kopieGameObjects.Find(g => g.name.Contains("GraveStoneRessource")), __instance.gameObject.transform);
+			GameObject ResourceManager;
+			if (__instance.gameObject.transform.Find("ResourceManager") == null) ResourceManager = UnityObject.Instantiate(GrimoraPlugin.NewObjects.Find(g => g.name.Contains("GraveStoneRessource")), __instance.gameObject.transform);
+			else ResourceManager = __instance.gameObject.transform.Find("ResourceManager").gameObject;
 			ResourceManager.name = "ResourceManager";
 
 			GrimoraPlugin.Log.LogInfo(" RessourceManager added to Card");
@@ -153,7 +155,7 @@ public class GravestoneRenderStatsLayerPatches
 
 		}
 
-		private static void UpdateEnergyCost(GameObject gb, int energyCost, CardRenderInfo info, GravestoneRenderStatsLayer layer)
+		public static void UpdateEnergyCost(GameObject gb, int energyCost, CardRenderInfo info, GravestoneRenderStatsLayer layer)
 		{
 			foreach (Transform transform in gb.transform)
 			{
