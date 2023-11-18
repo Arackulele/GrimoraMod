@@ -40,6 +40,25 @@ public class SpecialNodeHandlerPatches
 			return false;
 		}
 
+		if (nodeData is GoatEyeNodeData)
+		{
+			__instance.StartCoroutine(GoatEyeSequencer.Instance.StartSequence());
+			return false;
+		}
+
+
+		if (nodeData is GravebardCampNodeData)
+		{
+			__instance.StartCoroutine(GravebardCampSequencer.Instance.StartSequence());
+			return false;
+		}
+
+		if (nodeData is CardMergeNodeData)
+		{
+			__instance.StartCoroutine(GrimoraCardMergeSequencer.Instance.StartSequence());
+			return false;
+		}
+
 		return true;
 	}
 }

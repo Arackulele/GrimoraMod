@@ -59,7 +59,11 @@ public class BaseGameFlowManagerPatches
 
 		GrimoraCardRemoveSequencer.CreateSequencerInScene();
 
-		//GoatEyeSequencer.CreateSequencerInScene();
+		GoatEyeSequencer.CreateSequencerInScene();
+
+		GravebardCampSequencer.CreateSequencerInScene();
+
+		GrimoraCardMergeSequencer.CreateSequencerInScene();
 
 		GrimoraGainConsumableSequencer.CreateSequencerInScene();
 
@@ -84,7 +88,6 @@ public class BaseGameFlowManagerPatches
 		GameObject.Find("GameTable")
 			.AddComponent<Animator>()
 			.runtimeAnimatorController = AssetUtils.GetPrefab<RuntimeAnimatorController>("GrimoraGameTable");
-
 
 	}
 

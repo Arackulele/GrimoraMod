@@ -369,29 +369,49 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		yield return new WaitForSeconds(0.8f);
 
+		ChangeDialogueSpeaker("bonelord");
+
+		if (GrimoraRunState.CurrentRun.riggedDraws.Contains("No_Ashes"))
+		{
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				"WHAT A SHAME", letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
+);
+
+			yield return TextDisplayer.Instance.ShowUntilInput(
+	"IT SEEMS YOUVE GIVEN UP YOUR REWARD FOR CHAOS", letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
+);
+
+			yield return TextDisplayer.Instance.ShowUntilInput(
+	"I CANNOT BE DEFEATED", letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
+);
+
+		}
+
+		else { 
+
 		yield return TextDisplayer.Instance.ShowUntilInput(
-						$"{"I ALMOST FORGOT".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
+						"I ALMOST FORGOT", letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
 	);
 
 		yield return TextDisplayer.Instance.ShowUntilInput(
-						$"{"ALL OF THIS SUFFERING YOU CAUSED, ALL OF THIS PAIN".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
+						"ALL OF THIS SUFFERING YOU CAUSED, ALL OF THIS PAIN", letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
 	);
 
 		yield return TextDisplayer.Instance.ShowUntilInput(
-						$"{"YOU OUGHT TO BE REWARDED FOR ALL THAT EXCESS DAMAGE".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
+						"YOU OUGHT TO BE REWARDED FOR ALL THAT EXCESS DAMAGE", letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
 	);
 
 		ViewManager.Instance.SwitchToView(View.Hand, false, true);
 
 		yield return TextDisplayer.Instance.ShowUntilInput(
-						$"{"TAKE THIS FOR YOUR EFFORTS".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
+						"TAKE THIS FOR YOUR EFFORTS", letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
 	);
 
 		if (ashpowerpool < 24)
 		{
 
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				$"{"WHAT A TERRIBLE FOE, THIS WONT DEFEAT ME!".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
+				"WHAT A TERRIBLE FOE, THIS WONT DEFEAT ME!", letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
 
 				AshCard.displayedName = "Minor Ashes";
 				AshCard.portraitTex = AssetUtils.GetPrefab<Sprite>("LesserAshes");
@@ -402,7 +422,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		{
 
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				$"{"WHAT DID YOU DO. I AM DOOMED.".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
+				"WHAT DID YOU DO. I AM DOOMED.", letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
 
 			AshCard.displayedName = "Greater Ashes";
 			AshCard.portraitTex = AssetUtils.GetPrefab<Sprite>("GreaterAshes");
@@ -410,10 +430,13 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 		}
 		else yield return TextDisplayer.Instance.ShowUntilInput(
-				$"{"A FORMIDABLE OPPONENT, YOU DID WELL IT SEEMS.".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
+				"A FORMIDABLE OPPONENT, YOU DID WELL IT SEEMS.", letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
+
 
 		yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(AshCard, new List<CardModificationInfo> { AshMods }, 0.25f );
+		}
 
+		ChangeDialogueSpeaker("grimora");
 	}
 
 	private IEnumerator BeginBonelordsReign()

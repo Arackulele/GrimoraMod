@@ -117,13 +117,15 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 				GameColors.Instance.darkRed,
 				0.1f);
 
+				ChangeDialogueSpeaker("bonelord");
+
 
 				yield return TextDisplayer.Instance.ShowUntilInput(
-										$"{"I AM VERY THANKFUL FOR THIS".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
+										"I AM VERY THANKFUL FOR THIS", letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
 					);
 
 				yield return TextDisplayer.Instance.ShowUntilInput(
-						 $"{"TAKE THIS IN RETURN, YOU CAN USE IT TO CALL ME ANYTIME".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
+						 "TAKE THIS IN RETURN, YOU CAN USE IT TO CALL ME ANYTIME", letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
 					);
 
 
@@ -131,7 +133,7 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 				
 
-				RunState.Run.consumables.Add(GrimoraPlugin.AllGrimoraItems[10].name);
+				RunState.Run.consumables.Add(GrimoraPlugin.GrimoraItemsSecret[0].name);
 				Singleton<ItemsManager>.Instance.UpdateItems();
 
 
@@ -145,12 +147,14 @@ public class GrimoraCardRemoveSequencer : CardRemoveSequencer
 
 
 				yield return TextDisplayer.Instance.ShowUntilInput(
-						 $"{"YOU CANNOT END THIS, END ME, THAT IS".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
+						 "YOU CANNOT END THIS, END ME, THAT IS", letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
 );
 
 				yield return new WaitForSeconds(0.5f);
 
 				Singleton<ViewManager>.Instance.SwitchToView(View.Default);
+
+				ChangeDialogueSpeaker("grimora");
 
 				if (SigilOffer > 4) AchievementManager.Unlock(CullTheWeak);
 

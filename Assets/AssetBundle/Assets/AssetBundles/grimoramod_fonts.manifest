@@ -1,0 +1,25 @@
+ManifestFileVersion: 0
+CRC: 144285589
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 1b2a75bcd786eb7b23f7f1cc4a27c9b1
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cea17de082da1dfd38b5ed053fc34ca1
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/fonts/Pieces_of_Eight.ttf
+- Assets/fonts/zai_ConsulPolishTypewriter.ttf
+- Assets/fonts/FronzyFreeTrial-mLVlP.ttf
+Dependencies: []

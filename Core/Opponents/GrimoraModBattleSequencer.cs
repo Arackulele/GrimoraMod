@@ -21,7 +21,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 	public static ChessboardEnemyPiece ActiveEnemyPiece;
 
-	private static readonly List<CardInfo> _cardsThatHaveDiedThisMatch = new List<CardInfo>();
+	public static readonly List<CardInfo> cardsThatHaveDiedThisMatch = new List<CardInfo>();
 
 	public static readonly List<EncounterData.StartCondition> GlobalStartCon = new List<EncounterData.StartCondition>()
 			{
@@ -193,6 +193,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 	public override IEnumerator PreCleanUp()
 	{
+		ChangeDialogueSpeaker("Grimora");
 		if (!TurnManager.Instance.PlayerIsWinner() && !AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.InfinitLives))
 		{
 			Opponent opponent = TurnManager.Instance.Opponent;
@@ -205,6 +206,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			PlayerHand.Instance.PlayingLocked = true;
 
 			InteractionCursor.Instance.InteractionDisabled = true;
+			
 
 			yield return TextDisplayer.Instance.PlayDialogueEvent("RoyalBossDeleted", TextDisplayer.MessageAdvanceMode.Input);
 			yield return new WaitForSeconds(0.5f);
@@ -412,9 +414,9 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 	{
 		Log.LogDebug(
 			$"[GModBattleSequencer] Adding [{card.InfoName()}] to cardsThatHaveDiedThisGame. "
-		+ $"Current count [{_cardsThatHaveDiedThisMatch.Count + 1}]"
+		+ $"Current count [{cardsThatHaveDiedThisMatch.Count + 1}]"
 		);
-		_cardsThatHaveDiedThisMatch.Add(card.Info);
+		cardsThatHaveDiedThisMatch.Add(card.Info);
 		yield break;
 	}
 
@@ -422,8 +424,8 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 	{
 		Log.LogDebug($"[GetFixedOpeningHand] Getting randomized list for starting hand");
 		var cardsToAdd = new List<CardInfo>();
-		var gravedigger = RunState.Run.playerDeck.Cards.Find(info => info.BonesCost < 2 || info.EnergyCost < 2);
-		var bonePile = RunState.Run.playerDeck.Cards.Find(info => info.name!= gravedigger.name && (info.BonesCost < 3 || info.EnergyCost < 3) );
+		var gravedigger = RunState.Run.playerDeck.Cards.Find(info => info.BonesCost < 2 && info.EnergyCost < 2);
+		var bonePile = RunState.Run.playerDeck.Cards.Find(info => info.name!= gravedigger.name && (info.BonesCost < 3 && info.EnergyCost < 3) );
 		if (bonePile)
 		{
 			cardsToAdd.Add(bonePile);
@@ -451,7 +453,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 			}
 
-			_cardsThatHaveDiedThisMatch.Clear();
+			cardsThatHaveDiedThisMatch.Clear();
 			GrimoraItemsManagerExt.Instance.SetHammerActive();
 		}
 

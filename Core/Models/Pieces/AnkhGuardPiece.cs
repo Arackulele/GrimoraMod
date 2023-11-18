@@ -93,7 +93,8 @@ public class GoatEyePatch
 	private static readonly List<System.Type> PiecesToNotRotate = new()
 	{
 		typeof(ChessboardPlayerMarker),
-		typeof(AnkhGuardPiece)
+		typeof(AnkhGuardPiece),
+		typeof(ChessboardGoatEyePiece)
 	};
 
 	[HarmonyPostfix, HarmonyPatch(nameof(ChessboardMapNode.OnArriveAtNode))]
@@ -111,7 +112,12 @@ public class GoatEyePatch
 
 			}
 		}
-		
+
+		foreach (var goatEyePiece in UnityObject.FindObjectsOfType<ChessboardGoatEyePiece>())
+		{
+			TurnToFacePoint(goatEyePiece.gameObject, playerPos, 0.1f);
+		}
+
 		for (int i = 0; i < 8; i++)
 		{
 			var node = ChessboardNavGrid.instance.zones[i, GrimoraSaveData.Data.gridY].GetComponent<ChessboardMapNode>();
@@ -132,6 +138,19 @@ public class GoatEyePatch
 			gameObject.transform.LookAt(point);
 			Quaternion rotation2 = gameObject.transform.rotation;
 			rotation2.eulerAngles = new Vector3(0f, rotation2.eulerAngles.y - yRotation, 0f);
+			gameObject.transform.rotation = rotation;
+			Tween.Rotation(gameObject.transform, rotation2, time, 0f, Tween.EaseInOut);
+		}
+	}
+
+	public static void TurnToFacePointOnAllVectors(GameObject gameObject, Vector3 point, float time)
+	{
+		if (gameObject.activeSelf)
+		{
+			Quaternion rotation = gameObject.transform.rotation;
+			gameObject.transform.LookAt(point);
+			Quaternion rotation2 = gameObject.transform.rotation;
+			rotation2.eulerAngles = new Vector3(rotation2.eulerAngles.x, rotation2.eulerAngles.y -90, rotation2.eulerAngles.z);
 			gameObject.transform.rotation = rotation;
 			Tween.Rotation(gameObject.transform, rotation2, time, 0f, Tween.EaseInOut);
 		}

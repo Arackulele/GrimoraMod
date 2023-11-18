@@ -17,8 +17,7 @@ public class GrimoraUrn : BatteryItem
 
 	public override bool ExtraActivationPrerequisitesMet()
 	{
-		return (ResourcesManager.Instance.PlayerMaxEnergy < 6
-				 || ResourcesManager.Instance.PlayerEnergy < ResourcesManager.Instance.PlayerMaxEnergy);
+		return true;
 	}
 
 	public override void OnExtraActivationPrerequisitesNotMet()
@@ -31,8 +30,12 @@ public class GrimoraUrn : BatteryItem
 	{
 		Debug.Log("Using Urn");
 
+		if (ResourcesManager.Instance.PlayerMaxEnergy < 6)
+		{ 
 		yield return ResourcesManager.Instance.AddMaxEnergy(ResourcesManager.Instance.PlayerMaxEnergy);
 		yield return ResourcesManager.Instance.SpendEnergy(ResourcesManager.Instance.PlayerEnergy);
+		}
+		else yield return ResourcesManager.Instance.AddEnergy(2);
 
 	}
 
@@ -41,7 +44,7 @@ public class GrimoraUrn : BatteryItem
 		Debug.Log("Added Urn");
 
 		Texture2D HahaL = new Texture2D(70, 80);
-		ConsumableItemData data = ConsumableItemManager.New(GUID, "Soul Urn", "Contains the Soul of the damned", HahaL, typeof(GrimoraUrn), Model)
+		ConsumableItemData data = ConsumableItemManager.New(GUID, "Soul Urn", "The Soul Urn, spend all of your Soul, gain maximum Soul capacity for each Soul consumed. If your Soul Capacity is full, instead gain 2 Souls.", HahaL, typeof(GrimoraUrn), Model)
 		.SetLearnItemDescription("Takes all of your Soul but increases your maximum by the amount taken, a certain acquaintance of mine would call this a return on investment.");
 
 

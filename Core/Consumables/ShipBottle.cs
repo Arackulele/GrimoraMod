@@ -73,7 +73,7 @@ public class ShipBottle : ConsumableItem
 		Debug.Log("Added Ship Bottle");
 
 		Texture2D HahaL = new Texture2D(70, 80);
-		ConsumableItemData data = ConsumableItemManager.New(GUID, "Ship Bottle", "Balled.", HahaL, typeof(ShipBottle), Model)
+		ConsumableItemData data = ConsumableItemManager.New(GUID, "Ship Bottle", "The Ship in a Bottle, fills the entire baord with a trusty Skeleton Crew.", HahaL, typeof(ShipBottle), Model)
 					.SetLearnItemDescription("Fills the entire board with skeletons! Like a real Pirate, Royal would be proud.");
 		data.rulebookCategory = AbilityMetaCategory.GrimoraRulebook;
 

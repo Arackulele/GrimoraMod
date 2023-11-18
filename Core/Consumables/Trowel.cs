@@ -69,7 +69,7 @@ public class Trowel : GrimoraTargetSlotItem
 		Debug.Log("Added Embalming Fluid");
 
 		Texture2D HahaL = new Texture2D(70, 80);
-		ConsumableItemData data = ConsumableItemManager.New(GUID, "Trowel", "You can dig up some Bones and Cards with this Trowel, though dont expect too much.", HahaL, typeof(Trowel), Model)
+		ConsumableItemData data = ConsumableItemManager.New(GUID, "Trowel", "The Trowel, dig up a random terrain and gain a few Bones.", HahaL, typeof(Trowel), Model)
 							.SetLearnItemDescription("Digs for treasure, or Terrain. And get some Bones too for your efforts.");
 		data.rulebookCategory = AbilityMetaCategory.GrimoraRulebook;
 

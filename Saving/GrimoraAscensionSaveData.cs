@@ -80,13 +80,15 @@ public class GrimoraAscensionSaveData : AscensionSaveData
 		this.currentRun = grimoraRunState;
 		grimoraRunState.Initialize();
 		grimoraRunState.playerLives = 1;
-		
+
+
 		this.RollCurrentRunRegionOrder();
 		this.oilPaintingState.TryAdvanceRewardIndex();
 		this.oilPaintingState.puzzleSolution = OilPaintingPuzzle.GenerateSolution(true);
 		
 		this.currentRun.consumables.Clear();
-		this.currentRun.consumables.Add(GrimoraPlugin.AllGrimoraItems[5].name);
+		this.currentRun.consumables.Add(GrimoraPlugin.ObtainableGrimoraItems[5].name);
+
 
 		if (starterDeck.Count() > 4 )
 		{
@@ -119,7 +121,7 @@ public class GrimoraAscensionSaveData : AscensionSaveData
 
 	bool IsEnergy = false;
 
-				if (UnityEngine.Random.Range(0, 10) < 4)
+				if (UnityEngine.Random.Range(0, 10) < 3)
 				{
 
 					List<string> randomloser = StarterDecks.loosingdecks.GetRandomItem();

@@ -10,12 +10,12 @@ public static class AssetUtils
 {
 	private static readonly Dictionary<string, string> FileChecksums = new()
 	{
-		{ "grimoramod_abilities", "EDDED3F97FCF5EE8D23152F86AA2218E5D76D00A85AC343646BD489F093E7E3D" },
+		{ "grimoramod_abilities", "0FDFD65B29F553D9B1BAC5D69C4B0580FF6B3ADA65AE0A57050162D0FEDAFDA3" },
 		{ "grimoramod_controller", "74BC4A80C0FA64CF5EF3F578DCB49625DBA54079785C210E7B2DC79B87C86FC5" },
-		{ "grimoramod_mats", "7E697294BE34AC5D3E78851D64E6423EDE1CD030D2CBAB3F9FDBCF664159CAA4" },
+		{ "grimoramod_mats", "2EE83680BB79941C1B9083DF34D65E86EF10FAD0737E497D3919BA145545C6B1" },
 		{ "grimoramod_prefabs", "D92040437EE9077A6015E888794C689DF8C40B783A53DBF8F9A60C335542023E" },
-		{ "grimoramod_sounds", "1491837C715B66BE307C1965578BFB4F36D96A801267815ABC54C175B27A5ACB" },
-		{ "grimoramod_sprites", "469D327F19B45B4F80EC1C4B1AE062085C5C8DA450F028C5EC87F7C4012BB5F0" },
+		{ "grimoramod_sounds", "E5E5D8EF4DD81319659AB0D665A903E85D016777DAF82EB53CC70D4FD4ACEEE8" },
+		{ "grimoramod_sprites", "9107AEDDBC24600BD5075E4F5A5562D9325CE014DC570D0FCC944A6B4694100C" },
 	};
 
 	private static string ValidateFile(string assetBundleFile)
@@ -27,7 +27,7 @@ public static class AssetUtils
 		var sha265Checksum = BitConverter.ToString(checksum).Replace("-", string.Empty);
 		if (FileChecksums.TryGetValue(Path.GetFileName(fileToRead), out string correctChecksum) && correctChecksum != sha265Checksum)
 		{
-			Log.LogError($"[AssetUtils] File [{Path.GetFileName(fileToRead)}] calculated checksum [{sha265Checksum}] does not match the correct one [{correctChecksum}] for this file!" +
+			Log.LogWarning($"[AssetUtils] File [{Path.GetFileName(fileToRead)}] calculated checksum [{sha265Checksum}] does not match the correct one [{correctChecksum}] for this file!" +
 			             $"\nPlease redownload the mod!");
 		}
 

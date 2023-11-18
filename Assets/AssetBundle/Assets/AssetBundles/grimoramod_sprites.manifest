@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2040143360
+CRC: 203588601
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 57cb614d5e54782bdb6d97df7e47d7e9
+    Hash: a78196fcd75b455fc14801dc4df2a080
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -165,6 +165,7 @@ Assets:
 - Assets/Cards/GreaterAshes.png
 - Assets/Cards/FesteringWretch.png
 - Assets/Cards/DeathKnell.png
+- Assets/white_triangle_tech.png
 - Assets/Cards/Terrain/DisturbedGrave_emission.png
 - Assets/Cards/PiratePrivateer.png
 - Assets/Cards/Nixie_emission.png

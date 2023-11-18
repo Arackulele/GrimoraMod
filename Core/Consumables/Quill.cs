@@ -57,7 +57,7 @@ public class Quill : GrimoraTargetSlotItem
 		Debug.Log("Added Quill");
 
 		Texture2D HahaL = new Texture2D(70, 80);
-		ConsumableItemData data = ConsumableItemManager.New(GUID, "Quill", "Get Quilled.", HahaL, typeof(Quill), Model)
+		ConsumableItemData data = ConsumableItemManager.New(GUID, "Quill", "My very own Quill, this lets you copy any card on the field to put on the board.", HahaL, typeof(Quill), Model)
 		.SetLearnItemDescription("My very own tool, i will lend it to you for now. Youve seen this in action, havent you? You may use it just as i do.");
 		data.rulebookCategory = AbilityMetaCategory.GrimoraRulebook;
 

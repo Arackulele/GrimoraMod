@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 478504435
+CRC: 662479138
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 948b80fd7edf5bdbc204455cf1728dee
+    Hash: ca6660ad118aa1efb2b3cc9ef76c2633
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7859cd501ea75098bcf7e53f1b477c26
@@ -76,7 +76,6 @@ Assets:
 - Assets/Abilities/ability_LatchBrittle.png
 - Assets/Abilities/ability_Possessive.png
 - Assets/Abilities/Achievements/achievement_lock.png
-- Assets/Abilities/Ability_Burning.png
 - Assets/Abilities/ability_Malnourishment.png
 - Assets/Abilities/ability_Erratic.png
 - Assets/Abilities/ability_LatchSubmerge.png

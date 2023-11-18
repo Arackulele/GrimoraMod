@@ -25,8 +25,8 @@ public class Collector : AbilityBehaviour
 
 		if (RunState.Run.consumables.Count() < 3) { 
 
-			RunState.Run.consumables.Add(GrimoraPlugin.AllGrimoraItems.GetRandomItem().name);
-		Singleton<ItemsManager>.Instance.UpdateItems();
+			RunState.Run.consumables.Add(GrimoraPlugin.ObtainableGrimoraItems.GetRandomItem().name);
+			Singleton<ItemsManager>.Instance.UpdateItems();
 		}
 		else Card.Anim.StrongNegationEffect();
 

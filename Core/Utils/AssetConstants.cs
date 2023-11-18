@@ -71,6 +71,14 @@ public static class AssetConstants
 	
 	public static GameObject AnkhGuardFigurine => GrimoraPlugin.NewObjects.Find(g => g.name.Contains("AnkhGuardPrefab"));
 
+	public static GameObject CardMergeFigurine => GrimoraPlugin.NewObjects.Find(g => g.name.Contains("MushroomPrefab"));
+
+	public static GameObject GravebardCampFigurine => GrimoraPlugin.NewObjects.Find(g => g.name.Contains("GraveBardPrefab"));
+
+	public static GameObject GravebardCampStatue => GrimoraPlugin.NewObjects.Find(g => g.name.Contains("bardinnodePrefab"));
+
+	public static GameObject GoatEyeFigurine => AssetUtils.GetPrefab<GameObject>("ChessboardPiece_GoatEye");
+
 	public static GameObject GainConsumable => GrimoraPlugin.NewObjects.Find(g => g.name.Contains("SarcophagusPrefab"));
 
 	public static GameObject GhostBottle => NewObjects.Find(g => g.name.Contains("soul"));
@@ -94,6 +102,8 @@ public static class AssetConstants
 
 	public static Material StarveGraveSelectionSlot => AssetUtils.GetPrefab<Material>("gravestarve");
 
+	public static Material FlyingSelectionSlot => AssetUtils.GetPrefab<Material>("graveflying");
+
 	public static Material BoneyardConfirmButton =>
 		AssetUtils.GetPrefab<Material>("Boneyard_ConfirmButton_Shovel");
 
@@ -103,6 +113,9 @@ public static class AssetConstants
 		ResourceBank.Get<GameObject>($"{PathChessboardMap}/Chessboard_Tombstone_3");
 
 	#endregion
+
+	public static GameObject MycologistHands => GrimoraPlugin.NewObjects.Find(g => g.name.Contains("MycoNodePrefab"));
+
 
 
 	#region ElectricChair
@@ -116,6 +129,17 @@ public static class AssetConstants
 
 	#endregion
 
+	public static Material Boon1 =>
+	AssetUtils.GetPrefab<Material>("boonmaterial_1");
+
+	public static Material Boon2 =>
+AssetUtils.GetPrefab<Material>("boonmaterial_2");
+
+	public static Material Boon3 =>
+AssetUtils.GetPrefab<Material>("boonmaterial_3");
+
+	public static Material Boon4 =>
+AssetUtils.GetPrefab<Material>("boonmaterial_4");
 
 	#region Menu
 
@@ -136,6 +160,9 @@ public static class AssetConstants
 
 	public static readonly GameObject BossSkullRoyal =
 		ResourceBank.Get<GameObject>("Prefabs/Opponents/Grimora/RoyalBossSkull");
+
+	public static GameObject BossSkullMycologists => NewObjects.Find(g => g.name.Contains("mycologistSkull"));
+
 
 	#endregion
 

@@ -69,7 +69,7 @@ public class DeadHandItem : ConsumableItem
 		Debug.Log("Added Dead Hand");
 
 		Texture2D HahaL = new Texture2D(70, 80);
-		ConsumableItemData data = ConsumableItemManager.New(GUID, "Dead Hand", "Draws you a new Hand, at the cost of your old one.", HahaL, typeof(DeadHandItem), Model)
+		ConsumableItemData data = ConsumableItemManager.New(GUID, "Dead Hand", "The Dead Hand.Draws you a new Hand of cards, at the cost of your old one.", HahaL, typeof(DeadHandItem), Model)
 		.SetLearnItemDescription("The severed hand of a forgotten god, left to take on a life of its own. You know what this does.")
 		.SetRulebookCategory(AbilityMetaCategory.GrimoraRulebook)
 		.SetRulebookName("Dead Hand");

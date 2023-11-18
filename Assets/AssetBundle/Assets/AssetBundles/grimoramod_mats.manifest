@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1280651979
+CRC: 986914152
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: f9fd10c2971ce3f0f36d3bdf0545adb1
+    Hash: dae6e011a0861db425829ff9b4687a73
   TypeTreeHash:
     serializedVersion: 2
     Hash: 22357172b8cea85847937e8f62d0c077
@@ -17,12 +17,17 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
+- Assets/Materials/graveflying.mat
 - Assets/Materials/energygrave_tex.png
 - Assets/Materials/GravestoneFrozen.mat
+- Assets/Materials/BoonMats/boonmaterial_4.mat
 - Assets/Materials/GravestoneCardBack_Rare.mat
 - Assets/Materials/gravestarve.mat
+- Assets/Materials/BoonMats/boonmaterial_2.mat
 - Assets/Materials/gravebrittle_tex.png
 - Assets/Materials/gravebrittle.mat
+- Assets/Materials/BoonMats/boonmaterial_3.mat
+- Assets/Materials/BoonMats/boonmaterial_1.mat
 - Assets/Materials/graveprisoner.mat
 - Assets/Materials/gravehaunter.mat
 - Assets/Materials/gravehaunter_tex.png
@@ -30,6 +35,7 @@ Assets:
 - Assets/Materials/Boneyard_ConfirmButton_Shovel.mat
 - Assets/Materials/ElectricChair_SelectionSlot.mat
 - Assets/Materials/Gravestone_Gold.mat
+- Assets/Materials/graveflying_tex.png
 - Assets/Materials/gravestarve_tex.png
 - Assets/Materials/graveprisoner_tex.png
 - Assets/Materials/GravestoneCard_Base_Frozen.jpg

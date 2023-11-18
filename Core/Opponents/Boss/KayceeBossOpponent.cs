@@ -52,6 +52,7 @@ public class KayceeBossOpponent : BaseBossExt
 		};
 
 		SetSceneEffectsShownKaycee();
+		ChangeDialogueSpeaker("kaycee");
 
 		yield return base.IntroSequence(encounter);
 		Phase2Snow = GameObject.Find("SnowPhase2");
@@ -277,6 +278,7 @@ public class KayceeBossOpponent : BaseBossExt
 			// this will put the mask away
 			yield return base.OutroSequence(true);
 
+			ChangeDialogueSpeaker("grimora");
 
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
@@ -289,9 +291,10 @@ public class KayceeBossOpponent : BaseBossExt
 		{
 			if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.InfinitLives))
 			{
-
 				yield return TextDisplayer.Instance.ShowUntilInput("C'mon dude, where are you going? Can't handle the cold?");
 				Phase2Snow.SetActive(false);
+
+				ChangeDialogueSpeaker("grimora");
 
 				AudioController.Instance.PlaySound2D("glitch_error", MixerGroup.TableObjectsSFX);
 
@@ -312,7 +315,12 @@ public class KayceeBossOpponent : BaseBossExt
 				TableVisualEffectsManager.Instance.ResetTableColors();
 				yield return new WaitForSeconds(0.25f);
 			}
-			else yield return TextDisplayer.Instance.ShowUntilInput(DefeatedPlayerDialogue);
+			else
+			{
+
+				yield return TextDisplayer.Instance.ShowUntilInput(DefeatedPlayerDialogue);
+
+			}
 		}
 
 

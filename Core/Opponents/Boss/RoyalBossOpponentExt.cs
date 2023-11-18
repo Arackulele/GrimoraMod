@@ -66,13 +66,11 @@ public class RoyalBossOpponentExt : BaseBossExt
 		GrimoraAnimationController.Instance.SetHeadBool("face_happy", true);
 
 		SetSceneEffectsShownRoyal();
+		ChangeDialogueSpeaker("royal");
 
-		if (!ConfigHelper.Instance.IsDevModeEnabled)
-		{
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput("VAR, I SEE YOU MADE IT TO ME SHIP CHALLENGER!");
 			yield return TextDisplayer.Instance.ShowUntilInput("I'VE BEEN WAITING FOR A WORTHY FIGHT!");
-		}
 
 
 		cannons = Instantiate(
@@ -350,6 +348,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 			);
 
 			if (GrimoraModRoyalBossSequencer.validforstormseason == true) AchievementManager.Unlock(SeasonOfStorms);
+			ChangeDialogueSpeaker("grimora");
 
 			if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.ThreePhaseGhouls))
 			{

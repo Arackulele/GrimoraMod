@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3584222337
+CRC: 4011654882
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 278732f4478b2880cde957b8d2e689c0
+    Hash: 99e6e2b8fb516925926086c73d2911a3
   TypeTreeHash:
     serializedVersion: 2
-    Hash: ae8a383304a1d683486d2f5bd1396001
+    Hash: 1ed6a6857bee10b451b6335792972879
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -26,6 +26,8 @@ ClassTypes:
 - Class: 48
   Script: {instanceID: 0}
 - Class: 64
+  Script: {instanceID: 0}
+- Class: 65
   Script: {instanceID: 0}
 - Class: 74
   Script: {instanceID: 0}
@@ -57,6 +59,7 @@ Assets:
 - Assets/Models/kaycee/BlizzardParticlesFire/FireParticlesFromAwesomeHitModFnafMod/Materials/MAT_Fire_Add.mat
 - Assets/Items/Hands_Low_defaultMat1_normal.png
 - Assets/Items/EmbalmingFluid/Embalming_Fluid_Prefab.prefab
+- Assets/Items/HoggyBank/piggy/phase 3/piggyphase3Prefab.prefab
 - Assets/Models/newEnergyCell/Particles/GrimoraMats/Grimora_BrickWall.mat
 - Assets/Items/Meat_Raw_001_albedo.jpg
 - Assets/Models/AnkhGuard/EnchantressMat.mat
@@ -128,6 +131,7 @@ Assets:
 - Assets/Items/Wood_027_albedo.jpg
 - Assets/Models/newEnergyCell/Particles/RessourceStuff/Energy5.fbx
 - Assets/ChessboardPieces/Kaycee/ice_2.mat
+- Assets/Items/chisel/source/Chisel_Prefab.prefab
 - Assets/Models/AnkhGuard/white.png
 - Assets/ChessboardPieces/Kaycee/ice_var_2_tex.png
 - Assets/Models/Eyes.mat
@@ -136,6 +140,7 @@ Assets:
 - Assets/Boneyard_SelectionSlotNew.mat
 - Assets/Models/kaycee/BlizzardParticlesFire/FireParticlesFromAwesomeHitModFnafMod/Materials/MAT_Sparks.mat
 - Assets/Items/Meat_Raw_001_ambientOcclusion.jpg
+- Assets/Models/mushroom/MushroomPrefab.prefab
 - Assets/Models/newEnergyCell/Particles/GrimoraMats/grimora_wall_marble_01_rough_1k.jpg
 - Assets/Models/newEnergyCell/Particles/RessourceStuff/Energy2.fbx
 - Assets/Items/EmbalmingFluid/EmbalmingFluid_albedo.jpg
@@ -158,8 +163,10 @@ Assets:
 - Assets/Models/newEnergyCell/Particles/RessourceStuff/Energy4.fbx
 - Assets/Items/GlassBottle_Normal.png
 - Assets/Models/AnkhGuard/AnkhGuardPrefab.prefab
+- Assets/Models/mycoscenery/MycoNodePrefab.prefab
 - Assets/Models/AnkhGuard/AnkhChest/PBSShader_metallic.png
 - Assets/Models/AnkhGuard/AnkhChest/pharaoh chestt.fbx
+- Assets/Items/HoggyBank/piggy/phase 1/piggyphase1Prefab.prefab
 - Assets/Models/newEnergyCell/Particles/Ruby/sm_gem_ruby.asset
 - Assets/Models/AnkhGuard/GravediggerStone.mat
 - Assets/rough_wood_nor_gl_4k.exr
@@ -170,6 +177,8 @@ Assets:
 - Assets/Items/Horn/Bonehorn.fbx
 - Assets/Models/newEnergyCell/Particles/MoxBlue.prefab
 - Assets/Items/EmbalmingFluid/the_worldwide_internet.fbx
+- Assets/Models/GravebardNode/Node/GraveBardPrefab.prefab
+- Assets/Models/mycologists/mycologistSkull.prefab
 - Assets/Items/PirateShip_Emission.png
 - Assets/Models/kaycee/cevinsnow/SnowMaterial.mat
 - Assets/Models/AnkhGuard/Tex.mat
@@ -206,6 +215,7 @@ Assets:
 - Assets/Models/newEnergyCell/Particles/DirtyGemSapphire.prefab
 - Assets/Models/newEnergyCell/Particles/GemEmerald.prefab
 - Assets/Items/Horn/BoneLordsHornPrefab.prefab
+- Assets/Models/GravebardNode/Statue/bardinnodePrefab.prefab
 - Assets/Items/Mallet/Wood_plancks_004_DISP.jpg
 - Assets/Models/newEnergyCell/Particles/DirtyGemRuby.prefab
 - Assets/Items/OldUrn.fbx
@@ -223,6 +233,7 @@ Assets:
 - Assets/Models/newEnergyCell/Particles/StarSurroundingBlackMat.mat
 - Assets/Abilities/Particles/fire_red.png
 - Assets/Items/Mallet/OldSeptember.fbx
+- Assets/Items/HoggyBank/piggy/phase 2/piggyphase2Prefab.prefab
 - Assets/Items/Hands_Low_defaultMat1_albedo.jpg
 - Assets/Models/AnkhGuard/AnkhChest/PBSShader_height.png
 - Assets/Items/Horn/ram_skull_COLOUR_2K.png

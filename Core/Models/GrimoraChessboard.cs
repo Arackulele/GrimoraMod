@@ -31,6 +31,18 @@ public class GrimoraChessboard
 				)
 			},
 			{
+				typeof(ChessboardGoatEyePiece),
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.GoatEyeFigurine, GetGoatEyeNodes)
+			},
+			{
+				typeof(ChessboardCardMergePiece),
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.CardMergeFigurine, GetCardMergeNodes)
+			},
+			{
+				typeof(ChessboardGravebardPiece),
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.GravebardCampFigurine, GetGravebardNodes)
+			},
+			{
 				typeof(ChessboardChestPiece),
 				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.ChestPiece.gameObject, GetChestNodes)
 			},
@@ -44,7 +56,7 @@ public class GrimoraChessboard
 			},
 			{
 				typeof(AnkhGuardPiece),
-				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.AnkhGuardFigurine, GetGoatEyeNodes)
+				new Tuple<Func<GameObject>, Func<List<ChessNode>>>(() => AssetConstants.AnkhGuardFigurine, GetAnkhGuardNodes)
 			},
 			{
 				typeof(ChessboardGainConsumablePiece),
@@ -158,9 +170,9 @@ public class GrimoraChessboard
 		return Rows.SelectMany(row => row.GetNodesOfType(ChessNode.ElectricChairNode)).ToList();
 	}
 
-	private List<ChessNode> GetGoatEyeNodes()
+	private List<ChessNode> GetAnkhGuardNodes()
 	{
-		return Rows.SelectMany(row => row.GetNodesOfType(ChessNode.GoatEyeNode)).ToList();
+		return Rows.SelectMany(row => row.GetNodesOfType(ChessNode.AnkhGuardNode)).ToList();
 	}
 
 	public ChessNode GetPlayerNode()
@@ -171,6 +183,21 @@ public class GrimoraChessboard
 	private List<ChessNode> GetGainConsumableNodes()
 	{
 		return Rows.SelectMany(row => row.GetNodesOfType(ChessNode.ConsumableNode)).ToList();
+	}
+
+	private List<ChessNode> GetGoatEyeNodes()
+	{
+		return Rows.SelectMany(row => row.GetNodesOfType(ChessNode.GoatEyeNode)).ToList();
+	}
+
+	private List<ChessNode> GetCardMergeNodes()
+	{
+		return Rows.SelectMany(row => row.GetNodesOfType(ChessNode.CardMergeNode)).ToList();
+	}
+
+	private List<ChessNode> GetGravebardNodes()
+	{
+		return Rows.SelectMany(row => row.GetNodesOfType(ChessNode.GravebardNode)).ToList();
 	}
 
 	public static string GetBossSpecialIdForRegion()
@@ -191,9 +218,17 @@ public class GrimoraChessboard
 			PlacePieces<ChessboardCardRemovePiece>();
 			PlacePieces<ChessboardChestPiece>();
 			PlacePieces<ChessboardElectricChairPiece>();
+			PlacePieces<ChessboardGoatEyePiece>();
+			PlacePieces<ChessboardCardMergePiece>();
+			PlacePieces<ChessboardGravebardPiece>();
 			PlacePieces<ChessboardEnemyPiece>(GrimoraModBattleSequencer.FullSequencer.Id);
 			PlacePieces<AnkhGuardPiece>(AnkhGuardCombatSequencer.FullSequencer.Id);
 			PlacePieces<ChessboardGainConsumablePiece>();
+		}
+
+		foreach (var i in Resources.FindObjectsOfTypeAll<GameObject>().Where(obj => obj.name.Contains("GoatEyePiece")))
+		{
+			GameObject.Destroy(i.GetComponent<SphereCollider>());
 		}
 	}
 

@@ -6,6 +6,7 @@ using GrimoraMod.Saving;
 using InscryptionAPI.Card;
 using InscryptionAPI.Encounters;
 using InscryptionAPI.Helpers.Extensions;
+using JetBrains.Annotations;
 using Steamworks;
 using UnityEngine;
 using UnityEngine.Experimental.AI;
@@ -283,8 +284,12 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 
 		i.SetColors(GameColors.instance.blue, GameColors.instance.brightBlue, GameColors.instance.brightNearWhite);
 
-			if (i.Card != null && CurrentWaterlog.Contains(i) && !i.Card.HasAbility(Ability.Submerge) && !i.Card.Dead && !i.Card.HasAbility(Ability.MadeOfStone)) yield return i.Card.Die(false, null);
+			if (i.Card != null && CurrentWaterlog.Contains(i) && !i.Card.HasAbility(Ability.Submerge) && !i.Card.Dead && !i.Card.HasAbility(Ability.MadeOfStone) && !i.Card.HasAbility(Ability.Haunter))
+			{
+				StartCoroutine(killwithdelay(i.Card));
+			}
 		}
+
 
 		foreach (var i in BoardManager.Instance.AllSlots)
 		{
@@ -297,7 +302,14 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 		yield break;
 	}
 
-		public override bool RespondsToTurnEnd(bool playerTurnEnd)
+
+	public IEnumerator killwithdelay(PlayableCard i)
+	{
+		yield return new WaitForSeconds(0.01f);
+		yield return i.Die(false, null);
+	}
+
+	public override bool RespondsToTurnEnd(bool playerTurnEnd)
 		{
 				return true;
 		}
@@ -440,9 +452,18 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 			yield return CardSpawner.Instance.SpawnCardToHand(NameUrn.GetCardInfo());
 			yield return CardSpawner.Instance.SpawnCardToHand(NameUrn.GetCardInfo());
 		}
+
+		if (SaveFile.IsAscension && AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.EasyGuards))
+		{
+			yield return ResourcesManager.Instance.AddBones(1);
+			yield return ResourcesManager.Instance.AddMaxEnergy(1);
+			yield return ResourcesManager.Instance.AddEnergy(1);
+
 		}
 
-		public override IEnumerator GameEnd(bool playerWon)
+	}
+
+	public override IEnumerator GameEnd(bool playerWon)
 		{
 		foreach (var i in BoardManager.Instance.AllSlots)
 		{

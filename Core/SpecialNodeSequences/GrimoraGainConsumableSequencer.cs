@@ -76,11 +76,6 @@ public class GrimoraGainConsumableSequencer : GainConsumablesSequencer
 		{
 			yield return FullConsumablesSequence();
 		}
-		else if (!ProgressionData.LearnedMechanic(MechanicsConcept.GainConsumables))
-		{
-			yield return TutorialGainConsumables();
-			ProgressionData.SetMechanicLearned(MechanicsConcept.GainConsumables);
-		}
 		else
 		{
 			yield return RegularGainConsumables(nodeData);
@@ -171,43 +166,6 @@ public class GrimoraGainConsumableSequencer : GainConsumablesSequencer
 		}
 	}
 
-	private new IEnumerator TutorialGainConsumables()
-	{
-		Singleton<ItemsManager>.Instance.SetSlotsAtEdge(false, true);
-		List<ConsumableItemData> list = new List<ConsumableItemData>
-		{
-			ItemsUtil.GetConsumableByName("SquirrelBottle"),
-			ItemsUtil.GetConsumableByName("SquirrelBottle"),
-			ItemsUtil.GetConsumableByName("Pliers")
-		};
-		SelectableItemSlot middleSlot = slots[1];
-		middleSlot.gameObject.SetActive(true);
-		foreach (ConsumableItemData item in list)
-		{
-			if (!ProgressionData.IntroducedConsumable(item))
-			{
-				middleSlot.CreateItem(item);
-				yield return new WaitForSeconds(0.15f);
-				yield return new WaitForSeconds(0.1f);
-				yield return StartCoroutine(LearnItemSequence(middleSlot.Item));
-				ProgressionData.SetConsumableIntroduced(middleSlot.Item.Data);
-				middleSlot.Item.PlayExitAnimation();
-				yield return new WaitForSeconds(0.25f);
-				if (middleSlot.Item != null)
-				{
-					UnityEngine.Object.Destroy(middleSlot.Item.gameObject);
-				}
-			}
-			else
-			{
-				yield return Singleton<TextDisplayer>.Instance.ShowUntilInput("And have a second...", 0f, 0f);
-			}
-			RunState.Run.consumables.Add(item.name);
-			Singleton<ItemsManager>.Instance.UpdateItems();
-			yield return new WaitForSeconds(0.75f);
-		}
-		yield return Singleton<TextDisplayer>.Instance.ShowUntilInput("Three is as much as you can carry.", -0.5f, 0.45f);
-	}
 
 	private new IEnumerator FullConsumablesSequence()
 	{
@@ -280,7 +238,8 @@ public class GrimoraGainConsumableSequencer : GainConsumablesSequencer
 	{
 		List<ConsumableItemData> unlockedConsumablesForRegion = ItemsUtil.GetUnlockedConsumablesForRegion(RunState.CurrentMapRegion);
 		unlockedConsumablesForRegion.RemoveAll((a) => a.rulebookCategory != AbilityMetaCategory.GrimoraRulebook);
-		
+		unlockedConsumablesForRegion.RemoveAll((a) =>GrimoraPlugin.GrimoraItemsSecret.Contains(a));
+
 		List<ConsumableItemData> list = new List<ConsumableItemData>();
 		
 		while (list.Count < 3)

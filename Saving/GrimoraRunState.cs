@@ -37,7 +37,9 @@ public class GrimoraRunState : RunState
 		this.boardData.removedPieces = new List<int>();
 		this.boardData.deck = this.playerDeck; // Yuck. But Reference just works 
 
+		//Hijacking this List for Boon Management, in order to save the hastle of custom saving
 		this.riggedDraws = new List<string>();
+
 		this.storyEventsCompleted = new List<StoryEvent>();
 		this.totems = new List<TotemDefinition>();
 		this.totemTops = new List<Tribe>();
@@ -60,8 +62,8 @@ public class GrimoraRunState : RunState
 		this.playerDeck.AddCard(GrimoraPlugin.NameZombie.GetCardInfo());
 
 		this.consumables.Clear();
-		this.consumables.Add(GrimoraPlugin.AllGrimoraItems[6].name);
-		this.consumables.Add(GrimoraPlugin.AllGrimoraItems[1].name);
+		this.consumables.Add(GrimoraPlugin.ObtainableGrimoraItems[6].name);
+		this.consumables.Add(GrimoraPlugin.ObtainableGrimoraItems[1].name);
 		
 		this.boardData.gridX = 0;
 		this.boardData.gridY = 0;

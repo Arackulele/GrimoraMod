@@ -70,6 +70,7 @@ public class SawyerBossOpponent : BaseBossExt
 		ViewManager.Instance.SwitchToView(View.Default);
 
 		SetSceneEffectsShownSawyer();
+		ChangeDialogueSpeaker("sawyer");
 
 		yield return base.IntroSequence(encounter);
 		yield return new WaitForSeconds(0.1f);
@@ -377,8 +378,11 @@ public class SawyerBossOpponent : BaseBossExt
 
 			if (validforcoward == true) AchievementManager.Unlock(CowardsEnd);
 
+
 			if (ishalloween == true) yield return TextDisplayer.Instance.ShowUntilInput("YOU HAVE BEATEN THE VICIOUS CANDY MONSTER AND SAVED HALLOWEEN!");
 			else yield return TextDisplayer.Instance.ShowUntilInput("THANKS FOR GETTING IT OVER WITH, AND DON'T EVER RETURN!");
+
+			ChangeDialogueSpeaker("grimora");
 
 			yield return new WaitForSeconds(0.5f);
 			yield return base.OutroSequence(true);

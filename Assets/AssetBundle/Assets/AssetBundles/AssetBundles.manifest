@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 1682957920
+CRC: 3487950880
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -32,4 +32,7 @@ AssetBundleManifest:
         Dependency_0: moxbundle
     Info_9:
       Name: moxbundle
+      Dependencies: {}
+    Info_10:
+      Name: grimoramod_fonts
       Dependencies: {}

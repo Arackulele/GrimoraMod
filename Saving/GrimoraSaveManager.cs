@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Saves;
 using static GrimoraMod.GrimoraPlugin;
@@ -9,7 +9,7 @@ namespace GrimoraMod.Saving;
 public class GrimoraSaveManager
 {
 	public static GrimoraSaveFile CurrentSaveFile;
-	
+
 	public static void CreateNewSaveFile()
 	{
 		if (File.Exists(SaveFilePath))

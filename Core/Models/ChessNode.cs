@@ -10,11 +10,13 @@ public class ChessNode
 	public const char CardRemovalNode = '5';
 	public const char BoneyardNode = '6';
 	public const char ElectricChairNode = '7';
-	public const char GoatEyeNode = '8';
+	public const char AnkhGuardNode = '8';
 	public const char PlayerNode = '9';
 	
 	public const char ConsumableNode = 'i';
-
+	public const char GoatEyeNode = 'g';
+	public const char CardMergeNode = 'm';
+	public const char GravebardNode = 'c';
 
 	private readonly ChessRow _row;
 	private readonly int _index;
@@ -23,6 +25,7 @@ public class ChessNode
 	public readonly bool isBoss;
 	public readonly bool isCardRemoval;
 	public readonly bool isGainConsumable;
+	public readonly bool isGoatEye;
 	public readonly bool isChest;
 	public readonly bool isEnemy;
 	public readonly bool IsPath;
@@ -59,6 +62,9 @@ public class ChessNode
 				break;
 			case PlayerNode:
 				isPlayer = true;
+				break;
+			case GoatEyeNode:
+				isGoatEye = true;
 				break;
 		}
 
@@ -113,7 +119,12 @@ public class ChessNode
 		{
 			return $"IsCardRemoval_{GetCoords()}";
 		}
-		
+
+		if (isGoatEye)
+		{
+			return $"IsGoatEye_{GetCoords()}";
+		}
+
 		return $"IsUnknown({JsonValue})_{GetCoords()}";
 	}
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Text;
 using DiskCardGame;
+using GrimoraMod.Saving;
 using InscryptionAPI.Card;
 using Pixelplacement;
 using Pixelplacement.TweenSystem;
@@ -166,10 +167,11 @@ public static class CardRelatedExtension
 			}
 
 			if (!GrimoraSaveUtil.IsNotGrimoraModRun) { 
-			if (playableCard.LacksAbility(Ability.QuadrupleBones) && playableCard.LacksAbility(Boneless.ability) && playableCard.LacksTrait(Trait.Terrain) && slotBeforeDeath.IsPlayerSlot)
+			if (playableCard.LacksAbility(Ability.QuadrupleBones) && playableCard.LacksAbility(Boneless.ability) && slotBeforeDeath.IsPlayerSlot)
 			{
-				yield return ResourcesManager.Instance.AddBones(1, slotBeforeDeath);
-			}
+				if (playableCard.LacksTrait(Trait.Terrain) || GrimoraRunState.CurrentRun.riggedDraws.Contains("Boon_TerrainBones")) yield return ResourcesManager.Instance.AddBones(1, slotBeforeDeath);
+				if (GrimoraRunState.CurrentRun.riggedDraws.Contains("Boon_TerrainBones") && playableCard.HasTrait(Trait.Terrain)) yield return ResourcesManager.Instance.AddBones(1, slotBeforeDeath);
+				}
 			}
 			else if (playableCard.LacksAbility(Ability.QuadrupleBones) && playableCard.LacksAbility(Boneless.ability) && slotBeforeDeath.IsPlayerSlot)
 			{

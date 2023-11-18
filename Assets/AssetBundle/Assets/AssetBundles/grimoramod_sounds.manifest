@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2438191403
+CRC: 2330702982
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8f64e688ed8fb036a519903b2a172556
+    Hash: f7753cf976e4a96e5cda690e68995b8f
   TypeTreeHash:
     serializedVersion: 2
     Hash: 3f7d0c5e0986ec71841622bcb2f9be1c
@@ -13,15 +13,29 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
+- Assets/Sounds/kaycee/kayceevoice_calm#1.wav
 - Assets/Sounds/RoyalRuckus_Phase2Rain.wav
+- Assets/Sounds/kaycee/kayceevoice_calm#3.wav
 - Assets/Sounds/wind__artic__cold-6195.mp3
 - Assets/Sounds/light-rain-109591.mp3
+- Assets/Sounds/mycos/smallcologistvoice_calm#1.wav
 - Assets/Sounds/Grimoras_Theme_Phase1.ogg
 - Assets/Sounds/RoyalRuckus_Phase1.ogg
+- Assets/Sounds/Sawyer/sawyervoice_calm#3.wav
+- Assets/Sounds/mycos/smallcologistvoice_calm#2.wav
 - Assets/Sounds/Grimora_Bone_Lords_Theme_Phase3.ogg
+- Assets/Sounds/mycos/grimmycologistvoice_suprised#1.wav
 - Assets/Sounds/Sawyer_Dogbite_Phase1.ogg
+- Assets/Sounds/kaycee/kayceevoice_calm#2.wav
+- Assets/Sounds/Sawyer/sawyervoice_calm#2.wav
+- Assets/Sounds/mycos/grimmycologistvoice_calm#1.wav
 - Assets/Sounds/Frostburn.ogg
+- Assets/Sounds/mycos/grimmycologistvoice_calm#3.wav
 - Assets/Sounds/RoyalRuckus_Phase2.ogg
+- Assets/Sounds/Sawyer/sawyervoice_calm#1.wav
+- Assets/Sounds/mycos/smallcologistvoice_calm#3.wav
+- Assets/Sounds/guitar-strum-74592.mp3
 - Assets/Sounds/FrostburnStorm.wav
 - Assets/Sounds/Sawyer_Hellhound_Phase2.ogg
+- Assets/Sounds/mycos/grimmycologistvoice_calm#2.wav
 Dependencies: []

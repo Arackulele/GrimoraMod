@@ -240,14 +240,14 @@ public class ChallengeManagement
 				activatedSprite = AssetUtils.GetPrefab<Sprite>("antichallengeeyes"),
 				pointValue = -20
 			},
-						new()
+			new()
 			{
 				challengeType = EasyGuards,
-				title = "Pharaos Blessing",
-				description = "The Ankh Guard effects always benefit you.",
+				title = "Blessing of the Ankh",
+				description = "Start Pharao Battles and Bosses with an extra starting Bone and Energy.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("ankh"),
 				activatedSprite = AssetUtils.GetPrefab<Sprite>("antichallengeeyes"),
-				pointValue = -15
+				pointValue = -10
 			},
 
 

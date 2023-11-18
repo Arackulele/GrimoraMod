@@ -22,6 +22,8 @@ using UnityEngine;
 using Infiniscryption.Achievements;
 using static InscryptionAPI.Card.AbilityManager;
 using static DiskCardGame.ConceptNode;
+using GBC;
+using GrimoraMod.Core.Consumables.Secret;
 
 namespace GrimoraMod;
 
@@ -47,12 +49,15 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 	public static List<AudioClip> AllSounds;
 	public static List<Texture> AllAbilitiesTextures;
 	public static List<Mesh> AllMesh;
+	public static List<Font> AllFonts;
 
 	// Gets populated in CardBuilder.Build()
 	public static List<CardInfo> AllGrimoraModCards = new();
 	public static List<string> AllGrimoraModCardsNoGuid = new();
 	public static List<CardInfo> AllPlayableGrimoraModCards = new();
-	public static List<ConsumableItemData> AllGrimoraItems = new();
+	public static List<ConsumableItemData> ObtainableGrimoraItems = new();
+	public static List<ConsumableItemData> GrimoraItemsSecret = new();
+
 
 	public static readonly CardMetaCategory GrimoraChoiceNode = GuidManager.GetEnumValue<CardMetaCategory>(GUID, "GrimoraModChoiceNode");
 	public static readonly AbilityMetaCategory ElectricChairLevel1 = GuidManager.GetEnumValue<AbilityMetaCategory>(GUID, "ElectricChairLevel1");
@@ -173,6 +178,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AllMats = AssetUtils.LoadAssetBundle<Material>("grimoramod_mats");
 		AllMesh = AssetUtils.LoadAssetBundle<Mesh>("grimoramod_mesh");
 
+		AllFonts = AssetUtils.LoadAssetBundle<Font>("grimoramod_fonts");
+
 		AllSounds = AssetUtils.LoadAssetBundle<AudioClip>("grimoramod_sounds");
 		AllSprites = AssetUtils.LoadAssetBundle<Sprite>("grimoramod_sprites");
 		var kopieSprites = AssetUtils.LoadAssetBundle<Sprite>("grimora_kopiebunde");
@@ -185,16 +192,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		//var grimora_newmodels = AssetUtils.LoadAssetBundle<GameObject>("grimoramod_new");
 
-#if DEBUG
-		foreach (var s in kopieSprites)
-		{
-			Log.LogInfo($"Sprite added by Kopie {s}");
-		}
-		foreach (var g in kopiePrefabs)
-		{
-			Log.LogInfo($"Prefab added by Kopie {g}");
-		}
-#endif
 		AllSprites.AddRange(grimora_new);
 		AllSprites.AddRange(kopieSprites);
 
@@ -458,29 +455,43 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		GameObject MalletPrefab = GameObject.Instantiate(NewObjects.Find(g => g.name.Contains("MalletPrefab")));
 
+		GameObject ChiselPrefab = GameObject.Instantiate(NewObjects.Find(g => g.name.Contains("Chisel_Prefab")));
+
+		GameObject Piggy1 = GameObject.Instantiate(NewObjects.Find(g => g.name.Contains("piggyphase1Prefab")));
+
+		GameObject Piggy2 = GameObject.Instantiate(NewObjects.Find(g => g.name.Contains("piggyphase2Prefab")));
+
+		GameObject Piggy3 = GameObject.Instantiate(NewObjects.Find(g => g.name.Contains("piggyphase3Prefab")));
+
 		FemurModel = GameObject.Instantiate(NewObjects.Find(g => g.name.Contains("FemurPrefab")));
 
 		GrimoraCardInABottle.CreateModel();
-		AllGrimoraItems.Add(GrimoraCardInABottle.NewCardBottleItem(NameRevenant));
-		AllGrimoraItems.Add(GrimoraCardInABottle.NewCardBottleItem(NameBonepile));
+		ObtainableGrimoraItems.Add(GrimoraCardInABottle.NewCardBottleItem(NameRevenant));
+		ObtainableGrimoraItems.Add(GrimoraCardInABottle.NewCardBottleItem(NameBonepile));
 
-		AllGrimoraItems.Add(EmbalmingFluid.NewEmbalmingFluid(EmbalmModel));
+		ObtainableGrimoraItems.Add(EmbalmingFluid.NewEmbalmingFluid(EmbalmModel));
 
-		AllGrimoraItems.Add(ShipBottle.NewShipBottle(ShipBottlePrefab));
+		ObtainableGrimoraItems.Add(ShipBottle.NewShipBottle(ShipBottlePrefab));
 
-		AllGrimoraItems.Add(GrimoraUrn.NewGrimoraUrn(UrnModel));
+		ObtainableGrimoraItems.Add(GrimoraUrn.NewGrimoraUrn(UrnModel));
 
-		AllGrimoraItems.Add(DeadHandItem.NewDeadHand(HandModel));
+		ObtainableGrimoraItems.Add(DeadHandItem.NewDeadHand(HandModel));
 
-		AllGrimoraItems.Add(BoneHorn.NewBoneHorn(HornModel));
+		ObtainableGrimoraItems.Add(BoneHorn.NewBoneHorn(HornModel));
 
-		AllGrimoraItems.Add(Trowel.NewTrowel(TrowelModel));
+		ObtainableGrimoraItems.Add(Trowel.NewTrowel(TrowelModel));
 
-		AllGrimoraItems.Add(Mallet.NewMallet(MalletPrefab));
+		ObtainableGrimoraItems.Add(Mallet.NewMallet(MalletPrefab));
 
-		AllGrimoraItems.Add(Quill.NewQuill(QuillPrefab));
+		ObtainableGrimoraItems.Add(Quill.NewQuill(QuillPrefab));
 
-		AllGrimoraItems.Add(BoneLordsFemur.NewBoneLordsFemur(FemurModel));
+		GrimoraItemsSecret.Add(BoneLordsFemur.NewBoneLordsFemur(FemurModel));
+
+		GrimoraItemsSecret.Add(SliveredBank.NewSliveredBank(Piggy1));
+		GrimoraItemsSecret.Add(SliveredBank2.NewSliveredBank(Piggy2));
+		GrimoraItemsSecret.Add(SliveredBank3.NewSliveredBank(Piggy3));
+
+		GrimoraItemsSecret.Add(GravecarversChisel.NewGravecarversChisel(ChiselPrefab));
 
 	}
 
@@ -638,7 +649,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		AllSounds = null;
 		AllGrimoraModCards = new List<CardInfo>();
 		AllGrimoraModCardsNoGuid = new List<string>();
-		AllGrimoraItems = new List<ConsumableItemData>();
+		ObtainableGrimoraItems = new List<ConsumableItemData>();
+		GrimoraItemsSecret = new List<ConsumableItemData>();
 		ConfigHelper.Instance.HandleHotReloadBefore();
 		Resources.UnloadUnusedAssets();
 		GrimoraModBattleSequencer.ActiveEnemyPiece = null;
@@ -672,4 +684,113 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 		Destroy(gameObject, 6f);
 	}
+
+	static bool addedvoices = false;
+
+	public static void ChangeDialogueSpeaker(string character)
+	{
+		if (addedvoices == false) {
+			AudioController.Instance.SFX.Add(AllSounds.Find(g => g.name.Contains("smallcologistvoice_calm#1")));
+			AudioController.Instance.SFX.Add(AllSounds.Find(g => g.name.Contains("smallcologistvoice_calm#2")));
+			AudioController.Instance.SFX.Add(AllSounds.Find(g => g.name.Contains("smallcologistvoice_calm#3")));
+
+			AudioController.Instance.SFX.Add(AllSounds.Find(g => g.name.Contains("kayceevoice_calm#1")));
+			AudioController.Instance.SFX.Add(AllSounds.Find(g => g.name.Contains("kayceevoice_calm#2")));
+			AudioController.Instance.SFX.Add(AllSounds.Find(g => g.name.Contains("kayceevoice_calm#3")));
+			AudioController.Instance.SFX.Add(AllSounds.Find(g => g.name.Contains("sawyervoice_calm#1")));
+			AudioController.Instance.SFX.Add(AllSounds.Find(g => g.name.Contains("sawyervoice_calm#2")));
+			AudioController.Instance.SFX.Add(AllSounds.Find(g => g.name.Contains("sawyervoice_calm#3")));
+
+			AudioController.Instance.SFX.Add(AllSounds.Find(g => g.name.Contains("grimmycologistvoice_calm#1")));
+			AudioController.Instance.SFX.Add(AllSounds.Find(g => g.name.Contains("grimmycologistvoice_calm#2")));
+			AudioController.Instance.SFX.Add(AllSounds.Find(g => g.name.Contains("grimmycologistvoice_calm#3")));
+			AudioController.Instance.SFX.Add(AllSounds.Find(g => g.name.Contains("grimmycologistvoice_suprise#1")));
+
+			addedvoices = true;
+		}
+
+		TextDisplayer.SpeakerTextStyle current;
+
+
+		switch (character)
+		{
+			default:
+			case "grimora":
+				current = TextDisplayer.Instance.defaultStyle;
+				break;
+
+			case "kaycee":
+				current = new TextDisplayer.SpeakerTextStyle()
+				{
+					color = GameColors.instance.brightBlue,
+					font = AllFonts.Find(g => g.name.Contains("FronzyFreeTrial-mLVlP")),
+					voiceSoundIdPrefix = "kaycee",
+					voiceSoundVolume = 1.2f,
+					triangleSprite = AssetUtils.GetPrefab<Sprite>("white_triangle_tech"),
+
+				};
+				break;
+
+			case "sawyer":
+				current = new TextDisplayer.SpeakerTextStyle()
+				{
+					color = GameColors.instance.brownOrange,
+					font = AllFonts.Find(g => g.name.Contains("zai_ConsulPolishTypewriter")),
+					voiceSoundIdPrefix = "sawyer",
+					voiceSoundVolume = 1.4f,
+					triangleSprite = AssetUtils.GetPrefab<Sprite>("white_triangle_tech"),
+
+				};
+				break;
+
+			case "royal":
+				current = new TextDisplayer.SpeakerTextStyle()
+				{
+					color = GameColors.instance.blue,
+					font = AllFonts.Find(g => g.name.Contains("Pieces_of_Eight")),
+					voiceSoundIdPrefix = "pirateskull",
+					triangleSprite = AssetUtils.GetPrefab<Sprite>("white_triangle_tech"),
+				};
+				break;
+
+			case "mycologist":
+				current = new TextDisplayer.SpeakerTextStyle()
+				{
+					color = GameColors.instance.brightLimeGreen,
+					font = ResourceBank.Get<Font>("fonts/3d scene fonts/VICIOUSHUNGER"),
+					voiceSoundIdPrefix = "grimmycologist",
+					voiceSoundVolume = 1.4f,
+					fontSizeChange = 8,
+					triangleSprite = AssetUtils.GetPrefab<Sprite>("white_triangle_tech"),
+				};
+				break;
+
+			case "mycologistside":
+				current = new TextDisplayer.SpeakerTextStyle()
+				{
+					color = GameColors.instance.limeGreen,
+					font = ResourceBank.Get<Font>("fonts/3d scene fonts/VICIOUSHUNGER"),
+					voiceSoundIdPrefix = "smallcologist",
+					voiceSoundVolume = 1.4f,
+					triangleSprite = AssetUtils.GetPrefab<Sprite>("white_triangle_tech"),
+				};
+				break;
+
+			case "bonelord":
+				current = new TextDisplayer.SpeakerTextStyle()
+				{
+					color = GameColors.instance.brightRed,
+					font = ResourceBank.Get<Font>("fonts/3d scene fonts/VICIOUSHUNGER"),
+					voiceSoundIdPrefix = "bonelord",
+					triangleSprite = AssetUtils.GetPrefab<Sprite>("white_triangle_tech"),
+				};
+				break;
+		}
+
+		TextDisplayer.Instance.alternateSpeakerStyles = new List<TextDisplayer.SpeakerTextStyle> { current };
+		TextDisplayer.Instance.SetTextStyle(current);
+
+
+	}
+
 }

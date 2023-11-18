@@ -26,6 +26,8 @@ namespace GrimoraMod
 
 				new CreditEntry("Nevernamed", "Artwork"),
 
+				new CreditEntry("Spooky Pig", "Writing"),
+
 				new CreditEntry("Pinks8n", "3D Modelling"),
 				new CreditEntry("Catboy Stinkbug", "3D Modelling"),
 
@@ -33,21 +35,21 @@ namespace GrimoraMod
 				new CreditEntry("Kopie", "Additional Code"),
 				new CreditEntry("Ourochi", "Additional Code"),
 
+				new CreditEntry("Gold/ Inversefireman", "SFX, Additional Art"),
 				new CreditEntry("Cevin_2006", "Additional Art, VFX and code"),
 				new CreditEntry("Anne Bean", "Additional Card Portraits"),
 				new CreditEntry("Amy", "Additional Art"),
-				new CreditEntry("Gold ( i eat rocks )", "Additional Art"),
 				new CreditEntry("Lich Underling", "Additional Art"),
 				new CreditEntry("Nonexistant", "Additional Art"),
 
 				new CreditEntry("JestAnotherAnimator", "Attack animations"),
 				new CreditEntry("Draconis17", "Energy Drone Game Object"),
 
-				new CreditEntry("Bob the Nerd", "Adittional Dialogue"),
-				new CreditEntry("Spooky Pig", "Adittional Dialogue"),
+				new CreditEntry("Bob the Nerd", "Additional Dialogue"),
+
+				new CreditEntry("Keks", "Map Creation help, assets"),
 
 				new CreditEntry("Daniel Muliins", "Creator of Inscryption"),
-				new CreditEntry("My Brothers", "Letting me annoy them about this"),
 				new CreditEntry("Tatum", "Dog"),
 				new CreditEntry("Anton", "Suprisingly, also Dog"),
 				new CreditEntry("Cat aka Bastard Man aka Little Guy", "Cat - co-creator"),
