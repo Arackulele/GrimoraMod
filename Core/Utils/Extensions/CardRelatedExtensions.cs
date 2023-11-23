@@ -125,9 +125,11 @@ public static class CardRelatedExtension
 		float royalTableSwayValue = 0f
 	)
 	{
+		Animator customArmPrefab = null;
 		if (playableCard.NotDead())
 		{
-			Animator customArmPrefab = playableCard.Anim.GetCustomArm();
+
+			if (playableCard.Anim.GetCustomArm() != null) customArmPrefab = playableCard.Anim.GetCustomArm();
 			playableCard.Dead = true;
 			CardSlot slotBeforeDeath = playableCard.Slot;
 			if (playableCard.Info && playableCard.Info.name.ToLower().Contains("squirrel"))
@@ -183,7 +185,7 @@ public static class CardRelatedExtension
 				yield return playableCard.TriggerHandler.OnTrigger(Trigger.Die, wasSacrifice, killer);
 			}
 
-			if (customArmPrefab)
+			if (customArmPrefab != null)
 			{
 				UnityObject.Destroy(customArmPrefab.gameObject);
 			}

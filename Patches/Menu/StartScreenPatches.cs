@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using HarmonyLib;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
@@ -13,7 +13,7 @@ public class StartScreenPatches
 	{
 		Log.LogDebug($"Setting new background theme");
 		var grimoraTheme = __instance.themes[0];
-		if (ColorUtility.TryParseHtmlString("0F2623", out var color))
+		if (ColorUtility.TryParseHtmlString("ff0019", out var color))
 		{
 			grimoraTheme.fillColor = color;
 		}

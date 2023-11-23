@@ -305,7 +305,7 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 
 	public IEnumerator killwithdelay(PlayableCard i)
 	{
-		yield return new WaitForSeconds(0.01f);
+		yield return new WaitForSeconds(0.2f);
 		yield return i.Die(false, null);
 	}
 

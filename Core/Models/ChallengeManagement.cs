@@ -244,7 +244,7 @@ public class ChallengeManagement
 			{
 				challengeType = EasyGuards,
 				title = "Blessing of the Ankh",
-				description = "Start Pharao Battles and Bosses with an extra starting Bone and Energy.",
+				description = "Start Pharaoh Battles and Bosses with an extra starting Bone and Energy.",
 				iconSprite = AssetUtils.GetPrefab<Sprite>("ankh"),
 				activatedSprite = AssetUtils.GetPrefab<Sprite>("antichallengeeyes"),
 				pointValue = -10

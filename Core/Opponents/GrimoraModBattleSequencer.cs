@@ -193,9 +193,12 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 	public override IEnumerator PreCleanUp()
 	{
-		ChangeDialogueSpeaker("Grimora");
+		
 		if (!TurnManager.Instance.PlayerIsWinner() && !AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.InfinitLives))
 		{
+
+			ChangeDialogueSpeaker("Grimora");
+
 			Opponent opponent = TurnManager.Instance.Opponent;
 
 			Log.LogDebug($"[PreCleanUp] Player did not win...");
@@ -441,7 +444,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 	public override IEnumerator GameEnd(bool playerWon)
 	{
-
+		cardsThatHaveDiedThisMatch.Clear();
 		Log.LogDebug($"Triggering Game end in Boss Opponent");
 
 		if (playerWon)
