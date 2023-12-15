@@ -44,8 +44,8 @@ public class GrimoraUrn : BatteryItem
 		Debug.Log("Added Urn");
 
 		Texture2D HahaL = new Texture2D(70, 80);
-		ConsumableItemData data = ConsumableItemManager.New(GUID, "Soul Urn", "The Soul Urn, spend all of your Soul, gain maximum Soul capacity for each Soul consumed. If your Soul Capacity is full, instead gain 2 Souls.", HahaL, typeof(GrimoraUrn), Model)
-		.SetLearnItemDescription("Takes all of your Soul but increases your maximum by the amount taken, a certain acquaintance of mine would call this a return on investment.");
+		ConsumableItemData data = ConsumableItemManager.New(GUID, "Soul Urn", "The Soul Urn: spend all of your Soul, gain maximum Soul capacity for each Soul consumed. If your Soul Capacity is full, instead gain 2 Souls.", HahaL, typeof(GrimoraUrn), Model)
+		.SetLearnItemDescription("Takes all of your Soul, but increases your maximum by the amount taken. A certain acquaintance of mine would call this a return on investment.");
 
 
 		data.rulebookCategory = AbilityMetaCategory.GrimoraRulebook;

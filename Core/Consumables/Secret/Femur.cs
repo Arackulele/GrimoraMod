@@ -44,8 +44,8 @@ public class BoneLordsFemur : ConsumableItem
 				Debug.Log("Added Femur");
 
 				var HahaL = new Texture2D(70, 80);
-				var data = ConsumableItemManager.New(GUID, "Bonelords Femur", "The Bone Lords Femur, this ones a mystery even to me.", HahaL, typeof(BoneLordsFemur), Model)
-												 .SetLearnItemDescription("You have dug too far, i have let myself be used as a tool for too long. Just like i will lend you this tool, i am truly in power");
+				var data = ConsumableItemManager.New(GUID, "Bonelords Femur", "The Bone Lord's Femur: this one's a mystery even to me.", HahaL, typeof(BoneLordsFemur), Model)
+												 .SetLearnItemDescription("You have dug too far. I have let myself be used as a tool for too long. Just like I will lend you this tool, I am truly in power");
 
 
 				return data;

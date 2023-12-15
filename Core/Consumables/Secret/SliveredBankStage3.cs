@@ -35,7 +35,7 @@ public class SliveredBank3 : ConsumableItem
 	{
 
 		Texture2D HahaL = new Texture2D(70, 80);
-		ConsumableItemData data = ConsumableItemManager.New(GUID, "Slivered Hoggy Bank3", "The Slivered Hoggy bank, gain 2 extra bones, one more time.", HahaL, typeof(SliveredBank3), Model)
+		ConsumableItemData data = ConsumableItemManager.New(GUID, "Slivered Hoggy Bank3", "The Slivered Hoggy bank: gain 2 extra bones, one more time.", HahaL, typeof(SliveredBank3), Model)
 		.SetLearnItemDescription("A relic from an age forsaken, this will grant you some extra bones in a pinch.");
 
 
