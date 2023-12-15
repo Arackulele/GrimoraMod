@@ -49,7 +49,7 @@ public partial class GrimoraPlugin
 	public void Add_Ability_Slasher()
 	{
 			const string rulebookDescription =
-				"When [creature] hits an opposing card, one of the targets adjacent allies will take damage as well ";
+				"When [creature] hits an opposing card, one of the target's adjacent allies will take damage as well.";
 
 		AbilityBuilder<Slasher>.Builder
 		 .SetRulebookDescription(rulebookDescription)
