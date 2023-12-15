@@ -197,7 +197,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 		if (!TurnManager.Instance.PlayerIsWinner() && !AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.InfinitLives))
 		{
 
-			ChangeDialogueSpeaker("Grimora");
+			ChangeDialogueSpeaker("grimora");
 
 			Opponent opponent = TurnManager.Instance.Opponent;
 
@@ -223,7 +223,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			if (SaveFile.IsAscension)
 			{
 
-				//for some reason i cant instanciate the loss Screen???
+				//for some reason I can't instantiate the loss Screen???
 
 				AscensionMenuScreens.ReturningFromSuccessfulRun = false;
 				AscensionMenuScreens.ReturningFromFailedRun = true;
