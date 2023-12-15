@@ -94,7 +94,7 @@ public class SawyerBossOpponent : BaseBossExt
 		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.ThreePhaseGhouls))
 		{
 
-			yield return TextDisplayer.Instance.ShowUntilInput($"oh... I- I see you're here again... Please, get rid of that monster and maybe I'll find some more time for you");
+			yield return TextDisplayer.Instance.ShowUntilInput($"Oh... I- I see you're here again... Please, get rid of that monster and maybe I'll find some more time for you");
 
 			bossSkull.EnterHand();
 		}
@@ -190,8 +190,8 @@ public class SawyerBossOpponent : BaseBossExt
 
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput($"OH, HE IS GONE... WHAT A RELIEF.");
-			yield return TextDisplayer.Instance.ShowUntilInput($"THANKS FOR YOUR BONES, KIND SIR!");
-			yield return TextDisplayer.Instance.ShowUntilInput($"NOW THAT THAT MONSTER IS GONE, WHY DONT WE PLAY A LITTLE LONGER");
+			yield return TextDisplayer.Instance.ShowUntilInput($"THANKS FOR YOUR BONES, KIND CHALLENGER!");
+			yield return TextDisplayer.Instance.ShowUntilInput($"NOW THAT THAT MONSTER IS GONE, WHY DONT WE PLAY A LITTLE LONGER?");
 
 			TableVisualEffectsManager.Instance.ChangeTableColors(
 				GameColors.instance.brightLimeGreen,
@@ -378,7 +378,10 @@ public class SawyerBossOpponent : BaseBossExt
 
 			if (validforcoward == true) AchievementManager.Unlock(CowardsEnd);
 
-
+			// For some reason, these lines would incorrectly display as Grimora speaking instead of Sawyer.
+			// So, we manually switch the speaker to sawyer right before the line, to ensure the correct speaker.
+			// TODO: Test this to see if it even works.
+			// ChangeDialogueSpeaker("sawyer");
 			if (ishalloween == true) yield return TextDisplayer.Instance.ShowUntilInput("YOU HAVE BEATEN THE VICIOUS CANDY MONSTER AND SAVED HALLOWEEN!");
 			else yield return TextDisplayer.Instance.ShowUntilInput("THANKS FOR GETTING IT OVER WITH, AND DON'T EVER RETURN!");
 

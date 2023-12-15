@@ -291,6 +291,10 @@ public class KayceeBossOpponent : BaseBossExt
 		{
 			if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.InfinitLives))
 			{
+				// Normally, there would be a comma before "dude" as it might be used an an address.
+				// However, the word "dude" is baked into Kaycee's speech pattern and doesn't have any meaning in this sentence.
+				// So, it makes more sense to leave that comma out.
+				// I am such a freaking dork.
 				yield return TextDisplayer.Instance.ShowUntilInput("C'mon dude, where are you going? Can't handle the cold?");
 				Phase2Snow.SetActive(false);
 
