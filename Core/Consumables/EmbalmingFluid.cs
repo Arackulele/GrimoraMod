@@ -60,7 +60,7 @@ public class EmbalmingFluid : GrimoraTargetSlotItem
 		Debug.Log("Added Embalming Fluid");
 
 		Texture2D HahaL = new Texture2D(70, 80);
-		ConsumableItemData data = ConsumableItemManager.New(GUID, "Embalming Fluid", "The Embalming Fluid: pour it over a card and it'll gain one health and attack.", HahaL, typeof(EmbalmingFluid), Model)
+		ConsumableItemData data = ConsumableItemManager.New(GUID, "Embalming Fluid", "The Embalming Fluid. Pour it over a card and it'll gain one health and attack.", HahaL, typeof(EmbalmingFluid), Model)
 		.SetLearnItemDescription("Prepare to put a member of your army to rest, increasing its stamina and vigor as you do so!");
 		data.rulebookCategory = AbilityMetaCategory.GrimoraRulebook;
 

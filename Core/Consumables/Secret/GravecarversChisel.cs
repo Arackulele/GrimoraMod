@@ -47,7 +47,7 @@ public class GravecarversChisel : ConsumableItem
 	{
 
 		Texture2D HahaL = new Texture2D(70, 80);
-		ConsumableItemData data = ConsumableItemManager.New(GUID, "Gravecarvers Chisel", "The Gravecarver's chisel: select any card that has died previously to add to your hand.", HahaL, typeof(GravecarversChisel), Model)
+		ConsumableItemData data = ConsumableItemManager.New(GUID, "Gravecarvers Chisel", "The Gravecarver's chisel. Select any card that has died previously to add to your hand.", HahaL, typeof(GravecarversChisel), Model)
 		.SetLearnItemDescription("A tool left behind by a mysterious creator. Did he carve the gravebard's statue, too?");
 
 
