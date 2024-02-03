@@ -238,7 +238,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		var oppSlots = BoardManager.Instance.OpponentSlotsCopy;
 
 		yield return TextDisplayer.Instance.ShowUntilInput(
-			"BEHOLD, MY LATEST CREATIONS! THE TWIN GIANTS!",
+			"BEHOLD: MY LATEST CREATIONS! THE TWIN GIANTS!",
 			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
 		);
 
@@ -378,7 +378,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 );
 
 			yield return TextDisplayer.Instance.ShowUntilInput(
-	"IT SEEMS YOUVE GIVEN UP YOUR REWARD FOR CHAOS", letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
+	"IT SEEMS YOU'VE GIVEN UP YOUR REWARD FOR CHAOS", letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
 );
 
 			yield return TextDisplayer.Instance.ShowUntilInput(
@@ -422,7 +422,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 		{
 
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"WHAT DID YOU DO. I AM DOOMED.", letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
+				"WHAT DID YOU DO? I AM DOOMED.", letterAnimation: TextDisplayer.LetterAnimation.WavyJitter);
 
 			AshCard.displayedName = "Greater Ashes";
 			AshCard.portraitTex = AssetUtils.GetPrefab<Sprite>("GreaterAshes");
@@ -550,7 +550,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 	{
 		Log.LogInfo("[Grimora] Spawning Bonelord's Horns");
 		yield return TextDisplayer.Instance.ShowUntilInput(
-			"RISE MY ARMY! RIIIIIIIIIISE!",
+			"RISE, MY ARMY! RIIIIIIIIIISE!",
 			letterAnimation: TextDisplayer.LetterAnimation.WavyJitter
 		);
 

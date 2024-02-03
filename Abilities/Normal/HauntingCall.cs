@@ -52,7 +52,7 @@ public partial class GrimoraPlugin
 	public void Add_Ability_HauntingCall()
 	{
 		const string rulebookDescription =
-			"Every turn [creature] is on the Board, it will take a Bone from you, if you have no Bones, it perishes.";
+			"Every turn [creature] is on the Board, it will take a Bone from you. If you have no Bones, it perishes.";
 
 		AbilityBuilder<HauntingCall>.Builder
 		 .SetRulebookDescription(rulebookDescription)

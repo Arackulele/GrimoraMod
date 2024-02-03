@@ -52,7 +52,7 @@ public class NegateFire : AbilityBehaviour
 	public void Add_Ability_NegateFire()
 	{
 
-		const string rulebookDescription = "When played,[creature] will extinguish all cards on the Board.";
+		const string rulebookDescription = "When played, [creature] will extinguish all cards on the Board.";
 
 			AbilityBuilder<NegateFire>.Builder
 			.SetRulebookName("Douse")

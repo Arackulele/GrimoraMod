@@ -34,7 +34,7 @@ public partial class GrimoraPlugin
 	public void Add_Ability_Haunter()
 	{
 		const string rulebookDescription = "When [creature] perishes, it haunts the space it died in. "
-		                                 + "The first creature played on this space gain its old sigils.";
+		                                 + "The first creature played on this space gains its old sigils.";
 
 		AbilityBuilder<Haunter>.Builder
 		 .SetIcon(AbilitiesUtil.LoadAbilityIcon(Ability.Haunter.ToString()))

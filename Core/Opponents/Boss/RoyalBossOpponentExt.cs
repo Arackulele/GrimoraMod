@@ -25,7 +25,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 	public override StoryEvent EventForDefeat => GrimoraEnums.StoryEvents.RoyalDefeated;
 
-	public override string DefeatedPlayerDialogue => "ARRG! WALK OFF THE PLANK YEE DIRTY SCALLYWAG!!!";
+	public override string DefeatedPlayerDialogue => "ARRG! WALK OFF THE PLANK, YE DIRTY SCALLYWAG!!!";
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
 	{
@@ -69,7 +69,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 		ChangeDialogueSpeaker("royal");
 
 			yield return FaceZoomSequence();
-			yield return TextDisplayer.Instance.ShowUntilInput("VAR, I SEE YOU MADE IT TO ME SHIP CHALLENGER!");
+			yield return TextDisplayer.Instance.ShowUntilInput("YAR, I SEE YOU MADE IT TO ME SHIP, CHALLENGER!");
 			yield return TextDisplayer.Instance.ShowUntilInput("I'VE BEEN WAITING FOR A WORTHY FIGHT!");
 
 
@@ -108,9 +108,9 @@ public class RoyalBossOpponentExt : BaseBossExt
 		{
 			yield return BoardManager.Instance.opponentSlots[3].CreateCardInSlot(NameRevenant.GetCardInfo(), 1.0f);
 			ChallengeActivationUI.TryShowActivation(ChallengeManagement.NoBones);
-			yield return TextDisplayer.Instance.ShowUntilInput("OH, I SEE YEE ARE SEVERELY HAUNTED!");
+			yield return TextDisplayer.Instance.ShowUntilInput("OH, I SEE YE ARE SEVERELY HAUNTED!");
 			ChallengeActivationUI.TryShowActivation(ChallengeManagement.Soulless);
-			yield return TextDisplayer.Instance.ShowUntilInput("REVENANT, PACK YE BAGS, YOURE GETTING THROWN OVERBOARD!");
+			yield return TextDisplayer.Instance.ShowUntilInput("REVENANT, PACK YER BAGS, YOU'RE GETTING THROWN OVERBOARD!");
 			yield return BoardManager.Instance.opponentSlots[3].Card.Die(false, null);
 		}
 	}
@@ -170,8 +170,8 @@ public class RoyalBossOpponentExt : BaseBossExt
 		{
 
 			yield return TextDisplayer.Instance.ShowUntilInput(
-"ME SHIP! I FEAR WE MAY BE SINKING."
-);
+				"ME SHIP! I FEAR WE MAY BE SINKING."
+			);
 
 			yield return ClearQueue();
 
@@ -210,7 +210,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 			yield return cannons.GetComponent<CannonTableEffects>().GlitchOutCannons();
 
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"PREPARE TO HOLD YEE BREATH!",
+				"PREPARE TO HOLD YER BREATH!",
 				-0.65f,
 				0.4f
 			);
@@ -230,7 +230,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 			ViewManager.Instance.SwitchToView(View.Board);
 
-			yield return TextDisplayer.Instance.ShowUntilInput($"HOLY FISHPASTE, YE FOUND DAVY JONES TREASURE");
+			yield return TextDisplayer.Instance.ShowUntilInput($"HOLY FISHPASTE, YE FOUND DAVY JONES' TREASURE!");
 
 			foreach (var i in full)
 			{
@@ -249,7 +249,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"YARRG, TWAS JUST DA FIRST ROUND!\nLETS SEE HOW YE FARE 'GAINST ME PERSONAL SHIP AN CREW!",
+				"YARRG, 'TWAS JUST DA FIRST ROUND!\nLETS SEE HOW YE FARE 'GAINST ME PERSONAL SHIP AN' CREW!",
 				-0.65f,
 				0.4f
 			);
@@ -342,7 +342,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 			AudioController.Instance.FadeOutLoop(5f);
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"I OVERESTIMATED ME SKILL, GOOD LUCK CHALLENGER.",
+				"I OVERESTIMATED ME SKILL. GOOD LUCK, CHALLENGER.",
 				-0.65f,
 				1f
 			);
