@@ -24,6 +24,7 @@ public class LatchPatches
 			  || x.Card == latch.Card
 				|| x.Card.Info.HasTrait(Trait.Uncuttable)
 				|| x.Card.AllAbilities().Count > 4
+				|| x.Card.HasAbility(latch.Ability)
 		);
 
 		return validTargets;

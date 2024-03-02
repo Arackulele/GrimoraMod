@@ -12,8 +12,8 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetAbilities(Ability.Tutor)
 			.SetBaseAttackAndHealth(1, 1)
-			.SetBoneCost(5)
-			.SetDescription("SOME SAY THIS EYE ONCE BELONGED TO AN ANCIENT GOD, IT GAZES UPON YOUR ARMY, PICKING ITS FAVORITE TO AID IT ON THE BATTLEFIELD.")
+			.SetBoneCost(4)
+			.SetDescription("SOME SAY THIS EYE ONCE BELONGED TO AN ANCIENT GOD. IT GAZES UPON YOUR ARMY, PICKING ITS FAVORITE TO AID IT ON THE BATTLEFIELD.")
 			.SetNames(NameDeadeye, "Deadeye")
 			.Build();
 	}

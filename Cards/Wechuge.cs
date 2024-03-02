@@ -10,10 +10,10 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(Ability.DoubleStrike)
+			.SetAbilities(Ability.DoubleStrike, Ability.MoveBeside)
 			.SetBaseAttackAndHealth(1, 2)
 			.SetBoneCost(5)
-			.SetDescription("Corrupted by the spirit of an animal. It will make furious swipes with each hand.")
+			.SetDescription("Corrupted by the spirit of a rabid wolf. It's fury cannot be stopped.")
 			.SetNames(NameWechuge, "Wechuge")
 			.Build();
 	}

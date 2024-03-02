@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 		 .SetAbilities(SpiritBearer.ability)
 		 .SetBaseAttackAndHealth(0, 1)
 		 .SetBoneCost(1)
-		 .SetDescription("Joyous spirits, THEY WARM WITH THEIR BODIES OF LIGHT, DRAWING IN HOPELESS SOULS INTO THEIR BEACON.")
+		 .SetDescription("THEY WARM WITH THEIR BODIES OF LIGHT, DRAWING HOPELESS SOULS INTO THEIR BEACON, DISPELLING THEIR FRIGHT.")
 		 .SetNames(NameWillOTheWisp, "Will 'O' The Wisp")
 		 .Build()
 		 .pixelPortrait = GrimoraPlugin.AllSprites.Find(o => o.name == "pixel_wisp");

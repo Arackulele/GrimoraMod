@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.DebuffEnemy)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(3)
-			.SetDescription("It's said their odor is so strong and repugnant, even the undead can feel it!")
+			.SetDescription("It is said their odor is so strong and repugnant, even the undead can feel it!")
 			.SetNames(NameFesteringWretch, "Festering Wretch")
 			.Build();
 	}

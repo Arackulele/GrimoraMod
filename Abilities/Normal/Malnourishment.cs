@@ -31,7 +31,7 @@ public class Malnourishment : AbilityBehaviour
 		
 		Card.Anim.StrongNegationEffect();
 		_modInfo.attackAdjustment -= 1;
-		Card.TakeDamage(1, null);
+		yield return Card.TakeDamage(1, null);
 		Card.Anim.StrongNegationEffect();
 
 		yield return LearnAbility(0.25f);

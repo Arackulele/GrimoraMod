@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(CreateShipwrecks.ability, Ability.Submerge)
 			.SetBaseAttackAndHealth(1, 2)
 			.SetBoneCost(5)
-			.SetDescription("A waterlogged sailor who wanders the ocean floor and carries his tragic past beside him.")
+			.SetDescription("A waterlogged sailor who carries his tragic past beside him. I don't remember the details.")
 			.SetNames(NameForgottenMan, "Forgotten Man")
 			.Build();
 	}

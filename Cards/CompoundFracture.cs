@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(1, 2)
 			.SetBoneCost(4)
 			.SetNames(NameCompoundFracture, "Compound Fracture")
-			.SetDescription("There will be quite a bit of difficulty putting it back togethe- OW!")
+			.SetDescription("CRUSHED BY THE ROOF OF HIS OWN HOUSE. LIVING ON AS A PILE OF GOO.")
 			.Build();
 	}
 }

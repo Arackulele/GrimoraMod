@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Imbued.ability)
 			.SetBaseAttackAndHealth(0, 2)
 			.SetBoneCost(3)
-			.SetDescription("A lonesome doll, returned from seas of slate and silent shores... it stares lifelessly.")
+			.SetDescription("This lonesome doll was returned from seas of slate and silent shores... it stares lifelessly.")
 			.SetNames(NameDoll, "Doll")
 			.Build().pixelPortrait = AssetUtils.GetPrefab<Sprite>("dollpixel");
 	}

@@ -1,4 +1,4 @@
-﻿namespace GrimoraMod;
+namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
@@ -11,8 +11,8 @@ public partial class GrimoraPlugin
 			.SetAbilities(ActivatedDealDamageGrimora.ability)
 			.SetBaseAttackAndHealth(2, 3)
 			.SetBoneCost(4)
-			.SetEnergyCost(3)
-			.SetDescription("One of the faster draws in the west, but not fast enough...")
+			.SetEnergyCost(4)
+			.SetDescription("One of the faster draws in the west, but not fast enough.")
 			.SetNames(NameSlingersSoul, "Slinger's Soul")
 			.Build();
 	}

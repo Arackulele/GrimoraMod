@@ -223,7 +223,7 @@ public class SawyerBossOpponent : BaseBossExt
 
 			ViewManager.Instance.SwitchToView(View.Board);
 
-			yield return TextDisplayer.Instance.ShowUntilInput($"I HOPE YOU DONT MIND, THESE ARE EXTRA CHEAP.");
+			yield return TextDisplayer.Instance.ShowUntilInput($"I HOPE YOU DONT MIND, I PAID GOOD MONEY TO PLAY THESE.");
 
 			foreach (var i in full)
 			{
@@ -388,8 +388,8 @@ public class SawyerBossOpponent : BaseBossExt
 			yield return base.OutroSequence(true);
 
 			yield return FaceZoomSequence();
-			yield return TextDisplayer.Instance.ShowUntilInput("THE NEXT AREA WON'T BE SO EASY.");
-			yield return TextDisplayer.Instance.ShowUntilInput("I ASKED ROYAL TO DO HIS BEST AT MAKING IT IMPOSSIBLE.");
+			yield return TextDisplayer.Instance.ShowUntilInput("NEXT UP IS ROYALS VERY OWN SHIP, THE LIMONCELLO.");
+			yield return TextDisplayer.Instance.ShowUntilInput("HIS TRUSTY CREW OF SWASHBUCKLERS RESIDES THERE, MAY THEY GIVE YOU A WARM WELCOME.");
 		}
 		else
 		{

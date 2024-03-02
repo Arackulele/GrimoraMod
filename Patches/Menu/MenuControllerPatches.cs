@@ -17,6 +17,7 @@ public class MenuControllerPatches
 	public static bool OnCardReachedSlotPatch(MenuController __instance, MenuCard card, bool skipTween = false)
 	{
 		ChallengeManager.SyncChallengeList();
+
 		if (SaveManager.SaveFile.IsGrimora)
 		{
 			if (!SaveFile.IsAscension)
@@ -39,6 +40,7 @@ public class MenuControllerPatches
 						__instance.Shake(0.015f, 0.3f);
 						GrimoraSaveUtil.IsGrimoraModRun = true;
 						CustomCoroutine.Instance.StartCoroutine(__instance.TransitionToGame2(true));
+							
 
 						return false;
 					}
@@ -50,6 +52,7 @@ public class MenuControllerPatches
 			__instance.DoingCardTransition = false;
 			card.transform.parent = __instance.menuSlot.transform;
 			card.SetBorderColor(__instance.slottedBorderColor);
+			GameObject.Find("GBCCameras/PixelCamera/QuillTransition").SetActive(true);
 			AudioController.Instance.PlaySound2D("crunch_short#1", MixerGroup.None, 0.6f);
 
 			__instance.Shake(0.015f, 0.3f);
@@ -62,11 +65,38 @@ public class MenuControllerPatches
 		return true;
 	}
 
+	private static IEnumerator GetRidOfELementonEsc(GameObject d)
+	{
+
+		while (true)
+		{
+
+			yield return new WaitForSeconds(0.01f);
+			if (Input.GetKeyDown(KeyCode.Space)) {
+				GameObject.Destroy(d);
+				break;
+			
+			
+			}
+		}
+
+	}
+
 	[HarmonyPostfix, HarmonyPatch(nameof(MenuController.Start))]
 	public static void AddGrimoraCard(MenuController __instance)
 	{
 		if (SceneManager.GetActiveScene().name.Equals("Start"))
 		{
+
+			if (EventManagement.HasSeenIntroMessage != true) { 
+			GameObject newVanvas = GameObject.Instantiate(AssetConstants.CanvasMessage);
+			newVanvas.transform.parent = GameObject.Find("StartScreen/StartMenu/").transform;
+			newVanvas.layer = 1;
+			newVanvas.GetComponent<SpriteRenderer>().sortingLayerID = 1621160723;
+			CustomCoroutine.Instance.StartCoroutine(GetRidOfELementonEsc(newVanvas));
+			EventManagement.HasSeenIntroMessage = true;
+			}
+
 			if (__instance.cardRow.Find("MenuCard_Grimora").SafeIsUnityNull())
 			{
 				Log.LogDebug($"Non-hot reload menu button creation");

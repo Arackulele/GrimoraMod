@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -48,6 +48,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Core\NewFolder\" />
 	  <Folder Include="Core\Opponents\Boss\special\" />
 	</ItemGroup>
 

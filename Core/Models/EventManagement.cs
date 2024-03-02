@@ -11,6 +11,11 @@ public class EventManagement
 {
 	public static StoryEvent HasReachedTable = GuidManager.GetEnumValue<StoryEvent>(GUID, "HasReachedTable");
 
+	public static StoryEvent HasSeenMapExpand = GuidManager.GetEnumValue<StoryEvent>(GUID, "HasSeenMapExpand");
+
+	public static StoryEvent HasSeenModIntro = GuidManager.GetEnumValue<StoryEvent>(GUID, "HasSeenModIntro");
+
+
 	public static bool HasLoadedIntoModBefore
 	{
 		get => ModdedSaveManager.SaveData.GetValueAsBoolean(GUID, "HasLoadedIntoModBefore");
@@ -53,9 +58,35 @@ public class EventManagement
 		set => ModdedSaveManager.SaveData.SetValue(GUID, "HasBeatenSkullStorm", value);
 	}
 
+	public static bool HasLearnedMechanicMycologists
+	{
+		get => ModdedSaveManager.SaveData.GetValueAsBoolean(GUID, "HasLearnedMechanicMycologists");
+		set => ModdedSaveManager.SaveData.SetValue(GUID, "HasLearnedMechanicMycologists", value);
+	}
+
+	public static bool HasLearnedMechanicGravebard
+	{
+		get => ModdedSaveManager.SaveData.GetValueAsBoolean(GUID, "HasLearnedMechanicGravebard");
+		set => ModdedSaveManager.SaveData.SetValue(GUID, "HasLearnedMechanicGravebard", value);
+	}
+
+	public static bool HasLearnedMechanicGoatEye
+	{
+		get => ModdedSaveManager.SaveData.GetValueAsBoolean(GUID, "HasLearnedMechanicGoatEye");
+		set => ModdedSaveManager.SaveData.SetValue(GUID, "HasLearnedMechanicGoatEye", value);
+	}
+
+	public static bool HasSeenIntroMessage
+	{
+		get => ModdedSaveManager.SaveData.GetValueAsBoolean(GUID, "HasSeenIntroMessage");
+		set => ModdedSaveManager.SaveData.SetValue(GUID, "HasSeenIntroMessage", value);
+	}
+
 	public static readonly StoryEvent[] GrimoraAscensionSaveEvents =
 	{
 		HasReachedTable,
+		HasSeenMapExpand,
+		HasSeenModIntro
 	};
 
 	[HarmonyPrefix, HarmonyPatch(typeof(StoryEventsData), nameof(StoryEventsData.SetEventCompleted))]

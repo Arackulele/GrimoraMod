@@ -15,7 +15,8 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetAbilities(Boneless.ability)
 			.SetBaseAttackAndHealth(1, 1)
-			.SetNames(NameEgyptMummy, "Old Mummy")
+			.SetNames(NameEgyptMummy, "Lesser Mummy")
+			.SetDescription("A loyal servant to the Pharao, buried with him to serve eternally in death.")
 			.SetBoneCost(1)
 			.Build();
 		}
@@ -24,7 +25,8 @@ public partial class GrimoraPlugin
 			CardBuilder.Builder
 			.SetAbilities(Boneless.ability)
 			.SetBaseAttackAndHealth(1, 1)
-			.SetNames(NameEgyptMummy, "Old Mummy")
+			.SetNames(NameEgyptMummy, "Lesser Mummy")
+			.SetDescription("A loyal servant to the Pharao, buried with him to serve eternally in death.")
 			.SetBoneCost(1)
 			.Build();
 		}

@@ -12,8 +12,8 @@ public partial class GrimoraPlugin
 			.SetAsRareCard()
 			.SetAbilities(Sculptor.ability)
 			.SetBaseAttackAndHealth(2, 2)
-			.SetBoneCost(6)
-			.SetDescription("HE HAS SPENT HIS LIFE CARVING THESE CREATURES, THIS IS A DEPICTION OF HIS SELF HE CREATED LONG AGO.")
+			.SetBoneCost(5)
+			.SetDescription("HE HAS SPENT HIS LIFE CARVING THESE CREATURES, THIS CARD CONTAINS A PART OF HIS SOUL.")
 			.SetNames(NameGraveCarver, "Grave Carver")
 			.Build();
 	}

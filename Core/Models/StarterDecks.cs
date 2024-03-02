@@ -286,7 +286,7 @@ public class StarterDecks
 		"Europa"
 	};
 	
-	public static  void AddGrimoraStarterdeck(List<string> Cards, Sprite Icon, String name)
+	public static void AddGrimoraStarterdeck(List<string> Cards, Sprite Icon, String name)
 	{
 
 		var i = StarterDeckManager.Add(

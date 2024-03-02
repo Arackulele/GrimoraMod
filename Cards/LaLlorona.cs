@@ -11,6 +11,7 @@ public partial class GrimoraPlugin
 		CardBuilder.Builder
 			.SetAsNormalCard()
 			.SetAbilities(Ability.Submerge)
+			.SetEvolve(NameNixie, 1)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetDescription("After drowning her children and then herself, she continues to drown others.")
 			.SetEnergyCost(3)

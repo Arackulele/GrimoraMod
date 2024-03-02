@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using InscryptionAPI.Card;
 using InscryptionAPI.Helpers.Extensions;
@@ -25,6 +25,9 @@ public class CreateRoyalsCrewMate : SpecialCardBehaviour
 	{
 		CardSlot slotToSpawnIn = null;
 		var playerOpenSlots = BoardManager.Instance.GetPlayerOpenSlots();
+
+		if (!base.PlayableCard.Slot.IsOpponentSlot()) BoardManager.Instance.GetOpponentOpenSlots();
+
 		if (playerOpenSlots.Any())
 		{
 			slotToSpawnIn = playerOpenSlots.FirstOrDefault(slot => slot.opposingSlot.Card.SafeIsUnityNull() || slot.opposingSlot.Card.Attack == 0);

@@ -18,7 +18,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(2, 1)
 			.SetBoneCost(6)
 			.SetNames(NameFlameskull, "Flameskull")
-			.SetDescription("Always flying, always angry, and always making nearby friends angry.")
+			.SetDescription("Always flying, always angry, always annoying nearby allies in the process.")
 			.Build();
 		}
 		else
@@ -28,7 +28,7 @@ public partial class GrimoraPlugin
 				.SetBaseAttackAndHealth(2, 1)
 				.SetBoneCost(6)
 				.SetNames(NameFlameskull, "Flameskull")
-				.SetDescription("Always flying, always angry, and always making nearby friends angry.")
+				.SetDescription("Always flying, always angry, always annoying nearby allies in the process.")
 				.Build();
 		};
 	}

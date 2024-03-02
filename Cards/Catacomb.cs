@@ -8,12 +8,13 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetSpecialAbilities(LammergeierAttack.FullSpecial.Id)
+			.SetSpecialAbilities(GainAttackBones.FullSpecial.Id)
 			.SetBaseAttackAndHealth(0, 10)
 			.SetBoneCost(10)
+			.SetIceCube(NameBonepile)
 			.SetDescription("A GROUP OF SKELETONS IS CALLED A CATACOMB. THIS IS A RATHER LARGE GATHERING.")
 			.SetNames(NameCatacomb, "Catacomb")
-			.SetSpecialStatIcon(LammergeierAttack.FullStatIcon.Id)
+			.SetSpecialStatIcon(GainAttackBones.FullStatIcon.Id)
 			.Build();
 	}
 }

@@ -1,3 +1,4 @@
+using DiskCardGame;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -13,9 +14,9 @@ public partial class GrimoraPlugin
 		
 		
 		CardBuilder.Builder
-			.SetAsNormalCard()
+			.SetAppearance(CardAppearanceBehaviour.Appearance.RareCardBackground)
 			.SetAbilities(ActivatedDrawSkeletonGrimora.ability)
-			.SetBaseAttackAndHealth(0, 1)
+			.SetBaseAttackAndHealth(0, 2)
 			.SetDescription("NOTHING... NOTHING AGAIN... NO TREASURE IS LEFT ANYMORE.")
 			.SetNames(NameTombRobber, "Tomb Robber")
 			.SetPortraits(AssetUtils.GetPrefab<Sprite>("tomb_robber_new"), AssetUtils.GetPrefab<Sprite>("tomb_robber_emission_new"))

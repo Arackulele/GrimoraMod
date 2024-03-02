@@ -12,8 +12,8 @@ public partial class GrimoraPlugin
 		 .SetAsNormalCard()
 		 .SetAbilities(Ability.Brittle, Ability.Flying, Anchored.ability)
 		 .SetBaseAttackAndHealth(3, 1)
-		 .SetBoneCost(4)
-		 .SetDescription("Parrots usually make great sea-side companions, this one just ate a poisoned cracker...")
+		 .SetBoneCost(3)
+		 .SetDescription("Parrots usually make great sea-side companions, this one just ate a poisoned cracker.")
 		 .SetNames(NamePiratePolly, "Polly")
 		 .Build();
 	}

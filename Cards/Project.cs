@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(ChaosStrike.ability)
 			.SetBaseAttackAndHealth(1, 3)
 			.SetBoneCost(7)
-			.SetDescription("AN EXPERIMENT GONE WRONG, IN A FUTILE ATTEMPT TO IMMITATE THE DANSE MACCABRE. THEY DO NOT FUNCTION TOGETHER.")
+			.SetDescription("AN EXPERIMENT GONE WRONG, IN A FUTILE ATTEMPT TO CREATE A DANSE MACCABRE. THEY DO NOT FUNCTION TOGETHER.")
 			.SetNames(NameProject, "Project")
 			.Build();
 	}

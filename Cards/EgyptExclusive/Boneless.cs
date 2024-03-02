@@ -16,6 +16,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Boneless.ability, GainAttackNoBones.ability)
 			.SetBaseAttackAndHealth(1, 3)
 			.SetNames(NameBoneless, "Boneless")
+			.SetDescription("It's Skeleton seems to have left this lifeless husk in order to achieve greater things.")
 			.SetBoneCost(4)
 			.Build();
 		}
@@ -25,6 +26,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Boneless.ability, GainAttackNoBones.ability)
 			.SetBaseAttackAndHealth(1, 3)
 			.SetNames(NameBoneless, "Boneless")
+			.SetDescription("It's Skeleton seems to have left this lifeless husk in order to achieve greater things.")
 			.SetBoneCost(4)
 			.Build();
 		}

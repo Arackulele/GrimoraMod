@@ -15,6 +15,8 @@ public class LuteButton : HighlightedInteractable
 
 	private string activateSoundId = "guitar-strum-74592";
 
+	private Material original;
+
 	public bool SelectionConfirmed { get; private set; }
 
 	private void Start()
@@ -77,7 +79,7 @@ public class LuteButton : HighlightedInteractable
 	{
 		
 
-		AudioController.Instance.PlaySound3D(activateSoundId, MixerGroup.TableObjectsSFX, base.transform.position, 1.4f);
+		AudioController.Instance.PlaySound3D(activateSoundId, MixerGroup.TableObjectsSFX, base.transform.position, 20f);
 		ShowPressed();
 		Disable();
 		Singleton<TableVisualEffectsManager>.Instance.ThumpTable(0.2f);
@@ -93,5 +95,19 @@ public class LuteButton : HighlightedInteractable
 	{
 
 	}
+
+	public override void OnCursorEnter()
+	{
+		GrimoraPlugin.Log.LogDebug("Entering Cursor");
+		original = gameObject.GetComponent<MeshRenderer>().material;
+		gameObject.transform.GetComponent<MeshRenderer>().material = AssetConstants.buttonglow;
+	}
+
+	public override void OnCursorExit()
+	{
+		GrimoraPlugin.Log.LogDebug("Exiting Cursor");
+		gameObject.transform.GetComponent<MeshRenderer>().material = original;
+	}
+
 
 }

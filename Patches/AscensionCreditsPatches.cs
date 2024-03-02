@@ -19,7 +19,7 @@ namespace GrimoraMod
 				List<CreditEntry> AllCredits = new List<CreditEntry>
 				{
 
-				new CreditEntry("Ara(ckulele)", "Creator"),
+				new CreditEntry("Ara(ckulele)", "Creator", "https://ko-fi.com/arackulele"),
 				new CreditEntry("Julian Mods", "Programming"),
 
 				new CreditEntry("Addie Brahem", "Soundtrack"),
@@ -46,12 +46,13 @@ namespace GrimoraMod
 				new CreditEntry("Draconis17", "Energy Drone Game Object"),
 
 				new CreditEntry("Bob the Nerd", "Additional Dialogue"),
+				new CreditEntry("Sarah K", "Dialogue Help"),
 
-				new CreditEntry("Keks", "Map Creation help, assets"),
+				new CreditEntry("Keks", "Boon Artwork, miscellanious work"),
 
-				new CreditEntry("Daniel Muliins", "Creator of Inscryption"),
+				new CreditEntry("Daniel Mullins", "Creator of Inscryption"),
 				new CreditEntry("Tatum", "Dog"),
-				new CreditEntry("Anton", "Suprisingly, also Dog"),
+				new CreditEntry("Anton", "Suprisingly, also a Dog"),
 				new CreditEntry("Cat aka Bastard Man aka Little Guy", "Cat - co-creator"),
 
 				new CreditEntry("DivisionByZorro", "P03KCMod"),

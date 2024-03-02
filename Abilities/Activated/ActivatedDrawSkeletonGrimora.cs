@@ -10,14 +10,14 @@ public class ActivatedDrawSkeletonGrimora : ActivatedDrawSkeleton
 
 	public override Ability Ability => ability;
 
-	public override int BonesCost => 2;
+	public override int BonesCost => 1;
 }
 
 public partial class GrimoraPlugin
 {
 	public void Add_Ability_ActivatedDrawSkeletonGrimora()
 	{
-		const string rulebookDescription = "Pay 2 Bones to create a Skeleton in your hand.";
+		const string rulebookDescription = "Pay 1 Bone to create a Skeleton in your hand.";
 		
 		AbilityBuilder<ActivatedDrawSkeletonGrimora>.Builder
 		 .SetRulebookDescription(rulebookDescription)

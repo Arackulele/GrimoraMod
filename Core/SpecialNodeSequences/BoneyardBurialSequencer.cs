@@ -93,7 +93,8 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 			if (effectrandomizer == 1)
 			{
-
+				if (!EventManagement.HasLearnedMechanicBoneyard)
+				{ 
 				yield return TextDisplayer.Instance.ShowUntilInput(
 					"A LONE GRAVE SITS SOLEMNLY IN FRONT OF YOU.",
 					-0.65f
@@ -110,6 +111,7 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 					"THIS WOULDN'T BE WITHOUT REPERCUSSIONS OF COURSE, AS DEATH IS NEVER PERMANENT.",
 					-0.65f
 				);
+				}
 				yield return TextDisplayer.Instance.ShowUntilInput(
 				$"THE CORPSE SEEMS TO BE OF ROTTING FLESH, YOUR CARD WILL BECOME {"BRITTLE".BrightRed()}, BUT {"ITS BONE COST WILL BE HALVED".BrightRed()}.",
 				-0.65f
@@ -119,23 +121,25 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 			if (effectrandomizer == 2)
 			{
-
-				yield return TextDisplayer.Instance.ShowUntilInput(
+				if (!EventManagement.HasLearnedMechanicBoneyard)
+				{
+					yield return TextDisplayer.Instance.ShowUntilInput(
 					"A LONE GRAVE SITS SOLEMNLY IN FRONT OF YOU.",
 					-0.65f
 				);
-				yield return TextDisplayer.Instance.ShowUntilInput(
-					"IN FRONT OF IT IS A MOUND OF EARTH, LEFT BY SOMEONE WHO'S ALREADY PASSED ON.",
-					-0.65f
-				);
-				yield return TextDisplayer.Instance.ShowUntilInput(
-					$"PERHAPS A MEMBER OF YOUR UNDEAD HORDE COULD {"DIG THEM UP?".BrightRed()}",
-					-0.65f
-				);
-				yield return TextDisplayer.Instance.ShowUntilInput(
-					"THIS WOULDN'T BE WITHOUT REPERCUSSIONS OF COURSE, AS DEATH IS NEVER PERMANENT.",
-					-0.65f
-				);
+					yield return TextDisplayer.Instance.ShowUntilInput(
+						"IN FRONT OF IT IS A MOUND OF EARTH, LEFT BY SOMEONE WHO'S ALREADY PASSED ON.",
+						-0.65f
+					);
+					yield return TextDisplayer.Instance.ShowUntilInput(
+						$"PERHAPS A MEMBER OF YOUR UNDEAD HORDE COULD {"DIG THEM UP?".BrightRed()}",
+						-0.65f
+					);
+					yield return TextDisplayer.Instance.ShowUntilInput(
+						"THIS WOULDN'T BE WITHOUT REPERCUSSIONS OF COURSE, AS DEATH IS NEVER PERMANENT.",
+						-0.65f
+					);
+				}
 				yield return TextDisplayer.Instance.ShowUntilInput(
 				$"THE CORPSE SEEMS TO BE OF A STARVED MAN, YOUR CARD WILL {"STARVE FOREVER".BrightRed()}, BUT {"ITS BONE COST WILL BE REDUCED BY 2".BrightRed()}.",
 				-0.65f
@@ -145,23 +149,25 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 			if (effectrandomizer == 3)
 			{
-
-				yield return TextDisplayer.Instance.ShowUntilInput(
+				if (!EventManagement.HasLearnedMechanicBoneyard)
+				{
+					yield return TextDisplayer.Instance.ShowUntilInput(
 					"A LONE GRAVE SITS SOLEMNLY IN FRONT OF YOU.",
 					-0.65f
-				);
-				yield return TextDisplayer.Instance.ShowUntilInput(
-					"IN FRONT OF IT IS A MOUND OF EARTH, LEFT BY SOMEONE WHO'S ALREADY PASSED ON.",
-					-0.65f
-				);
-				yield return TextDisplayer.Instance.ShowUntilInput(
-					$"PERHAPS A MEMBER OF YOUR UNDEAD HORDE COULD {"DIG THEM UP?".BrightRed()}",
-					-0.65f
-				);
-				yield return TextDisplayer.Instance.ShowUntilInput(
-					"THIS WOULDN'T BE WITHOUT REPERCUSSIONS OF COURSE, AS DEATH IS NEVER PERMANENT.",
-					-0.65f
-				);
+					);
+					yield return TextDisplayer.Instance.ShowUntilInput(
+						"IN FRONT OF IT IS A MOUND OF EARTH, LEFT BY SOMEONE WHO'S ALREADY PASSED ON.",
+						-0.65f
+					);
+					yield return TextDisplayer.Instance.ShowUntilInput(
+						$"PERHAPS A MEMBER OF YOUR UNDEAD HORDE COULD {"DIG THEM UP?".BrightRed()}",
+						-0.65f
+					);
+					yield return TextDisplayer.Instance.ShowUntilInput(
+						"THIS WOULDN'T BE WITHOUT REPERCUSSIONS OF COURSE, AS DEATH IS NEVER PERMANENT.",
+						-0.65f
+					);
+				}
 				yield return TextDisplayer.Instance.ShowUntilInput(
 				$"THE CORPSE SEEMS TO BE OF AN INCORPOREAL GHOST, YOUR CARD WILL {"COST 2 SOULS".BrightRed()} , BUT {"ITS BONE COST WILL BE REDUCED BY 1".BrightRed()}.",
 				-0.65f
@@ -171,23 +177,25 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 			if (effectrandomizer == 4)
 			{
-
-				yield return TextDisplayer.Instance.ShowUntilInput(
+				if (!EventManagement.HasLearnedMechanicBoneyard)
+				{
+					yield return TextDisplayer.Instance.ShowUntilInput(
 					"A LONE GRAVE SITS SOLEMNLY IN FRONT OF YOU.",
 					-0.65f
 				);
-				yield return TextDisplayer.Instance.ShowUntilInput(
-					"IN FRONT OF IT IS A MOUND OF EARTH, LEFT BY SOMEONE WHO'S ALREADY PASSED ON.",
-					-0.65f
-				);
-				yield return TextDisplayer.Instance.ShowUntilInput(
-					$"PERHAPS A MEMBER OF YOUR UNDEAD HORDE COULD {"DIG THEM UP?".BrightRed()}",
-					-0.65f
-				);
-				yield return TextDisplayer.Instance.ShowUntilInput(
-					"THIS WOULDN'T BE WITHOUT REPERCUSSIONS OF COURSE, AS DEATH IS NEVER PERMANENT.",
-					-0.65f
-				);
+					yield return TextDisplayer.Instance.ShowUntilInput(
+						"IN FRONT OF IT IS A MOUND OF EARTH, LEFT BY SOMEONE WHO'S ALREADY PASSED ON.",
+						-0.65f
+					);
+					yield return TextDisplayer.Instance.ShowUntilInput(
+						$"PERHAPS A MEMBER OF YOUR UNDEAD HORDE COULD {"DIG THEM UP?".BrightRed()}",
+						-0.65f
+					);
+					yield return TextDisplayer.Instance.ShowUntilInput(
+						"THIS WOULDN'T BE WITHOUT REPERCUSSIONS OF COURSE, AS DEATH IS NEVER PERMANENT.",
+						-0.65f
+					);
+				}
 				yield return TextDisplayer.Instance.ShowUntilInput(
 				$"THE CORPSE SEEMS TO BE OF A CHAINED PRISONER, YOUR CARD WILL {"DEAL 1 MORE DAMAGE".BrightRed()} , BUT {"IT WILL BECOME VERY FRAIL".BrightRed()}.",
 				-0.65f
@@ -197,30 +205,31 @@ public class BoneyardBurialSequencer : CardStatBoostSequencer
 
 			if (effectrandomizer == 5)
 			{
-
-				yield return TextDisplayer.Instance.ShowUntilInput(
+				if (!EventManagement.HasLearnedMechanicBoneyard)
+				{
+					yield return TextDisplayer.Instance.ShowUntilInput(
 					"A LONE GRAVE SITS SOLEMNLY IN FRONT OF YOU.",
 					-0.65f
 				);
-				yield return TextDisplayer.Instance.ShowUntilInput(
-					"IN FRONT OF IT IS A MOUND OF EARTH, LEFT BY SOMEONE WHO'S ALREADY PASSED ON.",
-					-0.65f
-				);
-				yield return TextDisplayer.Instance.ShowUntilInput(
-					$"PERHAPS A MEMBER OF YOUR UNDEAD HORDE COULD {"DIG THEM UP?".BrightRed()}",
-					-0.65f
-				);
-				yield return TextDisplayer.Instance.ShowUntilInput(
-					"THIS WOULDN'T BE WITHOUT REPERCUSSIONS OF COURSE, AS DEATH IS NEVER PERMANENT.",
-					-0.65f
-				);
+					yield return TextDisplayer.Instance.ShowUntilInput(
+						"IN FRONT OF IT IS A MOUND OF EARTH, LEFT BY SOMEONE WHO'S ALREADY PASSED ON.",
+						-0.65f
+					);
+					yield return TextDisplayer.Instance.ShowUntilInput(
+						$"PERHAPS A MEMBER OF YOUR UNDEAD HORDE COULD {"DIG THEM UP?".BrightRed()}",
+						-0.65f
+					);
+					yield return TextDisplayer.Instance.ShowUntilInput(
+						"THIS WOULDN'T BE WITHOUT REPERCUSSIONS OF COURSE, AS DEATH IS NEVER PERMANENT.",
+						-0.65f
+					);
+				}
 				yield return TextDisplayer.Instance.ShowUntilInput(
 				$"THE CORPSE SEEMS TO BE OF A MISCHIEVIOUS SPIRIT, YOUR CARD WILL {"HAUNT OTHERS".BrightRed()} , BUT {"WILL COST 3 SOULS".BrightRed()}.",
 				-0.65f
 				);
 
 			}
-
 
 			selectionSlot.gameObject.SetActive(true);
 

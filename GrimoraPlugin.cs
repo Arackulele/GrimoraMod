@@ -36,7 +36,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 {
 	public const string GUID = "arackulele.inscryption.grimoramod";
 	public const string Name = "GrimoraMod";
-	private const string Version = "3.3.2";
+	private const string Version = "3.5.0";
 
 	internal static ManualLogSource Log;
 
@@ -264,10 +264,11 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Card_Deadeye();                   // Bt Y#0895
 		Add_Card_DeadHand();                  // Bt Y#0895
 		Add_Card_DeadTree();                  // Bt Y#0895
-		Add_Card_Doll();                      // Bt Y#0895
+		Add_Card_Doll();             // Bt Y#0895
 		Add_Card_Draugr();                    // Bt Y#0895
 		Add_Card_DrownedSoul();               // Bt Y#0895
 		Add_Card_Family();                    // Catboy Stinkbug#4099
+		Add_Card_FesteringWretch();						// Bt Y#0895
 		Add_Card_Flames();                    // Cevin2006™ (◕‿◕)#7971
 		Add_Card_ForgottenMan();              // Anne Bean
 		Add_Card_Franknstein();               // vanilla
@@ -339,11 +340,11 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 		Add_Card_Gashadokuro_Stage2_RisingHunger(); // Bt Y#0895
 		Add_Card_Gashadokuro_Stage3();              // Bt Y#0895
 		Add_Card_GhostShipRoyal();                  // Cevin2006™ (◕‿◕)#7971
-		Add_Card_HeadlessHorseman();                // Cevin2006™ (◕‿◕)#7971
-		Add_Card_Hydra();                           // Cevin2006™ (◕‿◕)#7971
+		Add_Card_HeadlessHorseman();                // Anne Bean
+		Add_Card_Hydra();                           // Anne Bean
 		Add_Card_Necromancer();                     // Bt Y#0895
 		Add_Card_Nixie();														// Bt Y#0895
-		Add_Card_Ourobones();												// Anne Bean?
+		Add_Card_Ourobones();												// Anne Bean
 		Add_Card_PirateCaptainYellowbeard();        // Bt Y#0895
 		Add_Card_Ripper();                          // Bt Y#0895
 		Add_Card_ScreamingSkull();                  // Bt Y#0895
@@ -403,9 +404,8 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			Add_Card_Bigbones();					// Bt Y#0895
 			Add_Card_BloodySack();				// Bt Y#0895
 			Add_Card_CompoundFracture();	// Bt Y#0895
-			Add_Card_Crossbones();				// Bt Y#0895
-			Add_Card_FesteringWretch();  // Bt Y#0895
-			Add_Card_GratefulDead();          // Bt Y#0895
+			Add_Card_Crossbones();        // Bt Y#0895
+			Add_Card_GratefulDead();      // Bt Y#0895
 			Add_Card_Haltia();           // Bt Y#0895
 			Add_Card_IceCube();          // Bt Y#0895
 			Add_Card_LaLlorona();       // Bt Y#0895
@@ -413,7 +413,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			Add_Card_PiratePolly();     // Bt Y#0895
 			Add_Card_PossessedArmour(); // Bt Y#0895
 			Add_Card_Rot();             // Bt Y#0895
-			Add_Card_SkeletonArmy();    // Cevin2006™ (◕‿◕)#7971
+			Add_Card_SkeletonArmy();    // Bt Y#0895
 			Add_Card_Warthr();          // Bt Y#0895
 			Add_Card_Wight();           // Bt Y#0895
 
@@ -426,10 +426,10 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 			Add_Card_Fylgja();         // Bt Y#0895
 			Add_Card_GraveCarver();    // Bt Y#0895
 			Add_Card_Nosferat();       // Bt Y#0895
-			Add_Card_Extoplasm();         // Cevin2006™ (◕‿◕)#7971
-			Add_Card_SlingersSoul();
-				#endregion
-			}
+			Add_Card_Extoplasm();         // Anne Bean
+			Add_Card_SlingersSoul();   // Bt Y#0895
+			#endregion
+		}
 	}
 
 	public static GameObject HandModel;
@@ -499,9 +499,6 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 
 	private void AddAchievements()
 	{
-
-		
-
 
 		ModdedAchievementManager.AchievementGroup groupId = ModdedAchievementManager.NewGroup(
 		GUID,
@@ -737,7 +734,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 					color = GameColors.instance.brownOrange,
 					font = AllFonts.Find(g => g.name.Contains("zai_ConsulPolishTypewriter")),
 					voiceSoundIdPrefix = "sawyer",
-					voiceSoundVolume = 1.4f,
+					voiceSoundVolume = 1.2f,
 					triangleSprite = AssetUtils.GetPrefab<Sprite>("white_triangle_tech"),
 
 				};
@@ -759,7 +756,7 @@ public partial class GrimoraPlugin : BaseUnityPlugin
 					color = GameColors.instance.brightLimeGreen,
 					font = ResourceBank.Get<Font>("fonts/3d scene fonts/VICIOUSHUNGER"),
 					voiceSoundIdPrefix = "grimmycologist",
-					voiceSoundVolume = 1.4f,
+					voiceSoundVolume = 1f,
 					fontSizeChange = 8,
 					triangleSprite = AssetUtils.GetPrefab<Sprite>("white_triangle_tech"),
 				};

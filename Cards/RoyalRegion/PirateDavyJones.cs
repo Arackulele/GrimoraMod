@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 		 .SetSpecialAbilities(GainAttackPirates.FullSpecial.Id)
 		 .SetBaseAttackAndHealth(0, 3)
 		 .SetBoneCost(5)
-		 .SetDescription("The true captain of the crew, respected by all yet still elusive.")
+		 .SetDescription("The true captain of the crew, respected by all yet still elusive. YELLOWBEARD ALWAYS GETS MORE BOOTY THAN HE DOES.")
 		 .SetNames(NameDavyJones, "Davy Jones")
 			.SetSpecialStatIcon(GainAttackPirates.FullStatIcon.Id)
 		 .Build();

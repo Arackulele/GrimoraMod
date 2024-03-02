@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
@@ -41,8 +41,8 @@ public class CryptHelper
 
 			Log.LogDebug($"[SetupNewCryptAndZones] Creating layout");
 			GameObject newLayout = UnityObject.Instantiate(
-				AssetUtils.GetPrefab<GameObject>("NewNewLayout"),
-				CryptManager.Instance.transform
+			GrimoraPlugin.NewObjects.Find(g => g.name.Contains("NewNewLayout")),
+			CryptManager.Instance.transform
 			);
 
 			Log.LogDebug($"[SetupNewCryptAndZones] Getting nav grid");

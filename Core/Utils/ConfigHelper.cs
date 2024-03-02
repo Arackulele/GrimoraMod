@@ -3,6 +3,7 @@ using BepInEx.Configuration;
 using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Card;
+using UnityEngine;
 using static GrimoraMod.GrimoraPlugin;
 
 namespace GrimoraMod;
@@ -203,13 +204,13 @@ public class ConfigHelper
 
 	private static void UnlockAllNecessaryEventsToPlay()
 	{
-		if (!StoryEventsToBeCompleteBeforeStarting.TrueForAll(StoryEventsData.EventCompleted))
-		{
 			Log.LogWarning($"You haven't completed a required event... Starting unlock process");
 			StoryEventsToBeCompleteBeforeStarting.ForEach(evt => StoryEventsData.SetEventCompleted(evt));
 			try
 			{
 				ProgressionData.UnlockAll();
+				DialogueEventsData.MarkEventPlayed("AscensionFecundityNerf");
+				ProgressionData.SetAbilityLearned(Ability.OpponentBones);
 			}
 			catch (Exception e)
 			{
@@ -222,6 +223,6 @@ public class ConfigHelper
 			}
 
 			SaveManager.SaveToFile();
-		}
+
 	}
 }

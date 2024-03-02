@@ -15,7 +15,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(LatchSubmerge.ability)
 			.SetBaseAttackAndHealth(2, 1)
 			.SetBoneCost(5)
-			.SetDescription("A troublesome lake spirit. It drags others down to a watery grave.")
+			.SetDescription("A troublesome lake spirit that enjoys dragging others down to a watery grave.")
 			.SetNames(NameNixie, "Nixie")
 			.Build();
 		}
@@ -25,7 +25,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(LatchSubmerge.ability)
 			.SetBaseAttackAndHealth(2, 1)
 			.SetBoneCost(5)
-			.SetDescription("A troublesome lake spirit. It drags others down to a watery grave.")
+			.SetDescription("A troublesome lake spirit that enjoys dragging others down to a watery grave.")
 			.SetNames(NameNixie, "Nixie")
 			.Build();
 		}

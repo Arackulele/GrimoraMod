@@ -10,7 +10,7 @@ public partial class GrimoraPlugin
 			.SetAsRareCard()
 			.SetAbilities(Fylgja_GuardDog.ability)
 			.SetBaseAttackAndHealth(2, 3)
-			.SetBoneCost(7)
+			.SetBoneCost(6)
 			.SetDescription("A ghastly guardian spirit. It's presence lingers behind as it sprints through the dark.")
 			.SetNames(NameFylgja, "Fylgja")
 			.Build();

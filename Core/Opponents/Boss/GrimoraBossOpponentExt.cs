@@ -193,7 +193,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 	private void ModifyBonelordsHorn(PlayableCard playableCard)
 	{
-		var modInfo = new CardModificationInfo(2, 0)
+		var modInfo = new CardModificationInfo(1, 1)
 		{
 			negateAbilities = new List<Ability> { Ability.QuadrupleBones }
 		};
@@ -202,7 +202,11 @@ public class GrimoraBossOpponentExt : BaseBossExt
 
 	private void ModifyBonePrince(PlayableCard playableCard)
 	{
-		playableCard.AddTemporaryMod(new CardModificationInfo(Ability.BuffNeighbours));
+		var modInfo = new CardModificationInfo(0, 1)
+		{
+			abilities = new List<Ability> { Ability.BuffNeighbours }
+		};
+		playableCard.AddTemporaryMod(modInfo);
 	}
 
 	public override IEnumerator StartNewPhaseSequence()
@@ -362,6 +366,7 @@ public class GrimoraBossOpponentExt : BaseBossExt
 			{
 			attackAdjustment = (int)(ashpowerpool / 12),
 			healthAdjustment = (int)(ashpowerpool / 6),
+			bonesCostAdjustment = (int)(ashpowerpool / 8),
 			abilities = new List<Ability> { AshAbility }
 
 			};

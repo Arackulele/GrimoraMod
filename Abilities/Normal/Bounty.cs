@@ -67,7 +67,7 @@ public partial class GrimoraPlugin
 	{
 		const string rulebookDescription =
 			"[creature] takes 1 Soul from you at the end of every turn and stores it as 2 Bones, up to a maximum of 8. "
-		+ "When [creature] dies, you gain all soul contained in it.";
+		+ "When [creature] dies, you gain all bones contained in it.";
 
 		AbilityBuilder<Bounty>.Builder
 			.SetPixelIcon(AssetUtils.GetPrefab<Sprite>("bounty_pixel"))

@@ -311,8 +311,6 @@ public class ElectricChairSequencer : CardStatBoostSequencer
 				singletonId = ModSingletonId,
 				nameReplacement = card.displayedName.Replace("Yellowbeard", "Bluebeard")
 
-
-
 			};
 
 		}

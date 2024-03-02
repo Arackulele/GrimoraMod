@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace GrimoraMod;
 
@@ -16,6 +16,7 @@ public partial class GrimoraPlugin
 		 .SetBaseAttackAndHealth(2, 2)
 		 .SetBoneCost(5)
 		 .SetDescription("BEST FRIENDS, BROTHERS, AND FIGHTERS.")
+		 .SetIceCube(NameZombie)
 		 .SetNames(NameFranknstein, "Frank & Stein", ogSprite)
 		 .Build().pixelPortrait = pixelSprite;
 	}

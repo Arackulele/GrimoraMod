@@ -45,7 +45,7 @@ public class Trowel : GrimoraTargetSlotItem
 	public override IEnumerator OnValidTargetSelected(CardSlot target, GameObject firstPersonItem)
 	{
 
-		List<String> PossibleCards = new List<String> { NameKennel, NameObol, NameDeadTree, NameDeadTree, NameShipwreck, NameShipwreck, NameGravedigger, NameSkeleton, NameObelisk, NameObelisk, NameVoodooDoll, NameVoodooDoll };
+		List<String> PossibleCards = new List<String> { NameKennel, NameObol, NameDeadTree, NameDeadTree, NameShipwreck, NameShipwreck, NameDraugr, NameDraugr, NameSkeleton, NameObelisk, NameObelisk, NameVoodooDoll, NameVoodooDoll, NameDavyJonesLocker };
 
 		yield return new WaitForSeconds(0.1f);
 
@@ -70,7 +70,7 @@ public class Trowel : GrimoraTargetSlotItem
 
 		Texture2D HahaL = new Texture2D(70, 80);
 		ConsumableItemData data = ConsumableItemManager.New(GUID, "Trowel", "The Trowel, dig up a random terrain and gain a few Bones.", HahaL, typeof(Trowel), Model)
-							.SetLearnItemDescription("Digs for treasure, or Terrain. And get some Bones too for your efforts.");
+							.SetLearnItemDescription("This used to belong to a gravedigger. Digs for treasure, or Terrain. And get some Bones too for your efforts.");
 		data.rulebookCategory = AbilityMetaCategory.GrimoraRulebook;
 
 		return data;

@@ -41,7 +41,7 @@ public class GrimoraModSawyerBossSequencer : GrimoraModBossBattleSequencer
 			if (bonesTakenCounter >= 2 && BoardManager.Instance.GetOpponentOpenSlots() != null)
 			{
 
-				if (sawyerbank > 0)
+				if (sawyerbank > 2)
 				{
 					CardInfo selectedcard = SawyerBossOpponent.GetRandomCard(sawyerbank);
 					yield return BoardManager.Instance.GetOpponentOpenSlots().GetRandomItem().CreateCardInSlot(selectedcard);

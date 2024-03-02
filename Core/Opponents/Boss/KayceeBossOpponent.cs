@@ -282,10 +282,13 @@ public class KayceeBossOpponent : BaseBossExt
 
 			yield return FaceZoomSequence();
 			yield return TextDisplayer.Instance.ShowUntilInput(
-				"FOR DEFEATING ONE OF MY GHOULS, I WILL REWARD YOU A STARTING BONE IN EACH OF YOUR BATTLES."
+	"CONGRATULATIONS, YOU DID WELL."
+);
+			yield return TextDisplayer.Instance.ShowUntilInput(
+				"YOU HAVE DEFEATED ONE OF MY LOVELY GHOULS, YOU WILL NOW START FIGHTS WITH AN ADDITONAL BONE."
 			);
-			yield return TextDisplayer.Instance.ShowUntilInput("THIS NEXT AREA WAS MADE BY ONE OF MY GHOULS, SAWYER.");
-			yield return TextDisplayer.Instance.ShowUntilInput("HE SAYS IT IS TERRIBLE.");
+			yield return TextDisplayer.Instance.ShowUntilInput("SAWYERS CATACOMBS ARE UP NEXT, A FILTHY PLACE WHERE LOTS ARE LAID TO REST.");
+			yield return TextDisplayer.Instance.ShowUntilInput("HE THINKS IT IS A TERRIBLE PLACE TO BE.");
 		}
 		else
 		{

@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 		 .SetAbilities(LooseLimb.ability)
 		 .SetBaseAttackAndHealth(3, 1)
 		 .SetBoneCost(6)
-		 .SetDescription("Any attempts to strike at it will only make it shed it's prickly spine as a painful decoy.")
+		 .SetDescription("A FALLEN GIANTS SPINE THAT IS TRYING TO FIND A NEW HOST. REGRETTABLY, MOST CREATURES ARE QUITE SMALL.")
 		 .SetNames(NameWrither, "Writher")
 		 .SetTail(NameWritherTail)
 		 .Build();

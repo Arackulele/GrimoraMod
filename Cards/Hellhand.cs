@@ -11,9 +11,9 @@ public partial class GrimoraPlugin
 		CardBuilder.Builder
 			.SetAsNormalCard()
 			.SetAbilities(Ability.LatchBrittle)
-			.SetBaseAttackAndHealth(1, 1)
-			.SetBoneCost(5)
-			.SetDescription("I WOULDN'T GET TOO CLOSE DEAR. YOU CAN'T BREAK THE HOLD ONCE IT LATCHES ON. OH, WHAT A LIFE OF SIN HAS BROUGHT YOU.")
+			.SetBaseAttackAndHealth(2, 1)
+			.SetBoneCost(6)
+			.SetDescription("I WOULDN'T GET TOO CLOSE DEAR. YOU CAN'T BREAK THE HOLD FROM THE DEEPEST PITS OF HELL, ONCE IT LATCHES ON.")
 			.SetNames(NameHellhand, "Hellhand")
 			.Build();
 	}

@@ -28,9 +28,12 @@ public class ShipBottle : ConsumableItem
 		yield return new WaitForSeconds(0.2f);
 
 		List<CardSlot> slots = ValidSlots();
+
+		List<String> PirateNames = new List<String> { "Browntooth Barrie", "Bonnie Splinter", "Freebooter Bethel", "Crazy Oakes Hayward", "Ashton Swabby", "Plankton Braxton", "Yeller-eye Colby", "Fishwife Nate", "Four-finger Fred", "Dawg Julie", "Wicked Jones", "Crabby Steele" };
+
+
 		foreach (CardSlot cardSlot in slots)
 		{
-			List<String> PirateNames = new List<String> { "Browntooth Barrie", "Bonnie Splinter", "Freebooter Bethel", "Crazy Oakes Hayward", "Ashton Swabby", "Plankton Braxton", "Yeller-eye Colby", "Fishwife Nate", "Four-finger Fred", "Dawg Julie", "Wicked Jones", "Crabby Steele" };
 			CardInfo NewSkeleton = CardLoader.GetCardByName(NameSkeleton);
 
 			String namepick = PirateNames.GetRandomItem();
@@ -38,8 +41,10 @@ public class ShipBottle : ConsumableItem
 			PirateNames.Remove(namepick);
 
 			NewSkeleton.displayedName = namepick;
+			NewSkeleton.baseAttack += 1;
 			yield return Singleton<BoardManager>.Instance.CreateCardInSlot(NewSkeleton, cardSlot, 0.25f, true);
 			yield return new WaitForSeconds(0.1f);
+
 		}
 
 		yield return new WaitForSeconds(0.5f);
@@ -48,19 +53,6 @@ public class ShipBottle : ConsumableItem
 	private static List<CardSlot> ValidSlots()
 	{
 		List<CardSlot> slots = new(Singleton<BoardManager>.Instance.AllSlots);
-
-		CardModificationInfo cardModificationInfo = new CardModificationInfo
-		{
-			attackAdjustment = 1
-		};
-
-
-
-		foreach (var i in slots)
-		{
-			if (i.Card != null ) if (i.Card.HasAbility(Ability.Brittle)) i.Card.AddTemporaryMod(cardModificationInfo);
-
-		}
 
 		slots.RemoveAll((a) => a.Card != null);
 		return slots;
@@ -73,7 +65,7 @@ public class ShipBottle : ConsumableItem
 		Debug.Log("Added Ship Bottle");
 
 		Texture2D HahaL = new Texture2D(70, 80);
-		ConsumableItemData data = ConsumableItemManager.New(GUID, "Ship Bottle", "The Ship in a Bottle, fills the entire baord with a trusty Skeleton Crew.", HahaL, typeof(ShipBottle), Model)
+		ConsumableItemData data = ConsumableItemManager.New(GUID, "Ship Bottle", "The Ship in a Bottle, fills the entire board with a scurvy Skeleton Crew.", HahaL, typeof(ShipBottle), Model)
 					.SetLearnItemDescription("Fills the entire board with skeletons! Like a real Pirate, Royal would be proud.");
 		data.rulebookCategory = AbilityMetaCategory.GrimoraRulebook;
 

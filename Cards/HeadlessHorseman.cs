@@ -15,6 +15,7 @@ public partial class GrimoraPlugin
 			.SetBoneCost(13)
 			.SetDescription("THEY CALL HER THE RIDER OF THE APOCALYPSE. HER FLAMING BLADE CUTS THROUGH THE LIVING AND DEAD ALIKE.")
 			.SetNames(NameHeadlessHorseman, "Headless Horseman")
+			.SetIceCube(NameFlameskull)
 			.Build();
 	}
 }

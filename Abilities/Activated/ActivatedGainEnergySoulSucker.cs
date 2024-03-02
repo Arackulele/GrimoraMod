@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using DiskCardGame;
 using UnityEngine;
 
@@ -25,7 +25,7 @@ public class ActivatedGainEnergySoulSucker : ActivatedAbilityBehaviour
 		ViewManager.Instance.SwitchToView(View.Scales);
 		yield return new WaitForSeconds(0.25f);
 		yield return ResourcesManager.Instance.AddMaxEnergy(1);
-		yield return ResourcesManager.Instance.AddEnergy(1);
+		yield return ResourcesManager.Instance.AddEnergy(3);
 		UpdateKillCountAndRerenderCard(--kills);
 		yield return new WaitForSeconds(0.5f);
 		ViewManager.Instance.SwitchToView(View.Default);
@@ -60,7 +60,7 @@ public partial class GrimoraPlugin
 	public void Add_Ability_SoulSucker()
 	{
 		const string rulebookDescription =
-			"When an opponent creature perishes, [creature] will store 1 soul energy, up to 4. Activating this sigil will add 1 soul energy to your current energy counter.";
+			"When an opponent creature perishes, [creature] will store a charge of soul energy, up to 4. Activating this sigil will add 3 soul energy to your current energy counter, and one max energy.";
 
 		AbilityBuilder<ActivatedGainEnergySoulSucker>.Builder
 		 .SetRulebookDescription(rulebookDescription)

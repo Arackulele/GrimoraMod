@@ -17,7 +17,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.QuadrupleBones)
 			.SetBaseAttackAndHealth(1, 2)
 			.SetBoneCost(4)
-			.SetDescription("THE FAMILY WISHES TO REST IN PIECE, YET THEY ARE SUMMONED AGAIN AND AGAIN IN AN ETERNAL BATTLE.")
+			.SetDescription("THE FAMILY WISHES TO REST IN PEACE, ONLY TO BE SUMMONED AGAIN AND AGAIN IN AN ETERNAL BATTLE.")
 			.SetNames(NameFamily, "The Walkers")
 			.Build().pixelPortrait = pixelSprite;
 	}

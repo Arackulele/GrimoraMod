@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.Flying)
 			.SetBaseAttackAndHealth(3, 3)
 			.SetBoneCost(8)
-			.SetDescription("NO BRUTALITY SATIATES THE MANANANGGAL, WHEN YOU SEE HER SEVER FROM HER TORSO, YOU TOO WILL BE A VICTIM OF THE HUNT.")
+			.SetDescription("NO BRUTALITY SATIATES THE MANANANGGAL. WHEN YOU SEE HER SEVER FROM HER TORSO, YOU TOO WILL BE A VICTIM OF THE HUNT.")
 			.SetNames(NameManananggal, "Manananggal")
 			.Build();
 	}

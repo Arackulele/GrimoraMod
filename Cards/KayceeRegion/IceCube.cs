@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 		 .SetAbilities(ColdFront.ability)
 		 .SetBaseAttackAndHealth(1, 1)
 		 .SetBoneCost(4)
-		 .SetDescription("Those who strike at it will end up sharing their frosty fate!")
+		 .SetDescription("A CORPSE WHO DIED WITH HIS HEAD IN A GLACIAL STREAM. AFTER HIS REANIMATION, HE COULDN'T BEAR TO PART WITH THE ICE THAT HAD FORMED.")
 		 .SetTraits(Trait.DeathcardCreationNonOption)
 		 .SetNames(NameIceCube, "Ice Cube")
 		 .Build();

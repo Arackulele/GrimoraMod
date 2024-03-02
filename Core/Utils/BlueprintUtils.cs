@@ -13,7 +13,7 @@ public static class BlueprintUtils
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_CandyBucket = NameCandyBucket.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_HellHound = NameHellHound.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_HellHound = NameHellHound.CreateCardBlueprint(NameCatacomb);
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Bonehound = NameBonehound.CreateCardBlueprint();
 
@@ -23,25 +23,29 @@ public static class BlueprintUtils
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_BonePrince = NameBonePrince.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_PlagueDoctor = NamePlagueDoctor.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_PlagueDoctor = NamePlagueDoctor.CreateCardBlueprint(NameDrownedSoul);
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Summoner = NameSummoner.CreateCardBlueprint();
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_DeadHand = NameDeadHand.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_DeadPets = NameDeadPets.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_DeadManWalking = NameDeadManWalking.CreateCardBlueprint();
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_DeadPets = NameDeadPets.CreateCardBlueprint(NameHydra);
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Draugr = NameDraugr.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_DrownedSoul = NameDrownedSoul.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_DrownedSoul = NameDrownedSoul.CreateCardBlueprint(NamePlagueDoctor);
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Banshee = NameBanshee.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Banshee = NameBanshee.CreateCardBlueprint(NameSluagh);
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Family = NameFamily.CreateCardBlueprint();
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Flames = NameFlames.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_FrankAndStein = NameFranknstein.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_FrankAndStein = NameFranknstein.CreateCardBlueprint(NameWechuge);
+
+	public static readonly EncounterBlueprintData.CardBlueprint bp_FesteringWretch = NameFesteringWretch.CreateCardBlueprint(NameZombie);
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_GhostShip = NameGhostShip.CreateCardBlueprint();
 
@@ -55,7 +59,7 @@ public static class BlueprintUtils
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Necromancer = NameNecromancer.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Obol = NameObol.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Obol = NameObol.CreateCardBlueprint(NameObelisk);
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Poltergeist = NamePoltergeist.CreateCardBlueprint();
 
@@ -63,43 +67,43 @@ public static class BlueprintUtils
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Sarcophagus = NameSarcophagus.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_VengefulSpirit = NameVengefulSpirit.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_VengefulSpirit = NameVengefulSpirit.CreateCardBlueprint(NameBanshee);
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Skeleton = NameSkeleton.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Skelemagus = NameSkelemagus.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Skelemagus = NameSkelemagus.CreateCardBlueprint(NameRevenant);
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Sporedigger = NameSporedigger.CreateCardBlueprint();
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_TombRobber = NameTombRobber.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Zombie = NameZombie.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Zombie = NameZombie.CreateCardBlueprint(NameFesteringWretch);
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_BooHag = NameBooHag.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_DanseMacabre = NameDanseMacabre.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_DanseMacabre = NameDanseMacabre.CreateCardBlueprint(NameProject);
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Dybbuk = NameDybbuk.CreateCardBlueprint();
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Giant = NameGiant.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Project = NameProject.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Project = NameProject.CreateCardBlueprint(NameDanseMacabre);
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Ripper = NameRipper.CreateCardBlueprint();
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_ScreamingSkull = NameScreamingSkull.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Silbon = NameSilbon.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Silbon = NameSilbon.CreateCardBlueprint(NameWrither);
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Manananggal = NameManananggal.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Manananggal = NameManananggal.CreateCardBlueprint(NameMummy);
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Animator = NameAnimator.CreateCardBlueprint();
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Catacomb = NameCatacomb.CreateCardBlueprint(); //maybe can be used for a hell hound like fight
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Centurion = NameCenturion.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Centurion = NameCenturion.CreateCardBlueprint(NameEidolon);
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Dalgyal = NameDalgyal.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Dalgyal = NameDalgyal.CreateCardBlueprint(NameHauntedMirror);
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_DeadTree = NameDeadTree.CreateCardBlueprint();
 
@@ -111,9 +115,9 @@ public static class BlueprintUtils
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Gashadokuro = NameGashadokuro.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_GraveBard = NameGravebard.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_GraveBard = NameGravebard.CreateCardBlueprint(NameBooHag);
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Hellhand = NameHellhand.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Hellhand = NameHellhand.CreateCardBlueprint(NameFranknstein);
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_RotTail = NameRotTail.CreateCardBlueprint();
 
@@ -121,13 +125,13 @@ public static class BlueprintUtils
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_TamperedCoffin = NameTamperedCoffin.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Vampire = NameVampire.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Vampire = NameVampire.CreateCardBlueprint(NameHellhand);
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Wechuge = NameWechuge.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Wechuge = NameWechuge.CreateCardBlueprint(NameFranknstein);
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Writher = NameWrither.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Writher = NameWrither.CreateCardBlueprint(NameSilbon);
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Floatsam = NameShipwreckDams.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Floatsam = NameShipwreckDams.CreateCardBlueprint(NameNixie);
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Flameskull = NameFlameskull.CreateCardBlueprint();
 
@@ -137,17 +141,17 @@ public static class BlueprintUtils
 
 	#region PiratesRoyal
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_CaptainYellowbeard = NamePirateCaptainYellowbeard.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_CaptainYellowbeard = NamePirateCaptainYellowbeard.CreateCardBlueprint(NameDavyJones);
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_DavyJones = NameDavyJones.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_DavyJones = NameDavyJones.CreateCardBlueprint(NamePirateCaptainYellowbeard);
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_FirstMateSnag = NamePirateFirstMateSnag.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Swashbuckler = NamePirateSwashbuckler.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Swashbuckler = NamePirateSwashbuckler.CreateCardBlueprint(NamePirateExploding);
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Shipwreck = NameShipwreck.CreateCardBlueprint();
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Exploding_Pirate = NamePirateExploding.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Exploding_Pirate = NamePirateExploding.CreateCardBlueprint(NamePirateSwashbuckler);
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Nixie = NameNixie.CreateCardBlueprint();
 
@@ -169,9 +173,9 @@ public static class BlueprintUtils
 
 	#region Egypt
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Eidolon = NameEidolon.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Eidolon = NameEidolon.CreateCardBlueprint(NameCenturion);
 
-	public static readonly EncounterBlueprintData.CardBlueprint bp_Boneclaw = NameBoneclaw.CreateCardBlueprint();
+	public static readonly EncounterBlueprintData.CardBlueprint bp_Boneclaw = NameBoneclaw.CreateCardBlueprint(NameStarvedMan);
 
 	public static readonly EncounterBlueprintData.CardBlueprint bp_Boneless = NameBoneless.CreateCardBlueprint();
 
@@ -719,10 +723,10 @@ public static class BlueprintUtils
 			new() { bp_Summoner },
 			new() { bp_Draugr },
 			new() { bp_Skeleton, bp_Skeleton, bp_Draugr },
-			new() { bp_Draugr },
+			new() { bp_Zombie },
 			new() { bp_Summoner },
 			new() { bp_Skeleton },
-			new() { bp_Draugr, bp_Skeleton }
+			new() { bp_Draugr, bp_Zombie }
 		};
 
 		return blueprint;
@@ -740,7 +744,7 @@ public static class BlueprintUtils
 			new() { bp_Draugr },
 			new() { bp_GraveBard },
 			new() { bp_Skeleton },
-			new() { bp_Draugr, bp_Skeleton }
+			new() { bp_Draugr, bp_Zombie }
 		};
 
 		return blueprint;
@@ -773,10 +777,10 @@ public static class BlueprintUtils
 			new() { bp_Dalgyal },
 			new() { bp_Skeleton, bp_Skeleton },
 			new(),
-			new() { bp_Skeleton },
 			new() { bp_Vampire },
+			new() { bp_Skeleton },
 			new(),
-			new() {  bp_Vampire },
+			new() { bp_Vampire },
 			new() { bp_Skeleton }
 		};
 
@@ -792,8 +796,8 @@ public static class BlueprintUtils
 			new() { bp_Skeleton },
 			new(),
 			new() { bp_Hellhand, bp_Zombie },
+			new() ,
 			new() { bp_Zombie },
-			new() { bp_Skeleton },
 			new(),
 			new() { bp_FrankAndStein },
 			new(),
@@ -813,8 +817,8 @@ public static class BlueprintUtils
 			new(),
 			new() { bp_Glacier },
 			new(),
-			new() { bp_Zombie },
-			new(),
+			new() { bp_FesteringWretch },
+			new() { bp_Revenant },
 			new() { bp_Skeleton, bp_Draugr },
 			new() { bp_Glacier }
 		};
@@ -872,7 +876,7 @@ public static class BlueprintUtils
 			new() { bp_Banshee, bp_Banshee },
 			new() { bp_Banshee },
 			new() { bp_Skeleton },
-			new(),
+			new() { bp_Banshee },
 			new() { bp_FrankAndStein },
 			new(),
 			new() { bp_Banshee }
@@ -1858,11 +1862,11 @@ public static class BlueprintUtils
 		blueprint.name = "Sawyer_Spirit_Lines";
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
-			new() { bp_Poltergeist },
+			new() { bp_FesteringWretch },
 			new(),
 			new() { bp_VengefulSpirit },
 			new() { bp_VengefulSpirit, bp_VengefulSpirit },
-			new() { bp_Poltergeist },
+			new() { bp_FesteringWretch },
 			new() { bp_VengefulSpirit, bp_VengefulSpirit },
 			new() { bp_VengefulSpirit },
 			new(),

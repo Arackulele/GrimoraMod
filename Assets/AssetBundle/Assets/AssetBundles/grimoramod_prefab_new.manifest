@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 4011654882
+CRC: 2902824106
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 99e6e2b8fb516925926086c73d2911a3
+    Hash: d2cd70cda11c16714b0fe41e4bbb6652
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 1ed6a6857bee10b451b6335792972879
+    Hash: ef41b449476f8faaf4c2fb5151acdb8c
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -40,6 +40,8 @@ ClassTypes:
 - Class: 198
   Script: {instanceID: 0}
 - Class: 199
+  Script: {instanceID: 0}
+- Class: 212
   Script: {instanceID: 0}
 - Class: 213
   Script: {instanceID: 0}
@@ -93,6 +95,7 @@ Assets:
 - Assets/Items/bone_albedo.png
 - Assets/Models/Sarcophagus/coff_normal.jpg
 - Assets/ChessboardPieces/Kaycee/ice_var_2_prefab.prefab
+- Assets/Models/Layout/NewNewLayout.prefab
 - Assets/Items/PirateShip_Albedo.png
 - Assets/Abilities/Particles/RedFire.prefab
 - Assets/Models/royal/RainParticles.prefab
@@ -103,6 +106,7 @@ Assets:
 - Assets/Models/newEnergyCell/Particles/RessourceStuff/Energy6.fbx
 - Assets/Items/EmbalmingFluid/LidNormal.png
 - Assets/Models/newEnergyCell/Particles/Emerald/sm_gem_emerald_0.asset
+- Assets/Models/Message/MessageCanvas.prefab
 - Assets/Models/newEnergyCell/Particles/GemDiamond.prefab
 - Assets/Models/Sarcophagus/coff.jpg
 - Assets/Items/Wood_027_ambientOcclusion.jpg

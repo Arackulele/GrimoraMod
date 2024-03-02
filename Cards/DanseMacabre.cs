@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(AlternatingStrike.ability, Erratic.ability)
 			.SetBaseAttackAndHealth(3, 3)
 			.SetBoneCost(7)
-			.SetDescription("FOREVER BOUND TOGETHER BY A TERRIBLE CURSE, THESE BROTHERS HAVE KNOWN NO OTHER LIFE.")
+			.SetDescription("FOREVER BOUND TOGETHER BY A TERRIBLE CURSE, THIS GROUP DANCES ONWARD INTO DOOM.")
 			.SetNames(NameDanseMacabre, "Danse Macabre")
 			.Build();
 	}

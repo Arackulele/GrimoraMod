@@ -63,6 +63,12 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 				cardsInPlayerSlots = new[] { null, null, null, NameObelisk.GetCardInfo() },
 			},
 
+			new ()
+			{
+				cardsInOpponentSlots = new[] { null, null, NameDavyJonesLocker.GetCardInfo(), null },
+				cardsInPlayerSlots = new[] { NameDavyJonesLocker.GetCardInfo(), null, null, null },
+			},
+
 			};
 
 	public static readonly List<EncounterData.StartCondition> KayceeStarts = new List<EncounterData.StartCondition>()
@@ -87,7 +93,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			new ()
 			{
 				cardsInOpponentSlots = new[] { null, NameGlacier.GetCardInfo(), null, null },
-				cardsInPlayerSlots = new[] { null, NameGlacier.GetCardInfo(), null, null },
+				cardsInPlayerSlots = new[] { null, null, NameGlacier.GetCardInfo(), null },
 			},
 			new ()
 			{
@@ -118,6 +124,7 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 			},
 			new ()
 			{
+			  cardsInOpponentSlots = new[] { null, null, null, NameDisturbedGrave.GetCardInfo() },
 				cardsInPlayerSlots = new[] { null, NameKennel.GetCardInfo(), null, null },
 			},
 			new ()
@@ -168,12 +175,16 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 				cardsInOpponentSlots = new[] { null, null, NameShipwreckDams.GetCardInfo(), null },
 				cardsInPlayerSlots = new[] { null , null, null, NameShipwreck.GetCardInfo() },
 			},
+			new ()
+			{
+				cardsInOpponentSlots = new[] { NameShipwreck.GetCardInfo(), null, null, NameShipwreck.GetCardInfo() },
+				cardsInPlayerSlots = new[] { NameShipwreck.GetCardInfo(), null, null, NameShipwreck.GetCardInfo() },
+			},
 
 			};
 
 	public override EncounterData BuildCustomEncounter(CardBattleNodeData nodeData)
 	{
-
 
 		EncounterData data = new EncounterData
 		{
@@ -264,10 +275,10 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 				GlitchOutAssetEffect.GlitchModel(TableVisualEffectsManager.Instance.Table.transform);
 				yield return new WaitForSeconds(0.5f);
 
-				if (FindObjectOfType<StinkbugInteractable>())
-				{
-					FindObjectOfType<StinkbugInteractable>().OnCursorSelectStart();
-				}
+				//if (FindObjectOfType<StinkbugInteractable>())
+				//{
+				//	FindObjectOfType<StinkbugInteractable>().OnCursorSelectStart();
+				//}
 
 				GlitchOutAssetEffect.GlitchModel(GameObject.Find("EntireChamber").transform);
 				yield return new WaitForSeconds(0.5f);
@@ -300,30 +311,38 @@ public class GrimoraModBattleSequencer : SpecialBattleSequencer
 
 	public override IEnumerator PlayerUpkeep()
 	{
-		if (SaveFile.IsAscension)
-		{
 			Log.LogInfo($"[BattleSequencer.OnUpkeep] Is Ascension and Is player upkeep");
-			if (TurnManager.Instance.TurnNumber % 3 == 0 && AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.SawyersShowdown))
+			if (SaveFile.IsAscension && TurnManager.Instance.TurnNumber % 3 == 0 && AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.SawyersShowdown))
 			{
 				yield return HandleSawyersShowdownChallenge();
 			}
 
-			if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.KayceesKerfuffle))
-			{
+
 				switch (TurnManager.Instance.TurnNumber)
 				{
 					case 4:
-					{
-						yield return TextDisplayer.Instance.ShowUntilInput("I hope you're able to warm up next turn.");
+					if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.KayceesKerfuffle) && SaveFile.IsAscension) yield return TextDisplayer.Instance.ShowUntilInput("I hope you're able to warm up next turn.");
 						break;
-					}
 					case 5:
+
+						List<CardInfo> EgyptCards = new List<CardInfo>() { NameEgyptMummy.GetCardInfo(), NameBoneless.GetCardInfo(), NameEgyptMummy.GetCardInfo(), NameBoneless.GetCardInfo(), NameSarcophagus.GetCardInfo(), NameSarcophagus.GetCardInfo(), NameDeadPets.GetCardInfo() };
+						List<CardInfo> EgyptCardsExpensive = new List<CardInfo>() { NameEidolon.GetCardInfo(), NameMummy.GetCardInfo(), NameBoneclaw.GetCardInfo(), NameBoneless.GetCardInfo(), NameDeadPets.GetCardInfo(), NameObelisk.GetCardInfo() };
+
+						if (GrimoraRunState.CurrentRun.riggedDraws.Contains("Boon_TerrainSpawn"))
+						{ 
+						yield return CardSpawner.Instance.SpawnCardToHand(EgyptCards.GetRandomItem());
+						yield return CardSpawner.Instance.SpawnCardToHand(EgyptCardsExpensive.GetRandomItem());
+						}
+
+					if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.KayceesKerfuffle) && SaveFile.IsAscension)
+					{
 						ChallengeActivationUI.TryShowActivation(ChallengeManagement.KayceesKerfuffle);
 						yield return HandleKayceeKerfuffleChallenge();
-						break;
-				}
+						
+					}
+				break;
 			}
-		}
+
 
 		if (ResourcesManager.Instance.PlayerBones > 29) AchievementManager.Unlock(BoneSaw);
 		if (ResourcesManager.Instance.PlayerMaxEnergy > 5 && TurnManager.Instance.TurnNumber < 4) AchievementManager.Unlock(TheSpiritsWay);

@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 		 .SetAbilities(Ability.DrawRandomCardOnDeath)
 		 .SetBaseAttackAndHealth(0, 2)
 		 .SetBoneCost(2)
-		 .SetDescription("This sack is full of body parts. Maybe you'll find something useful in there?")
+		 .SetDescription("This sack is full of body parts. Maybe you'll find something useful in there.")
 		 .SetNames(NameBloodySack, "Bloody Sack")
 		 .Build();
 	}

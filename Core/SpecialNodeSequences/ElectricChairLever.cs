@@ -38,7 +38,6 @@ public class ElectricChairLever : HighlightedInteractable
 		Ability.Deathtouch,
 		Ability.DebuffEnemy,
 		Ability.DrawCopyOnDeath,
-		Ability.DrawNewHand,
 		Ability.Flying,
 		Ability.GainAttackOnKill,
 		Ability.LatchBrittle,
@@ -66,6 +65,7 @@ public class ElectricChairLever : HighlightedInteractable
 
 	public static List<Ability> AbilitiesMajorRisk = new(AbilitiesMinorRisk)
 	{
+		Ability.DrawNewHand,
 		LatchSubmerge.ability,
 		Ability.ActivatedHeal,
 		Ability.ActivatedRandomPowerEnergy,

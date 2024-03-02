@@ -51,9 +51,18 @@ public static class CardRelatedExtension
 	/// </summary>
 	/// <param name="cardName">Name of the card</param>
 	/// <returns>The CardBlueprint containing the card.</returns>
-	public static EncounterBlueprintData.CardBlueprint CreateCardBlueprint(this string cardName)
+	public static EncounterBlueprintData.CardBlueprint CreateCardBlueprint(this string cardName, string Similar = null)
 	{
-		return cardName.GetCardInfo().CreateBlueprint();
+
+		if (Similar == null) return cardName.GetCardInfo().CreateBlueprint();
+		else return new EncounterBlueprintData.CardBlueprint
+		{
+			card = cardName.GetCardInfo(),
+			randomReplaceChance = 30,
+			difficultyReplace = false,
+			replacement = Similar.GetCardInfo()
+		};
+
 	}
 
 	public static CardInfo GetCardInfo(this string self)

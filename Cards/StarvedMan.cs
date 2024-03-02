@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 		 .SetAbilities(Malnourishment.ability)
 		 .SetBaseAttackAndHealth(3, 3)
 		 .SetBoneCost(4)
-		 .SetDescription("DEATH IS A CRUEL FATE. STARVATION AN EVEN CRUELER ONE. WHY DO YOU FIGHT, OH DYING CHILD.")
+		 .SetDescription("DEATH IS A CRUEL FATE. STARVATION AN EVEN CRUELER ONE. WHY DO YOU FIGHT, OH HUNGRY CHILD.")
 		 .SetNames(NameStarvedMan, "Starved Man")
 		 .Build();
 	}

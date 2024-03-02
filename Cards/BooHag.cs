@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(SkinCrawler.ability)
 			.SetBaseAttackAndHealth(1, 1)
 			.SetBoneCost(5)
-			.SetDescription("WHEN YOU KNOW SHE'S THERE, IT'S ALREADY TOO LATE.")
+			.SetDescription("SHE FEEDS ON PEOPLES BREATH, MAYBE ONE IS STANDING RIGHT BEHIND YOU RIGHT NOW.")
 			.SetNames(NameBooHag, "Boo Hag")
 			.Build();
 	}

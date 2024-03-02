@@ -1,4 +1,5 @@
 using BepInEx.Bootstrap;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -12,9 +13,9 @@ public partial class GrimoraPlugin
 		{
 			CardBuilder.Builder
 			.SetAsRareCard()
-			.SetAbilities(FlameStrafe.ability)
+			.SetAbilities(FlameStrafe.ability, Ability.MadeOfStone)
 			.SetBaseAttackAndHealth(1, 3)
-			.SetDescription("A TRICKSTER SPIRIT FLEEING AND LEAVING BEHIND ITS FLAMES.")
+			.SetDescription("QUITE A MISCHIEVOUS SPIRIT, IT SPREADS ITS FLAMES TO CAUSE DISMAY.")
 			.SetEnergyCost(6)
 			.SetNames(NameEmberSpirit, "Ember Spirit")
 			.Build();
@@ -22,9 +23,9 @@ public partial class GrimoraPlugin
 		else
 		{
 			CardBuilder.Builder
-			.SetAbilities(FlameStrafe.ability)
+			.SetAbilities(FlameStrafe.ability, Ability.MadeOfStone)
 			.SetBaseAttackAndHealth(1, 3)
-			.SetDescription("A TRICKSTER SPIRIT FLEEING AND LEAVING BEHIND ITS FLAMES.")
+			.SetDescription("QUITE A MISCHIEVOUS SPIRIT, IT SPREADS ITS FLAMES TO CAUSE DISMAY.")
 			.SetEnergyCost(6)
 			.SetNames(NameEmberSpirit, "Ember Spirit")
 			.Build();

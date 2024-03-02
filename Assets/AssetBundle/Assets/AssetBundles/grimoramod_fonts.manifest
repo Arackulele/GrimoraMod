@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 144285589
+CRC: 3020636263
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 1b2a75bcd786eb7b23f7f1cc4a27c9b1
+    Hash: bc90ed098e3bf7e17b8c47baeff5f0d0
   TypeTreeHash:
     serializedVersion: 2
     Hash: cea17de082da1dfd38b5ed053fc34ca1
@@ -19,6 +19,7 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
+- Assets/fonts/Marksman.otf
 - Assets/fonts/Pieces_of_Eight.ttf
 - Assets/fonts/zai_ConsulPolishTypewriter.ttf
 - Assets/fonts/FronzyFreeTrial-mLVlP.ttf

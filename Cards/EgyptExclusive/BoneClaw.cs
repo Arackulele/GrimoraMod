@@ -17,6 +17,7 @@ public partial class GrimoraPlugin
 			.SetPortraits(AssetUtils.GetPrefab<Sprite>("boneclaw"), AssetUtils.GetPrefab<Sprite>("boneclaw_emission"))
 			.SetAbilities(Slasher.ability)
 			.SetBaseAttackAndHealth(2, 2)
+			.SetDescription("A LIVING FAILURE, ITS KNOWLEDGE ONLY BROUGHT IT DEATH, OR AT LEAST AN APPROXIMATION OF IT.")
 			.SetNames(NameBoneclaw, "Boneclaw")
 			.SetBoneCost(7)
 			.Build();
@@ -27,6 +28,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Slasher.ability)
 			.SetPortraits(AssetUtils.GetPrefab<Sprite>("boneclaw"), AssetUtils.GetPrefab<Sprite>("boneclaw_emission"))
 			.SetBaseAttackAndHealth(2, 2)
+			.SetDescription("A LIVING FAILURE, ITS KNOWLEDGE ONLY BROUGHT IT DEATH, OR AT LEAST AN APPROXIMATION OF IT.")
 			.SetNames(NameBoneclaw, "Boneclaw")
 			.SetBoneCost(7)
 			.Build();

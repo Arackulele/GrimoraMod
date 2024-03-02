@@ -12,7 +12,7 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetAbilities(Ability.Evolve)
 			.SetBaseAttackAndHealth(0, 1)
-			.SetDescription("Its low cost is justified only by its low stats.")
+			.SetDescription("A LOWLY GRAVE. WHOEVER IS LAID TO REST HERE, I DO NOT KNOW.")
 			.SetEvolve(NameZombie, 1)
 			.SetNames(NameDisturbedGraveNonTerrain, "Disturbed Grave")
 			.Build();

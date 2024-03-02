@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 986914152
+CRC: 3099291333
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: dae6e011a0861db425829ff9b4687a73
+    Hash: a727e1046d70369cc3d4cb827438c037
   TypeTreeHash:
     serializedVersion: 2
     Hash: 22357172b8cea85847937e8f62d0c077
@@ -27,11 +27,16 @@ Assets:
 - Assets/Materials/gravebrittle_tex.png
 - Assets/Materials/gravebrittle.mat
 - Assets/Materials/BoonMats/boonmaterial_3.mat
+- Assets/Materials/Glowy.mat
+- Assets/Materials/BoonMats/boonmaterial_5.mat
 - Assets/Materials/BoonMats/boonmaterial_1.mat
 - Assets/Materials/graveprisoner.mat
+- Assets/Materials/BoonMats/boonmaterial_6.mat
+- Assets/Materials/BoonMats/checkmaterial.mat
 - Assets/Materials/gravehaunter.mat
 - Assets/Materials/gravehaunter_tex.png
 - Assets/Materials/GravestoneTerrain.mat
+- Assets/Materials/BoonMats/xmaterial.mat
 - Assets/Materials/Boneyard_ConfirmButton_Shovel.mat
 - Assets/Materials/ElectricChair_SelectionSlot.mat
 - Assets/Materials/Gravestone_Gold.mat
@@ -41,4 +46,5 @@ Assets:
 - Assets/Materials/GravestoneCard_Base_Frozen.jpg
 - Assets/Materials/energygrave.mat
 - Assets/Materials/Boneyard_SelectionSlot.mat
+- Assets/Materials/BoonMats/boonmaterial_7.mat
 Dependencies: []

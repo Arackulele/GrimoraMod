@@ -1,4 +1,7 @@
-﻿using DiskCardGame;
+using System.Collections;
+using System.Collections.Generic;
+using DiskCardGame;
+using UnityEngine;
 
 namespace GrimoraMod;
 
@@ -11,6 +14,13 @@ public class CreateShipwrecks : CreateCardsAdjacent
 	public override string SpawnedCardId => GrimoraPlugin.NameShipwreckDams;
 
 	public override string CannotSpawnDialogue => "Blocked on both sides. No Shipwrecks for the Forgotten Man.";
+
+	private IEnumerator SpawnCardOnSlot(CardSlot slot)
+	{
+		CardInfo cardByName = CardLoader.GetCardByName(SpawnedCardId);
+		yield return Singleton<BoardManager>.Instance.CreateCardInSlot(cardByName, slot, 0.15f);
+	}
+
 
 }
 

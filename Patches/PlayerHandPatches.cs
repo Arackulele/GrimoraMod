@@ -1,6 +1,8 @@
 using System.Collections;
 using DiskCardGame;
+using GrimoraMod.Saving;
 using HarmonyLib;
+using InscryptionAPI.Helpers.Extensions;
 using UnityEngine;
 
 namespace GrimoraMod;
@@ -35,8 +37,6 @@ public class PlayerHandPatches
 
 		}
 
-		if (SaveFile.IsAscension && AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.RoyalsRevenge))
-		{
 			if (lastRegisteredTurn > TurnManager.Instance.TurnNumber)
 			{
 				cardsPlayedThisCombatForFuse = 0;
@@ -44,12 +44,14 @@ public class PlayerHandPatches
 			}
 			lastRegisteredTurn = TurnManager.Instance.TurnNumber;
 			cardsPlayedThisCombatForFuse++;
-			if (cardsPlayedThisCombatForFuse == 2)
+			if (cardsPlayedThisCombatForFuse == 2 && SaveFile.IsAscension && AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.RoyalsRevenge))
 			{
 				yield return TextDisplayer.Instance.ShowUntilInput("Careful, the life of your next card will be on a timer.");
 			}
 			if (cardsPlayedThisCombatForFuse >= 3)
 			{
+				if (SaveFile.IsAscension && AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.RoyalsRevenge))
+				{ 
 				yield return TextDisplayer.Instance.ShowUntilInput("I look forward to the [c:brnO]explosive[c:] results!");
 				ViewManager.Instance.SwitchToView(View.Board);
 				cardsPlayedThisCombatForFuse = 0;
@@ -73,6 +75,14 @@ public class PlayerHandPatches
 						else yield break;
 					}
 				}
+
+				CardInfo Skeleton = GrimoraPlugin.NameSkeleton.GetCardInfo();
+				Skeleton.mods.Add(new CardModificationInfo(Anchored.ability));
+
+				if (GrimoraRunState.CurrentRun.riggedDraws.Contains("Boon_Pirates")) yield return BoardManager.Instance.GetPlayerOpenSlots().GetRandomItem().CreateCardInSlot(Skeleton);
+
+
+
 			}
 		}
 		GrimoraPlugin.Log.LogInfo($"after change lit turn {cardsPlayedThisCombatForFuse}");
@@ -86,6 +96,7 @@ public class PlayerHandPatches
 			yield return ResourcesManager.Instance.AddBones(1);
 			}
 		}
+
 	}
 
 	[HarmonyPostfix, HarmonyPatch(nameof(PlayerHand.AddCardToHand))]

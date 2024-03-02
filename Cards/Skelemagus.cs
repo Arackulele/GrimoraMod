@@ -12,7 +12,7 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetAbilities(Ability.Brittle)
 			.SetBaseAttackAndHealth(4, 1)
-			.SetEnergyCost(5)
+			.SetEnergyCost(6)
 			.SetDescription("THEY HAVE LEARNED THE ANCIENT SPELL OF DEATH. YET IT IS TOO MUCH POWER TO BE WIELDED.")
 			.SetNames(NameSkelemagus, "Skelemagus")
 			.SetPortraits(AssetUtils.GetPrefab<Sprite>("Skelemagus_new"), AssetUtils.GetPrefab<Sprite>("Skelemagus_emission_new"))

@@ -48,19 +48,19 @@ public class ChessboardPlayerMarkerPatches
 	
 	private static void MoveWasdInput(ChessboardPlayerMarker __instance)
 	{
-		if (Input.GetKeyDown(KeyCode.J))
+		if (Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.F))
 		{
 			__instance.MoveToZone(LookDirection.West);
 		}
-		if (Input.GetKeyDown(KeyCode.L))
+		if (Input.GetKeyDown(KeyCode.L) || Input.GetKeyDown(KeyCode.H))
 		{
 			__instance.MoveToZone(LookDirection.East);
 		}
-		if (Input.GetKeyDown(KeyCode.I))
+		if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.T))
 		{
 			__instance.MoveToZone(LookDirection.North);
 		}
-		if (Input.GetKeyDown(KeyCode.K))
+		if (Input.GetKeyDown(KeyCode.K) || Input.GetKeyDown(KeyCode.G))
 		{
 			__instance.MoveToZone(LookDirection.South);
 		}

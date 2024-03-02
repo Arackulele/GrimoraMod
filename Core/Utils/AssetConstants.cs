@@ -116,6 +116,7 @@ public static class AssetConstants
 
 	public static GameObject MycologistHands => GrimoraPlugin.NewObjects.Find(g => g.name.Contains("MycoNodePrefab"));
 
+	public static GameObject CanvasMessage => GrimoraPlugin.NewObjects.Find(g => g.name.Contains("MessageCanvas"));
 
 
 	#region ElectricChair
@@ -141,6 +142,23 @@ AssetUtils.GetPrefab<Material>("boonmaterial_3");
 	public static Material Boon4 =>
 AssetUtils.GetPrefab<Material>("boonmaterial_4");
 
+	public static Material Boon5 =>
+AssetUtils.GetPrefab<Material>("boonmaterial_5");
+
+	public static Material Boon6 =>
+AssetUtils.GetPrefab<Material>("boonmaterial_6");
+
+	public static Material Boon7 =>
+AssetUtils.GetPrefab<Material>("boonmaterial_7");
+
+	public static Material checkmark =>
+AssetUtils.GetPrefab<Material>("checkmaterial");
+
+	public static Material cancel =>
+AssetUtils.GetPrefab<Material>("xmaterial");
+
+	public static Material buttonglow =>
+AssetUtils.GetPrefab<Material>("Glowy");
 	#region Menu
 
 	public static Sprite MenuCardGrimora => AssetUtils.GetPrefab<Sprite>("MenuCardNew");

@@ -16,7 +16,7 @@ public partial class GrimoraPlugin
 		 .SetBaseAttackAndHealth(0, 1)
 		 .SetEvolve(NameMassGrave, 1)
 		 .SetBoneCost(1)
-		 .SetDescription("AN UNINSPIRING PILE OF BONES. YOU CAN HAVE IT.")
+		 .SetDescription("NOT PARTICULARLY INSPIRING. YOU CAN HAVE IT.")
 		 .SetNames(NameBonepile, "Bone Heap")
 		 .Build().pixelPortrait = pixelSprite;
 	}

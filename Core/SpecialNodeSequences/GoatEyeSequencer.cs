@@ -54,7 +54,12 @@ public class GoatEyeSequencer : ManagedBehaviour
 
 		yield return new WaitForSeconds(1f);
 
-		yield return TextDisplayer.Instance.ShowUntilInput("AN ANCIENT ENERGY DEMANDS YOUR SACRIFICE");
+		if (!EventManagement.HasLearnedMechanicGoatEye)
+		{
+
+			yield return TextDisplayer.Instance.ShowUntilInput("AN ANCIENT ENERGY DEMANDS YOUR SACRIFICE");
+
+		}
 
 		if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.NoBones))
 		{
@@ -89,9 +94,11 @@ public class GoatEyeSequencer : ManagedBehaviour
 		rejectStone.ResetColors();
 
 
-
 		StoneQuad = confirmStone.transform.Find("Quad").GetComponent<MeshRenderer>();
 		rejectQuad = rejectStone.transform.Find("Quad").GetComponent<MeshRenderer>();
+
+		StoneQuad.material = AssetConstants.checkmark;
+		rejectQuad.material = AssetConstants.cancel;
 
 		defaultMaterialstone = StoneQuad.material;
 
@@ -110,16 +117,15 @@ public class GoatEyeSequencer : ManagedBehaviour
 
 		confirmStone.Exit();
 
-
-		yield return TextDisplayer.Instance.ShowUntilInput("A BRAVE SOUL");
+		if (!EventManagement.HasLearnedMechanicGoatEye) yield return TextDisplayer.Instance.ShowUntilInput("A BRAVE SOUL");
 
 		yield return TextDisplayer.Instance.ShowUntilInput("THE GODS ANSWER YOUR PRAYERS, NOW CHOOSE");
 
-		List<String> AvailableBoons = new List<String>() { "Boon_StartingDraw", "Boon_TerrainBones", "Boon_MaxEnergy", "Boon_BossBones" };
+		List<String> AvailableBoons = new List<String>() { "Boon_StartingDraw", "Boon_TerrainBones", "Boon_MaxEnergy", "Boon_BossBones", "Boon_EgyptCards", "Boon_Pirates", "Boon_TerrainSpawn" };
 		//Can only have up to 2 Boons
 
 
-		if (GrimoraRunState.CurrentRun.riggedDraws.Count > 0 && AvailableBoons.Contains(GrimoraRunState.CurrentRun.riggedDraws[0]))AvailableBoons.Remove(GrimoraRunState.CurrentRun.riggedDraws[0]);
+		if (GrimoraRunState.CurrentRun.riggedDraws.Count > 0 && AvailableBoons.Contains(GrimoraRunState.CurrentRun.riggedDraws[0])) AvailableBoons.Remove(GrimoraRunState.CurrentRun.riggedDraws[0]);
 		if (GrimoraRunState.CurrentRun.riggedDraws.Count > 1 && AvailableBoons.Contains(GrimoraRunState.CurrentRun.riggedDraws[1])) AvailableBoons.Remove(GrimoraRunState.CurrentRun.riggedDraws[1]);
 
 
@@ -147,7 +153,7 @@ public class GoatEyeSequencer : ManagedBehaviour
 				confirmStone.Enter();
 				rejectStone.SetColors(GameColors.instance.darkGold, GameColors.instance.darkGold, GameColors.instance.brightGold);
 
-				yield return TextDisplayer.Instance.ShowUntilInput("THE BOON OF ENBONY EYES");
+				yield return TextDisplayer.Instance.ShowUntilInput("THE BOON OF EBONY EYES");
 				yield return TextDisplayer.Instance.ShowUntilInput("TERRAIN CARDS WILL PROVIDE 2 BONES ON DEATH");
 				break;
 			case "Boon_MaxEnergy":
@@ -164,6 +170,27 @@ public class GoatEyeSequencer : ManagedBehaviour
 				rejectStone.SetColors(GameColors.instance.red, GameColors.instance.red, GameColors.instance.glowRed);
 				yield return TextDisplayer.Instance.ShowUntilInput("BOON OF THE ADVERSARY");
 				yield return TextDisplayer.Instance.ShowUntilInput("AT THE START OF A BOSS BATTLE, GAIN 3 EXTRA BONES");
+				break;
+			case "Boon_EgyptCards":
+				StoneQuad.material = AssetConstants.Boon5;
+				confirmStone.Enter();
+				rejectStone.SetColors(GameColors.instance.yellow, GameColors.instance.yellow, GameColors.instance.brightGold);
+				yield return TextDisplayer.Instance.ShowUntilInput("BOON OF THE SUN KINGDOM");
+				yield return TextDisplayer.Instance.ShowUntilInput("ON THE 4TH TURN OF A BATTLE, DRAW 2 RANDOM EGYPT CARDS");
+				break;
+			case "Boon_Pirates":
+				StoneQuad.material = AssetConstants.Boon6;
+				confirmStone.Enter();
+				rejectStone.SetColors(GameColors.instance.brightBlue, GameColors.instance.brightBlue, GameColors.instance.glowSeafoam);
+				yield return TextDisplayer.Instance.ShowUntilInput("BOON OF THE SEASICK");
+				yield return TextDisplayer.Instance.ShowUntilInput("AFTER PLACING 3 CARDS FROM YOUR HAND, A PIRATE SKELETON WILL BE PLAYED ON A RANDOM SPACE ON THE BOARD");
+				break;
+			case "Boon_TerrainSpawn":
+				StoneQuad.material = AssetConstants.Boon7;
+				confirmStone.Enter();
+				rejectStone.SetColors(GameColors.instance.darkPurple, GameColors.instance.darkPurple, GameColors.instance.fuschia);
+				yield return TextDisplayer.Instance.ShowUntilInput("BOON OF THE INANIMATE");
+				yield return TextDisplayer.Instance.ShowUntilInput("AT THE START OF A BATTLE, A DEAD TREE WILL SPAWN IN ON A RANDOM SPACE ON THE BOARD");
 				break;
 		}
 		confirmStone.ShowState(confirmStone.currentState, true);
@@ -184,7 +211,7 @@ public class GoatEyeSequencer : ManagedBehaviour
 				rejectQuad.material = AssetConstants.Boon2;
 				rejectStone.Enter();
 				rejectStone.SetColors(GameColors.instance.darkGold, GameColors.instance.darkGold, GameColors.instance.brightGold);
-				yield return TextDisplayer.Instance.ShowUntilInput("THE BOON OF ENBONY EYES");
+				yield return TextDisplayer.Instance.ShowUntilInput("THE BOON OF EBONY EYES");
 				yield return TextDisplayer.Instance.ShowUntilInput("TERRAIN CARDS WILL PROVIDE 2 BONES ON DEATH");
 				break;
 			case "Boon_MaxEnergy":
@@ -200,6 +227,27 @@ public class GoatEyeSequencer : ManagedBehaviour
 				rejectStone.SetColors(GameColors.instance.red, GameColors.instance.red, GameColors.instance.glowRed);
 				yield return TextDisplayer.Instance.ShowUntilInput("BOON OF THE ADVERSARY");
 				yield return TextDisplayer.Instance.ShowUntilInput("AT THE START OF A BOSS BATTLE, GAIN 3 EXTRA BONES");
+				break;
+			case "Boon_EgyptCards":
+				StoneQuad.material = AssetConstants.Boon5;
+				rejectStone.Enter();
+				rejectStone.SetColors(GameColors.instance.yellow, GameColors.instance.yellow, GameColors.instance.brightGold);
+				yield return TextDisplayer.Instance.ShowUntilInput("BOON OF THE SUN KINGDOM");
+				yield return TextDisplayer.Instance.ShowUntilInput("ON THE 4TH TURN OF A BATTLE, DRAW 2 RANDOM EGYPT CARDS");
+				break;
+			case "Boon_Pirates":
+				StoneQuad.material = AssetConstants.Boon6;
+				rejectStone.Enter();
+				rejectStone.SetColors(GameColors.instance.brightBlue, GameColors.instance.brightBlue, GameColors.instance.glowSeafoam);
+				yield return TextDisplayer.Instance.ShowUntilInput("BOON OF THE SEASICK");
+				yield return TextDisplayer.Instance.ShowUntilInput("EVERY SECOND TURN, A PIRATE SKELETON WILL BE PLAYED ON A RANDOM SPACE ON THE BOARD");
+				break;
+			case "Boon_TerrainSpawn":
+				StoneQuad.material = AssetConstants.Boon7;
+				rejectStone.Enter();
+				rejectStone.SetColors(GameColors.instance.darkPurple, GameColors.instance.darkPurple, GameColors.instance.fuschia);
+				yield return TextDisplayer.Instance.ShowUntilInput("BOON OF THE INANIMATE");
+				yield return TextDisplayer.Instance.ShowUntilInput("AT THE START OF A BATTLE, A DEAD TREE WILL SPAWN IN ON A RANDOM SPACE ON THE BOARD");
 				break;
 		}
 		rejectStone.ShowState(rejectStone.currentState, true);
@@ -224,8 +272,7 @@ public class GoatEyeSequencer : ManagedBehaviour
 
 	public IEnumerator EndSequence()
 	{
-
-		yield return new WaitForSeconds(0.1f);
+		EventManagement.HasLearnedMechanicGoatEye = true;
 
 		ViewManager.Instance.SwitchToView(View.Default);
 		yield return new WaitForSeconds(0.25f);

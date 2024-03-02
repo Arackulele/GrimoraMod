@@ -12,8 +12,8 @@ public partial class GrimoraPlugin
 			.SetAsNormalCard()
 			.SetAbilities(Ability.CorpseEater)
 			.SetBaseAttackAndHealth(2, 1)
-			.SetBoneCost(5)
-			.SetDescription("Hideous beings that will jump out to consume freshly killed corpses. They'll spare any expense to do so.")
+			.SetBoneCost(6)
+			.SetDescription("Hideous beings that will jump out to consume freshly killed corpses. They only spare the bones of the victim.")
 			.SetNames(NameWight, "Wight")
 			.Build();
 	}

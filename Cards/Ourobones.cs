@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 		 .SetSpecialAbilities(OurobonesCore.FullSpecial.Id)
 		 .SetBaseAttackAndHealth(1, 1)
 		 .SetBoneCost(2)
-		 .SetDescription("IT IS SAID ALL IS WELL THAT ENDS WELL. IT IS SAID TIME IS LIKE AN OUROBOROS, IT DOES NOT END, IT ONLY REPEATS ITSELF.")
+		 .SetDescription("IT IS SAID ALL IS WELL THAT ENDS. IT IS SAID TIME IS LIKE AN OUROBOROS, IT DOES NOT END, IT ONLY REPEATS ITSELF.")
 		 .SetNames(NameOurobones, "Ourobones")
 		 .Build();
 	}

@@ -10,9 +10,11 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 			.SetAsNormalCard()
-			.SetAbilities(Ability.Flying, Ability.Submerge)
-			.SetBaseAttackAndHealth(1, 1)
-			.SetEnergyCost(3)
+			.SetSpecialStatIcon(GainAttackTerrain.FullStatIcon.Id)
+			.SetAbilities(Ability.Submerge)
+			.SetBaseAttackAndHealth(0, 1)
+			.SetEnergyCost(4)
+			.SetSpecialAbilities(GainAttackTerrain.FullSpecial.Id)
 			.SetDescription("AN EVIL TRICKSTER, THE POLTERGEIST HAS ENJOYED THEIR DEATH VERY MUCH.")
 			.SetNames(NamePoltergeist, "Poltergeist")
 			.Build();

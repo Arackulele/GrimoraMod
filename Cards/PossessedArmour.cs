@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Ability.Loot)
 			.SetBaseAttackAndHealth(1, 2)
 			.SetEnergyCost(5)
-			.SetDescription("A suit of ancient armour in which a strange spirit has taken up residence. It's iron fist drags more creatures to your hand.")
+			.SetDescription("A suit of ancient armour in which an occult spirit has taken up residence. Her iron fist drags more creatures to the fight.")
 			.SetNames(NamePossessedArmour, "Possessed Armour")
 			.Build();
 	}

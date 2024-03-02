@@ -40,6 +40,7 @@ public class GravebardCampSequencer : ManagedBehaviour
 	{
 		Log.LogDebug("started gravebard camp sequence");
 		_gravebardCardReward = NameGravebard.GetCardInfo();
+		_gravebardCardReward.mods.Add(new CardModificationInfo(ElectricChairLever.AbilitiesSaferRisk.GetRandomItem()));
 
 		price = 3;
 
@@ -55,17 +56,23 @@ public class GravebardCampSequencer : ManagedBehaviour
 
 		statue = GameObject.Instantiate(AssetConstants.GravebardCampStatue);
 
-		yield return TextDisplayer.Instance.ShowUntilInput("A Gravebard has set up camp here.");
+		if (!EventManagement.HasLearnedMechanicGravebard)
+		{
 
-		yield return new WaitForSeconds(0.6f);
+			yield return TextDisplayer.Instance.ShowUntilInput("A Gravebard has set up camp here.");
 
-		yield return TextDisplayer.Instance.ShowUntilInput("They play songs and elegies about long forgotten warriors and rulers.");
+			yield return new WaitForSeconds(0.6f);
 
-		yield return TextDisplayer.Instance.ShowUntilInput("Though nowadays their audience consists mostly of various ghouls.");
+			yield return TextDisplayer.Instance.ShowUntilInput("They play songs and elegies about long forgotten warriors and rulers.");
 
-		yield return TextDisplayer.Instance.ShowUntilInput("They are willing to play you a song and trade you an unknown gift in exchange for any grams of ash you happen to be carrying.");
+			yield return TextDisplayer.Instance.ShowUntilInput("Though nowadays their audience consists mostly of various ghouls.");
 
-		yield return TextDisplayer.Instance.ShowUntilInput("All the excess damage you have done may finally come in handy!");
+		}
+
+		if (!EventManagement.HasLearnedMechanicGravebard) yield return TextDisplayer.Instance.ShowUntilInput("They are willing to play you a song and trade you an unknown gift in exchange for any grams of ash you happen to be carrying.");
+		else yield return TextDisplayer.Instance.ShowUntilInput("The gravebard is willing to play you a song for an item. You have to pay in ash.");
+
+		if (!EventManagement.HasLearnedMechanicGravebard) yield return TextDisplayer.Instance.ShowUntilInput("All the excess damage you have done may finally come in handy!");
 
 		statue.transform.position = new Vector3(0f, 5.5619f, 0f);
 		statue.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
@@ -75,6 +82,11 @@ public class GravebardCampSequencer : ManagedBehaviour
 		Click = Lute.AddComponent<LuteButton>();
 
 		confirmStone.Enter();
+
+		confirmStone.SetColors(GameColors.instance.red, GameColors.instance.red, GameColors.instance.glowRed);
+
+		StoneQuad = confirmStone.transform.Find("Quad").GetComponent<MeshRenderer>();
+		StoneQuad.material = AssetConstants.cancel;
 
 
 		if (RunState.Run.consumables.Count() > 2 || RunState.Run.currency < price)
@@ -121,6 +133,7 @@ public class GravebardCampSequencer : ManagedBehaviour
 	public IEnumerator RejectOffer()
 	{
 		confirmStone.SetEnabled(true);
+		GameObject.Find("GameTable/SpecialNodeHandler_Grimora/GravebardCampSequencer_Grimora/ConfirmStoneButton/Anim/model").transform.position = new Vector3(-0.0354f, 5f, -2.51f);
 		yield return confirmStone.WaitUntilConfirmation();
 
 
@@ -135,8 +148,6 @@ public class GravebardCampSequencer : ManagedBehaviour
 	private IEnumerator NoValidCardsSequence()
 	{
 		yield return TextDisplayer.Instance.ShowUntilInput("Even if you wanted anything else, you are no longer able to afford it...");
-
-		yield return TextDisplayer.Instance.ShowUntilInput("Sadly, you are not able to get anything from them...");
 
 		yield return TextDisplayer.Instance.ShowUntilInput("Feeling sorry for you, the Gravebard offers to come with you.");
 
@@ -221,8 +232,8 @@ public class GravebardCampSequencer : ManagedBehaviour
 		{
 			List<ConsumableItemData> validItems = new List<ConsumableItemData>(GrimoraItemsSecret);
 			GrimoraPlugin.Log.LogDebug("getting secret items");
-			validItems.Remove(validItems.Find(g => g.name.Contains("Slivered Hoggy Bank2")));
-			validItems.Remove(validItems.Find(g => g.name.Contains("Slivered Hoggy Bank3")));
+			validItems.Remove(validItems.Find(g => g.rulebookName.Contains("Slivered Hoggy Bank2")));
+			validItems.Remove(validItems.Find(g => g.rulebookName.Contains("Slivered Hoggy Bank3")));
 
 
 			toAdd = validItems.GetRandomItem();
@@ -325,7 +336,7 @@ public class GravebardCampSequencer : ManagedBehaviour
 		{
 			default:
 			case 3:
-				yield return TextDisplayer.Instance.ShowUntilInput("Wil you offer 3 Grams worth of Ash?");
+				yield return TextDisplayer.Instance.ShowUntilInput("Will you offer 3 Grams worth of Ash?");
 				break;
 			case 6:
 				yield return TextDisplayer.Instance.ShowUntilInput("The Gravebard never runs out of stories to sing about.");

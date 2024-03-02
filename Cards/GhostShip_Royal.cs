@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -12,7 +12,8 @@ public partial class GrimoraPlugin
 			.SetAbilities(Anchored.ability)
 			.SetSpecialAbilities(CreateRoyalsCrewMate.FullSpecial.Id)
 			.SetAppearance(CardAppearanceBehaviour.Appearance.RareCardBackground)
-			.SetBaseAttackAndHealth(0, 15)
+			.SetBoneCost(7)
+			.SetBaseAttackAndHealth(0, 11)
 			.SetNames(NameGhostShipRoyal, string.Empty)
 			.Build();
 	}

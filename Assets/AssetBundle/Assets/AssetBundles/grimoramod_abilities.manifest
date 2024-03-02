@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 662479138
+CRC: 1283754980
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: ca6660ad118aa1efb2b3cc9ef76c2633
+    Hash: dd8f5da5ab3d68df1d4443e68d56829f
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7859cd501ea75098bcf7e53f1b477c26
@@ -53,6 +53,7 @@ Assets:
 - Assets/Abilities/ability_Collector.png
 - Assets/Abilities/ability_AlternatingStrike.png
 - Assets/Abilities/ability_GainAttackNoBones.png
+- Assets/Abilities/Ability_Burning.png
 - Assets/Abilities/ability_BuffSkeletonsSeaShanty.png
 - Assets/Abilities/ability_ColdFront.png
 - Assets/Abilities/ability_Bounty_4.png
@@ -81,6 +82,7 @@ Assets:
 - Assets/Abilities/ability_LatchSubmerge.png
 - Assets/Abilities/ability_GainAttackBones.png
 - Assets/Abilities/Achievements/achievement_pit.png
+- Assets/Abilities/ability_GainAttackTerrain.png
 - Assets/Abilities/ability_AreaOfEffectStrike.png
 - Assets/Abilities/ability_GiantStrikeEnraged.png
 - Assets/Abilities/Achievements/achievement_ouro.png

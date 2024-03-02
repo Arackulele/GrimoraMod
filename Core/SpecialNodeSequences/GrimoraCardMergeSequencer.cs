@@ -69,6 +69,9 @@ public class GrimoraCardMergeSequencer : CardMergeSequencer
 
 		yield return new WaitForSeconds(0.7f);
 
+		if (!EventManagement.HasLearnedMechanicMycologists)
+		{ 
+
 		ChangeDialogueSpeaker("mycologist");
 		yield return ChangeMycologistEyes(true, true);
 
@@ -82,6 +85,8 @@ public class GrimoraCardMergeSequencer : CardMergeSequencer
 		yield return ChangeMycologistEyes(true);
 		yield return TextDisplayer.Instance.ShowUntilInput("Our tools did not.");
 
+		}
+
 		backgroundshrooms = UnityEngine.Object.Instantiate(ResourceBank.Get<GameObject>("Prefabs/Environment/TableEffects/GiantMushroomEffects"));
 
 		yield return new WaitForSeconds(0.5f);
@@ -90,13 +95,18 @@ public class GrimoraCardMergeSequencer : CardMergeSequencer
 		sacrificeSlot.Disable();
 		Singleton<TableRuleBook>.Instance.SetOnBoard(onBoard: true);
 
-		ChangeDialogueSpeaker("mycologist");
-		yield return ChangeMycologistEyes(false);
-		yield return TextDisplayer.Instance.ShowUntilInput("Our talents still remain, but..");
+		if (!EventManagement.HasLearnedMechanicMycologists)
+		{
 
-		ChangeDialogueSpeaker("mycologistside");
-		yield return ChangeMycologistEyes(true);
-		yield return TextDisplayer.Instance.ShowUntilInput("We must do things differently.");
+			ChangeDialogueSpeaker("mycologist");
+			yield return ChangeMycologistEyes(false);
+			yield return TextDisplayer.Instance.ShowUntilInput("Our talents still remain, but..");
+
+			ChangeDialogueSpeaker("mycologistside");
+			yield return ChangeMycologistEyes(true);
+			yield return TextDisplayer.Instance.ShowUntilInput("We must do things differently.");
+
+		}
 
 
 		NodePrefab = GameObject.Instantiate(AssetConstants.MycologistHands);
@@ -145,13 +155,32 @@ public class GrimoraCardMergeSequencer : CardMergeSequencer
 
 		yield return new WaitForSeconds(0.8f);
 
-		ChangeDialogueSpeaker("mycologist");
-		yield return ChangeMycologistEyes(false);
-		yield return TextDisplayer.Instance.ShowUntilInput("We cannot fuse two into one, but...");
+		if (!EventManagement.HasLearnedMechanicMycologists)
+		{
 
-		ChangeDialogueSpeaker("mycologistside");
-		yield return ChangeMycologistEyes(true);
-		yield return TextDisplayer.Instance.ShowUntilInput("We can swap their souls, their Sigils.");
+			ChangeDialogueSpeaker("mycologist");
+			yield return ChangeMycologistEyes(false);
+			yield return TextDisplayer.Instance.ShowUntilInput("We cannot fuse two into one, but...");
+
+			ChangeDialogueSpeaker("mycologistside");
+			yield return ChangeMycologistEyes(true);
+			yield return TextDisplayer.Instance.ShowUntilInput("We can swap their souls, their Sigils.");
+
+
+		}
+		else
+		{
+
+			ChangeDialogueSpeaker("mycologist");
+			yield return ChangeMycologistEyes(false);
+			yield return TextDisplayer.Instance.ShowUntilInput("It is once again time...");
+
+			ChangeDialogueSpeaker("mycologistside");
+			yield return ChangeMycologistEyes(true);
+			yield return TextDisplayer.Instance.ShowUntilInput("Time to swap the souls of your cards.");
+
+
+		}
 
 
 		yield return pile.SpawnCards(RunState.Run.playerDeck.Cards.Count, 0.5f);
@@ -188,7 +217,7 @@ public class GrimoraCardMergeSequencer : CardMergeSequencer
 
 		yield return new WaitForSeconds(0.4f);
 
-		yield return TextDisplayer.Instance.ShowUntilInput("It is time, it is...");
+		if (!EventManagement.HasLearnedMechanicMycologists) yield return TextDisplayer.Instance.ShowUntilInput("It is time, it is...");
 
 		ChangeDialogueSpeaker("mycologistside");
 		yield return ChangeMycologistEyes(true);
@@ -254,13 +283,17 @@ public class GrimoraCardMergeSequencer : CardMergeSequencer
 		yield return ChangeMycologistEyes(true);
 		yield return TextDisplayer.Instance.ShowUntilInput("Switched.");
 
-		ChangeDialogueSpeaker("mycologist");
-		yield return ChangeMycologistEyes(false);
-		yield return TextDisplayer.Instance.ShowUntilInput("They lead new lives..");
+		if (!EventManagement.HasLearnedMechanicMycologists)
+		{
+			ChangeDialogueSpeaker("mycologist");
+			yield return ChangeMycologistEyes(false);
+			yield return TextDisplayer.Instance.ShowUntilInput("They lead new lives..");
 
-		ChangeDialogueSpeaker("mycologistside");
-		yield return ChangeMycologistEyes(true);
-		yield return TextDisplayer.Instance.ShowUntilInput("With new purposes.");
+			ChangeDialogueSpeaker("mycologistside");
+			yield return ChangeMycologistEyes(true);
+			yield return TextDisplayer.Instance.ShowUntilInput("With new purposes.");
+
+		}
 
 		ChangeDialogueSpeaker("mycologist");
 		yield return ChangeMycologistEyes(false);
@@ -321,6 +354,8 @@ public class GrimoraCardMergeSequencer : CardMergeSequencer
 		//bloodParticles1.gameObject.SetActive(value: false);
 		//bloodParticles2.gameObject.SetActive(value: false);
 
+		EventManagement.HasLearnedMechanicMycologists = true;
+
 
 		Log.LogDebug($"Destroying deck pile");
 		yield return pile.DestroyCards();
@@ -361,6 +396,8 @@ public class GrimoraCardMergeSequencer : CardMergeSequencer
 		deckCopy.RemoveAll(
 										card => card.traits.Contains(Trait.Pelt)
 							|| card.traits.Contains(Trait.Terrain)
+							|| card.metaCategories.Contains(CardMetaCategory.Rare)
+							|| card.abilities.Contains(Ability.Brittle)
 		);
 
 		if (Instance.hostSlot.Card != null && Instance.hostSlot.Card.Info != null && deckCopy.Contains(Instance.hostSlot.Card.Info)) deckCopy.Remove(Instance.hostSlot.Card.Info);

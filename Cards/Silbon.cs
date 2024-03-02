@@ -13,7 +13,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(InvertedStrike.ability, Ability.Strafe)
 			.SetBaseAttackAndHealth(3, 2)
 			.SetBoneCost(6)
-			.SetDescription("A SKILLED HUNTER. WHAT DID IT HUNT? THAT IS UNKNOWN...")
+			.SetDescription("A SKILLED HUNTER. DON'T TRUST YOUR EARS WHEN YOU HEAR ITS HAUNTING WHISTLE.")
 			.SetNames(NameSilbon, "Silbon")
 			.Build().pixelPortrait=GrimoraPlugin.AllSprites.Find(o=>o.name=="pixel_silbon");
 	}

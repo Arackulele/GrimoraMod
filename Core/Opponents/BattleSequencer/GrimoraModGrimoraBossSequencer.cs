@@ -33,16 +33,10 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 
 
-			if (validfordarkslope == true) AchievementManager.Unlock(TheBlackBirdTheDarkSlope);
-
-			AchievementManager.Unlock(DanceOfDoom);
-
-			if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.HardMode)) AchievementManager.Unlock(GatewayToDis);
-
-			SaveManager.SaveToFile();
 
 			if (SaveFile.IsAscension)
 			{
+
 				if (AscensionSaveData.Data.activeChallenges.Count() > 10)
 				{
 					if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.InfinitLives) | AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.SafeChair) | AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.EasyGuards) | AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.SafeChair))
@@ -71,6 +65,10 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 						yield return TextDisplayer.Instance.ShowUntilInput($"I want to destroy it, and...");
 
+						AchievementManager.Unlock(PileOfSkulls);
+
+						GrimoraPlugin.ChangeDialogueSpeaker("bonelord");
+
 						//bonelord
 						yield return TextDisplayer.Instance.ShowUntilInput(
 				$"{"THAT IS QUITE ENOUGH".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
@@ -80,9 +78,10 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 				$"{"IT IS TIME FOR THIS TO END.".Red()}", speaker: DialogueEvent.Speaker.Bonelord, letterAnimation: TextDisplayer.LetterAnimation.WavyJitter, effectEyelidIntensity: 1f, effectFOVOffset: -4
 				);
 
+						GrimoraPlugin.ChangeDialogueSpeaker("grimora");
+
 						ConfigHelper.Instance.SetSkullStormDefeated();
 						EventManagement.HasBeatenSkullStorm = true;
-						AchievementManager.Unlock(PileOfSkulls);
 
 						SaveManager.SaveToFile();
 					}
@@ -91,10 +90,16 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 				}
 				else
 				{
+
+					if (validfordarkslope == true) AchievementManager.Unlock(TheBlackBirdTheDarkSlope);
 					//logic for calling Win Screen
 					yield return TextDisplayer.Instance.ShowUntilInput("Wonderful! I am pleasantly surprised by your triumph against me!");
+					AchievementManager.Unlock(DanceOfDoom);
 					yield return TextDisplayer.Instance.ShowUntilInput("...But it seems i cannot move on just yet.");
+					if (AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.HardMode)) AchievementManager.Unlock(GatewayToDis);
 					yield return TextDisplayer.Instance.ShowUntilInput("Goodbye.");
+
+					SaveManager.SaveToFile();
 				}
 
 
@@ -103,9 +108,10 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 
 				AscensionStatsData.TryIncrementStat(AscensionStat.Type.Victories);
 
-				if (!EventManagement.HasSeenCredits)
+				if (EventManagement.HasSeenCredits != true || AscensionSaveData.Data.activeChallenges.Count() > 10)
 				{ 
 				EventManagement.HasSeenCredits = true;
+				SaveManager.SaveToFile();
 				SceneLoader.Load("Ascension_Credits");
 				}
 				else SceneLoader.Load("Ascension_Configure");
@@ -212,7 +218,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 			negateAbilities = new List<Ability>() { Ability.SteelTrap }
 		};
 
-		if (deathSlot.Card.HasAbility(Ability.SteelTrap))
+		if (deathSlot.Card != null && deathSlot.Card.HasAbility(Ability.SteelTrap))
 		{
 			yield return TextDisplayer.Instance.ShowThenClear("SUCH A SMALL TRAP CANNOT AFFECT GIANTS.", 2f);
 
@@ -277,7 +283,7 @@ public class GrimoraModGrimoraBossSequencer : GrimoraModBossBattleSequencer
 		else
 		{
 
-			if (card.Info.bonesCost == 666) validfordarkslope = false;
+			if (card != null && card.Info.bonesCost == 666) validfordarkslope = false;
 
 
 		}

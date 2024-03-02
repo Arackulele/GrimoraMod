@@ -85,7 +85,6 @@ public class AnkhGuardCombatSequencer : GrimoraModBattleSequencer
 	{
 		Debug.Log("Triggering Effect1");
 
-
 		yield break;
 	}
 

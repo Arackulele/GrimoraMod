@@ -3,6 +3,7 @@ using DiskCardGame;
 using HarmonyLib;
 using static GrimoraMod.GrimoraPlugin;
 using GrimoraMod.Saving;
+using InscryptionAPI.Helpers.Extensions;
 
 namespace GrimoraMod;
 
@@ -54,6 +55,8 @@ public class TurnManagerPatches
 
 		}
 
+		if (GrimoraRunState.CurrentRun.riggedDraws.Contains("Boon_TerrainSpawn")) yield return BoardManager.Instance.GetPlayerOpenSlots().GetRandomItem().CreateCardInSlot(NameDeadTree.GetCardInfo());
+
 		if (!SaveFile.IsAscension ||( SaveFile.IsAscension && !AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.NoBones)))
 		{
 			int bonesToAdd = GrimoraRunState.CurrentRun.regionTier;
@@ -68,4 +71,33 @@ public class TurnManagerPatches
 			Log.LogInfo($"{SaveFile.IsAscension } +  {AscensionSaveData.Data.ChallengeIsActive(ChallengeManagement.NoBones)}");
 		}
 	}
-}
+
+	[HarmonyPatch(typeof(TurnManager), nameof(TurnManager.DoUpkeepPhase))]
+	[HarmonyPostfix]
+	private static IEnumerator TurnManager_UpkeepPhase(IEnumerator sequence, bool playerUpkeep)
+	{
+
+		yield return sequence;
+
+		if (playerUpkeep && GrimoraSaveUtil.IsGrimoraModRun)
+		{ 
+		bool showEnergyModule = !ResourcesManager.Instance.EnergyAtMax || ResourcesManager.Instance.PlayerEnergy < ResourcesManager.Instance.PlayerMaxEnergy;
+		if (showEnergyModule)
+		{
+			ViewManager.Instance.SwitchToView(View.Default, false, true);
+			yield return new UnityEngine.WaitForSeconds(0.1f);
+		}
+
+		yield return ResourcesManager.Instance.AddMaxEnergy(1);
+		yield return ResourcesManager.Instance.RefreshEnergy();
+
+		if (showEnergyModule)
+		{
+			yield return new UnityEngine.WaitForSeconds(0.25f);
+			Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Unlocked;
+		}
+		}
+	}
+
+
+	}

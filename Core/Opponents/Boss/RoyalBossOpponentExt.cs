@@ -25,6 +25,8 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 	public override StoryEvent EventForDefeat => GrimoraEnums.StoryEvents.RoyalDefeated;
 
+	private readonly RandomEx _rng = new();
+
 	public override string DefeatedPlayerDialogue => "ARRG! WALK OFF THE PLANK YEE DIRTY SCALLYWAG!!!";
 
 	public override IEnumerator IntroSequence(EncounterData encounter)
@@ -117,17 +119,17 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 	public override void ModifyQueuedCard(PlayableCard card)
 	{
-		AddAnchoredAbility(card);
+		//AddAnchoredAbility(card);
 	}
 
 	public override void ModifySpawnedCard(PlayableCard card)
 	{
-		AddAnchoredAbility(card);
+		//AddAnchoredAbility(card);
 	}
 
 	private void AddAnchoredAbility(PlayableCard playableCard)
 	{
-		if (!playableCard.TemporaryMods.Exists(mod => mod.abilities.Contains(Anchored.ability)))
+		if (!playableCard.TemporaryMods.Exists(mod => mod.abilities.Contains(Anchored.ability)) )
 		{
 			playableCard.AddTemporaryMod(new CardModificationInfo(Anchored.ability));
 		}
@@ -312,16 +314,16 @@ public class RoyalBossOpponentExt : BaseBossExt
 		blueprint.turns = new List<List<EncounterBlueprintData.CardBlueprint>>
 		{
 			new() { bp_Privateer, bp_DavyJones },
-			new(),
+			new() { bp_VengefulSpirit },
 			new(),
 			new() { bp_Nixie },
+			new() { bp_VengefulSpirit },
+			new() { bp_FirstMateSnag, bp_VengefulSpirit },
 			new(),
-			new() { bp_Revenant },
 			new() { bp_Privateer },
 			new(),
-			new() { bp_FirstMateSnag },
-			new(),
-			new() { bp_Revenant },
+			new() { bp_FirstMateSnag, bp_VengefulSpirit },
+			new() { bp_Revenant, bp_VengefulSpirit, bp_VengefulSpirit },
 			new(),
 			new() { bp_Privateer },
 			new(),
@@ -331,6 +333,7 @@ public class RoyalBossOpponentExt : BaseBossExt
 			new(),
 			new() { bp_Privateer, bp_Privateer },
 			new(),
+			new() { bp_DeadManWalking }
 		};
 		return blueprint;
 	}
@@ -394,15 +397,9 @@ public class RoyalBossOpponentExt : BaseBossExt
 
 			yield return new WaitForSeconds(0.05f);
 			ViewManager.Instance.SwitchToView(View.BossCloseup);
-			yield return new WaitForSeconds(0.05f);
-			yield return TextDisplayer.Instance.ShowUntilInput(
-				"HELLO AGAIN!\nI AM EXCITED FOR YOU TO SEE THIS LAST ONE.",
-				-0.65f,
-				0.4f
-			);
 
-			yield return TextDisplayer.Instance.ShowUntilInput("I PUT IT TOGETHER MYSELF.");
-			yield return TextDisplayer.Instance.ShowUntilInput("LET'S SEE IF YOU CAN BEAT ALL ODDS AND WIN!");
+			yield return TextDisplayer.Instance.ShowUntilInput("LET'S SEE, THE NEXT AREA IS MY VERY OWN CRYPT.");
+			yield return TextDisplayer.Instance.ShowUntilInput("PERHAPS YOU CAN BEAT ALL ODDS AND TRIUMPH!");
 		}
 		else
 		{

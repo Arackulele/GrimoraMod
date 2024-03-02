@@ -17,7 +17,7 @@ public partial class GrimoraPlugin
 		 .SetAbilities(Ability.BoneDigger)
 		 .SetBaseAttackAndHealth(0, 3)
 		 .SetBoneCost(1)
-		 .SetDescription("HE SPENDS HIS TIME ALONE DIGGING FOR BONES IN HOPES OF FINDING A TREASURE. JUST LIKE HIS GRANDPA BEFORE HIM.")
+		 .SetDescription("HE SPENDS HIS TIME ALONE DIGGING FOR BONES IN HOPES OF FINDING A TREASURE. JUST LIKE HIS GRANDMA BEFORE HIM.")
 		 .SetEvolve(NameSporedigger, 1)
 		 .SetNames(NameGravedigger, "Gravedigger", ogSprite)
 		 
@@ -31,7 +31,7 @@ public partial class GrimoraPlugin
 		 .SetAbilities(Ability.BoneDigger, Ability.BoneDigger)
 		 .SetBaseAttackAndHealth(0, 3)
 		 .SetBoneCost(1)
-		 .SetDescription("A POOR, BRUTALIZED SOUL. ITS MYCELIA PROBES FAR INTO THE SOIL, GUIDING ITS SPADE.")
+		 .SetDescription("A POOR, BRUTALIZED SOUL. THEIR MYCELIA PROBES FAR INTO THE SOIL, GUIDING THEIR SPADE.")
 		 .SetNames(NameSporedigger, "Sporedigger")
 		 .SetTraits(Trait.Fused)
 		 .Build();

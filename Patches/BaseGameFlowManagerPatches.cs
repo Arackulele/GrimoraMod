@@ -156,7 +156,7 @@ public class BaseGameFlowManagerPatches
 		{
 			resourceEnergy = UnityObject.Instantiate(
 				ResourceBank.Get<ResourceDrone>("Prefabs/CardBattle/ResourceModules"),
-				new Vector3(5.3f, 5.5f, 1.92f),
+				new Vector3(5.3f, 8f, 1.92f),
 				Quaternion.Euler(270f, 0f, -146.804f),
 				BoardManager3D.Instance.gameObject.transform
 			);
@@ -182,6 +182,7 @@ public class BaseGameFlowManagerPatches
 
 		UnityObject.Destroy(moduleEnergy.Find("Connector").gameObject);
 		resourceEnergy.emissiveRenderers.Clear();
+
 
 
 		//Ghost Bottle Management

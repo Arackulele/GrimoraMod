@@ -11,6 +11,7 @@ public partial class GrimoraPlugin
 	{
 		CardBuilder.Builder
 		 .SetAbilities(Ability.DrawRandomCardOnDeath)
+		 .SetTraits(Trait.Terrain)
 		 .SetBaseAttackAndHealth(0, 3)
 		 .SetBoneCost(2)
 		 .SetDescription("The elusive Locker.")

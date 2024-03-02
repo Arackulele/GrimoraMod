@@ -1,4 +1,4 @@
-﻿using DiskCardGame;
+using DiskCardGame;
 
 namespace GrimoraMod;
 
@@ -14,7 +14,7 @@ public partial class GrimoraPlugin
 			.SetBaseAttackAndHealth(0, 2)
 			.SetBoneCost(4)
 			.SetEvolve(NameMummy, 1)
-			.SetDescription("THE CYCLE OF THE MUMMY LORD, NEVER ENDING.")
+			.SetDescription("EMERGING FROM AN OLD EGYPTIAN TOMB, MADE TO HOUSE THE LORDS OF OLD.")
 			.SetNames(NameSarcophagus, "Sarcophagus")
 			.Build();
 	}

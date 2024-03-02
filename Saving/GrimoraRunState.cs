@@ -1,5 +1,4 @@
 using DiskCardGame;
-
 namespace GrimoraMod.Saving;
 
 public class GrimoraRunState : RunState
@@ -50,10 +49,14 @@ public class GrimoraRunState : RunState
 
 	public void NewStandardGame()
 	{
+
+
 		GrimoraPlugin.Log.LogDebug($"[GrimoraChessboard] NewStandardGame");
 		this.playerLives = 1;
 		this.skullTeeth = 0;
-		
+		InscryptionAPI.Saves.ModdedSaveManager.SaveData.SetValue(GrimoraPlugin.GUID, "StoryEvent_HasSeenMapExpand", false);
+
+
 		this.playerDeck.Cards.Clear();
 		this.playerDeck.AddCard(GrimoraPlugin.NameBonepile.GetCardInfo());
 		this.playerDeck.AddCard(GrimoraPlugin.NameGravedigger.GetCardInfo());

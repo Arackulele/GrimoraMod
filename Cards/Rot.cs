@@ -12,8 +12,8 @@ public partial class GrimoraPlugin
 		 .SetAbilities(LooseLimb.ability)
 		 .SetBaseAttackAndHealth(1, 2)
 		 .SetBoneCost(4)
-		 .SetDescription("It's a wonder this one has stayed together! Though it may lose that arm if it tries to flee...")
-		 .SetNames(NameRot, "Rot")
+		 .SetDescription("It's a wonder this one has stayed together! Though it may lose that arm if it tries to flee.")
+		 .SetNames(NameRot, "Rotten")
 		 .SetTail(NameRotTail)
 		 .Build();
 	}

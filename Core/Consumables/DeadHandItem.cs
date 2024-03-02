@@ -43,7 +43,7 @@ public class DeadHandItem : ConsumableItem
 				CardDrawPiles3D.Instance.pile.Draw();
 			}
 
-			if (CardDrawPiles3D.Instance.Deck.cards.Count == 0)
+			if (CardDrawPiles3D.Instance.Deck.cards.Count == 0 && i == 0)
 			{
 
 				yield return new WaitForSeconds(0.5f);
@@ -57,6 +57,7 @@ public class DeadHandItem : ConsumableItem
 			yield return CardDrawPiles.Instance.DrawCardFromDeck();
 			yield return new WaitForSeconds(0.1f);
 		}
+		yield return CardDrawPiles3D.Instance.DrawFromSidePile();
 		yield return new WaitForSeconds(0.5f);
 		ViewManager.Instance.SwitchToView(View.Default);
 		ViewManager.Instance.SetViewUnlocked();
@@ -69,7 +70,7 @@ public class DeadHandItem : ConsumableItem
 		Debug.Log("Added Dead Hand");
 
 		Texture2D HahaL = new Texture2D(70, 80);
-		ConsumableItemData data = ConsumableItemManager.New(GUID, "Dead Hand", "The Dead Hand.Draws you a new Hand of cards, at the cost of your old one.", HahaL, typeof(DeadHandItem), Model)
+		ConsumableItemData data = ConsumableItemManager.New(GUID, "Dead Hand", "The Dead Hand, draws you a new Hand of cards at the cost of your old one.", HahaL, typeof(DeadHandItem), Model)
 		.SetLearnItemDescription("The severed hand of a forgotten god, left to take on a life of its own. You know what this does.")
 		.SetRulebookCategory(AbilityMetaCategory.GrimoraRulebook)
 		.SetRulebookName("Dead Hand");

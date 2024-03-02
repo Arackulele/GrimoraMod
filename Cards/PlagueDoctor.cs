@@ -11,10 +11,10 @@ public partial class GrimoraPlugin
 		CardBuilder.Builder
 			.SetAsNormalCard()
 			.SetAbilities(Ability.Deathtouch)
-			.SetBaseAttackAndHealth(1, 2)
+			.SetBaseAttackAndHealth(1, 3)
 			.SetBoneCost(6)
 			.SetNames(NamePlagueDoctor, "Plague Doctor")
-			.SetDescription("IRONICALLY ENOUGH, NOT A REAL DOCTOR.")
+			.SetDescription("HE HAS DETERMINED THE UNDEAD ARE SICK WITH A TERRIBLE ILLNESS. THE ONLY CURE IS DEATH.")
 			.Build();
 	}
 }

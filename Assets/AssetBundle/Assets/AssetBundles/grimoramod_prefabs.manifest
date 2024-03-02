@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 4064847326
+CRC: 400458956
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: a46d98f1f08a4ffd66c1b85aa7a00ed6
+    Hash: e9c1c6fe6b8b39ed7af97f0e923c678b
   TypeTreeHash:
     serializedVersion: 2
     Hash: 200bbd967792db2c6e46e4377de3d2c7
@@ -58,7 +58,6 @@ Assets:
 - Assets/ChessboardPieces/Sawyer/Blocker_Sawyer.prefab
 - Assets/ChessboardPieces/ChessboardPiece_CardRemove.prefab
 - Assets/Electric_Chair.prefab
-- Assets/Models/Layout/NewNewLayout.prefab
 - Assets/ChessboardPieces/Blocker_Grimora.prefab
 - Assets/Animations/VfxBoltLightning.prefab
 - Assets/ChessboardPieces/ChessboardPiece_ElectricChair.prefab

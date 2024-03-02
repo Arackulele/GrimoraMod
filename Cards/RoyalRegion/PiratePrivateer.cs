@@ -17,7 +17,7 @@ public partial class GrimoraPlugin
 		 .SetAbilities(Anchored.ability, Ability.Sniper)
 		 .SetBaseAttackAndHealth(1, 1)
 		 .SetBoneCost(3)
-		 .SetDescription("A keen eye socket allows him to attack anywhere, from anywhere; marvelous indeed!")
+		 .SetDescription("A keen eye socket allows him to attack anywhere, his musket helps too. marvelous indeed!")
 		 .SetNames(NamePiratePrivateer, "Privateer")
 		 .Build();
 		}
@@ -28,7 +28,7 @@ public partial class GrimoraPlugin
 		.SetAbilities(Anchored.ability, Ability.Sniper)
 		.SetBaseAttackAndHealth(1, 1)
 		.SetBoneCost(3)
-		.SetDescription("A keen eye socket allows him to attack anywhere, from anywhere; marvelous indeed!")
+		.SetDescription("A keen eye socket allows him to attack anywhere, his musket helps too. marvelous indeed!")
 		.SetNames(NamePiratePrivateer, "Privateer")
 		.Build();
 

@@ -1,4 +1,4 @@
-﻿namespace GrimoraMod;
+namespace GrimoraMod;
 
 public partial class GrimoraPlugin
 {
@@ -11,7 +11,7 @@ public partial class GrimoraPlugin
 			.SetAbilities(Anchored.ability, LitFuse.ability)
 			.SetBaseAttackAndHealth(0, 2)
 			.SetBoneCost(1)
-			.SetDescription("THAT'S WHAT HAPPENS WHEN YOU PLAY WITH BOMBS!")
+			.SetDescription("MAYBE IT WASN'T THE BEST IDEA TO HOLD A BARREL FULL OF GUNPOWDER. I'M NOT SURE WETHER HE NOTICED.")
 			.SetNames(NamePirateExploding, "Exploding Pirate")
 			.Build();
 	}

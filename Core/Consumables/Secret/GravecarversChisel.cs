@@ -34,12 +34,13 @@ public class GravecarversChisel : ConsumableItem
 
 		Singleton<ViewManager>.Instance.SwitchToView(View.DeckSelection, immediate: false, lockAfter: true);
 		SelectableCard selectedCard = null;
-		yield return Singleton<BoardManager>.Instance.CardSelector.SelectCardFrom(GrimoraModBattleSequencer.cardsThatHaveDiedThisMatch, (Singleton<CardDrawPiles>.Instance as CardDrawPiles3D).Pile, delegate (SelectableCard x)
+		yield return Singleton<BoardManager>.Instance.CardSelector.SelectCardFrom(GrimoraModBattleSequencer.cardsThatHaveDiedThisMatch, null, delegate (SelectableCard x)
 		{
 			selectedCard = x;
 		});
 		Tween.Position(selectedCard.transform, selectedCard.transform.position + Vector3.back * 4f, 0.1f, 0f, Tween.EaseIn);
-		UnityEngine.Object.Destroy(selectedCard.gameObject, 0.1f);
+
+		yield return CardSpawner.Instance.SpawnCardToHand( selectedCard.Info );
 	}
 
 
@@ -47,8 +48,8 @@ public class GravecarversChisel : ConsumableItem
 	{
 
 		Texture2D HahaL = new Texture2D(70, 80);
-		ConsumableItemData data = ConsumableItemManager.New(GUID, "Gravecarvers Chisel", "The Gravecarvers chisel, select any card that has died previously to add to your ahnd.", HahaL, typeof(GravecarversChisel), Model)
-		.SetLearnItemDescription("A tool left behind by a mysterious creator, did he carve the gravebards statue, too?");
+		ConsumableItemData data = ConsumableItemManager.New(GUID, "Gravecarvers Chisel", "The Gravecarvers chisel, select any card that has died previously to add to your hand.", HahaL, typeof(GravecarversChisel), Model)
+		.SetLearnItemDescription("A tool left behind by a mysterious creator, did he carve the gravebards statue too?");
 
 
 		data.rulebookCategory = AbilityMetaCategory.GrimoraRulebook;

@@ -5,6 +5,7 @@ using System.Text;
 using DiskCardGame;
 using GrimoraMod.Saving;
 using HarmonyLib;
+using InscryptionAPI.Saves;
 using Sirenix.Utilities;
 using Unity.Cloud.UserReporting.Plugin.SimpleJson;
 using UnityEngine;
@@ -400,9 +401,6 @@ public class ChessboardMapExt : GameMap
 
 		CheckLights();
 
-		Component interact = GameObject.Find("StinkbugInteractable").GetComponent<BoxCollider>();
-
-		Destroy(interact);
 		GameObject.Find("StinkbugInteractable").transform.position = new Vector3(4.5487f, GameObject.Find("StinkbugInteractable").transform.position.y , - 1.51f);
 
 		InteractionCursor.Instance.InteractionDisabled = true;
@@ -433,12 +431,53 @@ public class ChessboardMapExt : GameMap
 
 		ActiveChessboard.UpdatePlayerMarkerPosition(ChangingRegion);
 
-		if (!DialogueEventsData.EventIsPlayed("FinaleGrimoraMapShown"))
+		if (!ModdedSaveManager.SaveData.GetValueAsBoolean(GUID, "HasSeenModIntro"))
 		{
-			yield return TextDisplayer.Instance.PlayDialogueEvent(
-				"FinaleGrimoraMapShown",
-				TextDisplayer.MessageAdvanceMode.Input
-			);
+			yield return TextDisplayer.Instance.ShowUntilInput("It seems i have finally been given my turn!");
+
+			yield return TextDisplayer.Instance.ShowUntilInput("After this i will finally be at peace.");
+
+			yield return TextDisplayer.Instance.ShowUntilInput("Well, it seems we will start in this frigid valley.");
+
+			yield return TextDisplayer.Instance.ShowUntilInput("It must be where Kaycees resides.");
+
+			ModdedSaveManager.SaveData.SetValue(GUID, "HasSeenModIntro", true);
+			ModdedSaveManager.SaveData.SetValue(GUID, "StoryEvent_HasSeenMapExpand", true);
+		}
+
+		else {
+			if (ModdedSaveManager.SaveData.GetValueAsBoolean(GUID, "StoryEvent_HasSeenMapExpand") == false)
+			{ 
+			int rng = UnityEngine.Random.Range(0, 4);
+			switch(rng)
+			{
+				default: 
+				case 0:
+				yield return TextDisplayer.Instance.ShowUntilInput("I didn't expect to meet you here again!");
+				yield return TextDisplayer.Instance.ShowUntilInput("It seems the deletion process has stalled!");
+				break;
+				case 1:
+				yield return TextDisplayer.Instance.ShowUntilInput("You again?");
+				yield return TextDisplayer.Instance.ShowUntilInput("Well, i suppose we can go another time.");
+				break;
+				case 2:
+				yield return TextDisplayer.Instance.ShowUntilInput("Still not deleted?");
+				yield return TextDisplayer.Instance.ShowUntilInput("Much seems to be contained on this disk.");
+				break;
+				case 3:
+				yield return TextDisplayer.Instance.ShowUntilInput("Perhaps the last run wasn't long enough.");
+				yield return TextDisplayer.Instance.ShowUntilInput("Well, im sure Kaycee has the energy for more battles.");
+				break;
+
+				
+				}
+				ModdedSaveManager.SaveData.SetValue(GUID, "StoryEvent_HasSeenMapExpand", true);
+			}
+
+
+			yield return ("The frigid valley, again.");
+
+
 		}
 
 		SaveManager.SaveToFile();

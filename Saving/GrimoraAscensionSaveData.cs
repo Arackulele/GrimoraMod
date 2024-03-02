@@ -1,6 +1,5 @@
 using BepInEx.Bootstrap;
 using DiskCardGame;
-
 namespace GrimoraMod.Saving;
 
 public class GrimoraAscensionSaveData : AscensionSaveData
@@ -66,6 +65,7 @@ public class GrimoraAscensionSaveData : AscensionSaveData
 		this.playerAvatarHead = CompositeFigurine.RandomType();
 		this.playerAvatarBody = CompositeFigurine.RandomType();
 		this.playerAvatarArms = CompositeFigurine.RandomType();
+		InscryptionAPI.Saves.ModdedSaveManager.SaveData.SetValue(GrimoraPlugin.GUID, "StoryEvent_HasSeenMapExpand", false);
 
 		//AscensionSaveData.Data.challengeLevel = 15;
 	}

@@ -19,7 +19,8 @@ public partial class GrimoraPlugin
 		 .SetAbilities(Ability.SkeletonStrafe, Ability.Submerge)
 		 .SetBaseAttackAndHealth(0, 1)
 		 .SetBoneCost(4)
-		 .SetDescription("THE PIRATES CALL THIS SHIP THEIR HOME, EVEN IN DEATH.")
+		 .SetEvolve(NameGhostShipRoyal, 1)
+		 .SetDescription("THE PIRATES CALL THIS SHIP THEIR HOME, EVEN IN DEATH. A SLAIN GIANTS SKULL SERVES AS THEIR FIGUREHEAD.")
 		 .FlipPortraitForStrafe()
 		 .SetNames(NameGhostShip, "Ghost Ship")
 		 .Build().pixelPortrait = pixelSprite;
